@@ -1,0 +1,179 @@
+@font-face {
+  font-family: 'omyu_pretty';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Placeholder for MemomentKkukkukk - will update with correct URL */
+@font-face {
+  font-family: 'MemomentKkukkukk';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/MemomentKkukkukk.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --max-width: 1500px;
+  --grid-columns: 12;
+  --grid-margin: 48px;
+  --grid-gutter: 24px;
+
+  --font-title: 'MemomentKkukkukk', sans-serif;
+  --font-content: 'omyu_pretty', sans-serif;
+
+  --letter-spacing-base: -0.02em;
+  --line-height-title: 120%;
+
+  --color-primary: #4A90E2;
+  /* Placeholder blue */
+  --color-background: #E0F7FA;
+  /* Placeholder sky blue */
+  --color-text: #333333;
+
+  --section-padding-y: 96px;
+  --section-padding-x: 48px;
+
+  --btn-padding-y: 20px;
+  --btn-padding-l: 48px;
+  --btn-padding-r: 42px;
+  --btn-gap: 10px;
+  --btn-font-size: 24px;
+  --btn-radius: 99px;
+
+  --font-size-h1: 96px;
+  --font-size-h2: 64px;
+  --font-size-h1: 96px;
+  --font-size-h2: 64px;
+  --font-size-footer: 20px;
+  /* Verified 20px */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+body {
+  font-family: var(--font-content);
+  letter-spacing: var(--letter-spacing-base);
+  -webkit-font-smoothing: antialiased;
+  /* sharpen text for chrome/safari */
+  -moz-osx-font-smoothing: grayscale;
+  /* sharpen text for firefox on mac */
+  text-rendering: optimizeLegibility;
+  /* improve kerning */
+  background: linear-gradient(180deg, #3C85BE 0%, #62AAD7 100%);
+  background-attachment: fixed;
+  color: var(--color-text);
+  line-height: 1.5;
+  width: 100%;
+  padding-bottom: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* Added to prevent horizontal scrollbar from 100vw breakout */
+}
+
+h1 {
+  font-family: var(--font-title);
+  line-height: var(--line-height-title);
+  font-size: var(--font-size-h1);
+  text-shadow: none;
+  font-weight: normal;
+}
+
+h2 {
+  font-family: var(--font-title);
+  line-height: var(--line-height-title);
+  font-size: var(--font-size-h2);
+  text-shadow: none;
+  font-weight: normal;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-title);
+  line-height: var(--line-height-title);
+  text-shadow: none;
+  font-weight: normal;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--grid-margin);
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  column-gap: var(--grid-gutter);
+}
+
+button {
+  font-family: var(--font-content);
+  font-size: var(--btn-font-size);
+  padding: var(--btn-padding-y) var(--btn-padding-r) var(--btn-padding-y) var(--btn-padding-l);
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--btn-gap);
+  border-radius: var(--btn-radius);
+  background-color: #005394;
+  /* Updated bg color */
+  box-shadow: none;
+  /* Removed box-shadow */
+}
+
+/* Common icon style for buttons if using span or img */
+button img,
+button span.icon {
+  height: 20px;
+}
+
+.footer-section {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  height: 800px;
+  /* Requested fixed height */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  justify-content: flex-end;
+  /* Align content to bottom */
+  padding-bottom: 0px;
+  /* Removed doubled padding (handled by inner/content) */
+  margin-bottom: 0px !important;
+  /* Force no margin below */
+  z-index: 10;
+  margin-top: 0;
+  box-sizing: border-box;
+  /* overflow: hidden removed to allow top overlap */
+  clip-path: polygon(0% -2000px, 100% -2000px, 100% 100%, 0% 100%);
+}
+
+/* Old ::before removed */
+
+.footer-section p {
+  font-size: 20px;
+  /* Explicitly requested */
+  margin: 0;
+  line-height: 1.5;
+}
