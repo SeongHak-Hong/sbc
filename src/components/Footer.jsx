@@ -7,6 +7,8 @@ import footer01 from '../assets/main/footer_01.png';
 import footer02 from '../assets/main/footer_02.png';
 import footer03 from '../assets/main/footer_03.png';
 import footer04 from '../assets/main/footer_04.png';
+import cloud01 from '../assets/main/cloud_01.png';
+import cloud02 from '../assets/main/cloud_02.png';
 
 const Footer = () => {
     // Top-most text container style
@@ -36,8 +38,26 @@ const Footer = () => {
         <footer className="footer-section">
             {/* 
               Z-Index Hierarchy:
-              Text > footer_02 > footer_03 > footer_01 > footer_04 
+              Text > footer_02 > footer_03 > footer_01 > footer_04 > Clouds
             */}
+
+            {/* Clouds: Behind Footer 04 (z-index 0) */}
+            <motion.img
+                src={cloud01}
+                alt="Cloud Decoration 1"
+                style={{ ...imgBaseStyle, bottom: '100px', right: '-10%', zIndex: 0, width: '400px', opacity: 0.9 }}
+                initial={{ x: 50, opacity: 0 }}
+                whileInView={{ x: 0, opacity: 0.9 }}
+                transition={{ duration: 1.5, ease: 'easeOut' }}
+            />
+            <motion.img
+                src={cloud02}
+                alt="Cloud Decoration 2"
+                style={{ ...imgBaseStyle, bottom: '250px', right: '5%', zIndex: 0, width: '300px', opacity: 0.8 }}
+                initial={{ x: 50, opacity: 0 }}
+                whileInView={{ x: 0, opacity: 0.8 }}
+                transition={{ duration: 1.5, ease: 'easeOut', delay: 0.2 }}
+            />
 
             {/* Footer 04: Lowest, Static or Fade */}
             <motion.img
