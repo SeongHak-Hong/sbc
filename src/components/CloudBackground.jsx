@@ -47,8 +47,8 @@ const CloudBackground = () => {
 
         // 90-100% (Footer area)
         { id: 701, src: cloud01, top: '92%', left: '-5%', opacity: 0.7, width: '600px' },
-        { id: 702, src: cloud02, top: '95%', right: '-5%', opacity: 0.8, width: '700px' },
-        { id: 703, src: cloud03, top: '98%', left: '-10%', opacity: 0.6, width: '400px' },
+        { id: 702, src: cloud02, top: '90%', right: '-5%', opacity: 0.8, width: '700px' },
+        // { id: 703, src: cloud03, top: '98%', left: '-10%', opacity: 0.6, width: '400px' }, // Removed
     ];
 
     const containerStyle = {
