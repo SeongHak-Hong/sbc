@@ -1,5 +1,5 @@
 import React from 'react';
-import logoSbc from '../assets/logo_sbc.png';
+import logoSbc from '../assets/logo_sbc.svg';
 import '../index.css';
 
 const Header = () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import lionWorship from '../assets/main/lion_worship.png';
+import lionWorship from '../assets/main/lamb_worship.png';
 import { BlurFade } from './ui/BlurFade';
 import { motion } from 'framer-motion';
 
