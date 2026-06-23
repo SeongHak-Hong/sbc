@@ -43,7 +43,7 @@ const VerseSection = () => {
                 scrollTrigger: {
                     trigger: el,
                     start: 'center center', // Pin when section center meets viewport center
-                    end: '+=300%',          // Long pin distance
+                    end: '+=400%',          // Increased pin distance to give room for wave wipe
                     pin: true,              // Pin the ENTIRE section
                     scrub: true,            // Smooth scrubbing
                     anticipatePin: 1,       // Prevent jerky start
@@ -51,6 +51,7 @@ const VerseSection = () => {
             });
 
             // 1. Text Animation
+            // Stagger is 0.1, with ~26 words, this takes ~3.5 units of time
             tl.to(wordElements, {
                 opacity: 1,
                 filter: 'blur(0px)',
@@ -60,8 +61,9 @@ const VerseSection = () => {
             });
 
             // 2. Buffer (Hold phase)
-            // Keep pinned without animation changes for a while
-            tl.to({}, { duration: 0.5 });
+            // Buffer duration matches text animation duration, making text reveal take exactly 50% of the pin
+            // The remaining 50% is the hold phase where the wave wipe will happen
+            tl.to({}, { duration: 3.5 });
 
         }, sectionRef); // Scope to section
 

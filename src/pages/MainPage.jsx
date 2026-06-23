@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import HeroSection from '../components/HeroSection';
 import VerseSection from '../components/VerseSection';
-import YoutubeSection from '../components/YoutubeSection'; 
+import YoutubeSection from '../components/YoutubeSection';
 import GallerySection from '../components/GallerySection';
 import PrayerSection from '../components/PrayerSection';
 import ServiceInfoSection from '../components/ServiceInfoSection';
