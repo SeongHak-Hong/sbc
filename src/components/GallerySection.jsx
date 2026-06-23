@@ -8,6 +8,15 @@ import gallery05 from '../assets/main/gallery_05.png';
 import { BlurFade } from './ui/BlurFade';
 
 const GallerySection = () => {
+    const [isMobile, setIsMobile] = React.useState(false);
+
+    React.useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const sectionStyle = {
         padding: 'var(--section-padding-y) 0',
         textAlign: 'center',
@@ -32,7 +41,16 @@ const GallerySection = () => {
         zIndex: 20
     };
 
-    const boxContainerStyle = {
+    const boxContainerStyle = isMobile ? {
+        width: 'calc(100% + var(--section-padding-x, 24px) * 2)',
+        margin: '0 calc(-1 * var(--section-padding-x, 24px))',
+        padding: '24px 0',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0',
+        alignItems: 'center',
+        position: 'relative'
+    } : {
         width: '1500px',
         height: '826px',
         maxWidth: '100%',
@@ -67,10 +85,15 @@ const GallerySection = () => {
                 <motion.img
                     src={gallery01}
                     alt="Gallery 1"
-                    style={{
+                    style={isMobile ? {
+                        position: 'relative',
+                        width: '92%',
+                        alignSelf: 'flex-start',
+                        zIndex: 1
+                    } : {
                         position: 'absolute',
                         top: '5%',
-                        right: '35%', // Updated from 40%
+                        right: '35%',
                         width: 'auto',
                         zIndex: 1,
                     }}
@@ -88,7 +111,13 @@ const GallerySection = () => {
                 <motion.img
                     src={gallery02}
                     alt="Gallery 2"
-                    style={{
+                    style={isMobile ? {
+                        position: 'relative',
+                        width: '92%',
+                        alignSelf: 'flex-end',
+                        marginTop: '-15%',
+                        zIndex: 2
+                    } : {
                         position: 'absolute',
                         top: '20%',
                         left: '5%', // Shifted left (decreased)
@@ -109,7 +138,13 @@ const GallerySection = () => {
                 <motion.img
                     src={gallery03}
                     alt="Gallery 3"
-                    style={{
+                    style={isMobile ? {
+                        position: 'relative',
+                        width: '92%',
+                        alignSelf: 'flex-start',
+                        marginTop: '-15%',
+                        zIndex: 3
+                    } : {
                         position: 'absolute',
                         bottom: '40px',
                         left: '50%',
@@ -132,7 +167,13 @@ const GallerySection = () => {
                 <motion.img
                     src={gallery04}
                     alt="Gallery 4"
-                    style={{
+                    style={isMobile ? {
+                        position: 'relative',
+                        width: '50%',
+                        alignSelf: 'flex-end',
+                        marginTop: '-15%',
+                        zIndex: 4
+                    } : {
                         position: 'absolute',
                         bottom: '15%',
                         left: '12%', // Shifted left
@@ -154,7 +195,13 @@ const GallerySection = () => {
                 <motion.img
                     src={gallery05}
                     alt="Gallery 5"
-                    style={{
+                    style={isMobile ? {
+                        position: 'relative',
+                        width: '92%',
+                        alignSelf: 'flex-start',
+                        marginTop: '-15%',
+                        zIndex: 2
+                    } : {
                         position: 'absolute',
                         top: '20%',
                         right: '5%',
