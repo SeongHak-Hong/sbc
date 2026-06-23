@@ -1,0 +1,275 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap');
+
+.pageWrapper {
+    background-color: #E5F3F9;
+    color: var(--color-text-body);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.bgDots {
+    background-image: radial-gradient(rgba(176, 220, 238, 0.4) 2px, transparent 2px);
+    background-size: 30px 30px;
+}
+
+.handwriting {
+    font-family: var(--font-title) !important;
+}
+
+.tapeTexture {
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 2px,
+        rgba(255,255,255,0.1) 2px,
+        rgba(255,255,255,0.1) 4px
+    );
+}
+
+.header {
+    position: relative;
+    padding: 128px 24px 80px;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+@media (min-width: 640px) {
+    .header { padding: 128px var(--grid-margin) 80px; }
+}
+
+.headerTitle {
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 10;
+}
+
+.eyebrow {
+    font-size: 20px; /* 모바일 환경 (줄어든 크기) */
+    margin-bottom: 16px;
+    transform: rotate(-2deg);
+    display: inline-block;
+}
+
+@media (min-width: 768px) {
+    .eyebrow {
+        font-size: 1.875rem; /* PC 환경 (기존 크기 30px 유지) */
+    }
+}
+
+.headerSubtitle {
+    max-width: 42rem;
+    margin-top: 16px;
+}
+
+.section {
+    padding: 64px 0;
+    width: 100%;
+    position: relative;
+}
+
+.sectionTitle {
+}
+
+.scrollContainer {
+    width: 100%;
+    overflow-x: auto;
+    padding: 32px 24px 64px;
+    scroll-snap-type: x mandatory;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.scrollContainer::-webkit-scrollbar {
+    display: none;
+}
+
+@media (min-width: 640px) {
+    .scrollContainer { padding-left: 48px; padding-right: 48px; }
+}
+@media (min-width: 1024px) {
+    .scrollContainer { 
+        max-width: var(--max-width); 
+        margin: 0 auto; 
+        padding-left: var(--grid-margin); 
+        padding-right: var(--grid-margin);
+        overflow-x: visible; 
+    }
+}
+
+.scrollFlex {
+    display: flex;
+    gap: 32px;
+    width: max-content;
+    align-items: center;
+    padding: 16px 0;
+    position: relative;
+}
+
+@media (min-width: 1024px) {
+    .scrollFlex {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+.dashedLine {
+    position: absolute;
+    top: 100px;
+    left: 160px;
+    right: 160px;
+    height: 0;
+    border-top: 4px dashed #B0DCEE;
+    z-index: 0;
+    border-radius: 9999px;
+    opacity: 0.6;
+}
+
+@media (min-width: 1024px) {
+    .dashedLine {
+        left: 120px;
+        right: 120px;
+    }
+}
+
+.stepCard {
+    scroll-snap-align: center;
+    position: relative;
+    z-index: 10;
+    width: 280px; /* Reduced base width for mobile scrolling */
+    flex-shrink: 0;
+    background-color: #FFFCF4;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 10px 40px -10px rgba(176, 220, 238, 0.4);
+    border: 4px solid #ffffff;
+    transition: transform 0.3s ease;
+}
+.stepCard:hover {
+    transform: translateY(-8px);
+}
+.stepCardDown {
+    margin-top: 32px;
+}
+
+@media (min-width: 1024px) {
+    .stepCard {
+        width: auto;
+        flex: 1;
+        min-width: 0;
+        padding: 32px 24px; /* Slightly reduce side padding to ensure text fits */
+    }
+}
+
+.stepBadge {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 20px;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 2px solid #ffffff;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.stepIconWrap {
+    width: 112px;
+    height: 112px;
+    margin: 0 auto 24px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.75rem;
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+    border: 1px solid #ffffff;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+.stepCard:hover .stepIconWrap {
+    transform: scale(1.05);
+}
+
+.stepTitle {
+    margin-bottom: 12px;
+}
+
+.stepDesc {
+}
+
+.scrapbookGrid {
+    columns: 1;
+    gap: 32px;
+    padding-bottom: 48px;
+}
+@media (min-width: 640px) {
+    .scrapbookGrid { columns: 2; }
+}
+@media (min-width: 1024px) {
+    .scrapbookGrid { columns: 3; }
+}
+
+.polaroid {
+    break-inside: avoid;
+    position: relative;
+    background-color: #FFFCF4;
+    padding: 16px 16px 72px 16px; /* Ensure uniform 72px space for text at the bottom */
+    box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.08), 0 4px 10px -5px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
+    border: 1px solid #f1f5f9;
+    margin-bottom: 32px;
+}
+.polaroid:hover {
+    transform: rotate(0deg) scale(1.05) !important;
+    z-index: 20;
+}
+
+.tape {
+    position: absolute;
+    opacity: 0.8;
+    mix-blend-mode: multiply;
+    z-index: 10;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.photoFrame {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+}
+.photoFrame svg {
+    transition: transform 0.3s ease;
+}
+.polaroid:hover .photoFrame svg {
+    transform: scale(1.1);
+}
+
+.photoText {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 72px; /* Match the polaroid bottom padding */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.875rem;
+    color: rgba(74, 85, 104, 0.9);
+}

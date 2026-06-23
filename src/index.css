@@ -20,15 +20,34 @@
   --grid-gutter: 24px;
 
   --font-title: 'MemomentKkukkukk', sans-serif;
-  --font-content: 'omyu_pretty', sans-serif;
+  --font-body: 'omyu_pretty', sans-serif;
+
+  /* 색상 지정 (위계 대비용) */
+  --color-text-title: #1A202C; /* 짙은 타이틀 색 */
+  --color-text-body: #4A5568;  /* 부드러운 본문 색 */
+
+  /* 💻 [PC/기본 사이즈] (768px 이상 환경) */
+  --pc-text-h1: 80px; 
+  --pc-text-h2: 64px;
+  --pc-text-h3: 48px;
+  --pc-text-h4: 32px;
+  --pc-text-body: 24px;
+
+  /* 행간 (Line-height) */
+  --leading-title: 1.3;
+  --leading-body: 1.6;
+
+  /* ✅ [글로벌 변수 초기화] (기본값을 PC 사이즈로 설정) */
+  --text-h1: var(--pc-text-h1);
+  --text-h2: var(--pc-text-h2);
+  --text-h3: var(--pc-text-h3);
+  --text-h4: var(--pc-text-h4);
+  --text-body: var(--pc-text-body);
 
   --letter-spacing-base: -0.02em;
-  --line-height-title: 120%;
 
   --color-primary: #4A90E2;
-  /* Placeholder blue */
   --color-background: #E0F7FA;
-  /* Placeholder sky blue */
   --color-text: #333333;
 
   --section-padding-y: 96px;
@@ -40,13 +59,28 @@
   --btn-gap: 10px;
   --btn-font-size: 24px;
   --btn-radius: 99px;
+}
 
-  --font-size-h1: 96px;
-  --font-size-h2: 64px;
-  --font-size-h1: 96px;
-  --font-size-h2: 64px;
-  --font-size-footer: 20px;
-  /* Verified 20px */
+/* 📱 [모바일 미디어 쿼리] (768px 미만 환경에서만 작동) */
+@media (max-width: 767px) {
+  :root {
+    --text-h1: 40px;  /* 대제목 (모바일 마지노선) */
+    --text-h2: 32px;  /* 섹션 제목 */
+    --text-h3: 24px;  /* 소제목 */
+    --text-h4: 20px;  /* 하위 소제목 */
+    --text-body: 18px; /* 어르신 마지노선 가독성 */
+    --citation-size: var(--text-h2);
+  }
+
+  h1 { font-size: var(--text-h1) !important; font-family: var(--font-title) !important; line-height: var(--leading-title) !important; }
+  h2 { font-size: var(--text-h2) !important; font-family: var(--font-title) !important; line-height: var(--leading-title) !important; }
+  h3 { font-size: var(--text-h3) !important; font-family: var(--font-title) !important; line-height: var(--leading-title) !important; }
+  h4 { font-size: var(--text-h4) !important; font-family: var(--font-title) !important; line-height: var(--leading-title) !important; }
+  p { font-size: var(--text-body) !important; font-family: var(--font-body) !important; line-height: var(--leading-body) !important; }
+
+  .flex-mobile-column {
+    flex-direction: column !important;
+  }
 }
 
 * {
@@ -68,50 +102,46 @@ img {
   user-select: none;
 }
 
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 body {
-  font-family: var(--font-content);
+  font-family: var(--font-body);
   letter-spacing: var(--letter-spacing-base);
   -webkit-font-smoothing: antialiased;
-  /* sharpen text for chrome/safari */
   -moz-osx-font-smoothing: grayscale;
-  /* sharpen text for firefox on mac */
   text-rendering: optimizeLegibility;
-  /* improve kerning */
   background: linear-gradient(180deg, #3C85BE 0%, #62AAD7 100%);
   background-attachment: fixed;
-  color: var(--color-text);
-  line-height: 1.5;
-  width: 100%;
+  color: var(--color-text-body);
+  line-height: var(--leading-body);
   padding-bottom: 0;
   min-height: 100vh;
-  overflow-x: hidden;
-  /* Added to prevent horizontal scrollbar from 100vw breakout */
 }
 
-h1 {
+h1, h2, h3, h4 {
   font-family: var(--font-title);
-  line-height: var(--line-height-title);
-  font-size: var(--font-size-h1);
-  text-shadow: none;
+  color: var(--color-text-title);
+  line-height: var(--leading-title);
+  letter-spacing: -0.03em;
+  margin-bottom: 0.5em;
   font-weight: normal;
 }
+h1 { font-size: var(--text-h1); }
+h2 { font-size: var(--text-h2); }
+h3 { font-size: var(--text-h3); }
+h4 { font-size: var(--text-h4); }
 
-h2 {
-  font-family: var(--font-title);
-  line-height: var(--line-height-title);
-  font-size: var(--font-size-h2);
-  text-shadow: none;
+p {
+  font-family: var(--font-body);
+  color: var(--color-text-body);
+  line-height: var(--leading-body);
+  letter-spacing: 0;
   font-weight: normal;
-}
-
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-title);
-  line-height: var(--line-height-title);
-  text-shadow: none;
-  font-weight: normal;
+  font-size: var(--text-body);
+  margin-bottom: 1em;
 }
 
 .container {
@@ -124,8 +154,28 @@ h6 {
   column-gap: var(--grid-gutter);
 }
 
+/* Global Paper Texture Overlay for Subpages */
+.global-texture-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 50; /* High enough to be over backgrounds but under interactive modals/headers */
+    opacity: 0.2;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+@media (min-width: 768px) {
+    .global-texture-overlay {
+        opacity: 0.12;
+        mix-blend-mode: multiply;
+    }
+}
+
 button {
-  font-family: var(--font-content);
+  font-family: var(--font-body);
   font-size: var(--btn-font-size);
   padding: var(--btn-padding-y) var(--btn-padding-r) var(--btn-padding-y) var(--btn-padding-l);
   cursor: pointer;
@@ -150,30 +200,31 @@ button span.icon {
   position: relative;
   width: 100%;
   text-align: center;
-  color: #fff;
-  height: 800px;
-  /* Requested fixed height */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  justify-content: flex-end;
-  /* Align content to bottom */
-  padding-bottom: 0px;
-  /* Removed doubled padding (handled by inner/content) */
-  margin-bottom: 0px !important;
-  /* Force no margin below */
   z-index: 10;
-  margin-top: 0;
   box-sizing: border-box;
-  /* overflow: hidden removed to allow top overlap */
-  clip-path: polygon(0% -2000px, 100% -2000px, 100% 100%, 0% 100%);
 }
 
-/* Old ::before removed */
+.footer-dark {
+  color: #ffffff;
+}
+.footer-dark p, .footer-dark span {
+  color: #ffffff !important;
+}
+
+.footer-light {
+  color: var(--color-text-body);
+}
+.footer-light p, .footer-light span {
+  color: var(--color-text-body) !important;
+}
 
 .footer-section p {
   font-size: 20px;
-  /* Explicitly requested */
   margin: 0;
   line-height: 1.5;
+}
+
+#root > div > div.pin-spacer > section > div > div,
+#root > div > div.pin-spacer > section > div > div * {
+  font-family: 'MemomentKkukkukk', sans-serif !important;
 }

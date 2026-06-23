@@ -23,6 +23,7 @@ const YoutubeSection = () => {
         marginBottom: '0',
         whiteSpace: 'pre-line',
         height: '1px',
+        color: '#ffffff',
         overflow: 'visible',
         position: 'relative',
         zIndex: 10

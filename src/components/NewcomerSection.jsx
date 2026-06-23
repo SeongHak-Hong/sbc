@@ -16,7 +16,8 @@ const NewcomerSection = () => {
     };
 
     const titleStyle = {
-        marginBottom: '30px'
+        marginBottom: '30px',
+        color: '#ffffff'
     };
 
     const buttonStyle = {

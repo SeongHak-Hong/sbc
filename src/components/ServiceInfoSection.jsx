@@ -19,7 +19,8 @@ const ServiceInfoSection = () => {
     };
 
     const titleStyle = {
-        marginBottom: '20px'
+        marginBottom: '20px',
+        color: '#ffffff'
     };
 
     const buttonStyle = {
@@ -45,7 +46,7 @@ const ServiceInfoSection = () => {
     };
 
     return (
-        <section style={sectionStyle}>
+        <section className="flex-mobile-column" style={sectionStyle}>
 
             <motion.div
                 style={imageBoxStyle}

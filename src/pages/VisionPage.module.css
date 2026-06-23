@@ -1,0 +1,420 @@
+/* Color Palette */
+:root {
+  --cream: #FAF7F2;
+  --cream-light: #FDFCFB;
+  --navy: #1C2A43;
+  --navy-light: #515E75;
+  --navy-muted: #8A97AE;
+  --accent-gold: #D4AF37;
+  --accent-sand: #E6DCC8;
+  
+  --shadow-soft: 0 20px 40px -15px rgba(28, 42, 67, 0.05);
+  --shadow-card: 0 10px 30px -10px rgba(28, 42, 67, 0.08);
+  --shadow-icon-3d: 0 8px 16px -4px rgba(0,0,0,0.1), inset 0 2px 4px rgba(255,255,255,0.9), inset 0 -2px 4px rgba(0,0,0,0.05);
+}
+
+.pageContainer {
+    background-color: var(--cream);
+    color: var(--navy);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    font-family: 'Pretendard', sans-serif;
+}
+
+.navWrapper {
+    position: relative;
+    z-index: 60;
+    padding-top: 140px; /* Space for the global header and SubNav */
+}
+
+.mainContent {
+    position: relative;
+    z-index: 10;
+}
+
+/* --- Hero Section --- */
+.heroSection {
+    padding: 80px 32px;
+    position: relative;
+    overflow: hidden;
+}
+
+.glowOrb {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background-color: white;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.4;
+    z-index: -10;
+}
+
+.heroContent {
+    max-width: 896px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.eyebrow {
+    color: var(--accent-gold);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    font-size: 14px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: block;
+}
+
+.heroTitle {
+    font-family: 'Nanum Myeongjo', 'Playfair Display', serif;
+    font-size: 3rem;
+    line-height: 1.2;
+    margin-bottom: 32px;
+    color: var(--navy);
+    position: relative;
+    display: inline-block;
+    font-weight: 700;
+}
+
+@media (min-width: 768px) {
+    .heroTitle {
+        font-size: 4.5rem;
+        line-height: 1.1;
+    }
+}
+
+.heroItalic {
+    color: rgba(28, 42, 67, 0.9);
+    font-weight: 300;
+}
+
+.heroUnderline {
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 192px;
+    color: var(--accent-sand);
+}
+
+.heroDesc {
+    font-size: var(--text-body);
+    color: var(--navy-light);
+    margin-top: 32px;
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 300;
+    line-height: 1.625;
+}
+
+/* --- Greeting Section --- */
+.greetingSection {
+    padding: 80px 32px;
+}
+
+.greetingWrapper {
+    max-width: 1152px;
+    margin: 0 auto;
+}
+
+.greetingCard {
+    background-color: white;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+@media (min-width: 768px) {
+    .greetingCard {
+        padding: 48px;
+    }
+}
+
+.greetingGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    align-items: flex-start;
+}
+
+@media (min-width: 1024px) {
+    .greetingGrid {
+        grid-template-columns: 5fr 7fr;
+        gap: 64px;
+    }
+}
+
+.photoCol {
+    position: relative;
+}
+
+.photoBackdrop {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    bottom: -16px;
+    left: -16px;
+    background-color: rgba(230, 220, 200, 0.3);
+    border-radius: 24px;
+    z-index: -10;
+    transform: rotate(2deg);
+    transition: transform 0.3s ease;
+}
+
+.photoCol:hover .photoBackdrop {
+    transform: rotate(3deg);
+}
+
+.photoFrame {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    aspect-ratio: 4/5;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border: 4px solid white;
+}
+
+.portrait {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    transition: transform 0.7s ease;
+}
+
+.photoCol:hover .portrait {
+    transform: scale(1.05);
+}
+
+.photoGradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(28, 42, 67, 0.3), transparent, transparent);
+}
+
+.photoLabel {
+    position: absolute;
+    bottom: -24px;
+    right: -24px;
+    background-color: white;
+    padding: 16px 32px;
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0,0,0,0.05);
+    font-family: 'Pretendard', sans-serif;
+}
+
+.pastorName {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 4px;
+}
+
+.pastorTitle {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 0.875rem;
+    color: var(--navy-light);
+    font-weight: 500;
+    margin: 0;
+}
+
+.textCol {
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+@media (min-width: 1024px) {
+    .textCol {
+        padding-top: 32px;
+    }
+}
+
+.greetingTitle {
+    font-family: 'Nanum Myeongjo', 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--navy);
+    margin-bottom: 32px;
+    line-height: 1.25;
+    font-weight: 700;
+}
+
+@media (min-width: 768px) {
+    .greetingTitle {
+        font-size: 2.5rem;
+    }
+}
+
+.italicGold {
+    color: var(--accent-gold);
+}
+
+.greetingBody {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    color: var(--navy-light);
+    font-size: 1.25rem;
+    font-weight: 300;
+    line-height: 1.8;
+    flex-grow: 1;
+}
+
+.greetingBody p {
+    margin: 0;
+    font-family: 'Pretendard', sans-serif;
+    color: var(--navy-light);
+    font-size: 1.25rem;
+}
+
+.signatureWrap {
+    margin-top: 48px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+}
+
+.signatureBlock {
+    text-align: right;
+}
+
+.signatureEyebrow {
+    font-size: 1.25rem;
+    color: var(--navy-muted);
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    margin-bottom: 4px;
+    font-family: 'Pretendard', sans-serif;
+}
+
+.signatureKoreanName {
+    font-size: 1.25rem;
+    color: var(--navy);
+    font-weight: 500;
+    margin: 0 0 -16px 0;
+    position: relative;
+    z-index: 10;
+    font-family: 'Pretendard', sans-serif;
+}
+
+.signatureName {
+    font-family: 'Allura', cursive;
+    font-size: 3rem;
+    color: var(--navy);
+    transform: rotate(-2deg);
+    transform-origin: right;
+    padding-right: 16px;
+    margin-top: 1rem;
+}
+
+/* --- Core Pillars Section --- */
+.pillarsSection {
+    padding: 80px 32px;
+    margin-bottom: 80px;
+    position: relative;
+}
+
+.pillarsWrapper {
+    max-width: 1152px;
+    margin: 0 auto;
+}
+
+.pillarsHeader {
+    text-align: center;
+    margin-bottom: 64px;
+}
+
+.pillarsTitle {
+    color: var(--navy);
+    margin-bottom: 16px;
+}
+
+.pillarsDesc {
+    color: var(--navy-light);
+    max-width: 42rem;
+    margin: 0 auto;
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+}
+
+.pillarsGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+}
+
+@media (min-width: 768px) {
+    .pillarsGrid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+    }
+}
+
+.pillarCard {
+    background-color: white;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid rgba(0,0,0,0.02);
+    transition: all 0.3s ease;
+}
+
+.pillarCard:hover {
+    transform: translateY(-8px);
+}
+
+.iconBox1, .iconBox2, .iconBox3 {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-icon-3d);
+    margin-bottom: 32px;
+    transition: transform 0.5s ease;
+}
+
+.pillarCard:hover .iconBox1,
+.pillarCard:hover .iconBox2,
+.pillarCard:hover .iconBox3 {
+    transform: scale(1.1);
+}
+
+.iconBox1 { background: linear-gradient(to bottom right, #F3FAED, #D5E8C9); }
+.iconBox2 { background: linear-gradient(to bottom right, #FFF0F0, #FAD4D4); }
+.iconBox3 { background: linear-gradient(to bottom right, #FFF8E6, #FDE4AA); }
+
+.icon1 { color: #4C7C3A; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1)); }
+.icon2 { color: #B94A4A; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1)); }
+.icon3 { color: #B38024; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1)); }
+
+.pillarHeading {
+    color: var(--navy);
+    margin-bottom: 16px;
+    transition: color 0.3s ease;
+}
+
+.pillarCard:hover .pillarHeading {
+    color: var(--accent-gold);
+}
+
+.pillarText {
+    color: var(--navy-light);
+    line-height: 1.625;
+    font-weight: 300;
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+}

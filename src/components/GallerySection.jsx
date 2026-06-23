@@ -21,7 +21,8 @@ const GallerySection = () => {
     };
 
     const titleStyle = {
-        marginBottom: '60px'
+        marginBottom: '60px',
+        color: '#ffffff'
     };
 
     const buttonStyle = {

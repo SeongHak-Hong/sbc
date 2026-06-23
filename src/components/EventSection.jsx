@@ -19,7 +19,8 @@ const EventSection = () => {
     };
 
     const titleStyle = {
-        marginBottom: '20px'
+        marginBottom: '20px',
+        color: '#ffffff'
     };
 
     const buttonStyle = {
@@ -45,7 +46,7 @@ const EventSection = () => {
     };
 
     return (
-        <section style={sectionStyle}>
+        <section className="flex-mobile-column" style={sectionStyle}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
                 <BlurFade delay={0.25} inView>
                     <h2 style={titleStyle}>이번 달은<br />어떤 행사가 있어요?</h2>

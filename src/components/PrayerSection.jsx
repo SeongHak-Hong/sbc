@@ -18,7 +18,8 @@ const PrayerSection = () => {
     };
 
     const titleStyle = {
-        marginBottom: '40px'
+        marginBottom: '40px',
+        color: '#ffffff'
     };
 
     const gridStyle = {
@@ -81,8 +82,10 @@ const PrayerSection = () => {
         justifyContent: 'center',
         fontSize: '24px', // Updated font size
         lineHeight: '140%', // Updated line height
-        fontFamily: 'var(--font-content)',
-        border: 'none' // Ensure no border
+        fontFamily: 'var(--font-title)', // Use title font for handwriting effect
+        border: 'none', // Ensure no border
+        textAlign: 'center',
+        wordBreak: 'keep-all'
     };
 
     // Rotate alternate items slightly differently
@@ -105,11 +108,11 @@ const PrayerSection = () => {
     };
 
     const prayers = [
-        "하나님께 영광<br/>올려 드리는 삶",
-        "서로 사랑하는<br/>우리 교회",
-        "아픈 환우를<br/>위한 기도",
-        "하나님의 뜻대로<br/>세워지는 가정",
-        "다음 세대를<br/>위하여"
+        "하나님께 영광 올려 드리는 삶",
+        "서로 사랑하는 우리 교회",
+        "아픈 환우를 위한 기도",
+        "하나님의 뜻대로 세워지는 가정",
+        "다음 세대를 위하여"
     ];
 
     return (
@@ -120,7 +123,7 @@ const PrayerSection = () => {
             <div style={gridStyle}>
                 <InfiniteSlider gap={24} duration={60}>
                     {prayers.map((text, i) => (
-                        <motion.div
+                        <motion.p
                             key={i}
                             style={getPostItStyle()}
                             initial={getPostItInitial(i)}
@@ -129,8 +132,9 @@ const PrayerSection = () => {
                                 rotate: 0,
                                 transition: { type: "spring", stiffness: 300, damping: 15 }
                             }}
-                            dangerouslySetInnerHTML={{ __html: text }}
-                        />
+                        >
+                            {text}
+                        </motion.p>
                     ))}
                 </InfiniteSlider>
             </div>

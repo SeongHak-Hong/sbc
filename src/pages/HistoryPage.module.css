@@ -1,0 +1,197 @@
+.pageWrapper {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--cream);
+    color: var(--navy);
+}
+
+.scroller {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden; /* Scroll is handled via transform now */
+    padding-top: 64px;
+}
+
+.scroller::-webkit-scrollbar {
+    display: none;
+}
+
+.galleryContainer {
+    display: flex;
+    align-items: center;
+    padding: 0 calc(50vw - 280px); /* 50vw - half of polaroid width (560px/2) for perfect centering */
+    min-width: max-content;
+    height: 60vh;
+    gap: 8vw; /* Reduced gap */
+}
+
+.artwork {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.polaroid {
+    position: relative;
+    background-color: white;
+    padding: 20px 20px 28px 20px; /* Slightly scaled up padding to match larger size */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    width: 560px; /* Increased from 400px */
+}
+
+.photoFrame {
+    width: 100%;
+    overflow: hidden;
+    background: #E2E8F0;
+    position: relative;
+}
+
+.photoFrame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(0.1) contrast(1.05);
+}
+
+.tape {
+    position: absolute;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 2px;
+}
+
+.tapeTexture {
+    background-image: 
+        linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.4) 45%, rgba(255,255,255,0.4) 55%, transparent 60%),
+        linear-gradient(-45deg, transparent 40%, rgba(255,255,255,0.4) 45%, rgba(255,255,255,0.4) 55%, transparent 60%);
+    background-size: 8px 8px;
+}
+
+.photoText {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+}
+
+.handwriting {
+    font-family: var(--font-title);
+    font-size: 24px;
+    color: #4A5568;
+    text-align: center;
+    word-break: keep-all;
+}
+
+.ctaCard {
+    width: 600px;
+    padding: 64px 48px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    position: relative;
+}
+
+.ctaCard p {
+    color: var(--color-text-body);
+    font-size: var(--text-body);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    word-break: keep-all;
+    margin-bottom: 0;
+}
+
+.ctaButton {
+    background-color: var(--navy);
+    color: white;
+}
+
+.timelineIndicator {
+    position: fixed;
+    bottom: 8vh;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.year {
+    font-family: var(--font-title);
+    font-size: 4rem;
+    color: var(--navy);
+    transition: all 0.3s ease;
+}
+
+.dash {
+    width: 80px;
+    height: 1px;
+    background: var(--navy);
+    opacity: 0.5;
+}
+
+.scrollHint {
+    position: fixed;
+    bottom: 3vh;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-text-body);
+    font-family: var(--font-title);
+}
+
+.pageHeader {
+    position: absolute;
+    top: 64px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    pointer-events: none;
+    text-align: center;
+}
+
+.headerTitle {
+    font-family: var(--font-title);
+    font-size: var(--text-h3);
+    color: var(--color-text-title);
+    margin-bottom: 0;
+    position: relative;
+    z-index: 10;
+}
+
+@media (max-width: 768px) {
+    .galleryContainer {
+        padding: 0 calc(50vw - 180px); /* 50vw - half of polaroid width (360px/2) */
+        gap: 12vw;
+    }
+    .year { font-size: 2.5rem; }
+    .dash { width: 40px; }
+    .polaroid { width: 360px; }
+    
+    .ctaCard {
+        width: 80vw;
+        padding: 40px 24px;
+        gap: 24px;
+    }
+}

@@ -18,7 +18,7 @@ const VerseSection = () => {
                 opacity: 0.1,
                 filter: 'blur(10px)',
                 display: 'inline-block',
-                fontSize: isCitation ? '40px' : 'inherit'
+                fontSize: isCitation ? 'var(--citation-size, 40px)' : 'inherit'
             };
 
             return (
@@ -102,9 +102,9 @@ const VerseSection = () => {
     return (
         <section ref={sectionRef} style={sectionStyle}>
             <div style={containerStyle}>
-                <div ref={textRef} style={textStyle}>
+                <h2 ref={textRef} style={textStyle}>
                     {splitText}
-                </div>
+                </h2>
             </div>
         </section>
     );

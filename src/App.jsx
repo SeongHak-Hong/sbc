@@ -1,16 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import HeroSection from './components/HeroSection';
-import VerseSection from './components/VerseSection';
-import YoutubeSection from './components/YoutubeSection'; // Already updated, ensuring overlap check
-import GallerySection from './components/GallerySection';
-import PrayerSection from './components/PrayerSection';
-import ServiceInfoSection from './components/ServiceInfoSection';
-import EventSection from './components/EventSection';
-import NewcomerSection from './components/NewcomerSection';
-import Footer from './components/Footer';
-import CloudBackground from './components/CloudBackground';
-import { useEffect } from 'react';
+import MainPage from './pages/MainPage';
+import NurturePage from './pages/NurturePage';
+import HistoryPage from './pages/HistoryPage';
+import VisionPage from './pages/VisionPage';
+import TeamPage from './pages/TeamPage';
+import NextGenPage from './pages/NextGenPage';
 import Lenis from 'lenis';
 import './App.css';
 
@@ -36,31 +32,17 @@ function App() {
   }, []);
 
   return (
-    <div className="app-wrapper" style={{ position: 'relative' }}>
-      <CloudBackground />
+    <Router basename={import.meta.env.BASE_URL}>
       <Header />
-      <HeroSection /> {/* New Hero Section at the top */}
-      <VerseSection />
-      <YoutubeSection /> {/* Old Hero Section, now YoutubeSection */}
-
-      <div className="container">
-        <div style={{ gridColumn: '1 / -1' }}>
-          <GallerySection />
-        </div>
-        <div style={{ gridColumn: '1 / -1' }}>
-          <PrayerSection />
-        </div>
-        <div style={{ gridColumn: '1 / -1' }}>
-          <ServiceInfoSection />
-        </div>
-        <div style={{ gridColumn: '1 / -1' }}>
-          <EventSection />
-        </div>
-      </div>
-
-      <NewcomerSection />
-      <Footer />
-    </div>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/nurture" element={<NurturePage />} />
+        <Route path="/history" element={<HistoryPage />} />
+        <Route path="/vision" element={<VisionPage />} />
+        <Route path="/team" element={<TeamPage />} />
+        <Route path="/nextgen" element={<NextGenPage />} />
+      </Routes>
+    </Router>
   );
 }
 
