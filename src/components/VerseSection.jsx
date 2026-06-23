@@ -8,7 +8,7 @@ const VerseSection = () => {
     const sectionRef = useRef(null);
     const textRef = useRef(null);
 
-    const verseText = `지금 내가 여러분을 주와 및 그 은혜의 말씀에 부탁하노니 그 말씀이 여러분을 능히 든든히 세우사 거룩하게 하심을 입은 모든 자 가운데 기업이 있게 하시리라\n\n사도행전 20:32`;
+    const verseText = `지금 내가 여러분을 주와 및 그 은혜의 말씀에 부탁하노니 그 말씀이 여러분을 능히 든든히 세우사 거룩하게 하심을 입은 모든 자 가운데 기업이 있게 하시리라\n사도행전 20:32`;
 
     const splitText = useMemo(() => {
         return verseText.split(/(\s+)/).map((word, index) => {
@@ -18,7 +18,8 @@ const VerseSection = () => {
                 opacity: 0.1,
                 filter: 'blur(10px)',
                 display: 'inline-block',
-                fontSize: isCitation ? 'var(--citation-size, 40px)' : 'inherit'
+                fontSize: isCitation ? 'var(--citation-size, 40px)' : 'inherit',
+                marginTop: isCitation ? '40px' : '0' // Controlled gap instead of full empty line
             };
 
             return (

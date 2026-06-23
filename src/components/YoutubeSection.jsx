@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import lionImage from '../assets/main/lion_youtube.png';
 import sheepImage from '../assets/main/lamb_youtube.png';
 import youtubeIcon from '../assets/main/youtube_logo.svg';
@@ -8,6 +8,14 @@ import { motion, useScroll, useTransform, useMotionTemplate, useMotionValueEvent
 const YoutubeSection = () => {
     const sectionRef = useRef(null);
     const [isWipeFinished, setIsWipeFinished] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        handleResize(); // Initial check
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
     
     // Animate from when the top of the 200vh section hits the bottom of the screen
     // until the bottom of the 200vh section hits the bottom of the screen.
@@ -36,9 +44,11 @@ const YoutubeSection = () => {
 
     const maskPosition = useMotionTemplate`${maskX}% ${maskY}vh`;
 
-    // SVG: Height 2000 to ensure solid black covers the whole screen. Wave is at 500 (25%).
-    // Amplitude is 60 (Q25,440) for a very gentle slope.
-    const waveMaskSvg = `url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 2000' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,500 Q25,440 50,500 T100,500 T150,500 T200,500 T250,500 T300,500 T350,500 T400,500 T450,500 T500,500 T550,500 T600,500 T650,500 T700,500 T750,500 T800,500 T850,500 T900,500 T950,500 T1000,500 L1000,2000 L0,2000 Z' fill='black'/%3E%3C/svg%3E")`;
+    // SVG: Height 2000. Wave is at 500 (25%). Solid black is 1500 (75%).
+    // Desktop amplitude is 60 (Q25,440). Mobile amplitude is 20 (Q25,480).
+    const desktopSvg = `url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 2000' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,500 Q25,440 50,500 T100,500 T150,500 T200,500 T250,500 T300,500 T350,500 T400,500 T450,500 T500,500 T550,500 T600,500 T650,500 T700,500 T750,500 T800,500 T850,500 T900,500 T950,500 T1000,500 L1000,2000 L0,2000 Z' fill='black'/%3E%3C/svg%3E")`;
+    const mobileSvg = `url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 2000' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,500 Q25,480 50,500 T100,500 T150,500 T200,500 T250,500 T300,500 T350,500 T400,500 T450,500 T500,500 T550,500 T600,500 T650,500 T700,500 T750,500 T800,500 T850,500 T900,500 T950,500 T1000,500 L1000,2000 L0,2000 Z' fill='black'/%3E%3C/svg%3E")`;
+    const waveMaskSvg = isMobile ? mobileSvg : desktopSvg;
 
     const containerStyle = {
         position: 'relative',
