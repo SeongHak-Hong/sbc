@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef, useState, useLayoutEffect, useEffect } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import styles from './TeamPage.module.css';
 import SubNav from '../components/SubNav';
-import Footer from '../components/Footer';
 import CloudBackground from '../components/CloudBackground';
-import BalloonBackground from '../components/BalloonBackground';
+import LanyardCanvas from '../components/LanyardCanvas';
 
 const TeamPage = () => {
     useEffect(() => {
@@ -29,7 +28,7 @@ const TeamPage = () => {
             image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
             bg: '#A8DADC',
             badges: [
-                { text: '1교구', type: 'north' },
+                { text: '1교구·유초등부', type: 'north' },
                 { text: '유초등부', type: 'youth' }
             ]
         },
@@ -39,7 +38,7 @@ const TeamPage = () => {
             image: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=400&q=80',
             bg: '#B5A6C9',
             badges: [
-                { text: '2교구', type: 'south' },
+                { text: '2교구·중고등부', type: 'south' },
                 { text: '중고등부', type: 'youth' }
             ]
         },
@@ -60,86 +59,63 @@ const TeamPage = () => {
             badges: [
                 { text: '유치부', type: 'youth' }
             ]
+        },
+        {
+            name: '김태인',
+            role: '행정간사',
+            image: 'https://images.unsplash.com/photo-1542596594-649edbc13630?auto=format&fit=crop&w=400&q=80',
+            bg: '#D4A373',
+            badges: [
+                { text: '행정지원', type: 'central' }
+            ]
         }
     ];
 
-    // Parent container animation variants for stagger
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.15 }
-        }
-    };
+    const containerRef = useRef(null);
+    const galleryRef = useRef(null);
+    const [scrollRange, setScrollRange] = useState(0);
 
-    const cardVariants = {
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4, duration: 0.8 } }
-    };
+    useLayoutEffect(() => {
+        const updateRange = () => {
+            if (galleryRef.current) {
+                // Wider range = slower scroll speed
+                const range = (teamMembers.length * 800) - window.innerWidth;
+                setScrollRange(range > 0 ? range : 0);
+            }
+        };
+        updateRange();
+        window.addEventListener('resize', updateRange);
+        return () => window.removeEventListener('resize', updateRange);
+    }, [teamMembers.length]);
+
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"]
+    });
+
+    const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+    const scrollHeight = scrollRange > 0 ? `${scrollRange + window.innerHeight}px` : '100vh';
 
     return (
-        <div className={styles.pageContainer}>
-            <CloudBackground heightMode="vh" />
-            
-            <div className={styles.navWrapper}>
-                <SubNav />
+        <div ref={containerRef} style={{ height: scrollHeight, position: 'relative' }}>
+            <div className={styles.pageWrapper}>
+                <CloudBackground heightMode="vh" />
+                
+                <div className={styles.navWrapper}>
+                    <SubNav />
+                </div>
+
+                <main className={styles.mainContent}>
+                    {/* 3D Lanyard Canvas handling the horizontal layout and cards */}
+                    <div className={styles.fixedContainer}>
+                        
+                        <LanyardCanvas members={teamMembers} scrollProgress={smoothProgress} />
+                    </div>
+                </main>
             </div>
-
-            <main className={styles.mainContent}>
-
-
-                {/* Hero Section */}
-                <section className={styles.hero}>
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                    >
-                        우리 교회의 든든한 동역자, 교역자와 직원들을 소개합니다. 성도님들의 영적 성장과 평안한 신앙생활을 위해 기쁨으로 헌신합니다.
-                    </motion.p>
-                </section>
-
-                {/* Directory Grid */}
-                <motion.section 
-                    className={styles.directoryGrid}
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="visible"
-                >
-                    {teamMembers.map((member, idx) => (
-                        <motion.article className={styles.card} key={idx} variants={cardVariants}>
-                            <div className={styles.innerProfile}>
-                                <div className={styles.profileText}>
-                                    <h3>{member.name}</h3>
-                                    <p className={styles.role}>
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginRight: '6px'}}><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-                                        {member.role}
-                                    </p>
-                                </div>
-                                <img src={member.image} alt={member.name} className={styles.profileImage} />
-                            </div>
-
-                            <div className={styles.bottomArea}>
-                                <div className={styles.memberInfo}>
-                                    <div className={styles.miniAvatarWrap}>
-                                        <img src={member.image} alt="" className={styles.miniAvatar} />
-                                        <div className={styles.onlineDot}></div>
-                                    </div>
-                                    <div className={styles.memberText}>
-                                        <span className={styles.handle}>@{member.name}</span>
-                                        <span className={styles.time}>{member.badges[0]?.text || 'SBC'}</span>
-                                    </div>
-                                </div>
-                                <button className={styles.actionBtn}>
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                    {member.badges[1]?.text || '프로필'}
-                                </button>
-                            </div>
-                        </motion.article>
-                    ))}
-                </motion.section>
-            </main>
-            <Footer />
+            
+            {/* Invisible horizontal element to measure width inside the scrolling container */}
+            <div ref={galleryRef} style={{ width: `${teamMembers.length * 400}px`, height: 1, position: 'absolute', top: 0, visibility: 'hidden' }} />
         </div>
     );
 };
