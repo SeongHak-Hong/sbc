@@ -56,8 +56,10 @@ const VisionPage = () => {
                 {/* Greeting Section */}
                 <section className={styles.greetingSection}>
                     <div className={styles.greetingWrapper}>
-                        <div className={styles.greetingCard}>
-                            <div className={styles.greetingGrid}>
+                        <div className={styles.paperLayout}>
+                            <div className={styles.flutterEngine}>
+                                <div className={styles.greetingCard}>
+                                    <div className={styles.greetingGrid}>
                                 
                                 {/* Photo Column */}
                                 <motion.div 
@@ -67,14 +69,9 @@ const VisionPage = () => {
                                     viewport={{ once: true, margin: "-100px" }}
                                     transition={{ duration: 0.8, type: "spring" }}
                                 >
-                                    <div className={styles.photoBackdrop}></div>
                                     <div className={styles.photoFrame}>
                                         <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Senior Pastor Portrait" className={styles.portrait} />
                                         <div className={styles.photoGradient}></div>
-                                    </div>
-                                    <div className={styles.photoLabel}>
-                                        <h3 className={styles.pastorName}>최 영 락</h3>
-                                        <p className={styles.pastorTitle}>담임목사</p>
                                     </div>
                                 </motion.div>
 
@@ -117,7 +114,9 @@ const VisionPage = () => {
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
+            </div>
+        </section>
 
                 {/* Core Pillars Section */}
                 <section className={styles.pillarsSection}>

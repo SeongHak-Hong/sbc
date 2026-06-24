@@ -50,7 +50,7 @@
   --color-background: #E0F7FA;
   --color-text: #333333;
 
-  --section-padding-y: 96px;
+  --section-padding-y: 160px;
   --section-padding-x: 48px;
 
   --btn-padding-y: 20px;
@@ -59,17 +59,23 @@
   --btn-gap: 10px;
   --btn-font-size: 24px;
   --btn-radius: 99px;
+  --btn-icon-size: 20px;
 }
 
 /* 📱 [모바일 미디어 쿼리] (768px 미만 환경에서만 작동) */
 @media (max-width: 767px) {
   :root {
-    --text-h1: 40px;  /* 대제목 (모바일 마지노선) */
-    --text-h2: 32px;  /* 섹션 제목 */
-    --text-h3: 24px;  /* 소제목 */
-    --text-h4: 20px;  /* 하위 소제목 */
-    --text-body: 18px; /* 어르신 마지노선 가독성 */
+    --text-h1: 48px;  /* 대제목 (모바일 마지노선) */
+    --text-h2: 36px;  /* 섹션 제목 */
+    --text-h3: 28px;  /* 소제목 */
+    --text-h4: 24px;  /* 하위 소제목 */
+    --text-body: 20px; /* 어르신 마지노선 가독성 */
     --citation-size: var(--text-h2);
+    --btn-font-size: var(--text-body);
+    --btn-padding-y: 14px;
+    --btn-padding-l: 32px;
+    --btn-padding-r: 28px;
+    --btn-icon-size: 18px;
   }
 
   h1 { font-size: var(--text-h1) !important; font-family: var(--font-title) !important; line-height: var(--leading-title) !important; }
@@ -193,7 +199,7 @@ button {
 /* Common icon style for buttons if using span or img */
 button img,
 button span.icon {
-  height: 20px;
+  height: var(--btn-icon-size);
 }
 
 .footer-section {

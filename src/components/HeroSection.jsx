@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import LightRays from './LightRays';
 import { BlurFade } from './ui/BlurFade';
 
 const HeroSection = () => {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 767);
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const sectionStyle = {
         position: 'relative',
         width: '100%',
@@ -21,7 +30,7 @@ const HeroSection = () => {
     // Typography Setup
     const visionStyle = {
         fontFamily: 'MemomentKkukkukk, sans-serif',
-        fontSize: '40px',
+        fontSize: isMobile ? 'var(--text-h3)' : '40px',
         color: '#ffffff',
         lineHeight: '120%',
         letterSpacing: '-0.02em',

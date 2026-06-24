@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import lionWorship from '../assets/main/lamb_worship.png';
 import { BlurFade } from './ui/BlurFade';
 import { motion } from 'framer-motion';
 
 const ServiceInfoSection = () => {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 767);
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const sectionStyle = {
         padding: 'var(--section-padding-y) 0',
-        textAlign: 'left', // Left align
+        textAlign: isMobile ? 'center' : 'left', // Center text on mobile
         color: '#fff',
         position: 'relative',
         height: 'auto', // Hug content
@@ -30,8 +39,8 @@ const ServiceInfoSection = () => {
     };
 
     const imageBoxStyle = {
-        width: '452px',
-        height: '452px',
+        width: isMobile ? '100%' : '452px',
+        height: isMobile ? 'auto' : '452px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -57,7 +66,7 @@ const ServiceInfoSection = () => {
             >
                 <img src={lionWorship} alt="Worship Lion" style={lionStyle} />
             </motion.div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: isMobile ? 'center' : 'flex-start' }}>
                 <BlurFade delay={0.25} inView>
                     <h2 style={titleStyle}>예배는<br />언제 있어요?</h2>
                 </BlurFade>

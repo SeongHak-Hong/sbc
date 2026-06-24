@@ -87,7 +87,7 @@ const GallerySection = () => {
                     alt="Gallery 1"
                     style={isMobile ? {
                         position: 'relative',
-                        width: '92%',
+                        width: '74%',
                         alignSelf: 'flex-start',
                         zIndex: 1
                     } : {
@@ -113,7 +113,7 @@ const GallerySection = () => {
                     alt="Gallery 2"
                     style={isMobile ? {
                         position: 'relative',
-                        width: '92%',
+                        width: '74%',
                         alignSelf: 'flex-end',
                         marginTop: '-15%',
                         zIndex: 2
@@ -140,7 +140,7 @@ const GallerySection = () => {
                     alt="Gallery 3"
                     style={isMobile ? {
                         position: 'relative',
-                        width: '92%',
+                        width: '74%',
                         alignSelf: 'flex-start',
                         marginTop: '-15%',
                         zIndex: 3
@@ -169,7 +169,7 @@ const GallerySection = () => {
                     alt="Gallery 4"
                     style={isMobile ? {
                         position: 'relative',
-                        width: '50%',
+                        width: '40%',
                         alignSelf: 'flex-end',
                         marginTop: '-15%',
                         zIndex: 4
@@ -197,7 +197,7 @@ const GallerySection = () => {
                     alt="Gallery 5"
                     style={isMobile ? {
                         position: 'relative',
-                        width: '92%',
+                        width: '74%',
                         alignSelf: 'flex-start',
                         marginTop: '-15%',
                         zIndex: 2

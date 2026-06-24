@@ -1,7 +1,4 @@
 import React, { useRef, useState, useEffect } from 'react';
-import lionImage from '../assets/main/lion_youtube.png';
-import sheepImage from '../assets/main/lamb_youtube.png';
-import youtubeIcon from '../assets/main/youtube_logo.svg';
 import { BlurFade } from './ui/BlurFade';
 import { motion, useScroll, useTransform, useMotionTemplate, useMotionValueEvent } from 'framer-motion';
 
@@ -16,7 +13,7 @@ const YoutubeSection = () => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-    
+
     // Animate from when the top of the 200vh section hits the bottom of the screen
     // until the bottom of the 200vh section hits the bottom of the screen.
     const { scrollYProgress } = useScroll({
@@ -38,7 +35,7 @@ const YoutubeSection = () => {
     // 30vh aligns wave perfectly above the top of the screen (-20vh on screen).
     // This makes the wave wipe smoothly span the entire scroll duration.
     const maskY = useTransform(scrollYProgress, [0, 1], [-50, 30]);
-    
+
     // Mask X: 0% to 100% for horizontal flow
     const maskX = useTransform(scrollYProgress, [0, 1], [0, 100]);
 
@@ -53,24 +50,25 @@ const YoutubeSection = () => {
     const containerStyle = {
         position: 'relative',
         color: '#fff',
-        height: '200vh', 
+        height: '200vh',
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-end', 
+        justifyContent: 'flex-end',
         alignItems: 'center',
-        marginTop: '-200vh', 
-        zIndex: 20, 
-        backgroundColor: '#000000'
+        marginTop: '-200vh',
+        zIndex: 20,
+        backgroundColor: '#005394'
     };
 
     const innerContentStyle = {
         width: '100%',
-        height: '100vh',
-        padding: '120px 0 160px',
+        height: isMobile ? 'auto' : '100vh',
+        padding: isMobile ? '40px 20px' : '40px 20px 120px',
         boxSizing: 'border-box',
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: isMobile ? 'column' : 'row',
+        gap: '48px',
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
@@ -78,36 +76,19 @@ const YoutubeSection = () => {
     };
 
     const titleStyle = {
-        textAlign: 'center',
-        marginBottom: '0',
+        textAlign: isMobile ? 'center' : 'left',
+        marginBottom: '20px',
         whiteSpace: 'pre-line',
-        height: '1px',
         color: '#ffffff',
-        overflow: 'visible',
+        textShadow: '0 4px 20px rgba(0,0,0,0.15)',
         position: 'relative',
-        zIndex: 10
-    };
-
-    const assetsContainerStyle = {
-        marginTop: '200px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '1404px',
-        maxWidth: '100%',
-        marginLeft: 'auto',
-        marginRight: 'auto'
-    };
-
-    const itemStyle = {
-        flex: '0 0 auto',
-        width: '357px',
-        height: '428px',
-        objectFit: 'contain'
+        zIndex: 10,
+        fontSize: 'var(--text-h2)'
     };
 
     const buttonStyle = {
-        color: '#fff',
+        backgroundColor: '#ffffff',
+        color: '#005394',
         textDecoration: 'none',
         display: 'inline-flex',
         alignItems: 'center',
@@ -118,13 +99,14 @@ const YoutubeSection = () => {
     const buttonContainerStyle = {
         flex: '0 0 auto',
         display: 'flex',
-        justifyContent: 'center'
+        justifyContent: isMobile ? 'center' : 'flex-start',
+        marginTop: '20px'
     };
 
     return (
-        <motion.section 
-            ref={sectionRef} 
-            style={{ 
+        <motion.section
+            ref={sectionRef}
+            style={{
                 ...containerStyle,
                 WebkitMaskImage: waveMaskSvg,
                 maskImage: waveMaskSvg,
@@ -136,34 +118,61 @@ const YoutubeSection = () => {
                 maskPosition: maskPosition
             }}
         >
-            <motion.div 
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isWipeFinished ? 1 : 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                style={{
+                    position: 'absolute',
+                    top: 0, left: 0, width: '100%', height: '100%',
+                    zIndex: 0,
+                    background: 'radial-gradient(circle at 50% 20%, #FDC422 0%, #F28100 70%, #DE5E00 100%)',
+                    filter: 'hue-rotate(200deg) saturate(125%) brightness(73%)'
+                }}
+            />
+
+            <motion.div
                 style={innerContentStyle}
                 initial={{ opacity: 0, y: 50 }}
-                animate={{ 
-                    opacity: isWipeFinished ? 1 : 0, 
-                    y: isWipeFinished ? 0 : 50 
+                animate={{
+                    opacity: isWipeFinished ? 1 : 0,
+                    y: isWipeFinished ? 0 : 50
                 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
             >
-                <BlurFade delay={0.25} inView>
-                    <h1 style={titleStyle}>
-                        예수님의 말씀으로<br />
-                        영혼의 양식을 채우세요.
-                    </h1>
+                <BlurFade delay={0.1} inView style={{ height: isMobile ? 'auto' : '100%' }}>
+                    <div
+                        style={{
+                            borderRadius: '20px',
+                            overflow: 'hidden',
+                            boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
+                            flexShrink: 0,
+                            width: isMobile ? '100%' : 'auto',
+                            height: isMobile ? 'auto' : '100%',
+                            aspectRatio: '9 / 16'
+                        }}
+                    >
+                        <iframe
+                            width="100%"
+                            height="100%"
+                            src="https://www.youtube.com/embed/bQ8ybnIaKDY"
+                            title="YouTube video player"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerPolicy="strict-origin-when-cross-origin"
+                            allowFullScreen
+                            style={{ display: 'block' }}
+                        ></iframe>
+                    </div>
                 </BlurFade>
 
-                <div style={assetsContainerStyle}>
-                    <motion.img
-                        src={lionImage}
-                        alt="Lion"
-                        style={itemStyle}
-                        animate={{ y: [0, -15, 0] }}
-                        transition={{
-                            duration: 3,
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                        }}
-                    />
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: isMobile ? 'center' : 'flex-start' }}>
+                    <BlurFade delay={0.25} inView>
+                        <h2 style={titleStyle}>
+                            가장 낮은 자로 오신,<br />
+                            사랑의 왕.
+                        </h2>
+                    </BlurFade>
 
                     <div style={buttonContainerStyle}>
                         <BlurFade delay={0.4} inView>
@@ -173,25 +182,14 @@ const YoutubeSection = () => {
                                     whileHover={{ scale: 1.05 }}
                                     transition={{ type: "spring", stiffness: 400, damping: 10 }}
                                 >
-                                    예배 영상 보기
-                                    <img src={youtubeIcon} alt="Youtube" />
+                                    유튜브 풀영상 보기
+                                    <svg width="28" height="20" viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ height: 'var(--btn-icon-size)', width: 'auto' }}>
+                                        <path d="M27.4069 3.12838C27.0792 1.89791 26.1591 0.938873 24.9319 0.604795C22.7641 1.37328e-07 13.9898 0 13.9898 0C13.9898 0 5.23592 1.37328e-07 3.06812 0.604795C1.86135 0.938153 0.920788 1.89791 0.572668 3.12838C6.73414e-08 5.33876 0 9.9892 0 9.9892C0 9.9892 6.73414e-08 14.6396 0.572668 16.8716C0.920082 18.0812 1.86135 19.0611 3.06812 19.3952C5.23592 20 13.9898 20 13.9898 20C13.9898 20 22.7641 20 24.9319 19.3952C26.1591 19.0618 27.0792 18.0812 27.4069 16.8716C28 14.6404 28 9.9892 28 9.9892C28 9.9892 28 5.33876 27.4069 3.12838ZM11.2083 14.2861V5.71459L18.4694 9.98992L11.2083 14.2861Z" fill="currentColor" />
+                                    </svg>
                                 </motion.button>
                             </a>
                         </BlurFade>
                     </div>
-
-                    <motion.img
-                        src={sheepImage}
-                        alt="Sheep"
-                        style={itemStyle}
-                        animate={{ y: [0, -15, 0] }}
-                        transition={{
-                            duration: 3,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                            delay: 0.5
-                        }}
-                    />
                 </div>
             </motion.div>
         </motion.section>

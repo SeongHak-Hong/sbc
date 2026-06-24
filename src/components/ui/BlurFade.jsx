@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useInView } from "framer-motion";
 export function BlurFade({
     children,
     className,
+    style,
     variant,
     duration = 0.4,
     delay = 0,
@@ -34,6 +35,7 @@ export function BlurFade({
                     ease: "easeOut",
                 }}
                 className={className}
+                style={style}
             >
                 {children}
             </motion.div>

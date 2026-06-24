@@ -1,12 +1,20 @@
-import React from 'react';
-import donkeyEvent from '../assets/main/donkey_event.png';
+import React, { useState, useEffect } from 'react';
+import donkeyEvent from '../assets/main/shintanjin-baptist-church-main-donkey.webp';
 import { BlurFade } from './ui/BlurFade';
 import { motion } from 'framer-motion';
 
 const EventSection = () => {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 767);
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
     const sectionStyle = {
         padding: 'var(--section-padding-y) 0',
-        textAlign: 'right', // Right align text
+        textAlign: isMobile ? 'center' : 'right', // Center text on mobile
         color: '#fff',
         position: 'relative',
         height: 'auto', // Hug content
@@ -14,7 +22,7 @@ const EventSection = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        flexDirection: 'row',
+        flexDirection: isMobile ? 'column-reverse' : 'row',
         gap: '48px'
     };
 
@@ -30,8 +38,8 @@ const EventSection = () => {
     };
 
     const imageBoxStyle = {
-        width: '452px',
-        height: '452px',
+        width: isMobile ? '100%' : '452px',
+        height: isMobile ? 'auto' : '452px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -46,8 +54,8 @@ const EventSection = () => {
     };
 
     return (
-        <section className="flex-mobile-column" style={sectionStyle}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+        <section style={sectionStyle}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: isMobile ? 'center' : 'flex-end' }}>
                 <BlurFade delay={0.25} inView>
                     <h2 style={titleStyle}>이번 달은<br />어떤 행사가 있어요?</h2>
                 </BlurFade>
