@@ -80,7 +80,6 @@ const YoutubeSection = () => {
         marginBottom: '20px',
         whiteSpace: 'pre-line',
         color: '#ffffff',
-        textShadow: '0 4px 20px rgba(0,0,0,0.15)',
         position: 'relative',
         zIndex: 10,
         fontSize: 'var(--text-h2)'
@@ -88,7 +87,7 @@ const YoutubeSection = () => {
 
     const buttonStyle = {
         backgroundColor: '#ffffff',
-        color: '#005394',
+        color: 'var(--color-text-title)',
         textDecoration: 'none',
         display: 'inline-flex',
         alignItems: 'center',
@@ -126,8 +125,7 @@ const YoutubeSection = () => {
                     position: 'absolute',
                     top: 0, left: 0, width: '100%', height: '100%',
                     zIndex: 0,
-                    background: 'radial-gradient(circle at 50% 20%, #FDC422 0%, #F28100 70%, #DE5E00 100%)',
-                    filter: 'hue-rotate(200deg) saturate(125%) brightness(73%)'
+                    backgroundColor: 'var(--color-text-title)'
                 }}
             />
 
@@ -145,7 +143,6 @@ const YoutubeSection = () => {
                         style={{
                             borderRadius: '20px',
                             overflow: 'hidden',
-                            boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
                             flexShrink: 0,
                             width: isMobile ? '100%' : 'auto',
                             height: isMobile ? 'auto' : '100%',

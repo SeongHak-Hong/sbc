@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '../components/Footer';
+import CloudBackground from '../components/CloudBackground';
 import styles from './NextGenPage.module.css';
 
 const departmentsData = {
@@ -87,20 +88,11 @@ const NextGenPage = () => {
 
     return (
         <div className={styles.pageWrapper}>
-            <div className="global-texture-overlay"></div>
+            <CloudBackground heightMode="vh" />
             <main className={styles.container}>
                 <header className={styles.headerSection}>
-                    <div style={{ position: 'absolute', top: '-40px', left: '-40px', width: '96px', height: '96px', backgroundColor: '#FBCB51', borderRadius: '50%', mixBlendMode: 'multiply', filter: 'blur(40px)', opacity: 0.4 }} className={styles.animateFloat}></div>
-                    <div style={{ position: 'absolute', top: '40px', right: '-40px', width: '128px', height: '128px', backgroundColor: '#BA87ED', borderRadius: '50%', mixBlendMode: 'multiply', filter: 'blur(40px)', opacity: 0.4 }} className={styles.animateFloatDelayed}></div>
 
-                    <motion.span 
-                        className={`${styles.handwriting} ${styles.eyebrow}`}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                    >
-                        다음세대를 세우는 곳,
-                    </motion.span>
+
                     <motion.h1 
                         className={styles.headerTitle}
                         initial={{ opacity: 0, y: 20 }}

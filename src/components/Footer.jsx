@@ -5,7 +5,7 @@ import '../index.css';
 const Footer = () => {
     const location = useLocation();
     const isSubpage = location.pathname !== '/';
-    const themeClass = 'footer-dark';
+    const themeClass = isSubpage ? 'footer-dark footer-subpage' : 'footer-dark';
     const contentStyle = {
         width: '100%',
         maxWidth: '1500px',
@@ -25,7 +25,7 @@ const Footer = () => {
                     <span style={{ cursor: 'pointer' }}>이용약관</span>
                     <span style={{ cursor: 'pointer' }}>개인정보처리방침</span>
                 </div>
-                <p style={{ marginTop: '12px' }}>&copy; 2025 SINTANJIN BAPTIST CHURCH. All rights reserved.</p>
+                <p style={{ marginTop: '12px' }}>&copy; {new Date().getFullYear()} SINTANJIN BAPTIST CHURCH. All rights reserved.</p>
             </div>
         </footer>
     );

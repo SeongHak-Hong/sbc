@@ -1,4 +1,4 @@
-import React, { useRef, useState, useLayoutEffect } from 'react';
+import React, { useRef, useState, useLayoutEffect, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import SubNav from '../components/SubNav';
 import styles from './HistoryPage.module.css';
@@ -37,6 +37,10 @@ const HistoryPage = () => {
     const galleryRef = useRef(null);
     const [scrollRange, setScrollRange] = useState(0);
     
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     // Measure the exact width of the horizontal content to calculate the negative scroll limit
     useLayoutEffect(() => {
         const updateRange = () => {
@@ -128,7 +132,6 @@ const HistoryPage = () => {
                                 신탄진교회의 가장 생생하고 다정한 '오늘'의 이야기를 인스타그램에서 만나보세요.
                             </p>
                             <motion.button 
-                                className={styles.ctaButton}
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 transition={{ type: "spring", stiffness: 400 }}

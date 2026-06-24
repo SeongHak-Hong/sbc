@@ -1,8 +1,8 @@
 .pageWrapper {
     width: 100%;
     min-height: 100vh;
-    background-color: var(--cream, #FAF7F2);
-    color: var(--color-text-body);
+    background-color: transparent;
+    color: rgba(255, 255, 255, 0.8);
     font-family: var(--font-body);
     position: relative;
     overflow-x: hidden;
@@ -37,7 +37,7 @@
 .headerTitle {
     font-family: var(--font-title);
     font-size: var(--text-h1);
-    color: var(--color-text-title);
+    color: white;
     line-height: var(--leading-title);
     margin-bottom: 16px;
     position: relative;
@@ -45,15 +45,13 @@
 }
 
 .gradientText {
-    background: linear-gradient(135deg, #FA7A55 0%, #BA87ED 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: white;
 }
 
 .headerSubtitle {
     font-size: var(--text-body);
     line-height: var(--leading-body);
-    color: var(--color-text-body);
+    color: rgba(255, 255, 255, 0.8);
     max-width: 600px;
     margin: 0 auto;
 }
@@ -219,13 +217,15 @@
 }
 
 .subCard {
-    background-color: white;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
     border-radius: 24px;
     padding: 32px;
     box-shadow: var(--shadow-soft, 0 20px 40px -15px rgba(0,0,0,0.05));
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    color: var(--color-text-body);
 }
 @media (min-width: 1024px) {
     .subCard {
@@ -357,7 +357,7 @@
 .eventsTitle {
     font-family: var(--font-title);
     font-size: var(--text-h2);
-    color: var(--color-text-title);
+    color: white;
 }
 .eventsLink {
     color: #5A84FF;
@@ -385,12 +385,14 @@
 }
 
 .eventCard {
-    background-color: white;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
     border-radius: 24px;
     padding: 16px;
     box-shadow: var(--shadow-card, 0 10px 30px -5px rgba(0,0,0,0.03));
     transition: all 0.3s ease;
     cursor: pointer;
+    color: var(--color-text-body);
 }
 .eventCard:hover {
     box-shadow: var(--shadow-soft, 0 20px 40px -15px rgba(0,0,0,0.1));

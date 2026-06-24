@@ -23,8 +23,8 @@
 
 .navItem {
     position: relative;
-    font-family: 'Pretendard', var(--font-body); /* Prefer pretendard for this UI element */
-    font-size: 15px;
+    font-family: var(--font-body);
+    font-size: 18px;
     font-weight: 500;
     color: var(--color-text-body);
     cursor: pointer;
@@ -62,6 +62,6 @@
     }
     .navItem {
         padding: 8px 16px;
-        font-size: 14px;
+        font-size: 16px;
     }
 }

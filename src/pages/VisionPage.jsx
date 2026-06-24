@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import styles from './VisionPage.module.css';
 import SubNav from '../components/SubNav';
@@ -7,6 +7,10 @@ import CloudBackground from '../components/CloudBackground';
 import BalloonBackground from '../components/BalloonBackground';
 
 const VisionPage = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <div className={styles.pageContainer}>
             <CloudBackground heightMode="vh" />
@@ -72,7 +76,7 @@ const VisionPage = () => {
                                     transition={{ duration: 0.8, delay: 0.2 }}
                                 >
                                     <h2 className={styles.greetingTitle}>
-                                        누구나 기대어 쉴 수 있는 따뜻한 가족,<br />
+                                        모두의 쉼터, 따뜻한 가족,<br />
                                         <span className={styles.italicGold}>신탄진교회</span>로 초대합니다.
                                     </h2>
                                     

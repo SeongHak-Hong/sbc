@@ -97,120 +97,139 @@ p {
 }
 
 .card {
-    background: var(--white);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
     border-radius: 36px;
-    padding: 2.5rem 2rem 2rem;
+    padding: 16px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    box-shadow: var(--shadow-soft);
+    box-shadow: var(--shadow-soft, 0 20px 40px -15px rgba(28, 42, 67, 0.1));
     transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
-    cursor: default;
     border: 1px solid rgba(0,0,0,0.02);
 }
 
 .card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 30px 50px -15px rgba(28, 42, 67, 0.1), 0 15px 25px -5px rgba(28, 42, 67, 0.05);
+    box-shadow: 0 30px 50px -15px rgba(28, 42, 67, 0.15), 0 15px 25px -5px rgba(28, 42, 67, 0.08);
 }
 
-.cardImageWrap {
-    position: relative;
-    width: 140px;
-    height: 140px;
-    margin-bottom: 1.5rem;
+.innerProfile {
+    background-color: #EAEAEA;
+    border-radius: 24px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
-.cardImageBg {
-    position: absolute;
-    top: 5px;
-    left: -5px;
-    width: 100%;
-    height: 100%;
-    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-    z-index: 0;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 0.5;
+.profileText {
+    padding: 24px 16px 0;
+    text-align: center;
 }
 
-.cardImageWrap::before {
-    content: '';
-    position: absolute;
-    top: -10px; left: -10px; right: -10px; bottom: -10px;
-    border: 2px dashed rgba(28, 42, 67, 0.15);
-    border-radius: 50%;
-    z-index: 0;
-    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.cardImage {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-    position: relative;
-    z-index: 1;
-    border: 4px solid var(--white);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.05);
-    transition: border-radius 0.4s ease;
-}
-
-/* Hover Effects */
-.card:hover .cardImageBg {
-    transform: rotate(15deg) scale(1.05);
-}
-.card:hover .cardImageWrap::before {
-    transform: rotate(-45deg);
-}
-.card:hover .cardImage {
-    border-radius: 50% 50% 30% 70% / 60% 40% 70% 40%;
-}
-
-.card h3 {
+.profileText h3 {
     font-size: 1.5rem;
     margin-bottom: 0.25rem;
+    color: #1a1a1a;
 }
 
-.card .role {
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
-    color: var(--navy-light);
-}
-
-.badgesWrap {
+.profileText .role {
+    font-size: 0.875rem;
+    color: #4a4a4a;
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    align-items: center;
     justify-content: center;
-    margin-top: auto;
-    width: 100%;
-    padding-top: 1.5rem;
-    border-top: 2px solid rgba(250, 247, 242, 1);
+    font-weight: 500;
 }
 
-.badge {
-    font-size: 1rem;
-    font-weight: 700;
-    padding: 6px 14px;
-    border-radius: 999px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+.profileImage {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center top;
+    margin-top: 16px;
+}
+
+.bottomArea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 8px 8px;
+    margin-top: auto;
+}
+
+.memberInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.miniAvatarWrap {
+    position: relative;
+    width: 32px;
+    height: 32px;
+}
+
+.miniAvatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.onlineDot {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 10px;
+    height: 10px;
+    background-color: #22c55e;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+.memberText {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.handle {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    line-height: 1.2;
+}
+
+.time {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+.actionBtn {
+    background-color: #1a1a1a;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
     font-family: var(--font-body);
 }
 
-/* Badge Colors */
-.badge.teaching { background: #E8F0FE; color: #1967D2; }
-.badge.north { background: #F3E8FD; color: #681DA8; }
-.badge.worship { background: #FCE8E6; color: #C5221F; }
-.badge.south { background: #E6F4EA; color: #137333; }
-.badge.youth { background: #FEF7E0; color: #E37400; }
-.badge.central { background: #E8F0FE; color: #1967D2; }
-.badge.admin { background: #F3E8FD; color: #681DA8; }
+.actionBtn:hover {
+    background-color: #333333;
+}
 
 @media (max-width: 768px) {
-    .hero { padding: 2rem 1.5rem 2rem; }
+    .hero { padding: 80px 1.5rem; }
     .directoryGrid {
         grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
         padding: 0 1.5rem 4rem;

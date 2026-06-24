@@ -101,7 +101,7 @@ const PrayerSection = () => {
     });
 
     const buttonStyle = {
-        backgroundColor: '#005394', // Global override if needed, but index.css handles it usually. keeping for safety if inline used elsewhere
+        backgroundColor: 'var(--color-text-title)',
         color: '#fff',
         boxShadow: 'none', // Removed shadow
         marginTop: '20px'

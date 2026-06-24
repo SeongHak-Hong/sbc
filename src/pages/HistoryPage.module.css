@@ -105,7 +105,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 32px;
+    gap: 64px;
     position: relative;
 }
 
@@ -154,11 +154,10 @@
     bottom: 3vh;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 14px;
+    font-size: 18px;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
     color: #ffffff;
-    font-family: var(--font-title);
+    font-family: 'omyu_pretty', sans-serif;
 }
 
 .pageHeader {

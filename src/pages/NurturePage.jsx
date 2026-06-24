@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Footer from '../components/Footer';
+import CloudBackground from '../components/CloudBackground';
 import styles from './NurturePage.module.css';
 
 const NurturePage = () => {
@@ -9,14 +10,9 @@ const NurturePage = () => {
     }, []);
 
     return (
-        <div className={`${styles.pageWrapper} ${styles.bgDots}`}>
-            <div className="global-texture-overlay"></div>
-            {/* Background blur elements */}
-            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', overflow: 'hidden', zIndex: 0, pointerEvents: 'none' }}>
-                <div style={{ position: 'absolute', top: '-10%', left: '-5%', width: '40%', height: '40%', borderRadius: '50%', backgroundColor: '#fff', opacity: 0.4, filter: 'blur(64px)' }}></div>
-                <div style={{ position: 'absolute', top: '20%', right: '-10%', width: '50%', height: '50%', borderRadius: '50%', backgroundColor: '#fff', opacity: 0.4, filter: 'blur(64px)' }}></div>
-                <div style={{ position: 'absolute', bottom: '-10%', left: '20%', width: '60%', height: '60%', borderRadius: '50%', backgroundColor: '#fff', opacity: 0.4, filter: 'blur(64px)' }}></div>
-            </div>
+        <div className={styles.pageWrapper}>
+            <CloudBackground heightMode="vh" />
+
 
             {/* Header Section */}
             <header className={styles.header}>
@@ -31,14 +27,9 @@ const NurturePage = () => {
                     </svg>
                 </div>
 
-                <span className={`${styles.handwriting} ${styles.eyebrow}`}>
-                    반가워요, 진심으로 환영합니다!
-                </span>
                 <h1 className={styles.headerTitle}>
-                    새가족 안내 및 양육
-                    <svg style={{ position: 'absolute', width: '100%', height: '16px', bottom: '-8px', left: 0, color: '#FFAE82', opacity: 0.6 }} viewBox="0 0 200 12" preserveAspectRatio="none">
-                        <path d="M0,8 C40,-2 60,14 100,6 C140,-2 160,14 200,6" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round"></path>
-                    </svg>
+                    새가족 여러분을<br />
+                    축복하고 환영합니다!
                 </h1>
                 <p className={styles.headerSubtitle}>
                     신탄진교회라는 새로운 가족을 만나신 여러분을 축복합니다.<br />
@@ -51,7 +42,7 @@ const NurturePage = () => {
             <section className={styles.section}>
                 <div style={{ maxWidth: 'var(--max-width)', margin: '0 auto', padding: '0 var(--grid-margin)', textAlign: 'center', marginBottom: '40px' }}>
                     <h2 className={styles.sectionTitle}>새가족 정착 여정</h2>
-                    <p className={`${styles.handwriting}`} style={{ marginTop: '8px' }}>우리 교회에 스며드는 따뜻한 4단계의 시간입니다.</p>
+                    <p className={styles.sectionSubtitle}>우리 교회에 스며드는 따뜻한 4단계의 시간입니다.</p>
                 </div>
 
                 <div className={styles.scrollContainer}>
@@ -106,12 +97,9 @@ const NurturePage = () => {
             {/* Scrapbook Section */}
             <section style={{ padding: '96px var(--grid-margin)', maxWidth: 'var(--max-width)', margin: '0 auto' }}>
                 <div style={{ textAlign: 'center', marginBottom: '64px', position: 'relative' }}>
-                    <svg style={{ position: 'absolute', top: 0, right: '25%', width: '96px', height: '96px', color: '#FFAE82', opacity: 0.2, zIndex: -1 }} viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M10,50 Q30,10 50,50 T90,50"></path>
-                        <path d="M20,60 Q40,20 60,60 T100,60"></path>
-                    </svg>
+
                     <h2 className={styles.sectionTitle}>우리들의 스크랩북</h2>
-                    <p style={{ marginTop: '16px', maxWidth: '42rem', margin: '16px auto 0' }}>
+                    <p className={styles.sectionSubtitle}>
                         함께 웃고, 기도하며, 사랑을 나누는 신탄진교회 가족들의 따뜻한 일상입니다.<br />
                         곧 여러분과 함께할 빛나는 순간들도 이곳에 가득 채워지기를 소망합니다.
                     </p>

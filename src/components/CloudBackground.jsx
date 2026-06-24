@@ -81,6 +81,7 @@ const CloudBackground = ({ heightMode = 'percent' }) => {
                     key={cloud.id}
                     src={cloud.src}
                     alt=""
+                    className={cloud.id === 102 ? 'cloud-hide-mobile-hero' : ''}
                     style={{
                         position: 'absolute',
                         top: heightMode === 'vh' ? `${cloud.top * 6.66}vh` : `${cloud.top}%`,
