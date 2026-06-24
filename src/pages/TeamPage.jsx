@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import styles from './TeamPage.module.css';
 import SubNav from '../components/SubNav';
 import Footer from '../components/Footer';
+import CloudBackground from '../components/CloudBackground';
+import BalloonBackground from '../components/BalloonBackground';
 
 const TeamPage = () => {
     // Array of team members (using HTML placeholders mixed with Korean roles for context)
@@ -73,16 +75,14 @@ const TeamPage = () => {
 
     return (
         <div className={styles.pageContainer}>
-            <div className="global-texture-overlay"></div>
+            <CloudBackground heightMode="vh" />
             
             <div className={styles.navWrapper}>
                 <SubNav />
             </div>
 
             <main className={styles.mainContent}>
-                {/* Background blobs */}
-                <div className={`${styles.bgBlob} ${styles.blob1}`}></div>
-                <div className={`${styles.bgBlob} ${styles.blob2}`}></div>
+
 
                 {/* Hero Section */}
                 <section className={styles.hero}>

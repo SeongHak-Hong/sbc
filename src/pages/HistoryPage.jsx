@@ -2,6 +2,8 @@ import React, { useRef, useState, useLayoutEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import SubNav from '../components/SubNav';
 import styles from './HistoryPage.module.css';
+import CloudBackground from '../components/CloudBackground';
+import BalloonBackground from '../components/BalloonBackground';
 
 // Dynamically import all images from the history folder
 const imageModules = import.meta.glob('../assets/history/shintanjin-baptist-church-history-*.jpg', { eager: true, import: 'default' });
@@ -70,16 +72,9 @@ const HistoryPage = () => {
     const scrollHeight = scrollRange > 0 ? `${scrollRange + window.innerHeight}px` : '100vh';
 
     return (
-        <div ref={containerRef} style={{ height: scrollHeight, position: 'relative', backgroundColor: 'var(--color-background, #E5F3F9)' }}>
+        <div ref={containerRef} style={{ height: scrollHeight, position: 'relative', backgroundColor: 'transparent' }}>
             <div className={styles.pageWrapper}>
-                <div className="global-texture-overlay"></div>
-                {/* Background blur elements */}
-                <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', overflow: 'hidden', zIndex: 0, pointerEvents: 'none' }}>
-                    <div style={{ position: 'absolute', top: '-10%', left: '-5%', width: '40%', height: '40%', borderRadius: '50%', backgroundColor: '#fff', opacity: 0.4, filter: 'blur(64px)' }}></div>
-                    <div style={{ position: 'absolute', top: '20%', right: '-10%', width: '50%', height: '50%', borderRadius: '50%', backgroundColor: '#fff', opacity: 0.4, filter: 'blur(64px)' }}></div>
-                    <div style={{ position: 'absolute', bottom: '-10%', left: '20%', width: '60%', height: '60%', borderRadius: '50%', backgroundColor: '#fff', opacity: 0.4, filter: 'blur(64px)' }}></div>
-                </div>
-
+                <CloudBackground heightMode="vh" />
 
                 <SubNav />
 

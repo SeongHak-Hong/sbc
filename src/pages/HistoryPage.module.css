@@ -7,8 +7,8 @@
     left: 0;
     display: flex;
     flex-direction: column;
-    background-color: var(--cream);
-    color: var(--navy);
+    background-color: transparent;
+    color: #ffffff;
 }
 
 .scroller {
@@ -110,8 +110,8 @@
 }
 
 .ctaCard p {
-    color: var(--color-text-body);
-    font-size: var(--text-body);
+    color: #ffffff;
+    font-size: var(--text-body-card);
     font-family: var(--font-body);
     line-height: 1.6;
     word-break: keep-all;
@@ -119,8 +119,8 @@
 }
 
 .ctaButton {
-    background-color: var(--navy);
-    color: white;
+    background-color: white;
+    color: var(--navy);
 }
 
 .timelineIndicator {
@@ -138,14 +138,14 @@
 .year {
     font-family: var(--font-title);
     font-size: 4rem;
-    color: var(--navy);
+    color: #ffffff;
     transition: all 0.3s ease;
 }
 
 .dash {
     width: 80px;
     height: 1px;
-    background: var(--navy);
+    background: #ffffff;
     opacity: 0.5;
 }
 
@@ -157,7 +157,7 @@
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    color: var(--color-text-body);
+    color: #ffffff;
     font-family: var(--font-title);
 }
 
@@ -174,7 +174,7 @@
 .headerTitle {
     font-family: var(--font-title);
     font-size: var(--text-h3);
-    color: var(--color-text-title);
+    color: #ffffff;
     margin-bottom: 0;
     position: relative;
     z-index: 10;

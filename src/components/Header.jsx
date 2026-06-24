@@ -27,7 +27,7 @@ const Header = () => {
         alignItems: 'center',
         paddingTop: '20px',
         paddingBottom: '20px',
-        color: isSubpage ? 'var(--color-text-body)' : '#fff',
+        color: 'var(--white)',
         position: 'fixed', // Fixed = Sticky behavior + Overlaps content (removed from flow)
         top: 0,
         left: 0,
@@ -50,7 +50,7 @@ const Header = () => {
                     <img
                         src={logoSbc}
                         alt="신탄진교회"
-                        style={{ height: '32px', filter: isSubpage ? 'none' : 'brightness(0) invert(1)' }}
+                        style={{ height: '32px', filter: 'brightness(0) invert(1)' }}
                     />
                 </Link>
                 <div 

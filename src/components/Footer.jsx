@@ -5,7 +5,7 @@ import '../index.css';
 const Footer = () => {
     const location = useLocation();
     const isSubpage = location.pathname !== '/';
-    const themeClass = isSubpage ? 'footer-light' : 'footer-dark';
+    const themeClass = 'footer-dark';
     const contentStyle = {
         width: '100%',
         maxWidth: '1500px',

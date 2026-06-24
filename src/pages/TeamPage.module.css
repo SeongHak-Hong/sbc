@@ -9,8 +9,8 @@
 }
 
 .pageContainer {
-    background-color: var(--cream);
-    color: var(--navy);
+    background-color: transparent;
+    color: #ffffff;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
@@ -28,17 +28,7 @@
     z-index: 10;
 }
 
-/* Background blobs */
-.bgBlob {
-    position: absolute;
-    z-index: -1;
-    filter: blur(80px);
-    opacity: 0.3;
-    border-radius: 50%;
-    pointer-events: none;
-}
-.blob1 { top: 0; left: -10%; width: 500px; height: 500px; background: var(--accent-sand); }
-.blob2 { top: 30%; right: -5%; width: 600px; height: 600px; background: rgba(212, 175, 55, 0.15); }
+/* Background blobs removed for sky background */
 
 h1, h2, h3 {
     color: var(--navy);
@@ -93,6 +83,7 @@ p {
     margin: 0 auto;
     font-weight: 400;
     line-height: 1.6;
+    color: #ffffff;
 }
 
 /* Directory Grid */

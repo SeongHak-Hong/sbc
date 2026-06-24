@@ -207,6 +207,7 @@
 }
 
 .stepDesc {
+    font-size: var(--text-body-card);
 }
 
 .scrapbookGrid {

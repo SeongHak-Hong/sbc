@@ -279,7 +279,7 @@
 }
 
 .leaderBadge {
-    font-size: var(--text-body);
+    font-size: var(--text-body-card);
     font-family: var(--font-body);
     color: var(--color-text-body);
     display: inline-block;
@@ -287,7 +287,7 @@
 }
 .leaderName {
     font-family: var(--font-body);
-    font-size: var(--text-body);
+    font-size: var(--text-body-card);
     color: var(--color-text-title);
     line-height: 1;
 }
@@ -314,7 +314,7 @@
     background-color: #E5E7EB;
     color: #4B5563;
     font-weight: 700;
-    font-size: var(--text-body);
+    font-size: var(--text-body-card);
     font-family: var(--font-body);
     padding: 4px 10px;
     border-radius: 99px;
@@ -333,7 +333,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: var(--text-body);
+    font-size: var(--text-body-card);
     font-family: var(--font-body);
     color: var(--color-text-title);
     transition: all 0.2s ease;
@@ -448,7 +448,7 @@
 }
 .eventDesc {
     color: var(--color-text-body);
-    font-size: var(--text-body);
+    font-size: var(--text-body-card);
     padding: 0 12px 8px;
     line-height: var(--leading-body);
 }

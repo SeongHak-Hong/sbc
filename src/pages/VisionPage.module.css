@@ -14,8 +14,8 @@
 }
 
 .pageContainer {
-    background-color: var(--cream);
-    color: var(--navy);
+    background-color: transparent;
+    color: #ffffff;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
@@ -40,19 +40,7 @@
     overflow: hidden;
 }
 
-.glowOrb {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 800px;
-    height: 800px;
-    background-color: white;
-    border-radius: 50%;
-    filter: blur(120px);
-    opacity: 0.4;
-    z-index: -10;
-}
+
 
 .heroContent {
     max-width: 896px;
@@ -60,51 +48,16 @@
     text-align: center;
 }
 
-.eyebrow {
-    color: var(--accent-gold);
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    font-size: 14px;
-    text-transform: uppercase;
-    margin-bottom: 24px;
-    display: block;
-}
-
-.heroTitle {
-    font-family: 'Nanum Myeongjo', 'Playfair Display', serif;
-    font-size: 3rem;
-    line-height: 1.2;
-    margin-bottom: 32px;
-    color: var(--navy);
-    position: relative;
-    display: inline-block;
-    font-weight: 700;
-}
-
-@media (min-width: 768px) {
-    .heroTitle {
-        font-size: 4.5rem;
-        line-height: 1.1;
-    }
-}
-
 .heroItalic {
-    color: rgba(28, 42, 67, 0.9);
+    color: rgba(255, 255, 255, 0.9);
     font-weight: 300;
 }
 
-.heroUnderline {
-    position: absolute;
-    bottom: -16px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 192px;
-    color: var(--accent-sand);
-}
+
 
 .heroDesc {
     font-size: var(--text-body);
-    color: var(--navy-light);
+    color: rgba(255, 255, 255, 0.8);
     margin-top: 32px;
     max-width: 42rem;
     margin-left: auto;
@@ -231,7 +184,7 @@
     margin: 0;
     font-family: 'Pretendard', sans-serif;
     color: var(--navy-light);
-    font-size: 1.25rem;
+    font-size: var(--text-body-card);
 }
 
 .signatureWrap {
@@ -293,12 +246,12 @@
 }
 
 .pillarsTitle {
-    color: var(--navy);
+    color: #ffffff;
     margin-bottom: 16px;
 }
 
 .pillarsDesc {
-    color: var(--navy-light);
+    color: rgba(255, 255, 255, 0.8);
     max-width: 42rem;
     margin: 0 auto;
     font-family: var(--font-body);
@@ -373,7 +326,7 @@
     font-weight: 300;
     margin: 0;
     font-family: var(--font-body);
-    font-size: var(--text-body);
+    font-size: var(--text-body-card);
 }
 
 /* --- Paper Flutter Effects --- */

@@ -3,12 +3,13 @@ import { motion } from 'framer-motion';
 import styles from './VisionPage.module.css';
 import SubNav from '../components/SubNav';
 import Footer from '../components/Footer';
+import CloudBackground from '../components/CloudBackground';
+import BalloonBackground from '../components/BalloonBackground';
 
 const VisionPage = () => {
     return (
         <div className={styles.pageContainer}>
-            {/* Texture Overlay */}
-            <div className="global-texture-overlay"></div>
+            <CloudBackground heightMode="vh" />
 
             {/* SubNav is placed below the global header for 2-depth navigation */}
             <div className={styles.navWrapper}>
@@ -18,28 +19,15 @@ const VisionPage = () => {
             <main className={styles.mainContent}>
                 {/* Hero Section */}
                 <section className={styles.heroSection}>
-                    <div className={styles.glowOrb}></div>
                     <div className={styles.heroContent}>
-                        <motion.span 
-                            className={styles.eyebrow}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6 }}
-                        >
-                            비전 & 소명
-                        </motion.span>
                         <motion.h1 
-                            className={styles.heroTitle}
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.2 }}
+                            style={{ position: 'relative', display: 'inline-block', color: 'white', marginBottom: 0 }}
                         >
                             말씀 위에 든든히 <br />
                             <span className={styles.heroItalic}>세워지는 교회</span>
-                            
-                            <svg className={styles.heroUnderline} viewBox="0 0 200 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2 7.5C45 -1.5 155 -1.5 198 7.5" stroke="currentColor" strokeWidth="3" strokeLinecap="round"></path>
-                            </svg>
                         </motion.h1>
                         <motion.p 
                             className={styles.heroDesc}

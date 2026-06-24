@@ -31,7 +31,8 @@
   --pc-text-h2: 64px;
   --pc-text-h3: 48px;
   --pc-text-h4: 32px;
-  --pc-text-body: 24px;
+  --pc-text-body: 28px;
+  --pc-text-body-card: 24px;
 
   /* 행간 (Line-height) */
   --leading-title: 1.3;
@@ -43,6 +44,7 @@
   --text-h3: var(--pc-text-h3);
   --text-h4: var(--pc-text-h4);
   --text-body: var(--pc-text-body);
+  --text-body-card: var(--pc-text-body-card);
 
   --letter-spacing-base: -0.02em;
 
@@ -70,6 +72,7 @@
     --text-h3: 28px;  /* 소제목 */
     --text-h4: 24px;  /* 하위 소제목 */
     --text-body: 20px; /* 어르신 마지노선 가독성 */
+    --text-body-card: 18px;
     --citation-size: var(--text-h2);
     --btn-font-size: var(--text-body);
     --btn-padding-y: 14px;
