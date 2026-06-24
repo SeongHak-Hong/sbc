@@ -28,20 +28,11 @@ const VisionPage = () => {
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.2 }}
-                            style={{ position: 'relative', display: 'inline-block', color: 'white', marginBottom: 0 }}
+                            style={{ position: 'relative', display: 'inline-block', color: 'white', marginBottom: 0, fontSize: 'var(--text-h2)' }}
                         >
-                            말씀 위에 든든히 <br />
-                            <span className={styles.heroItalic}>세워지는 교회</span>
+                            말씀으로 단단하게,<br />
+                            사랑으로 따뜻하게.
                         </motion.h1>
-                        <motion.p 
-                            className={styles.heroDesc}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 1, delay: 0.5 }}
-                        >
-                            하나님의 은혜 안에 깊이 뿌리내리고, 따뜻한 사랑으로 성장하며,<br />
-                            우리 동네와 세상을 향해 복음의 빛을 전하는 신탄진교회입니다.
-                        </motion.p>
                     </div>
                 </section>
 
@@ -121,7 +112,6 @@ const VisionPage = () => {
                             transition={{ duration: 0.6 }}
                         >
                             <h3 className={styles.pillarsTitle}>우리의 핵심 가치</h3>
-                            <p className={styles.pillarsDesc}>우리가 흔들림 없이 지켜가며, 지역 사회와 함께 나누고자 하는 세 가지 비전입니다.</p>
                         </motion.div>
 
                         <div className={styles.pillarsGrid}>

@@ -57,7 +57,7 @@
 
 .heroDesc {
     font-size: var(--text-body);
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--white);
     margin-top: 32px;
     max-width: 42rem;
     margin-left: auto;
@@ -90,7 +90,7 @@
 
 @media (min-width: 1024px) {
     .greetingCard {
-        padding: 80px;
+        padding: 80px 48px;
     }
 }
 
@@ -194,7 +194,7 @@
 }
 
 .signatureEyebrow {
-    font-size: 1.25rem;
+    font-size: var(--pc-text-body-card);
     color: var(--navy-muted);
     letter-spacing: 0.05em;
     font-weight: 500;
@@ -203,7 +203,7 @@
 }
 
 .signatureKoreanName {
-    font-size: 1.25rem;
+    font-size: var(--pc-text-body-card);
     color: var(--navy);
     font-weight: 500;
     margin: 0 0 -16px 0;
@@ -242,10 +242,11 @@
 .pillarsTitle {
     color: #ffffff;
     margin-bottom: 16px;
+    font-size: var(--text-h2) !important;
 }
 
 .pillarsDesc {
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--white);
     max-width: 42rem;
     margin: 0 auto;
     font-family: var(--font-body);
@@ -355,12 +356,42 @@
         inset 0 0 40px rgba(0, 0, 0, 0.01); 
 }
 
+/* Curled shadow effect (종이 말림 그림자) */
+.greetingCard::before,
+.greetingCard::after {
+    content: "";
+    position: absolute;
+    bottom: 12px;
+    left: 15px;
+    width: 45%;
+    height: 25px;
+    background: transparent;
+    border-radius: 20px;
+    box-shadow: 0 15px 20px rgba(28, 42, 67, 0.25);
+    transform: translateZ(-5px) skew(-5deg) rotate(-3deg);
+    z-index: -1;
+    transition: box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                bottom 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.greetingCard::after {
+    left: auto;
+    right: 15px;
+    transform: translateZ(-5px) skew(5deg) rotate(3deg);
+}
+
 .paperLayout:hover .greetingCard {
     transform: translateZ(30px);
     box-shadow: 
         -10px 30px 40px -10px rgba(0, 0, 0, 0.15), 
         -5px 15px 20px -5px rgba(0, 0, 0, 0.08),
         inset 0 0 40px rgba(0, 0, 0, 0.02);
+}
+
+.paperLayout:hover .greetingCard::before,
+.paperLayout:hover .greetingCard::after {
+    box-shadow: 0 25px 25px rgba(28, 42, 67, 0.2);
+    bottom: 5px;
 }
 
 @keyframes gentle-flutter {

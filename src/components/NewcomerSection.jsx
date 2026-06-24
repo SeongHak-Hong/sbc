@@ -2,7 +2,10 @@ import React from 'react';
 import { BlurFade } from './ui/BlurFade';
 import { motion } from 'framer-motion';
 
-const NewcomerSection = () => {
+const NewcomerSection = ({ 
+    title = <>사랑이 가득한<br />신탄진교회로 오세요.</>,
+    buttonText = "오시는 길 보기"
+}) => {
     const sectionStyle = {
         padding: 'var(--section-padding-y) 0',
         textAlign: 'center',
@@ -41,7 +44,7 @@ const NewcomerSection = () => {
     return (
         <section style={sectionStyle}>
             <BlurFade delay={0.25} inView>
-                <h2 style={titleStyle}>사랑이 가득한<br />신탄진교회로 오세요.</h2>
+                <h2 style={titleStyle}>{title}</h2>
             </BlurFade>
             <BlurFade delay={0.4} inView>
                 <motion.button
@@ -49,7 +52,7 @@ const NewcomerSection = () => {
                     whileHover={{ scale: 1.05 }}
                     transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
-                    오시는 길 보기
+                    {buttonText}
                 </motion.button>
             </BlurFade>
 

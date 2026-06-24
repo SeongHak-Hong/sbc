@@ -9,6 +9,7 @@ const SubNav = () => {
 
     const tabs = [
         { name: '인사말 및 비전', path: '/vision' },
+        { name: '예배 및 오시는 길', path: '/worship' },
         { name: '교회 발자취', path: '/history' },
         { name: '섬기는 사람들', path: '/team' },
     ];

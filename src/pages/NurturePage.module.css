@@ -6,7 +6,6 @@
     font-family: var(--font-body);
     min-height: 100vh;
     position: relative;
-    overflow-x: hidden;
 }
 
 .bgDots {
@@ -19,13 +18,17 @@
 }
 
 .tapeTexture {
-    background-image: repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 2px,
-        rgba(255,255,255,0.1) 2px,
-        rgba(255,255,255,0.1) 4px
-    );
+    background-image: repeating-linear-gradient(45deg,
+            transparent,
+            transparent 2px,
+            rgba(255, 255, 255, 0.1) 2px,
+            rgba(255, 255, 255, 0.1) 4px);
+}
+
+.navWrapper {
+    position: relative;
+    z-index: 60;
+    padding-top: 140px; /* Space for the global header */
 }
 
 .header {
@@ -40,7 +43,9 @@
 }
 
 @media (min-width: 640px) {
-    .header { padding: 128px var(--grid-margin) 80px; }
+    .header {
+        padding: 128px var(--grid-margin) 80px;
+    }
 }
 
 .headerTitle {
@@ -51,7 +56,8 @@
 }
 
 .eyebrow {
-    font-size: 20px; /* 모바일 환경 (줄어든 크기) */
+    font-size: 20px;
+    /* 모바일 환경 (줄어든 크기) */
     margin-bottom: 16px;
     transform: rotate(-2deg);
     display: inline-block;
@@ -60,7 +66,8 @@
 
 @media (min-width: 768px) {
     .eyebrow {
-        font-size: 1.875rem; /* PC 환경 (기존 크기 30px 유지) */
+        font-size: 1.875rem;
+        /* PC 환경 (기존 크기 30px 유지) */
     }
 }
 
@@ -88,72 +95,85 @@
     margin-right: auto;
 }
 
-.scrollContainer {
-    width: 100%;
-    overflow-x: auto;
-    padding: 32px 24px 64px;
-    scroll-snap-type: x mandatory;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-.scrollContainer::-webkit-scrollbar {
-    display: none;
-}
-
-@media (min-width: 640px) {
-    .scrollContainer { padding-left: 48px; padding-right: 48px; }
-}
-@media (min-width: 1024px) {
-    .scrollContainer { 
-        max-width: var(--max-width); 
-        margin: 0 auto; 
-        padding-left: var(--grid-margin); 
-        padding-right: var(--grid-margin);
-        overflow-x: visible; 
-    }
-}
-
-.scrollFlex {
-    display: flex;
-    gap: 32px;
-    width: max-content;
-    align-items: center;
-    padding: 16px 0;
+.journeyScrollWrapper {
     position: relative;
 }
 
+.journeyStickyView {
+    position: relative;
+    width: 100%;
+    /* Solid background so moving clouds underneath are hidden during scroll */
+    background-color: transparent;
+    z-index: 10;
+}
+
 @media (min-width: 1024px) {
-    .scrollFlex {
-        width: 100%;
-        justify-content: space-between;
+    .journeyScrollWrapper {
+        height: 200vh;
+    }
+
+    .journeyStickyView {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
     }
 }
 
-.dashedLine {
-    position: absolute;
-    top: 100px;
-    left: 160px;
-    right: 160px;
-    height: 0;
-    border-top: 4px dashed #B0DCEE;
-    z-index: 0;
-    border-radius: 9999px;
-    opacity: 0.6;
+.journeySplitContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 32px var(--grid-margin) 64px;
+    width: 100%;
 }
 
 @media (min-width: 1024px) {
-    .dashedLine {
-        left: 120px;
-        right: 120px;
+    .journeySplitContainer {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 0 var(--grid-margin);
+        height: 100vh;
+        padding-top: 20vh; /* Center both columns together */
+    }
+}
+
+.journeyLeft {
+    position: relative;
+    text-align: center;
+    width: 100%;
+    margin-top: 80px;
+}
+
+@media (min-width: 1024px) {
+    .journeyLeft {
+        text-align: left;
+        width: 40%;
+    }
+}
+
+.journeyRight {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+}
+
+@media (min-width: 1024px) {
+    .journeyRight {
+        gap: 64px;
+        width: 50%;
     }
 }
 
 .stepCard {
-    scroll-snap-align: center;
     position: relative;
     z-index: 10;
-    width: 280px; /* Reduced base width for mobile scrolling */
-    flex-shrink: 0;
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(12px);
     border-radius: 24px;
@@ -163,20 +183,9 @@
     color: var(--color-text-body);
     transition: transform 0.3s ease;
 }
+
 .stepCard:hover {
     transform: translateY(-8px);
-}
-.stepCardDown {
-    margin-top: 32px;
-}
-
-@media (min-width: 1024px) {
-    .stepCard {
-        width: auto;
-        flex: 1;
-        min-width: 0;
-        padding: 32px 24px; /* Slightly reduce side padding to ensure text fits */
-    }
 }
 
 .stepBadge {
@@ -212,6 +221,7 @@
     position: relative;
     transition: transform 0.3s ease;
 }
+
 .stepCard:hover .stepIconWrap {
     transform: scale(1.05);
 }
@@ -229,18 +239,25 @@
     gap: 32px;
     padding-bottom: 48px;
 }
+
 @media (min-width: 640px) {
-    .scrapbookGrid { columns: 2; }
+    .scrapbookGrid {
+        columns: 2;
+    }
 }
+
 @media (min-width: 1024px) {
-    .scrapbookGrid { columns: 3; }
+    .scrapbookGrid {
+        columns: 3;
+    }
 }
 
 .polaroid {
     break-inside: avoid;
     position: relative;
     background-color: #FFFCF4;
-    padding: 16px 16px 72px 16px; /* Ensure uniform 72px space for text at the bottom */
+    padding: 16px 16px 72px 16px;
+    /* Ensure uniform 72px space for text at the bottom */
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     transform-origin: center center;
@@ -248,6 +265,7 @@
     border: 1px solid #f1f5f9;
     margin-bottom: 32px;
 }
+
 .polaroid:hover {
     transform: rotate(0deg) scale(1.05) !important;
     z-index: 20;
@@ -270,9 +288,11 @@
     justify-content: center;
     border-radius: 2px;
 }
+
 .photoFrame svg {
     transition: transform 0.3s ease;
 }
+
 .polaroid:hover .photoFrame svg {
     transform: scale(1.1);
 }
@@ -282,7 +302,8 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 72px; /* Match the polaroid bottom padding */
+    height: 72px;
+    /* Match the polaroid bottom padding */
     display: flex;
     align-items: center;
     justify-content: center;

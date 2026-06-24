@@ -2,7 +2,7 @@
     width: 100%;
     min-height: 100vh;
     background-color: transparent;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--white);
     font-family: var(--font-body);
     position: relative;
     overflow-x: hidden;
@@ -51,7 +51,7 @@
 .headerSubtitle {
     font-size: var(--text-body);
     line-height: var(--leading-body);
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--white);
     max-width: 600px;
     margin: 0 auto;
 }
@@ -204,7 +204,7 @@
 }
 
 .infoLabel {
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--white);
     font-size: 14px;
     margin-bottom: 2px;
 }

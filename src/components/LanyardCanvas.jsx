@@ -127,6 +127,7 @@ function SingleLanyard({ member, isMobile }) {
       gl={{ alpha: true }}
       onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), 0)}
       style={{ width: '100%', height: '100%' }}
+      onContextMenu={(e) => e.preventDefault()}
     >
       <ambientLight intensity={Math.PI} />
       <Physics gravity={[0, -40, 0]} timeStep={isMobile ? 1 / 30 : 1 / 60}>
