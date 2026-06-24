@@ -8,10 +8,10 @@ const SubNav = () => {
     const navigate = useNavigate();
 
     const tabs = [
-        { name: '인사말 및 비전', path: '/vision' },
-        { name: '예배 및 오시는 길', path: '/worship' },
-        { name: '교회 발자취', path: '/history' },
-        { name: '섬기는 사람들', path: '/team' },
+        { name: '인사말·비전', path: '/vision' },
+        { name: '예배·오시는 길', path: '/worship' },
+        { name: '추억 갤러리', path: '/history' },
+        { name: '섬기는 분들', path: '/team' },
     ];
 
     return (
