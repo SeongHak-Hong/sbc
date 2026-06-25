@@ -43,16 +43,15 @@ const VerseSection = () => {
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: el,
-                    start: 'center center', // Pin when section center meets viewport center
-                    end: '+=400%',          // Increased pin distance to give room for wave wipe
-                    pin: true,              // Pin the ENTIRE section
-                    scrub: true,            // Smooth scrubbing
-                    anticipatePin: 1,       // Prevent jerky start
+                    start: 'center center',
+                    end: '+=200%',          // Reduced pin distance so it moves to next section immediately after text reveal
+                    pin: true,
+                    scrub: true,
+                    anticipatePin: 1,
                 }
             });
 
             // 1. Text Animation
-            // Stagger is 0.1, with ~26 words, this takes ~3.5 units of time
             tl.to(wordElements, {
                 opacity: 1,
                 filter: 'blur(0px)',
@@ -60,11 +59,6 @@ const VerseSection = () => {
                 duration: 1,
                 ease: 'none'
             });
-
-            // 2. Buffer (Hold phase)
-            // Buffer duration matches text animation duration, making text reveal take exactly 50% of the pin
-            // The remaining 50% is the hold phase where the wave wipe will happen
-            tl.to({}, { duration: 3.5 });
 
         }, sectionRef); // Scope to section
 

@@ -1,11 +1,20 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { BlurFade } from './ui/BlurFade';
-import { motion, useScroll, useTransform, useMotionTemplate, useMotionValueEvent } from 'framer-motion';
+import React, { useRef, useState, useEffect, useLayoutEffect } from 'react';
+import { motion } from 'framer-motion';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+import iPhoneFrameImg from '../assets/main/iPhone-14-Pro.webp';
+import iPhoneBgImg from '../assets/main/iPhone-14-Pro-scene-bg.webp';
+import playBtnImg from '../assets/main/Youtube-shorts-icon.webp';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const YoutubeSection = () => {
     const sectionRef = useRef(null);
-    const [isWipeFinished, setIsWipeFinished] = useState(false);
+    const part1Ref = useRef(null);
+    const part2Ref = useRef(null);
     const [isMobile, setIsMobile] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
 
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -14,172 +23,224 @@ const YoutubeSection = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Animate from when the top of the 200vh section hits the bottom of the screen
-    // until the bottom of the 200vh section hits the bottom of the screen.
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ["start 100%", "end 100%"]
-    });
+    useLayoutEffect(() => {
+        const el = sectionRef.current;
+        if (!el) return;
 
-    // Detect when wipe is almost finished (90% through the scroll)
-    useMotionValueEvent(scrollYProgress, "change", (latest) => {
-        if (latest >= 0.9 && !isWipeFinished) {
-            setIsWipeFinished(true);
-        } else if (latest < 0.8 && isWipeFinished) {
-            setIsWipeFinished(false);
-        }
-    });
+        let ctx = gsap.context(() => {
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'center center',
+                    end: '+=250%', // Increased to accommodate the initial hold
+                    pin: true,
+                    scrub: true,
+                    anticipatePin: 1
+                }
+            });
 
-    // Mask Y: 
-    // -50vh aligns wave exactly at the bottom of the screen.
-    // 30vh aligns wave perfectly above the top of the screen (-20vh on screen).
-    // This makes the wave wipe smoothly span the entire scroll duration.
-    const maskY = useTransform(scrollYProgress, [0, 1], [-50, 30]);
+            // Initial buffer to hold the view for a moment before fading
+            tl.to({}, { duration: 1 });
 
-    // Mask X: 0% to 100% for horizontal flow
-    const maskX = useTransform(scrollYProgress, [0, 1], [0, 100]);
+            // 1. Fade out Part 1 (iPhone + side texts)
+            tl.to(part1Ref.current, { opacity: 0, duration: 1 });
+            
+            // 2. Fade in Part 2 (New title + button)
+            tl.to(part2Ref.current, { opacity: 1, duration: 1 });
+            
+            // Buffer to hold the final state slightly before unpinning
+            tl.to({}, { duration: 0.5 });
+        }, sectionRef);
 
-    const maskPosition = useMotionTemplate`${maskX}% ${maskY}vh`;
-
-    // SVG: Height 2000. Wave is at 500 (25%). Solid black is 1500 (75%).
-    // Desktop amplitude is 60 (Q25,440). Mobile amplitude is 20 (Q25,480).
-    const desktopSvg = `url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 2000' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,500 Q25,440 50,500 T100,500 T150,500 T200,500 T250,500 T300,500 T350,500 T400,500 T450,500 T500,500 T550,500 T600,500 T650,500 T700,500 T750,500 T800,500 T850,500 T900,500 T950,500 T1000,500 L1000,2000 L0,2000 Z' fill='black'/%3E%3C/svg%3E")`;
-    const mobileSvg = `url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 2000' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,500 Q25,480 50,500 T100,500 T150,500 T200,500 T250,500 T300,500 T350,500 T400,500 T450,500 T500,500 T550,500 T600,500 T650,500 T700,500 T750,500 T800,500 T850,500 T900,500 T950,500 T1000,500 L1000,2000 L0,2000 Z' fill='black'/%3E%3C/svg%3E")`;
-    const waveMaskSvg = isMobile ? mobileSvg : desktopSvg;
+        return () => ctx.revert();
+    }, []);
 
     const containerStyle = {
         position: 'relative',
-        color: '#fff',
-        height: '200vh',
+        width: '100%',
+        minHeight: '100vh',
         boxSizing: 'border-box',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        marginTop: '-200vh',
         zIndex: 20,
-        backgroundColor: '#005394'
+        overflow: 'hidden'
     };
 
     const innerContentStyle = {
+        position: 'absolute',
+        top: 0,
+        left: 0,
         width: '100%',
-        height: isMobile ? 'auto' : '100vh',
-        padding: isMobile ? '40px 20px' : '40px 20px 120px',
+        height: '100%',
+        padding: '80px 20px',
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: isMobile ? 'column' : 'row',
-        gap: '48px',
+        gap: isMobile ? '40px' : '80px',
         justifyContent: 'center',
         alignItems: 'center',
-        position: 'relative',
         zIndex: 10
     };
 
-    const titleStyle = {
-        textAlign: isMobile ? 'center' : 'left',
-        marginBottom: '20px',
-        whiteSpace: 'pre-line',
+    const sideTextStyle = {
+        fontSize: isMobile ? 'var(--text-h3)' : 'var(--text-h2)',
         color: '#ffffff',
-        position: 'relative',
+        margin: 0,
+        whiteSpace: 'nowrap',
         zIndex: 10,
-        fontSize: 'var(--text-h2)'
-    };
-
-    const buttonStyle = {
-        backgroundColor: '#ffffff',
-        color: 'var(--color-text-title)',
-        textDecoration: 'none',
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        transition: 'transform 0.2s',
-    };
-
-    const buttonContainerStyle = {
-        flex: '0 0 auto',
-        display: 'flex',
-        justifyContent: isMobile ? 'center' : 'flex-start',
-        marginTop: '20px'
+        textAlign: 'center'
     };
 
     return (
-        <motion.section
-            ref={sectionRef}
-            style={{
-                ...containerStyle,
-                WebkitMaskImage: waveMaskSvg,
-                maskImage: waveMaskSvg,
-                WebkitMaskSize: '200% 200vh',
-                maskSize: '200% 200vh',
-                WebkitMaskRepeat: 'no-repeat',
-                maskRepeat: 'no-repeat',
-                WebkitMaskPosition: maskPosition,
-                maskPosition: maskPosition
-            }}
-        >
+        <section ref={sectionRef} style={containerStyle}>
+            {/* Part 1: iPhone & Side Texts */}
+            <div ref={part1Ref} style={innerContentStyle}>
+                {/* Left Text */}
+                <h2 style={sideTextStyle}>
+                    우리의 인생.
+                </h2>
 
-
-            <motion.div
-                style={innerContentStyle}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{
-                    opacity: isWipeFinished ? 1 : 0,
-                    y: isWipeFinished ? 0 : 50
-                }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-                <BlurFade delay={0.1} inView style={{ height: isMobile ? 'auto' : '100%' }}>
+                {/* iPhone Frame */}
+                <div style={{ height: isMobile ? 'auto' : '100%', display: 'flex', justifyContent: 'center', zIndex: 10 }}>
                     <div
                         style={{
-                            borderRadius: '20px',
-                            overflow: 'hidden',
+                            position: 'relative',
                             flexShrink: 0,
                             width: isMobile ? '100%' : 'auto',
                             height: isMobile ? 'auto' : '100%',
-                            aspectRatio: '9 / 16'
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center'
                         }}
                     >
-                        <iframe
-                            width="100%"
-                            height="100%"
-                            src="https://www.youtube.com/embed/bQ8ybnIaKDY"
-                            title="YouTube video player"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerPolicy="strict-origin-when-cross-origin"
-                            allowFullScreen
-                            style={{ display: 'block' }}
-                        ></iframe>
-                    </div>
-                </BlurFade>
+                        {/* Background Scene */}
+                        <img 
+                            src={iPhoneBgImg} 
+                            alt="" 
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'contain',
+                                zIndex: 1
+                            }}
+                        />
 
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: isMobile ? 'center' : 'flex-start' }}>
-                    <BlurFade delay={0.25} inView>
-                        <h2 style={titleStyle}>
-                            가장 낮은 자로 오신,<br />
-                            사랑의 왕.
-                        </h2>
-                    </BlurFade>
-
-                    <div style={buttonContainerStyle}>
-                        <BlurFade delay={0.4} inView>
-                            <a href="https://www.youtube.com/@sbc6312" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                                <motion.button
-                                    style={buttonStyle}
-                                    whileHover={{ scale: 1.05 }}
-                                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                        {/* YouTube Video */}
+                        <div style={{
+                            position: 'absolute',
+                            left: '50%',
+                            top: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: '88%',
+                            aspectRatio: '9 / 16',
+                            zIndex: 2,
+                            borderRadius: '24px',
+                            overflow: 'hidden'
+                        }}>
+                            {!isPlaying && (
+                                <div 
+                                    onClick={() => setIsPlaying(true)}
+                                    style={{
+                                        position: 'absolute',
+                                        inset: 0,
+                                        zIndex: 10,
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        cursor: 'pointer',
+                                        backgroundColor: 'rgba(0,0,0,0.1)'
+                                    }}
                                 >
-                                    유튜브 풀영상 보기
-                                    <svg width="28" height="20" viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ height: 'var(--btn-icon-size)', width: 'auto', color: '#ff0000' }}>
-                                        <path d="M27.4069 3.12838C27.0792 1.89791 26.1591 0.938873 24.9319 0.604795C22.7641 1.37328e-07 13.9898 0 13.9898 0C13.9898 0 5.23592 1.37328e-07 3.06812 0.604795C1.86135 0.938153 0.920788 1.89791 0.572668 3.12838C6.73414e-08 5.33876 0 9.9892 0 9.9892C0 9.9892 6.73414e-08 14.6396 0.572668 16.8716C0.920082 18.0812 1.86135 19.0611 3.06812 19.3952C5.23592 20 13.9898 20 13.9898 20C13.9898 20 22.7641 20 24.9319 19.3952C26.1591 19.0618 27.0792 18.0812 27.4069 16.8716C28 14.6404 28 9.9892 28 9.9892C28 9.9892 28 5.33876 27.4069 3.12838ZM11.2083 14.2861V5.71459L18.4694 9.98992L11.2083 14.2861Z" fill="currentColor" />
-                                    </svg>
-                                </motion.button>
-                            </a>
-                        </BlurFade>
+                                    <img 
+                                        src={playBtnImg} 
+                                        alt="Play Shorts" 
+                                        style={{ width: '80px', height: 'auto', transition: 'transform 0.2s' }} 
+                                        onMouseOver={e => e.currentTarget.style.transform = 'scale(1.1)'}
+                                        onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
+                                    />
+                                </div>
+                            )}
+                            <iframe
+                                src={`https://www.youtube.com/embed/bQ8ybnIaKDY?controls=0&modestbranding=1&rel=0${isPlaying ? '&autoplay=1' : ''}`}
+                                title="YouTube video player"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerPolicy="strict-origin-when-cross-origin"
+                                allowFullScreen
+                                style={{ 
+                                    position: 'absolute',
+                                    top: '-20%',
+                                    left: '0',
+                                    width: '100%', 
+                                    height: '140%',
+                                    display: 'block'
+                                }}
+                            ></iframe>
+                        </div>
+
+                        {/* iPhone Frame */}
+                        <img 
+                            src={iPhoneFrameImg} 
+                            alt="iPhone Frame" 
+                            style={{
+                                position: 'relative',
+                                width: isMobile ? '100%' : 'auto',
+                                height: isMobile ? 'auto' : '100%',
+                                zIndex: 3,
+                                pointerEvents: 'none',
+                                display: 'block'
+                            }}
+                        />
                     </div>
                 </div>
-            </motion.div>
-        </motion.section>
+
+                {/* Right Text */}
+                <h2 style={sideTextStyle}>
+                    예수로부터.
+                </h2>
+            </div>
+
+            {/* Part 2: New Content (Fades in) */}
+            <div ref={part2Ref} style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: isMobile ? 'center' : 'center', // Center it overall, adjust if you need left align
+                opacity: 0, // Hidden initially
+                zIndex: 20,
+                padding: '0 20px',
+                boxSizing: 'border-box'
+            }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: 'var(--max-width)' }}>
+                    <h2 style={{
+                        marginBottom: '20px',
+                        color: '#ffffff',
+                        textAlign: 'center',
+                        whiteSpace: 'pre-line' // To allow <br /> to work naturally
+                    }}>
+                        믿음이 당신의 삶을<br />변화시킵니다.
+                    </h2>
+                    <a href="https://www.youtube.com/@sbc6312" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                        <motion.button
+                            style={{
+                                color: '#fff',
+                                marginTop: '20px'
+                            }}
+                            whileHover={{ scale: 1.05 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                        >
+                            유튜브 채널 가기
+                        </motion.button>
+                    </a>
+                </div>
+            </div>
+        </section>
     );
 };
 

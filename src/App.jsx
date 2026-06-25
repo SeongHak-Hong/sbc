@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import MainPage from './pages/MainPage';
 import NurturePage from './pages/NurturePage';
@@ -11,6 +11,22 @@ import DistrictPage from './pages/DistrictPage';
 import ScrollToTop from './components/ScrollToTop';
 import Lenis from 'lenis';
 import './App.css';
+
+function AppRoutes() {
+  const location = useLocation();
+
+  return (
+    <Routes location={location} key={location.pathname}>
+      <Route path="/" element={<MainPage />} />
+      <Route path="/nurture" element={<NurturePage />} />
+      <Route path="/history" element={<HistoryPage />} />
+      <Route path="/vision" element={<VisionPage />} />
+      <Route path="/team" element={<TeamPage />} />
+      <Route path="/nextgen" element={<NextGenPage />} />
+      <Route path="/district" element={<DistrictPage />} />
+    </Routes>
+  );
+}
 
 function App() {
   useEffect(() => {
@@ -43,15 +59,7 @@ function App() {
     <Router basename={import.meta.env.BASE_URL}>
       <ScrollToTop />
       <Header />
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/nurture" element={<NurturePage />} />
-        <Route path="/history" element={<HistoryPage />} />
-        <Route path="/vision" element={<VisionPage />} />
-        <Route path="/team" element={<TeamPage />} />
-        <Route path="/nextgen" element={<NextGenPage />} />
-        <Route path="/district" element={<DistrictPage />} />
-      </Routes>
+      <AppRoutes />
     </Router>
   );
 }

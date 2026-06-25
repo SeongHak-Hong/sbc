@@ -1,37 +1,105 @@
-import React from 'react';
+import React, { useRef, useState, useLayoutEffect, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import gallery01 from '../assets/main/gallery_01.png';
-import gallery02 from '../assets/main/gallery_02.png';
-import gallery03 from '../assets/main/gallery_03.png';
-import gallery04 from '../assets/main/gallery_04.png';
-import gallery05 from '../assets/main/gallery_05.png';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { BlurFade } from './ui/BlurFade';
 
-const GallerySection = () => {
-    const [isMobile, setIsMobile] = React.useState(false);
+import instaCharactersImg from '../assets/main/shintanjin-baptist-church-instagram-characters.webp';
 
-    React.useEffect(() => {
+// Import styles from HistoryPage to reuse the Polaroid design
+import styles from '../pages/HistoryPage.module.css';
+
+gsap.registerPlugin(ScrollTrigger);
+
+// Dynamically import 10 images from the history folder
+const imageModules = import.meta.glob('../assets/history/shintanjin-baptist-church-history-*.jpg', { eager: true, import: 'default' });
+const totalItems = Object.keys(imageModules).length;
+const historyImages = Object.entries(imageModules)
+    .sort(([pathA], [pathB]) => pathA.localeCompare(pathB))
+    .slice(0, 10) // Limit to 10 images
+    .map(([path, url], index) => {
+        const colors = ['#FDCBDE', '#FDF1B6', '#D2F0E0', '#B0DCEE'];
+        const tapeColor = colors[index % colors.length];
+        const cardRots = ['-3deg', '2deg', '-1deg', '4deg', '-2deg'];
+        const tapeRots = ['-4deg', '3deg', '-8deg', '12deg', '5deg'];
+        
+        return {
+            id: `history-${index}`,
+            image: url,
+            tapeColor: tapeColor,
+            tapeRot: tapeRots[index % tapeRots.length],
+            tapeX: '-50%',
+            tapeY: '-12px',
+            cardRot: cardRots[index % cardRots.length]
+        };
+    });
+
+const GallerySection = () => {
+    const sectionRef = useRef(null);
+    const trackRef = useRef(null);
+    const titleRef = useRef(null);
+    const foregroundRef = useRef(null);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth <= 768);
         handleResize();
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    const sectionStyle = {
-        padding: 'var(--section-padding-y) 0',
-        textAlign: 'center',
-        color: '#fff',
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        overflow: 'visible'
-    };
+    useLayoutEffect(() => {
+        const el = sectionRef.current;
+        if (!el || !trackRef.current || !titleRef.current || !foregroundRef.current) return;
 
-    const titleStyle = {
-        marginBottom: '60px',
-        color: '#ffffff'
+        let ctx = gsap.context(() => {
+            const trackWidth = trackRef.current.scrollWidth;
+            
+            // Calculate a longer scroll distance to accommodate the title sequence
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'center center',
+                    end: `+=${trackWidth + window.innerHeight}`, // Extra distance for the sequence
+                    pin: true,
+                    scrub: 1,
+                    anticipatePin: 1
+                }
+            });
+
+            // 1. Title Fades In
+            tl.to(titleRef.current, { opacity: 1, duration: 0.5 });
+
+            // 2. Hold Title briefly
+            tl.to({}, { duration: 0.5 });
+
+            // 3. Title Fades Out
+            tl.to(titleRef.current, { opacity: 0, duration: 0.5 });
+
+            // 4. Foreground Image Fades In & Track Slides
+            // Track left is at 100%, we move it by -trackWidth to align its right edge with the screen's right edge
+            tl.to(foregroundRef.current, { opacity: 1, duration: 0.5 });
+            tl.to(trackRef.current, {
+                x: -trackWidth,
+                duration: 2,
+                ease: "none"
+            }, "<"); // Run at the same time as foreground image fade-in
+
+            // 5. Final hold
+            tl.to({}, { duration: 0.2 });
+            
+        }, sectionRef);
+
+        return () => ctx.revert();
+    }, [isMobile, historyImages.length]);
+
+    const sectionStyle = {
+        position: 'relative',
+        width: '100%',
+        height: '100vh',
+        color: '#fff',
+        overflow: 'hidden',
+        boxSizing: 'border-box'
     };
 
     const buttonStyle = {
@@ -41,193 +109,78 @@ const GallerySection = () => {
         zIndex: 20
     };
 
-    const boxContainerStyle = isMobile ? {
-        width: 'calc(100% + var(--section-padding-x, 24px) * 2)',
-        margin: '0 calc(-1 * var(--section-padding-x, 24px))',
-        padding: '24px 0',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '0',
-        alignItems: 'center',
-        position: 'relative'
-    } : {
-        width: '1500px',
-        height: '826px',
-        maxWidth: '100%',
-        padding: '24px 48px',
-        position: 'relative',
-        margin: '0 auto',
-    };
-
     return (
-        <section style={sectionStyle}>
-            <BlurFade delay={0.25} inView>
-                <h2 style={titleStyle}>추억을 만들어가요.</h2>
-            </BlurFade>
-
-            <div style={boxContainerStyle}>
-                {/* 
-                   Strategy:
-                   03 is now CENTERED (left: 50%, x: -50%).
-                   Previous 03 was Right 5% (approx Left 65-70%?). 
-                   We shifted 03 LEFT by ~15-20%.
-                   We apply a similar LEFT shift to everyone else to keep the "Group" feel.
-                   
-                   Old 01: Top 5%, Right 23%. -> Shift Left means Right increases. Right 40%.
-                   Old 02: Top 20%, Left 18%. -> Shift Left means Left decreases. Left 5%.
-                   Old 04: Left 25%. -> Shift Left. Left 12%.
-                   
-                   New 05: Opposite of 02.
-                   If 02 is Left 5%, 05 should be Right 5%.
-                */}
-
-                {/* Gallery 01 */}
-                <motion.img
-                    src={gallery01}
-                    alt="Gallery 1"
-                    style={isMobile ? {
-                        position: 'relative',
-                        width: '74%',
-                        alignSelf: 'flex-start',
-                        zIndex: 1
-                    } : {
-                        position: 'absolute',
-                        top: '5%',
-                        right: '35%',
-                        width: 'auto',
-                        zIndex: 1,
-                    }}
-                    initial={{ opacity: 0, rotate: 10 }}
-                    whileInView={{ opacity: 1, rotate: 10 }}
-                    viewport={{ once: false, amount: 0.5 }}
-                    transition={{ duration: 0.2, delay: 0.1 }}
-                    whileHover={{
-                        rotate: 12,
-                        transition: { duration: 0.3, type: 'tween' }
-                    }}
-                />
-
-                {/* Gallery 02 */}
-                <motion.img
-                    src={gallery02}
-                    alt="Gallery 2"
-                    style={isMobile ? {
-                        position: 'relative',
-                        width: '74%',
-                        alignSelf: 'flex-end',
-                        marginTop: '-15%',
-                        zIndex: 2
-                    } : {
-                        position: 'absolute',
-                        top: '20%',
-                        left: '5%', // Shifted left (decreased)
-                        width: 'auto',
-                        zIndex: 2,
-                    }}
-                    initial={{ opacity: 0, rotate: -5 }}
-                    whileInView={{ opacity: 1, rotate: -5 }}
-                    viewport={{ once: false, amount: 0.5 }}
-                    transition={{ duration: 0.2, delay: 0.2 }}
-                    whileHover={{
-                        rotate: -7,
-                        transition: { duration: 0.3, type: 'tween' }
-                    }}
-                />
-
-                {/* Gallery 03: CENTERED */}
-                <motion.img
-                    src={gallery03}
-                    alt="Gallery 3"
-                    style={isMobile ? {
-                        position: 'relative',
-                        width: '74%',
-                        alignSelf: 'flex-start',
-                        marginTop: '-15%',
-                        zIndex: 3
-                    } : {
-                        position: 'absolute',
-                        bottom: '40px',
-                        left: '50%',
-                        x: '-50%', // Centered
-                        right: 'auto',
-                        width: 'auto',
-                        zIndex: 3
-                    }}
-                    initial={{ opacity: 0, rotate: 0 }}
-                    whileInView={{ opacity: 1, rotate: 0 }}
-                    viewport={{ once: false, amount: 0.5 }}
-                    transition={{ duration: 0.2, delay: 0.3 }}
-                    whileHover={{
-                        rotate: 2,
-                        transition: { duration: 0.3, type: 'tween' }
-                    }}
-                />
-
-                {/* Gallery 04 */}
-                <motion.img
-                    src={gallery04}
-                    alt="Gallery 4"
-                    style={isMobile ? {
-                        position: 'relative',
-                        width: '40%',
-                        alignSelf: 'flex-end',
-                        marginTop: '-15%',
-                        zIndex: 4
-                    } : {
-                        position: 'absolute',
-                        bottom: '15%',
-                        left: '12%', // Shifted left
-                        width: 'auto',
-                        zIndex: 4,
-                    }}
-                    initial={{ opacity: 0, rotate: 0 }}
-                    whileInView={{ opacity: 1, rotate: 0 }}
-                    viewport={{ once: false, amount: 0.5 }}
-                    transition={{ duration: 0.2, delay: 0.4 }}
-                    whileHover={{
-                        rotate: 5,
-                        transition: { duration: 0.3, type: 'tween' }
-                    }}
-                />
-
-                {/* Gallery 05: NEW (Opposite of 02) */}
-                {/* 02 is Top 20%, Left 5%. So 05 is Top 20%, Right 5%. */}
-                <motion.img
-                    src={gallery05}
-                    alt="Gallery 5"
-                    style={isMobile ? {
-                        position: 'relative',
-                        width: '74%',
-                        alignSelf: 'flex-end',
-                        marginTop: '-15%',
-                        zIndex: 2
-                    } : {
-                        position: 'absolute',
-                        top: '20%',
-                        right: '5%',
-                        width: 'auto',
-                        zIndex: 2,
-                    }}
-                    initial={{ opacity: 0, rotate: 0 }} // Updated to 0
-                    whileInView={{ opacity: 1, rotate: 0 }}
-                    viewport={{ once: false, amount: 0.5 }}
-                    transition={{ duration: 0.2, delay: 0.5 }} // Slight delay after 04
-                    whileHover={{
-                        rotate: 7,
-                        transition: { duration: 0.3, type: 'tween' }
-                    }}
-                />
+        <section ref={sectionRef} style={sectionStyle}>
+            {/* --- TITLE (Lowest Z-Index) --- */}
+            <div ref={titleRef} style={{ position: 'absolute', inset: 0, zIndex: 10, pointerEvents: 'none', opacity: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <h2 style={{ color: '#ffffff', margin: 0 }}>추억을 만들고 계신가요?</h2>
             </div>
 
-            <BlurFade delay={0.4} inView>
-                <motion.button
-                    style={buttonStyle}
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                >
-                    갤러리 구경하기
-                </motion.button>
-            </BlurFade>
+            {/* --- LAYER 2: HORIZONTAL SCROLL GALLERY TRACK (Middle Z-Index) --- */}
+            <div 
+                ref={trackRef} 
+                className={styles.galleryContainer} 
+                style={{ 
+                    position: 'absolute', 
+                    top: 0, 
+                    left: '100%', 
+                    height: '100%', 
+                    zIndex: 20,
+                    margin: 0 // Reset any margins from HistoryPage if needed
+                }}
+            >
+                {historyImages.map((item, index) => (
+                    <article key={item.id} className={styles.artwork}>
+                        <div 
+                            className={styles.polaroid} 
+                            style={{ transform: `rotate(${item.cardRot})` }}
+                        >
+                            <div 
+                                className={`${styles.tape} ${styles.tapeTexture}`} 
+                                style={{ 
+                                    top: 0, 
+                                    left: '50%', 
+                                    transform: `translate(${item.tapeX}, ${item.tapeY}) rotate(${item.tapeRot})`, 
+                                    width: '112px', 
+                                    height: '32px', 
+                                    backgroundColor: item.tapeColor 
+                                }}
+                            ></div>
+                            <div className={styles.photoFrame} style={{ aspectRatio: '4/3' }}>
+                                <img src={item.image} alt="History" />
+                            </div>
+                        </div>
+                    </article>
+                ))}
+
+                {/* Optional ending CTA if needed inside the track */}
+                <article style={{ width: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <motion.button
+                        style={{ ...buttonStyle, pointerEvents: 'auto' }}
+                        whileHover={{ scale: 1.05 }}
+                    >
+                        모든 추억 보기
+                    </motion.button>
+                </article>
+            </div>
+
+            {/* --- LAYER 3: FOREGROUND IMAGES (Highest Z-Index) --- */}
+            <div ref={foregroundRef} style={{
+                position: 'absolute',
+                bottom: '0%',
+                right: '-3%',
+                display: 'flex',
+                alignItems: 'flex-end',
+                zIndex: 30, // Highest Z-Index so it covers the track
+                pointerEvents: 'none', // Prevent blocking clicks to the gallery if needed
+                opacity: 0 // Hidden initially, GSAP will fade it in
+            }}>
+                <img
+                    src={instaCharactersImg}
+                    style={{ width: isMobile ? '70vw' : 'auto', maxHeight: '360px', transform: 'rotate(-7deg)' }}
+                    alt="Characters"
+                />
+            </div>
         </section>
     );
 };

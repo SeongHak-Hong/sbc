@@ -21,10 +21,9 @@ function MainPage() {
       <VerseSection />
       <YoutubeSection /> {/* Old Hero Section, now YoutubeSection */}
 
+      <GallerySection />
+
       <div className="container">
-        <div style={{ gridColumn: '1 / -1' }}>
-          <GallerySection />
-        </div>
         <div style={{ gridColumn: '1 / -1' }}>
           <PrayerSection />
         </div>
