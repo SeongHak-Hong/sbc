@@ -7,6 +7,7 @@ import HistoryPage from './pages/HistoryPage';
 import VisionPage from './pages/VisionPage';
 import TeamPage from './pages/TeamPage';
 import NextGenPage from './pages/NextGenPage';
+import DistrictPage from './pages/DistrictPage';
 import ScrollToTop from './components/ScrollToTop';
 import Lenis from 'lenis';
 import './App.css';
@@ -49,6 +50,7 @@ function App() {
         <Route path="/vision" element={<VisionPage />} />
         <Route path="/team" element={<TeamPage />} />
         <Route path="/nextgen" element={<NextGenPage />} />
+        <Route path="/district" element={<DistrictPage />} />
       </Routes>
     </Router>
   );

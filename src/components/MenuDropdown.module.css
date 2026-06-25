@@ -212,7 +212,7 @@
     display: block;
     padding: 10px 16px;
     border-radius: 12px;
-    font-size: calc(var(--text-body-card) * 0.9);
+    font-size: var(--text-body-card);
     color: var(--color-text-sub, #6b7280); /* Gray text */
     transition: background-color 0.2s, color 0.2s;
     text-decoration: none;

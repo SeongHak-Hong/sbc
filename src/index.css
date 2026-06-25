@@ -75,6 +75,7 @@
 /* 글꼴 [모바일 미디어 쿼리] (768px 미만 환경에서만 작동) */
 @media (max-width: 767px) {
   :root {
+    --grid-margin: 24px;
     --text-h1: 48px;
     /* 대제목 (모바일 마진선) */
     --text-h2: 36px;
