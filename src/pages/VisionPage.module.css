@@ -103,7 +103,7 @@
 
 @media (min-width: 1024px) {
     .greetingGrid {
-        grid-template-columns: 5fr 7fr;
+        grid-template-columns: 4fr 8fr;
         gap: 64px;
     }
 }
@@ -116,7 +116,6 @@
     position: relative;
     overflow: hidden;
     aspect-ratio: 4/5;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .portrait {

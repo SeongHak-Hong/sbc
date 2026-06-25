@@ -101,6 +101,8 @@
     transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
     z-index: 100;
     padding-top: 100px; /* Give space for toggle button */
+    display: flex;
+    flex-direction: column;
 }
 
 .menuPanel.open {
@@ -227,11 +229,39 @@
     z-index: 100;
 }
 
+.socialLinks {
+    display: flex;
+    gap: 16px;
+    padding: 32px 36px;
+    margin-top: auto;
+}
+
+.socialLinks a {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: var(--color-text-title);
+    color: var(--white);
+    transition: background-color 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.socialLinks a:hover {
+    background-color: #000;
+    transform: scale(1.05);
+}
+
 @media (max-width: 640px) {
     .menuPanel {
         width: 100vw; /* Take full width on small screens or just keep max-width 100vw */
     }
     .menuList {
         padding: 12px 12px 12px 24px;
+    }
+    .socialLinks {
+        padding-left: 48px;
     }
 }
