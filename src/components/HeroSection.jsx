@@ -34,7 +34,7 @@ const HeroSection = () => {
         color: '#ffffff',
         lineHeight: '120%',
         letterSpacing: '-0.02em',
-        marginBottom: '24px', // Gap to slogan
+        marginBottom: isMobile ? '8px' : '24px', // Gap to slogan
         position: 'relative',
         zIndex: 10
     };

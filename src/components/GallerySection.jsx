@@ -198,7 +198,7 @@ const GallerySection = () => {
                     style={isMobile ? {
                         position: 'relative',
                         width: '74%',
-                        alignSelf: 'flex-start',
+                        alignSelf: 'flex-end',
                         marginTop: '-15%',
                         zIndex: 2
                     } : {

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useLayoutEffect, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import styles from './TeamPage.module.css';
-import SubNav from '../components/SubNav';
+
 import CloudBackground from '../components/CloudBackground';
 import LanyardCanvas from '../components/LanyardCanvas';
 
@@ -101,9 +101,7 @@ const TeamPage = () => {
             <div className={styles.pageWrapper}>
                 <CloudBackground heightMode="vh" />
                 
-                <div className={styles.navWrapper}>
-                    <SubNav />
-                </div>
+
 
                 <main className={styles.mainContent}>
                     {/* 3D Lanyard Canvas handling the horizontal layout and cards */}

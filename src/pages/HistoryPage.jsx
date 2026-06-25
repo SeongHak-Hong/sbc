@@ -1,6 +1,6 @@
 import React, { useRef, useState, useLayoutEffect, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import SubNav from '../components/SubNav';
+
 import styles from './HistoryPage.module.css';
 import CloudBackground from '../components/CloudBackground';
 import BalloonBackground from '../components/BalloonBackground';
@@ -80,7 +80,7 @@ const HistoryPage = () => {
             <div className={styles.pageWrapper}>
                 <CloudBackground heightMode="vh" />
 
-                <SubNav />
+
 
                 <main className={styles.scroller}>
                     <motion.div ref={galleryRef} style={{ x }} className={styles.galleryContainer}>

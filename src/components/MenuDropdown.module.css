@@ -1,0 +1,234 @@
+.toggleContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    z-index: 110;
+}
+
+.toggleBtn {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    max-width: 48px;
+    max-height: 48px;
+    aspect-ratio: 1 / 1;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    background-color: var(--color-text-title);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 101;
+    outline: none;
+    flex-shrink: 0;
+}
+
+.toggleBtn:hover {
+    background-color: var(--color-text-title); /* Hover can stay same or be slightly dimmed */
+}
+
+.iconContainer {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.iconMenu, .iconClose {
+    position: absolute;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 24px !important;
+}
+
+.iconMenu {
+    transform: scale(1);
+    opacity: 1;
+}
+.toggleBtn.open .iconMenu {
+    transform: scale(0.5) rotate(-90deg);
+    opacity: 0;
+}
+
+.iconClose {
+    transform: scale(0.5) rotate(90deg);
+    opacity: 0;
+}
+.toggleBtn.open .iconClose {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 90;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+.backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.menuPanel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 400px;
+    max-width: 100vw;
+    background-color: var(--white); /* Light background */
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    z-index: 100;
+    padding-top: 100px; /* Give space for toggle button */
+}
+
+.menuPanel.open {
+    transform: translateX(0);
+}
+
+.menuList {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+}
+
+
+.menuItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    width: 100%;
+    border-radius: 16px;
+    color: var(--color-text-title); /* Dark text */
+    transition: background-color 0.2s, color 0.2s;
+    cursor: pointer;
+    background: none;
+    border: none;
+    text-decoration: none;
+    font-size: var(--text-body-card);
+    font-family: inherit;
+}
+
+.menuItem:hover, .menuItem.expanded {
+    color: var(--color-text-title);
+    background-color: #f9fafb; /* Light hover background */
+}
+
+.itemLeft {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.iconBox {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.menuItem:hover .iconBox, .menuItem.expanded .iconBox {
+    background-color: white;
+}
+
+.iconBox i {
+    font-size: 24px !important;
+}
+
+/* Icon Box Colors */
+.iconGray { background-color: #f3f4f6; color: #6b7280; }
+.iconBlue { background-color: #eff6ff; color: #2563eb; }
+.iconEmerald { background-color: #ecfdf5; color: #059669; }
+.iconPurple { background-color: #faf5ff; color: #9333ea; }
+.iconOrange { background-color: #fff7ed; color: #ea580c; }
+.iconRose { background-color: #fff1f2; color: #e11d48; }
+
+.menuItem:hover .iconGray { color: #111827; }
+
+.chevron {
+    color: #9ca3af;
+    transition: transform 0.3s ease;
+    font-size: 28px !important;
+}
+
+.menuItem.expanded .chevron {
+    transform: rotate(180deg);
+}
+
+.submenuGrid {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+
+.submenuGrid.open {
+    grid-template-rows: 1fr;
+}
+
+.submenuInner {
+    overflow: hidden;
+}
+
+.subList {
+    padding: 8px 16px 8px 32px; /* Indented from 1-depth text */
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+}
+
+.subItem {
+    display: block;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-size: calc(var(--text-body-card) * 0.9);
+    color: var(--color-text-sub, #6b7280); /* Gray text */
+    transition: background-color 0.2s, color 0.2s;
+    text-decoration: none;
+}
+
+.subItem:hover {
+    color: var(--color-text-title);
+    background-color: #f3f4f6; /* Light hover */
+}
+
+/* Header link style */
+.logo {
+    display: flex;
+    z-index: 100;
+}
+
+@media (max-width: 640px) {
+    .menuPanel {
+        width: 100vw; /* Take full width on small screens or just keep max-width 100vw */
+    }
+}

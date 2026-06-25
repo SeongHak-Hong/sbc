@@ -35,7 +35,7 @@
 
 /* --- Hero Section --- */
 .heroSection {
-    padding: 80px 32px 0 32px;
+    padding: var(--subpage-header-padding-top) 32px 0 32px;
     position: relative;
     overflow: hidden;
 }
@@ -68,7 +68,7 @@
 
 /* --- Greeting Section --- */
 .greetingSection {
-    padding: 80px 32px;
+    padding: var(--section-padding-y, 160px) 32px;
 }
 
 .greetingWrapper {

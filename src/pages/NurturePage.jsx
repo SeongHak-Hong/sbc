@@ -33,8 +33,6 @@ const NurturePage = () => {
         <div className={styles.pageWrapper}>
             <CloudBackground heightMode="vh" />
 
-            {/* Spacer equivalent to VisionPage's navWrapper, without the actual SubNav */}
-            <div className={styles.navWrapper}></div>
 
             {/* Header Section */}
             <header className={styles.header}>

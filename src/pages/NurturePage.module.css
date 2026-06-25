@@ -33,7 +33,7 @@
 
 .header {
     position: relative;
-    padding: 128px 24px 80px;
+    padding: var(--subpage-header-padding-top) 24px 80px;
     max-width: var(--max-width);
     margin: 0 auto;
     display: flex;
@@ -44,7 +44,7 @@
 
 @media (min-width: 640px) {
     .header {
-        padding: 128px var(--grid-margin) 80px;
+        padding: var(--subpage-header-padding-top) var(--grid-margin) 80px;
     }
 }
 
@@ -53,6 +53,7 @@
     position: relative;
     z-index: 10;
     color: white;
+    font-size: var(--text-h1);
 }
 
 .eyebrow {

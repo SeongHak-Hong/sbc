@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import styles from './VisionPage.module.css';
-import SubNav from '../components/SubNav';
+
 import Footer from '../components/Footer';
 import CloudBackground from '../components/CloudBackground';
 import BalloonBackground from '../components/BalloonBackground';
@@ -15,26 +15,23 @@ const VisionPage = () => {
         <div className={styles.pageContainer}>
             <CloudBackground heightMode="vh" />
 
-            {/* SubNav is placed below the global header for 2-depth navigation */}
-            <div className={styles.navWrapper}>
-                <SubNav />
-            </div>
+
 
             <main className={styles.mainContent}>
                 {/* Hero Section */}
-                <section className={styles.heroSection}>
+                <header className={styles.heroSection}>
                     <div className={styles.heroContent}>
                         <motion.h1 
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.2 }}
-                            style={{ position: 'relative', display: 'inline-block', color: 'white', marginBottom: 0, fontSize: 'var(--text-h2)' }}
+                            style={{ position: 'relative', display: 'inline-block', color: 'white', marginBottom: 0, fontSize: 'var(--text-h1)' }}
                         >
                             말씀으로 단단하게,<br />
                             사랑으로 따뜻하게.
                         </motion.h1>
                     </div>
-                </section>
+                </header>
 
                 {/* Greeting Section */}
                 <section className={styles.greetingSection}>

@@ -7,7 +7,7 @@ import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 import * as THREE from 'three';
 import styles from '../pages/TeamPage.module.css';
 import cardGLB from '../assets/card.glb';
-import lanyard from '../assets/lanyard.png';
+import lanyard from '../assets/shintanjin-baptist-church-lanyard.webp';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 

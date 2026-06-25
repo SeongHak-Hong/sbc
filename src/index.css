@@ -64,6 +64,12 @@
   --btn-font-size: 24px;
   --btn-radius: 99px;
   --btn-icon-size: 20px;
+
+  /* Header Layout */
+  --header-padding-y: 20px;
+  --header-padding-x: var(--grid-margin);
+  --header-logo-height: 32px;
+  --subpage-header-padding-top: 160px;
 }
 
 /* 글꼴 [모바일 미디어 쿼리] (768px 미만 환경에서만 작동) */
@@ -86,6 +92,11 @@
     --btn-padding-l: 32px;
     --btn-padding-r: 28px;
     --btn-icon-size: 18px;
+
+    /* Header Layout */
+    --header-padding-y: 16px;
+    --header-padding-x: 24px;
+    --header-logo-height: 24px;
   }
 
   h1 {
