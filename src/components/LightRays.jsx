@@ -54,7 +54,7 @@ const LightRays = ({
     const animationIdRef = useRef(null);
     const meshRef = useRef(null);
     const cleanupFunctionRef = useRef(null);
-    const [isVisible, setIsVisible] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
     const observerRef = useRef(null);
 
     useEffect(() => {
@@ -65,7 +65,7 @@ const LightRays = ({
                 const entry = entries[0];
                 setIsVisible(entry.isIntersecting);
             },
-            { threshold: 0.1 }
+            { threshold: 0 }
         );
 
         observerRef.current.observe(containerRef.current);
@@ -116,7 +116,11 @@ void main() {
   gl_Position = vec4(position, 0.0, 1.0);
 }`;
 
-            const frag = `precision highp float;
+            const frag = `#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
 
 uniform float iTime;
 uniform vec2  iResolution;
@@ -152,10 +156,11 @@ float rayStrength(vec2 raySource, vec2 rayRefDirection, vec2 coord,
   float spreadFactor = pow(max(distortedAngle, 0.0), 1.0 / max(lightSpread, 0.001));
 
   float distance = length(sourceToCoord);
-  float maxDistance = iResolution.x * rayLength;
+  float screenMax = max(iResolution.x, iResolution.y);
+  float maxDistance = screenMax * rayLength;
   float lengthFalloff = clamp((maxDistance - distance) / maxDistance, 0.0, 1.0);
   
-  float fadeFalloff = clamp((iResolution.x * fadeDistance - distance) / (iResolution.x * fadeDistance), 0.5, 1.0);
+  float fadeFalloff = clamp((screenMax * fadeDistance - distance) / (screenMax * fadeDistance), 0.5, 1.0);
   float pulse = pulsating > 0.5 ? (0.8 + 0.2 * sin(iTime * speed * 3.0)) : 1.0;
 
   float baseStrength = clamp(

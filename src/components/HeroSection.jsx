@@ -58,7 +58,7 @@ const HeroSection = () => {
         height: '150vh',
         pointerEvents: 'none',
         zIndex: 1,
-        mixBlendMode: 'screen'
+        mixBlendMode: 'plus-lighter'
     };
 
     return (

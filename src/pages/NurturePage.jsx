@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Footer from '../components/Footer';
 import CloudBackground from '../components/CloudBackground';
 import styles from './NurturePage.module.css';
+import welcomeImg from '../assets/nurture/shintanjin-baptist-church-welcome.webp';
 
 const NurturePage = () => {
     const journeyContainerRef = useRef(null);
@@ -61,39 +62,8 @@ const NurturePage = () => {
                     {/* Photo 1 */}
                     <div className={styles.polaroid} style={{ transform: 'rotate(-3deg)' }}>
                         <div className={`${styles.tape} ${styles.tapeTexture}`} style={{ top: 0, left: '50%', transform: 'translate(-50%, -12px) rotate(-4deg)', width: '112px', height: '32px', backgroundColor: '#FDCBDE' }}></div>
-                        <div className={styles.photoFrame} style={{ aspectRatio: '4/3', backgroundColor: '#E2E8F0' }}>
-                            <svg style={{ width: '48px', height: '48px', color: '#94a3b8', opacity: 0.5 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                            </svg>
-                        </div>
-                        <div className={styles.photoText}>
-                            <p className={styles.handwriting}>따뜻했던 봄날의 피크닉 🧺</p>
-                        </div>
-                    </div>
-
-                    {/* Photo 2 */}
-                    <div className={styles.polaroid} style={{ transform: 'rotate(2deg)', marginTop: '48px' }}>
-                        <div className={`${styles.tape} ${styles.tapeTexture}`} style={{ top: 0, left: 0, transform: 'translate(-16px, -16px) rotate(-35deg)', width: '80px', height: '32px', backgroundColor: '#FDF1B6' }}></div>
-                        <div className={styles.photoFrame} style={{ aspectRatio: '3/4', backgroundColor: '#CBD5E1' }}>
-                            <svg style={{ width: '48px', height: '48px', color: '#f8fafc', opacity: 0.5 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                            </svg>
-                        </div>
-                        <div className={styles.photoText}>
-                            <p className={styles.handwriting}>웃음꽃 피는 주일학교 놀이 시간 🎈</p>
-                        </div>
-                    </div>
-
-                    {/* Photo 3 */}
-                    <div className={styles.polaroid} style={{ transform: 'rotate(-1deg)' }}>
-                        <div className={`${styles.tape} ${styles.tapeTexture}`} style={{ top: 0, left: '24px', transform: 'translateY(-12px) rotate(-8deg)', width: '96px', height: '32px', backgroundColor: '#D2F0E0' }}></div>
-                        <div className={styles.photoFrame} style={{ aspectRatio: '1/1', backgroundColor: '#94A3B8' }}>
-                            <svg style={{ width: '48px', height: '48px', color: '#e2e8f0', opacity: 0.5 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                            </svg>
-                        </div>
-                        <div className={styles.photoText}>
-                            <p className={styles.handwriting}>은혜가 풍성한 주일 예배 🙏</p>
+                        <div className={styles.photoFrame} style={{ aspectRatio: '4/3', backgroundColor: '#E2E8F0', padding: 0, overflow: 'hidden' }}>
+                            <img src={welcomeImg} alt="Welcome to Shintanjin Baptist Church" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         </div>
                     </div>
                 </div>

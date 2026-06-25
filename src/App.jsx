@@ -7,17 +7,24 @@ import HistoryPage from './pages/HistoryPage';
 import VisionPage from './pages/VisionPage';
 import TeamPage from './pages/TeamPage';
 import NextGenPage from './pages/NextGenPage';
+import ScrollToTop from './components/ScrollToTop';
 import Lenis from 'lenis';
 import './App.css';
 
 function App() {
   useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       smoothTouch: false, // Mobile usually prefers native
     });
+
+    window.lenis = lenis;
 
     function raf(time) {
       lenis.raf(time);
@@ -33,6 +40,7 @@ function App() {
 
   return (
     <Router basename={import.meta.env.BASE_URL}>
+      <ScrollToTop />
       <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
