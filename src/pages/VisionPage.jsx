@@ -1,12 +1,17 @@
-import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import styles from './VisionPage.module.css';
+
+import pastorLetterImage from '../assets/vision/shintanjin-baptist-church-pastor-letter.webp';
+import pastorIDImage from '../assets/vision/shintanjin-baptist-church-pastor-ID-photo.webp';
 
 import Footer from '../components/Footer';
 import CloudBackground from '../components/CloudBackground';
 import BalloonBackground from '../components/BalloonBackground';
 
 const VisionPage = () => {
+    const [isLetterZoomed, setIsLetterZoomed] = useState(false);
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -38,61 +43,20 @@ const VisionPage = () => {
                     <div className={styles.greetingWrapper}>
                         <div className={styles.paperLayout}>
                             <div className={styles.flutterEngine}>
-                                <div className={styles.greetingCard}>
-                                    <div className={styles.greetingGrid}>
-                                
-                                {/* Photo Column */}
-                                <motion.div 
-                                    className={styles.photoCol}
-                                    initial={{ opacity: 0, x: -40 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true, margin: "-100px" }}
-                                    transition={{ duration: 0.8, type: "spring" }}
+                                <div 
+                                    className={styles.greetingCard} 
+                                    onClick={() => {
+                                        if (window.innerWidth < 1024) {
+                                            setIsLetterZoomed(true);
+                                        }
+                                    }}
                                 >
-                                    <div className={styles.photoFrame}>
-                                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Senior Pastor Portrait" className={styles.portrait} />
-                                        <div className={styles.photoGradient}></div>
-                                    </div>
-                                </motion.div>
-
-                                {/* Text Column */}
-                                <motion.div 
-                                    className={styles.textCol}
-                                    initial={{ opacity: 0, y: 40 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, margin: "-100px" }}
-                                    transition={{ duration: 0.8, delay: 0.2 }}
-                                >
-                                    <h2 className={styles.greetingTitle}>
-                                        모두의 쉼터, 따뜻한 가족,<br />
-                                        <span className={styles.italicGold}>신탄진교회</span>로 초대합니다.
-                                    </h2>
-                                    
-                                    <div className={styles.greetingBody}>
-                                        <p>
-                                            주님의 이름으로 진심을 담아 환영합니다.<br />
-                                            처음 발걸음을 하신 분도, 오랜 시간 신앙의 여정을 함께 걸어오신 분도 이곳에서는 모두가 한 가족입니다. 신탄진교회는 거창하고 화려한 건물보다, 성도 한 사람 한 사람의 삶이 모여 이루어지는 '살아 숨 쉬는 공동체'를 꿈꿉니다.
-                                        </p>
-                                        <p>
-                                            우리는 완벽하지 않지만, 완전하신 하나님의 말씀을 등대 삼아 하루하루 든든히 세워져 가고 있습니다. 주일 예배의 벅찬 감격부터, 평일 골목에서 이웃들과 나누는 소박하고 따뜻한 나눔까지, 우리 교회의 모든 순간에는 그리스도의 향기가 배어 있습니다.
-                                        </p>
-                                        <p>
-                                            삶의 무거운 짐이 있다면 언제든 편히 찾아오세요. 말씀으로 영혼을 채우고, 사랑으로 서로의 어깨를 내어주는 이 눈부신 믿음의 여정에 당신과 함께 걷기를 간절히 소망합니다.
-                                        </p>
-                                    </div>
-
-                                    <div className={styles.signatureWrap}>
-                                        <div className={styles.signatureBlock}>
-                                            <p className={styles.signatureEyebrow}>주님의 크신 은혜 안에서,</p>
-                                            <p className={styles.signatureKoreanName}>담임목사 최 영 락 올림</p>
-                                            <div className={styles.signatureName}>
-                                                Young-rak Choi
-                                            </div>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            </div>
-                        </div>
+                                    <img 
+                                        src={pastorIDImage} 
+                                        alt="Pastor ID Photo" 
+                                        className={styles.idPhoto} 
+                                    />
+                                </div>
                     </div>
                 </div>
             </div>
@@ -183,6 +147,46 @@ const VisionPage = () => {
                     </div>
                 </section>
             </main>
+
+            <AnimatePresence>
+                {isLetterZoomed && (
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        style={{
+                            position: 'fixed',
+                            inset: 0,
+                            backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                            zIndex: 9999,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'zoom-out',
+                            padding: '16px'
+                        }}
+                        onClick={() => setIsLetterZoomed(false)}
+                    >
+                        <motion.img 
+                            src={pastorLetterImage}
+                            alt="Pastor Letter Expanded"
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                            style={{
+                                maxWidth: '100%',
+                                maxHeight: '100%',
+                                objectFit: 'contain',
+                                borderRadius: '8px',
+                                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+                            }}
+                        />
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+
             <Footer />
         </div>
     );

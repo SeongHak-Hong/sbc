@@ -77,10 +77,15 @@
 }
 
 .greetingCard {
-    background-color: #fcfcfb;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.07'/%3E%3C/svg%3E");
+    background-color: transparent;
+    background-image: url('../assets/vision/shintanjin-baptist-church-pastor-letter.webp');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
     padding: 32px;
-    border: 1px solid rgba(0,0,0,0.04);
+    border: none;
+    aspect-ratio: 1964 / 3123;
+    height: auto;
 }
 
 @media (min-width: 768px) {
@@ -89,11 +94,28 @@
     }
 }
 
+@media (max-width: 1023px) {
+    .greetingCard {
+        cursor: zoom-in;
+    }
+}
+
+.idPhoto {
+    position: absolute;
+    top: -3.6%;
+    left: 3.4%;
+    width: 22%;
+    border-radius: 4px;
+    box-shadow: 6px 8px 16px rgba(0, 0, 0, 0.15);
+    object-fit: cover;
+    pointer-events: none; /* Let clicks pass through to the card for zooming */
+    transform: rotate(-3.7deg);
+}
+
 @media (min-width: 1024px) {
     .greetingCard {
         padding: 80px 48px;
         width: 840px;
-        height: 1188px;
         margin: 0 auto;
     }
 }
@@ -344,58 +366,15 @@
     will-change: transform;
 }
 
-.paperLayout:hover .flutterEngine {
-    animation: vigorous-flutter 3.5s ease-in-out infinite;
-}
 
 .greetingCard {
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
-                box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 
-        0 4px 12px -2px rgba(0, 0, 0, 0.08), 
-        0 2px 4px -1px rgba(0, 0, 0, 0.04),
-        inset 0 0 40px rgba(0, 0, 0, 0.01); 
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* Curled shadow effect (종이 말림 그림자) */
-.greetingCard::before,
-.greetingCard::after {
-    content: "";
-    position: absolute;
-    bottom: 12px;
-    left: 15px;
-    width: 45%;
-    height: 25px;
-    background: transparent;
-    border-radius: 20px;
-    box-shadow: 0 15px 20px rgba(28, 42, 67, 0.25);
-    transform: translateZ(-5px) skew(-5deg) rotate(-3deg);
-    z-index: -1;
-    transition: box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
-                bottom 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
 
-.greetingCard::after {
-    left: auto;
-    right: 15px;
-    transform: translateZ(-5px) skew(5deg) rotate(3deg);
-}
 
-.paperLayout:hover .greetingCard {
-    transform: translateZ(30px);
-    box-shadow: 
-        -10px 30px 40px -10px rgba(0, 0, 0, 0.15), 
-        -5px 15px 20px -5px rgba(0, 0, 0, 0.08),
-        inset 0 0 40px rgba(0, 0, 0, 0.02);
-}
-
-.paperLayout:hover .greetingCard::before,
-.paperLayout:hover .greetingCard::after {
-    box-shadow: 0 25px 25px rgba(28, 42, 67, 0.2);
-    bottom: 5px;
-}
 
 @keyframes gentle-flutter {
     0% { transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }

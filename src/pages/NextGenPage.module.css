@@ -73,14 +73,15 @@
 
 .tabButton {
     flex-shrink: 0;
-    border-radius: 99px;
-    padding: 12px 24px;
-    font-size: var(--text-body);
+    border-radius: var(--btn-radius);
+    padding: var(--btn-padding-y) var(--btn-padding-r) var(--btn-padding-y) var(--btn-padding-l);
+    font-size: var(--btn-font-size);
     font-family: var(--font-body);
     transition: all 0.3s ease;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    gap: var(--btn-gap);
     border: none;
     cursor: pointer;
 }
@@ -91,10 +92,9 @@
 }
 
 .tabActive {
-    background-color: var(--navy, #1C2A43);
+    background-color: var(--color-text-title);
     color: white;
-    box-shadow: 0 10px 20px -5px rgba(28, 42, 67, 0.3);
-    transform: scale(1.05);
+    box-shadow: none;
 }
 
 .tabInactive {

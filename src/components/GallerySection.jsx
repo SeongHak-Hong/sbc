@@ -159,7 +159,7 @@ const GallerySection = () => {
                         style={{ ...buttonStyle, pointerEvents: 'auto' }}
                         whileHover={{ scale: 1.05 }}
                     >
-                        모든 추억 보기
+                        더 많은 우리 보기
                     </motion.button>
                 </article>
             </div>
