@@ -13,6 +13,8 @@
   font-style: normal;
 }
 
+
+
 :root {
   --max-width: 1500px;
   --grid-columns: 12;
@@ -21,6 +23,8 @@
 
   --font-title: 'MemomentKkukkukk', sans-serif;
   --font-body: 'omyu_pretty', sans-serif;
+  --font-letter: 'omyu_pretty', sans-serif;
+  --font-btn: 'omyu_pretty', sans-serif;
 
   /* 색상 지정 (전계층 공통) */
   --color-text-title: #1A202C;
@@ -64,6 +68,13 @@
   --btn-font-size: 24px;
   --btn-radius: 99px;
   --btn-icon-size: 20px;
+  --btn-bg: var(--color-text-title); /* 버튼 배경색은 --color-text-title 적용 */
+
+  /* 
+   * [디자인 시스템 규칙 명시]
+   * 1. 폰트 굵기(font-weight)는 어떤 폰트에도 절대 사용 금지
+   * 2. 버튼 디자인에 그림자(box-shadow) 사용 절대 금지
+   */
 
   /* Header Layout */
   --header-padding-y: 20px;
@@ -228,7 +239,7 @@ p {
 
 
 button {
-  font-family: var(--font-body);
+  font-family: var(--font-btn);
   font-size: var(--btn-font-size);
   padding: var(--btn-padding-y) var(--btn-padding-r) var(--btn-padding-y) var(--btn-padding-l);
   cursor: pointer;

@@ -5,6 +5,7 @@ import MainPage from './pages/MainPage';
 import NurturePage from './pages/NurturePage';
 import HistoryPage from './pages/HistoryPage';
 import VisionPage from './pages/VisionPage';
+import WorshipPage from './pages/WorshipPage';
 import TeamPage from './pages/TeamPage';
 import NextGenPage from './pages/NextGenPage';
 import DistrictPage from './pages/DistrictPage';
@@ -21,6 +22,7 @@ function AppRoutes() {
       <Route path="/nurture" element={<NurturePage />} />
       <Route path="/history" element={<HistoryPage />} />
       <Route path="/vision" element={<VisionPage />} />
+      <Route path="/worship" element={<WorshipPage />} />
       <Route path="/team" element={<TeamPage />} />
       <Route path="/nextgen" element={<NextGenPage />} />
       <Route path="/district" element={<DistrictPage />} />

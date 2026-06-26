@@ -86,6 +86,11 @@
     border: none;
     aspect-ratio: 1964 / 3123;
     height: auto;
+    font-family: var(--font-letter);
+}
+
+.greetingCard * {
+    font-family: var(--font-letter) !important;
 }
 
 @media (min-width: 768px) {
@@ -102,14 +107,14 @@
 
 .idPhoto {
     position: absolute;
-    top: -3.6%;
-    left: 3.4%;
-    width: 22%;
+    top: -1.9%;
+    left: -2.1%;
+    width: 20%;
     border-radius: 4px;
     box-shadow: 6px 8px 16px rgba(0, 0, 0, 0.15);
     object-fit: cover;
     pointer-events: none; /* Let clicks pass through to the card for zooming */
-    transform: rotate(-3.7deg);
+    transform: rotate(-5.8deg);
 }
 
 @media (min-width: 1024px) {

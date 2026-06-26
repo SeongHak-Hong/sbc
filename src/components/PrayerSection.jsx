@@ -144,7 +144,7 @@ const PrayerSection = () => {
                     whileHover={{ scale: 1.05 }}
                     transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
-                    기도 제목 나누기
+                    성도 소식 함께하기
                 </motion.button>
             </BlurFade>
         </section>

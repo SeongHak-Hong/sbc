@@ -103,7 +103,6 @@
 .journeyStickyView {
     position: relative;
     width: 100%;
-    /* Solid background so moving clouds underneath are hidden during scroll */
     background-color: transparent;
     z-index: 10;
 }
@@ -140,7 +139,7 @@
         align-items: flex-start;
         padding: 0 var(--grid-margin);
         height: 100vh;
-        padding-top: 20vh; /* Center both columns together */
+        padding-top: 20vh;
     }
 }
 
@@ -161,31 +160,93 @@
 .journeyRight {
     display: flex;
     flex-direction: column;
-    gap: 24px;
     width: 100%;
 }
 
 @media (min-width: 1024px) {
     .journeyRight {
-        gap: 64px;
         width: 50%;
     }
 }
 
-.stepCard {
+/* ==============================
+   Fan Stack (Scroll Stack)
+   ============================== */
+
+.fanStackWrapper {
     position: relative;
+    /* 충분한 스크롤 공간: 카드 수 × 100vh */
+    height: 400vh;
     z-index: 10;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(12px);
-    border-radius: 24px;
-    padding: 32px;
-    box-shadow: 0 10px 40px -10px rgba(176, 220, 238, 0.4);
-    color: var(--color-text-body);
-    transition: transform 0.3s ease;
 }
 
-.stepCard:hover {
-    transform: translateY(-8px);
+.fanStackSticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 var(--grid-margin);
+    max-width: var(--max-width);
+    margin: 0 auto;
+    overflow: visible;
+}
+
+.scrollStackHeader {
+    text-align: center;
+    padding: 0 0 24px;
+    flex-shrink: 0;
+}
+
+.fanStackArea {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    /* 카드들이 겹치도록 높이 고정 */
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stackCard {
+    position: absolute;
+    z-index: 1;
+    padding: 32px;
+    color: var(--color-text-body);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    will-change: transform, opacity;
+    transform-origin: center bottom;
+    /* 카드 자체에 배경이 없으면 기본 흰 배경 적용 */
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    width: 100%;
+    min-height: 300px;
+}
+
+.stackCard * {
+    font-family: var(--font-letter) !important;
+}
+
+@media (max-width: 767px) {
+    .fanStackWrapper {
+        height: 300vh;
+    }
+
+    .fanStackArea {
+        max-width: 90vw;
+        height: 400px;
+    }
+
+    .stackCard {
+        min-height: 250px;
+        padding: 24px;
+    }
 }
 
 .stepBadge {
