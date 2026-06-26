@@ -68,7 +68,7 @@ const ServiceInfoSection = () => {
             </motion.div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: isMobile ? 'center' : 'flex-start' }}>
                 <BlurFade delay={0.25} inView>
-                    <h2 style={titleStyle}>예배는<br />언제 있어요?</h2>
+                    <h2 style={titleStyle}>당신을 기다리는<br />예배의 자리.</h2>
                 </BlurFade>
                 <BlurFade delay={0.4} inView>
                     <motion.button

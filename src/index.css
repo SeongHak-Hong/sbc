@@ -299,10 +299,6 @@ button span.icon {
   line-height: 1.5;
 }
 
-#root>div>div.pin-spacer>section>div>div,
-#root>div>div.pin-spacer>section>div>div * {
-  font-family: 'MemomentKkukkukk', sans-serif !important;
-}
 
 .footer-subpage p, .footer-subpage span {
   font-family: 'omyu_pretty', sans-serif !important;

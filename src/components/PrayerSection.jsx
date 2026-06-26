@@ -118,7 +118,7 @@ const PrayerSection = () => {
     return (
         <section style={sectionStyle}>
             <BlurFade delay={0.25} inView>
-                <h2 style={titleStyle}>함께 기도해요.</h2>
+                <h2 style={titleStyle}>기쁨은 더하고, 슬픔은 나누며.</h2>
             </BlurFade>
             <div style={gridStyle}>
                 <InfiniteSlider gap={24} duration={60}>

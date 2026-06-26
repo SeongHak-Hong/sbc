@@ -3,8 +3,8 @@ import { BlurFade } from './ui/BlurFade';
 import { motion } from 'framer-motion';
 
 const NewcomerSection = ({ 
-    title = <>사랑이 가득한<br />신탄진교회로 오세요.</>,
-    buttonText = "오시는 길 보기"
+    title = <>당신을 향한 사랑,<br />이곳에 있습니다.</>,
+    buttonText = "신탄진교회 오시는 길"
 }) => {
     const sectionStyle = {
         padding: 'var(--section-padding-y) 0',

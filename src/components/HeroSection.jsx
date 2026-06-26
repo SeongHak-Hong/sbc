@@ -88,8 +88,7 @@ const HeroSection = () => {
 
                 <BlurFade delay={0.25} inView>
                     <h1 style={sloganStyle}>
-                        말씀 위에 든든히<br />
-                        세워지는 교회
+                        말씀 위에 든든히<br />세워지는 교회
                     </h1>
                 </BlurFade>
             </div>

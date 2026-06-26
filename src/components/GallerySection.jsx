@@ -113,7 +113,7 @@ const GallerySection = () => {
         <section ref={sectionRef} style={sectionStyle}>
             {/* --- TITLE (Lowest Z-Index) --- */}
             <div ref={titleRef} style={{ position: 'absolute', inset: 0, zIndex: 10, pointerEvents: 'none', opacity: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <h2 style={{ color: '#ffffff', margin: 0 }}>추억을 만들고 계신가요?</h2>
+                <h2 style={{ color: '#ffffff', margin: 0, textAlign: 'center' }}>함께 걷고,<br />함께 웃습니다.</h2>
             </div>
 
             {/* --- LAYER 2: HORIZONTAL SCROLL GALLERY TRACK (Middle Z-Index) --- */}

@@ -46,7 +46,7 @@ const YoutubeSection = () => {
             tl.to(part1Ref.current, { opacity: 0, duration: 1 });
             
             // 2. Fade in Part 2 (New title + button)
-            tl.to(part2Ref.current, { opacity: 1, duration: 1 });
+            tl.to(part2Ref.current, { autoAlpha: 1, duration: 1 });
             
             // Buffer to hold the final state slightly before unpinning
             tl.to({}, { duration: 0.5 });
@@ -95,7 +95,7 @@ const YoutubeSection = () => {
             <div ref={part1Ref} style={innerContentStyle}>
                 {/* Left Text */}
                 <h2 style={sideTextStyle}>
-                    우리의 인생.
+                    우리의 인생,
                 </h2>
 
                 {/* iPhone Frame */}
@@ -104,7 +104,8 @@ const YoutubeSection = () => {
                         style={{
                             position: 'relative',
                             flexShrink: 0,
-                            width: isMobile ? '100%' : 'auto',
+                            width: isMobile ? '55%' : 'auto', // Reduce size on mobile so titles fit
+                            maxWidth: isMobile ? '300px' : 'none',
                             height: isMobile ? 'auto' : '100%',
                             display: 'flex',
                             justifyContent: 'center',
@@ -155,7 +156,7 @@ const YoutubeSection = () => {
                                     <img 
                                         src={playBtnImg} 
                                         alt="Play Shorts" 
-                                        style={{ width: '80px', height: 'auto', transition: 'transform 0.2s' }} 
+                                        style={{ width: isMobile ? '45px' : '80px', height: 'auto', transition: 'transform 0.2s' }} 
                                         onMouseOver={e => e.currentTarget.style.transform = 'scale(1.1)'}
                                         onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
                                     />
@@ -170,10 +171,10 @@ const YoutubeSection = () => {
                                 allowFullScreen
                                 style={{ 
                                     position: 'absolute',
-                                    top: '-20%',
+                                    top: '0',
                                     left: '0',
                                     width: '100%', 
-                                    height: '140%',
+                                    height: '100%',
                                     display: 'block'
                                 }}
                             ></iframe>
@@ -213,18 +214,20 @@ const YoutubeSection = () => {
                 justifyContent: 'center',
                 alignItems: isMobile ? 'center' : 'center', // Center it overall, adjust if you need left align
                 opacity: 0, // Hidden initially
+                visibility: 'hidden', // Crucial for disabling pointer-events of the inner div before fade in
                 zIndex: 20,
                 padding: '0 20px',
-                boxSizing: 'border-box'
+                boxSizing: 'border-box',
+                pointerEvents: 'none' // Prevent blocking clicks to the iPhone underneath
             }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: 'var(--max-width)' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: 'var(--max-width)', pointerEvents: 'auto' }}>
                     <h2 style={{
                         marginBottom: '20px',
                         color: '#ffffff',
                         textAlign: 'center',
                         whiteSpace: 'pre-line' // To allow <br /> to work naturally
                     }}>
-                        믿음이 당신의 삶을<br />변화시킵니다.
+                        그 말씀이<br />당신의 삶을 변화시킵니다.
                     </h2>
                     <a href="https://www.youtube.com/@sbc6312" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
                         <motion.button

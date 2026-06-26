@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect, useMemo } from 'react';
+import React, { useRef, useLayoutEffect, useMemo, useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -7,8 +7,17 @@ gsap.registerPlugin(ScrollTrigger);
 const VerseSection = () => {
     const sectionRef = useRef(null);
     const textRef = useRef(null);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
-    const verseText = `지금 내가 여러분을 주와 및 그 은혜의 말씀에 부탁하노니 그 말씀이 여러분을 능히 든든히 세우사 거룩하게 하심을 입은 모든 자 가운데 기업이 있게 하시리라\n사도행전 20:32`;
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const verseText = isMobile
+        ? `지금 내가 여러분을 주와 및 그 은혜의 말씀에 부탁하노니 그 말씀이 여러분을 능히 든든히 세우사 거룩하게 하심을 입은 모든 자 가운데 기업이 있게 하시리라\n사도행전 20:32`
+        : `지금 내가 여러분을 주와 및 그 은혜의 말씀에 부탁하노니\n그 말씀이 여러분을 능히 든든히 세우사 거룩하게 하심을 입은\n모든 자 가운데 기업이 있게 하시리라\n사도행전 20:32`;
 
     const splitText = useMemo(() => {
         return verseText.split(/(\s+)/).map((word, index) => {

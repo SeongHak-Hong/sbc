@@ -57,7 +57,7 @@ const EventSection = () => {
         <section style={sectionStyle}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: isMobile ? 'center' : 'flex-end' }}>
                 <BlurFade delay={0.25} inView>
-                    <h2 style={titleStyle}>이번 달은<br />어떤 행사가 있어요?</h2>
+                    <h2 style={titleStyle}>함께 만들어가는<br />이달의 이야기.</h2>
                 </BlurFade>
                 <BlurFade delay={0.4} inView>
                     <motion.button
