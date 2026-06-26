@@ -68,20 +68,20 @@ const GallerySection = () => {
             });
 
             // 1. Title Fades In
-            tl.to(titleRef.current, { opacity: 1, duration: 0.5 });
+            tl.to(titleRef.current, { opacity: 1, duration: 0.2 });
 
             // 2. Hold Title briefly
-            tl.to({}, { duration: 0.5 });
+            tl.to({}, { duration: 0.2 });
 
             // 3. Title Fades Out
-            tl.to(titleRef.current, { opacity: 0, duration: 0.5 });
+            tl.to(titleRef.current, { opacity: 0, duration: 0.2 });
 
             // 4. Foreground Image Fades In & Track Slides
             // Track left is at 100%, we move it by -trackWidth to align its right edge with the screen's right edge
             tl.to(foregroundRef.current, { opacity: 1, duration: 0.5 });
             tl.to(trackRef.current, {
                 x: -trackWidth,
-                duration: 2,
+                duration: 4,
                 ease: "none"
             }, "<"); // Run at the same time as foreground image fade-in
 
