@@ -6,7 +6,7 @@ import CloudBackground from '../components/CloudBackground';
 import BalloonBackground from '../components/BalloonBackground';
 
 // Dynamically import all images from the history folder
-const imageModules = import.meta.glob('../assets/history/shintanjin-baptist-church-history-*.jpg', { eager: true, import: 'default' });
+const imageModules = import.meta.glob('../assets/history/shintanjin-baptist-church-history-*.webp', { eager: true, import: 'default' });
 const totalItems = Object.keys(imageModules).length;
 
 const historyData = Object.entries(imageModules)

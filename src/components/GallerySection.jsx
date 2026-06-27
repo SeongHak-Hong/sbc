@@ -12,7 +12,7 @@ import styles from '../pages/HistoryPage.module.css';
 gsap.registerPlugin(ScrollTrigger);
 
 // Dynamically import 10 images from the history folder
-const imageModules = import.meta.glob('../assets/history/shintanjin-baptist-church-history-*.jpg', { eager: true, import: 'default' });
+const imageModules = import.meta.glob('../assets/history/shintanjin-baptist-church-history-*.webp', { eager: true, import: 'default' });
 const totalItems = Object.keys(imageModules).length;
 const historyImages = Object.entries(imageModules)
     .sort(([pathA], [pathB]) => pathA.localeCompare(pathB))
