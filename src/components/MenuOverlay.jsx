@@ -36,7 +36,7 @@ const MenuOverlay = ({ isOpen, onClose }) => {
             id: "step-3", num: "03", title: "양육훈련",
             links: [
                 { text: "새가족 안내", path: "/nurture" },
-                { text: "교구 및 소그룹", path: "/nurture" }
+                { text: "셀그룹 안내", path: "/cellgroup" }
             ]
         },
         {

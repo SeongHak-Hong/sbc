@@ -19,36 +19,61 @@ const Footer = () => {
         width: '100%',
         maxWidth: '1500px',
         margin: '0 auto',
-        padding: '60px 48px', // Balanced padding
+        padding: isMobile ? '0 24px 60px 24px' : '60px 48px', 
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         boxSizing: 'border-box',
+        position: 'relative',
+        zIndex: 10
     };
 
     return (
         <footer className={`footer-section ${themeClass}`} style={{ position: 'relative', overflow: 'visible' }}>
+            {isMobile && (
+                <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', paddingRight: '10%' }}>
+                    <img 
+                        src={foregroundImg} 
+                        alt="Footer decoration" 
+                        style={{
+                            width: '250px',
+                            pointerEvents: 'none',
+                            marginTop: '40px',
+                            marginBottom: '20px'
+                        }} 
+                    />
+                </div>
+            )}
+            
             <div style={contentStyle}>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginBottom: '12px', fontSize: '20px' }}>
                     <span style={{ cursor: 'pointer' }}>이용약관</span>
                     <span style={{ cursor: 'pointer' }}>개인정보처리방침</span>
                 </div>
-                <p style={{ marginTop: '12px' }}>&copy; {new Date().getFullYear()} SINTANJIN BAPTIST CHURCH. All rights reserved.</p>
+                <div style={{ textAlign: 'center', marginTop: '16px', lineHeight: '1.6', opacity: 0.8 }}>
+                    <p style={{ margin: 0, wordBreak: 'keep-all' }}>
+                        대전 대덕구 석봉로 17 신탄진침례교회 <span style={{ margin: '0 8px', opacity: 0.5 }}>|</span> T. 042-932-8156
+                    </p>
+                </div>
+                <p style={{ marginTop: '24px', opacity: 0.6, textAlign: 'center' }}>&copy; {new Date().getFullYear()} SINTANJIN BAPTIST CHURCH. All rights reserved.</p>
             </div>
-            <img 
-                src={foregroundImg} 
-                alt="Footer decoration" 
-                style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    right: '-50px',
-                    pointerEvents: 'none',
-                    zIndex: 1,
-                    transform: isMobile ? 'scale(0.34)' : 'scale(0.5)',
-                    transformOrigin: 'bottom right'
-                }} 
-            />
+
+            {!isMobile && (
+                <img 
+                    src={foregroundImg} 
+                    alt="Footer decoration" 
+                    style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        right: '-50px',
+                        pointerEvents: 'none',
+                        zIndex: 1,
+                        transform: 'scale(0.5)',
+                        transformOrigin: 'bottom right'
+                    }} 
+                />
+            )}
         </footer>
     );
 };

@@ -17,7 +17,7 @@ const VerseSection = () => {
 
     const verseText = isMobile
         ? `지금 내가 여러분을 주와 및 그 은혜의 말씀에 부탁하노니 그 말씀이 여러분을 능히 든든히 세우사 거룩하게 하심을 입은 모든 자 가운데 기업이 있게 하시리라\n사도행전 20:32`
-        : `지금 내가 여러분을 주와 및 그 은혜의 말씀에 부탁하노니\n그 말씀이 여러분을 능히 든든히 세우사 거룩하게 하심을 입은\n모든 자 가운데 기업이 있게 하시리라\n사도행전 20:32`;
+        : `지금 내가 여러분을 주와 및 그 은혜의 말씀에 부탁하노니\n그 말씀이 여러분을 능히 든든히 세우사\n거룩하게 하심을 입은 모든 자 가운데 기업이 있게 하시리라\n사도행전 20:32`;
 
     const splitText = useMemo(() => {
         return verseText.split(/(\s+)/).map((word, index) => {
@@ -96,7 +96,7 @@ const VerseSection = () => {
 
     const textStyle = {
         fontFamily: 'MemomentKkukkukk, sans-serif',
-        fontSize: '64px',
+        fontSize: 'var(--pc-text-h2)',
         lineHeight: '140%',
         letterSpacing: '-0.02em',
         color: '#ffffff',

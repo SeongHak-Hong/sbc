@@ -4,35 +4,37 @@ import Footer from '../components/Footer';
 import CloudBackground from '../components/CloudBackground';
 import styles from './NurturePage.module.css';
 import welcomeImg from '../assets/nurture/shintanjin-baptist-church-welcome.webp';
-import stepBg01 from '../assets/nurture/shintanjin-baptist-church-nurture-step-bg-01.webp';
-import stepBg02 from '../assets/nurture/shintanjin-baptist-church-nurture-step-bg-02.webp';
+import step01 from '../assets/nurture/shintanjin-baptist-church-nurture-step-01.webp';
+import step02 from '../assets/nurture/shintanjin-baptist-church-nurture-step-02.webp';
+import step03 from '../assets/nurture/shintanjin-baptist-church-nurture-step-03.webp';
+import step04 from '../assets/nurture/shintanjin-baptist-church-nurture-step-04.webp';
 
 const STEPS = [
     {
-        bg: stepBg01,
+        bg: step01,
         width: 400,
-        aspectRatio: '400 / 487',
+        aspectRatio: '1 / 1',
         title: '새가족 등록',
         desc: <>등록카드를 작성하며<br />담당 교역자의 따뜻한 첫 안내를 받습니다.</>,
     },
     {
-        bg: stepBg02,
-        width: 487,
-        aspectRatio: '487 / 508',
+        bg: step02,
+        width: 400,
+        aspectRatio: '1 / 1',
         title: '새가족 교육 (6주)',
         desc: <>건강한 신앙생활과 교회 정착을 위해<br />6주간의 기초 교육을 진행합니다.</>,
     },
     {
-        bg: null,
-        width: null,
-        aspectRatio: null,
+        bg: step03,
+        width: 400,
+        aspectRatio: '1 / 1',
         title: '수료 및 소그룹 배정',
         desc: '교육 수료 후, 따뜻한 소그룹(목장)에 소속되어 성도들과 풍성한 교제를 나눕니다.',
     },
     {
-        bg: null,
-        width: null,
-        aspectRatio: null,
+        bg: step04,
+        width: 400,
+        aspectRatio: '1 / 1',
         title: '침례 및 환영회',
         desc: '침례식과 환영회를 통해 한 가족이 된 기쁨을 누리며 비전을 공유합니다.',
     },
@@ -43,7 +45,7 @@ const STACK_TRANSFORMS = [
     { x: -60, rotate: -6 },   // 1번째: 왼쪽으로 이동, 반시계
     { x: 0, rotate: 4 },      // 2번째: x이동 없음(가운데), 시계
     { x: 60, rotate: -2 },    // 3번째: 오른쪽으로 이동, 반시계
-    { x: 120, rotate: 8 },    // 4번째: 더 오른쪽으로 이동, 시계
+    { x: 0, rotate: 0 },      // 4번째: 배치된 카드 정중앙에 올라오도록
 ];
 
 const ScrollStackCard = ({ step, index, total, containerRef }) => {
@@ -54,7 +56,7 @@ const ScrollStackCard = ({ step, index, total, containerRef }) => {
 
     const totalCards = total;
     // 마지막 카드(index 3)가 1.0(끝)에 도달하도록 각 카드의 도달 구간 크기 계산
-    const arrivalStep = 1 / (totalCards - 1); 
+    const arrivalStep = 1 / (totalCards - 1);
 
     // 이 카드가 꼭대기(y=0)에 도달하는 시점
     const arriveEnd = index * arrivalStep;
@@ -107,15 +109,24 @@ const ScrollStackCard = ({ step, index, total, containerRef }) => {
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        aspectRatio: step.aspectRatio,
-        width: `${step.width}px`,
+        aspectRatio: step.aspectRatio || '1 / 1',
+        width: step.width ? `${step.width}px` : '100%',
         maxWidth: '100%',
         backgroundColor: 'transparent',
         backdropFilter: 'none',
         WebkitBackdropFilter: 'none',
         boxShadow: 'none',
-        padding: 0,
-    } : {};
+        boxSizing: 'border-box',
+    } : {
+        backgroundColor: step.bgColor || 'rgba(255, 255, 255, 0.95)',
+        aspectRatio: step.aspectRatio || '1 / 1',
+        width: step.width ? `${step.width}px` : '100%',
+        maxWidth: '100%',
+        backdropFilter: 'none',
+        WebkitBackdropFilter: 'none',
+        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        boxSizing: 'border-box',
+    };
 
     return (
         <motion.div

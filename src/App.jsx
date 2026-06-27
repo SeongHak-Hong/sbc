@@ -8,7 +8,7 @@ import VisionPage from './pages/VisionPage';
 import WorshipPage from './pages/WorshipPage';
 import TeamPage from './pages/TeamPage';
 import NextGenPage from './pages/NextGenPage';
-import DistrictPage from './pages/DistrictPage';
+import CellgroupPage from './pages/CellgroupPage';
 import ScrollToTop from './components/ScrollToTop';
 import Lenis from 'lenis';
 import './App.css';
@@ -25,7 +25,7 @@ function AppRoutes() {
       <Route path="/worship" element={<WorshipPage />} />
       <Route path="/team" element={<TeamPage />} />
       <Route path="/nextgen" element={<NextGenPage />} />
-      <Route path="/district" element={<DistrictPage />} />
+      <Route path="/cellgroup" element={<CellgroupPage />} />
     </Routes>
   );
 }

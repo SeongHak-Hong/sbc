@@ -90,7 +90,7 @@ const Header = () => {
             id: "step-3", title: "공동체", icon: "local_library", iconColor: styles.iconBlue,
             links: [
                 { text: "새가족 안내", path: "/nurture" },
-                { text: "교구·구역 안내", path: "/district" },
+                { text: "셀그룹 안내", path: "/cellgroup" },
                 { text: "찬양대", path: "https://www.youtube.com/@sbc6312" }
             ]
         },

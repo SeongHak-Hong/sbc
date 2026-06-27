@@ -203,9 +203,9 @@
 .fanStackArea {
     position: relative;
     width: 100%;
-    max-width: 500px;
+    max-width: 400px;
     /* 카드들이 겹치도록 높이 고정 */
-    height: 500px;
+    height: 400px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -214,8 +214,8 @@
 .stackCard {
     position: absolute;
     z-index: 1;
-    padding: 32px;
-    color: var(--color-text-body);
+    padding: 32px 48px; /* Applied 48px padding for Left/Right */
+    color: var(--color-text-title); /* 본문 컬러도 타이틀과 동일하게 적용 */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -224,9 +224,8 @@
     transform-origin: center bottom;
     /* 카드 자체에 배경이 없으면 기본 흰 배경 적용 */
     background: rgba(255, 255, 255, 0.95);
-    border-radius: 16px;
+    border-radius: 16px; /* border-radius 재적용 */
     width: 100%;
-    min-height: 300px;
 }
 
 .stackCard * {
@@ -240,12 +239,12 @@
 
     .fanStackArea {
         max-width: 90vw;
-        height: 400px;
+        height: 90vw; /* Keep 1:1 aspect ratio on small screens */
+        max-height: 400px;
     }
 
     .stackCard {
-        min-height: 250px;
-        padding: 24px;
+        padding: 24px 48px;
     }
 }
 
@@ -287,10 +286,12 @@
 
 .stepTitle {
     margin-bottom: 12px;
+    font-family: var(--font-title) !important;
 }
 
 .stepDesc {
     font-size: var(--text-body-card);
+    color: var(--color-text-body);
 }
 
 .scrapbookGrid {

@@ -112,7 +112,7 @@ const YoutubeSection = () => {
                             alignItems: 'center'
                         }}
                     >
-                        {/* Background Scene */}
+                        {/* Background Scene (Covers iframe when paused, goes behind when playing) */}
                         <img 
                             src={iPhoneBgImg} 
                             alt="" 
@@ -123,7 +123,7 @@ const YoutubeSection = () => {
                                 width: '100%',
                                 height: '100%',
                                 objectFit: 'contain',
-                                zIndex: 1
+                                zIndex: isPlaying ? 1 : 3
                             }}
                         />
 
@@ -139,29 +139,6 @@ const YoutubeSection = () => {
                             borderRadius: '24px',
                             overflow: 'hidden'
                         }}>
-                            {!isPlaying && (
-                                <div 
-                                    onClick={() => setIsPlaying(true)}
-                                    style={{
-                                        position: 'absolute',
-                                        inset: 0,
-                                        zIndex: 10,
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        cursor: 'pointer',
-                                        backgroundColor: 'rgba(0,0,0,0.1)'
-                                    }}
-                                >
-                                    <img 
-                                        src={playBtnImg} 
-                                        alt="Play Shorts" 
-                                        style={{ width: isMobile ? '45px' : '80px', height: 'auto', transition: 'transform 0.2s' }} 
-                                        onMouseOver={e => e.currentTarget.style.transform = 'scale(1.1)'}
-                                        onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
-                                    />
-                                </div>
-                            )}
                             <iframe
                                 src={`https://www.youtube.com/embed/bQ8ybnIaKDY?controls=0&modestbranding=1&rel=0${isPlaying ? '&autoplay=1' : ''}`}
                                 title="YouTube video player"
@@ -179,6 +156,30 @@ const YoutubeSection = () => {
                                 }}
                             ></iframe>
                         </div>
+
+                        {/* Play Button Overlay */}
+                        {!isPlaying && (
+                            <div 
+                                onClick={() => setIsPlaying(true)}
+                                style={{
+                                    position: 'absolute',
+                                    inset: 0,
+                                    zIndex: 10,
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                <img 
+                                    src={playBtnImg} 
+                                    alt="Play Shorts" 
+                                    style={{ width: isMobile ? '45px' : '80px', height: 'auto', transition: 'transform 0.2s' }} 
+                                    onMouseOver={e => e.currentTarget.style.transform = 'scale(1.1)'}
+                                    onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
+                                />
+                            </div>
+                        )}
 
                         {/* iPhone Frame */}
                         <img 
