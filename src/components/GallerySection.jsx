@@ -62,27 +62,28 @@ const GallerySection = () => {
                     start: 'center center',
                     end: `+=${trackWidth + window.innerHeight}`, // Extra distance for the sequence
                     pin: true,
-                    scrub: 1,
+                    scrub: 0.5, // Reduced from 1 for better performance/responsiveness
                     anticipatePin: 1
                 }
             });
 
             // 1. Title Fades In
-            tl.to(titleRef.current, { opacity: 1, duration: 0.2 });
+            tl.to(titleRef.current, { opacity: 1, duration: 0.2, force3D: true });
 
             // 2. Hold Title briefly
             tl.to({}, { duration: 0.2 });
 
             // 3. Title Fades Out
-            tl.to(titleRef.current, { opacity: 0, duration: 0.2 });
+            tl.to(titleRef.current, { opacity: 0, duration: 0.2, force3D: true });
 
             // 4. Foreground Image Fades In & Track Slides
             // Track left is at 100%, we move it by -trackWidth to align its right edge with the screen's right edge
-            tl.to(foregroundRef.current, { opacity: 1, duration: 0.5 });
+            tl.to(foregroundRef.current, { opacity: 1, duration: 0.5, force3D: true });
             tl.to(trackRef.current, {
                 x: -trackWidth,
                 duration: 4,
-                ease: "none"
+                ease: "none",
+                force3D: true
             }, "<"); // Run at the same time as foreground image fade-in
 
             // 5. Final hold

@@ -31,6 +31,8 @@
     min-width: max-content;
     height: 60vh;
     gap: 8vw; /* Reduced gap */
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .artwork {
@@ -186,7 +188,17 @@
     }
     .year { font-size: 2.5rem; }
     .dash { width: 40px; }
-    .polaroid { width: 360px; }
+    .polaroid { 
+        width: 360px; 
+        box-shadow: none;
+        border: 1px solid #e2e8f0;
+    }
+    .photoFrame img {
+        filter: none;
+    }
+    .tape {
+        box-shadow: none;
+    }
     
     .ctaCard {
         width: 80vw;
