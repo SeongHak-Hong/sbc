@@ -2,10 +2,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 // Import Balloon Images
-import bloom01 from '../assets/main/bloom_01.png';
-import bloom02 from '../assets/main/bloom_02.png';
-import bloom03 from '../assets/main/bloom_03.png';
-import bloom04 from '../assets/main/bloom_04.png';
+import bloom01 from '../assets/main/shintanjin-baptist-church-bloom-01.webp';
+import bloom02 from '../assets/main/shintanjin-baptist-church-bloom-02.webp';
+import bloom03 from '../assets/main/shintanjin-baptist-church-bloom-03.webp';
+import bloom04 from '../assets/main/shintanjin-baptist-church-bloom-04.webp';
 
 // Define balloons outside to prevent re-creation and random value shifts on re-renders
 // Use negative delays to "pre-warm" the animation so balloons are already mid-flight

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import lionWorship from '../assets/main/lamb_worship.png';
+import lionWorship from '../assets/main/shintanjin-baptist-church-worship-service.webp';
 import { BlurFade } from './ui/BlurFade';
 import { motion } from 'framer-motion';
 

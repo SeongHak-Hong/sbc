@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import cloud01 from '../assets/main/cloud_01.png';
-import cloud02 from '../assets/main/cloud_02.png';
-import cloud03 from '../assets/main/cloud_03.png';
-import cloud04 from '../assets/main/cloud_04.png';
+import cloud01 from '../assets/main/shintanjin-baptist-church-cloud-01.webp';
+import cloud02 from '../assets/main/shintanjin-baptist-church-cloud-02.webp';
+import cloud03 from '../assets/main/shintanjin-baptist-church-cloud-03.webp';
+import cloud04 from '../assets/main/shintanjin-baptist-church-cloud-04.webp';
 
 const CloudBackground = ({ heightMode = 'percent' }) => {
     // Cloud configuration: Denser coverage (left/right balanced per section)

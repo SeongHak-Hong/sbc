@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import styles from './MenuStack.module.css';
-import newsletterCover from '../assets/main/shintanjin-baptist-church-bulletin-newletter-cover.webp';
-
 const MenuOverlay = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
 

@@ -3,8 +3,6 @@ import logoSbc from '../assets/shintanjin-baptist-church-logo.svg';
 import '../index.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './MenuDropdown.module.css';
-import newsletterCover from '../assets/main/shintanjin-baptist-church-bulletin-newletter-cover.webp';
-
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [activeSubmenu, setActiveSubmenu] = useState(null);

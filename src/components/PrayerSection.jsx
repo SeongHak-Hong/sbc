@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import postImage from '../assets/main/post.png';
+import postImage from '../assets/main/shintanjin-baptist-church-prayer-post.webp';
 import { BlurFade } from './ui/BlurFade';
 import { InfiniteSlider } from './ui/InfiniteSlider';
 
