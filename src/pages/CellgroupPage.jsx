@@ -55,7 +55,7 @@ const CellgroupPage = () => {
             <div className={`container ${styles.notebookContainer}`}>
                 {/* Page Title */}
                 <div className={styles.pageTitle}>
-                    <h1>교구·구역 안내</h1>
+                    <h1>구역 안내</h1>
                 </div>
 
                 {/* Notebook Layout */}

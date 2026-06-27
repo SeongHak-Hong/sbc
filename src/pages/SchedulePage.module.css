@@ -1,0 +1,171 @@
+.pageWrapper {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-top: var(--header-padding-y, 16px);
+    padding-bottom: 80px;
+    position: relative;
+    z-index: 10;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 32px 0 24px;
+    margin-top: 60px; /* Leave space for top nav */
+}
+
+.header h1 {
+    font-size: var(--text-h2);
+    font-family: var(--font-title);
+    color: var(--white);
+    letter-spacing: -0.01em;
+    margin: 0;
+}
+
+.monthNav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.navButton {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--white);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.navButton:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+.navButton span {
+    font-size: 28px !important;
+}
+
+.monthText {
+    font-size: var(--text-h3);
+    font-family: var(--font-title);
+    color: var(--white);
+}
+
+.agendaContainer {
+    flex: 1;
+    overflow-y: visible; /* Let the window scroll */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.monthLabel {
+    display: none; /* Hide old month label */
+}
+
+.eventStack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.eventCard {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+}
+
+.eventCard:active {
+    transform: scale(0.98);
+}
+
+.timeBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 64px;
+    border-right: 1px solid rgba(17, 24, 39, 0.1);
+    padding-right: 16px;
+}
+
+.dateDay {
+    font-size: var(--text-h3);
+    font-family: var(--font-title);
+    color: var(--color-text-title);
+    line-height: 1; /* reduce space */
+}
+
+.dateDayOfWeek {
+    font-size: var(--text-body-card);
+    font-family: var(--font-body);
+    color: var(--color-text-body);
+    margin-top: 2px; /* reduce space */
+    line-height: 1;
+}
+
+.eventDetails {
+    flex: 1;
+}
+
+.eventTitle {
+    font-size: var(--text-h4);
+    font-family: var(--font-title);
+    color: var(--color-text-title);
+    margin-bottom: 4px;
+    line-height: 1;
+}
+
+.eventMeta {
+    font-size: var(--text-body-card);
+    font-family: var(--font-body);
+    color: var(--color-text-body);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1;
+}
+
+.statusDotSmall {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #0c89eb;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animateSlideUp {
+    opacity: 0;
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

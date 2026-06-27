@@ -93,7 +93,7 @@ const NextGenPage = () => {
                 <header className={styles.headerSection}>
 
 
-                    <motion.h1 
+                    <motion.h1
                         className={styles.headerTitle}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -101,7 +101,7 @@ const NextGenPage = () => {
                     >
                         <span className={styles.gradientText}>Next Generation</span>
                     </motion.h1>
-                    <motion.p 
+                    <motion.p
                         className={styles.headerSubtitle}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -124,7 +124,7 @@ const NextGenPage = () => {
                 </nav>
 
                 <AnimatePresence mode="wait">
-                    <motion.section 
+                    <motion.section
                         key={activeTab}
                         className={styles.gridSection}
                         initial={{ opacity: 0, y: 20 }}
@@ -138,7 +138,7 @@ const NextGenPage = () => {
 
                             <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', height: '100%', flexGrow: 1 }}>
                                 <h2 className={styles.cardTitle}>{activeData.title}</h2>
-                                
+
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', flexGrow: 1, justifyContent: 'center' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                                         <div className={styles.infoIconWrapper}>
@@ -229,8 +229,8 @@ const NextGenPage = () => {
                         </div>
                         <div className={styles.eventsGrid}>
                             {activeData.events.map((ev, idx) => (
-                                <motion.div 
-                                    key={idx} 
+                                <motion.div
+                                    key={idx}
                                     className={styles.eventCard}
                                     initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}

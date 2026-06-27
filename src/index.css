@@ -296,3 +296,13 @@ button span.icon {
   font-family: 'omyu_pretty', sans-serif !important;
   font-size: 24px !important;
 }
+
+@media (max-width: 767px) {
+  .footer-section p,
+  .footer-section span,
+  .footer-subpage p,
+  .footer-subpage span {
+    font-size: 18px !important;
+  }
+}
+

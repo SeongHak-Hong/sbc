@@ -35,8 +35,8 @@ const MenuOverlay = ({ isOpen, onClose }) => {
         {
             id: "step-3", num: "03", title: "양육훈련",
             links: [
-                { text: "새가족 안내", path: "/nurture" },
-                { text: "셀그룹 안내", path: "/cellgroup" }
+                { text: "새가족", path: "/nurture" },
+                { text: "구역 안내", path: "/cellgroup" }
             ]
         },
         {
@@ -50,9 +50,9 @@ const MenuOverlay = ({ isOpen, onClose }) => {
         {
             id: "step-6", num: "06", title: "나눔터",
             links: [
-                { text: "교회소식", path: "/" },
-                { text: "교우동정", path: "/" },
-                { text: "갤러리", path: "/" },
+                { text: "교회 소식", path: "/" },
+                { text: "성도 소식", path: "/" },
+                { text: "교회 일정", path: "/schedule" },
                 { text: "사역일정", path: "/" }
             ]
         }

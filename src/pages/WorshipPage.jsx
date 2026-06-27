@@ -14,11 +14,15 @@ const WorshipPage = () => {
         window.scrollTo(0, 0);
     }, []);
 
-    // Dummy data for "어른 예배"
+    // Dummy data for "예배 안내"
     const adultSchedule = [
-        { name: "1부 예배", time: "오전 07:00", location: "소예배실" },
-        { name: "2부 예배", time: "오전 11:00", location: "대예배실", highlight: true },
-        { name: "3부 예배", time: "오후 02:00", location: "대예배실" }
+        { name: "주일 1부 예배", time: "오전 07:00", location: "소예배실" },
+        { name: "주일 2부 예배", time: "오전 11:00", location: "대예배실", highlight: true },
+        { name: "주일 3부 예배", time: "오후 02:00", location: "대예배실" },
+        { name: "새벽기도회", time: "월~금 새벽 05:00", location: "소예배실" },
+        { name: "중보기도회", time: "매주 화요일 오전 10:30", location: "소예배실" },
+        { name: "수요예배", time: "수요일 오후 7:00", location: "대예배실" },
+        { name: "금요기도회", time: "금요일 오후 9:00", location: "소예배실" }
     ];
 
     return (
@@ -43,31 +47,29 @@ const WorshipPage = () => {
                 {/* Greeting Section */}
                 <section className={styles.greetingSection}>
                     <div className={styles.greetingWrapper}>
+                        <div className={styles.tabsContainer}>
+                            <button 
+                                className={`${styles.tapeTab} ${activeTab === 'adult' ? styles.activeTapeTab : ''}`}
+                                onClick={() => setActiveTab('adult')}
+                            >
+                                예배 안내
+                            </button>
+                            <button 
+                                className={`${styles.tapeTab} ${activeTab === 'nextgen' ? styles.activeTapeTab : ''}`}
+                                onClick={() => setActiveTab('nextgen')}
+                            >
+                                다음세대 예배
+                            </button>
+                            <button 
+                                className={`${styles.tapeTab} ${activeTab === 'meetings' ? styles.activeTapeTab : ''}`}
+                                onClick={() => setActiveTab('meetings')}
+                            >
+                                모임 안내
+                            </button>
+                        </div>
                         <div className={styles.worshipGuideCard}>
-                            
                             {/* Scrapbook Content Layout */}
                             <div className={styles.scrapbookContent}>
-                                {/* Navigation Tabs (Masking Tape Style) acting as Title */}
-                                <div className={styles.tabsContainer}>
-                                    <button 
-                                        className={`${styles.tapeTab} ${activeTab === 'adult' ? styles.activeTapeTab : ''}`}
-                                        onClick={() => setActiveTab('adult')}
-                                    >
-                                        어른 예배
-                                    </button>
-                                    <button 
-                                        className={`${styles.tapeTab} ${activeTab === 'nextgen' ? styles.activeTapeTab : ''}`}
-                                        onClick={() => setActiveTab('nextgen')}
-                                    >
-                                        다음 세대
-                                    </button>
-                                    <button 
-                                        className={`${styles.tapeTab} ${activeTab === 'meetings' ? styles.activeTapeTab : ''}`}
-                                        onClick={() => setActiveTab('meetings')}
-                                    >
-                                        모임 안내
-                                    </button>
-                                </div>
 
                                 <AnimatePresence mode="wait">
                                     {activeTab === 'adult' && (
@@ -108,20 +110,24 @@ const WorshipPage = () => {
                                         >
                                             <div className={styles.scheduleList}>
                                                 <div className={styles.scheduleItem}>
-                                                    <p className={styles.scheduleName}>유치부</p>
-                                                    <p className={styles.scheduleDetails}>오전 09:00 &middot; 유치부실</p>
+                                                    <p className={styles.scheduleName}>유치부(7세 이하)</p>
+                                                    <p className={styles.scheduleDetails}>주일 오전 09:00 &middot; 유치부실</p>
                                                 </div>
                                                 <div className={styles.scheduleItem}>
-                                                    <p className={styles.scheduleName}>초등부</p>
-                                                    <p className={styles.scheduleDetails}>오전 09:00 &middot; 러브키즈실</p>
+                                                    <p className={styles.scheduleName}>초등부 주일예배</p>
+                                                    <p className={styles.scheduleDetails}>주일 오전 09:00 &middot; 러브키즈예배실</p>
                                                 </div>
                                                 <div className={styles.scheduleItem}>
-                                                    <p className={styles.scheduleName}>청소년부</p>
-                                                    <p className={styles.scheduleDetails}>오전 09:00 &middot; 소예배실</p>
+                                                    <p className={styles.scheduleName}>초등부 떡볶이 데이</p>
+                                                    <p className={styles.scheduleDetails}>매주 목 오후 1~4시 &middot; 신탄진초교 앞</p>
+                                                </div>
+                                                <div className={styles.scheduleItem}>
+                                                    <p className={styles.scheduleName}>청소년부(중,고등부)</p>
+                                                    <p className={styles.scheduleDetails}>주일 오전 09:00 &middot; 소예배실</p>
                                                 </div>
                                                 <div className={styles.scheduleItem}>
                                                     <p className={styles.scheduleName}>청년부</p>
-                                                    <p className={styles.scheduleDetails}>오후 01:30 &middot; 소예배실</p>
+                                                    <p className={styles.scheduleDetails}>주일 오후 1:30 &middot; 소예배실</p>
                                                 </div>
                                             </div>
                                         </motion.div>
@@ -138,16 +144,12 @@ const WorshipPage = () => {
                                         >
                                             <div className={styles.scheduleList}>
                                                 <div className={styles.scheduleItem}>
-                                                    <p className={styles.scheduleName}>새벽기도회</p>
-                                                    <p className={styles.scheduleDetails}>월~금 새벽 05:00 &middot; 소예배실</p>
+                                                    <p className={styles.scheduleName}>시니어 드림스쿨</p>
+                                                    <p className={styles.scheduleDetails}>매주 금요일 오전 10:00 &middot; 소예배실</p>
                                                 </div>
                                                 <div className={styles.scheduleItem}>
-                                                    <p className={styles.scheduleName}>수요예배</p>
-                                                    <p className={styles.scheduleDetails}>수 오후 07:00 &middot; 대예배실</p>
-                                                </div>
-                                                <div className={styles.scheduleItem}>
-                                                    <p className={styles.scheduleName}>금요기도회</p>
-                                                    <p className={styles.scheduleDetails}>금 오후 09:00 &middot; 소예배실</p>
+                                                    <p className={styles.scheduleName}>운영위원회</p>
+                                                    <p className={styles.scheduleDetails}>매월 마지막주 2부 예배 후 &middot; 목양실</p>
                                                 </div>
                                             </div>
                                         </motion.div>

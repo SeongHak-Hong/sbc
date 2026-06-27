@@ -9,6 +9,7 @@ import WorshipPage from './pages/WorshipPage';
 import TeamPage from './pages/TeamPage';
 import NextGenPage from './pages/NextGenPage';
 import CellgroupPage from './pages/CellgroupPage';
+import SchedulePage from './pages/SchedulePage';
 import ScrollToTop from './components/ScrollToTop';
 import Lenis from 'lenis';
 import './App.css';
@@ -26,6 +27,7 @@ function AppRoutes() {
       <Route path="/team" element={<TeamPage />} />
       <Route path="/nextgen" element={<NextGenPage />} />
       <Route path="/cellgroup" element={<CellgroupPage />} />
+      <Route path="/schedule" element={<SchedulePage />} />
     </Routes>
   );
 }

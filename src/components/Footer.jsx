@@ -31,21 +31,7 @@ const Footer = () => {
 
     return (
         <footer className={`footer-section ${themeClass}`} style={{ position: 'relative', overflow: 'visible' }}>
-            {isMobile && (
-                <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', paddingRight: '10%' }}>
-                    <img 
-                        src={foregroundImg} 
-                        alt="Footer decoration" 
-                        style={{
-                            width: '250px',
-                            pointerEvents: 'none',
-                            marginTop: '40px',
-                            marginBottom: '20px'
-                        }} 
-                    />
-                </div>
-            )}
-            
+
             <div style={contentStyle}>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginBottom: '12px', fontSize: '20px' }}>
                     <span style={{ cursor: 'pointer' }}>이용약관</span>

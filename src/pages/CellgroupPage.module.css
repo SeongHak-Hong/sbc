@@ -25,7 +25,7 @@
 
 /* ── Main Panel (left notebook page) ── */
 .mainPanel {
-    grid-column: 3 / 10;
+    grid-column: 3 / 11;
     background-color: #ffffff;
     border-radius: 16px;
     position: relative;
@@ -228,7 +228,7 @@
 
 /* ── Side Tabs (right tabs) ── */
 .sideTabs {
-    grid-column: 10 / 11;
+    grid-column: 11 / 12;
     width: 80px;
     height: 100%;
     display: flex;

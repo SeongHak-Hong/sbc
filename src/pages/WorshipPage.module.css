@@ -82,19 +82,17 @@
     aspect-ratio: 1792 / 2697;
     height: auto;
     border-radius: 12px;
-    padding: 32px 24px;
+    padding: 28% 10% 10% 10%; /* Scale padding with image. Top 28% to clear clip */
     position: relative;
     overflow: hidden;
     font-family: var(--font-letter);
-}
-
-.worshipGuideCard * {
-    font-family: var(--font-letter) !important;
+    display: flex;
+    flex-direction: column;
 }
 
 @media (min-width: 768px) {
     .worshipGuideCard {
-        padding: 48px;
+        padding: 20% 10% 10% 10%;
     }
 }
 
@@ -110,9 +108,9 @@
 
 .tabsContainer {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 16px;
-    margin-bottom: 32px;
+    margin-bottom: 16px;
     flex-wrap: wrap;
 }
 
@@ -120,16 +118,15 @@
     background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    font-family: var(--font-title);
+    font-size: var(--text-h4);
     padding: 8px 20px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #555;
+    border-radius: 2px 2px 2px 255px / 255px 2px 2px 2px;
+    box-shadow: inset 0 0 4px rgba(255,255,255,0.8), 0 1px 2px rgba(0,0,0,0.05);
+    color: var(--color-text-body);
     cursor: pointer;
     border: none;
     outline: none;
-    /* Masking tape edges */
-    border-radius: 2px 2px 2px 255px / 255px 2px 2px 2px;
-    box-shadow: inset 0 0 4px rgba(255,255,255,0.8), 0 1px 2px rgba(0,0,0,0.05);
     transition: all 0.3s ease;
 }
 
@@ -139,20 +136,36 @@
 
 .tapeTab:hover {
     background: rgba(255, 255, 255, 0.8);
-    color: #333;
+    color: var(--color-text-title);
 }
 
 .activeTapeTab {
     background: rgba(255, 255, 255, 0.95);
     color: #1a1a1a;
-    font-weight: 700;
     box-shadow: inset 0 0 4px rgba(255,255,255,1), 0 4px 12px rgba(0,0,0,0.1);
     transform: rotate(0deg) scale(1.05) !important;
 }
 
 .scrapbookContent {
     background: transparent;
-    padding: 0 12px;
+    padding: 0 4px;
+    flex: 1;
+    overflow-y: auto;
+    /* Hide scrollbar for standard browsers, or style it */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,0,0,0.2) transparent;
+}
+
+/* Custom Webkit Scrollbar for the notepad */
+.scrapbookContent::-webkit-scrollbar {
+    width: 6px;
+}
+.scrapbookContent::-webkit-scrollbar-track {
+    background: transparent;
+}
+.scrapbookContent::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
 }
 
 .categorySection {
@@ -160,8 +173,8 @@
 }
 
 .categoryTitle {
-    font-size: 22px;
-    font-weight: 800;
+    font-size: var(--text-h2);
+    font-family: var(--font-title);
     color: #222;
     margin-bottom: 32px;
     display: inline-block;
@@ -197,8 +210,9 @@
 .scheduleItem {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
     padding-bottom: 8px;
+    gap: 12px;
 }
 
 .scheduleNameWrap {
@@ -208,18 +222,46 @@
 }
 
 .scheduleName {
-    font-size: 18px;
-    font-weight: 700;
+    font-size: var(--text-h3);
+    font-family: var(--font-title);
     color: #222;
     margin: 0;
+    word-break: keep-all;
+    flex-shrink: 1;
 }
 
 .scheduleDetails {
-    font-size: 15px;
+    font-size: var(--text-body-card);
+    font-family: var(--font-body);
     color: #555;
-    font-weight: 500;
     margin: 0;
     text-align: right;
+    word-break: keep-all;
+    flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+    .scheduleName {
+        font-size: var(--text-h4);
+    }
+    .scheduleDetails {
+        font-size: var(--pc-text-body);
+    }
+}
+
+@media (max-width: 480px) {
+    .scheduleItem {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    .scheduleName {
+        font-size: var(--text-h4);
+    }
+    .scheduleDetails {
+        font-size: 14px;
+        text-align: left;
+    }
 }
 
 .sticker {

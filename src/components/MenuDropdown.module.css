@@ -275,7 +275,7 @@
     transition: transform 0.2s;
     text-decoration: none;
     background-color: var(--color-text-title);
-    padding: 16px 20px;
+    padding: 14px 24px;
 }
 
 .imageButton:hover {
@@ -291,4 +291,52 @@
 .imageButtonIcon {
     font-size: 20px !important;
     color: var(--white);
+}
+
+.pastBulletinBtn {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.pastBulletinBtn:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* PC Placement (Top Right next to Close Button) */
+@media (min-width: 641px) {
+    .pastBulletinBtn {
+        top: 24px;
+        right: 84px;
+    }
+    .pastBulletinBtn:hover {
+        transform: translateY(-2px);
+    }
+}
+
+/* Mobile Placement (Bottom Center) */
+@media (max-width: 640px) {
+    .pastBulletinBtn {
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .pastBulletinBtn:hover {
+        transform: translateX(-50%) translateY(-2px);
+    }
 }

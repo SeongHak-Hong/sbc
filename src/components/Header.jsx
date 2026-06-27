@@ -2,10 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import logoSbc from '../assets/shintanjin-baptist-church-logo.svg';
 import '../index.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import styles from './MenuDropdown.module.css';
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [activeSubmenu, setActiveSubmenu] = useState(null);
+    const [isBulletinModalOpen, setIsBulletinModalOpen] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
     const isSubpage = location.pathname !== '/';
@@ -89,8 +91,8 @@ const Header = () => {
         {
             id: "step-3", title: "공동체", icon: "local_library", iconColor: styles.iconBlue,
             links: [
-                { text: "새가족 안내", path: "/nurture" },
-                { text: "셀그룹 안내", path: "/cellgroup" },
+                { text: "새가족", path: "/nurture" },
+                { text: "구역 안내", path: "/cellgroup" },
                 { text: "찬양대", path: "https://www.youtube.com/@sbc6312" }
             ]
         },
@@ -107,7 +109,7 @@ const Header = () => {
             links: [
                 { text: "교회 소식", path: "/" },
                 { text: "성도 소식", path: "/" },
-                { text: "교회 일정", path: "/" }
+                { text: "교회 일정", path: "/schedule" }
             ]
         }
     ];
@@ -194,14 +196,18 @@ const Header = () => {
                                 </React.Fragment>
                             );
                         })}
-                        <a 
-                            href="/" 
+                        <button 
                             className={styles.imageButton}
-                            onClick={(e) => handleLinkClick(e, "/")}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setIsBulletinModalOpen(true);
+                                setIsMenuOpen(false);
+                            }}
+                            style={{ border: 'none', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit' }}
                         >
                             <span className={styles.imageButtonTitle}>주보 보기</span>
                             <span className={`material-symbols-outlined ${styles.imageButtonIcon}`}>arrow_forward</span>
-                        </a>
+                        </button>
                     </div>
 
                     <div className={styles.socialLinks}>
@@ -218,6 +224,83 @@ const Header = () => {
                     </div>
                 </nav>
             </div>
+
+            {/* Bulletin Modal */}
+            <AnimatePresence>
+                {isBulletinModalOpen && (
+                    <motion.div 
+                        style={{
+                            position: 'fixed',
+                            top: 0, left: 0, right: 0, bottom: 0,
+                            backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                            zIndex: 99999,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            padding: '40px 20px'
+                        }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setIsBulletinModalOpen(false)}
+                    >
+                        <motion.img 
+                            src="/bulletin.webp" 
+                            alt="주보" 
+                            style={{
+                                maxHeight: '100%',
+                                maxWidth: '100%',
+                                objectFit: 'contain',
+                                borderRadius: '8px',
+                                boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
+                            }}
+                            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                            onClick={(e) => e.stopPropagation()}
+                        />
+                        <button 
+                            onClick={() => setIsBulletinModalOpen(false)}
+                            style={{
+                                position: 'absolute',
+                                top: '24px',
+                                right: '24px',
+                                background: 'rgba(255,255,255,0.1)',
+                                border: '1px solid rgba(255,255,255,0.2)',
+                                color: 'white',
+                                cursor: 'pointer',
+                                padding: '8px',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                transition: 'all 0.2s ease',
+                            }}
+                            onMouseOver={(e) => {
+                                e.currentTarget.style.background = 'rgba(255,255,255,0.2)';
+                            }}
+                            onMouseOut={(e) => {
+                                e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+                            }}
+                        >
+                            <span className="material-symbols-outlined" style={{ fontSize: '28px' }}>close</span>
+                        </button>
+
+                        {/* Past Bulletins Button */}
+                        <a 
+                            href="/board/bulletin"
+                            onClick={(e) => {
+                                // e.preventDefault(); // Remove if actual routing is needed
+                            }}
+                            className={styles.pastBulletinBtn}
+                        >
+                            <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>history</span>
+                            지난 주보 모아보기
+                        </a>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </header>
     );
 };

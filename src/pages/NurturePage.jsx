@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Footer from '../components/Footer';
 import CloudBackground from '../components/CloudBackground';
@@ -14,28 +15,28 @@ const STEPS = [
         bg: step01,
         width: 400,
         aspectRatio: '1 / 1',
-        title: '새가족 등록',
+        title: '첫째. 새가족 등록',
         desc: <>등록카드를 작성하며<br />담당 교역자의 따뜻한 첫 안내를 받습니다.</>,
     },
     {
         bg: step02,
         width: 400,
         aspectRatio: '1 / 1',
-        title: '새가족 교육 (6주)',
+        title: '둘째. 새가족 교육 (6주)',
         desc: <>건강한 신앙생활과 교회 정착을 위해<br />6주간의 기초 교육을 진행합니다.</>,
     },
     {
         bg: step03,
         width: 400,
         aspectRatio: '1 / 1',
-        title: '수료 및 소그룹 배정',
+        title: '셋째. 수료 및 소그룹 배정',
         desc: '교육 수료 후, 따뜻한 소그룹(목장)에 소속되어 성도들과 풍성한 교제를 나눕니다.',
     },
     {
         bg: step04,
         width: 400,
         aspectRatio: '1 / 1',
-        title: '침례 및 환영회',
+        title: '넷째. 침례 및 환영회',
         desc: '침례식과 환영회를 통해 한 가족이 된 기쁨을 누리며 비전을 공유합니다.',
     },
 ];
@@ -151,6 +152,7 @@ const ScrollStackCard = ({ step, index, total, containerRef }) => {
 
 const NurturePage = () => {
     const stackContainerRef = useRef(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -160,44 +162,28 @@ const NurturePage = () => {
         <div className={styles.pageWrapper}>
             <CloudBackground heightMode="vh" />
 
-            {/* Header Section */}
-            <header className={styles.header}>
-                <div style={{ position: 'absolute', top: '80px', left: '40px', transform: 'rotate(-15deg)', opacity: 0.7, display: 'none' }} className="md-block">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#FFAE82" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                    </svg>
-                </div>
-                <div style={{ position: 'absolute', top: '112px', right: '40px', transform: 'rotate(15deg)', opacity: 0.7, display: 'none' }} className="md-block">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#B0DCEE" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                    </svg>
-                </div>
-
-                <h1 className={styles.headerTitle}>
-                    새가족 여러분을<br />
-                    축복하고 환영합니다!
-                </h1>
-            </header>
-
-            {/* Scrapbook Section */}
-            <section style={{ padding: '48px var(--grid-margin)', maxWidth: 'var(--max-width)', margin: '0 auto', position: 'relative', zIndex: 15 }}>
-                <div className={styles.scrapbookGrid}>
-                    <div className={styles.polaroid} style={{ transform: 'rotate(-3deg)' }}>
-                        <div className={`${styles.tape} ${styles.tapeTexture}`} style={{ top: 0, left: '50%', transform: 'translate(-50%, -12px) rotate(-4deg)', width: '112px', height: '32px', backgroundColor: '#FDCBDE' }}></div>
-                        <div className={styles.photoFrame} style={{ aspectRatio: '4/3', backgroundColor: '#E2E8F0', padding: 0, overflow: 'hidden' }}>
-                            <img src={welcomeImg} alt="Welcome to Shintanjin Baptist Church" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Journey Section - Fan Stack */}
+            {/* Journey Section - Fan Stack with Header integrated */}
             <div ref={stackContainerRef} className={styles.fanStackWrapper}>
                 <div className={styles.fanStackSticky}>
-                    <div className={styles.scrollStackHeader}>
-                        <h2 className={styles.sectionTitle}>신탄진교회 정착 여정</h2>
-                        <p className={styles.sectionSubtitle}>우리 교회에 스며드는 따뜻한 4단계의 시간을 안내해 드려요.</p>
-                    </div>
+                    {/* Header Section (Moved inside sticky container) */}
+                    <header className={styles.header} style={{ paddingBottom: '32px' }}>
+                        <div style={{ position: 'absolute', top: '80px', left: '40px', transform: 'rotate(-15deg)', opacity: 0.7, display: 'none' }} className="md-block">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#FFAE82" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                        </div>
+                        <div style={{ position: 'absolute', top: '112px', right: '40px', transform: 'rotate(15deg)', opacity: 0.7, display: 'none' }} className="md-block">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#B0DCEE" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </div>
+
+                        <h1 className={styles.headerTitle}>
+                            새가족 여러분을<br />
+                            축복하고 환영합니다!
+                        </h1>
+                        <p className={styles.headerSubtitle}>신탄진교회에 스며드는 따뜻한 4단계의 시간을 안내해 드려요.</p>
+                    </header>
 
                     <div className={styles.fanStackArea}>
                         {STEPS.map((step, i) => (
@@ -211,6 +197,13 @@ const NurturePage = () => {
                         ))}
                     </div>
                 </div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '40px', paddingBottom: '80px', position: 'relative', zIndex: 10 }}>
+                <button onClick={() => navigate('/cellgroup')} style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }}>
+                    새가족 교육과정 보기
+                    <span className="material-symbols-outlined" style={{ fontSize: 'var(--btn-icon-size)' }}>arrow_forward</span>
+                </button>
             </div>
 
             <Footer />
