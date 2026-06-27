@@ -3,6 +3,7 @@ import logoSbc from '../assets/shintanjin-baptist-church-logo.svg';
 import '../index.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './MenuDropdown.module.css';
+import newsletterCover from '../assets/main/shintanjin-baptist-church-bulletin-newletter-cover.webp';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -195,6 +196,14 @@ const Header = () => {
                                 </React.Fragment>
                             );
                         })}
+                        
+                        <a 
+                            href="/" 
+                            className={styles.imageButton}
+                            onClick={(e) => handleLinkClick(e, "/")}
+                        >
+                            <img src={newsletterCover} alt="교회소식지" className={styles.imageButtonImg} />
+                        </a>
                     </div>
 
                     <div className={styles.socialLinks}>
