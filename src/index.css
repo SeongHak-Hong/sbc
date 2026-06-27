@@ -8,7 +8,7 @@
 /* Placeholder for MemomentKkukkukk - will update with correct URL */
 @font-face {
   font-family: 'MemomentKkukkukk';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/MemomentKkukkukk.woff2') format('woff2');
+  src: url('/fonts/MemomentKkukkukk.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }

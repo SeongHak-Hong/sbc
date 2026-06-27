@@ -144,13 +144,13 @@ const MenuOverlay = ({ isOpen, onClose }) => {
                                 </React.Fragment>
                             );
                         })}
-                        
                         <a 
                             href="/" 
                             className={styles.imageButton}
                             onClick={(e) => handleLinkClick(e, "/")}
                         >
-                            <img src={newsletterCover} alt="교회소식지" className={styles.imageButtonImg} />
+                            <span className={styles.imageButtonTitle}>주보 보기</span>
+                            <span className={`material-symbols-outlined ${styles.imageButtonIcon}`}>arrow_forward</span>
                         </a>
                     </motion.div>
                 </div>
