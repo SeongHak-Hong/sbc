@@ -183,8 +183,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  background: linear-gradient(180deg, #0c89eb 0%, #499ed3 100%);
-  background-attachment: fixed;
+  background-color: #192C2A;
   color: var(--color-text-body);
   line-height: var(--leading-body);
   padding-bottom: 0;

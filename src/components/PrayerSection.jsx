@@ -26,7 +26,7 @@ const PrayerSection = () => {
 
     const titleStyle = {
         fontFamily: 'LXGWWenKaiMonoKR, sans-serif',
-        fontSize: '48px',
+        fontSize: isMobile ? '32px' : '48px',
         fontWeight: 400,
         lineHeight: '1.6',
         letterSpacing: '-0.1em',
@@ -45,7 +45,7 @@ const PrayerSection = () => {
     return (
         <section style={sectionStyle}>
             <BlurFade delay={0.25} inView>
-                <h2 style={titleStyle}>기쁨은 더하고, 슬픔은 나누며.</h2>
+                <h2 style={titleStyle}>기쁨은 더하고,{isMobile ? <br /> : ' '}슬픔은 나누며.</h2>
             </BlurFade>
             <BlurFade delay={0.4} inView>
                 <PretendardButton style={buttonStyle}>

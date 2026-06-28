@@ -13,7 +13,7 @@ const scheduleData = [
                 title: '어린이 주일 예배 및 행사',
                 meta: '오전 11:00 · 본당 및 교육관',
                 delay: '0.1s',
-                color: '#0c89eb'
+                color: '#4ADE80'
             },
             {
                 date: '19',
@@ -21,7 +21,7 @@ const scheduleData = [
                 title: '청년부 헌신예배',
                 meta: '오후 02:00 · 본당',
                 delay: '0.2s',
-                color: '#70A4FF'
+                color: '#3B82F6'
             }
         ]
     },
@@ -34,7 +34,7 @@ const scheduleData = [
                 title: '전교인 한마음 체육대회',
                 meta: '오전 10:00 · 신탄진체육관',
                 delay: '0.1s',
-                color: '#0c89eb'
+                color: '#FBCB51'
             },
             {
                 date: '21',
@@ -42,7 +42,7 @@ const scheduleData = [
                 title: '교회학교 여름성경학교',
                 meta: '오후 02:00 · 대예배실 및 각 부서실',
                 delay: '0.2s',
-                color: '#70A4FF'
+                color: '#4ADE80'
             },
             {
                 date: '28',
@@ -50,7 +50,7 @@ const scheduleData = [
                 title: '상반기 결산 구역장 회의',
                 meta: '오후 07:00 · 소예배실',
                 delay: '0.3s',
-                color: '#A1C4FD'
+                color: '#FA7A55'
             }
         ]
     },
@@ -63,7 +63,7 @@ const scheduleData = [
                 title: '중고등부 여름수련회',
                 meta: '오후 03:00 · 외부 수양관',
                 delay: '0.1s',
-                color: '#0c89eb'
+                color: '#BA87ED'
             },
             {
                 date: '28',
@@ -71,7 +71,7 @@ const scheduleData = [
                 title: '하반기 제직회',
                 meta: '오후 04:00 · 본당',
                 delay: '0.2s',
-                color: '#70A4FF'
+                color: '#B6CDCA'
             }
         ]
     }
@@ -100,54 +100,50 @@ const SchedulePage = () => {
 
     return (
         <div className={styles.pageWrapper}>
+            <SubPageSection title="교회 일정">
+                <div className={styles.contentWrapper}>
+                    <div className={styles.monthNav}>
+                        <button 
+                            className={styles.navButton} 
+                            onClick={handlePrevMonth}
+                            style={{ opacity: currentMonthIndex === 0 ? 0.3 : 1, cursor: currentMonthIndex === 0 ? 'default' : 'pointer' }}
+                        >
+                            <span className="material-symbols-outlined">chevron_left</span>
+                        </button>
+                        <span className={styles.monthText}>{currentSection.month}</span>
+                        <button 
+                            className={styles.navButton} 
+                            onClick={handleNextMonth}
+                            style={{ opacity: currentMonthIndex === scheduleData.length - 1 ? 0.3 : 1, cursor: currentMonthIndex === scheduleData.length - 1 ? 'default' : 'pointer' }}
+                        >
+                            <span className="material-symbols-outlined">chevron_right</span>
+                        </button>
+                    </div>
 
-            <SubPageSection title="교회 일정" className={`container ${styles.container}`}>
-                <div className={styles.monthNav}>
-                    <button 
-                        className={styles.navButton} 
-                        onClick={handlePrevMonth}
-                        style={{ opacity: currentMonthIndex === 0 ? 0.3 : 1, cursor: currentMonthIndex === 0 ? 'default' : 'pointer' }}
-                    >
-                        <span className="material-symbols-outlined">chevron_left</span>
-                    </button>
-                    <span className={styles.monthText}>{currentSection.month}</span>
-                    <button 
-                        className={styles.navButton} 
-                        onClick={handleNextMonth}
-                        style={{ opacity: currentMonthIndex === scheduleData.length - 1 ? 0.3 : 1, cursor: currentMonthIndex === scheduleData.length - 1 ? 'default' : 'pointer' }}
-                    >
-                        <span className="material-symbols-outlined">chevron_right</span>
-                    </button>
-                </div>
-
-                <div className={styles.agendaContainer}>
-                    <div className={styles.eventStack} key={currentMonthIndex}>
-                        {currentSection.events.map((event, eventIdx) => (
-                            <div 
-                                key={`${currentMonthIndex}-${eventIdx}`} 
-                                className={`${styles.eventCard} ${styles.animateSlideUp}`}
-                                style={{ animationDelay: event.delay }}
-                            >
-                                <div className={styles.timeBlock}>
-                                    <span className={styles.dateDay}>{event.date}</span>
-                                    <span className={styles.dateDayOfWeek}>{event.day}</span>
-                                </div>
-                                <div className={styles.eventDetails}>
-                                    <div className={styles.eventTitle}>{event.title}</div>
-                                    <div className={styles.eventMeta}>
-                                        <span 
-                                            className={styles.statusDotSmall}
-                                            style={{ background: event.color }}
-                                        ></span>
-                                        {event.meta}
+                    <div className={styles.agendaContainer}>
+                        <div className={styles.eventStack} key={currentMonthIndex}>
+                            {currentSection.events.map((event, eventIdx) => (
+                                <div 
+                                    key={`${currentMonthIndex}-${eventIdx}`} 
+                                    className={`${styles.eventCard} ${styles.animateSlideUp}`}
+                                    style={{ animationDelay: event.delay }}
+                                >
+                                    <div className={styles.timeBlock}>
+                                        <span className={styles.dateDay}>{event.date}</span>
+                                        <span className={styles.dateDayOfWeek}>{event.day}</span>
+                                    </div>
+                                    <div className={styles.eventDetails}>
+                                        <div className={styles.eventTitle}>{event.title}</div>
+                                        <div className={styles.eventMeta}>
+                                            {event.meta}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </div>
             </SubPageSection>
-
             <Footer />
         </div>
     );

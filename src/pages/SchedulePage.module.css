@@ -1,168 +1,127 @@
+/* d:\me\design\sbc-site\src\pages\SchedulePage.module.css */
 .pageWrapper {
-    position: relative;
     width: 100%;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
     background-color: #192C2A;
-}
-
-.container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding-top: var(--header-padding-y, 16px);
-    padding-bottom: 80px;
+    color: #ffffff;
+    font-family: 'Pretendard', sans-serif;
     position: relative;
-    z-index: 10;
 }
 
-.header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 32px 0 24px;
-    margin-top: 60px; /* Leave space for top nav */
-}
-
-.header h1 {
-    font-size: var(--text-h2);
-    font-family: var(--font-title);
-    color: var(--white);
-    letter-spacing: -0.01em;
-    margin: 0;
+.contentWrapper {
+    max-width: 640px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 .monthNav {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 24px;
-    margin-bottom: 32px;
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .navButton {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: var(--white);
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
     width: 48px;
     height: 48px;
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.3s ease;
     padding: 0;
 }
 
 .navButton:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.05);
+    color: #ffffff;
 }
 
 .navButton span {
-    font-size: 28px !important;
+    font-size: 32px !important;
 }
 
 .monthText {
-    font-size: var(--text-h3);
-    font-family: var(--font-title);
-    color: var(--white);
+    font-family: 'LXGWWenKaiMonoKR', sans-serif;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #ffffff;
 }
 
 .agendaContainer {
-    flex: 1;
-    overflow-y: visible; /* Let the window scroll */
     display: flex;
     flex-direction: column;
-    gap: 12px;
-}
-
-.monthLabel {
-    display: none; /* Hide old month label */
 }
 
 .eventStack {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-bottom: 12px;
+    gap: 0;
 }
 
 .eventCard {
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 20px;
-    padding: 20px;
     display: flex;
-    align-items: center;
-    gap: 20px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
-}
-
-.eventCard:active {
-    transform: scale(0.98);
+    align-items: flex-start;
+    padding: 32px 0;
+    transition: transform 0.3s ease;
 }
 
 .timeBlock {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    min-width: 64px;
-    border-right: 1px solid rgba(17, 24, 39, 0.1);
-    padding-right: 16px;
+    min-width: 80px;
+    padding-right: 24px;
 }
 
 .dateDay {
-    font-size: 20px;
-    font-family: 'Pretendard', sans-serif;
+    font-size: 24px;
     font-weight: 500;
-    color: var(--color-text-title);
-    line-height: 1.6;
+    color: #ffffff;
+    line-height: 1.8;
 }
 
 .dateDayOfWeek {
-    font-size: 18px;
-    font-family: 'Pretendard', sans-serif;
+    font-size: 16px;
     font-weight: 300;
-    color: var(--color-text-body);
-    margin-top: 2px; /* reduce space */
+    color: rgba(255, 255, 255, 0.5);
     line-height: 1.8;
 }
 
 .eventDetails {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
 }
 
 .eventTitle {
-    font-size: 18px;
-    font-family: 'Pretendard', sans-serif;
+    font-size: 20px;
     font-weight: 500;
-    color: var(--color-text-title);
-    margin-bottom: 4px;
-    line-height: 1.6;
+    color: #ffffff;
+    line-height: 1.8;
 }
 
 .eventMeta {
-    font-size: 18px;
-    font-family: 'Pretendard', sans-serif;
+    font-size: 16px;
     font-weight: 300;
-    color: var(--color-text-body);
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.8;
     display: flex;
     align-items: center;
     gap: 8px;
-    line-height: 1.8;
 }
 
 .statusDotSmall {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: #0c89eb;
+    flex-shrink: 0;
 }
 
 @keyframes slideUp {
@@ -173,4 +132,19 @@
 .animateSlideUp {
     opacity: 0;
     animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (max-width: 600px) {
+    .eventCard {
+        flex-direction: column;
+        gap: 8px;
+        padding: 24px 0;
+    }
+    
+    .timeBlock {
+        flex-direction: row;
+        align-items: baseline;
+        gap: 8px;
+        padding-right: 0;
+    }
 }

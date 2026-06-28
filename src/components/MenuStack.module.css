@@ -14,7 +14,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.1);
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px);
     pointer-events: auto;
 }
 
@@ -26,7 +27,7 @@
     top: calc(var(--header-padding-y, 20px) * 2 + var(--header-logo-height, 32px) + 10px);
     right: var(--header-padding-x, 48px);
     border-radius: 24px;
-    box-shadow: 0 16px 48px rgba(0,0,0,0.15);
+    box-shadow: none;
     pointer-events: auto;
     overflow: visible;
 }
@@ -37,31 +38,29 @@
     }
 }
 
-/* Hide radio inputs */
 .stackRadio {
     display: none;
 }
 
-/* Stack Card */
 .stackCard {
-    background-color: #f5f7fa;
+    background-color: #192C2A;
     border-radius: 20px;
-    border-top: 1px solid #e2e8f0;
-    box-shadow: 0 -4px 12px rgba(0,0,0,0.03);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: none;
     position: relative;
     cursor: pointer;
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     overflow: hidden;
-    flex: 0 0 68px; /* Default height */
+    flex: 0 0 68px;
     margin-top: -20px;
-    color: var(--color-text-body);
+    color: #ffffff;
     display: block;
     text-decoration: none;
 }
 
 .stackCard:first-of-type {
     margin-top: 0;
-    box-shadow: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .cardHeader {
@@ -81,13 +80,14 @@
 
 .stepNum {
     font-family: monospace;
-    font-size: 0.85rem;
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .stepTitle {
-    font-size: 1.15rem;
+    font-size: 16px;
     font-weight: 500;
     font-family: var(--font-title);
     letter-spacing: -0.02em;
@@ -97,55 +97,48 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: var(--color-text-body);
-    opacity: 0.3;
-    transition: all 0.4s ease;
+    background-color: rgba(255, 255, 255, 0.5);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Card Content */
-.cardContent {
-    padding: 0 20px 20px 20px;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex;
-    flex-direction: column;
-}
-
-/* Active State */
 .stackRadio:checked + .stackCard {
     flex: 1 1 auto;
-    background-color: var(--color-text-title, #1A202C);
-    border-top-color: transparent;
-    color: #ffffff; /* White text on dark bg */
-    margin-top: 12px;
-    margin-bottom: 12px;
-    box-shadow: 0 12px 32px rgba(26, 32, 44, 0.25), 0 -4px 16px rgba(0,0,0,0.05);
-}
-
-.stackRadio#step-1:checked + .stackCard {
     margin-top: 0;
+    cursor: default;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 16px;
 }
 
 .stackRadio:checked + .stackCard .cardHeader {
     color: #ffffff;
 }
 
+.stackRadio:checked + .stackCard .stepNum {
+    color: #ffffff;
+}
+
 .stackRadio:checked + .stackCard .statusDot {
-    background-color: #ffffff;
-    opacity: 1;
+    transform: scale(0);
+}
+
+.cardContent {
+    padding: 0 20px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: 0s;
+    pointer-events: none;
+    visibility: hidden;
+    height: 0;
 }
 
 .stackRadio:checked + .stackCard .cardContent {
     opacity: 1;
     transform: translateY(0);
-    transition-delay: 0.1s;
-}
-
-/* CSS trick to target subsequent siblings whether they are preceded by an input or just a div */
-.stackRadio:checked ~ .stackCard,
-.stackRadio:checked ~ .stackRadio + .stackCard {
-    margin-top: -20px;
+    transition-delay: 0.2s;
+    pointer-events: auto;
+    visibility: visible;
+    height: auto;
 }
 
 .stackRadio:checked + .stackCard + .stackCard,
@@ -153,7 +146,6 @@
     margin-top: -12px;
 }
 
-/* Menu List */
 .menuList {
     display: flex;
     flex-direction: column;
@@ -165,9 +157,9 @@
     display: block;
     padding: 12px 16px;
     border-radius: 12px;
-    color: inherit;
+    color: #ffffff;
     text-decoration: none;
-    font-size: 1.05rem;
+    font-size: 15px;
     font-weight: 500;
     font-family: var(--font-body);
     letter-spacing: -0.01em;
@@ -175,7 +167,7 @@
 }
 
 .menuItem:hover {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .imageButton {
@@ -184,25 +176,29 @@
     align-items: center;
     margin-top: 12px;
     border-radius: 20px;
-    transition: transform 0.2s;
+    transition: transform 0.2s, background-color 0.2s;
     text-decoration: none;
     flex-shrink: 0;
-    background-color: var(--color-text-title);
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: 16px 20px;
 }
 
 .imageButton:hover {
     transform: translateY(-2px);
+    background-color: rgba(255, 255, 255, 0.15);
 }
 
 .imageButtonTitle {
-    font-size: 1.05rem;
+    font-size: 15px;
     font-weight: 500;
     color: var(--white);
     letter-spacing: -0.01em;
 }
 
 .imageButtonIcon {
-    font-size: 20px !important;
+    font-size: 18px !important;
     color: var(--white);
 }

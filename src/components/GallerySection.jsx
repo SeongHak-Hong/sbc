@@ -62,7 +62,7 @@ const GallerySection = () => {
                 <BlurFade delay={0.25} inView>
                     <h2 style={{ 
                         fontFamily: 'LXGWWenKaiMonoKR, sans-serif',
-                        fontSize: '48px',
+                        fontSize: isMobile ? '32px' : '48px',
                         fontWeight: 400,
                         lineHeight: '1.6',
                         letterSpacing: '-0.1em',

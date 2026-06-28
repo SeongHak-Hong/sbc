@@ -1,4 +1,4 @@
-﻿.footerSection {
+.footerSection {
     position: relative;
     width: 100%;
     text-align: center;
@@ -48,7 +48,7 @@
     justify-content: center;
     gap: 24px;
     margin-bottom: 40px;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 1.8;
     font-weight: 500;
 }
