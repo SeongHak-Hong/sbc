@@ -18,7 +18,7 @@ const MenuOverlay = ({ isOpen, onClose }) => {
         {
             id: "step-1", num: "01", title: "교회소개",
             links: [
-                { text: "인사말·비전", path: "/vision" },
+                { text: "인사말 · 비전", path: "/vision" },
                 { text: "예배·오시는 길", path: "/worship" },
                 { text: "추억 갤러리", path: "/history" },
                 { text: "섬기는 분들", path: "/team" },

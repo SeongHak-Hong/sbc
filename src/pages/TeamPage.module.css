@@ -16,6 +16,7 @@
     top: 0;
     left: 0;
     pointer-events: none;
+    background-color: #192C2A;
 }
 
 .pageWrapper > * {
@@ -143,7 +144,7 @@ p {
     position: absolute;
     width: 300px;
     height: 460px;
-    background-color: #1a1a1a;
+    background-color: #192C2A;
     border-radius: 24px;
     transform: rotate(-6deg) translateX(-10px) translateY(10px);
     box-shadow: 0 20px 40px rgba(0,0,0,0.3);

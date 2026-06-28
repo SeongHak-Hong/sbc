@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import lionWorship from '../assets/main/shintanjin-baptist-church-worship-service.webp';
 import { BlurFade } from './ui/BlurFade';
-import { motion } from 'framer-motion';
+import PretendardButton from './ui/PretendardButton';
 
 const ServiceInfoSection = () => {
     const [isMobile, setIsMobile] = useState(false);
@@ -15,69 +14,47 @@ const ServiceInfoSection = () => {
 
     const sectionStyle = {
         padding: 'var(--section-padding-y) 0',
-        textAlign: isMobile ? 'center' : 'left', // Center text on mobile
+        textAlign: 'center', // Center text on all devices since image is gone
         color: '#fff',
         position: 'relative',
         height: 'auto', // Hug content
         minHeight: '100vh', // Requested 100vh height including padding
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center', // Center the pair in the section
-        flexDirection: 'row',
-        gap: '48px' // Gap between box and text
+        justifyContent: 'center', // Center the content
+        flexDirection: 'column',
+        backgroundColor: '#E1EBEA'
     };
 
     const titleStyle = {
-        marginBottom: '20px',
-        color: '#ffffff'
+        fontFamily: 'LXGWWenKaiMonoKR, sans-serif',
+        fontSize: '48px',
+        fontWeight: 400,
+        lineHeight: '1.6',
+        letterSpacing: '-0.1em',
+        color: '#1D1A1C',
+        marginBottom: '64px',
+        textAlign: 'center',
+        padding: isMobile ? '0 24px' : '0 48px',
+        boxSizing: 'border-box'
     };
 
     const buttonStyle = {
-        // backgroundColor: '#005f99', // Handled by global
-        color: '#fff',
+        borderColor: '#1D1A1C',
+        color: '#1D1A1C',
         marginTop: '20px'
-    };
-
-    const imageBoxStyle = {
-        width: isMobile ? '100%' : '452px',
-        height: isMobile ? 'auto' : '452px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative'
-    };
-
-    const lionStyle = {
-        width: 'auto',
-        height: 'auto',
-        maxWidth: '100%',
-        maxHeight: '100%'
     };
 
     return (
         <section className="flex-mobile-column" style={sectionStyle}>
-
-            <motion.div
-                style={imageBoxStyle}
-                initial={{ opacity: 0, x: -100 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false, amount: 0.3 }} // Re-trigger animation
-                transition={{ duration: 0.8, ease: 'easeOut' }}
-            >
-                <img src={lionWorship} alt="Worship Lion" style={lionStyle} />
-            </motion.div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: isMobile ? 'center' : 'flex-start' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <BlurFade delay={0.25} inView>
                     <h2 style={titleStyle}>당신을 기다리는<br />예배의 자리.</h2>
                 </BlurFade>
                 <BlurFade delay={0.4} inView>
-                    <motion.button
-                        style={buttonStyle}
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                    >
+                    <PretendardButton style={buttonStyle}>
                         예배 안내 보기
-                    </motion.button>
+                    </PretendardButton>
                 </BlurFade>
             </div>
         </section>

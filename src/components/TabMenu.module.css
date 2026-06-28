@@ -1,0 +1,50 @@
+﻿.tabsContainer {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 48px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    width: 100%;
+}
+
+.tab {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'Pretendard', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 12px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.tab::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: transparent;
+    transition: background 0.3s ease;
+}
+
+.tab:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.activeTab {
+    color: #ffffff;
+}
+
+.activeTab::after {
+    background: #ffffff;
+}

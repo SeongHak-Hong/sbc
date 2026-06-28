@@ -2,8 +2,6 @@ import React, { useRef, useState, useLayoutEffect, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 
 import styles from './HistoryPage.module.css';
-import CloudBackground from '../components/CloudBackground';
-import BalloonBackground from '../components/BalloonBackground';
 
 // Dynamically import all images from the history folder
 const imageModules = import.meta.glob('../assets/history/shintanjin-baptist-church-history-*.webp', { eager: true, import: 'default' });
@@ -12,22 +10,14 @@ const totalItems = Object.keys(imageModules).length;
 const historyData = Object.entries(imageModules)
     .sort(([pathA], [pathB]) => pathA.localeCompare(pathB)) // Ensure sequence order
     .map(([path, url], index) => {
-        const colors = ['#FDCBDE', '#FDF1B6', '#D2F0E0', '#B0DCEE'];
-        const tapeColor = colors[index % colors.length];
-        
-        // Slightly random rotations to maintain the scrapbook feel
+        // Slightly random rotations to maintain the zigzag scrapbook feel
         const cardRots = ['-3deg', '2deg', '-1deg', '4deg', '-2deg'];
-        const tapeRots = ['-4deg', '3deg', '-8deg', '12deg', '5deg'];
         
         return {
             id: `history-${index}`,
-            year: 1980 + Math.round((index / Math.max(1, totalItems - 1)) * 20), // Interpolate from 1980 to 2000
-            title: `교회발자취 ${index + 1}`, // Placeholder title
+            year: 1980 + Math.round((index / Math.max(1, totalItems - 1)) * 20),
+            title: `교회발자취 ${index + 1}`,
             image: url,
-            tapeColor: tapeColor,
-            tapeRot: tapeRots[index % tapeRots.length],
-            tapeX: '-50%',
-            tapeY: '-12px',
             cardRot: cardRots[index % cardRots.length]
         };
     });
@@ -76,9 +66,8 @@ const HistoryPage = () => {
     const scrollHeight = scrollRange > 0 ? `${scrollRange + window.innerHeight}px` : '100vh';
 
     return (
-        <div ref={containerRef} style={{ height: scrollHeight, position: 'relative', backgroundColor: 'transparent' }}>
+        <div ref={containerRef} style={{ height: scrollHeight, position: 'relative', backgroundColor: '#192C2A' }}>
             <div className={styles.pageWrapper}>
-                <CloudBackground heightMode="vh" />
 
 
 
@@ -94,26 +83,14 @@ const HistoryPage = () => {
                                 transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
                             >
                                 <motion.div 
-                                    className={styles.polaroid} 
+                                    className={styles.imageWrapper} 
                                     style={{ transform: `rotate(${item.cardRot})` }}
                                     whileHover={{ scale: 1.05, rotate: 0 }}
                                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                                 >
-                                    <div 
-                                        className={`${styles.tape} ${styles.tapeTexture}`} 
-                                        style={{ 
-                                            top: 0, 
-                                            left: '50%', 
-                                            transform: `translate(${item.tapeX}, ${item.tapeY}) rotate(${item.tapeRot})`, 
-                                            width: '112px', 
-                                            height: '32px', 
-                                            backgroundColor: item.tapeColor 
-                                        }}
-                                    ></div>
                                     <div className={styles.photoFrame} style={{ aspectRatio: '4/3' }}>
                                         <img src={item.image} alt={item.title} />
                                     </div>
-                                    {/* photoText removed as requested */}
                                 </motion.div>
                             </motion.article>
                         ))}
@@ -132,6 +109,7 @@ const HistoryPage = () => {
                                 신탄진교회의 가장 생생하고 다정한 '오늘'의 이야기를 인스타그램에서 만나보세요.
                             </p>
                             <motion.button 
+                                style={{ color: 'white' }}
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 transition={{ type: "spring", stiffness: 400 }}

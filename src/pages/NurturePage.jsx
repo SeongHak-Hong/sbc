@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Footer from '../components/Footer';
-import CloudBackground from '../components/CloudBackground';
+import SubPageSection from '../components/SubPageSection';
 import styles from './NurturePage.module.css';
 import welcomeImg from '../assets/nurture/shintanjin-baptist-church-welcome.webp';
 import step01 from '../assets/nurture/shintanjin-baptist-church-nurture-step-01.webp';
@@ -160,30 +160,22 @@ const NurturePage = () => {
 
     return (
         <div className={styles.pageWrapper}>
-            <CloudBackground heightMode="vh" />
 
             {/* Journey Section - Fan Stack with Header integrated */}
             <div ref={stackContainerRef} className={styles.fanStackWrapper}>
                 <div className={styles.fanStackSticky}>
                     {/* Header Section (Moved inside sticky container) */}
-                    <header className={styles.header} style={{ paddingBottom: '32px' }}>
-                        <div style={{ position: 'absolute', top: '80px', left: '40px', transform: 'rotate(-15deg)', opacity: 0.7, display: 'none' }} className="md-block">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#FFAE82" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                            </svg>
-                        </div>
-                        <div style={{ position: 'absolute', top: '112px', right: '40px', transform: 'rotate(15deg)', opacity: 0.7, display: 'none' }} className="md-block">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#B0DCEE" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                            </svg>
-                        </div>
-
-                        <h1 className={styles.headerTitle}>
-                            새가족 여러분을<br />
-                            축복하고 환영합니다!
-                        </h1>
-                        <p className={styles.headerSubtitle}>신탄진교회에 스며드는 따뜻한 4단계의 시간을 안내해 드려요.</p>
-                    </header>
+                    <SubPageSection 
+                        title={
+                            <>
+                                새가족 여러분을<br />
+                                축복하고 환영합니다!
+                            </>
+                        } 
+                        subtitle={
+                            <p className={styles.headerSubtitle} style={{ fontSize: '18px', margin: 0 }}>신탄진교회에 스며드는 따뜻한 4단계의 시간을 안내해 드려요.</p>
+                        }
+                    >
 
                     <div className={styles.fanStackArea}>
                         {STEPS.map((step, i) => (
@@ -196,11 +188,13 @@ const NurturePage = () => {
                             />
                         ))}
                     </div>
+                    </SubPageSection>
                 </div>
             </div>
 
+
             <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '40px', paddingBottom: '80px', position: 'relative', zIndex: 10 }}>
-                <button onClick={() => navigate('/cellgroup')} style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }}>
+                <button style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }}>
                     새가족 교육과정 보기
                     <span className="material-symbols-outlined" style={{ fontSize: 'var(--btn-icon-size)' }}>arrow_forward</span>
                 </button>

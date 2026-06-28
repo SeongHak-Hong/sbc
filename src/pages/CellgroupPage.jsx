@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import styles from './CellgroupPage.module.css';
 import Footer from '../components/Footer';
-import CloudBackground from '../components/CloudBackground';
+import SubPageSection from '../components/SubPageSection';
+import TabMenu from '../components/TabMenu';
 
 const cellgroupData = {
     '1교구': {
@@ -50,71 +52,38 @@ const CellgroupPage = () => {
 
     return (
         <div className={styles.pageWrapper}>
-            <CloudBackground heightMode="vh" />
 
-            <div className={`container ${styles.notebookContainer}`}>
-                {/* Page Title */}
-                <div className={styles.pageTitle}>
-                    <h1>구역 안내</h1>
-                </div>
+            <SubPageSection title="구역 안내">
+                <div className={styles.contentWrapper}>
+                    <TabMenu 
+                        tabs={cellgroupKeys}
+                        activeTab={activeCellgroup}
+                        onTabChange={setActiveCellgroup}
+                    />
 
-                {/* Notebook Layout */}
-                <div className={styles.notebookLayout}>
-                    {/* Main Panel */}
-                    <div className={styles.mainPanel}>
-                        <div className={styles.profileSection}>
-                            <div className={styles.profileAvatar}>
-                                <span className={styles.profileInitials}>{currentData.pastor.initials}</span>
-                            </div>
-                            <div className={styles.profileInfo}>
-                                <div className={styles.profileName}>{currentData.pastor.name}</div>
-                                <p className={styles.profileRole}>담당사역자 · {currentData.pastor.role}</p>
-                            </div>
-                        </div>
-
-                        {/* Divider */}
-                        <div className={styles.divider}>
-                            <div className={styles.dividerLine}></div>
-                        </div>
-
-                        {/* Zone List */}
-                        <div className={styles.zoneList}>
-                            {currentData.zones.map((zone) => (
-                                <div 
-                                    key={zone.id} 
-                                    className={styles.zoneItem}
-                                >
-                                    <div className={styles.zoneNumber}>{zone.id}</div>
-                                    <div className={styles.zoneContent}>
-                                        <div className={styles.zoneLeader}>
-                                            <span className={styles.roleChipLeader}>구역장</span> {zone.leader}
-                                        </div>
-                                        {zone.teacher && (
-                                            <div className={styles.zoneTeacher}>
-                                                <span className={styles.roleChipTeacher}>구역교사</span> {zone.teacher}
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            ))}
-                            <div className={styles.listSpacer}></div>
-                        </div>
-                    </div>
-
-                    {/* Side Tabs */}
-                    <div className={styles.sideTabs}>
-                        {cellgroupKeys.map((key) => (
-                            <button
-                                key={key}
-                                className={`${styles.sideTab} ${activeCellgroup === key ? styles.sideTabActive : styles.sideTabInactive}`}
-                                onClick={() => setActiveCellgroup(key)}
+                    <div className={styles.listContainer}>
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={activeCellgroup}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.3 }}
+                                className={styles.zoneList}
                             >
-                                <span className={styles.sideTabLabel}>{key}</span>
-                            </button>
-                        ))}
+                                {currentData.zones.map((zone, index) => (
+                                    <div key={index} className={styles.zoneItem}>
+                                        <p className={styles.zoneName}>{zone.id}구역</p>
+                                        <p className={styles.zoneDetails}>
+                                            구역장: {zone.leader}{zone.teacher ? `, 구역교사: ${zone.teacher}` : ''}
+                                        </p>
+                                    </div>
+                                ))}
+                            </motion.div>
+                        </AnimatePresence>
                     </div>
                 </div>
-            </div>
+            </SubPageSection>
 
             <Footer />
         </div>

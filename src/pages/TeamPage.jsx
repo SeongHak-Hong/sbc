@@ -2,7 +2,6 @@ import React, { useRef, useState, useLayoutEffect, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import styles from './TeamPage.module.css';
 
-import CloudBackground from '../components/CloudBackground';
 import LanyardCanvas from '../components/LanyardCanvas';
 
 const TeamPage = () => {
@@ -99,7 +98,6 @@ const TeamPage = () => {
     return (
         <div ref={containerRef} style={{ height: scrollHeight, position: 'relative' }}>
             <div className={styles.pageWrapper}>
-                <CloudBackground heightMode="vh" />
                 
 
 

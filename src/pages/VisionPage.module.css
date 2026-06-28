@@ -14,7 +14,7 @@
 }
 
 .pageContainer {
-    background-color: transparent;
+    background-color: #192C2A;
     color: #ffffff;
     min-height: 100vh;
     position: relative;
@@ -33,47 +33,12 @@
     z-index: 10;
 }
 
-/* --- Hero Section --- */
-.heroSection {
-    padding: var(--subpage-header-padding-top) 32px 0 32px;
-    position: relative;
-    overflow: hidden;
-}
 
-
-
-.heroContent {
-    max-width: 896px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.heroItalic {
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 300;
-}
-
-
-
-.heroDesc {
-    font-size: var(--text-body);
-    color: var(--white);
-    margin-top: 32px;
-    max-width: 42rem;
-    margin-left: auto;
-    margin-right: auto;
-    font-weight: 300;
-    line-height: 1.625;
-}
-
-/* --- Greeting Section --- */
-.greetingSection {
-    padding: var(--section-padding-y, 160px) 32px;
-}
 
 .greetingWrapper {
     max-width: 1152px;
     margin: 0 auto;
+    width: 100%;
 }
 
 .greetingCard {
@@ -86,6 +51,9 @@
     border: none;
     aspect-ratio: 1964 / 3123;
     height: auto;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
     font-family: var(--font-letter);
 }
 
@@ -120,7 +88,7 @@
 @media (min-width: 1024px) {
     .greetingCard {
         padding: 80px 48px;
-        width: 840px;
+        width: 640px;
         margin: 0 auto;
     }
 }
@@ -361,6 +329,7 @@
     transform-style: preserve-3d;
     cursor: pointer;
     perspective: 1500px;
+    width: 100%;
 }
 
 .flutterEngine {
@@ -369,6 +338,7 @@
     animation: gentle-flutter 7.5s ease-in-out infinite;
     animation-delay: -5.1s;
     will-change: transform;
+    width: 100%;
 }
 
 

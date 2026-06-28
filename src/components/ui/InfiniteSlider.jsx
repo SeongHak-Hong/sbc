@@ -12,38 +12,34 @@ export function InfiniteSlider({
   reverse = false,
   className,
 }) {
-  const [currentDuration, setCurrentDuration] = useState(duration);
+  const controlsRef = React.useRef(null);
   const [ref, { width, height }] = useMeasure();
   const translation = useMotionValue(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [key, setKey] = useState(0);
 
   useEffect(() => {
-    const controls = animate(translation, [0, -50], {
+    controlsRef.current = animate(translation, [0, -50], {
       type: 'tween',
       ease: 'linear',
-      duration: currentDuration,
+      duration: duration,
       repeat: Infinity,
       repeatType: 'loop',
       repeatDelay: 0,
-      onUpdate: (latest) => {
-        // Framer motion value is 0 to -50.
-        // We apply it as percentage string in style
-      }
     });
 
-    return controls.stop;
-  }, [currentDuration, translation]);
+    return () => controlsRef.current?.stop();
+  }, [duration, translation]);
 
   const hoverProps = durationOnHover
     ? {
       onHoverStart: () => {
-        setIsTransitioning(true);
-        setCurrentDuration(durationOnHover);
+        if (controlsRef.current) {
+          controlsRef.current.speed = duration / durationOnHover;
+        }
       },
       onHoverEnd: () => {
-        setIsTransitioning(true);
-        setCurrentDuration(duration);
+        if (controlsRef.current) {
+          controlsRef.current.speed = 1;
+        }
       },
     }
     : {};

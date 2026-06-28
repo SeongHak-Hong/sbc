@@ -8,11 +8,42 @@ const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [activeSubmenu, setActiveSubmenu] = useState(null);
     const [isBulletinModalOpen, setIsBulletinModalOpen] = useState(false);
+    
+    // SCROLL STATES
+    const [isVisible, setIsVisible] = useState(true);
+    const [isScrolled, setIsScrolled] = useState(false);
+    const lastScrollY = useRef(0);
+
     const location = useLocation();
     const navigate = useNavigate();
     const isSubpage = location.pathname !== '/';
     const menuRef = useRef(null);
     const toggleBtnRef = useRef(null);
+
+    // Scroll listener
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            
+            setIsScrolled(currentScrollY > 50);
+
+            if (currentScrollY <= 0) {
+                setIsVisible(true);
+            } else {
+                if (currentScrollY < lastScrollY.current) {
+                    // Scrolling up
+                    setIsVisible(true);
+                } else if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
+                    // Scrolling down
+                    setIsVisible(false);
+                }
+            }
+            lastScrollY.current = currentScrollY;
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     // Prevent background scrolling when menu is open
     useEffect(() => {
@@ -41,13 +72,15 @@ const Header = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [isMenuOpen]);
 
+    const isSolidWhite = isScrolled && isVisible && !isMenuOpen;
+
     const headerStyle = {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingTop: 'var(--header-padding-y)',
         paddingBottom: 'var(--header-padding-y)',
-        color: 'var(--white)',
+        color: isSolidWhite ? 'rgb(29, 26, 28)' : 'var(--white)',
         position: 'fixed',
         top: 0,
         left: 0,
@@ -55,7 +88,11 @@ const Header = () => {
         zIndex: 100,
         paddingLeft: 'var(--header-padding-x)',
         paddingRight: 'var(--header-padding-x)',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        backgroundColor: isSolidWhite ? '#ffffff' : 'transparent',
+        transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
+        transition: 'transform 0.3s ease, background-color 0.3s ease',
+        boxShadow: isSolidWhite ? '0 1px 3px rgba(0,0,0,0.05)' : 'none'
     };
 
     const handleLinkClick = (e, path) => {
@@ -82,7 +119,7 @@ const Header = () => {
         {
             id: "step-1", title: "교회소개", icon: "church", iconColor: styles.iconBlue,
             links: [
-                { text: "인사말·비전", path: "/vision" },
+                { text: "인사말 · 비전", path: "/vision" },
                 { text: "예배 안내·오시는 길", path: "/worship" },
                 { text: "추억 갤러리", path: "/history" },
                 { text: "섬기는 분들", path: "/team" },
@@ -116,11 +153,22 @@ const Header = () => {
 
     return (
         <header style={headerStyle}>
-            <Link to="/" className={styles.logo}>
-                <img
-                    src={logoSbc}
-                    alt="신탄진교회"
-                    style={{ height: 'var(--header-logo-height)', filter: 'brightness(0) invert(1)', transition: 'height 0.3s ease' }}
+            <Link to="/" className={styles.logo} style={{ color: isSolidWhite ? 'rgb(29, 26, 28)' : '#fff', textDecoration: 'none' }}>
+                <div
+                    style={{ 
+                        height: 'var(--header-logo-height)', 
+                        aspectRatio: '408 / 69',
+                        backgroundColor: isSolidWhite ? 'rgb(29, 26, 28)' : '#fff',
+                        WebkitMaskImage: `url(${logoSbc})`,
+                        maskImage: `url(${logoSbc})`,
+                        WebkitMaskSize: 'contain',
+                        maskSize: 'contain',
+                        WebkitMaskRepeat: 'no-repeat',
+                        maskRepeat: 'no-repeat',
+                        transition: 'height 0.3s ease, background-color 0.3s ease' 
+                    }}
+                    role="img"
+                    aria-label="신탄진교회"
                 />
             </Link>
             
@@ -134,6 +182,7 @@ const Header = () => {
                         <span className={`material-symbols-outlined ${styles.iconMenu}`}>menu</span>
                         <span className={`material-symbols-outlined ${styles.iconClose}`}>close</span>
                     </div>
+                    <span>메뉴</span>
                 </button>
 
                 <div className={`${styles.backdrop} ${isMenuOpen ? styles.open : ''}`} onClick={(e) => { e.stopPropagation(); setIsMenuOpen(false); }}></div>

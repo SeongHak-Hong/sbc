@@ -16,23 +16,37 @@ const VerseSection = () => {
     }, []);
 
     const verseText = isMobile
-        ? `지금 내가 여러분을 주와 및 그 은혜의 말씀에 부탁하노니 그 말씀이 여러분을 능히 든든히 세우사 거룩하게 하심을 입은 모든 자 가운데 기업이 있게 하시리라\n사도행전 20:32`
-        : `지금 내가 여러분을 주와 및 그 은혜의 말씀에 부탁하노니\n그 말씀이 여러분을 능히 든든히 세우사\n거룩하게 하심을 입은 모든 자 가운데 기업이 있게 하시리라\n사도행전 20:32`;
+        ? `“지금 내가 여러분을 주와 및 그 은혜의 말씀에 부탁하노니 그 말씀이 여러분을 능히 든든히 세우사 거룩하게 하심을 입은 모든 자 가운데 기업이 있게 하시리라”\n사도행전\u00A020장\u00A032절`
+        : `“지금 내가 여러분을 주와 및 그 은혜의 말씀에 부탁하노니\n그 말씀이 여러분을 능히 든든히 세우사\n거룩하게 하심을 입은 모든 자 가운데 기업이 있게 하시리라”\n사도행전\u00A020장\u00A032절`;
 
     const splitText = useMemo(() => {
-        return verseText.split(/(\s+)/).map((word, index) => {
-            if (word.match(/^\s+$/)) return word;
-            const isCitation = word.includes('사도행전') || word.includes('20:32');
+        return verseText.split(/([ \t\n\r]+)/).map((word, index) => {
+            if (word.match(/^[ \t\n\r]+$/)) return word;
+            const isCitation = word.includes('사도행전');
+            
+            // Base style for the word
             const wordStyle = {
                 opacity: 0.1,
                 filter: 'blur(10px)',
-                display: 'inline-block',
-                fontSize: isCitation ? 'var(--citation-size, 40px)' : 'inherit',
-                marginTop: isCitation ? '40px' : '0' // Controlled gap instead of full empty line
+                display: 'inline-flex',
+                alignItems: 'center',
+                fontSize: isCitation ? (isMobile ? '24px' : '40px') : 'inherit',
+                marginTop: isCitation ? '40px' : '0',
+                color: isCitation ? '#ffffff' : 'inherit',
+                fontWeight: isCitation ? 500 : 'inherit'
             };
 
             return (
                 <span className="word" key={index} style={wordStyle}>
+                    {isCitation && (
+                        <span style={{
+                            display: 'inline-block',
+                            width: '32px',
+                            height: '3px',
+                            backgroundColor: '#ffffff',
+                            marginRight: '16px', // Gap between line and text
+                        }}></span>
+                    )}
                     {word}
                 </span>
             );
@@ -78,31 +92,31 @@ const VerseSection = () => {
     const sectionStyle = {
         width: '100%',
         minHeight: '100vh',
+        padding: '180px 0',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
         zIndex: 10,
-        // Ensure background is handled if layers overlap. 
-        // Assuming transparent is fine or inheriting global bg.
+        backgroundColor: '#192C2A' // Section background color added
     };
 
     const containerStyle = {
         width: '100%',
         maxWidth: '1500px',
-        padding: '24px 48px',
+        padding: isMobile ? '24px 24px' : '24px 48px',
         boxSizing: 'border-box'
     };
 
     const textStyle = {
-        fontFamily: 'MemomentKkukkukk, sans-serif',
-        fontSize: 'var(--pc-text-h2)',
-        lineHeight: '140%',
-        letterSpacing: '-0.02em',
-        color: '#ffffff',
+        fontFamily: 'LXGWWenKaiMonoKR, sans-serif',
+        fontSize: isMobile ? '24px' : '40px',
+        lineHeight: '1.6', // 160%
+        letterSpacing: '-0.1em', // -10% from design system
+        color: '#B6CDCA',
         textAlign: 'center',
         whiteSpace: 'pre-line',
-        fontWeight: 'normal'
+        fontWeight: 300 // Light weight
     };
 
     return (

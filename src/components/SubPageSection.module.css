@@ -1,0 +1,30 @@
+.sectionContainer {
+    padding: var(--section-padding-y, 160px) 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+}
+
+@media (min-width: 768px) {
+    .sectionContainer {
+        padding: var(--section-padding-y, 160px) 48px;
+    }
+}
+
+.headerContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    width: 100%;
+}
+
+.headerContent p {
+    font-size: 18px;
+    margin: 0;
+    font-weight: 300;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    word-break: keep-all;
+}

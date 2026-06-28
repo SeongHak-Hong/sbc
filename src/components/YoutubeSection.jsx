@@ -4,8 +4,8 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import iPhoneFrameImg from '../assets/main/iPhone-14-Pro.webp';
-import iPhoneBgImg from '../assets/main/iPhone-14-Pro-scene-bg.webp';
 import playBtnImg from '../assets/main/Youtube-shorts-icon.webp';
+import PretendardButton from './ui/PretendardButton';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -61,7 +61,8 @@ const YoutubeSection = () => {
         minHeight: '100vh',
         boxSizing: 'border-box',
         zIndex: 20,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        backgroundColor: '#192C2A' // Changed background color as requested
     };
 
     const innerContentStyle = {
@@ -70,18 +71,22 @@ const YoutubeSection = () => {
         left: 0,
         width: '100%',
         height: '100%',
-        padding: '80px 20px',
+        padding: '180px 20px',
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: isMobile ? 'column' : 'row',
-        gap: isMobile ? '40px' : '80px',
+        gap: isMobile ? '32px' : '32px', // Gap set to 32px
         justifyContent: 'center',
         alignItems: 'center',
         zIndex: 10
     };
 
     const sideTextStyle = {
-        fontSize: isMobile ? 'var(--text-h3)' : 'var(--text-h2)',
+        fontFamily: 'LXGWWenKaiMonoKR, sans-serif',
+        fontSize: isMobile ? '32px' : '48px', // Scaled for mobile
+        fontWeight: 400, // regular
+        lineHeight: '1.6', // 160%
+        letterSpacing: '-0.1em', // -10%
         color: '#ffffff',
         margin: 0,
         whiteSpace: 'nowrap',
@@ -104,28 +109,28 @@ const YoutubeSection = () => {
                         style={{
                             position: 'relative',
                             flexShrink: 0,
-                            width: isMobile ? '55%' : 'auto', // Reduce size on mobile so titles fit
-                            maxWidth: isMobile ? '300px' : 'none',
-                            height: isMobile ? 'auto' : '100%',
+                            width: isMobile ? '260px' : '360px', // Scaled down for mobile
+                            maxWidth: '100%', // Prevent overflow on very small devices
+                            height: 'auto', // Hug content tightly so absolute children don't stretch
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center'
                         }}
                     >
-                        {/* Background Scene (Covers iframe when paused, goes behind when playing) */}
-                        <img 
-                            src={iPhoneBgImg} 
-                            alt="" 
-                            style={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'contain',
-                                zIndex: isPlaying ? 1 : 3
-                            }}
-                        />
+                        {/* Background Scene Replacement (SVG) */}
+                        <div style={{
+                            position: 'absolute',
+                            left: '50%',
+                            top: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: '88%', // Match iframe width
+                            aspectRatio: '9 / 19.5', // Match iframe aspect ratio
+                            zIndex: isPlaying ? 1 : 3
+                        }}>
+                            <svg width="100%" height="100%">
+                                <rect width="100%" height="100%" rx={isMobile ? "24" : "32"} ry={isMobile ? "24" : "32"} fill="#000000" />
+                            </svg>
+                        </div>
 
                         {/* YouTube Video */}
                         <div style={{
@@ -134,9 +139,9 @@ const YoutubeSection = () => {
                             top: '50%',
                             transform: 'translate(-50%, -50%)',
                             width: '88%',
-                            aspectRatio: '9 / 16',
+                            aspectRatio: '9 / 19.5', // iPhone 14 Pro rough ratio for inner screen
                             zIndex: 2,
-                            borderRadius: '24px',
+                            borderRadius: isMobile ? '24px' : '32px', // Adjusted border radius based on width
                             overflow: 'hidden'
                         }}>
                             <iframe
@@ -187,8 +192,8 @@ const YoutubeSection = () => {
                             alt="iPhone Frame" 
                             style={{
                                 position: 'relative',
-                                width: isMobile ? '100%' : 'auto',
-                                height: isMobile ? 'auto' : '100%',
+                                width: '100%', // Force 100% of parent width (360px)
+                                height: 'auto', // Auto height to maintain aspect ratio
                                 zIndex: 3,
                                 pointerEvents: 'none',
                                 display: 'block'
@@ -217,13 +222,18 @@ const YoutubeSection = () => {
                 opacity: 0, // Hidden initially
                 visibility: 'hidden', // Crucial for disabling pointer-events of the inner div before fade in
                 zIndex: 20,
-                padding: '0 20px',
+                padding: isMobile ? '0 24px' : '0 48px',
                 boxSizing: 'border-box',
                 pointerEvents: 'none' // Prevent blocking clicks to the iPhone underneath
             }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: 'var(--max-width)', pointerEvents: 'auto' }}>
                     <h2 style={{
-                        marginBottom: '20px',
+                        fontFamily: 'LXGWWenKaiMonoKR, sans-serif',
+                        fontSize: isMobile ? '32px' : '48px',
+                        fontWeight: 400, // regular
+                        lineHeight: '1.6', // 160%
+                        letterSpacing: '-0.1em', // -10%
+                        marginBottom: '64px',
                         color: '#ffffff',
                         textAlign: 'center',
                         whiteSpace: 'pre-line' // To allow <br /> to work naturally
@@ -231,16 +241,9 @@ const YoutubeSection = () => {
                         그 말씀이<br />당신의 삶을 변화시킵니다.
                     </h2>
                     <a href="https://www.youtube.com/@sbc6312" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                        <motion.button
-                            style={{
-                                color: '#fff',
-                                marginTop: '20px'
-                            }}
-                            whileHover={{ scale: 1.05 }}
-                            transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                        >
+                        <PretendardButton style={{ borderColor: '#B6CDCA', color: '#B6CDCA' }}>
                             유튜브 채널 가기
-                        </motion.button>
+                        </PretendardButton>
                     </a>
                 </div>
             </div>

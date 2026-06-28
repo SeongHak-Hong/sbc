@@ -7,7 +7,7 @@
     left: 0;
     display: flex;
     flex-direction: column;
-    background-color: transparent;
+    background-color: #192C2A;
     color: #ffffff;
 }
 
@@ -41,19 +41,16 @@
     flex-direction: column;
 }
 
-.polaroid {
+.imageWrapper {
     position: relative;
-    background-color: white;
-    padding: 20px 20px 28px 20px; /* Slightly scaled up padding to match larger size */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
-    width: 560px; /* Increased from 400px */
+    width: 560px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
 .photoFrame {
     width: 100%;
-    overflow: hidden;
-    background: #E2E8F0;
+    background: #192C2A;
     position: relative;
 }
 
@@ -62,41 +59,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: sepia(0.1) contrast(1.05);
-}
-
-.tape {
-    position: absolute;
-    z-index: 10;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border-radius: 2px;
-}
-
-.tapeTexture {
-    background-image: 
-        linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.4) 45%, rgba(255,255,255,0.4) 55%, transparent 60%),
-        linear-gradient(-45deg, transparent 40%, rgba(255,255,255,0.4) 45%, rgba(255,255,255,0.4) 55%, transparent 60%);
-    background-size: 8px 8px;
-}
-
-.photoText {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 72px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 16px;
-}
-
-.handwriting {
-    font-family: var(--font-title);
-    font-size: 24px;
-    color: #4A5568;
-    text-align: center;
-    word-break: keep-all;
 }
 
 .ctaCard {
@@ -115,15 +77,12 @@
     color: #ffffff;
     font-size: var(--text-body-card);
     font-family: var(--font-body);
-    line-height: 1.6;
+    line-height: 1.8;
     word-break: keep-all;
     margin-bottom: 0;
 }
 
-.ctaButton {
-    background-color: white;
-    color: var(--navy);
-}
+
 
 .timelineIndicator {
     position: fixed;
@@ -139,6 +98,8 @@
 
 .year {
     font-family: var(--font-title);
+    font-weight: 400;
+    line-height: 1.6;
     font-size: 4rem;
     color: #ffffff;
     transition: all 0.3s ease;
@@ -159,7 +120,8 @@
     font-size: 18px;
     text-transform: uppercase;
     color: #ffffff;
-    font-family: 'omyu_pretty', sans-serif;
+    font-family: 'Pretendard', sans-serif;
+    line-height: 1.8;
 }
 
 .pageHeader {
@@ -174,6 +136,8 @@
 
 .headerTitle {
     font-family: var(--font-title);
+    font-weight: 400;
+    line-height: 1.6;
     font-size: var(--text-h3);
     color: #ffffff;
     margin-bottom: 0;
@@ -188,16 +152,9 @@
     }
     .year { font-size: 2.5rem; }
     .dash { width: 40px; }
-    .polaroid { 
+    .imageWrapper { 
         width: 360px; 
-        box-shadow: none;
-        border: 1px solid #e2e8f0;
-    }
-    .photoFrame img {
-        filter: none;
-    }
-    .tape {
-        box-shadow: none;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
     
     .ctaCard {

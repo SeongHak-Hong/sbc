@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './WorshipPage.module.css';
 
-import worshipGuideImage from '../assets/worship/shintanjin-baptist-church-worship-guide-bg.webp';
+import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.webp';
 
 import Footer from '../components/Footer';
-import CloudBackground from '../components/CloudBackground';
+import SubPageSection from '../components/SubPageSection';
 
 const WorshipPage = () => {
     const [activeTab, setActiveTab] = useState('adult');
@@ -14,215 +14,122 @@ const WorshipPage = () => {
         window.scrollTo(0, 0);
     }, []);
 
-    // Dummy data for "예배 안내"
     const adultSchedule = [
-        { name: "주일 1부 예배", time: "오전 07:00", location: "소예배실" },
-        { name: "주일 2부 예배", time: "오전 11:00", location: "대예배실", highlight: true },
-        { name: "주일 3부 예배", time: "오후 02:00", location: "대예배실" },
-        { name: "새벽기도회", time: "월~금 새벽 05:00", location: "소예배실" },
-        { name: "중보기도회", time: "매주 화요일 오전 10:30", location: "소예배실" },
-        { name: "수요예배", time: "수요일 오후 7:00", location: "대예배실" },
-        { name: "금요기도회", time: "금요일 오후 9:00", location: "소예배실" }
+        { name: "주일 1부 예배", time: "주일 오전 07:00", location: "소예배실" },
+        { name: "주일 2부 예배", time: "주일 오전 11:00", location: "대예배실" },
+        { name: "주일 3부 예배", time: "주일 오후 02:00", location: "대예배실" },
+        { name: "새벽 기도회", time: "월~금 새벽 05:00", location: "소예배실" },
+        { name: "중보 기도회", time: "매주 화요일 오전 10:30", location: "소예배실" },
+        { name: "수요 예배", time: "수요일 오후 7:00", location: "대예배실" },
+        { name: "금요 기도회", time: "금요일 오후 9:00", location: "소예배실" }
     ];
+
+    const nextgenSchedule = [
+        { name: "유치부(7세 이하)", time: "주일 오전 09:00", location: "유치부실" },
+        { name: "초등부 주일예배", time: "주일 오전 09:00", location: "러브키즈예배실" },
+        { name: "초등부 떡볶이 데이", time: "매주 목요일 오후 1~4시", location: "신탄진초교 앞" },
+        { name: "청소년부(중,고등부)", time: "주일 오전 09:00", location: "소예배실" },
+        { name: "청년부", time: "주일 오후 1:30", location: "소예배실" }
+    ];
+
+    const meetingsSchedule = [
+        { name: "시니어 드림스쿨", time: "매주 금요일 오전 10:00", location: "소예배실" },
+        { name: "운영위원회", time: "매월 마지막주 2부 예배 후", location: "목양실" }
+    ];
+
+    const getScheduleData = () => {
+        switch (activeTab) {
+            case 'nextgen': return nextgenSchedule;
+            case 'meetings': return meetingsSchedule;
+            default: return adultSchedule;
+        }
+    };
 
     return (
         <div className={styles.pageContainer}>
-            <CloudBackground heightMode="vh" />
-
             <main className={styles.mainContent}>
-                {/* Hero Section */}
-                <header className={styles.heroSection}>
-                    <div className={styles.heroContent}>
-                        <motion.h1 
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.2 }}
-                            style={{ position: 'relative', display: 'inline-block', color: 'white', marginBottom: 0, fontSize: 'var(--text-h1)' }}
-                        >
-                            예배 안내 · 오시는 길
-                        </motion.h1>
-                    </div>
-                </header>
 
-                {/* Greeting Section */}
-                <section className={styles.greetingSection}>
-                    <div className={styles.greetingWrapper}>
+                {/* 예배 안내 섹션 */}
+                <SubPageSection title="예배 안내" icon={visionIcon}>
+                    <div className={styles.contentWrapper}>
                         <div className={styles.tabsContainer}>
                             <button 
-                                className={`${styles.tapeTab} ${activeTab === 'adult' ? styles.activeTapeTab : ''}`}
+                                className={`${styles.tab} ${activeTab === 'adult' ? styles.activeTab : ''}`}
                                 onClick={() => setActiveTab('adult')}
                             >
-                                예배 안내
+                                예배
                             </button>
                             <button 
-                                className={`${styles.tapeTab} ${activeTab === 'nextgen' ? styles.activeTapeTab : ''}`}
+                                className={`${styles.tab} ${activeTab === 'nextgen' ? styles.activeTab : ''}`}
                                 onClick={() => setActiveTab('nextgen')}
                             >
-                                다음세대 예배
+                                다음세대
                             </button>
                             <button 
-                                className={`${styles.tapeTab} ${activeTab === 'meetings' ? styles.activeTapeTab : ''}`}
+                                className={`${styles.tab} ${activeTab === 'meetings' ? styles.activeTab : ''}`}
                                 onClick={() => setActiveTab('meetings')}
                             >
-                                모임 안내
+                                모임
                             </button>
                         </div>
-                        <div className={styles.worshipGuideCard}>
-                            {/* Scrapbook Content Layout */}
-                            <div className={styles.scrapbookContent}>
 
-                                <AnimatePresence mode="wait">
-                                    {activeTab === 'adult' && (
-                                        <motion.div 
-                                            key="adult"
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, y: -10 }}
-                                            transition={{ duration: 0.3 }}
-                                            className={styles.categorySection}
-                                        >
-                                            <div className={styles.scheduleList}>
-                                                {adultSchedule.map((item, index) => (
-                                                    <div key={index} className={styles.scheduleItem}>
-                                                        <div className={styles.scheduleNameWrap}>
-                                                            <p className={styles.scheduleName}>{item.name}</p>
-                                                            {item.highlight && (
-                                                                <span className={styles.sticker}>⭐</span>
-                                                            )}
-                                                        </div>
-                                                        <p className={styles.scheduleDetails}>
-                                                            {item.time} &middot; {item.location}
-                                                        </p>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </motion.div>
-                                    )}
+                        <div className={styles.listContainer}>
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={activeTab}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    transition={{ duration: 0.3 }}
+                                    className={styles.scheduleList}
+                                >
+                                    {getScheduleData().map((item, index) => (
+                                        <div key={index} className={styles.scheduleItem}>
+                                            <p className={styles.scheduleName}>{item.name}</p>
+                                            <p className={styles.scheduleDetails}>
+                                                {item.time}, {item.location}
+                                            </p>
+                                        </div>
+                                    ))}
+                                </motion.div>
+                            </AnimatePresence>
+                        </div>
+                    </div>
+                </SubPageSection>
 
-                                    {activeTab === 'nextgen' && (
-                                        <motion.div 
-                                            key="nextgen"
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, y: -10 }}
-                                            transition={{ duration: 0.3 }}
-                                            className={styles.categorySection}
-                                        >
-                                            <div className={styles.scheduleList}>
-                                                <div className={styles.scheduleItem}>
-                                                    <p className={styles.scheduleName}>유치부(7세 이하)</p>
-                                                    <p className={styles.scheduleDetails}>주일 오전 09:00 &middot; 유치부실</p>
-                                                </div>
-                                                <div className={styles.scheduleItem}>
-                                                    <p className={styles.scheduleName}>초등부 주일예배</p>
-                                                    <p className={styles.scheduleDetails}>주일 오전 09:00 &middot; 러브키즈예배실</p>
-                                                </div>
-                                                <div className={styles.scheduleItem}>
-                                                    <p className={styles.scheduleName}>초등부 떡볶이 데이</p>
-                                                    <p className={styles.scheduleDetails}>매주 목 오후 1~4시 &middot; 신탄진초교 앞</p>
-                                                </div>
-                                                <div className={styles.scheduleItem}>
-                                                    <p className={styles.scheduleName}>청소년부(중,고등부)</p>
-                                                    <p className={styles.scheduleDetails}>주일 오전 09:00 &middot; 소예배실</p>
-                                                </div>
-                                                <div className={styles.scheduleItem}>
-                                                    <p className={styles.scheduleName}>청년부</p>
-                                                    <p className={styles.scheduleDetails}>주일 오후 1:30 &middot; 소예배실</p>
-                                                </div>
-                                            </div>
-                                        </motion.div>
-                                    )}
-
-                                    {activeTab === 'meetings' && (
-                                        <motion.div 
-                                            key="meetings"
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, y: -10 }}
-                                            transition={{ duration: 0.3 }}
-                                            className={styles.categorySection}
-                                        >
-                                            <div className={styles.scheduleList}>
-                                                <div className={styles.scheduleItem}>
-                                                    <p className={styles.scheduleName}>시니어 드림스쿨</p>
-                                                    <p className={styles.scheduleDetails}>매주 금요일 오전 10:00 &middot; 소예배실</p>
-                                                </div>
-                                                <div className={styles.scheduleItem}>
-                                                    <p className={styles.scheduleName}>운영위원회</p>
-                                                    <p className={styles.scheduleDetails}>매월 마지막주 2부 예배 후 &middot; 목양실</p>
-                                                </div>
-                                            </div>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
+                {/* 오시는 길 섹션 */}
+                <SubPageSection 
+                    title="오시는 길" 
+                    icon={visionIcon} 
+                    className={styles.lightSection} 
+                    titleColor="#1D1A1C"
+                    subtitle={
+                        <p className={styles.addressText}>
+                            대전 대덕구 석봉로 17 (석봉동, 신탄진교회)
+                        </p>
+                    }
+                >
+                    <div className={styles.directionsWrapper}>
+                        <div className={styles.directionsContent}>
+                            <div className={styles.directionGroup}>
+                                <h4 className={styles.directionLabel}>대중교통 이용 시</h4>
+                                <div className={styles.directionBody}>
+                                    <p>신탄진역에서 도보 5분 거리</p>
+                                    <p>버스: 신탄진역 하차 (2번, 711번, 712번)</p>
+                                </div>
                             </div>
-                            
+
+                            <div className={styles.directionGroup}>
+                                <h4 className={styles.directionLabel}>자가용 이용 시</h4>
+                                <div className={styles.directionBody}>
+                                    <p>교회 주차장 상시 개방</p>
+                                    <p>일요일은 대덕체육관 주차장 추가로 이용 가능</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </section>
+                </SubPageSection>
 
-                {/* Core Pillars Section (Transplanted) */}
-                <section className={styles.pillarsSection}>
-                    <div className={styles.pillarsWrapper}>
-                        <motion.div 
-                            className={styles.pillarsHeader}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                        >
-                            <h3 className={styles.pillarsTitle}>오시는 길</h3>
-                        </motion.div>
-
-                        <div className={styles.locationContainer}>
-                            <motion.div 
-                                className={styles.mapCard}
-                                initial={{ opacity: 0, y: 40 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: 0.1 }}
-                            >
-                                <div className={styles.mapWrapper}>
-                                    <iframe 
-                                        src="https://maps.google.com/maps?q=대전%20대덕구%20석봉로%2017&t=&z=15&ie=UTF8&iwloc=&output=embed" 
-                                        width="100%" 
-                                        height="100%" 
-                                        style={{ border: 0, borderRadius: '16px' }} 
-                                        allowFullScreen="" 
-                                        loading="lazy" 
-                                        referrerPolicy="no-referrer-when-downgrade"
-                                        title="신탄진교회 지도"
-                                    ></iframe>
-                                </div>
-                            </motion.div>
-
-                            <motion.div 
-                                className={styles.infoCard}
-                                initial={{ opacity: 0, y: 40 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: 0.2 }}
-                            >
-                                <div className={styles.infoGroup}>
-                                    <h4 className={styles.infoLabel}>주소</h4>
-                                    <p className={styles.infoText}>대전 대덕구 석봉로 17<br/>(석봉동, 신탄진교회)</p>
-                                </div>
-                                <div className={styles.infoGroup}>
-                                    <h4 className={styles.infoLabel}>대중교통</h4>
-                                    <p className={styles.infoText}>신탄진역에서 도보 5분 거리<br/>버스: 신탄진역 하차 (2번, 711번, 712번)</p>
-                                </div>
-                                <div className={styles.infoGroup}>
-                                    <h4 className={styles.infoLabel}>주차 안내</h4>
-                                    <p className={styles.infoText}>교회 내 주차장 및 인근 공영주차장을 이용하실 수 있습니다.</p>
-                                </div>
-                                <div className={styles.infoLinks}>
-                                    <a href="https://map.kakao.com/link/search/대전+대덕구+석봉로+17" target="_blank" rel="noreferrer" className={styles.mapBtn}>카카오맵</a>
-                                    <a href="https://map.naver.com/v5/search/대전 대덕구 석봉로 17" target="_blank" rel="noreferrer" className={styles.mapBtn}>네이버지도</a>
-                                </div>
-                            </motion.div>
-                        </div>
-                    </div>
-                </section>
             </main>
 
             <Footer />

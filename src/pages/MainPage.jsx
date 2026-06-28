@@ -8,32 +8,20 @@ import ServiceInfoSection from '../components/ServiceInfoSection';
 import EventSection from '../components/EventSection';
 import NewcomerSection from '../components/NewcomerSection';
 import Footer from '../components/Footer';
-import CloudBackground from '../components/CloudBackground';
-import BalloonBackground from '../components/BalloonBackground';
 function MainPage() {
 
 
   return (
     <div className="app-wrapper" style={{ position: 'relative' }}>
-      <CloudBackground />
-      <BalloonBackground />
       <HeroSection /> {/* New Hero Section at the top */}
       <VerseSection />
       <YoutubeSection /> {/* Old Hero Section, now YoutubeSection */}
 
       <GallerySection />
 
-      <div className="container">
-        <div style={{ gridColumn: '1 / -1' }}>
-          <PrayerSection />
-        </div>
-        <div style={{ gridColumn: '1 / -1' }}>
-          <ServiceInfoSection />
-        </div>
-        <div style={{ gridColumn: '1 / -1' }}>
-          <EventSection />
-        </div>
-      </div>
+      <PrayerSection />
+      <ServiceInfoSection />
+      <EventSection />
 
       <NewcomerSection />
       <Footer />

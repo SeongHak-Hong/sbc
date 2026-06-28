@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import donkeyEvent from '../assets/main/shintanjin-baptist-church-main-donkey.webp';
 import { BlurFade } from './ui/BlurFade';
-import { motion } from 'framer-motion';
+import PretendardButton from './ui/PretendardButton';
 
 const EventSection = () => {
     const [isMobile, setIsMobile] = useState(false);
@@ -14,7 +13,7 @@ const EventSection = () => {
     }, []);
     const sectionStyle = {
         padding: 'var(--section-padding-y) 0',
-        textAlign: isMobile ? 'center' : 'right', // Center text on mobile
+        textAlign: 'center', // Center text on all devices since image is gone
         color: '#fff',
         position: 'relative',
         height: 'auto', // Hug content
@@ -22,62 +21,41 @@ const EventSection = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        flexDirection: isMobile ? 'column-reverse' : 'row',
-        gap: '48px'
+        flexDirection: 'column',
+        backgroundColor: 'rgb(225, 235, 234)'
     };
 
     const titleStyle = {
-        marginBottom: '20px',
-        color: '#ffffff'
+        fontFamily: 'LXGWWenKaiMonoKR, sans-serif',
+        fontSize: '48px',
+        fontWeight: 400,
+        lineHeight: '1.6',
+        letterSpacing: '-0.1em',
+        color: '#1D1A1C',
+        marginBottom: '64px',
+        textAlign: 'center',
+        padding: isMobile ? '0 24px' : '0 48px',
+        boxSizing: 'border-box'
     };
 
     const buttonStyle = {
-        // backgroundColor: '#005f99', // Handled by global
-        color: '#fff',
+        borderColor: '#1D1A1C',
+        color: '#1D1A1C',
         marginTop: '20px'
-    };
-
-    const imageBoxStyle = {
-        width: isMobile ? '100%' : '452px',
-        height: isMobile ? 'auto' : '452px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative'
-    };
-
-    const donkeyStyle = {
-        width: 'auto',
-        height: 'auto',
-        maxWidth: '100%',
-        maxHeight: '100%'
     };
 
     return (
         <section style={sectionStyle}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: isMobile ? 'center' : 'flex-end' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <BlurFade delay={0.25} inView>
                     <h2 style={titleStyle}>함께 만들어가는<br />이달의 이야기.</h2>
                 </BlurFade>
                 <BlurFade delay={0.4} inView>
-                    <motion.button
-                        style={buttonStyle}
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                    >
+                    <PretendardButton style={buttonStyle}>
                         일정 보기
-                    </motion.button>
+                    </PretendardButton>
                 </BlurFade>
             </div>
-            <motion.div
-                style={imageBoxStyle}
-                initial={{ opacity: 0, x: 100 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false, amount: 0.3 }} // Re-trigger animation
-                transition={{ duration: 0.8, ease: 'easeOut' }}
-            >
-                <img src={donkeyEvent} alt="Donkey" style={donkeyStyle} />
-            </motion.div>
         </section>
     );
 };

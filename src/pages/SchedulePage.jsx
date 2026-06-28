@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './SchedulePage.module.css';
 import Footer from '../components/Footer';
-import CloudBackground from '../components/CloudBackground';
+import SubPageSection from '../components/SubPageSection';
 
 const scheduleData = [
     {
@@ -100,13 +100,8 @@ const SchedulePage = () => {
 
     return (
         <div className={styles.pageWrapper}>
-            <CloudBackground heightMode="vh" />
 
-            <div className={`container ${styles.container}`}>
-                <header className={styles.header}>
-                    <h1>교회 일정</h1>
-                </header>
-
+            <SubPageSection title="교회 일정" className={`container ${styles.container}`}>
                 <div className={styles.monthNav}>
                     <button 
                         className={styles.navButton} 
@@ -151,7 +146,7 @@ const SchedulePage = () => {
                         ))}
                     </div>
                 </div>
-            </div>
+            </SubPageSection>
 
             <Footer />
         </div>

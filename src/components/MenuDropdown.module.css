@@ -7,22 +7,14 @@
 }
 
 .toggleBtn {
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
-    min-height: 48px;
-    max-width: 48px;
-    max-height: 48px;
-    aspect-ratio: 1 / 1;
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    background-color: var(--color-text-title);
-    color: var(--white);
-    border-radius: 50%;
+    padding: 8px 20px 8px 18px;
+    background-color: #1D1A1C;
+    color: #ffffff;
+    border-radius: 99px;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 4px;
     transition: background-color 0.3s;
     border: none;
     cursor: pointer;
@@ -30,10 +22,15 @@
     z-index: 101;
     outline: none;
     flex-shrink: 0;
+    font-family: 'Pretendard', sans-serif;
+    font-size: 20px;
+    line-height: 1.8;
+    letter-spacing: -0.02em;
+    font-weight: 400;
 }
 
 .toggleBtn:hover {
-    background-color: var(--color-text-title); /* Hover can stay same or be slightly dimmed */
+    background-color: #000000;
 }
 
 .iconContainer {
@@ -126,7 +123,7 @@
     padding: 14px 24px;
     width: 100%;
     border-radius: 16px;
-    color: var(--color-text-title); /* Dark text */
+    color: #1D1A1C;
     transition: background-color 0.2s, color 0.2s;
     cursor: pointer;
     background: none;
@@ -137,7 +134,7 @@
 }
 
 .menuItem:hover, .menuItem.expanded {
-    color: var(--color-text-title);
+    color: #1D1A1C;
     background-color: #f9fafb; /* Light hover background */
 }
 

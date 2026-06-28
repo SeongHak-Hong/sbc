@@ -4,10 +4,10 @@ import styles from './VisionPage.module.css';
 
 import pastorLetterImage from '../assets/vision/shintanjin-baptist-church-pastor-letter.webp';
 import pastorIDImage from '../assets/vision/shintanjin-baptist-church-pastor-ID-photo.webp';
+import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.webp';
 
 import Footer from '../components/Footer';
-import CloudBackground from '../components/CloudBackground';
-import BalloonBackground from '../components/BalloonBackground';
+import SubPageSection from '../components/SubPageSection';
 
 const VisionPage = () => {
     const [isLetterZoomed, setIsLetterZoomed] = useState(false);
@@ -18,27 +18,11 @@ const VisionPage = () => {
 
     return (
         <div className={styles.pageContainer}>
-            <CloudBackground heightMode="vh" />
 
 
 
             <main className={styles.mainContent}>
-                {/* Hero Section */}
-                <header className={styles.heroSection}>
-                    <div className={styles.heroContent}>
-                        <motion.h1 
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.2 }}
-                            style={{ position: 'relative', display: 'inline-block', color: 'white', marginBottom: 0, fontSize: 'var(--text-h1)' }}
-                        >
-                            인사말·비전
-                        </motion.h1>
-                    </div>
-                </header>
-
-                {/* Greeting Section */}
-                <section className={styles.greetingSection}>
+                <SubPageSection title="인사말 · 비전" icon={visionIcon}>
                     <div className={styles.greetingWrapper}>
                         <div className={styles.paperLayout}>
                             <div className={styles.flutterEngine}>
@@ -56,14 +40,10 @@ const VisionPage = () => {
                                         className={styles.idPhoto} 
                                     />
                                 </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-
-
-
+                </SubPageSection>
             </main>
 
             <AnimatePresence>
