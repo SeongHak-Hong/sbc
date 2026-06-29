@@ -12,6 +12,9 @@ import CellgroupPage from './pages/CellgroupPage';
 import SchedulePage from './pages/SchedulePage';
 import MissionsPage from './pages/MissionsPage';
 import NewsPage from './pages/NewsPage';
+import MembersNewsPage from './pages/MembersNewsPage';
+import MemberBusinessPage from './pages/MemberBusinessPage';
+import PostDetailPage from './pages/PostDetailPage';
 import ScrollToTop from './components/ScrollToTop';
 import Lenis from 'lenis';
 import './App.css';
@@ -32,6 +35,9 @@ function AppRoutes() {
       <Route path="/schedule" element={<SchedulePage />} />
       <Route path="/missions" element={<MissionsPage />} />
       <Route path="/news" element={<NewsPage />} />
+      <Route path="/members-news" element={<MembersNewsPage />} />
+      <Route path="/member-business" element={<MemberBusinessPage />} />
+      <Route path="/post/:id" element={<PostDetailPage />} />
     </Routes>
   );
 }

@@ -40,7 +40,7 @@ const HeroSection = () => {
         fontFamily: 'LXGWWenKaiMonoKR, sans-serif',
         fontWeight: 400, // regular
         fontSize: isMobile ? '32px' : 'var(--pc-text-h1)', // 32px on mobile, 64px on PC
-        color: '#ffffff',
+        color: 'var(--color-white)',
         lineHeight: '1.6', // 160%
         letterSpacing: '-0.1em', // -10%
         marginBottom: '0',

@@ -19,14 +19,14 @@ const NewcomerSection = ({
     const sectionStyle = {
         padding: 'var(--section-padding-y) 0',
         textAlign: 'center',
-        color: '#fff',
+        color: 'var(--color-white)',
         position: 'relative',
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#192C2A'
+        backgroundColor: 'var(--color-background-dark)'
     };
 
     const titleStyle = {
@@ -35,7 +35,7 @@ const NewcomerSection = ({
         fontWeight: 400,
         lineHeight: '1.6',
         letterSpacing: '-0.1em',
-        color: '#ffffff', // Changed back to white for visibility on dark background
+        color: 'var(--color-white)', // Changed back to white for visibility on dark background
         marginBottom: '64px',
         textAlign: 'center',
         padding: isMobile ? '0 24px' : '0 48px',

@@ -2,6 +2,11 @@ import React, { useEffect } from 'react';
 import SubPageSection from '../components/SubPageSection';
 import Footer from '../components/Footer';
 import styles from './TeamPage.module.css';
+import member01 from '../assets/team/shintanjin-baptist-church-member-01.webp';
+import member03 from '../assets/team/shintanjin-baptist-church-member-03.webp';
+import member04 from '../assets/team/shintanjin-baptist-church-member-04.webp';
+import member05 from '../assets/team/shintanjin-baptist-church-member-05.webp';
+import member06 from '../assets/team/shintanjin-baptist-church-member-06.webp';
 
 const TeamPage = () => {
     useEffect(() => {
@@ -13,25 +18,25 @@ const TeamPage = () => {
         {
             name: '최영락',
             role: '담임목사',
-            image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80',
+            image: member01,
             description: '말씀선포 및 목회총괄'
         },
         {
             name: '김정현',
             role: '부목사',
-            image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
+            image: member03,
             description: '1교구 및 유초등부 담당'
         },
         {
             name: '김윤섭',
             role: '부목사',
-            image: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=400&q=80',
+            image: member04,
             description: '2교구 및 중고등부 담당'
         },
         {
             name: '강현수',
             role: '전도사',
-            image: 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&fit=crop&w=400&q=80',
+            image: member06,
             description: '청년부 담당'
         },
         {
@@ -43,7 +48,7 @@ const TeamPage = () => {
         {
             name: '김태인',
             role: '행정간사',
-            image: 'https://images.unsplash.com/photo-1542596594-649edbc13630?auto=format&fit=crop&w=400&q=80',
+            image: member05,
             description: '행정지원'
         }
     ];
@@ -52,7 +57,7 @@ const TeamPage = () => {
         <div className={styles.pageWrapper}>
             <SubPageSection 
                 title="섬기는 사람들" 
-                subtitle={<p style={{ color: 'rgba(255, 255, 255, 0.7)', marginTop: '16px', fontSize: '18px', textAlign: 'center' }}>신탄진침례교회를 섬기는 분들을 소개합니다.</p>}
+                subtitle={<p style={{ color: 'rgba(var(--color-white-rgb), 0.7)', marginTop: '16px', fontSize: '18px', textAlign: 'center' }}>신탄진침례교회를 섬기는 분들을 소개합니다.</p>}
             >
                 <div className={styles.container}>
                     {[
@@ -73,7 +78,6 @@ const TeamPage = () => {
                                             </div>
                                             <div className={styles.infoWrapper}>
                                                 <h3 className={styles.memberName}>{member.name}</h3>
-                                                <p className={styles.memberRole}>{member.role}</p>
                                                 {member.description && (
                                                     <p className={styles.memberDesc}>{member.description}</p>
                                                 )}

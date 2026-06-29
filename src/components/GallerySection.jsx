@@ -31,7 +31,7 @@ const GallerySection = () => {
         height: '100vh',
         minHeight: '100vh',
         padding: '180px 0',
-        backgroundColor: '#192C2A',
+        backgroundColor: 'var(--color-background-beige)',
         display: 'flex',
         flexDirection: 'column',
         boxSizing: 'border-box',

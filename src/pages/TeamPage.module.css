@@ -1,7 +1,7 @@
 .pageWrapper {
     width: 100%;
     min-height: 100vh;
-    background-color: #192C2A;
+    background-color: var(--color-background-dark);
     padding-bottom: 120px;
 }
 
@@ -60,28 +60,20 @@
     font-family: var(--font-body);
     font-size: 28px;
     font-weight: 500;
-    color: #ffffff;
+    color: var(--color-white);
     margin-bottom: 8px;
     line-height: 1.8;
     letter-spacing: -0.05em;
 }
 
-.memberRole {
+.memberDesc {
     font-family: var(--font-body);
     font-size: 16px;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 8px;
-    letter-spacing: -0.02em;
-}
-
-.memberDesc {
-    font-family: var(--font-body);
-    font-size: 14px;
-    font-weight: 400;
-    color: #8C9F9D;
+    color: rgba(var(--color-white-rgb), 0.7);
     line-height: 1.5;
     margin-bottom: 0;
+    letter-spacing: -0.02em;
 }
 
 .categorySection {
@@ -96,6 +88,6 @@
     font-family: var(--font-title);
     font-size: 24px;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(var(--color-white-rgb), 0.7);
     margin-bottom: 32px;
 }

@@ -89,7 +89,7 @@ const Header = () => {
         paddingLeft: 'var(--header-padding-x)',
         paddingRight: 'var(--header-padding-x)',
         boxSizing: 'border-box',
-        backgroundColor: isSolidWhite ? '#ffffff' : 'transparent',
+        backgroundColor: isSolidWhite ? 'var(--color-white)' : 'transparent',
         transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
         transition: 'transform 0.3s ease, background-color 0.3s ease',
         boxShadow: isSolidWhite ? '0 1px 3px rgba(0,0,0,0.05)' : 'none'
@@ -150,10 +150,10 @@ const Header = () => {
         {
             id: "step-6", title: "나눔터", icon: "forum", iconColor: styles.iconBlue,
             links: [
-                { text: "교회 소식", path: "/news?tab=church" },
+                { text: "교회소식 · 주보", path: "/news?tab=church" },
                 { text: "교회 일정", path: "/schedule" },
-                { text: "성도 소식", path: "/news?tab=members" },
-                { text: "성도 사업체", path: "/" }
+                { text: "성도 소식", path: "/members-news" },
+                { text: "성도 사업체", path: "/member-business" }
             ]
         }
     ];
@@ -161,12 +161,12 @@ const Header = () => {
     return (
         <>
             <header style={headerStyle}>
-            <Link to="/" className={styles.logo} style={{ color: isSolidWhite ? 'rgb(29, 26, 28)' : '#fff', textDecoration: 'none' }}>
+            <Link to="/" className={styles.logo} style={{ color: isSolidWhite ? 'rgb(29, 26, 28)' : 'var(--color-white)', textDecoration: 'none' }}>
                 <div
                     style={{ 
                         height: 'var(--header-logo-height)', 
                         aspectRatio: '408 / 69',
-                        backgroundColor: isSolidWhite ? 'rgb(29, 26, 28)' : '#fff',
+                        backgroundColor: isSolidWhite ? 'rgb(29, 26, 28)' : 'var(--color-white)',
                         WebkitMaskImage: `url("${logoSbc}")`,
                         maskImage: `url("${logoSbc}")`,
                         WebkitMaskSize: 'contain',
@@ -315,7 +315,7 @@ const Header = () => {
                                 maxWidth: '100%',
                                 objectFit: 'contain',
                                 borderRadius: '16px',
-                                border: '1px solid rgba(255, 255, 255, 0.1)'
+                                border: '1px solid rgba(var(--color-white-rgb), 0.1)'
                             }}
                             initial={{ scale: 0.95, opacity: 0, y: 20 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
@@ -333,9 +333,9 @@ const Header = () => {
                             style={{
                                 padding: '12px 24px',
                                 borderRadius: '999px',
-                                border: '1px solid rgba(255, 255, 255, 0.3)',
+                                border: '1px solid rgba(var(--color-white-rgb), 0.3)',
                                 background: 'transparent',
-                                color: '#ffffff',
+                                color: 'var(--color-white)',
                                 fontSize: '15px',
                                 fontWeight: '500',
                                 textDecoration: 'none',
@@ -360,7 +360,7 @@ const Header = () => {
                                 right: '24px',
                                 background: 'transparent',
                                 border: 'none',
-                                color: 'rgba(255, 255, 255, 0.6)',
+                                color: 'rgba(var(--color-white-rgb), 0.6)',
                                 cursor: 'pointer',
                                 padding: '8px',
                                 display: 'flex',
@@ -368,8 +368,8 @@ const Header = () => {
                                 justifyContent: 'center',
                                 transition: 'color 0.2s ease',
                             }}
-                            onMouseOver={(e) => e.currentTarget.style.color = '#ffffff'}
-                            onMouseOut={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)'}
+                            onMouseOver={(e) => e.currentTarget.style.color = 'var(--color-white)'}
+                            onMouseOut={(e) => e.currentTarget.style.color = 'rgba(var(--color-white-rgb), 0.6)'}
                         >
                             <span className="material-symbols-outlined" style={{ fontSize: '32px' }}>close</span>
                         </button>

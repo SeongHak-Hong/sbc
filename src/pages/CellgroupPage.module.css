@@ -2,7 +2,7 @@
     min-height: 100vh;
     position: relative;
     font-family: var(--font-body);
-    background-color: #192C2A;
+    background-color: var(--color-background-dark);
 }
 
 /* --- Content Wrapper --- */
@@ -35,7 +35,7 @@
 .zoneName {
     font-family: 'Pretendard', sans-serif;
     font-size: 18px;
-    color: #ffffff;
+    color: var(--color-white);
     margin: 0;
     word-break: keep-all;
     font-weight: 500;
@@ -44,7 +44,7 @@
 .zoneDetails {
     font-family: 'Pretendard', sans-serif;
     font-size: 18px;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(var(--color-white-rgb), 0.7);
     margin: 0;
     text-align: right;
     word-break: keep-all;

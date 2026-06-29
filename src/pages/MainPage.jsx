@@ -12,7 +12,7 @@ function MainPage() {
 
 
   return (
-    <div className="app-wrapper" style={{ position: 'relative', backgroundColor: '#192C2A' }}>
+    <div className="app-wrapper" style={{ position: 'relative', backgroundColor: 'var(--color-background-dark)' }}>
       <HeroSection /> {/* New Hero Section at the top */}
       <VerseSection />
       <YoutubeSection /> {/* Old Hero Section, now YoutubeSection */}

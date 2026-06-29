@@ -63,7 +63,7 @@ const departmentsData = {
     },
     youth: {
         id: 'youth',
-        name: '청소년부',
+        name: '중고등부',
         color: '#BA87ED',
         schedule: '주일 오전 09:00',
         location: '소예배실',

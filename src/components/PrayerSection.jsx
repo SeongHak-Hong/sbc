@@ -17,13 +17,13 @@ const PrayerSection = () => {
         zIndex: 10,
         padding: 'var(--section-padding-y) 0',
         textAlign: 'center',
-        color: '#fff',
+        color: 'var(--color-white)',
         minHeight: '100vh', // Requested 100vh height including padding
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#D5DDD8'
+        backgroundColor: 'var(--color-white)'
     };
 
     const titleStyle = {

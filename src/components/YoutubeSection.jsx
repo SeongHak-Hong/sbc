@@ -62,7 +62,7 @@ const YoutubeSection = () => {
         boxSizing: 'border-box',
         zIndex: 20,
         overflow: 'hidden',
-        backgroundColor: '#192C2A' // Changed background color as requested
+        backgroundColor: 'var(--color-background-dark)' // Changed background color as requested
     };
 
     const innerContentStyle = {
@@ -87,7 +87,7 @@ const YoutubeSection = () => {
         fontWeight: 400, // regular
         lineHeight: '1.6', // 160%
         letterSpacing: '-0.1em', // -10%
-        color: '#ffffff',
+        color: 'var(--color-white)',
         margin: 0,
         whiteSpace: 'nowrap',
         zIndex: 10,
@@ -234,7 +234,7 @@ const YoutubeSection = () => {
                         lineHeight: '1.6', // 160%
                         letterSpacing: '-0.1em', // -10%
                         marginBottom: '64px',
-                        color: '#ffffff',
+                        color: 'var(--color-white)',
                         textAlign: 'center',
                         whiteSpace: 'pre-line' // To allow <br /> to work naturally
                     }}>

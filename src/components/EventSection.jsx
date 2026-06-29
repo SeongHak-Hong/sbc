@@ -14,7 +14,7 @@ const EventSection = () => {
     const sectionStyle = {
         padding: 'var(--section-padding-y) 0',
         textAlign: 'center', // Center text on all devices since image is gone
-        color: '#fff',
+        color: 'var(--color-white)',
         position: 'relative',
         height: 'auto', // Hug content
         minHeight: '100vh', // Requested 100vh height including padding
@@ -22,7 +22,7 @@ const EventSection = () => {
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
-        backgroundColor: '#192C2A'
+        backgroundColor: 'var(--color-background-dark)'
     };
 
     const titleStyle = {
@@ -31,7 +31,7 @@ const EventSection = () => {
         fontWeight: 400,
         lineHeight: '1.6',
         letterSpacing: '-0.1em',
-        color: '#1D1A1C',
+        color: 'var(--color-white)',
         marginBottom: '64px',
         textAlign: 'center',
         padding: isMobile ? '0 24px' : '0 48px',
@@ -39,8 +39,8 @@ const EventSection = () => {
     };
 
     const buttonStyle = {
-        borderColor: '#1D1A1C',
-        color: '#1D1A1C',
+        borderColor: 'var(--color-white)',
+        color: 'var(--color-white)',
         marginTop: '20px'
     };
 

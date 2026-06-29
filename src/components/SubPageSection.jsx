@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import styles from './SubPageSection.module.css';
 
-const SubPageSection = ({ title, subtitle, icon, children, className, titleColor = '#ffffff' }) => {
+const SubPageSection = ({ title, subtitle, icon, children, className, titleColor = 'var(--color-white)' }) => {
     return (
         <section className={`${styles.sectionContainer} ${className || ''}`}>
             <div className={styles.headerContent}>

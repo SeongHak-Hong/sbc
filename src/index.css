@@ -57,9 +57,12 @@
 
   --letter-spacing-base: -0.02em;
 
-  --color-primary: #4A90E2;
-  --color-background: #E0F7FA;
-  --color-text: #333333;
+  --color-background-dark: #141C24;
+  --color-white: #F5F5F7;
+  --color-white-rgb: 245, 245, 247;
+  --color-background-beige: #E3DFDD;
+  --color-text-dark: #1D1A1C;
+  --color-text-dark-rgb: 29, 26, 28;
 
   --section-padding-y: 180px;
   --section-padding-x: 48px;

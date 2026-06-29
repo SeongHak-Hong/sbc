@@ -29,7 +29,7 @@ const WorshipPage = () => {
         { name: "유치부(7세 이하)", time: "주일 오전 09:00", location: "유치부실" },
         { name: "초등부 주일예배", time: "주일 오전 09:00", location: "러브키즈예배실" },
         { name: "떡볶이 데이", time: "매주 목요일 오후 1~4시", location: "식당" },
-        { name: "청소년부(중,고등부)", time: "주일 오전 09:00", location: "소예배실" },
+        { name: "중고등부 주일예배", time: "주일 오전 09:00", location: "소예배실" },
         { name: "청년부", time: "주일 오후 1:30", location: "소예배실" }
     ];
 

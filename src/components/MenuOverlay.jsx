@@ -50,10 +50,10 @@ const MenuOverlay = ({ isOpen, onClose }) => {
         {
             id: "step-6", num: "06", title: "나눔터",
             links: [
-                { text: "교회 소식", path: "/" },
-                { text: "성도 소식", path: "/" },
+                { text: "교회소식 · 주보", path: "/news?tab=church" },
                 { text: "교회 일정", path: "/schedule" },
-                { text: "사역일정", path: "/" }
+                { text: "성도 소식", path: "/members-news" },
+                { text: "성도 사업체", path: "/member-business" }
             ]
         }
     ];

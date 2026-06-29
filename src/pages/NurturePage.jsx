@@ -119,7 +119,7 @@ const ScrollStackCard = ({ step, index, total, containerRef }) => {
         boxShadow: 'none',
         boxSizing: 'border-box',
     } : {
-        backgroundColor: step.bgColor || 'rgba(255, 255, 255, 0.95)',
+        backgroundColor: step.bgColor || 'rgba(var(--color-white-rgb), 0.95)',
         aspectRatio: step.aspectRatio || '1 / 1',
         width: step.width ? `${step.width}px` : '100%',
         maxWidth: '100%',

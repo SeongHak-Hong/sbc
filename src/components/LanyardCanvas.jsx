@@ -183,7 +183,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, member, frontImag
     ctx.clip();
 
     // White background
-    ctx.fillStyle = '#FFFFFF';
+    ctx.fillStyle = 'var(--color-white)';
     ctx.fillRect(fx, fy, fw, fh);
 
     const padding = fw * 0.06;
@@ -202,7 +202,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, member, frontImag
     ctx.fill();
     ctx.beginPath();
     ctx.ellipse(holeCx, holeCy, holeW / 2 - 2, holeH / 2 - 1.5, 0, 0, Math.PI * 2);
-    ctx.fillStyle = '#FFFFFF';
+    ctx.fillStyle = 'var(--color-white)';
     ctx.fill();
     ctx.restore();
 
@@ -239,8 +239,8 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, member, frontImag
       // Gradient fade at bottom of photo
       const gradH = photoH * 0.35;
       const grad = ctx.createLinearGradient(0, photoTop + photoH - gradH, 0, photoTop + photoH);
-      grad.addColorStop(0, 'rgba(255,255,255,0)');
-      grad.addColorStop(1, 'rgba(255,255,255,0.85)');
+      grad.addColorStop(0, 'rgba(var(--color-white-rgb), 0)');
+      grad.addColorStop(1, 'rgba(var(--color-white-rgb), 0.85)');
       ctx.fillStyle = grad;
       ctx.fillRect(innerX, photoTop + photoH - gradH, photoW, gradH);
       ctx.restore();
@@ -302,7 +302,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false, member, frontImag
     ctx.rotate(-Math.PI / 2);
     const logoFontSize = bw * 0.22;
     ctx.font = `bold ${logoFontSize}px "Segoe UI", Arial, sans-serif`;
-    ctx.fillStyle = '#FFFFFF';
+    ctx.fillStyle = 'var(--color-white)';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     // Cross icon approximation

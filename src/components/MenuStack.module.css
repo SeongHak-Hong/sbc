@@ -43,9 +43,9 @@
 }
 
 .stackCard {
-    background-color: #192C2A;
+    background-color: var(--color-background-dark);
     border-radius: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(var(--color-white-rgb), 0.1);
     box-shadow: none;
     position: relative;
     cursor: pointer;
@@ -53,14 +53,14 @@
     overflow: hidden;
     flex: 0 0 68px;
     margin-top: -20px;
-    color: #ffffff;
+    color: var(--color-white);
     display: block;
     text-decoration: none;
 }
 
 .stackCard:first-of-type {
     margin-top: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(var(--color-white-rgb), 0.2);
 }
 
 .cardHeader {
@@ -83,7 +83,7 @@
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(var(--color-white-rgb), 0.6);
 }
 
 .stepTitle {
@@ -97,7 +97,7 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(var(--color-white-rgb), 0.5);
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -105,16 +105,16 @@
     flex: 1 1 auto;
     margin-top: 0;
     cursor: default;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(var(--color-white-rgb), 0.1);
     padding-bottom: 16px;
 }
 
 .stackRadio:checked + .stackCard .cardHeader {
-    color: #ffffff;
+    color: var(--color-white);
 }
 
 .stackRadio:checked + .stackCard .stepNum {
-    color: #ffffff;
+    color: var(--color-white);
 }
 
 .stackRadio:checked + .stackCard .statusDot {
@@ -157,7 +157,7 @@
     display: block;
     padding: 12px 16px;
     border-radius: 12px;
-    color: #ffffff;
+    color: var(--color-white);
     text-decoration: none;
     font-size: 15px;
     font-weight: 500;
@@ -167,7 +167,7 @@
 }
 
 .menuItem:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(var(--color-white-rgb), 0.1);
 }
 
 .imageButton {
@@ -179,8 +179,8 @@
     transition: transform 0.2s, background-color 0.2s;
     text-decoration: none;
     flex-shrink: 0;
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(var(--color-white-rgb), 0.1);
+    border: 1px solid rgba(var(--color-white-rgb), 0.2);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 16px 20px;
@@ -188,7 +188,7 @@
 
 .imageButton:hover {
     transform: translateY(-2px);
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(var(--color-white-rgb), 0.15);
 }
 
 .imageButtonTitle {

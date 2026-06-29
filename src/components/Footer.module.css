@@ -5,16 +5,16 @@
     z-index: 10;
     box-sizing: border-box;
     overflow: visible;
-    background-color: #192C2A;
+    background-color: var(--color-background-dark);
 }
 
 .footerDark {
-    color: #ffffff;
+    color: var(--color-white);
 }
 
 .footerDark p,
 .footerDark span {
-    color: #ffffff;
+    color: var(--color-white);
 }
 
 .footerSubpage p, 
