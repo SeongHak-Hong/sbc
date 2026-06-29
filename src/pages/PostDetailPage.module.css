@@ -1,8 +1,7 @@
 .pageWrapper {
     width: 100%;
     min-height: 100vh;
-    background-color: var(--color-background-dark);
-    color: var(--color-white);
+    color: var(--color-text-dark);
     font-family: 'Pretendard', sans-serif;
     position: relative;
     overflow-x: hidden;
@@ -22,7 +21,7 @@
 
 .postHeader {
     padding-bottom: 24px;
-    border-bottom: 1px solid rgba(var(--color-white-rgb), 0.2);
+    border-bottom: 1px solid rgba(var(--color-text-dark-rgb), 0.2);
     margin-bottom: 40px;
 }
 
@@ -32,7 +31,7 @@
     font-weight: 500;
     line-height: 1.8;
     margin: 0 0 16px 0;
-    color: var(--color-white);
+    color: var(--color-text-dark);
     word-break: keep-all;
 }
 
@@ -47,18 +46,18 @@
     align-items: center;
     gap: 12px;
     font-size: 16px;
-    color: rgba(var(--color-white-rgb), 0.6);
+    color: rgba(var(--color-text-dark-rgb), 0.6);
     font-weight: 300;
 }
 
 .metaDivider {
-    color: rgba(var(--color-white-rgb), 0.2);
+    color: rgba(var(--color-text-dark-rgb), 0.2);
 }
 
 .postBody {
     font-size: 18px;
     line-height: 1.8;
-    color: rgba(var(--color-white-rgb), 0.9);
+    color: rgba(var(--color-text-dark-rgb), 0.9);
     min-height: 400px;
     white-space: pre-wrap;
     word-break: break-all;
@@ -74,6 +73,6 @@
     display: flex;
     justify-content: center;
     margin-top: 80px;
-    border-top: 1px solid rgba(var(--color-white-rgb), 0.1);
+    border-top: 1px solid rgba(var(--color-text-dark-rgb), 0.1);
     padding-top: 40px;
 }

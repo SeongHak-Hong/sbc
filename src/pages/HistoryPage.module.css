@@ -7,8 +7,7 @@
     left: 0;
     display: flex;
     flex-direction: column;
-    background-color: var(--color-background-dark);
-    color: var(--color-white);
+    color: var(--color-text-dark);
 }
 
 .scroller {
@@ -50,7 +49,6 @@
 
 .photoFrame {
     width: 100%;
-    background: var(--color-background-dark);
     position: relative;
 }
 
@@ -74,7 +72,7 @@
 }
 
 .ctaCard p {
-    color: var(--color-white);
+    color: var(--color-text-dark);
     font-size: var(--text-body-card);
     font-family: var(--font-body);
     line-height: 1.8;
@@ -101,14 +99,14 @@
     font-weight: 400;
     line-height: 1.6;
     font-size: 4rem;
-    color: var(--color-white);
+    color: var(--color-text-dark);
     transition: all 0.3s ease;
 }
 
 .dash {
     width: 80px;
     height: 1px;
-    background: var(--color-white);
+    background: var(--color-text-dark);
     opacity: 0.5;
 }
 
@@ -119,7 +117,7 @@
     transform: translateX(-50%);
     font-size: 18px;
     text-transform: uppercase;
-    color: var(--color-white);
+    color: var(--color-text-dark);
     font-family: 'Pretendard', sans-serif;
     line-height: 1.8;
 }
@@ -139,7 +137,7 @@
     font-weight: 400;
     line-height: 1.6;
     font-size: var(--text-h3);
-    color: var(--color-white);
+    color: var(--color-text-dark);
     margin-bottom: 0;
     position: relative;
     z-index: 10;

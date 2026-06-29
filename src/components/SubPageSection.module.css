@@ -24,7 +24,7 @@
     margin: 0;
     font-weight: 300;
     line-height: 1.8;
-    color: var(--color-text-secondary);
+    color: var(--color-text-dark);
     text-align: center;
     word-break: keep-all;
 }

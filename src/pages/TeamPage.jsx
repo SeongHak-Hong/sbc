@@ -57,7 +57,7 @@ const TeamPage = () => {
         <div className={styles.pageWrapper}>
             <SubPageSection 
                 title="섬기는 사람들" 
-                subtitle={<p style={{ color: 'rgba(var(--color-white-rgb), 0.7)', marginTop: '16px', fontSize: '18px', textAlign: 'center' }}>신탄진침례교회를 섬기는 분들을 소개합니다.</p>}
+                subtitle={<p style={{ color: 'rgba(var(--color-text-dark-rgb), 0.7)', marginTop: '16px', fontSize: '18px', textAlign: 'center' }}>신탄진침례교회를 섬기는 분들을 소개합니다.</p>}
             >
                 <div className={styles.container}>
                     {[

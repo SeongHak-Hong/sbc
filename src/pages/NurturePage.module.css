@@ -1,15 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap');
 
 .pageWrapper {
-    background-color: var(--color-background-dark);
-    color: rgba(var(--color-white-rgb), 0.7);
+    color: rgba(var(--color-text-dark-rgb), 0.7);
     font-family: var(--font-body);
     min-height: 100vh;
     position: relative;
 }
 
 .bgDots {
-    background-image: radial-gradient(rgba(var(--color-white-rgb), 0.2) 2px, transparent 2px);
+    background-image: radial-gradient(rgba(var(--color-text-dark-rgb), 0.2) 2px, transparent 2px);
     background-size: 30px 30px;
 }
 
@@ -21,8 +20,8 @@
     background-image: repeating-linear-gradient(45deg,
             transparent,
             transparent 2px,
-            rgba(var(--color-white-rgb), 0.2) 2px,
-            rgba(var(--color-white-rgb), 0.2) 4px);
+            rgba(var(--color-text-dark-rgb), 0.2) 2px,
+            rgba(var(--color-text-dark-rgb), 0.2) 4px);
 }
 
 .navWrapper {
@@ -52,7 +51,7 @@
     margin-bottom: 24px;
     position: relative;
     z-index: 10;
-    color: var(--color-white);
+    color: var(--color-text-dark);
     font-size: var(--text-h1);
 }
 
@@ -62,7 +61,7 @@
     margin-bottom: 16px;
     transform: rotate(-2deg);
     display: inline-block;
-    color: var(--color-white);
+    color: var(--color-text-dark);
 }
 
 @media (min-width: 768px) {
@@ -75,7 +74,7 @@
 .headerSubtitle {
     max-width: 42rem;
     margin-top: 16px;
-    color: rgba(var(--color-white-rgb), 0.7);
+    color: rgba(var(--color-text-dark-rgb), 0.7);
 }
 
 .section {
@@ -85,11 +84,11 @@
 }
 
 .sectionTitle {
-    color: var(--color-white);
+    color: var(--color-text-dark);
 }
 
 .sectionSubtitle {
-    color: rgba(var(--color-white-rgb), 0.7);
+    color: rgba(var(--color-text-dark-rgb), 0.7);
     margin-top: 16px;
     max-width: 42rem;
     margin-left: auto;
@@ -223,7 +222,7 @@
     will-change: transform, opacity;
     transform-origin: center bottom;
     /* 카드 자체에 배경이 없으면 기본 흰 배경 적용 */
-    background: rgba(var(--color-white-rgb), 0.95);
+    background: rgba(var(--color-text-dark-rgb), 0.95);
     border-radius: 16px; /* border-radius 재적용 */
     width: 100%;
 }

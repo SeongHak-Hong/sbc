@@ -55,7 +55,7 @@ const PostDetailPage = () => {
                         <div className={styles.buttonWrapper}>
                             <PretendardButton 
                                 onClick={() => navigate(-1)}
-                                style={{ borderColor: 'rgba(var(--color-white-rgb), 0.3)', color: 'var(--color-white)', background: 'transparent' }}
+                                style={{ borderColor: 'rgba(var(--color-text-dark-rgb), 0.3)', color: 'var(--color-text-dark)', background: 'transparent' }}
                             >
                                 목록으로
                             </PretendardButton>

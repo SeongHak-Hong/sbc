@@ -110,7 +110,7 @@ const VerseSection = () => {
         alignItems: 'center',
         position: 'relative',
         zIndex: 10,
-        backgroundColor: 'var(--color-background-beige)' // Section background color added
+        backgroundColor: 'var(--color-background-beige)'
     };
 
     const containerStyle = {

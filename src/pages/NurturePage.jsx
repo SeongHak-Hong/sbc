@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
+import PretendardButton from '../components/ui/PretendardButton';
 import styles from './NurturePage.module.css';
 import welcomeImg from '../assets/nurture/shintanjin-baptist-church-welcome.webp';
 import step01 from '../assets/nurture/shintanjin-baptist-church-nurture-step-01.webp';
@@ -119,7 +120,7 @@ const ScrollStackCard = ({ step, index, total, containerRef }) => {
         boxShadow: 'none',
         boxSizing: 'border-box',
     } : {
-        backgroundColor: step.bgColor || 'rgba(var(--color-white-rgb), 0.95)',
+        backgroundColor: step.bgColor || 'rgba(var(--color-text-dark-rgb), 0.95)',
         aspectRatio: step.aspectRatio || '1 / 1',
         width: step.width ? `${step.width}px` : '100%',
         maxWidth: '100%',
@@ -194,10 +195,10 @@ const NurturePage = () => {
 
 
             <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '160px', paddingBottom: '120px', position: 'relative', zIndex: 10 }}>
-                <button style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }}>
+                <PretendardButton>
                     새가족 교육과정 보기
                     <span className="material-symbols-outlined" style={{ fontSize: 'var(--btn-icon-size)' }}>arrow_forward</span>
-                </button>
+                </PretendardButton>
             </div>
 
             <Footer />
