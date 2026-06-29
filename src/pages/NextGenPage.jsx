@@ -31,9 +31,9 @@ const departmentsData = {
         schedule: '주일 오전 09:00',
         location: '유치부실',
         leader: { name: '이지은 전도사', role: '담당 교역자' },
-        director: { name: '이윤정 집사', role: '부장' },
+        director: { name: '한순희 집사', role: '부장' },
         teamTitle: '교사팀',
-        teachers: ['한순희', '임동순', '김재량', '김신혜'],
+        teachers: ['임동순', '김재량', '김신혜'],
         moreTeachersCount: 0,
         events: [
             { title: '어린이 주일 특별 파티', date: '5월 5일', status: '마감임박', img: 'https://images.pexels.com/photos/8612911/pexels-photo-8612911.jpeg?auto=compress&cs=tinysrgb&w=800', desc: '아이들을 위한 특별한 간식과 재미있는 활동이 준비되어 있습니다.' },
@@ -48,7 +48,7 @@ const departmentsData = {
         location: '러브키즈예배실',
         extraEvents: [
             { label: '떡볶이 데이 시간', value: '매주 목요일 오후 1~4시' },
-            { label: '떡볶이 데이 장소', value: '신탄진초교 앞 항상운영' }
+            { label: '떡볶이 데이 장소', value: '식당' }
         ],
         leader: { name: '김정현 목사', role: '담당 교역자' },
         director: { name: '이명애 집사', role: '부장' },
@@ -67,6 +67,10 @@ const departmentsData = {
         color: '#BA87ED',
         schedule: '주일 오전 09:00',
         location: '소예배실',
+        extraEvents: [
+            { label: '떡볶이 데이 시간', value: '매주 목요일 오후 1~4시' },
+            { label: '떡볶이 데이 장소', value: '식당' }
+        ],
         leader: { name: '김윤섭 목사', role: '담당 교역자' },
         director: { name: '박경우 집사', role: '부장' },
         teamTitle: '교사팀',

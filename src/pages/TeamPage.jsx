@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import SubPageSection from '../components/SubPageSection';
+import Footer from '../components/Footer';
 import styles from './TeamPage.module.css';
 
 const TeamPage = () => {
@@ -48,31 +49,45 @@ const TeamPage = () => {
     ];
 
     return (
-        <div className={styles.pageWrapper}>
+        <>
             <SubPageSection 
                 title="섬기는 사람들" 
                 subtitle={<p style={{ color: '#B6CDCA', marginTop: '16px', fontSize: '18px', textAlign: 'center' }}>신탄진침례교회를 섬기는 분들을 소개합니다.</p>}
             >
                 <div className={styles.container}>
-                    <div className={styles.teamGrid}>
-                        {teamMembers.map((member, index) => (
-                            <div key={index} className={styles.memberCard}>
-                                <div className={styles.imageWrapper}>
-                                    <img src={member.image} alt={member.name} />
-                                </div>
-                                <div className={styles.infoWrapper}>
-                                    <h3 className={styles.memberName}>{member.name}</h3>
-                                    <p className={styles.memberRole}>{member.role}</p>
-                                    {member.description && (
-                                        <p className={styles.memberDesc}>{member.description}</p>
-                                    )}
+                    {[
+                        { title: '담임목사', members: teamMembers.filter(m => m.role === '담임목사') },
+                        { title: '부목사', members: teamMembers.filter(m => m.role === '부목사') },
+                        { title: '전도사', members: teamMembers.filter(m => m.role.includes('전도사')) },
+                        { title: '직원', members: teamMembers.filter(m => m.role === '행정간사' || m.role.includes('직원')) }
+                    ].map((category, catIdx) => {
+                        if (category.members.length === 0) return null;
+                        return (
+                            <div key={catIdx} className={styles.categorySection}>
+                                <h2 className={styles.categoryTitle}>{category.title}</h2>
+                                <div className={styles.teamGrid}>
+                                    {category.members.map((member, index) => (
+                                        <div key={index} className={styles.memberCard}>
+                                            <div className={styles.imageWrapper}>
+                                                <img src={member.image} alt={member.name} />
+                                            </div>
+                                            <div className={styles.infoWrapper}>
+                                                <h3 className={styles.memberName}>{member.name}</h3>
+                                                <p className={styles.memberRole}>{member.role}</p>
+                                                {member.description && (
+                                                    <p className={styles.memberDesc}>{member.description}</p>
+                                                )}
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
-                        ))}
-                    </div>
+                        );
+                    })}
                 </div>
             </SubPageSection>
-        </div>
+            <Footer />
+        </>
     );
 };
 

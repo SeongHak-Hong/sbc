@@ -122,7 +122,7 @@ const Header = () => {
                 { text: "인사말 · 비전", path: "/vision" },
                 { text: "예배 안내·오시는 길", path: "/worship" },
                 { text: "추억 갤러리", path: "/history" },
-                { text: "섬기는 분들", path: "/team" },
+                { text: "섬기는 사람들", path: "/team" },
             ]
         },
         {
@@ -139,7 +139,7 @@ const Header = () => {
         },
         {
             id: "step-5", title: "선교전도", icon: "public", iconColor: styles.iconBlue,
-            singlePagePath: "/"
+            singlePagePath: "/missions"
         },
         {
             id: "step-6", title: "나눔터", icon: "forum", iconColor: styles.iconBlue,

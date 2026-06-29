@@ -27,13 +27,12 @@ const WorshipPage = () => {
     const nextgenSchedule = [
         { name: "유치부(7세 이하)", time: "주일 오전 09:00", location: "유치부실" },
         { name: "초등부 주일예배", time: "주일 오전 09:00", location: "러브키즈예배실" },
-        { name: "초등부 떡볶이 데이", time: "매주 목요일 오후 1~4시", location: "신탄진초교 앞" },
+        { name: "떡볶이 데이", time: "매주 목요일 오후 1~4시", location: "식당" },
         { name: "청소년부(중,고등부)", time: "주일 오전 09:00", location: "소예배실" },
         { name: "청년부", time: "주일 오후 1:30", location: "소예배실" }
     ];
 
     const meetingsSchedule = [
-        { name: "시니어 드림스쿨", time: "매주 금요일 오전 10:00", location: "소예배실" },
         { name: "운영위원회", time: "매월 마지막주 2부 예배 후", location: "목양실" }
     ];
 
@@ -124,6 +123,13 @@ const WorshipPage = () => {
                                 <div className={styles.directionBody}>
                                     <p>교회 주차장 상시 개방</p>
                                     <p>일요일은 대덕체육관 주차장 추가로 이용 가능</p>
+                                </div>
+                            </div>
+
+                            <div className={styles.directionGroup}>
+                                <h4 className={styles.directionLabel}>교회차량 이용 시</h4>
+                                <div className={styles.directionBody}>
+                                    <p>차량이용을 원하시는 분은 T. 042-932-8156로 문의해 주세요.</p>
                                 </div>
                             </div>
                         </div>
