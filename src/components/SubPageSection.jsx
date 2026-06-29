@@ -24,7 +24,8 @@ const SubPageSection = ({ title, subtitle, icon, children, className, titleColor
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    style={{ position: 'relative', display: 'inline-block', color: titleColor, marginBottom: 0, fontSize: '40px', fontWeight: 300, lineHeight: 1.6, textAlign: 'center' }}
+                    className={styles.title}
+                    style={{ color: titleColor }}
                 >
                     {title}
                 </motion.h1>

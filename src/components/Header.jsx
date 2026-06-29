@@ -120,17 +120,23 @@ const Header = () => {
             id: "step-1", title: "교회소개", icon: "church", iconColor: styles.iconBlue,
             links: [
                 { text: "인사말 · 비전", path: "/vision" },
-                { text: "예배 안내·오시는 길", path: "/worship" },
+                { text: "예배시간 · 오시는 길", path: "/worship" },
                 { text: "추억 갤러리", path: "/history" },
                 { text: "섬기는 사람들", path: "/team" },
+            ]
+        },
+        {
+            id: "step-2", title: "예배찬양", icon: "music_note", iconColor: styles.iconBlue,
+            links: [
+                { text: "설교", path: "https://www.youtube.com/@sbc6312" },
+                { text: "찬양대", path: "https://www.youtube.com/@sbc6312" }
             ]
         },
         {
             id: "step-3", title: "공동체", icon: "local_library", iconColor: styles.iconBlue,
             links: [
                 { text: "새가족", path: "/nurture" },
-                { text: "구역 안내", path: "/cellgroup" },
-                { text: "찬양대", path: "https://www.youtube.com/@sbc6312" }
+                { text: "구역 안내", path: "/cellgroup" }
             ]
         },
         {
@@ -145,8 +151,9 @@ const Header = () => {
             id: "step-6", title: "나눔터", icon: "forum", iconColor: styles.iconBlue,
             links: [
                 { text: "교회 소식", path: "/" },
+                { text: "교회 일정", path: "/schedule" },
                 { text: "성도 소식", path: "/" },
-                { text: "교회 일정", path: "/schedule" }
+                { text: "성도 사업체", path: "/" }
             ]
         }
     ];

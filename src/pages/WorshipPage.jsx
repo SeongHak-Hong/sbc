@@ -49,7 +49,7 @@ const WorshipPage = () => {
             <main className={styles.mainContent}>
 
                 {/* 예배 안내 섹션 */}
-                <SubPageSection title="예배 안내" icon={visionIcon}>
+                <SubPageSection title="예배 시간" icon={visionIcon}>
                     <div className={styles.contentWrapper}>
                         <div className={styles.tabsContainer}>
                             <button 

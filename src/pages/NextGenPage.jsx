@@ -53,7 +53,7 @@ const departmentsData = {
         leader: { name: '김정현 목사', role: '담당 교역자' },
         director: { name: '이명애 집사', role: '부장' },
         teamTitle: '교사팀',
-        teachers: ['오수경', '오영미', '이영미', '김선주', '홍성학', '정효정', '최대한', '오대영', '이예솔'],
+        teachers: ['오수경', '오영미', '이영미', '김선주', '홍성학', '정효정', '최대한', '오대영', '이예솔', '정기숙'],
         moreTeachersCount: 0,
         events: [
             { title: '가을 축제 & 게임 나이트', date: '10월 25일', status: '접수중', img: 'https://images.pexels.com/photos/8613071/pexels-photo-8613071.jpeg?auto=compress&cs=tinysrgb&w=800', desc: '본당 앞마당에서 게임, 간식, 대형 에어바운스와 함께하는 즐거운 밤!' },

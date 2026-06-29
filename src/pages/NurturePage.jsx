@@ -193,7 +193,7 @@ const NurturePage = () => {
             </div>
 
 
-            <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '40px', paddingBottom: '80px', position: 'relative', zIndex: 10 }}>
+            <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '160px', paddingBottom: '120px', position: 'relative', zIndex: 10 }}>
                 <button style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }}>
                     새가족 교육과정 보기
                     <span className="material-symbols-outlined" style={{ fontSize: 'var(--btn-icon-size)' }}>arrow_forward</span>
