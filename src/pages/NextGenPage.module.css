@@ -2,8 +2,8 @@
 .pageWrapper {
     width: 100%;
     min-height: 100vh;
-    background-color: #192C2A;
-    color: #ffffff;
+    background-color: var(--color-background-beige);
+    color: var(--color-text-dark);
     font-family: 'Pretendard', sans-serif;
     position: relative;
     overflow-x: hidden;
@@ -12,7 +12,7 @@
 .headerSubtitle {
     font-size: var(--text-body);
     line-height: var(--leading-body);
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--color-text-dark-secondary);
     font-weight: 300;
     max-width: 600px;
     margin: 0 auto;
@@ -43,7 +43,7 @@
     font-family: 'Pretendard', sans-serif;
     font-size: 24px;
     font-weight: 500;
-    color: #ffffff;
+    color: var(--color-text-dark);
     margin-bottom: 8px;
 }
 
@@ -65,14 +65,14 @@
     flex-shrink: 0;
     font-size: 18px;
     font-weight: 300;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--color-text-dark-secondary);
     line-height: 1.8;
 }
 
 .infoValue {
     font-size: 18px;
     font-weight: 300;
-    color: #ffffff;
+    color: var(--color-text-dark);
     line-height: 1.8;
     margin: 0;
 }
@@ -90,14 +90,14 @@
 .teamItem {
     font-size: 18px;
     font-weight: 300;
-    color: #ffffff;
+    color: var(--color-text-dark);
     line-height: 1.8;
 }
 
 .teamItem::after {
     content: '|';
     margin-left: 12px;
-    color: rgba(255, 255, 255, 0.2);
+    color: var(--color-text-dark-tertiary);
 }
 
 .teamItem:last-child::after {
@@ -114,7 +114,7 @@
     align-items: baseline;
     justify-content: space-between;
     margin-bottom: 40px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--color-text-dark-tertiary);
     padding-bottom: 16px;
 }
 
@@ -122,7 +122,7 @@
     font-family: 'Pretendard', sans-serif;
     font-size: 28px;
     font-weight: 500;
-    color: #ffffff;
+    color: var(--color-text-dark);
 }
 
 .eventsGrid {
@@ -182,31 +182,31 @@
     font-weight: 500;
     padding: 4px 12px;
     border-radius: 4px;
-    color: #192C2A;
+    color: var(--color-background-beige);
 }
 
 .eventDate {
     font-size: 14px;
     font-weight: 300;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--color-text-dark-secondary);
 }
 
 .eventTitle {
     font-family: 'Pretendard', sans-serif;
     font-size: 20px;
     font-weight: 500;
-    color: #ffffff;
+    color: var(--color-text-dark);
     margin-bottom: 8px;
     transition: color 0.2s ease;
 }
 
 .eventCard:hover .eventTitle {
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--color-text-dark-secondary);
 }
 
 .eventDesc {
     font-size: 16px;
     font-weight: 300;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--color-text-dark-secondary);
     line-height: 1.8;
 }

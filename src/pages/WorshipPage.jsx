@@ -6,6 +6,7 @@ import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.w
 
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
+import TabMenu from '../components/TabMenu';
 
 const WorshipPage = () => {
     const [activeTab, setActiveTab] = useState('adult');
@@ -51,26 +52,17 @@ const WorshipPage = () => {
                 {/* 예배 안내 섹션 */}
                 <SubPageSection title="예배 시간" icon={visionIcon}>
                     <div className={styles.contentWrapper}>
-                        <div className={styles.tabsContainer}>
-                            <button 
-                                className={`${styles.tab} ${activeTab === 'adult' ? styles.activeTab : ''}`}
-                                onClick={() => setActiveTab('adult')}
-                            >
-                                예배
-                            </button>
-                            <button 
-                                className={`${styles.tab} ${activeTab === 'nextgen' ? styles.activeTab : ''}`}
-                                onClick={() => setActiveTab('nextgen')}
-                            >
-                                다음세대
-                            </button>
-                            <button 
-                                className={`${styles.tab} ${activeTab === 'meetings' ? styles.activeTab : ''}`}
-                                onClick={() => setActiveTab('meetings')}
-                            >
-                                모임
-                            </button>
-                        </div>
+                        <TabMenu 
+                            tabs={[
+                                { id: 'adult', label: '예배' },
+                                { id: 'nextgen', label: '다음세대' },
+                                { id: 'meetings', label: '모임' }
+                            ]}
+                            activeTab={activeTab}
+                            onTabChange={setActiveTab}
+                            getTabId={(tab) => tab.id}
+                            getTabLabel={(tab) => tab.label}
+                        />
 
                         <div className={styles.listContainer}>
                             <AnimatePresence mode="wait">

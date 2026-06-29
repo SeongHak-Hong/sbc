@@ -2,8 +2,8 @@
 .pageWrapper {
     width: 100%;
     min-height: 100vh;
-    background-color: #192C2A;
-    color: #ffffff;
+    background-color: var(--color-background-beige);
+    color: var(--color-text-dark);
     font-family: 'Pretendard', sans-serif;
     position: relative;
 }
@@ -20,13 +20,13 @@
     align-items: center;
     margin-bottom: 48px;
     padding-bottom: 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid var(--color-text-dark-tertiary);
 }
 
 .navButton {
     background: transparent;
     border: none;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--color-text-dark-tertiary);
     width: 48px;
     height: 48px;
     display: flex;
@@ -38,7 +38,7 @@
 }
 
 .navButton:hover {
-    color: #ffffff;
+    color: var(--color-text-dark);
 }
 
 .navButton span {
@@ -50,7 +50,7 @@
     font-size: 32px;
     font-weight: 400;
     line-height: 1.6;
-    color: #ffffff;
+    color: var(--color-text-dark);
 }
 
 .agendaContainer {
@@ -81,14 +81,14 @@
 .dateDay {
     font-size: 24px;
     font-weight: 500;
-    color: #ffffff;
+    color: var(--color-text-dark);
     line-height: 1.8;
 }
 
 .dateDayOfWeek {
     font-size: 16px;
     font-weight: 300;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--color-text-dark-tertiary);
     line-height: 1.8;
 }
 
@@ -103,14 +103,14 @@
 .eventTitle {
     font-size: 20px;
     font-weight: 500;
-    color: #ffffff;
+    color: var(--color-text-dark);
     line-height: 1.8;
 }
 
 .eventMeta {
     font-size: 16px;
     font-weight: 300;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--color-text-dark-secondary);
     line-height: 1.8;
     display: flex;
     align-items: center;

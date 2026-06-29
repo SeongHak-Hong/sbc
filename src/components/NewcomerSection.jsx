@@ -26,7 +26,7 @@ const NewcomerSection = ({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#192C2A'
+        backgroundColor: 'var(--color-background-warm)'
     };
 
     const titleStyle = {
@@ -43,8 +43,8 @@ const NewcomerSection = ({
     };
 
     const buttonStyle = {
-        borderColor: '#B6CDCA',
-        color: '#B6CDCA'
+        borderColor: 'var(--color-text-secondary)',
+        color: 'var(--color-text-secondary)'
     };
 
     // Mock hills using CSS

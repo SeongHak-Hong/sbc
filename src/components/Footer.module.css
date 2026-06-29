@@ -5,7 +5,7 @@
     z-index: 10;
     box-sizing: border-box;
     overflow: visible;
-    background-color: #192C2A;
+    background-color: var(--color-background-warm);
 }
 
 .footerDark {
@@ -27,7 +27,7 @@
     width: 100%;
     max-width: 1500px;
     margin: 0 auto;
-    padding: 180px 48px 96px;
+    padding: 96px 48px 96px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -39,7 +39,7 @@
 
 @media (max-width: 768px) {
     .content {
-        padding: 180px 24px 96px;
+        padding: 96px 24px 96px;
     }
 }
 
@@ -75,7 +75,7 @@
     word-break: keep-all;
     line-height: 1.8;
     font-weight: 300;
-    color: #B6CDCA !important;
+    color: var(--color-text-secondary) !important;
 }
 
 .copyright {
@@ -85,5 +85,5 @@
     text-align: center;
     line-height: 1.8;
     font-weight: 300;
-    color: #B6CDCA !important;
+    color: var(--color-text-secondary) !important;
 }

@@ -1,15 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap');
 
 .pageWrapper {
-    background-color: #192C2A;
-    color: rgba(255, 255, 255, 0.8);
+    background-color: var(--color-background-beige);
+    color: var(--color-text-dark-secondary);
     font-family: var(--font-body);
     min-height: 100vh;
     position: relative;
 }
 
 .bgDots {
-    background-image: radial-gradient(rgba(255, 255, 255, 0.1) 2px, transparent 2px);
+    background-image: radial-gradient(var(--color-text-dark-tertiary) 2px, transparent 2px);
     background-size: 30px 30px;
 }
 
@@ -21,8 +21,8 @@
     background-image: repeating-linear-gradient(45deg,
             transparent,
             transparent 2px,
-            rgba(255, 255, 255, 0.1) 2px,
-            rgba(255, 255, 255, 0.1) 4px);
+            var(--color-text-dark-tertiary) 2px,
+            var(--color-text-dark-tertiary) 4px);
 }
 
 .navWrapper {
@@ -52,7 +52,7 @@
     margin-bottom: 24px;
     position: relative;
     z-index: 10;
-    color: white;
+    color: var(--color-text-dark);
     font-size: var(--text-h1);
 }
 
@@ -62,7 +62,7 @@
     margin-bottom: 16px;
     transform: rotate(-2deg);
     display: inline-block;
-    color: white;
+    color: var(--color-text-dark);
 }
 
 @media (min-width: 768px) {
@@ -75,7 +75,7 @@
 .headerSubtitle {
     max-width: 42rem;
     margin-top: 16px;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--color-text-dark-secondary);
 }
 
 .section {
@@ -85,11 +85,11 @@
 }
 
 .sectionTitle {
-    color: white;
+    color: var(--color-text-dark);
 }
 
 .sectionSubtitle {
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--color-text-dark-secondary);
     margin-top: 16px;
     max-width: 42rem;
     margin-left: auto;

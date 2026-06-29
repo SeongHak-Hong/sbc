@@ -11,6 +11,7 @@ import NextGenPage from './pages/NextGenPage';
 import CellgroupPage from './pages/CellgroupPage';
 import SchedulePage from './pages/SchedulePage';
 import MissionsPage from './pages/MissionsPage';
+import NewsPage from './pages/NewsPage';
 import ScrollToTop from './components/ScrollToTop';
 import Lenis from 'lenis';
 import './App.css';
@@ -30,6 +31,7 @@ function AppRoutes() {
       <Route path="/cellgroup" element={<CellgroupPage />} />
       <Route path="/schedule" element={<SchedulePage />} />
       <Route path="/missions" element={<MissionsPage />} />
+      <Route path="/news" element={<NewsPage />} />
     </Routes>
   );
 }

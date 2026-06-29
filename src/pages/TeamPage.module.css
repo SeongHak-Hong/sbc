@@ -1,7 +1,7 @@
 .pageWrapper {
     width: 100%;
     min-height: 100vh;
-    background-color: #192C2A;
+    background-color: var(--color-background-beige);
     padding-bottom: 120px;
 }
 
@@ -60,7 +60,7 @@
     font-family: var(--font-body);
     font-size: 28px;
     font-weight: 500;
-    color: #ffffff;
+    color: var(--color-text-dark);
     margin-bottom: 8px;
     line-height: 1.8;
     letter-spacing: -0.05em;
@@ -70,7 +70,7 @@
     font-family: var(--font-body);
     font-size: 16px;
     font-weight: 500;
-    color: #B6CDCA;
+    color: var(--color-text-dark-secondary);
     margin-bottom: 8px;
     letter-spacing: -0.02em;
 }
@@ -96,6 +96,6 @@
     font-family: var(--font-title);
     font-size: 24px;
     font-weight: 500;
-    color: #B6CDCA;
+    color: var(--color-text-dark-secondary);
     margin-bottom: 32px;
 }

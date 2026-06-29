@@ -64,7 +64,7 @@ const MissionsPage = () => {
     const tabs = Object.values(missionData);
 
     return (
-        <>
+        <div className={styles.pageWrapper}>
             <SubPageSection 
                 title="선교전도" 
                 subtitle={<p className={styles.headerSubtitle}>땅끝까지 이르러 내 증인이 되리라 하신 말씀을 실천합니다.</p>}
@@ -146,7 +146,7 @@ const MissionsPage = () => {
                 </div>
             </SubPageSection>
             <Footer />
-        </>
+        </div>
     );
 };
 

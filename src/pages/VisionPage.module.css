@@ -14,8 +14,8 @@
 }
 
 .pageContainer {
-    background-color: #192C2A;
-    color: #ffffff;
+    background-color: var(--color-background-beige);
+    color: var(--color-text-dark);
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
@@ -238,13 +238,13 @@
 }
 
 .pillarsTitle {
-    color: #ffffff;
+    color: var(--color-text-dark);
     margin-bottom: 16px;
     font-size: var(--text-h2) !important;
 }
 
 .pillarsDesc {
-    color: var(--white);
+    color: var(--color-text-dark);
     max-width: 42rem;
     margin: 0 auto;
     font-family: var(--font-body);

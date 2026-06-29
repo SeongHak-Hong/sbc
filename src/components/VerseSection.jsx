@@ -32,7 +32,7 @@ const VerseSection = () => {
                 alignItems: 'center',
                 fontSize: isCitation ? (isMobile ? '24px' : '40px') : 'inherit',
                 marginTop: isCitation ? '40px' : '0',
-                color: isCitation ? '#ffffff' : 'inherit',
+                color: isCitation ? 'var(--color-text-dark)' : 'inherit',
                 fontWeight: isCitation ? 500 : 'inherit'
             };
 
@@ -43,7 +43,7 @@ const VerseSection = () => {
                             display: 'inline-block',
                             width: '32px',
                             height: '3px',
-                            backgroundColor: '#ffffff',
+                            backgroundColor: 'var(--color-text-dark)',
                             marginRight: '16px', // Gap between line and text
                         }}></span>
                     )}
@@ -110,7 +110,7 @@ const VerseSection = () => {
         alignItems: 'center',
         position: 'relative',
         zIndex: 10,
-        backgroundColor: '#192C2A' // Section background color added
+        backgroundColor: 'var(--color-background-beige)' // Section background color added
     };
 
     const containerStyle = {
@@ -125,7 +125,7 @@ const VerseSection = () => {
         fontSize: isMobile ? '24px' : '40px',
         lineHeight: '1.6', // 160%
         letterSpacing: '-0.1em', // -10% from design system
-        color: '#B6CDCA',
+        color: 'var(--color-text-dark-secondary)',
         textAlign: 'center',
         whiteSpace: 'pre-line',
         fontWeight: 300 // Light weight

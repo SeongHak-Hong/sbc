@@ -150,9 +150,9 @@ const Header = () => {
         {
             id: "step-6", title: "나눔터", icon: "forum", iconColor: styles.iconBlue,
             links: [
-                { text: "교회 소식", path: "/" },
+                { text: "교회 소식", path: "/news?tab=church" },
                 { text: "교회 일정", path: "/schedule" },
-                { text: "성도 소식", path: "/" },
+                { text: "성도 소식", path: "/news?tab=members" },
                 { text: "성도 사업체", path: "/" }
             ]
         }

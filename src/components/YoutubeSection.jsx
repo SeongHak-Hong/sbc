@@ -62,7 +62,7 @@ const YoutubeSection = () => {
         boxSizing: 'border-box',
         zIndex: 20,
         overflow: 'hidden',
-        backgroundColor: '#192C2A' // Changed background color as requested
+        backgroundColor: 'var(--color-background-warm)' // Changed background color as requested
     };
 
     const innerContentStyle = {
@@ -241,7 +241,7 @@ const YoutubeSection = () => {
                         그 말씀이<br />당신의 삶을 변화시킵니다.
                     </h2>
                     <a href="https://www.youtube.com/@sbc6312" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                        <PretendardButton style={{ borderColor: '#B6CDCA', color: '#B6CDCA' }}>
+                        <PretendardButton style={{ borderColor: 'var(--color-text-secondary)', color: 'var(--color-text-secondary)' }}>
                             유튜브 채널 가기
                         </PretendardButton>
                     </a>

@@ -23,7 +23,7 @@ const ServiceInfoSection = () => {
         alignItems: 'center',
         justifyContent: 'center', // Center the content
         flexDirection: 'column',
-        backgroundColor: '#E1EBEA'
+        backgroundColor: 'var(--color-background-beige)'
     };
 
     const titleStyle = {

@@ -1,9 +1,9 @@
-﻿.tabsContainer {
+.tabsContainer {
     display: flex;
     justify-content: center;
     gap: 0;
     margin-bottom: 48px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid var(--color-text-dark-tertiary);
     width: 100%;
 }
 
@@ -19,7 +19,7 @@
     font-size: 16px;
     font-weight: 300;
     text-align: center;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--color-text-dark-tertiary);
     padding: 12px 0;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -38,13 +38,13 @@
 }
 
 .tab:hover {
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--color-text-dark-secondary);
 }
 
 .activeTab {
-    color: #ffffff;
+    color: var(--color-text-dark);
 }
 
 .activeTab::after {
-    background: #ffffff;
+    background: var(--color-text-dark);
 }

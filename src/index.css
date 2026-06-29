@@ -29,12 +29,13 @@
   --font-letter: 'Pretendard', sans-serif;
   --font-btn: 'Pretendard', sans-serif;
 
-  /* ?됱긽 吏??(?꾧퀎痢?怨듯넻) */
+  /* ?됱긽 吏€??(?꾧퀎痢?怨듯넻) */
   /* 吏숈? ?띿뒪??(?쒕ぉ) - ?뱀뀡蹂꾨줈 ?ъ젙???덉젙?대?濡?湲곕낯媛믩쭔 ?〓땲??*/
   --color-text-body: #404040;
-  /* 遺?쒕윭??蹂몃Ц ?됱긽 */
+  /* 부드러운 본문 색상 */
+  --color-text-secondary: rgba(255, 255, 255, 0.8);
 
-  /* 湲瑗?[PC/湲곕낯 ?ъ씠利?(768px ?댁긽 ?섍꼍)] */
+  /* 湲€瑗?[PC/湲곕낯 ?ъ씠利?(768px ?댁긽 ?섍꼍)] */
   --pc-text-h1: 64px;
   --pc-text-h2: 64px;
   --pc-text-h3: 48px;
@@ -57,6 +58,12 @@
   --letter-spacing-base: -0.02em;
 
   --color-primary: #4A90E2;
+  --color-background-warm: #312C29;
+  --color-background-beige: #EFEAE7;
+  --color-background-light: #FAFAFA;
+  --color-text-dark: #1D1A1C;
+  --color-text-dark-secondary: rgba(29, 26, 28, 0.8);
+  --color-text-dark-tertiary: rgba(29, 26, 28, 0.4);
   --color-background: #E0F7FA;
   --color-text: #333333;
 
