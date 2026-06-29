@@ -62,7 +62,7 @@ const YoutubeSection = () => {
         boxSizing: 'border-box',
         zIndex: 20,
         overflow: 'hidden',
-        backgroundColor: 'var(--color-background-warm)' // Changed background color as requested
+        backgroundColor: '#192C2A' // Changed background color as requested
     };
 
     const innerContentStyle = {

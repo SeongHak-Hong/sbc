@@ -71,7 +71,7 @@ const scheduleData = [
                 title: '하반기 제직회',
                 meta: '오후 04:00 · 본당',
                 delay: '0.2s',
-                color: 'var(--color-text-dark-secondary)'
+                color: 'rgba(255, 255, 255, 0.7)'
             }
         ]
     }

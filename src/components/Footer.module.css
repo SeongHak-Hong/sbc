@@ -5,7 +5,7 @@
     z-index: 10;
     box-sizing: border-box;
     overflow: visible;
-    background-color: var(--color-background-warm);
+    background-color: #192C2A;
 }
 
 .footerDark {

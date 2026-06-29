@@ -23,7 +23,7 @@ const PrayerSection = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'var(--color-background-light)'
+        backgroundColor: '#D5DDD8'
     };
 
     const titleStyle = {

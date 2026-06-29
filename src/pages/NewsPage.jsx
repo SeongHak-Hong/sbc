@@ -58,7 +58,7 @@ const NewsPage = () => {
         <div className={styles.pageWrapper}>
             <SubPageSection 
                 title="나눔터" 
-                subtitle={<p className={styles.headerSubtitle} style={{ color: 'var(--color-text-dark-secondary)', marginTop: '16px', fontSize: '18px' }}>신탄진교회의 다양한 소식을 나눕니다.</p>}
+                subtitle={<p className={styles.headerSubtitle} style={{ color: 'rgba(255, 255, 255, 0.7)', marginTop: '16px', fontSize: '18px' }}>신탄진교회의 다양한 소식을 나눕니다.</p>}
             >
                 <div className={styles.contentWrapper}>
                     <TabMenu 

@@ -26,7 +26,7 @@ const NewcomerSection = ({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'var(--color-background-warm)'
+        backgroundColor: '#192C2A'
     };
 
     const titleStyle = {

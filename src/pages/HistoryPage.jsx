@@ -66,7 +66,7 @@ const HistoryPage = () => {
     const scrollHeight = scrollRange > 0 ? `${scrollRange + window.innerHeight}px` : '100vh';
 
     return (
-        <div ref={containerRef} style={{ height: scrollHeight, position: 'relative', backgroundColor: 'var(--color-background-beige)' }}>
+        <div ref={containerRef} style={{ height: scrollHeight, position: 'relative', backgroundColor: '#192C2A' }}>
             <div className={styles.pageWrapper}>
 
 
@@ -109,7 +109,7 @@ const HistoryPage = () => {
                                 신탄진교회의 가장 생생하고 다정한 '오늘'의 이야기를 인스타그램에서 만나보세요.
                             </p>
                             <motion.button 
-                                style={{ color: 'var(--color-text-dark)' }}
+                                style={{ color: '#ffffff' }}
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 transition={{ type: "spring", stiffness: 400 }}

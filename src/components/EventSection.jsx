@@ -22,7 +22,7 @@ const EventSection = () => {
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
-        backgroundColor: 'var(--color-background-beige)'
+        backgroundColor: '#192C2A'
     };
 
     const titleStyle = {

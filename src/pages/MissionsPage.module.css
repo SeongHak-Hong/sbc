@@ -1,11 +1,11 @@
 .pageWrapper {
     width: 100%;
     min-height: 100vh;
-    background-color: var(--color-background-beige);
+    background-color: #192C2A;
 }
 
 .headerSubtitle {
-    color: var(--color-text-dark-secondary);
+    color: rgba(255, 255, 255, 0.7);
     margin-top: 16px;
     font-size: 18px;
     text-align: center;
@@ -50,7 +50,7 @@
     width: 100%;
     border-collapse: collapse;
     text-align: center;
-    color: var(--color-text-dark);
+    color: #ffffff;
 }
 
 .missionTable th,
@@ -70,13 +70,13 @@
     font-family: var(--font-body);
     font-size: 18px;
     font-weight: 300;
-    color: var(--color-text-dark-secondary);
+    color: rgba(255, 255, 255, 0.7);
     line-height: 1.8;
 }
 
 .missionTable td:first-child {
     font-weight: 500;
-    color: var(--color-text-dark);
+    color: #ffffff;
 }
 
 @media (max-width: 768px) {
@@ -98,10 +98,10 @@
     font-family: var(--font-body);
     font-size: 20px;
     font-weight: 500;
-    color: var(--color-text-dark);
+    color: #ffffff;
     margin-bottom: 8px;
     padding-bottom: 16px;
-    border-bottom: 1px solid var(--color-text-dark-tertiary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .evangelismDesc {
@@ -109,7 +109,7 @@
     font-size: 18px;
     line-height: 1.8;
     font-weight: 300;
-    color: var(--color-text-dark-secondary);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .teamList {
@@ -125,12 +125,12 @@
     font-size: 18px;
     line-height: 1.8;
     font-weight: 300;
-    color: var(--color-text-dark-secondary);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .teamName {
     font-weight: 500;
-    color: var(--color-text-dark);
+    color: #ffffff;
 }
 
 .scheduleList {
@@ -146,12 +146,12 @@
     font-family: var(--font-body);
     font-size: 18px;
     font-weight: 300;
-    color: var(--color-text-dark-secondary);
+    color: rgba(255, 255, 255, 0.7);
     line-height: 1.8;
 }
 
 .scheduleTime {
-    color: var(--color-text-dark);
+    color: #ffffff;
     font-weight: 500;
 }
 
