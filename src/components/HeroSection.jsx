@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import LightRays from './LightRays';
 import { BlurFade } from './ui/BlurFade';
 import heroVideo from '../assets/main/shintanjin-baptist-church-hero-bg.mp4';
 
 const HeroSection = () => {
     const [isMobile, setIsMobile] = useState(false);
+    const { scrollY } = useScroll();
+
+    // Parallax effects for the text (moves upwards)
+    const textY = useTransform(scrollY, [0, 1000], [0, -200]);
 
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth <= 767);
@@ -14,7 +19,9 @@ const HeroSection = () => {
     }, []);
 
     const sectionStyle = {
-        position: 'relative',
+        position: 'sticky', // Changed from relative to sticky for curtain effect
+        top: 0,
+        zIndex: 0,
         width: '100%',
         minHeight: '100vh',
         display: 'flex',
@@ -36,7 +43,7 @@ const HeroSection = () => {
         color: '#ffffff',
         lineHeight: '1.6', // 160%
         letterSpacing: '-0.1em', // -10%
-        marginBottom: '0', 
+        marginBottom: '0',
         zIndex: 10
     };
 
@@ -54,11 +61,11 @@ const HeroSection = () => {
     return (
         <section style={sectionStyle}>
             {/* Background Video */}
-            <video 
-                autoPlay 
-                loop 
-                muted 
-                playsInline 
+            <video
+                autoPlay
+                loop
+                muted
+                playsInline
                 style={{
                     position: 'absolute',
                     top: 0,
@@ -79,7 +86,7 @@ const HeroSection = () => {
                 left: 0,
                 width: '100%',
                 height: '100%',
-                background: isMobile 
+                background: isMobile
                     ? 'linear-gradient(to right, rgba(44, 35, 25, 0.7) 0%, rgba(44, 35, 25, 0) 100%)'
                     : 'linear-gradient(to right, rgba(44, 35, 25, 0.8) 0%, rgba(44, 35, 25, 0) 50%)',
                 zIndex: 1
@@ -101,14 +108,14 @@ const HeroSection = () => {
                 />
             </div>
 
-            {/* Text Content Wrapper */}
-            <div style={{ position: 'relative', zIndex: 20 }}>
+            {/* Text Content Wrapper with Parallax */}
+            <motion.div style={{ position: 'relative', zIndex: 20, y: textY }}>
                 <BlurFade delay={0.25} inView>
                     <h1 style={sloganStyle}>
                         말씀 위에 든든히<br />세워지는 교회
                     </h1>
                 </BlurFade>
-            </div>
+            </motion.div>
         </section>
     );
 };

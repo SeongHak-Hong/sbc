@@ -74,14 +74,26 @@ const VerseSection = () => {
                 }
             });
 
-            // 1. Text Animation
+            // Calculate total duration for the stagger animation
+            const staggerAmount = 0.1;
+            const textDuration = 1;
+            const totalDuration = textDuration + staggerAmount * (wordElements.length > 0 ? wordElements.length - 1 : 0);
+
+            // 1. Parallax and Depth Animation for the whole text container
+            tl.fromTo(textRef.current, 
+                { y: 200, scale: 0.95 }, 
+                { y: 0, scale: 1.05, ease: 'none', duration: totalDuration }, 
+                0
+            );
+
+            // 2. Text Reveal Animation
             tl.to(wordElements, {
                 opacity: 1,
                 filter: 'blur(0px)',
-                stagger: 0.1,
-                duration: 1,
+                stagger: staggerAmount,
+                duration: textDuration,
                 ease: 'none'
-            });
+            }, 0);
 
         }, sectionRef); // Scope to section
 

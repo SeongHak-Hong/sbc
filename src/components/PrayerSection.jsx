@@ -13,6 +13,8 @@ const PrayerSection = () => {
     }, []);
 
     const sectionStyle = {
+        position: 'relative',
+        zIndex: 10,
         padding: 'var(--section-padding-y) 0',
         textAlign: 'center',
         color: '#fff',

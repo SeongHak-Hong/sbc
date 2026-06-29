@@ -25,6 +25,8 @@ const GallerySection = () => {
     }, []);
 
     const sectionStyle = {
+        position: 'relative',
+        zIndex: 10,
         width: '100%',
         height: '100vh',
         minHeight: '100vh',
