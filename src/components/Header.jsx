@@ -300,7 +300,7 @@ const Header = () => {
                         onClick={() => setIsBulletinModalOpen(false)}
                     >
                         <motion.img 
-                            src="/bulletin.webp" 
+                            src={`${import.meta.env.BASE_URL}bulletin.webp`} 
                             alt="주보" 
                             style={{
                                 maxHeight: 'calc(100vh - 160px)',
@@ -319,7 +319,7 @@ const Header = () => {
                         
                         {/* Past Bulletins Button */}
                         <motion.a 
-                            href="/board/bulletin"
+                            href={`${import.meta.env.BASE_URL}board/bulletin`}
                             onClick={(e) => {
                                 // e.preventDefault();
                             }}

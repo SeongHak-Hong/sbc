@@ -234,7 +234,7 @@
     height: 48px;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.1);
-    color: var(--white);
+    color: #ffffff;
     transition: background-color 0.2s, transform 0.2s;
     display: flex;
     align-items: center;
@@ -282,12 +282,12 @@
 .imageButtonTitle {
     font-size: 16px;
     font-weight: 500;
-    color: var(--white);
+    color: #ffffff;
 }
 
 .imageButtonIcon {
     font-size: 20px !important;
-    color: var(--white);
+    color: #ffffff;
 }
 
 .pastBulletinBtn {
