@@ -3,11 +3,11 @@ import logoSbc from '../assets/shintanjin-baptist-church-logo.svg';
 import '../index.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import PretendardButton from './ui/PretendardButton';
 import styles from './MenuDropdown.module.css';
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [activeSubmenu, setActiveSubmenu] = useState(null);
-    const [isBulletinModalOpen, setIsBulletinModalOpen] = useState(false);
     
     // SCROLL STATES
     const [isVisible, setIsVisible] = useState(true);
@@ -96,7 +96,7 @@ const Header = () => {
         backgroundColor: isSolidWhite ? 'var(--color-white)' : 'transparent',
         transform: finalIsVisible ? 'translateY(0)' : 'translateY(-100%)',
         transition: 'transform 0.3s ease, background-color 0.3s ease',
-        boxShadow: isSolidWhite ? '0 1px 3px rgba(0,0,0,0.05)' : 'none'
+        boxShadow: 'none'
     };
 
     const handleLinkClick = (e, path) => {
@@ -257,18 +257,7 @@ const Header = () => {
                                 </React.Fragment>
                             );
                         })}
-                        <button 
-                            className={styles.imageButton}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                setIsBulletinModalOpen(true);
-                                setIsMenuOpen(false);
-                            }}
-                            style={{ border: 'none', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit' }}
-                        >
-                            <span className={styles.imageButtonTitle}>주보 보기</span>
-                            <span className={`material-symbols-outlined ${styles.imageButtonIcon}`}>arrow_forward</span>
-                        </button>
+
                     </div>
 
                     <div className={styles.socialLinks}>
@@ -286,98 +275,6 @@ const Header = () => {
                 </nav>
             </div>
         </header>
-
-        {/* Bulletin Modal */}
-        <AnimatePresence>
-                {isBulletinModalOpen && (
-                    <motion.div 
-                        style={{
-                            position: 'fixed',
-                            top: 0, left: 0, right: 0, bottom: 0,
-                            backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                            backdropFilter: 'blur(8px)',
-                            WebkitBackdropFilter: 'blur(8px)',
-                            zIndex: 99999,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            gap: '24px',
-                            padding: '40px 24px'
-                        }}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        onClick={() => setIsBulletinModalOpen(false)}
-                    >
-                        <motion.img 
-                            src={`${import.meta.env.BASE_URL}bulletin.webp`} 
-                            alt="주보" 
-                            style={{
-                                maxHeight: 'calc(100vh - 160px)',
-                                height: 'auto',
-                                maxWidth: '100%',
-                                objectFit: 'contain',
-                                borderRadius: 0,
-                                border: '1px solid rgba(var(--color-white-rgb), 0.1)'
-                            }}
-                            initial={{ scale: 0.95, opacity: 0, y: 20 }}
-                            animate={{ scale: 1, opacity: 1, y: 0 }}
-                            exit={{ scale: 0.95, opacity: 0, y: 20 }}
-                            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                            onClick={(e) => e.stopPropagation()}
-                        />
-                        
-                        {/* Past Bulletins Button */}
-                        <motion.a 
-                            href={`${import.meta.env.BASE_URL}board/bulletin`}
-                            style={{
-                                padding: '12px 24px',
-                                borderRadius: 0,
-                                border: '1px solid rgba(var(--color-white-rgb), 0.3)',
-                                background: 'transparent',
-                                color: 'var(--color-white)',
-                                fontSize: '15px',
-                                fontWeight: '500',
-                                textDecoration: 'none',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '8px',
-                                fontFamily: 'var(--font-body)'
-                            }}
-                            whileHover={{ scale: 1.05 }}
-                            transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>history</span>
-                            지난 주보 모아보기
-                        </motion.a>
-
-                        <button 
-                            onClick={() => setIsBulletinModalOpen(false)}
-                            style={{
-                                position: 'absolute',
-                                top: '24px',
-                                right: '24px',
-                                background: 'transparent',
-                                border: 'none',
-                                color: 'rgba(var(--color-white-rgb), 0.6)',
-                                cursor: 'pointer',
-                                padding: '8px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                transition: 'color 0.2s ease',
-                            }}
-                            onMouseOver={(e) => e.currentTarget.style.color = 'var(--color-white)'}
-                            onMouseOut={(e) => e.currentTarget.style.color = 'rgba(var(--color-white-rgb), 0.6)'}
-                        >
-                            <span className="material-symbols-outlined" style={{ fontSize: '32px' }}>close</span>
-                        </button>
-
-                    </motion.div>
-                )}
-            </AnimatePresence>
         </>
     );
 };

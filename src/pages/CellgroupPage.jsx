@@ -75,7 +75,7 @@ const CellgroupPage = () => {
                                     <div key={index} className={styles.zoneItem}>
                                         <p className={styles.zoneName}>{zone.id}구역</p>
                                         <p className={styles.zoneDetails}>
-                                            구역장: {zone.leader}{zone.teacher ? `, 구역교사: ${zone.teacher}` : ''}
+                                            구역장: {zone.leader}{zone.teacher ? ` / 구역교사: ${zone.teacher}` : ''}
                                         </p>
                                     </div>
                                 ))}

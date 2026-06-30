@@ -134,7 +134,7 @@
 
 .menuItem:hover, .menuItem.expanded {
     color: var(--color-text-dark);
-    background-color: rgba(var(--color-text-dark-rgb), 0.1);
+    background-color: var(--color-background-beige);
 }
 
 .itemLeft {
@@ -214,7 +214,7 @@
 
 .subItem:hover {
     color: var(--color-text-dark);
-    background-color: rgba(var(--color-text-dark-rgb), 0.1);
+    background-color: var(--color-background-beige);
 }
 
 .logo {
@@ -232,9 +232,9 @@
 .socialLinks a {
     width: 48px;
     height: 48px;
-    border-radius: 0;
-    background-color: rgba(var(--color-text-dark-rgb), 0.1);
-    color: var(--color-text-dark);
+    border-radius: 99px;
+    background-color: var(--color-text-dark);
+    color: var(--color-white);
     transition: background-color 0.2s, transform 0.2s;
     display: flex;
     align-items: center;
@@ -243,7 +243,7 @@
 }
 
 .socialLinks a:hover {
-    background-color: rgba(var(--color-text-dark-rgb), 0.2);
+    background-color: rgba(var(--color-text-dark-rgb), 0.8);
     transform: scale(1.05);
 }
 

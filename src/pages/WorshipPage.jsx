@@ -78,7 +78,7 @@ const WorshipPage = () => {
                                         <div key={index} className={styles.scheduleItem}>
                                             <p className={styles.scheduleName}>{item.name}</p>
                                             <p className={styles.scheduleDetails}>
-                                                {item.time}, {item.location}
+                                                {item.time} / {item.location}
                                             </p>
                                         </div>
                                     ))}

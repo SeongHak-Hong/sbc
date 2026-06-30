@@ -16,8 +16,8 @@ const missionData = {
             { name: '허미라', organization: 'FMB', region: '필리핀' },
             { name: '이천우', organization: 'FMB', region: '멕시코' },
             { name: '홍현기', organization: 'FMB', region: '잠비아' },
-            { name: '정영섭', organization: '우즈벡인 교회/FMB', region: '김해' },
-            { name: '송창근', organization: '중국인 교회/FMB', region: '대전' }
+            { name: '정영섭', organization: '우즈벡인 교회 / FMB', region: '김해' },
+            { name: '송창근', organization: '중국인 교회 / FMB', region: '대전' }
         ]
     },
     domestic: {
@@ -89,25 +89,15 @@ const MissionsPage = () => {
                             transition={{ duration: 0.3 }}
                         >
                             {activeData.type === 'table' && (
-                                <div className={styles.tableContainer}>
-                                    <table className={styles.missionTable}>
-                                        <thead>
-                                            <tr>
-                                                <th>선교사명</th>
-                                                <th>교회/기관</th>
-                                                <th>지 역</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {activeData.list.map((item, idx) => (
-                                                <tr key={idx}>
-                                                    <td>{item.name}</td>
-                                                    <td>{item.organization}</td>
-                                                    <td>{item.region}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                <div className={styles.missionList}>
+                                    {activeData.list.map((item, idx) => (
+                                        <div key={idx} className={styles.missionItem}>
+                                            <p className={styles.missionName}>{item.name}</p>
+                                            <p className={styles.missionDetails}>
+                                                {item.organization} / {item.region}
+                                            </p>
+                                        </div>
+                                    ))}
                                 </div>
                             )}
 

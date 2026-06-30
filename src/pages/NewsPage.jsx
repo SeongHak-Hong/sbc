@@ -60,7 +60,7 @@ const NewsPage = () => {
         <div className={styles.pageWrapper}>
             <SubPageSection 
                 title="교회 소식" 
-                subtitle={<p className={styles.headerSubtitle} style={{ color: 'rgba(var(--color-text-dark-rgb), 0.7)', marginTop: '16px', fontSize: '18px' }}>신탄진교회의 다양한 소식을 나눕니다.</p>}
+                subtitle={<p className={styles.headerSubtitle} style={{ color: 'rgba(var(--color-text-dark-rgb), 0.7)', fontSize: '18px' }}>신탄진교회의 다양한 소식을 나눕니다.</p>}
             >
                 <div className={styles.contentWrapper}>
                     <TabMenu 
@@ -83,36 +83,21 @@ const NewsPage = () => {
                             >
                                 {currentList.map((item) => (
                                     <div key={item.id} className={styles.boardItem} onClick={() => handleItemClick(item.id)}>
-                                        <div className={styles.itemNumber}>{item.id}</div>
-                                        <div className={styles.itemContent}>
-                                            <h3 className={styles.itemTitle}>{item.title}</h3>
-                                            <div className={styles.itemMeta}>
-                                                <span>{item.author}</span>
-                                                <span className={styles.metaDivider}>|</span>
-                                                <span>{item.date}</span>
-                                            </div>
-                                        </div>
+                                        <p className={styles.itemTitle}>{item.title}</p>
+                                        <p className={styles.itemDate}>{item.date}</p>
                                     </div>
                                 ))}
                             </motion.div>
                         </AnimatePresence>
 
-                        {/* Footer (Search & Pagination) */}
+                        {/* Footer (Pagination) */}
                         <div className={styles.boardFooter}>
-                            <div className={styles.searchWrapper}>
-                                <select className={styles.searchSelect}>
-                                    <option value="title">제목</option>
-                                    <option value="content">내용</option>
-                                    <option value="author">작성자</option>
-                                </select>
-                                <input type="text" className={styles.searchInput} placeholder="검색어 입력" />
-                            </div>
                             
                             <div className={styles.pagination}>
-                                <button className={styles.pageArrow}>&lt;</button>
+                                <button className={`${styles.pageArrow} material-symbols-outlined`}>chevron_left</button>
                                 <button className={`${styles.pageButton} ${styles.active}`}>1</button>
                                 <button className={styles.pageButton}>2</button>
-                                <button className={styles.pageArrow}>&gt;</button>
+                                <button className={`${styles.pageArrow} material-symbols-outlined`}>chevron_right</button>
                             </div>
                         </div>
                     </div>

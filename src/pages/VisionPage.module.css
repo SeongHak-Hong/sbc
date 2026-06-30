@@ -1,16 +1,16 @@
 /* Color Palette */
 :root {
-  --cream: #FAF7F2;
-  --cream-light: #FDFCFB;
-  --navy: #1C2A43;
-  --navy-light: #515E75;
-  --navy-muted: #8A97AE;
-  --accent-gold: #D4AF37;
-  --accent-sand: #E6DCC8;
-  
-  --shadow-soft: 0 20px 40px -15px rgba(28, 42, 67, 0.05);
-  --shadow-card: 0 10px 30px -10px rgba(28, 42, 67, 0.08);
-  --shadow-icon-3d: 0 8px 16px -4px rgba(0,0,0,0.1), inset 0 2px 4px rgba(var(--color-text-dark-rgb), 0.9), inset 0 -2px 4px rgba(0,0,0,0.05);
+    --cream: #FAF7F2;
+    --cream-light: #FDFCFB;
+    --navy: #1C2A43;
+    --navy-light: #515E75;
+    --navy-muted: #8A97AE;
+    --accent-gold: #D4AF37;
+    --accent-sand: #E6DCC8;
+
+    --shadow-soft: 0 20px 40px -15px rgba(28, 42, 67, 0.05);
+    --shadow-card: 0 10px 30px -10px rgba(28, 42, 67, 0.08);
+    --shadow-icon-3d: 0 8px 16px -4px rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(var(--color-text-dark-rgb), 0.9), inset 0 -2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .pageContainer {
@@ -24,7 +24,8 @@
 .navWrapper {
     position: relative;
     z-index: 60;
-    padding-top: 140px; /* Space for the global header and SubNav */
+    padding-top: 140px;
+    /* Space for the global header and SubNav */
 }
 
 .mainContent {
@@ -41,29 +42,22 @@
 }
 
 .greetingCard {
-    background-color: transparent;
-    background-image: url('../assets/vision/shintanjin-baptist-church-pastor-letter.webp');
-    background-size: 100% 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 32px;
-    border: none;
-    aspect-ratio: 1964 / 3123;
-    height: auto;
-    width: 100%;
-    max-width: 640px;
+    position: relative;
+    width: fit-content;
+    max-width: 100%;
     margin: 0 auto;
     font-family: var(--font-letter);
 }
 
-.greetingCard * {
-    font-family: var(--font-letter) !important;
+.letterImage {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
 }
 
-@media (min-width: 768px) {
-    .greetingCard {
-        padding: 48px;
-    }
+.greetingCard * {
+    font-family: var(--font-letter) !important;
 }
 
 @media (max-width: 1023px) {
@@ -77,19 +71,13 @@
     top: -1.9%;
     left: -2.1%;
     width: 20%;
+    height: auto;
     border-radius: 0;
     box-shadow: 6px 8px 16px rgba(0, 0, 0, 0.15);
     object-fit: cover;
-    pointer-events: none; /* Let clicks pass through to the card for zooming */
+    pointer-events: none;
+    /* Let clicks pass through to the card for zooming */
     transform: rotate(-5.8deg);
-}
-
-@media (min-width: 1024px) {
-    .greetingCard {
-        padding: 80px 48px;
-        width: 640px;
-        margin: 0 auto;
-    }
 }
 
 .greetingGrid {
@@ -269,7 +257,7 @@
     border-radius: 0;
     padding: 40px;
     box-shadow: var(--shadow-card);
-    border: 1px solid rgba(0,0,0,0.02);
+    border: 1px solid rgba(0, 0, 0, 0.02);
     transition: all 0.3s ease;
 }
 
@@ -277,7 +265,9 @@
     transform: translateY(-8px);
 }
 
-.iconBox1, .iconBox2, .iconBox3 {
+.iconBox1,
+.iconBox2,
+.iconBox3 {
     width: 80px;
     height: 80px;
     border-radius: 0;
@@ -295,13 +285,32 @@
     transform: scale(1.1);
 }
 
-.iconBox1 { background: linear-gradient(to bottom right, #F3FAED, #D5E8C9); }
-.iconBox2 { background: linear-gradient(to bottom right, #FFF0F0, #FAD4D4); }
-.iconBox3 { background: linear-gradient(to bottom right, #FFF8E6, #FDE4AA); }
+.iconBox1 {
+    background: linear-gradient(to bottom right, #F3FAED, #D5E8C9);
+}
 
-.icon1 { color: #4C7C3A; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1)); }
-.icon2 { color: #B94A4A; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1)); }
-.icon3 { color: #B38024; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1)); }
+.iconBox2 {
+    background: linear-gradient(to bottom right, #FFF0F0, #FAD4D4);
+}
+
+.iconBox3 {
+    background: linear-gradient(to bottom right, #FFF8E6, #FDE4AA);
+}
+
+.icon1 {
+    color: #4C7C3A;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.icon2 {
+    color: #B94A4A;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.icon3 {
+    color: #B38024;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
 
 .pillarHeading {
     color: var(--navy);
@@ -351,17 +360,45 @@
 
 
 @keyframes gentle-flutter {
-    0% { transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
-    25% { transform: translate3d(2px, -3px, 4px) rotateX(0.8deg) rotateY(-0.8deg) rotateZ(0.4deg); }
-    50% { transform: translate3d(-1px, 2px, -2px) rotateX(-0.5deg) rotateY(0.5deg) rotateZ(-0.2deg); }
-    75% { transform: translate3d(1px, -1px, 3px) rotateX(0.5deg) rotateY(-0.4deg) rotateZ(0.3deg); }
-    100% { transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+    0% {
+        transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    }
+
+    25% {
+        transform: translate3d(2px, -3px, 4px) rotateX(0.8deg) rotateY(-0.8deg) rotateZ(0.4deg);
+    }
+
+    50% {
+        transform: translate3d(-1px, 2px, -2px) rotateX(-0.5deg) rotateY(0.5deg) rotateZ(-0.2deg);
+    }
+
+    75% {
+        transform: translate3d(1px, -1px, 3px) rotateX(0.5deg) rotateY(-0.4deg) rotateZ(0.3deg);
+    }
+
+    100% {
+        transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    }
 }
 
 @keyframes vigorous-flutter {
-    0% { transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
-    25% { transform: translate3d(3px, 2px, 8px) rotateX(1.2deg) rotateY(-1.2deg) rotateZ(0.5deg); }
-    50% { transform: translate3d(-3px, -3px, 10px) rotateX(-1.2deg) rotateY(1.2deg) rotateZ(-0.5deg); }
-    75% { transform: translate3d(1px, 1px, 5px) rotateX(0.6deg) rotateY(-0.6deg) rotateZ(0.2deg); }
-    100% { transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+    0% {
+        transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    }
+
+    25% {
+        transform: translate3d(3px, 2px, 8px) rotateX(1.2deg) rotateY(-1.2deg) rotateZ(0.5deg);
+    }
+
+    50% {
+        transform: translate3d(-3px, -3px, 10px) rotateX(-1.2deg) rotateY(1.2deg) rotateZ(-0.5deg);
+    }
+
+    75% {
+        transform: translate3d(1px, 1px, 5px) rotateX(0.6deg) rotateY(-0.6deg) rotateZ(0.2deg);
+    }
+
+    100% {
+        transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    }
 }

@@ -73,7 +73,6 @@
 
 .headerSubtitle {
     max-width: 42rem;
-    margin-top: 16px;
     color: rgba(var(--color-text-dark-rgb), 0.7);
 }
 

@@ -1,5 +1,6 @@
 import React, { useRef, useState, useLayoutEffect, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import PretendardButton from '../components/ui/PretendardButton';
 
 import styles from './HistoryPage.module.css';
 
@@ -108,14 +109,11 @@ const HistoryPage = () => {
                                 흑백 사진 속 따뜻한 사랑은 지금도 멈추지 않고 흐르고 있어요.<br />
                                 신탄진교회의 가장 생생하고 다정한 '오늘'의 이야기를 인스타그램에서 만나보세요.
                             </p>
-                            <motion.button 
+                            <PretendardButton 
                                 style={{ color: 'var(--color-text-dark)' }}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                transition={{ type: "spring", stiffness: 400 }}
                             >
                                 인스타그램 놀러 가기
-                            </motion.button>
+                            </PretendardButton>
                         </motion.article>
                     </motion.div>
                 </main>

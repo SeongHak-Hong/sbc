@@ -22,7 +22,7 @@ const EventSection = () => {
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
-        backgroundColor: 'var(--color-background-dark)'
+        backgroundColor: 'var(--color-background-beige)'
     };
 
     const titleStyle = {
@@ -31,7 +31,7 @@ const EventSection = () => {
         fontWeight: 400,
         lineHeight: '1.6',
         letterSpacing: '-0.1em',
-        color: 'var(--color-white)',
+        color: 'var(--color-text-dark)',
         marginBottom: '64px',
         textAlign: 'center',
         padding: isMobile ? '0 24px' : '0 48px',
@@ -39,8 +39,8 @@ const EventSection = () => {
     };
 
     const buttonStyle = {
-        borderColor: 'var(--color-white)',
-        color: 'var(--color-white)',
+        borderColor: 'var(--color-text-dark)',
+        color: 'var(--color-text-dark)',
         marginTop: '20px'
     };
 

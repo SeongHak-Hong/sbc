@@ -35,6 +35,11 @@ const VisionPage = () => {
                                     }}
                                 >
                                     <img 
+                                        src={pastorLetterImage}
+                                        alt="Pastor Letter"
+                                        className={styles.letterImage}
+                                    />
+                                    <img 
                                         src={pastorIDImage} 
                                         alt="Pastor ID Photo" 
                                         className={styles.idPhoto} 

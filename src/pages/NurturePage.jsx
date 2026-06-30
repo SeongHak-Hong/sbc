@@ -194,11 +194,21 @@ const NurturePage = () => {
             </div>
 
 
-            <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '160px', paddingBottom: '120px', position: 'relative', zIndex: 10 }}>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap', paddingTop: '160px', paddingBottom: '120px', position: 'relative', zIndex: 10 }}>
                 <PretendardButton>
                     새가족 교육과정 보기
-                    <span className="material-symbols-outlined" style={{ fontSize: 'var(--btn-icon-size)' }}>arrow_forward</span>
                 </PretendardButton>
+                <motion.button
+                    style={{
+                        backgroundColor: 'var(--color-text-dark)',
+                        color: 'var(--color-white)',
+                        border: '1px solid var(--color-text-dark)',
+                    }}
+                    whileHover={{ backgroundColor: '#000000' }}
+                    transition={{ duration: 0.2 }}
+                >
+                    새가족 등록 문의하기
+                </motion.button>
             </div>
 
             <Footer />
