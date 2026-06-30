@@ -115,32 +115,95 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [] }) => {
     );
 };
 
+import { doc, getDoc, updateDoc, increment } from 'firebase/firestore';
+import { db } from '../firebase';
+
 const PostDetailPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
-    const [post, setPost] = useState(null);
+    
+    const [post, setPost] = useState(location.state || null);
+    const [loading, setLoading] = useState(!post);
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        
-        // Use state passed from navigation, or mock fetch using ID
-        const state = location.state;
-        const isImageExample = id === '17';
-        
-        setPost({
-            id: id,
-            title: state?.title || `상세 게시글 제목 (ID: ${id})`,
-            author: state?.author || '관리자',
-            date: state?.date || '2024.08.20',
-            imageUrl: state?.imageUrl || (isImageExample && id === '17' ? dummyImg : null),
-            images: state?.images || (id === '18' ? [dummyImg, dummyImg] : []), // Mock multiple images for testing
-            isBulletin: isImageExample && id === '17', // Flag to indicate this is a 3-panel bulletin
-            content: state?.content || `이곳은 게시글 상세 내용이 들어갈 자리입니다.\n\n해당 게시글(ID: ${id})을 클릭하여 상세 페이지로 이동했습니다.\n향후 실제 데이터 연동 시 이 영역에 본문 내용(텍스트, 이미지 등)이 렌더링됩니다.\n\n주보 이미지나 소식 텍스트가 표시될 수 있도록 넉넉한 여백과 가독성 높은 폰트 사이즈가 적용되어 있습니다.\n\n감사합니다.`
-        });
+
+        if (location.state) {
+            setPost(location.state);
+            setLoading(false);
+            return;
+        }
+
+        if (id) {
+            fetchPostFromFirestore();
+        }
     }, [id, location.state]);
 
+    const fetchPostFromFirestore = async () => {
+        try {
+            let targetCollection = 'posts';
+            let actualId = id;
+
+            // Handle nextgen- fallback (uses hyphen)
+            if (id.startsWith('nextgen-')) {
+                // If there's no state, nextgen posts can't be fetched easily unless we store them globally, 
+                // but nextgen posts should always be passed via state. 
+                // We'll fallback to 'nextgen' collection if needed but let's assume they don't exist globally as single posts.
+                alert('해당 게시물을 직접 주소로 접근할 수 없습니다.');
+                navigate(-1);
+                return;
+            }
+
+            // Parse collection from underscore delimiter
+            if (id.includes('_')) {
+                const parts = id.split('_');
+                targetCollection = parts[0];
+                actualId = parts.slice(1).join('_');
+            }
+
+            const docRef = doc(db, targetCollection, actualId);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                setPost({ id: docSnap.id, ...data });
+                
+                // Increment views
+                await updateDoc(docRef, {
+                    views: increment(1)
+                });
+            } else {
+                alert('존재하지 않는 게시물입니다.');
+                navigate(-1);
+            }
+        } catch (error) {
+            console.error('게시물 불러오기 실패:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>로딩 중...</div>;
+    }
+
     if (!post) return null;
+
+    let authorText = "관리자";
+    if (post.author) authorText = post.author; // nextgen
+    else if (post.category === 'news') authorText = "신탄진침례교회";
+    else if (post.category === 'bulletin') authorText = "사무국";
+
+    // Extract images correctly for ImageViewer
+    let viewerImages = [];
+    if (post.imageUrls && post.imageUrls.length > 0) {
+        viewerImages = post.imageUrls.map(img => typeof img === 'string' ? img : img.url);
+    } else if (post.imageUrl) {
+        viewerImages = [post.imageUrl];
+    } else if (post.images && post.images.length > 0) { // legacy fallback
+        viewerImages = post.images;
+    }
 
     return (
         <div className={styles.pageWrapper}>
@@ -154,24 +217,44 @@ const PostDetailPage = () => {
                     >
                         {/* Post Header */}
                         <div className={styles.postHeader}>
+                            <div style={{ marginBottom: '8px' }}>
+                                {post.category && (
+                                    <span style={{ 
+                                        backgroundColor: post.category === 'news' ? '#DBEAFE' : '#FEF3C7', 
+                                        color: post.category === 'news' ? '#1E3A8A' : '#92400E',
+                                        padding: '4px 8px', borderRadius: '4px', fontSize: '13px', fontWeight: '500'
+                                    }}>
+                                        {post.category === 'news' ? '소식' : '주보'}
+                                    </span>
+                                )}
+                            </div>
                             <h1 className={styles.postTitle}>{post.title}</h1>
                             <div className={styles.postMeta}>
-                                <span>{post.author}</span>
+                                <span>작성자: {authorText}</span>
                                 <span className={styles.metaDivider}>|</span>
                                 <span>{post.date}</span>
+                                {post.views !== undefined && (
+                                    <>
+                                        <span className={styles.metaDivider}>|</span>
+                                        <span>조회수 {post.views}</span>
+                                    </>
+                                )}
                             </div>
                         </div>
 
                         {/* Post Body */}
                         <div className={styles.postBody}>
-                            {(post.imageUrl || (post.images && post.images.length > 0)) && (
+                            {viewerImages.length > 0 && (
                                 <ImageViewer 
-                                    imageUrl={post.isBulletin ? post.imageUrl : null} 
-                                    images={!post.isBulletin && post.images ? post.images : (post.imageUrl && !post.isBulletin ? [post.imageUrl] : [])} 
-                                    totalPages={post.isBulletin ? 3 : 0} 
+                                    imageUrl={viewerImages.length === 1 ? viewerImages[0] : null} 
+                                    images={viewerImages.length > 1 ? viewerImages : []} 
+                                    totalPages={3} // this handles CSS slicing fallback if needed
                                 />
                             )}
-                            {post.content}
+                            
+                            <div style={{ marginTop: '24px', whiteSpace: 'pre-wrap', lineHeight: '1.8' }}>
+                                {post.content}
+                            </div>
                         </div>
 
                         {/* Actions */}

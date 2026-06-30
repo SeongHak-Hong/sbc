@@ -1,28 +1,53 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'framer-motion';
+import { db } from '../firebase';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
 import styles from './NewsPage.module.css';
 
-const DUMMY_DATA = [
-    { id: 12, title: '김성도 집사 차녀 결혼 예배 안내', author: '경조부', date: '2024.08.12' },
-    { id: 11, title: '이성도 권사님 개업 축하 예배 (베이커리)', author: '교구', date: '2024.08.01' },
-    { id: 10, title: '박성도 청년 해외 유학 파송 기도', author: '청년부', date: '2024.07.20' },
-    { id: 9, title: '최성도 장로님 모친상 부고', author: '경조부', date: '2024.07.15' },
-    { id: 8, title: '정성도 성도님 첫돌 감사 예배', author: '교구', date: '2024.06.30' }
-];
-
 const MembersNewsPage = () => {
+    const navigate = useNavigate();
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const postsPerPage = 8;
+
     useEffect(() => {
         window.scrollTo(0, 0);
+        fetchPosts();
     }, []);
 
-    const navigate = useNavigate();
-
-    const handleItemClick = (id) => {
-        navigate(`/post/${id}`);
+    const fetchPosts = async () => {
+        try {
+            const q = query(collection(db, 'membersNews'), orderBy('createdAt', 'desc'));
+            const querySnapshot = await getDocs(q);
+            const data = [];
+            querySnapshot.forEach((doc) => {
+                data.push({ id: doc.id, ...doc.data() });
+            });
+            setPosts(data);
+        } catch (error) {
+            console.error("성도 소식 가져오기 오류:", error);
+        } finally {
+            setLoading(false);
+        }
     };
+
+    const handleItemClick = (post) => {
+        navigate(`/post/membersNews_${post.id}`, { state: post });
+    };
+
+    const totalPages = Math.ceil(posts.length / postsPerPage) || 1;
+    const currentPosts = posts.slice(
+        (currentPage - 1) * postsPerPage, 
+        currentPage * postsPerPage
+    );
+
+    if (loading) {
+        return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>로딩 중...</div>;
+    }
 
     return (
         <div className={styles.pageWrapper}>
@@ -34,30 +59,66 @@ const MembersNewsPage = () => {
                     <div className={styles.boardContainer}>
                         <AnimatePresence mode="wait">
                             <motion.div
+                                key={currentPage}
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
                                 transition={{ duration: 0.3 }}
                                 className={styles.boardList}
                             >
-                                {DUMMY_DATA.map((item) => (
-                                    <div key={item.id} className={styles.boardItem} onClick={() => handleItemClick(item.id)}>
-                                        <p className={styles.itemTitle}>{item.title}</p>
-                                        <p className={styles.itemDate}>{item.date}</p>
+                                {currentPosts.length > 0 ? currentPosts.map((item) => (
+                                    <div key={item.id} className={styles.boardItem} onClick={() => handleItemClick(item)}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                            <span style={{ 
+                                                backgroundColor: '#F3E8FF', 
+                                                color: '#7E22CE',
+                                                padding: '2px 8px', borderRadius: '4px', fontSize: '12px', fontWeight: '500'
+                                            }}>
+                                                성도소식
+                                            </span>
+                                            <p className={styles.itemTitle}>{item.title}</p>
+                                        </div>
+                                        <div style={{ display: 'flex', gap: '16px', color: '#6B7280', fontSize: '14px' }}>
+                                            <span>{item.author}</span>
+                                            <p className={styles.itemDate}>{item.date}</p>
+                                        </div>
                                     </div>
-                                ))}
+                                )) : (
+                                    <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
+                                        등록된 소식이 없습니다.
+                                    </div>
+                                )}
                             </motion.div>
                         </AnimatePresence>
 
                         {/* Footer (Pagination) */}
-                        <div className={styles.boardFooter}>
-                            <div className={styles.pagination}>
-                                <button className={`${styles.pageArrow} material-symbols-outlined`}>chevron_left</button>
-                                <button className={`${styles.pageButton} ${styles.active}`}>1</button>
-                                <button className={styles.pageButton}>2</button>
-                                <button className={`${styles.pageArrow} material-symbols-outlined`}>chevron_right</button>
+                        {posts.length > 0 && (
+                            <div className={styles.boardFooter}>
+                                <div className={styles.pagination}>
+                                    <button 
+                                        className={`${styles.pageArrow} material-symbols-outlined`}
+                                        disabled={currentPage === 1}
+                                        onClick={() => setCurrentPage(p => p - 1)}
+                                    >chevron_left</button>
+                                    
+                                    {[...Array(totalPages)].map((_, i) => (
+                                        <button 
+                                            key={i + 1}
+                                            className={`${styles.pageButton} ${currentPage === i + 1 ? styles.active : ''}`}
+                                            onClick={() => setCurrentPage(i + 1)}
+                                        >
+                                            {i + 1}
+                                        </button>
+                                    ))}
+                                    
+                                    <button 
+                                        className={`${styles.pageArrow} material-symbols-outlined`}
+                                        disabled={currentPage === totalPages}
+                                        onClick={() => setCurrentPage(p => p + 1)}
+                                    >chevron_right</button>
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </div>
                 </div>
             </SubPageSection>

@@ -1,88 +1,69 @@
 import React, { useEffect, useState } from 'react';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { db } from '../firebase';
 import styles from './SchedulePage.module.css';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
 
-const scheduleData = [
-    {
-        month: '2026년 5월',
-        events: [
-            {
-                date: '05',
-                day: '일요일',
-                title: '어린이 주일 예배 및 행사',
-                meta: '오전 11:00 · 본당 및 교육관',
-                delay: '0.1s',
-                color: '#4ADE80'
-            },
-            {
-                date: '19',
-                day: '일요일',
-                title: '청년부 헌신예배',
-                meta: '오후 02:00 · 본당',
-                delay: '0.2s',
-                color: '#3B82F6'
-            }
-        ]
-    },
-    {
-        month: '2026년 6월',
-        events: [
-            {
-                date: '15',
-                day: '토요일',
-                title: '전교인 한마음 체육대회',
-                meta: '오전 10:00 · 신탄진체육관',
-                delay: '0.1s',
-                color: '#FBCB51'
-            },
-            {
-                date: '21',
-                day: '금요일',
-                title: '교회학교 여름성경학교',
-                meta: '오후 02:00 · 대예배실 및 각 부서실',
-                delay: '0.2s',
-                color: '#4ADE80'
-            },
-            {
-                date: '28',
-                day: '금요일',
-                title: '상반기 결산 구역장 회의',
-                meta: '오후 07:00 · 소예배실',
-                delay: '0.3s',
-                color: '#FA7A55'
-            }
-        ]
-    },
-    {
-        month: '2026년 7월',
-        events: [
-            {
-                date: '12',
-                day: '금요일',
-                title: '중고등부 여름수련회',
-                meta: '오후 03:00 · 외부 수양관',
-                delay: '0.1s',
-                color: '#BA87ED'
-            },
-            {
-                date: '28',
-                day: '일요일',
-                title: '하반기 제직회',
-                meta: '오후 04:00 · 본당',
-                delay: '0.2s',
-                color: 'rgba(var(--color-text-dark-rgb), 0.7)'
-            }
-        ]
-    }
-];
-
 const SchedulePage = () => {
-    const [currentMonthIndex, setCurrentMonthIndex] = useState(1); // default to 6월 (index 1)
+    const [currentMonthIndex, setCurrentMonthIndex] = useState(0);
+    const [groupedSchedules, setGroupedSchedules] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         window.scrollTo(0, 0);
+        fetchSchedules();
     }, []);
+
+    const fetchSchedules = async () => {
+        try {
+            // Fetch schedules ordered by creation or date. 
+            // In a real app, you might parse the 'month' and 'date' to properly sort chronologically.
+            // For now, let's fetch all and group them in JS.
+            const q = query(collection(db, 'schedules'), orderBy('createdAt', 'asc'));
+            const querySnapshot = await getDocs(q);
+            
+            const rawData = [];
+            querySnapshot.forEach(doc => {
+                rawData.push({ id: doc.id, ...doc.data() });
+            });
+
+            // Group by month
+            const groupsMap = {};
+            rawData.forEach(item => {
+                if (!groupsMap[item.month]) {
+                    groupsMap[item.month] = {
+                        month: item.month,
+                        events: []
+                    };
+                }
+                // Determine a slight delay based on index later
+                groupsMap[item.month].events.push(item);
+            });
+
+            // Convert to array
+            const groupsArray = Object.values(groupsMap);
+            
+            // Sort events inside each month by date (numerically if possible)
+            groupsArray.forEach(group => {
+                group.events.sort((a, b) => parseInt(a.date, 10) - parseInt(b.date, 10));
+                // assign delays for animation
+                group.events.forEach((ev, idx) => {
+                    ev.delay = `${0.1 * (idx + 1)}s`;
+                });
+            });
+
+            // Note: Since 'month' is a string like "2026년 5월", we could sort the array by parsing the year/month.
+            // For simple grouping, we just rely on order or do a basic string compare.
+            groupsArray.sort((a, b) => a.month.localeCompare(b.month));
+
+            setGroupedSchedules(groupsArray);
+        } catch (error) {
+            console.error("일정 가져오기 실패:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handlePrevMonth = () => {
         if (currentMonthIndex > 0) {
@@ -91,12 +72,29 @@ const SchedulePage = () => {
     };
 
     const handleNextMonth = () => {
-        if (currentMonthIndex < scheduleData.length - 1) {
+        if (currentMonthIndex < groupedSchedules.length - 1) {
             setCurrentMonthIndex(currentMonthIndex + 1);
         }
     };
 
-    const currentSection = scheduleData[currentMonthIndex];
+    if (loading) {
+        return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>일정을 불러오는 중입니다...</div>;
+    }
+
+    if (groupedSchedules.length === 0) {
+        return (
+            <div className={styles.pageWrapper}>
+                <SubPageSection title="교회 일정">
+                    <div className={styles.contentWrapper} style={{ textAlign: 'center', padding: '100px 0', color: '#6B7280' }}>
+                        등록된 일정이 없습니다.
+                    </div>
+                </SubPageSection>
+                <Footer />
+            </div>
+        );
+    }
+
+    const currentSection = groupedSchedules[currentMonthIndex];
 
     return (
         <div className={styles.pageWrapper}>
@@ -110,11 +108,11 @@ const SchedulePage = () => {
                         >
                             <span className="material-symbols-outlined">chevron_left</span>
                         </button>
-                        <span className={styles.monthText}>{currentSection.month}</span>
+                        <span className={styles.monthText}>{currentSection?.month}</span>
                         <button 
                             className={styles.navButton} 
                             onClick={handleNextMonth}
-                            style={{ opacity: currentMonthIndex === scheduleData.length - 1 ? 0.3 : 1, cursor: currentMonthIndex === scheduleData.length - 1 ? 'default' : 'pointer' }}
+                            style={{ opacity: currentMonthIndex === groupedSchedules.length - 1 ? 0.3 : 1, cursor: currentMonthIndex === groupedSchedules.length - 1 ? 'default' : 'pointer' }}
                         >
                             <span className="material-symbols-outlined">chevron_right</span>
                         </button>
@@ -122,9 +120,9 @@ const SchedulePage = () => {
 
                     <div className={styles.agendaContainer}>
                         <div className={styles.eventStack} key={currentMonthIndex}>
-                            {currentSection.events.map((event, eventIdx) => (
+                            {currentSection?.events.map((event, eventIdx) => (
                                 <div 
-                                    key={`${currentMonthIndex}-${eventIdx}`} 
+                                    key={event.id || `${currentMonthIndex}-${eventIdx}`} 
                                     className={`${styles.eventCard} ${styles.animateSlideUp}`}
                                     style={{ animationDelay: event.delay }}
                                 >
@@ -138,6 +136,9 @@ const SchedulePage = () => {
                                             {event.meta}
                                         </div>
                                     </div>
+                                    {event.color && (
+                                        <div style={{ width: '16px', height: '16px', borderRadius: '50%', backgroundColor: event.color, marginLeft: 'auto', alignSelf: 'center', flexShrink: 0 }}></div>
+                                    )}
                                 </div>
                             ))}
                         </div>

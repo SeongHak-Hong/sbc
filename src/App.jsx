@@ -26,6 +26,9 @@ import AdminCellgroups from './pages/admin/AdminCellgroups';
 import AdminNextGen from './pages/admin/AdminNextGen';
 import AdminMissions from './pages/admin/AdminMissions';
 import AdminPosts from './pages/admin/AdminPosts';
+import AdminSchedule from './pages/admin/AdminSchedule';
+import AdminMembersNews from './pages/admin/AdminMembersNews';
+import AdminMemberBusiness from './pages/admin/AdminMemberBusiness';
 
 import Lenis from 'lenis';
 import './App.css';
@@ -68,6 +71,9 @@ function AppRoutes() {
             <Route path="cellgroups" element={<AdminCellgroups />} />
             <Route path="nextgen" element={<AdminNextGen />} />
             <Route path="missions" element={<AdminMissions />} />
+            <Route path="schedule" element={<AdminSchedule />} />
+            <Route path="members-news" element={<AdminMembersNews />} />
+            <Route path="member-business" element={<AdminMemberBusiness />} />
         </Route>
       </Routes>
     </>

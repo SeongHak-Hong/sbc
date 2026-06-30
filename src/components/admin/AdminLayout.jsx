@@ -45,14 +45,47 @@ const AdminLayout = () => {
                     <NavLink to="/manager-lounge/posts" className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}>
                         나눔터 (소식/주보)
                     </NavLink>
-                    <NavLink to="/manager-lounge/cellgroups" className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}>
-                        구역 안내 관리
-                    </NavLink>
-                    <NavLink to="/manager-lounge/nextgen" className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}>
+                    <NavLink 
+                        to="/manager-lounge/nextgen"
+                        className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}
+                    >
+                        <span className="material-symbols-outlined">child_care</span>
                         다음세대 관리
                     </NavLink>
-                    <NavLink to="/manager-lounge/missions" className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}>
+                    <NavLink 
+                        to="/manager-lounge/cellgroups"
+                        className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}
+                    >
+                        <span className="material-symbols-outlined">groups</span>
+                        구역 안내 관리
+                    </NavLink>
+                    <NavLink 
+                        to="/manager-lounge/missions"
+                        className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}
+                    >
+                        <span className="material-symbols-outlined">public</span>
                         선교전도 관리
+                    </NavLink>
+                    <NavLink 
+                        to="/manager-lounge/schedule"
+                        className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}
+                    >
+                        <span className="material-symbols-outlined">event</span>
+                        교회 일정 관리
+                    </NavLink>
+                    <NavLink 
+                        to="/manager-lounge/members-news"
+                        className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}
+                    >
+                        <span className="material-symbols-outlined">diversity_1</span>
+                        성도 소식 관리
+                    </NavLink>
+                    <NavLink 
+                        to="/manager-lounge/member-business"
+                        className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}
+                    >
+                        <span className="material-symbols-outlined">storefront</span>
+                        성도 사업체 관리
                     </NavLink>
                 </nav>
                 <div className={styles.sidebarFooter}>
