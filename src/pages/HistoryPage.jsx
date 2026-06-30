@@ -11,15 +11,11 @@ const totalItems = Object.keys(imageModules).length;
 const historyData = Object.entries(imageModules)
     .sort(([pathA], [pathB]) => pathA.localeCompare(pathB)) // Ensure sequence order
     .map(([path, url], index) => {
-        // Slightly random rotations to maintain the zigzag scrapbook feel
-        const cardRots = ['-3deg', '2deg', '-1deg', '4deg', '-2deg'];
-        
         return {
             id: `history-${index}`,
             year: 1980 + Math.round((index / Math.max(1, totalItems - 1)) * 20),
             title: `교회발자취 ${index + 1}`,
-            image: url,
-            cardRot: cardRots[index % cardRots.length]
+            image: url
         };
     });
 
@@ -83,16 +79,11 @@ const HistoryPage = () => {
                                 viewport={{ once: true, margin: "0px -10% 0px -10%" }}
                                 transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
                             >
-                                <motion.div 
-                                    className={styles.imageWrapper} 
-                                    style={{ transform: `rotate(${item.cardRot})` }}
-                                    whileHover={{ scale: 1.05, rotate: 0 }}
-                                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                                >
+                                <div className={styles.imageWrapper}>
                                     <div className={styles.photoFrame} style={{ aspectRatio: '4/3' }}>
                                         <img src={item.image} alt={item.title} />
                                     </div>
-                                </motion.div>
+                                </div>
                             </motion.article>
                         ))}
 
