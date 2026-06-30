@@ -72,7 +72,11 @@ const Header = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [isMenuOpen]);
 
-    const isSolidWhite = isScrolled && isVisible && !isMenuOpen;
+    const isHistoryPage = location.pathname === '/history';
+    const forceVisible = isHistoryPage;
+    const finalIsVisible = isVisible || forceVisible;
+
+    const isSolidWhite = isScrolled && finalIsVisible && !isMenuOpen && !isHistoryPage;
 
     const headerStyle = {
         display: 'flex',
@@ -90,7 +94,7 @@ const Header = () => {
         paddingRight: 'var(--header-padding-x)',
         boxSizing: 'border-box',
         backgroundColor: isSolidWhite ? 'var(--color-white)' : 'transparent',
-        transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
+        transform: finalIsVisible ? 'translateY(0)' : 'translateY(-100%)',
         transition: 'transform 0.3s ease, background-color 0.3s ease',
         boxShadow: isSolidWhite ? '0 1px 3px rgba(0,0,0,0.05)' : 'none'
     };
