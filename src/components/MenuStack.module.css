@@ -26,7 +26,7 @@
     position: absolute;
     top: calc(var(--header-padding-y, 20px) * 2 + var(--header-logo-height, 32px) + 10px);
     right: var(--header-padding-x, 48px);
-    border-radius: 24px;
+    border-radius: 0;
     box-shadow: none;
     pointer-events: auto;
     overflow: visible;
@@ -44,7 +44,7 @@
 
 .stackCard {
     background-color: var(--color-white);
-    border-radius: 20px;
+    border-radius: 0;
     border-top: 1px solid rgba(var(--color-text-dark-rgb), 0.1);
     box-shadow: none;
     position: relative;
@@ -96,7 +96,7 @@
 .statusDot {
     width: 8px;
     height: 8px;
-    border-radius: 50%;
+    border-radius: 0;
     background-color: rgba(var(--color-text-dark-rgb), 0.5);
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -156,7 +156,7 @@
 .menuItem {
     display: block;
     padding: 12px 16px;
-    border-radius: 12px;
+    border-radius: 0;
     color: var(--color-text-dark);
     text-decoration: none;
     font-size: 15px;
@@ -175,7 +175,7 @@
     justify-content: space-between;
     align-items: center;
     margin-top: 12px;
-    border-radius: 20px;
+    border-radius: 0;
     transition: transform 0.2s, background-color 0.2s;
     text-decoration: none;
     flex-shrink: 0;

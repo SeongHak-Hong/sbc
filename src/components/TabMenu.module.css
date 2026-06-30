@@ -43,6 +43,7 @@
 
 .activeTab {
     color: var(--color-text-dark);
+    background-color: var(--color-background-beige);
 }
 
 .activeTab::after {

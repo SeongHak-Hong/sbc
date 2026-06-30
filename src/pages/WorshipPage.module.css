@@ -128,7 +128,7 @@
 
 /* === Light Section (오시는 길) === */
 .lightSection {
-    background-color: var(--color-white);
+    background-color: var(--color-background-beige);
     color: #1D1A1C;
 }
 

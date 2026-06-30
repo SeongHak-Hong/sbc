@@ -55,7 +55,7 @@ const NewcomerSection = ({
         width: '100%',
         height: '250px',
         background: 'linear-gradient(180deg, #7cb342 0%, #558b2f 100%)', // Green hills
-        borderRadius: '50% 50% 0 0 / 100% 100% 0 0',
+        borderRadius: 0,
         transform: 'scaleX(1.5)',
         zIndex: -1
     };

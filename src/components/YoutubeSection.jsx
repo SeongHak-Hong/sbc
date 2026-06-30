@@ -62,7 +62,7 @@ const YoutubeSection = () => {
         boxSizing: 'border-box',
         zIndex: 20,
         overflow: 'hidden',
-        backgroundColor: 'var(--color-background-dark)' // Changed background color as requested
+        backgroundColor: 'var(--color-white)' // Changed background color as requested
     };
 
     const innerContentStyle = {
@@ -87,7 +87,7 @@ const YoutubeSection = () => {
         fontWeight: 400, // regular
         lineHeight: '1.6', // 160%
         letterSpacing: '-0.1em', // -10%
-        color: 'var(--color-white)',
+        color: 'var(--color-text-dark)',
         margin: 0,
         whiteSpace: 'nowrap',
         zIndex: 10,
@@ -234,14 +234,14 @@ const YoutubeSection = () => {
                         lineHeight: '1.6', // 160%
                         letterSpacing: '-0.1em', // -10%
                         marginBottom: '64px',
-                        color: 'var(--color-white)',
+                        color: 'var(--color-text-dark)',
                         textAlign: 'center',
                         whiteSpace: 'pre-line' // To allow <br /> to work naturally
                     }}>
                         그 말씀이<br />당신의 삶을 변화시킵니다.
                     </h2>
                     <a href="https://www.youtube.com/@sbc6312" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                        <PretendardButton style={{ borderColor: 'var(--color-text-secondary)', color: 'var(--color-text-secondary)' }}>
+                        <PretendardButton style={{ borderColor: 'var(--color-text-dark)', color: 'var(--color-text-dark)' }}>
                             유튜브 채널 가기
                         </PretendardButton>
                     </a>

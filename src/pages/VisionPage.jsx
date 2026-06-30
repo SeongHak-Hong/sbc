@@ -76,7 +76,7 @@ const VisionPage = () => {
                                 maxWidth: '100%',
                                 maxHeight: '100%',
                                 objectFit: 'contain',
-                                borderRadius: '8px',
+                                borderRadius: 0,
                                 boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
                             }}
                         />

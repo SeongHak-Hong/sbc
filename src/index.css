@@ -72,7 +72,7 @@
   --btn-padding-r: 42px;
   --btn-gap: 10px;
   --btn-font-size: 20px;
-  --btn-radius: 99px;
+  --btn-radius: 0;
   --btn-icon-size: 20px;
   --btn-bg: #1A202C; /* 湲곕낯 踰꾪듉 諛곌꼍??*/
 
@@ -187,7 +187,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  background-color: var(--color-background-beige);
+  background-color: var(--color-white);
   color: var(--color-text-body);
   line-height: var(--leading-body);
   padding-bottom: 0;
@@ -248,7 +248,7 @@ button {
   letter-spacing: -0.02em;
   line-height: 1.8;
   padding: 12px 32px;
-  border-radius: 99px;
+  border-radius: 0;
   background-color: transparent;
   border: 1px solid currentColor;
   display: inline-flex;

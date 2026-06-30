@@ -152,7 +152,7 @@
 .eventImageWrapper {
     width: 100%;
     aspect-ratio: 4/3;
-    border-radius: 12px;
+    border-radius: 0;
     overflow: hidden;
     position: relative;
     background-color: rgba(var(--color-text-dark-rgb), 0.05);
@@ -180,7 +180,7 @@
     font-size: 14px;
     font-weight: 500;
     padding: 4px 12px;
-    border-radius: 4px;
+    border-radius: 0;
     color: var(--color-background-dark);
 }
 

@@ -24,7 +24,7 @@ const ScrollExpandVideo = ({
 
     const width = useTransform(scrollYProgress, [0.05, 0.8], ["928px", "100vw"]);
     const height = useTransform(scrollYProgress, [0.05, 0.8], ["518px", "56.25vw"]); // 16:9 ratio of 100vw
-    const borderRadius = useTransform(scrollYProgress, [0.7, 0.8], ["20px", "0px"]);
+    const borderRadius = useTransform(scrollYProgress, [0.7, 0.8], ["0px", "0px"]);
 
     // Content opacity
     const contentOpacity = useTransform(scrollYProgress, [0.85, 0.95], [0, 1]);

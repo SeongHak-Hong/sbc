@@ -194,7 +194,7 @@ const Header = () => {
                         <span className={`material-symbols-outlined ${styles.iconMenu}`}>menu</span>
                         <span className={`material-symbols-outlined ${styles.iconClose}`}>close</span>
                     </div>
-                    <span>메뉴</span>
+                    <span>{isMenuOpen ? '닫기' : '메뉴'}</span>
                 </button>
 
                 <div className={`${styles.backdrop} ${isMenuOpen ? styles.open : ''}`} onClick={(e) => { e.stopPropagation(); setIsMenuOpen(false); }}></div>
@@ -318,7 +318,7 @@ const Header = () => {
                                 height: 'auto',
                                 maxWidth: '100%',
                                 objectFit: 'contain',
-                                borderRadius: '16px',
+                                borderRadius: 0,
                                 border: '1px solid rgba(var(--color-white-rgb), 0.1)'
                             }}
                             initial={{ scale: 0.95, opacity: 0, y: 20 }}
@@ -331,12 +331,9 @@ const Header = () => {
                         {/* Past Bulletins Button */}
                         <motion.a 
                             href={`${import.meta.env.BASE_URL}board/bulletin`}
-                            onClick={(e) => {
-                                // e.preventDefault();
-                            }}
                             style={{
                                 padding: '12px 24px',
-                                borderRadius: '999px',
+                                borderRadius: 0,
                                 border: '1px solid rgba(var(--color-white-rgb), 0.3)',
                                 background: 'transparent',
                                 color: 'var(--color-white)',

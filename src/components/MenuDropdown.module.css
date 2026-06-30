@@ -10,7 +10,7 @@
     padding: 8px 20px 8px 18px;
     background-color: #1D1A1C;
     color: var(--color-white);
-    border-radius: 99px;
+    border-radius: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -121,14 +121,14 @@
     justify-content: space-between;
     padding: 14px 24px;
     width: 100%;
-    border-radius: 16px;
+    border-radius: 0;
     color: var(--color-text-dark);
     transition: background-color 0.2s, color 0.2s;
     cursor: pointer;
     background: none;
     border: none;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 20px;
     font-family: inherit;
 }
 
@@ -146,7 +146,7 @@
 .iconBox {
     width: 44px;
     height: 44px;
-    border-radius: 50%;
+    border-radius: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -205,8 +205,8 @@
 .subItem {
     display: block;
     padding: 10px 16px;
-    border-radius: 12px;
-    font-size: 15px;
+    border-radius: 0;
+    font-size: 16px;
     color: rgba(var(--color-text-dark-rgb), 0.6);
     transition: background-color 0.2s, color 0.2s;
     text-decoration: none;
@@ -232,7 +232,7 @@
 .socialLinks a {
     width: 48px;
     height: 48px;
-    border-radius: 50%;
+    border-radius: 0;
     background-color: rgba(var(--color-text-dark-rgb), 0.1);
     color: var(--color-text-dark);
     transition: background-color 0.2s, transform 0.2s;
@@ -264,7 +264,7 @@
     justify-content: space-between;
     align-items: center;
     margin: 12px 0 24px 0;
-    border-radius: 16px;
+    border-radius: 0;
     transition: transform 0.2s, background-color 0.2s;
     text-decoration: none;
     background-color: rgba(var(--color-text-dark-rgb), 0.1);
@@ -295,7 +295,7 @@
     border: 1px solid rgba(var(--color-text-dark-rgb), 0.2);
     color: white;
     padding: 12px 24px;
-    border-radius: 99px;
+    border-radius: 0;
     text-decoration: none;
     font-weight: 500;
     font-size: 16px;
