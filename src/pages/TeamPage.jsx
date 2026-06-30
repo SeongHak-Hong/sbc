@@ -3,6 +3,7 @@ import SubPageSection from '../components/SubPageSection';
 import Footer from '../components/Footer';
 import styles from './TeamPage.module.css';
 import member01 from '../assets/team/shintanjin-baptist-church-member-01.webp';
+import member02 from '../assets/team/shintanjin-baptist-church-member-02.webp';
 import member03 from '../assets/team/shintanjin-baptist-church-member-03.webp';
 import member04 from '../assets/team/shintanjin-baptist-church-member-04.webp';
 import member05 from '../assets/team/shintanjin-baptist-church-member-05.webp';
@@ -20,6 +21,12 @@ const TeamPage = () => {
             role: '담임목사',
             image: member01,
             description: '말씀선포 및 목회총괄'
+        },
+        {
+            name: '임현빈',
+            role: '사모',
+            image: member02,
+            description: '담임목회 동역자'
         },
         {
             name: '김정현',
@@ -61,7 +68,7 @@ const TeamPage = () => {
             >
                 <div className={styles.container}>
                     {[
-                        { title: '담임목사', members: teamMembers.filter(m => m.role === '담임목사') },
+                        { title: '담임목사 및 사모', members: teamMembers.filter(m => m.role === '담임목사' || m.role === '사모') },
                         { title: '부목사', members: teamMembers.filter(m => m.role === '부목사') },
                         { title: '전도사', members: teamMembers.filter(m => m.role.includes('전도사')) },
                         { title: '직원', members: teamMembers.filter(m => m.role === '행정간사' || m.role.includes('직원')) }
