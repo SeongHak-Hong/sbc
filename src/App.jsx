@@ -16,29 +16,61 @@ import MembersNewsPage from './pages/MembersNewsPage';
 import MemberBusinessPage from './pages/MemberBusinessPage';
 import PostDetailPage from './pages/PostDetailPage';
 import ScrollToTop from './components/ScrollToTop';
+
+// Admin Imports
+import AdminLayout from './components/admin/AdminLayout';
+import ProtectedRoute from './components/admin/ProtectedRoute';
+import LoginPage from './pages/admin/LoginPage';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminCellgroups from './pages/admin/AdminCellgroups';
+import AdminNextGen from './pages/admin/AdminNextGen';
+import AdminMissions from './pages/admin/AdminMissions';
+import AdminPosts from './pages/admin/AdminPosts';
+
 import Lenis from 'lenis';
 import './App.css';
 
 function AppRoutes() {
   const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/manager-lounge');
 
   return (
-    <Routes location={location} key={location.pathname}>
-      <Route path="/" element={<MainPage />} />
-      <Route path="/nurture" element={<NurturePage />} />
-      <Route path="/history" element={<HistoryPage />} />
-      <Route path="/vision" element={<VisionPage />} />
-      <Route path="/worship" element={<WorshipPage />} />
-      <Route path="/team" element={<TeamPage />} />
-      <Route path="/nextgen" element={<NextGenPage />} />
-      <Route path="/cellgroup" element={<CellgroupPage />} />
-      <Route path="/schedule" element={<SchedulePage />} />
-      <Route path="/missions" element={<MissionsPage />} />
-      <Route path="/news" element={<NewsPage />} />
-      <Route path="/members-news" element={<MembersNewsPage />} />
-      <Route path="/member-business" element={<MemberBusinessPage />} />
-      <Route path="/post/:id" element={<PostDetailPage />} />
-    </Routes>
+    <>
+      {!isAdminRoute && <Header />}
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/nurture" element={<NurturePage />} />
+        <Route path="/history" element={<HistoryPage />} />
+        <Route path="/vision" element={<VisionPage />} />
+        <Route path="/worship" element={<WorshipPage />} />
+        <Route path="/team" element={<TeamPage />} />
+        <Route path="/nextgen" element={<NextGenPage />} />
+        <Route path="/cellgroup" element={<CellgroupPage />} />
+        <Route path="/schedule" element={<SchedulePage />} />
+        <Route path="/missions" element={<MissionsPage />} />
+        <Route path="/news" element={<NewsPage />} />
+        <Route path="/members-news" element={<MembersNewsPage />} />
+        <Route path="/member-business" element={<MemberBusinessPage />} />
+        <Route path="/post/:id" element={<PostDetailPage />} />
+
+        {/* 관리자 라우트 */}
+        <Route path="/manager-lounge/login" element={<LoginPage />} />
+        <Route 
+            path="/manager-lounge" 
+            element={
+                <ProtectedRoute>
+                    <AdminLayout />
+                </ProtectedRoute>
+            }
+        >
+            <Route index element={<AdminDashboard />} />
+            <Route path="posts" element={<AdminPosts />} />
+            <Route path="cellgroups" element={<AdminCellgroups />} />
+            <Route path="nextgen" element={<AdminNextGen />} />
+            <Route path="missions" element={<AdminMissions />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 
@@ -72,7 +104,6 @@ function App() {
   return (
     <Router basename={import.meta.env.BASE_URL}>
       <ScrollToTop />
-      <Header />
       <AppRoutes />
     </Router>
   );

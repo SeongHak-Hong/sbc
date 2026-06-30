@@ -1,67 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase';
 import SubPageSection from '../components/SubPageSection';
 import TabMenu from '../components/TabMenu';
 import Footer from '../components/Footer';
 import styles from './MissionsPage.module.css';
 
-const missionData = {
-    overseas: {
-        id: 'overseas',
-        name: '해외선교',
-        type: 'table',
-        list: [
-            { name: '김용대', organization: 'FMB', region: '인도' },
-            { name: '송장헌', organization: 'FMB', region: '카자흐스탄' },
-            { name: '허미라', organization: 'FMB', region: '필리핀' },
-            { name: '이천우', organization: 'FMB', region: '멕시코' },
-            { name: '홍현기', organization: 'FMB', region: '잠비아' },
-            { name: '정영섭', organization: '우즈벡인 교회 / FMB', region: '김해' },
-            { name: '송창근', organization: '중국인 교회 / FMB', region: '대전' }
-        ]
-    },
-    domestic: {
-        id: 'domestic',
-        name: '국내선교',
-        type: 'table',
-        list: [
-            { name: '오관영', organization: '한 빛', region: '구리' },
-            { name: '배완호', organization: '금란', region: '공주' },
-            { name: '김갑선', organization: '임천제일', region: '부여' },
-            { name: '이병리', organization: '늘사랑', region: '진도' },
-            { name: '임동순', organization: 'DFC', region: '대전' }
-        ]
-    },
-    evangelism: {
-        id: 'evangelism',
-        name: '목요전도팀',
-        type: 'evangelism',
-        teams: [
-            { name: '떡볶이 팀', desc: '떡볶이 및 음료 준비, 출석체크, 안전관리' },
-            { name: '어린이 전도팀', desc: '떡볶이데이에 참여한 어린이들과 관계를 맺고 복음을 제시하여 교회로 나올 수 있게 한다' },
-            { name: '지역 전도팀', desc: '지역 주민들에게 복음을 전하고 교회를 알리는 역할을 한다' },
-            { name: '중보 기도팀', desc: '전도팀을 통해 아름다운 열매가 맺히도록 기도로 돕는다' }
-        ],
-        schedule: [
-            { time: '10:00 ~ 12:00', task: '점심식사 및 떡볶이(초등학생용) 준비' },
-            { time: '12:00 ~ 13:00', task: '점심식사' },
-            { time: '13:00 ~ 13:30', task: '식사 정리' },
-            { time: '13:30 ~ 14:00', task: '전도팀 예배 및 기도회' },
-            { time: '14:00 ~', task: '전도 시작(떡볶이 나눔, 어린이 전도, 지역 전도)' }
-        ],
-        contact: '김정현 목사 010-3358-3579'
-    }
-};
-
 const MissionsPage = () => {
-    const [activeTab, setActiveTab] = useState('overseas');
+    const [missionData, setMissionData] = useState(null);
+    const [activeTab, setActiveTab] = useState('');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         window.scrollTo(0, 0);
+        fetchData();
     }, []);
 
+    const fetchData = async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, 'missions'));
+            const data = {};
+            querySnapshot.forEach((doc) => {
+                data[doc.id] = doc.data();
+            });
+            setMissionData(data);
+            if (data['overseas']) setActiveTab('overseas');
+            else if (Object.keys(data).length > 0) setActiveTab(Object.keys(data)[0]);
+        } catch (error) {
+            console.error("선교 데이터 불러오기 오류:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>로딩 중...</div>;
+    }
+
+    if (!missionData || Object.keys(missionData).length === 0) {
+        return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>데이터가 없습니다.</div>;
+    }
+
     const activeData = missionData[activeTab];
-    const tabs = Object.values(missionData);
+    // 정렬: overseas -> domestic -> evangelism 순서 유도
+    const tabs = Object.values(missionData).sort((a, b) => {
+        const order = { 'overseas': 1, 'domestic': 2, 'evangelism': 3 };
+        return (order[a.id] || 99) - (order[b.id] || 99);
+    });
 
     return (
         <div className={styles.pageWrapper}>
