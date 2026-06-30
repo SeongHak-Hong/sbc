@@ -96,9 +96,10 @@ const HistoryPage = () => {
                             transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
                         >
                             <p>
-                                옛날 사진첩은 여기까지!<br />
-                                흑백 사진 속 따뜻한 사랑은 지금도 멈추지 않고 흐르고 있어요.<br />
-                                신탄진교회의 가장 생생하고 다정한 '오늘'의 이야기를 인스타그램에서 만나보세요.
+                                흑백 사진 속 따뜻한 사랑은<br />
+                                지금도 흐르고 있습니다.<br />
+                                신탄진교회의 다정한 '오늘'을<br />
+                                인스타그램에서 만나보세요.
                             </p>
                             <PretendardButton 
                                 style={{ color: 'var(--color-text-dark)' }}
