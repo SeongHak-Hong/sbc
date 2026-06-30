@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
@@ -118,25 +118,27 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [] }) => {
 const PostDetailPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
     const [post, setPost] = useState(null);
 
     useEffect(() => {
         window.scrollTo(0, 0);
         
-        // Mocking a fetch for the post detail using the ID
+        // Use state passed from navigation, or mock fetch using ID
+        const state = location.state;
         const isImageExample = id === '17';
         
         setPost({
             id: id,
-            title: `상세 게시글 제목 (ID: ${id})`,
-            author: '관리자',
-            date: '2024.08.20',
-            imageUrl: isImageExample && id === '17' ? dummyImg : null,
-            images: id === '18' ? [dummyImg, dummyImg] : [], // Mock multiple images for testing
+            title: state?.title || `상세 게시글 제목 (ID: ${id})`,
+            author: state?.author || '관리자',
+            date: state?.date || '2024.08.20',
+            imageUrl: state?.imageUrl || (isImageExample && id === '17' ? dummyImg : null),
+            images: state?.images || (id === '18' ? [dummyImg, dummyImg] : []), // Mock multiple images for testing
             isBulletin: isImageExample && id === '17', // Flag to indicate this is a 3-panel bulletin
-            content: `이곳은 게시글 상세 내용이 들어갈 자리입니다.\n\n해당 게시글(ID: ${id})을 클릭하여 상세 페이지로 이동했습니다.\n향후 실제 데이터 연동 시 이 영역에 본문 내용(텍스트, 이미지 등)이 렌더링됩니다.\n\n주보 이미지나 소식 텍스트가 표시될 수 있도록 넉넉한 여백과 가독성 높은 폰트 사이즈가 적용되어 있습니다.\n\n감사합니다.`
+            content: state?.content || `이곳은 게시글 상세 내용이 들어갈 자리입니다.\n\n해당 게시글(ID: ${id})을 클릭하여 상세 페이지로 이동했습니다.\n향후 실제 데이터 연동 시 이 영역에 본문 내용(텍스트, 이미지 등)이 렌더링됩니다.\n\n주보 이미지나 소식 텍스트가 표시될 수 있도록 넉넉한 여백과 가독성 높은 폰트 사이즈가 적용되어 있습니다.\n\n감사합니다.`
         });
-    }, [id]);
+    }, [id, location.state]);
 
     if (!post) return null;
 

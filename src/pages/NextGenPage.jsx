@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
@@ -101,6 +102,7 @@ const departmentsData = {
 
 const NextGenPage = () => {
     const [activeTab, setActiveTab] = useState('kindergarten');
+    const navigate = useNavigate();
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -191,6 +193,15 @@ const NextGenPage = () => {
                                         whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true }}
                                         transition={{ delay: idx * 0.1 }}
+                                        onClick={() => navigate(`/post/nextgen-${activeTab}-${idx}`, { 
+                                            state: { 
+                                                title: ev.title, 
+                                                author: activeData.name, 
+                                                date: ev.date, 
+                                                content: ev.desc, 
+                                                imageUrl: ev.img 
+                                            } 
+                                        })}
                                     >
                                         <div className={styles.eventImageWrapper}>
                                             <img src={ev.img} alt={ev.title} className={styles.eventImage} />
