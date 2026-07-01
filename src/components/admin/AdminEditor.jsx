@@ -14,11 +14,13 @@ const AdminEditor = ({ initialValue, onChange, height = '800px' }) => {
         }
     };
 
-    // ImgBB 이미지 업로드 훅
+    // Cloudinary 이미지 업로드 훅
     const handleImageUpload = async (blob, callback) => {
-        const imgbbApiKey = import.meta.env.VITE_IMGBB_API_KEY;
-        if (!imgbbApiKey) {
-            alert('ImgBB API 키가 설정되지 않았습니다.');
+        const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+        const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+        
+        if (!cloudName || !uploadPreset) {
+            alert('Cloudinary API 키가 설정되지 않았습니다.');
             callback('', '업로드 실패');
             return;
         }
@@ -26,25 +28,26 @@ const AdminEditor = ({ initialValue, onChange, height = '800px' }) => {
         try {
             // 이미지 압축 적용
             const options = {
-                maxSizeMB: 1, // 최대 1MB
-                maxWidthOrHeight: 1200, // 최대 해상도 1200px
+                maxSizeMB: 0.2, // 최대 200KB
+                maxWidthOrHeight: 1000,
                 useWebWorker: true,
             };
             const compressedBlob = await imageCompression(blob, options);
 
             const formData = new FormData();
-            formData.append('image', compressedBlob);
+            formData.append('file', compressedBlob);
+            formData.append('upload_preset', uploadPreset);
             
-            const response = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, {
+            const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
                 method: 'POST',
                 body: formData
             });
             
             const result = await response.json();
-            if (result.success) {
-                callback(result.data.url, result.data.title || 'image');
+            if (response.ok) {
+                callback(result.secure_url, result.original_filename || 'image');
             } else {
-                throw new Error(result.error?.message);
+                throw new Error(result.error?.message || '알 수 없는 오류');
             }
         } catch (error) {
             console.error('이미지 업로드 중 오류 발생:', error);

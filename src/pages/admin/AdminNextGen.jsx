@@ -77,9 +77,10 @@ const AdminNextGen = () => {
     const handleImageUpload = async (deptId, eventIndex, files) => {
         if (!files || files.length === 0) return;
         
-        const imgbbApiKey = import.meta.env.VITE_IMGBB_API_KEY;
-        if (!imgbbApiKey) {
-            alert("ImgBB API 키가 설정되지 않았습니다. .env 파일에 VITE_IMGBB_API_KEY를 추가해주세요.");
+        const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+        const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+        if (!cloudName || !uploadPreset) {
+            alert("Cloudinary API 키가 설정되지 않았습니다. .env 파일을 확인해주세요.");
             return;
         }
 
@@ -92,26 +93,27 @@ const AdminNextGen = () => {
             for (let i = 0; i < files.length; i++) {
                 // 이미지 압축 적용
                 const options = {
-                    maxSizeMB: 1,
-                    maxWidthOrHeight: 1200,
+                    maxSizeMB: 0.2,
+                    maxWidthOrHeight: 1000,
                     useWebWorker: true,
                 };
                 const compressedFile = await imageCompression(files[i], options);
 
                 const formData = new FormData();
-                formData.append('image', compressedFile);
+                formData.append('file', compressedFile);
+                formData.append('upload_preset', uploadPreset);
                 
-                const response = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, {
+                const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
                     method: 'POST',
                     body: formData
                 });
                 
                 const result = await response.json();
                 
-                if (result.success) {
-                    ev.imageUrls.push(result.data.url);
+                if (response.ok) {
+                    ev.imageUrls.push(result.secure_url);
                     if (!ev.img) {
-                        ev.img = result.data.url;
+                        ev.img = result.secure_url;
                     }
                 } else {
                     throw new Error(result.error?.message || '알 수 없는 오류');
