@@ -7,6 +7,7 @@ import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
 import TabMenu from '../components/TabMenu';
 import styles from './NextGenPage.module.css';
+import defaultThumb from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb.webp';
 
 const getBadgeStyle = (status) => {
     switch(status) {
@@ -188,13 +189,13 @@ const NextGenPage = () => {
                                                     author: activeData.name, 
                                                     date: displayDate, 
                                                     content: ev.desc, 
-                                                    imageUrl: ev.img,
-                                                    imageUrls: ev.imageUrls
+                                                    imageUrl: ev.img || defaultThumb,
+                                                    imageUrls: ev.imageUrls || [defaultThumb]
                                                 } 
                                             })}
                                         >
                                             <div className={styles.eventImageWrapper}>
-                                                <img src={ev.img} alt={ev.title} className={styles.eventImage} />
+                                                <img src={ev.img || defaultThumb} alt={ev.title} className={styles.eventImage} />
                                             </div>
                                             <div>
                                                 <div className={styles.eventMeta}>
