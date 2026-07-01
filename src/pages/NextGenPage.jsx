@@ -186,8 +186,8 @@ const NextGenPage = () => {
                                     }
 
                                     let formattedContent = '';
-                                    if (ev.time) formattedContent += `**시간**: ${ev.time}  \n`;
-                                    if (ev.location) formattedContent += `**장소**: ${ev.location}  \n`;
+                                    if (ev.time) formattedContent += `🕒 시간: ${ev.time}  \n`;
+                                    if (ev.location) formattedContent += `🚩 장소: ${ev.location}  \n`;
                                     if (formattedContent) formattedContent += `\n`;
                                     formattedContent += ev.desc || '';
 

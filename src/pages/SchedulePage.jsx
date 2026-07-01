@@ -134,9 +134,10 @@ const SchedulePage = () => {
     };
 
     const handleEventClick = (event) => {
-        const eventDateStr = `**날짜:** ${event.month} ${event.date}일 (${event.day[0]})`;
-        const timeStr = event.time ? `**시간:** ${event.time}` : '';
-        const locStr = event.location ? `**장소:** ${event.location}` : '';
+        const displayDate = `${event.month} ${event.date}일 (${event.day[0]})`;
+        const eventDateStr = `📅 날짜: ${displayDate}`;
+        const timeStr = event.time ? `🕒 시간: ${event.time}` : '';
+        const locStr = event.location ? `🚩 장소: ${event.location}` : '';
         const contentStr = event.content ? `\n\n${event.content}` : '';
         
         const contentBody = [eventDateStr, timeStr, locStr, contentStr].filter(Boolean).join('\n\n');
@@ -146,7 +147,7 @@ const SchedulePage = () => {
                 ...event,
                 id: event.id,
                 category: 'schedule',
-                date: eventDateStr,
+                date: displayDate,
                 content: contentBody
             }
         });

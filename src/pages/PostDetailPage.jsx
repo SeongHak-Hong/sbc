@@ -184,9 +184,6 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
     );
 };
 
-import { doc, getDoc, updateDoc, increment } from 'firebase/firestore';
-import { db } from '../firebase';
-
 const PostDetailPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -214,21 +211,91 @@ const PostDetailPage = () => {
             let targetCollection = 'posts';
             let actualId = id;
 
-            // Handle nextgen- fallback (uses hyphen)
             if (id.startsWith('nextgen-')) {
-                // If there's no state, nextgen posts can't be fetched easily unless we store them globally, 
-                // but nextgen posts should always be passed via state. 
-                // We'll fallback to 'nextgen' collection if needed but let's assume they don't exist globally as single posts.
+                const parts = id.split('-');
+                if (parts.length === 3) {
+                    const deptId = parts[1];
+                    const index = parseInt(parts[2], 10);
+                    const docRef = doc(db, 'nextgen', deptId);
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        if (data.events && data.events[index]) {
+                            const ev = data.events[index];
+                            let displayDate = ev.date;
+                            const formatDate = (dateStr) => {
+                                if (!dateStr) return '';
+                                const [y, m, d] = dateStr.split('-');
+                                return `${y}. ${parseInt(m)}. ${parseInt(d)}.`;
+                            };
+                            if (ev.startDate || ev.endDate) {
+                                const startStr = formatDate(ev.startDate);
+                                const endStr = formatDate(ev.endDate);
+                                if (startStr && endStr) displayDate = `${startStr} ~ ${endStr}`;
+                                else if (startStr) displayDate = startStr;
+                                else if (endStr) displayDate = endStr;
+                            }
+
+                            let formattedContent = '';
+                            if (ev.time) formattedContent += `🕒 시간: ${ev.time}  \n`;
+                            if (ev.location) formattedContent += `🚩 장소: ${ev.location}  \n`;
+                            if (formattedContent) formattedContent += `\n`;
+                            formattedContent += ev.desc || '';
+
+                            setPost({
+                                title: ev.title, 
+                                author: data.name, 
+                                date: displayDate, 
+                                content: formattedContent, 
+                                imageUrl: ev.img || defaultThumbs[deptId] || thumbKindergarten,
+                                imageUrls: ev.imageUrls || [defaultThumbs[deptId] || thumbKindergarten]
+                            });
+                            return;
+                        }
+                    }
+                }
                 alert('해당 게시물을 직접 주소로 접근할 수 없습니다.');
                 navigate(-1);
                 return;
             }
 
-            // Parse collection from underscore delimiter
             if (id.includes('_')) {
                 const parts = id.split('_');
                 targetCollection = parts[0];
                 actualId = parts.slice(1).join('_');
+
+                if (targetCollection === 'schedules') {
+                    const querySnapshot = await getDocs(collection(db, 'monthly'));
+                    let foundEvent = null;
+                    querySnapshot.forEach(docSnap => {
+                        const data = docSnap.data();
+                        if (data.schedules) {
+                            const ev = data.schedules.find(s => s.id === actualId);
+                            if (ev) foundEvent = ev;
+                        }
+                    });
+
+                    if (foundEvent) {
+                        const displayDate = `${foundEvent.month} ${foundEvent.date}일 (${foundEvent.day[0]})`;
+                        const eventDateStr = `📅 날짜: ${displayDate}`;
+                        const timeStr = foundEvent.time ? `🕒 시간: ${foundEvent.time}` : '';
+                        const locStr = foundEvent.location ? `🚩 장소: ${foundEvent.location}` : '';
+                        const contentStr = foundEvent.content ? `\n\n${foundEvent.content}` : '';
+                        const contentBody = [eventDateStr, timeStr, locStr, contentStr].filter(Boolean).join('\n\n');
+                        
+                        setPost({
+                            title: foundEvent.title,
+                            author: '신탄진침례교회',
+                            date: displayDate,
+                            content: contentBody,
+                            category: 'schedule'
+                        });
+                        return;
+                    }
+                    alert('존재하지 않는 게시물입니다.');
+                    navigate(-1);
+                    return;
+                }
             }
 
             const docRef = doc(db, targetCollection, actualId);
@@ -238,7 +305,6 @@ const PostDetailPage = () => {
                 const data = docSnap.data();
                 setPost({ id: docSnap.id, ...data });
                 
-                // Increment views
                 await updateDoc(docRef, {
                     views: increment(1)
                 });
