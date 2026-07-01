@@ -91,10 +91,10 @@ const AdminNextGen = () => {
             if (!ev.imageUrls) ev.imageUrls = [];
             
             for (let i = 0; i < files.length; i++) {
-                // 이미지 압축 적용
+                // 이미지 압축 적용 (넉넉하게 원본 화질 유지)
                 const options = {
-                    maxSizeMB: 0.2,
-                    maxWidthOrHeight: 1000,
+                    maxSizeMB: 2,
+                    maxWidthOrHeight: 1920,
                     useWebWorker: true,
                 };
                 const compressedFile = await imageCompression(files[i], options);
@@ -111,9 +111,10 @@ const AdminNextGen = () => {
                 const result = await response.json();
                 
                 if (response.ok) {
-                    ev.imageUrls.push(result.secure_url);
+                    const optimizedUrl = result.secure_url.replace('/upload/', '/upload/f_auto,q_auto/');
+                    ev.imageUrls.push(optimizedUrl);
                     if (!ev.img) {
-                        ev.img = result.secure_url;
+                        ev.img = optimizedUrl;
                     }
                 } else {
                     throw new Error(result.error?.message || '알 수 없는 오류');

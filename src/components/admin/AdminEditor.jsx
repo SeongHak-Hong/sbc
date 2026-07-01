@@ -26,10 +26,10 @@ const AdminEditor = ({ initialValue, onChange, height = '800px' }) => {
         }
 
         try {
-            // 이미지 압축 적용
+            // 이미지 압축 적용 (넉넉하게 원본 화질 유지)
             const options = {
-                maxSizeMB: 0.2, // 최대 200KB
-                maxWidthOrHeight: 1000,
+                maxSizeMB: 2, // 최대 2MB
+                maxWidthOrHeight: 1920, // FHD 해상도까지 허용
                 useWebWorker: true,
             };
             const compressedBlob = await imageCompression(blob, options);
@@ -45,7 +45,9 @@ const AdminEditor = ({ initialValue, onChange, height = '800px' }) => {
             
             const result = await response.json();
             if (response.ok) {
-                callback(result.secure_url, result.original_filename || 'image');
+                // Cloudinary 자동 최적화 파라미터 적용 (WebP/AVIF 자동 변환 및 용량 최적화)
+                const optimizedUrl = result.secure_url.replace('/upload/', '/upload/f_auto,q_auto/');
+                callback(optimizedUrl, result.original_filename || 'image');
             } else {
                 throw new Error(result.error?.message || '알 수 없는 오류');
             }
