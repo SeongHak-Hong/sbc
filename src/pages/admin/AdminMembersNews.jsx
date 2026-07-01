@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import imageCompression from 'browser-image-compression';
 import { collection, getDocs, doc, setDoc, deleteDoc, query, orderBy, Timestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import AdminCloseButton from '../../components/ui/AdminCloseButton';
@@ -125,8 +126,16 @@ const AdminMembersNews = () => {
                 for (let i = 0; i < newFiles.length; i++) {
                     const file = newFiles[i];
                     
+                    // 이미지 압축 적용
+                    const options = {
+                        maxSizeMB: 1,
+                        maxWidthOrHeight: 1200,
+                        useWebWorker: true,
+                    };
+                    const compressedFile = await imageCompression(file, options);
+                    
                     const formData = new FormData();
-                    formData.append('image', file);
+                    formData.append('image', compressedFile);
                     
                     const response = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, {
                         method: 'POST',

@@ -15,6 +15,7 @@
     "@react-three/rapier": "^2.2.0",
     "@toast-ui/editor": "^3.2.2",
     "@toast-ui/react-editor": "^3.2.3",
+    "browser-image-compression": "^2.0.2",
     "clsx": "^2.1.1",
     "firebase": "^12.15.0",
     "framer-motion": "^12.23.25",

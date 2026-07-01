@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import imageCompression from 'browser-image-compression';
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
@@ -23,8 +24,16 @@ const AdminEditor = ({ initialValue, onChange, height = '800px' }) => {
         }
 
         try {
+            // 이미지 압축 적용
+            const options = {
+                maxSizeMB: 1, // 최대 1MB
+                maxWidthOrHeight: 1200, // 최대 해상도 1200px
+                useWebWorker: true,
+            };
+            const compressedBlob = await imageCompression(blob, options);
+
             const formData = new FormData();
-            formData.append('image', blob);
+            formData.append('image', compressedBlob);
             
             const response = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, {
                 method: 'POST',
