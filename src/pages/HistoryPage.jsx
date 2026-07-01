@@ -74,10 +74,10 @@ const HistoryPage = () => {
                             <motion.article 
                                 key={item.id} 
                                 className={styles.artwork}
-                                initial={{ opacity: 0, y: index % 2 === 0 ? 100 : -100 }}
+                                initial={{ opacity: 0, y: index % 2 === 0 ? 60 : -60 }}
                                 whileInView={{ opacity: 1, y: index % 2 === 0 ? 60 : -60 }}
                                 viewport={{ once: true, margin: "0px -10% 0px -10%" }}
-                                transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
+                                transition={{ duration: 0.8, ease: "easeOut" }}
                             >
                                 <div className={styles.imageWrapper}>
                                     <div className={styles.photoFrame} style={{ aspectRatio: '4/3' }}>
@@ -90,10 +90,10 @@ const HistoryPage = () => {
                         {/* CTA Section */}
                         <motion.article 
                             className={styles.ctaCard}
-                            initial={{ opacity: 0, scale: 0.9, y: 0 }}
-                            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                            initial={{ opacity: 0, y: 0 }}
+                            whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "0px -10% 0px -10%" }}
-                            transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
+                            transition={{ duration: 0.8, ease: "easeOut" }}
                         >
                             <p>
                                 흑백 사진 속 따뜻한 사랑은<br />
