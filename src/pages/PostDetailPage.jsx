@@ -46,11 +46,49 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
             );
         } else {
             return (
-                <img 
-                    src={actualImages[index]} 
-                    alt={`첨부 이미지 ${index + 1}`} 
-                    style={{ maxWidth: '100%', maxHeight: '70vh', width: 'auto', height: 'auto', display: 'block', margin: '0 auto' }}
-                />
+                <div style={{
+                    position: 'relative',
+                    width: '100%',
+                    height: '60vh',
+                    minHeight: '400px',
+                    maxHeight: '800px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: '#111',
+                    overflow: 'hidden',
+                    borderRadius: '8px'
+                }}>
+                    {/* Blurred Background Layer */}
+                    <div style={{
+                        position: 'absolute',
+                        top: '-10%',
+                        left: '-10%',
+                        width: '120%',
+                        height: '120%',
+                        backgroundImage: `url(${actualImages[index]})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        filter: 'blur(20px)',
+                        opacity: 0.4,
+                        zIndex: 0
+                    }} />
+                    
+                    {/* Main Image */}
+                    <img 
+                        src={actualImages[index]} 
+                        alt={`첨부 이미지 ${index + 1}`} 
+                        style={{ 
+                            position: 'relative',
+                            zIndex: 1,
+                            maxWidth: '100%', 
+                            maxHeight: '100%', 
+                            width: 'auto', 
+                            height: 'auto',
+                            objectFit: 'contain'
+                        }}
+                    />
+                </div>
             );
         }
     };
