@@ -26,7 +26,7 @@ const HeroSection = () => {
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center', // Changed to center as requested
+        justifyContent: isMobile ? 'flex-start' : 'center',
         alignItems: 'flex-start', // Align left
         textAlign: 'left', // Align text left
         padding: isMobile ? '96px 24px' : '96px 48px',
@@ -115,14 +115,14 @@ const HeroSection = () => {
             </div>
 
             {/* Text Content Wrapper with Parallax */}
-            <motion.div style={{ position: 'relative', zIndex: 20, y: textY, width: '100%' }}>
+            <motion.div style={{ position: 'relative', zIndex: 20, y: textY, width: '100%', paddingTop: isMobile ? '32px' : '0' }}>
                 <BlurFade delay={0.25} inView>
                     <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', flexWrap: isMobile ? 'wrap' : 'nowrap' }}>
                             <h1 style={englishTitleStyle}>
                                 The Living
                             </h1>
-                            <h1 style={{ ...englishTitleStyle, textAlign: 'right', marginTop: isMobile ? '12px' : '0' }}>
+                            <h1 style={{ ...englishTitleStyle, textAlign: 'right' }}>
                                 Word
                             </h1>
                         </div>

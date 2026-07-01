@@ -39,8 +39,8 @@ const VerseSection = () => {
                     {isCitation && (
                         <span style={{
                             display: 'inline-block',
-                            width: '24px',
-                            height: '3px',
+                            width: isMobile ? '16px' : '24px',
+                            height: isMobile ? '1px' : '3px',
                             backgroundColor: 'var(--color-text-dark)',
                             marginRight: '16px', // Gap between line and text
                         }}></span>
