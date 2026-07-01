@@ -55,9 +55,9 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    justifyContent: 'center',
                     backgroundColor: '#111',
-                    overflow: 'hidden',
-                    borderRadius: '8px'
+                    overflow: 'hidden'
                 }}>
                     {/* Blurred Background Layer */}
                     <div style={{
@@ -118,7 +118,13 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
     };
 
     return (
-        <div className={styles.bulletinViewerContainer}>
+        <div 
+            className={styles.bulletinViewerContainer}
+            style={{
+                backgroundColor: isBulletin ? 'var(--color-background-beige)' : 'transparent',
+                padding: isBulletin ? '40px 32px' : '0'
+            }}
+        >
             {/* Main Viewer Area */}
             {count > 1 && (
                 <div className={styles.mainViewerWrapper} style={{ maxWidth: isBulletin ? '400px' : '100%' }}>

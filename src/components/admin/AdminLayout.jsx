@@ -36,7 +36,7 @@ const AdminLayout = () => {
         <div className={styles.adminContainer}>
             <aside className={styles.sidebar}>
                 <div className={styles.logo}>
-                    <h2>Manager Lounge</h2>
+                    <h2>관리자 라운지</h2>
                 </div>
                 <nav className={styles.nav}>
                     <NavLink to="/manager-lounge" end className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}>

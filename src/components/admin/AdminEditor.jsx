@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import imageCompression from 'browser-image-compression';
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
@@ -6,6 +6,40 @@ import '@toast-ui/editor/dist/i18n/ko-kr';
 
 const AdminEditor = ({ initialValue, onChange, height = '800px' }) => {
     const editorRef = useRef();
+    const wrapperRef = useRef(null);
+
+    useEffect(() => {
+        const wrapper = wrapperRef.current;
+        if (!wrapper) return;
+
+        const handleNativeWheel = (e) => {
+            // 에디터 내부에 포커스가 있는지 확인 (선택되었을 때만)
+            const isFocused = wrapper.contains(document.activeElement);
+            if (!isFocused) return;
+
+            let target = e.target;
+            while (target && target !== wrapper) {
+                if (target.scrollHeight > target.clientHeight) {
+                    const overflowY = window.getComputedStyle(target).overflowY;
+                    if (overflowY === 'auto' || overflowY === 'scroll') {
+                        const isAtTop = target.scrollTop === 0;
+                        const isAtBottom = Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 2;
+
+                        if ((e.deltaY > 0 && !isAtBottom) || (e.deltaY < 0 && !isAtTop)) {
+                            e.stopPropagation(); // 스크롤이 가능하면 Lenis 이벤트 전파 중단
+                            return;
+                        }
+                    }
+                }
+                target = target.parentNode;
+            }
+        };
+
+        wrapper.addEventListener('wheel', handleNativeWheel, { passive: true });
+        return () => {
+            wrapper.removeEventListener('wheel', handleNativeWheel);
+        };
+    }, []);
 
     const handleChange = () => {
         if (editorRef.current) {
@@ -59,7 +93,7 @@ const AdminEditor = ({ initialValue, onChange, height = '800px' }) => {
     };
 
     return (
-        <div style={{ backgroundColor: '#fff', borderRadius: '4px' }} data-lenis-prevent="true">
+        <div ref={wrapperRef} style={{ backgroundColor: '#fff', borderRadius: '4px' }}>
             <style>
                 {`
                 .toastui-editor-contents, .ProseMirror {
