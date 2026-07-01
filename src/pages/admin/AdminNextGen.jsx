@@ -149,8 +149,11 @@ const AdminNextGen = () => {
             <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '24px' }}>다음세대 관리</h2>
             
             {Object.keys(departments).length > 0 && (
-                <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', flexWrap: 'wrap' }}>
-                    {Object.keys(departments).map(deptId => (
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', overflowX: 'auto', paddingBottom: '8px' }}>
+                    {Object.keys(departments).sort((a, b) => {
+                        const order = { 'kindergarten': 1, 'elementary': 2, 'youth': 3, 'youngadults': 4 };
+                        return (order[a] || 99) - (order[b] || 99);
+                    }).map(deptId => (
                         <button
                             key={deptId}
                             onClick={() => setActiveTab(deptId)}
@@ -238,7 +241,7 @@ const AdminNextGen = () => {
                                         <div>
                                             <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>상태</label>
                                             <select value={ev.status} onChange={(e) => handleEventChange(deptId, index, 'status', e.target.value)} style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box', backgroundColor: '#fff' }}>
-                                                <option value="오픈예정">오픈예정</option>
+                                                <option value="예정">예정</option>
                                                 <option value="접수중">접수중</option>
                                                 <option value="모집중">모집중</option>
                                                 <option value="진행중">진행중</option>
@@ -309,7 +312,7 @@ const AdminNextGen = () => {
 
                         <div style={{ display: 'flex', gap: '8px', marginTop: '16px', justifyContent: 'flex-end' }}>
                             <button 
-                                onClick={() => handleAddArrayItem(deptId, 'events', { title: '새 행사', startDate: '', endDate: '', status: '오픈예정', img: '', imageUrls: [], desc: '' })}
+                                onClick={() => handleAddArrayItem(deptId, 'events', { title: '새 행사', startDate: '', endDate: '', status: '예정', img: '', imageUrls: [], desc: '' })}
                                 style={{ backgroundColor: 'var(--color-btn-add)', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer', fontWeight: '500' }}
                             >
                                 + 새 행사 추가
