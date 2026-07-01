@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import styles from './SubPageSection.module.css';
 
-const SubPageSection = ({ title, subtitle, icon, children, className, titleColor = 'var(--color-text-dark)', hideHeader = false }) => {
+const SubPageSection = ({ title, engTitle, subtitle, icon, children, className, titleColor = 'var(--color-text-dark)', hideHeader = false }) => {
     return (
         <section className={`${styles.sectionContainer} ${className || ''}`}>
             {!hideHeader && (
@@ -12,7 +12,7 @@ const SubPageSection = ({ title, subtitle, icon, children, className, titleColor
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
-                            style={{ width: '56px', height: '56px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                            className={styles.iconContainer}
                         >
                             <img 
                                 src={icon}
@@ -21,16 +21,40 @@ const SubPageSection = ({ title, subtitle, icon, children, className, titleColor
                             />
                         </motion.div>
                     )}
-                    <motion.h1 
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className={styles.title}
-                        style={{ color: titleColor }}
-                    >
-                        {title}
-                    </motion.h1>
-                    {subtitle && subtitle}
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                        {engTitle && (
+                            <motion.h1
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.8, delay: 0.1 }}
+                                style={{
+                                    fontFamily: '"Playfair Display", serif',
+                                    fontSize: 'var(--text-h2)',
+                                    color: titleColor,
+                                    margin: 0,
+                                    letterSpacing: '-0.02em',
+                                    lineHeight: 1.2
+                                }}
+                            >
+                                {engTitle}
+                            </motion.h1>
+                        )}
+                        <motion.h2 
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className={styles.title}
+                            style={{ 
+                                color: titleColor, 
+                                fontSize: engTitle ? 'var(--text-sub-title)' : 'var(--text-h1)',
+                                fontWeight: 'var(--font-weight-regular)',
+                                lineHeight: 'var(--line-height-base)',
+                                margin: 0
+                            }}
+                        >
+                            {title}
+                        </motion.h2>
+                    </div>
                 </div>
             )}
             {children}

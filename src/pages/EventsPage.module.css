@@ -1,0 +1,154 @@
+/* d:\me\design\sbc-site\src\pages\SchedulePage.module.css */
+.pageWrapper {
+    width: 100%;
+    min-height: 100vh;
+    color: var(--color-text-dark);    position: relative;
+}
+
+.contentWrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.monthNav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+}
+
+.navButton {
+    background: transparent;
+    border: none;
+    color: var(--color-text-dark);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+    padding: 0;
+}
+
+.navButton:hover:not(:disabled) {
+    background-color: rgba(var(--color-text-dark-rgb), 0.05);
+}
+
+.navButton span {
+    font-size: 28px !important;
+}
+
+.monthText {    font-size: 24px;    color: var(--color-text-dark);
+}
+
+.agendaContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.eventStack {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.eventCard {
+    display: flex;
+    align-items: center;
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(var(--color-text-dark-rgb), 0.2);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.eventCard:hover {
+    background-color: rgba(var(--color-text-dark-rgb), 0.03);
+}
+
+.timeBlock {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    min-width: 100px;
+    padding-right: 24px;
+}
+
+.dateDay {
+    font-size: 18px;    color: var(--color-text-dark);}
+
+.dateDayOfWeek {
+    font-size: 18px;    color: rgba(var(--color-text-dark-rgb), 0.2);}
+
+.eventDetails {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-width: 0;
+}
+
+.eventTitle {
+    font-size: 18px;    color: var(--color-text-dark);}
+
+.eventMeta {
+    font-size: 16px;    color: rgba(var(--color-text-dark-rgb), 0.7);    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.statusDotSmall {
+    width: 6px;
+    height: 6px;
+    border-radius: 0;
+    flex-shrink: 0;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animateSlideUp {
+    opacity: 0;
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (max-width: 600px) {
+    .eventCard {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 24px 0;
+    }
+    
+    .eventDetails {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        width: 100%;
+    }
+    
+    .timeBlock {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        padding-right: 0;
+        min-width: auto;
+    }
+    
+    .dateDay, .dateDayOfWeek {
+        font-size: 16px;
+        color: rgba(var(--color-text-dark-rgb), 0.7);
+    }
+    
+    .eventMeta {
+        font-size: 16px;
+    }
+}

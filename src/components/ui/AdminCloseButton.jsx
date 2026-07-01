@@ -18,12 +18,12 @@ const AdminCloseButton = ({ onClick, style, className }) => {
                 display: 'inline-flex', 
                 alignItems: 'center', 
                 justifyContent: 'center', 
-                lineHeight: 1,
+                
                 flexShrink: 0,
                 ...style 
             }}
         >
-            <span className="material-symbols-outlined" style={{ fontSize: '16px', fontWeight: 'bold' }}>close</span>
+            <span className="material-symbols-outlined" style={{ fontSize: '16px'}}>close</span>
         </button>
     );
 };

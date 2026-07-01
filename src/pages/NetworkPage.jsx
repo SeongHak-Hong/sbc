@@ -5,10 +5,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
+import TabMenu from '../components/TabMenu';
+import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.webp';
 import styles from './NewsPage.module.css';
 import BoardList from '../components/ui/BoardList';
 
-const MembersNewsPage = () => {
+const NetworkPage = () => {
     const navigate = useNavigate();
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -22,7 +24,7 @@ const MembersNewsPage = () => {
 
     const fetchPosts = async () => {
         try {
-            const q = query(collection(db, 'membersNews'), orderBy('createdAt', 'desc'));
+            const q = query(collection(db, 'memberBusiness'), orderBy('createdAt', 'desc'));
             const querySnapshot = await getDocs(q);
             const data = [];
             querySnapshot.forEach((doc) => {
@@ -30,14 +32,14 @@ const MembersNewsPage = () => {
             });
             setPosts(data);
         } catch (error) {
-            console.error("성도 소식 가져오기 오류:", error);
+            console.error("성도 사업체 가져오기 오류:", error);
         } finally {
             setLoading(false);
         }
     };
 
     const handleItemClick = (post) => {
-        navigate(`/post/membersNews_${post.id}`, { state: post });
+        navigate(`/post/memberBusiness_${post.id}`, { state: post });
     };
 
     const totalPages = Math.ceil(posts.length / postsPerPage) || 1;
@@ -53,18 +55,24 @@ const MembersNewsPage = () => {
     return (
         <div className={styles.pageWrapper}>
             <SubPageSection 
-                title="성도 소식" 
-                subtitle={<p className={styles.headerSubtitle} style={{ color: 'rgba(var(--color-text-dark-rgb), 0.7)', fontSize: '18px', textAlign: 'center' }}>성도님들의 기쁨과 슬픔을 함께 나눕니다.</p>}
+                title="성도 사업체" 
+                engTitle="Network"
+                icon={visionIcon}
+                subtitle={<p className={styles.headerSubtitle} style={{ color: 'rgba(var(--color-text-dark-rgb), 0.7)', fontSize: '18px', textAlign: 'center' }}>성도님들의 일터와 사업장을 소개하고 기도합니다.</p>}
             >
                 <div className={styles.contentWrapper}>
                     <div className={styles.boardContainer}>
                         <BoardList
-                            posts={currentPosts}
+                            posts={currentPosts.map(item => ({
+                                ...item,
+                                author: item.author === '관리자' ? '정보 확인 필요' : item.author,
+                                date: null // 사업체 목록에서는 날짜를 숨김
+                            }))}
                             onItemClick={handleItemClick}
                             currentPage={currentPage}
                             totalPages={totalPages}
                             onPageChange={setCurrentPage}
-                            emptyMessage="등록된 소식이 없습니다."
+                            emptyMessage="등록된 사업체가 없습니다."
                         />
                     </div>
                 </div>
@@ -74,4 +82,4 @@ const MembersNewsPage = () => {
     );
 };
 
-export default MembersNewsPage;
+export default NetworkPage;

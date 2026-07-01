@@ -282,37 +282,37 @@ const AdminSchedule = () => {
         return (
             <div style={{ backgroundColor: '#fff', padding: '32px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                    <h2 style={{ fontSize: '24px', fontWeight: '700' }}>교회 일정 작성/수정</h2>
+                    <h2 style={{ fontSize: '24px'}}>교회 일정 작성/수정</h2>
                 </div>
 
                 <div style={{ display: 'grid', gap: '20px' }}>
                     <div style={{ display: 'flex', gap: '16px' }}>
                         <div style={{ flex: 1 }}>
-                            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>시작일</label>
+                            <label style={{ display: 'block', marginBottom: '8px'}}>시작일</label>
                             <input 
                                 type="date" 
                                 value={selectedDate}
                                 onChange={handleDateChange}
-                                style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ddd', fontFamily: 'inherit' }}
+                                style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ddd'}}
                             />
                             <p style={{ marginTop: '8px', fontSize: '14px', color: '#6B7280' }}>
                                 {month && date ? `선택됨: ${month} ${date}일 (${day})` : '날짜를 선택해 주세요.'}
                             </p>
                         </div>
                         <div style={{ flex: 1 }}>
-                            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>마감일 <span style={{ fontWeight: 'normal', color: '#6B7280' }}>(선택)</span></label>
+                            <label style={{ display: 'block', marginBottom: '8px'}}>마감일 <span style={{  color: '#6B7280' }}>(선택)</span></label>
                             <input 
                                 type="date" 
                                 value={selectedEndDate}
                                 onChange={(e) => setSelectedEndDate(e.target.value)}
                                 min={selectedDate}
-                                style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ddd', fontFamily: 'inherit' }}
+                                style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ddd'}}
                             />
                         </div>
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>행사 제목</label>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>행사 제목</label>
                         <input 
                             type="text" 
                             value={title} 
@@ -324,7 +324,7 @@ const AdminSchedule = () => {
 
                     <div style={{ display: 'flex', gap: '16px' }}>
                         <div style={{ flex: 1 }}>
-                            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>시간</label>
+                            <label style={{ display: 'block', marginBottom: '8px'}}>시간</label>
                             <input 
                                 type="text" 
                                 value={time} 
@@ -334,7 +334,7 @@ const AdminSchedule = () => {
                             />
                         </div>
                         <div style={{ flex: 1 }}>
-                            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>장소</label>
+                            <label style={{ display: 'block', marginBottom: '8px'}}>장소</label>
                             <input 
                                 type="text" 
                                 value={location} 
@@ -346,7 +346,7 @@ const AdminSchedule = () => {
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>포스터 이미지 첨부 <span style={{ fontWeight: 'normal', color: '#6B7280' }}>(선택사항)</span></label>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>포스터 이미지 첨부 <span style={{  color: '#6B7280' }}>(선택사항)</span></label>
                         {images.length > 0 && (
                             <div style={{ marginBottom: '16px' }}>
                                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
@@ -363,7 +363,7 @@ const AdminSchedule = () => {
                             </div>
                         )}
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
-                            <label style={{ fontSize: '14px', fontWeight: '500', color: '#4B5563' }}>본문 내용 <span style={{ fontWeight: 'normal', color: '#6B7280' }}>(선택)</span></label>
+                            <label style={{ fontSize: '14px',  color: '#4B5563' }}>본문 내용 <span style={{  color: '#6B7280' }}>(선택)</span></label>
                             <AdminEditor 
                                 key={currentId || 'new'}
                                 initialValue={content}
@@ -387,14 +387,14 @@ const AdminSchedule = () => {
                     <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
                         <button 
                             onClick={() => setViewMode('list')}
-                            style={{ padding: '12px 24px', borderRadius: '4px', border: '1px solid #D1D5DB', backgroundColor: '#fff', cursor: 'pointer', fontSize: '16px', fontWeight: '500' }}
+                            style={{ padding: '12px 24px', borderRadius: '4px', border: '1px solid #D1D5DB', backgroundColor: '#fff', cursor: 'pointer', fontSize: '16px'}}
                         >
                             취소
                         </button>
                         <button 
                             onClick={handleSave}
                             disabled={!!saveMessage}
-                            style={{ backgroundColor: '#10B981', color: '#fff', padding: '12px 24px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontSize: '16px', fontWeight: '600' }}
+                            style={{ backgroundColor: '#10B981', color: '#fff', padding: '12px 24px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontSize: '16px'}}
                         >
                             {saveMessage ? saveMessage : '일정 저장하기'}
                         </button>
@@ -407,10 +407,10 @@ const AdminSchedule = () => {
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                <h2 style={{ fontSize: '24px', fontWeight: '700' }}>교회 일정 관리</h2>
+                <h2 style={{ fontSize: '24px'}}>교회 일정 관리</h2>
                 <button 
                     onClick={handleCreateNew}
-                    style={{ backgroundColor: 'var(--color-btn-add)', color: '#fff', padding: '10px 20px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontWeight: '500' }}
+                    style={{ backgroundColor: 'var(--color-btn-add)', color: '#fff', padding: '10px 20px', borderRadius: '4px', border: 'none', cursor: 'pointer'}}
                 >
                     + 새 일정 추가
                 </button>
@@ -433,10 +433,10 @@ const AdminSchedule = () => {
                             </tr>
                         ) : currentData.map(item => (
                             <tr key={item.id} style={{ borderBottom: '1px solid #E5E7EB' }}>
-                                <td style={{ padding: '16px', fontWeight: '500' }}>{item.month}</td>
+                                <td style={{ padding: '16px'}}>{item.month}</td>
                                 <td style={{ padding: '16px' }}>{item.date} ({item.day[0]})</td>
                                 <td style={{ padding: '16px' }}>
-                                    <div style={{ fontWeight: '500' }}>
+                                    <div style={{}}>
                                         {item.title}
                                         {item.endDate && (() => {
                                             const startStr = (item.startDate || '').substring(5).replace('-', '.');
@@ -467,7 +467,7 @@ const AdminSchedule = () => {
                     <button 
                         onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                         disabled={currentPage === 1}
-                        style={{ padding: '8px 12px', borderRadius: '4px', border: '1px solid #ddd', backgroundColor: currentPage === 1 ? '#f9f9f9' : '#fff', cursor: currentPage === 1 ? 'default' : 'pointer', fontFamily: 'inherit' }}
+                        style={{ padding: '8px 12px', borderRadius: '4px', border: '1px solid #ddd', backgroundColor: currentPage === 1 ? '#f9f9f9' : '#fff', cursor: currentPage === 1 ? 'default' : 'pointer'}}
                     >
                         이전
                     </button>
@@ -481,9 +481,7 @@ const AdminSchedule = () => {
                                 border: '1px solid #ddd', 
                                 backgroundColor: currentPage === pageNum ? '#3B82F6' : '#fff', 
                                 color: currentPage === pageNum ? '#fff' : '#333',
-                                cursor: 'pointer',
-                                fontFamily: 'inherit'
-                            }}
+                                cursor: 'pointer'}}
                         >
                             {pageNum}
                         </button>
@@ -491,7 +489,7 @@ const AdminSchedule = () => {
                     <button 
                         onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                         disabled={currentPage === totalPages}
-                        style={{ padding: '8px 12px', borderRadius: '4px', border: '1px solid #ddd', backgroundColor: currentPage === totalPages ? '#f9f9f9' : '#fff', cursor: currentPage === totalPages ? 'default' : 'pointer', fontFamily: 'inherit' }}
+                        style={{ padding: '8px 12px', borderRadius: '4px', border: '1px solid #ddd', backgroundColor: currentPage === totalPages ? '#f9f9f9' : '#fff', cursor: currentPage === totalPages ? 'default' : 'pointer'}}
                     >
                         다음
                     </button>

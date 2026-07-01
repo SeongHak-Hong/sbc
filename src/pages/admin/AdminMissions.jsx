@@ -70,7 +70,7 @@ const AdminMissions = () => {
         return (
             <div key={missionId} style={{ backgroundColor: '#fff', padding: '24px', borderRadius: '8px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                    <h3 style={{ fontSize: '20px', fontWeight: '600' }}>
+                    <h3 style={{ fontSize: '20px'}}>
                         {missionId === 'overseas' ? '해외 선교' : '국내 선교'}
                     </h3>
                 </div>
@@ -127,14 +127,14 @@ const AdminMissions = () => {
                 <div style={{ display: 'flex', gap: '8px', marginTop: '16px', justifyContent: 'flex-end' }}>
                     <button 
                         onClick={() => handleAddListItem(missionId)}
-                        style={{ backgroundColor: 'var(--color-btn-add)', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer', fontWeight: '500' }}
+                        style={{ backgroundColor: 'var(--color-btn-add)', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer'}}
                     >
                         + 새 항목 추가
                     </button>
                     <button 
                         onClick={() => handleSave(missionId)}
                         disabled={saving}
-                        style={{ backgroundColor: '#10B981', color: '#fff', padding: '8px 16px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontWeight: '500' }}
+                        style={{ backgroundColor: '#10B981', color: '#fff', padding: '8px 16px', borderRadius: '4px', border: 'none', cursor: 'pointer'}}
                     >
                         {saving ? '저장중...' : '변경사항 저장'}
                     </button>
@@ -145,7 +145,7 @@ const AdminMissions = () => {
 
     return (
         <div>
-            <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '24px' }}>선교전도 관리</h2>
+            <h2 style={{ fontSize: '24px',  marginBottom: '24px' }}>선교전도 관리</h2>
             
             {renderTableEditor('overseas')}
             {renderTableEditor('domestic')}
@@ -153,10 +153,10 @@ const AdminMissions = () => {
             {missions['evangelism'] && (
                 <div style={{ backgroundColor: '#fff', padding: '24px', borderRadius: '8px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                        <h3 style={{ fontSize: '18px', fontWeight: '600' }}>목요전도팀 안내</h3>
+                        <h3 style={{ fontSize: '18px'}}>목요전도팀 안내</h3>
                     </div>
                     <div style={{ marginBottom: '16px' }}>
-                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>문의처 연락처</label>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>문의처 연락처</label>
                         <input 
                             type="text" 
                             value={missions['evangelism'].contact || ''}
@@ -174,7 +174,7 @@ const AdminMissions = () => {
                         <button 
                             onClick={() => handleSave('evangelism')}
                             disabled={saving}
-                            style={{ backgroundColor: '#10B981', color: '#fff', padding: '8px 16px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontWeight: '500' }}
+                            style={{ backgroundColor: '#10B981', color: '#fff', padding: '8px 16px', borderRadius: '4px', border: 'none', cursor: 'pointer'}}
                         >
                             {saving ? '저장중...' : '변경사항 저장'}
                         </button>

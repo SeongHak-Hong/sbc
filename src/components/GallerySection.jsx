@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BlurFade } from './ui/BlurFade';
-import PretendardButton from './ui/PretendardButton';
+import SuitButton from './ui/SuitButton';
 import { InfiniteSlider } from './ui/InfiniteSlider';
 
 // Dynamically import 10 images from the history folder
@@ -63,11 +63,10 @@ const GallerySection = () => {
             <div style={titleContainerStyle}>
                 <BlurFade delay={0.25} inView>
                     <h2 style={{ 
-                        fontFamily: 'LXGWWenKaiMonoKR, sans-serif',
                         fontSize: isMobile ? '32px' : '48px',
-                        fontWeight: 400,
-                        lineHeight: '1.6',
-                        letterSpacing: '-0.1em',
+                        
+                        
+                        
                         color: '#1D1A1C',
                         margin: 0, 
                         textAlign: 'left' 
@@ -76,9 +75,9 @@ const GallerySection = () => {
                     </h2>
                 </BlurFade>
                 <BlurFade delay={0.4} inView>
-                    <PretendardButton style={{ borderColor: '#1D1A1C', color: '#1D1A1C' }}>
+                    <SuitButton style={{ borderColor: '#1D1A1C', color: '#1D1A1C' }}>
                         더 많은 우리 보기
-                    </PretendardButton>
+                    </SuitButton>
                 </BlurFade>
             </div>
 

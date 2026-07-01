@@ -50,7 +50,7 @@ const WorshipPage = () => {
             <main className={styles.mainContent}>
 
                 {/* 예배 안내 섹션 */}
-                <SubPageSection title="예배 시간" icon={visionIcon}>
+                <SubPageSection title="예배 시간" engTitle="Worship" icon={visionIcon}>
                     <div className={styles.contentWrapper}>
                         <TabMenu 
                             tabs={[
@@ -91,6 +91,7 @@ const WorshipPage = () => {
                 {/* 오시는 길 섹션 */}
                 <SubPageSection 
                     title="오시는 길" 
+                    engTitle="Visit"
                     icon={visionIcon} 
                     className={styles.lightSection} 
                     titleColor="#1D1A1C"

@@ -5,6 +5,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
+import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.webp';
 import TabMenu from '../components/TabMenu';
 import styles from './NextGenPage.module.css';
 import thumbKindergarten from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb.webp';
@@ -85,6 +86,8 @@ const NextGenPage = () => {
         <div className={styles.pageWrapper}>
             <SubPageSection 
                 title="다음세대" 
+                engTitle="NextGen"
+                icon={visionIcon}
                 subtitle={<p className={styles.headerSubtitle}>신탄진침례교회의 내일을 열어가는 주인공들입니다.</p>}
             >
                 <div className={styles.contentWrapper}>

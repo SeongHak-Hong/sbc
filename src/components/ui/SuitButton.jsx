@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import styles from './PretendardButton.module.css';
+import styles from './SuitButton.module.css';
 
-const PretendardButton = ({ 
+const SuitButton = ({ 
   children, 
   onClick, 
   style, 
@@ -61,4 +61,4 @@ const PretendardButton = ({
   );
 };
 
-export default PretendardButton;
+export default SuitButton;

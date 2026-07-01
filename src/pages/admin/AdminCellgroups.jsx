@@ -65,14 +65,14 @@ const AdminCellgroups = () => {
 
     return (
         <div>
-            <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '24px' }}>구역 안내 관리</h2>
+            <h2 style={{ fontSize: '24px',  marginBottom: '24px' }}>구역 안내 관리</h2>
             
             {Object.keys(cellgroups).map(parishKey => {
                 const parish = cellgroups[parishKey];
                 return (
                     <div key={parishKey} style={{ backgroundColor: '#fff', padding: '24px', borderRadius: '8px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                            <h3 style={{ fontSize: '18px', fontWeight: '600' }}>{parishKey}</h3>
+                            <h3 style={{ fontSize: '18px'}}>{parishKey}</h3>
                         </div>
                         
                         <div style={{ marginBottom: '16px' }}>
@@ -142,14 +142,14 @@ const AdminCellgroups = () => {
                         <div style={{ display: 'flex', gap: '8px', marginTop: '16px', justifyContent: 'flex-end' }}>
                             <button 
                                 onClick={() => handleAddZone(parishKey)}
-                                style={{ backgroundColor: 'var(--color-btn-add)', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer', fontWeight: '500' }}
+                                style={{ backgroundColor: 'var(--color-btn-add)', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer'}}
                             >
                                 + 새 구역 추가
                             </button>
                             <button 
                                 onClick={() => handleSave(parishKey)}
                                 disabled={saving}
-                                style={{ backgroundColor: '#10B981', color: '#fff', padding: '8px 16px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontWeight: '500' }}
+                                style={{ backgroundColor: '#10B981', color: '#fff', padding: '8px 16px', borderRadius: '4px', border: 'none', cursor: 'pointer'}}
                             >
                                 {saving ? '저장중...' : '변경사항 저장'}
                             </button>

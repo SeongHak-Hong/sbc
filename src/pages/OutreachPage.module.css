@@ -1,0 +1,132 @@
+.pageWrapper {
+    width: 100%;
+    min-height: 100vh;
+}
+
+.headerSubtitle {
+    color: rgba(var(--color-text-dark-rgb), 0.7);
+    font-size: 18px;
+    text-align: center;
+}
+
+.contentWrapper {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+}
+
+.missionsTabs {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.contentSection {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+@media (max-width: 768px) {
+    .contentWrapper {
+        gap: 40px;
+    }
+}
+
+/* List styles for missions */
+.missionList {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.missionItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+}
+
+.missionName {    font-size: 18px;
+    color: var(--color-text-dark);
+    margin: 0;
+    word-break: keep-all;}
+
+.missionDetails {    font-size: 18px;
+    color: rgba(var(--color-text-dark-rgb), 0.7);
+    margin: 0;
+    text-align: right;
+    word-break: keep-all;
+    flex-shrink: 0;}
+
+@media (max-width: 480px) {
+    .missionItem {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .missionDetails {
+        text-align: left;
+        font-size: 14px;
+    }
+}
+
+/* Evangelism Team Styles */
+.infoBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.blockTitle {    font-size: 20px;    color: var(--color-text-dark);
+    margin-bottom: 8px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(var(--color-text-dark-rgb), 0.2);
+}
+
+.evangelismDesc {    font-size: 18px;    color: rgba(var(--color-text-dark-rgb), 0.7);
+}
+
+.teamList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-left: 0;
+    list-style: none;
+}
+
+.teamItem {    font-size: 18px;    color: rgba(var(--color-text-dark-rgb), 0.7);
+}
+
+.teamName {    color: var(--color-text-dark);
+}
+
+.scheduleList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.scheduleItem {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 16px;    font-size: 18px;    color: rgba(var(--color-text-dark-rgb), 0.7);}
+
+.scheduleTime {
+    color: var(--color-text-dark);}
+
+@media (max-width: 600px) {
+    .scheduleItem {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+}
+
+.contactInfo {
+    margin-top: 24px;    font-size: 20px;    color: var(--color-text-dark);
+    text-align: right;
+}

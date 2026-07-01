@@ -186,13 +186,13 @@ const AdminMembersNews = () => {
         return (
             <div style={{ backgroundColor: '#fff', padding: '32px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                    <h2 style={{ fontSize: '24px', fontWeight: '700' }}>{currentPost ? '성도 소식 수정' : '새 성도 소식 작성'}</h2>
+                    <h2 style={{ fontSize: '24px'}}>{currentPost ? '성도 소식 수정' : '새 성도 소식 작성'}</h2>
                 </div>
 
                 <div style={{ display: 'grid', gap: '20px' }}>
                     <div style={{ display: 'flex', gap: '16px' }}>
                         <div style={{ flex: 1 }}>
-                            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>제목</label>
+                            <label style={{ display: 'block', marginBottom: '8px'}}>제목</label>
                             <input 
                                 type="text" 
                                 value={title} 
@@ -202,7 +202,7 @@ const AdminMembersNews = () => {
                             />
                         </div>
                         <div style={{ width: '200px' }}>
-                            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>작성자 <span style={{ fontWeight: 'normal', color: '#6B7280' }}>(부서)</span></label>
+                            <label style={{ display: 'block', marginBottom: '8px'}}>작성자 <span style={{  color: '#6B7280' }}>(부서)</span></label>
                             <input 
                                 type="text" 
                                 value={author} 
@@ -214,7 +214,7 @@ const AdminMembersNews = () => {
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>작성일자</label>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>작성일자</label>
                         <input 
                             type="date" 
                             value={date ? date.replace(/\.\s*/g, '-').replace(/-$/, '') : ''} 
@@ -227,12 +227,12 @@ const AdminMembersNews = () => {
                                 const [y, m, d] = val.split('-');
                                 setDate(`${y}. ${m}. ${d}`);
                             }}
-                            style={{ width: '200px', padding: '10px', borderRadius: '4px', border: '1px solid #ddd', fontFamily: 'inherit' }}
+                            style={{ width: '200px', padding: '10px', borderRadius: '4px', border: '1px solid #ddd'}}
                         />
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>내용</label>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>내용</label>
                         <AdminEditor 
                             key={formId}
                             initialValue={content}
@@ -241,7 +241,7 @@ const AdminMembersNews = () => {
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>이미지 첨부</label>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>이미지 첨부</label>
                         {images.length > 0 && (
                             <div style={{ marginBottom: '16px' }}>
                                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
@@ -273,14 +273,14 @@ const AdminMembersNews = () => {
                     <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
                         <button 
                             onClick={() => setViewMode('list')}
-                            style={{ padding: '12px 24px', borderRadius: '4px', border: '1px solid #D1D5DB', backgroundColor: '#fff', cursor: 'pointer', fontSize: '16px', fontWeight: '500' }}
+                            style={{ padding: '12px 24px', borderRadius: '4px', border: '1px solid #D1D5DB', backgroundColor: '#fff', cursor: 'pointer', fontSize: '16px'}}
                         >
                             취소
                         </button>
                         <button 
                             onClick={handleSave}
                             disabled={!!saveMessage}
-                            style={{ backgroundColor: '#10B981', color: '#fff', padding: '12px 24px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontSize: '16px', fontWeight: '600' }}
+                            style={{ backgroundColor: '#10B981', color: '#fff', padding: '12px 24px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontSize: '16px'}}
                         >
                             {saveMessage ? saveMessage : '저장하기'}
                         </button>
@@ -293,10 +293,10 @@ const AdminMembersNews = () => {
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                <h2 style={{ fontSize: '24px', fontWeight: '700' }}>성도 소식 관리</h2>
+                <h2 style={{ fontSize: '24px'}}>성도 소식 관리</h2>
                 <button 
                     onClick={handleCreateNew}
-                    style={{ backgroundColor: '#3B82F6', color: '#fff', padding: '10px 20px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontWeight: '500' }}
+                    style={{ backgroundColor: '#3B82F6', color: '#fff', padding: '10px 20px', borderRadius: '4px', border: 'none', cursor: 'pointer'}}
                 >
                     + 새 소식 작성
                 </button>
@@ -318,7 +318,7 @@ const AdminMembersNews = () => {
                             <tr><td colSpan="5" style={{ padding: '32px', textAlign: 'center', color: '#6B7280' }}>등록된 소식이 없습니다.</td></tr>
                         ) : posts.map(post => (
                             <tr key={post.id} style={{ borderBottom: '1px solid #E5E7EB' }}>
-                                <td style={{ padding: '16px', fontWeight: '500' }}>{post.title}</td>
+                                <td style={{ padding: '16px'}}>{post.title}</td>
                                 <td style={{ padding: '16px' }}>{post.author}</td>
                                 <td style={{ padding: '16px', color: '#6B7280', fontSize: '16px' }}>{post.date}</td>
                                 <td style={{ padding: '16px', textAlign: 'center', color: '#6B7280' }}>{post.views || 0}</td>

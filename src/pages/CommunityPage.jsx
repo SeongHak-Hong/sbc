@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
-import styles from './CellgroupPage.module.css';
+import styles from './CommunityPage.module.css';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
 import TabMenu from '../components/TabMenu';
+import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.webp';
 
-const CellgroupPage = () => {
+const CommunityPage = () => {
     const [cellgroupData, setCellgroupData] = useState(null);
     const [activeCellgroup, setActiveCellgroup] = useState('');
     const [loading, setLoading] = useState(true);
@@ -51,7 +52,7 @@ const CellgroupPage = () => {
 
     return (
         <div className={styles.pageWrapper}>
-            <SubPageSection title="구역 안내">
+            <SubPageSection title="구역 안내" engTitle="Community" icon={visionIcon}>
                 <div className={styles.contentWrapper}>
                     <TabMenu 
                         tabs={cellgroupKeys}
@@ -88,4 +89,4 @@ const CellgroupPage = () => {
     );
 };
 
-export default CellgroupPage;
+export default CommunityPage;

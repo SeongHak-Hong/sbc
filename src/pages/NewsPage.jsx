@@ -6,6 +6,7 @@ import { db } from '../firebase';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
 import TabMenu from '../components/TabMenu';
+import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.webp';
 import styles from './NewsPage.module.css';
 import BoardList from '../components/ui/BoardList';
 
@@ -76,8 +77,9 @@ const NewsPage = () => {
     return (
         <div className={styles.pageWrapper}>
             <SubPageSection 
-                title="나눔터" 
-                subtitle={<p className={styles.headerSubtitle} style={{ color: 'rgba(var(--color-text-dark-rgb), 0.7)', fontSize: '18px' }}>신탄진침례교회의 다양한 소식과 주보를 나눕니다.</p>}
+                title="교회소식 · 주보" 
+                engTitle="News"
+                icon={visionIcon}
             >
                 <div className={styles.contentWrapper}>
                     <TabMenu 

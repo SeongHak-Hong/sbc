@@ -5,9 +5,10 @@ import { db } from '../firebase';
 import SubPageSection from '../components/SubPageSection';
 import TabMenu from '../components/TabMenu';
 import Footer from '../components/Footer';
-import styles from './MissionsPage.module.css';
+import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.webp';
+import styles from './OutreachPage.module.css';
 
-const MissionsPage = () => {
+const OutreachPage = () => {
     const [missionData, setMissionData] = useState(null);
     const [activeTab, setActiveTab] = useState('');
     const [loading, setLoading] = useState(true);
@@ -53,6 +54,8 @@ const MissionsPage = () => {
         <div className={styles.pageWrapper}>
             <SubPageSection 
                 title="선교전도" 
+                engTitle="Outreach"
+                icon={visionIcon}
                 subtitle={<p className={styles.headerSubtitle}>땅끝까지 이르러 내 증인이 되리라 하신 말씀을 실천합니다.</p>}
             >
                 <div className={styles.contentWrapper}>
@@ -126,4 +129,4 @@ const MissionsPage = () => {
     );
 };
 
-export default MissionsPage;
+export default OutreachPage;

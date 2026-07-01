@@ -1,9 +1,7 @@
 .pageWrapper {
     width: 100%;
     min-height: 100vh;
-    color: var(--color-text-dark);
-    font-family: 'Pretendard', sans-serif;
-    position: relative;
+    color: var(--color-text-dark);    position: relative;
     overflow-x: hidden;
 }
 
@@ -24,12 +22,7 @@
     margin-bottom: 40px;
 }
 
-.postTitle {
-    font-family: 'Pretendard', sans-serif;
-    font-size: 24px;
-    font-weight: 500;
-    line-height: 1.8;
-    margin: 0 0 16px 0;
+.postTitle {    font-size: 24px;    margin: 0 0 16px 0;
     color: var(--color-text-dark);
     word-break: keep-all;
 }
@@ -45,18 +38,14 @@
     align-items: center;
     gap: 12px;
     font-size: 16px;
-    color: rgba(var(--color-text-dark-rgb), 0.6);
-    font-weight: 300;
-}
+    color: rgba(var(--color-text-dark-rgb), 0.6);}
 
 .metaDivider {
     color: rgba(var(--color-text-dark-rgb), 0.2);
 }
 
 .postBody {
-    font-size: 18px;
-    line-height: 1.8;
-    color: rgba(var(--color-text-dark-rgb), 0.9);
+    font-size: 18px;    color: rgba(var(--color-text-dark-rgb), 0.9);
     min-height: 400px;
     word-break: break-all;
 }
@@ -136,9 +125,7 @@
 }
 
 .navButton span {
-    font-size: 36px;
-    font-weight: 200;
-}
+    font-size: 36px;}
 
 .bulletinPageWrapper {
     width: 100%;

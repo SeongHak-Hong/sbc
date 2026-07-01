@@ -78,20 +78,11 @@
     gap: 12px;
 }
 
-.stepNum {
-    font-family: monospace;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    color: rgba(var(--color-text-dark-rgb), 0.6);
+.stepNum {    font-size: 13px;    color: rgba(var(--color-text-dark-rgb), 0.6);
 }
 
 .stepTitle {
-    font-size: 16px;
-    font-weight: 500;
-    font-family: var(--font-title);
-    letter-spacing: -0.02em;
-}
+    font-size: 16px;}
 
 .statusDot {
     width: 8px;
@@ -159,11 +150,7 @@
     border-radius: 0;
     color: var(--color-text-dark);
     text-decoration: none;
-    font-size: 15px;
-    font-weight: 500;
-    font-family: var(--font-body);
-    letter-spacing: -0.01em;
-    transition: background 0.2s ease;
+    font-size: 15px;    transition: background 0.2s ease;
 }
 
 .menuItem:hover {
@@ -192,11 +179,7 @@
 }
 
 .imageButtonTitle {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--white);
-    letter-spacing: -0.01em;
-}
+    font-size: 15px;    color: var(--white);}
 
 .imageButtonIcon {
     font-size: 18px !important;

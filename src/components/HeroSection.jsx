@@ -35,16 +35,22 @@ const HeroSection = () => {
     };
 
     // Typography Setup
-    const sloganStyle = {
-        position: 'relative',
-        fontFamily: 'LXGWWenKaiMonoKR, sans-serif',
-        fontWeight: 400, // regular
-        fontSize: isMobile ? '32px' : 'var(--pc-text-h1)', // 32px on mobile, 64px on PC
-        color: 'var(--color-white)',
-        lineHeight: '1.6', // 160%
-        letterSpacing: '-0.1em', // -10%
-        marginBottom: '0',
-        zIndex: 10
+    const englishTitleStyle = {
+        fontFamily: '"Playfair Display", serif',
+        fontSize: isMobile ? '72px' : '160px',
+        color: '#F4EEE2',
+        margin: 0,
+        letterSpacing: '-0.02em',
+        lineHeight: 1.2
+    };
+
+    const koreanSubStyle = {
+        paddingLeft: '16px',
+        fontSize: isMobile ? '20px' : 'var(--text-h4)',
+        color: '#F4EEE2',
+        opacity: 0.75,
+        margin: 0,
+        marginTop: '8px'
     };
 
     const raysContainerStyle = {
@@ -109,11 +115,21 @@ const HeroSection = () => {
             </div>
 
             {/* Text Content Wrapper with Parallax */}
-            <motion.div style={{ position: 'relative', zIndex: 20, y: textY }}>
+            <motion.div style={{ position: 'relative', zIndex: 20, y: textY, width: '100%' }}>
                 <BlurFade delay={0.25} inView>
-                    <h1 style={sloganStyle}>
-                        말씀 위에 든든히<br />세워지는 교회
-                    </h1>
+                    <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', flexWrap: isMobile ? 'wrap' : 'nowrap' }}>
+                            <h1 style={englishTitleStyle}>
+                                The Living
+                            </h1>
+                            <h1 style={{ ...englishTitleStyle, textAlign: 'right', marginTop: isMobile ? '12px' : '0' }}>
+                                Word
+                            </h1>
+                        </div>
+                        <p style={koreanSubStyle}>
+                            말씀 위에 든든히 세워진 교회
+                        </p>
+                    </div>
                 </BlurFade>
             </motion.div>
         </section>

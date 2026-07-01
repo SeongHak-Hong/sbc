@@ -3,9 +3,7 @@
 .pageWrapper {
     width: 100%;
     min-height: 100vh;
-    color: var(--color-text-dark);
-    font-family: 'Pretendard', sans-serif;
-    position: relative;
+    color: var(--color-text-dark);    position: relative;
     overflow-x: hidden;
 }
 
@@ -44,27 +42,16 @@
     background-color: rgba(var(--color-text-dark-rgb), 0.03);
 }
 
-.itemTitle {
-    font-family: 'Pretendard', sans-serif;
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--color-text-dark);
-    line-height: 1.8;
-    margin: 0;
+.itemTitle {    font-size: 18px;    color: var(--color-text-dark);    margin: 0;
     word-break: keep-all;
 }
 
-.itemDate {
-    font-family: 'Pretendard', sans-serif;
-    font-size: 16px;
+.itemDate {    font-size: 16px;
     color: rgba(var(--color-text-dark-rgb), 0.7);
     margin: 0;
     text-align: right;
     word-break: keep-all;
-    flex-shrink: 0;
-    font-weight: 300;
-    line-height: 1.8;
-}
+    flex-shrink: 0;}
 
 @media (max-width: 600px) {
     .boardItem {
@@ -112,9 +99,7 @@
 }
 
 .pageButton {
-    font-size: 16px;
-    font-family: inherit;
-}
+    font-size: 16px;}
 
 .pageArrow {
     font-size: 28px !important;
@@ -126,7 +111,5 @@
 }
 
 .pageButton.active {
-    background-color: rgba(var(--color-text-dark-rgb), 0.05);
-    font-weight: 500;
-    cursor: default;
+    background-color: rgba(var(--color-text-dark-rgb), 0.05);    cursor: default;
 }

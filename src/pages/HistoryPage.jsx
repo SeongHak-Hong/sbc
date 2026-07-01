@@ -1,6 +1,6 @@
 import React, { useRef, useState, useLayoutEffect, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import PretendardButton from '../components/ui/PretendardButton';
+import SuitButton from '../components/ui/SuitButton';
 
 import styles from './HistoryPage.module.css';
 
@@ -101,11 +101,11 @@ const HistoryPage = () => {
                                 신탄진교회의 다정한 '오늘'을<br />
                                 인스타그램에서 만나보세요.
                             </p>
-                            <PretendardButton 
+                            <SuitButton 
                                 style={{ color: 'var(--color-text-dark)' }}
                             >
                                 인스타그램 놀러 가기
-                            </PretendardButton>
+                            </SuitButton>
                         </motion.article>
                     </motion.div>
                 </main>

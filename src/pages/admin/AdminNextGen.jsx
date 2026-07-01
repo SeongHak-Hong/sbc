@@ -146,7 +146,7 @@ const AdminNextGen = () => {
 
     return (
         <div>
-            <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '24px' }}>다음세대 관리</h2>
+            <h2 style={{ fontSize: '24px',  marginBottom: '24px' }}>다음세대 관리</h2>
             
             {Object.keys(departments).length > 0 && (
                 <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', overflowX: 'auto', paddingBottom: '8px' }}>
@@ -164,7 +164,7 @@ const AdminNextGen = () => {
                                 border: 'none',
                                 borderRadius: '4px',
                                 cursor: 'pointer',
-                                fontWeight: activeTab === deptId ? '600' : '500',
+                                
                                 fontSize: '15px'
                             }}
                         >
@@ -180,7 +180,7 @@ const AdminNextGen = () => {
                 return (
                     <div key={deptId} style={{ backgroundColor: '#fff', padding: '24px', borderRadius: '8px', marginBottom: '32px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', borderBottom: '1px solid #E5E7EB', paddingBottom: '16px' }}>
-                            <h3 style={{ fontSize: '20px', fontWeight: '600', color: 'var(--color-text-body)' }}>{dept.name}</h3>
+                            <h3 style={{ fontSize: '20px',  color: 'var(--color-text-body)' }}>{dept.name}</h3>
                         </div>
                         
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
@@ -204,7 +204,7 @@ const AdminNextGen = () => {
 
                         {/* 교사 명단 */}
                         <div style={{ marginBottom: '24px' }}>
-                            <h4 style={{ fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>{dept.teamTitle || '교사팀'} 명단 (쉼표 분리 불가, 한 명씩 추가)</h4>
+                            <h4 style={{ fontSize: '16px',  marginBottom: '12px' }}>{dept.teamTitle || '교사팀'} 명단 (쉼표 분리 불가, 한 명씩 추가)</h4>
                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                                 {dept.teachers?.map((teacher, index) => (
                                     <div key={index} style={{ display: 'flex', alignItems: 'center', backgroundColor: '#F3F4F6', padding: '4px 12px', borderRadius: '4px' }}>
@@ -221,7 +221,7 @@ const AdminNextGen = () => {
 
                         {/* 주요 행사 */}
                         <div>
-                            <h4 style={{ fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>주요 행사</h4>
+                            <h4 style={{ fontSize: '16px',  marginBottom: '12px' }}>주요 행사</h4>
                             {dept.events?.map((ev, index) => (
                                 <div key={index} style={{ border: '1px solid #E5E7EB', padding: '16px', borderRadius: '8px', marginBottom: '16px', position: 'relative' }}>
                                     <button onClick={() => handleDeleteArrayItem(deptId, 'events', index)} style={{ position: 'absolute', top: '16px', right: '16px', backgroundColor: '#EF4444', color: '#fff', border: 'none', padding: '4px 12px', borderRadius: '4px', cursor: 'pointer' }}>행사 삭제</button>
@@ -272,7 +272,7 @@ const AdminNextGen = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>행사 이미지 업로드 {uploading && <span style={{ fontWeight: 'normal', color: '#6B7280' }}>(업로드 중...)</span>}</label>
+                                        <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>행사 이미지 업로드 {uploading && <span style={{  color: '#6B7280' }}>(업로드 중...)</span>}</label>
                                         <input 
                                             type="file" 
                                             accept="image/*" 
@@ -325,14 +325,14 @@ const AdminNextGen = () => {
                         <div style={{ display: 'flex', gap: '8px', marginTop: '16px', justifyContent: 'flex-end' }}>
                             <button 
                                 onClick={() => handleAddArrayItem(deptId, 'events', { title: '새 행사', startDate: '', endDate: '', time: '', location: '', status: '예정', img: '', imageUrls: [], desc: '' })}
-                                style={{ backgroundColor: 'var(--color-btn-add)', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer', fontWeight: '500' }}
+                                style={{ backgroundColor: 'var(--color-btn-add)', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer'}}
                             >
                                 + 새 행사 추가
                             </button>
                             <button 
                                 onClick={() => handleSave(deptId)}
                                 disabled={saving}
-                                style={{ backgroundColor: '#10B981', color: '#fff', padding: '8px 16px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontWeight: '500' }}
+                                style={{ backgroundColor: '#10B981', color: '#fff', padding: '8px 16px', borderRadius: '4px', border: 'none', cursor: 'pointer'}}
                             >
                                 {saving ? '저장중...' : '변경사항 저장'}
                             </button>

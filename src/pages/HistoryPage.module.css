@@ -73,10 +73,7 @@
 
 .ctaCard p {
     color: var(--color-text-dark);
-    font-size: var(--text-body-card);
-    font-family: var(--font-body);
-    line-height: 1.8;
-    word-break: keep-all;
+    font-size: var(--text-body-card);    word-break: keep-all;
     margin-bottom: 0;
 }
 
@@ -94,11 +91,7 @@
     pointer-events: none;
 }
 
-.year {
-    font-family: var(--font-title);
-    font-weight: 400;
-    line-height: 1.6;
-    font-size: 4rem;
+.year {    font-size: 4rem;
     color: var(--color-text-dark);
     transition: all 0.3s ease;
 }
@@ -117,10 +110,7 @@
     transform: translateX(-50%);
     font-size: 18px;
     text-transform: uppercase;
-    color: var(--color-text-dark);
-    font-family: 'Pretendard', sans-serif;
-    line-height: 1.8;
-}
+    color: var(--color-text-dark);}
 
 .pageHeader {
     position: absolute;
@@ -132,11 +122,7 @@
     text-align: center;
 }
 
-.headerTitle {
-    font-family: var(--font-title);
-    font-weight: 400;
-    line-height: 1.6;
-    font-size: var(--text-h3);
+.headerTitle {    font-size: var(--text-h3);
     color: var(--color-text-dark);
     margin-bottom: 0;
     position: relative;

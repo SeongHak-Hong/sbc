@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import iPhoneFrameImg from '../assets/main/iPhone-14-Pro.webp';
 import playBtnImg from '../assets/main/Youtube-shorts-icon.webp';
-import PretendardButton from './ui/PretendardButton';
+import SuitButton from './ui/SuitButton';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -82,11 +82,10 @@ const YoutubeSection = () => {
     };
 
     const sideTextStyle = {
-        fontFamily: 'LXGWWenKaiMonoKR, sans-serif',
         fontSize: isMobile ? '32px' : '48px', // Scaled for mobile
-        fontWeight: 400, // regular
-        lineHeight: '1.6', // 160%
-        letterSpacing: '-0.1em', // -10%
+         // regular
+         // 160%
+         // -10%
         color: 'var(--color-text-dark)',
         margin: 0,
         whiteSpace: 'nowrap',
@@ -230,11 +229,10 @@ const YoutubeSection = () => {
             }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: 'var(--max-width)', pointerEvents: 'auto' }}>
                     <h2 style={{
-                        fontFamily: 'LXGWWenKaiMonoKR, sans-serif',
                         fontSize: isMobile ? '32px' : '48px',
-                        fontWeight: 400, // regular
-                        lineHeight: '1.6', // 160%
-                        letterSpacing: '-0.1em', // -10%
+                         // regular
+                         // 160%
+                         // -10%
                         marginBottom: '64px',
                         color: 'var(--color-text-dark)',
                         textAlign: 'center',
@@ -242,12 +240,12 @@ const YoutubeSection = () => {
                     }}>
                         그 말씀이<br />당신의 삶을 변화시킵니다.
                     </h2>
-                    <PretendardButton 
+                    <SuitButton 
                         onClick={() => window.open('https://www.youtube.com/@sbc6312', '_blank')}
                         style={{ borderColor: 'var(--color-text-dark)', color: 'var(--color-text-dark)' }}
                     >
                         유튜브 채널 가기
-                    </PretendardButton>
+                    </SuitButton>
                 </div>
             </div>
         </section>

@@ -1,22 +1,29 @@
-
-
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+@font-face {
+  font-family: 'SUIT';
+  src: url('/fonts/SUIT-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
 
 @font-face {
-  font-family: 'LXGWWenKaiMonoKR';
-  src: url('/fonts/LXGWWenKaiMonoKR-Medium.ttf') format('truetype');
+  font-family: 'SUIT';
+  src: url('/fonts/SUIT-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SUIT';
+  src: url('/fonts/SUIT-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'LXGWWenKaiMonoKR';
-  src: url('/fonts/LXGWWenKaiMonoKR-Light.ttf') format('truetype');
-  font-weight: 300;
+  font-family: 'Playfair Display';
+  src: url('/fonts/PlayfairDisplay-Regular.ttf') format('truetype');
   font-style: normal;
 }
-
-
 
 :root {
   --max-width: 1500px;
@@ -24,38 +31,39 @@
   --grid-margin: 48px;
   --grid-gutter: 24px;
 
-  --font-title: 'LXGWWenKaiMonoKR', sans-serif;
-  --font-body: 'Pretendard', sans-serif;
-  --font-letter: 'Pretendard', sans-serif;
-  --font-btn: 'Pretendard', sans-serif;
+  --font-title: 'SUIT', sans-serif;
+  --font-body: 'SUIT', sans-serif;
+  --font-letter: 'SUIT', sans-serif;
+  --font-btn: 'SUIT', sans-serif;
 
-  /* ?됱긽 吏€??(?꾧퀎痢?怨듯넻) */
-  /* 吏숈? ?띿뒪??(?쒕ぉ) - ?뱀뀡蹂꾨줈 ?ъ젙???덉젙?대?濡?湲곕낯媛믩쭔 ?〓땲??*/
   --color-text-body: #404040;
-  /* 부드러운 본문 색상 */
   --color-text-secondary: rgba(255, 255, 255, 0.8);
 
-  /* 湲€瑗?[PC/湲곕낯 ?ъ씠利?(768px ?댁긽 ?섍꼍)] */
-  --pc-text-h1: 64px;
+  --pc-text-h1: 72px;
   --pc-text-h2: 64px;
   --pc-text-h3: 48px;
   --pc-text-h4: 32px;
   --pc-text-body: 28px;
   --pc-text-body-card: 24px;
+  --pc-text-sub-title: 24px;
 
-  /* ?됯컙 (Line-height) */
-  --leading-title: 1.6; /* 湲곕낯 160% (?뱀젙 ?뱀뀡? 130%) */
-  --leading-body: 1.8; /* 湲곕낯 180% */
+  /* Font Weight Tokens */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
 
-  /* 湲瑗?[紐⑤컮??蹂??珥덇린??(湲곕낯媛믪쓣 PC ?ъ씠利덈줈 ?ㅼ젙)] */
+  /* Line-height Tokens */
+  --line-height-base: 1.8;
+  --line-height-heading: 1.4;
+
   --text-h1: var(--pc-text-h1);
   --text-h2: var(--pc-text-h2);
   --text-h3: var(--pc-text-h3);
   --text-h4: var(--pc-text-h4);
   --text-body: var(--pc-text-body);
   --text-body-card: var(--pc-text-body-card);
-
-  --letter-spacing-base: -0.02em;
+  --text-sub-title: var(--pc-text-sub-title);
 
   --color-background-dark: #141C24;
   --color-white: #fafafa;
@@ -76,74 +84,44 @@
   --btn-bg: #1A202C;
   --color-btn-add: #3B82F6;
 
-  /* 
-   * [?붿옄???쒖뒪??洹쒖튃 紐낆떆]
-   * 1. LXGWWenKaiMonoKR泥대뒗 紐⑤몢 line-height: 1.6, font-weight: 400 (regular) ?곸슜.
-   * 2. 踰꾪듉 ?붿옄?몄뿉 洹몃┝??box-shadow) ?ъ슜 ?덈? 湲덉?
-   */
-
-  /* Header Layout */
   --header-padding-y: 20px;
   --header-padding-x: var(--grid-margin);
   --header-logo-height: 28px;
   --subpage-header-padding-top: 160px;
 }
 
-/* 湲瑗?[紐⑤컮??誘몃뵒??荑쇰━] (768px 誘몃쭔 ?섍꼍?먯꽌留??묐룞) */
 @media (max-width: 767px) {
   :root {
     --grid-margin: 24px;
     --text-h1: 48px;
-    /* ??쒕ぉ (紐⑤컮??留덉쭊?? */
     --text-h2: 36px;
-    /* ?뱀뀡 ?쒕ぉ */
     --text-h3: 28px;
-    /* ?뚯젣紐?*/
     --text-h4: 24px;
-    /* ?섏쐞 ?뚯젣紐?*/
     --text-body: 20px;
-    /* 蹂몃Ц (紐⑤컮??理쒖냼 媛?낆꽦) */
     --text-body-card: 18px;
+    --text-sub-title: 18px;
     --citation-size: var(--text-h2);
     --btn-font-size: 16px;
     --btn-padding-y: 6px;
     --btn-padding-x: 24px;
     --btn-icon-size: 16px;
 
-    /* Header Layout */
     --header-padding-y: 16px;
     --header-padding-x: 24px;
     --header-logo-height: 24px;
   }
 
-  h1 {
-    font-size: var(--text-h1);
+  h1, h2, h3, h4 {
     font-family: var(--font-title);
-    line-height: var(--leading-title);
   }
-
-  h2 {
-    font-size: var(--text-h2);
-    font-family: var(--font-title);
-    line-height: var(--leading-title);
-  }
-
-  h3 {
-    font-size: var(--text-h3);
-    font-family: var(--font-title);
-    line-height: var(--leading-title);
-  }
-
-  h4 {
-    font-size: var(--text-h4);
-    font-family: var(--font-title);
-    line-height: var(--leading-title);
-  }
-
+  h1 { font-size: var(--text-h1); }
+  h2 { font-size: var(--text-h2); }
+  h3 { font-size: var(--text-h3); }
+  h4 { font-size: var(--text-h4); }
+  
   p {
     font-size: var(--text-body);
     font-family: var(--font-body);
-    line-height: var(--leading-body);
   }
 
   .flex-mobile-column {
@@ -187,13 +165,14 @@ body {
 
 body {
   font-family: var(--font-body);
-  letter-spacing: var(--letter-spacing-base);
+  letter-spacing: -0.05em;
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   background-color: var(--color-white);
   color: var(--color-text-body);
-  line-height: var(--leading-body);
   padding-bottom: 0;
   min-height: 100vh;
 }
@@ -203,34 +182,19 @@ h2,
 h3,
 h4 {
   font-family: var(--font-title);
-  line-height: var(--leading-title);
-  letter-spacing: -0.1em; /* LXGWWenKaiMonoKR letter-spacing -10% */
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-heading);
   margin-bottom: 0.5em;
-  font-weight: 400;
 }
 
-h1 {
-  font-size: var(--text-h1);
-}
-
-h2 {
-  font-size: var(--text-h2);
-}
-
-h3 {
-  font-size: var(--text-h3);
-}
-
-h4 {
-  font-size: var(--text-h4);
-}
+h1 { font-size: var(--text-h1); }
+h2 { font-size: var(--text-h2); }
+h3 { font-size: var(--text-h3); }
+h4 { font-size: var(--text-h4); }
 
 p {
   font-family: var(--font-body);
   color: var(--color-text-body);
-  line-height: var(--leading-body);
-  letter-spacing: -0.02em; /* Pretendard letter-spacing -2% */
-  font-weight: 400; /* Regular */
   font-size: var(--text-body);
   margin-bottom: 1em;
 }
@@ -244,13 +208,10 @@ p {
   column-gap: var(--grid-gutter);
 }
 
-
 button {
-  font-family: 'Pretendard', sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-size: var(--btn-font-size, 18px);
-  font-weight: 300;
-  letter-spacing: -0.02em;
-  line-height: 1.8;
+  line-height: var(--line-height-base);
   padding: var(--btn-padding-y, 8px) var(--btn-padding-x, 28px);
   border-radius: 0;
   background-color: transparent;
@@ -264,7 +225,6 @@ button {
   color: var(--color-text-dark);
 }
 
-/* Common icon style for buttons if using span or img */
 button img,
 button span.icon {
   height: var(--btn-icon-size);

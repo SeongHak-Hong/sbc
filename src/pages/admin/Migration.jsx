@@ -13,7 +13,7 @@ export default function Migration() {
       return (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', color: '#6B7280' }}>
               <span className="material-symbols-outlined" style={{ fontSize: '48px', color: '#EF4444', marginBottom: '16px' }}>lock</span>
-              <h2 style={{ fontSize: '24px', fontWeight: '600', color: '#1F2937', marginBottom: '8px' }}>접근 권한이 없습니다</h2>
+              <h2 style={{ fontSize: '24px',  color: '#1F2937', marginBottom: '8px' }}>접근 권한이 없습니다</h2>
               <p>이 페이지는 시스템 최고 관리자만 접근할 수 있습니다.</p>
           </div>
       );
@@ -78,10 +78,10 @@ export default function Migration() {
       >
           <span className="material-symbols-outlined" style={{ fontSize: '48px', color: '#FEE2E2' }}>admin_panel_settings</span>
           <div>
-              <h1 style={{ fontSize: '32px', fontWeight: '700', margin: '0 0 12px 0', letterSpacing: '-0.5px' }}>
+              <h1 style={{ fontSize: '32px',  margin: '0 0 12px 0'}}>
                   성도 사업체 데이터 마이그레이션
               </h1>
-              <p style={{ fontSize: '16px', color: '#FEE2E2', opacity: 0.9, lineHeight: '1.6', margin: 0 }}>
+              <p style={{ fontSize: '16px', color: '#FEE2E2', opacity: 0.9,  margin: 0 }}>
                   과거 홈페이지의 성도 사업체 데이터를 현재 Firestore 데이터베이스로 안전하게 이관하는 도구입니다.
               </p>
           </div>
@@ -94,11 +94,11 @@ export default function Migration() {
           style={{ backgroundColor: '#fff', padding: '32px', borderRadius: '16px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', border: '1px solid #F3F4F6' }}
       >
         <div style={{ backgroundColor: '#FFFBEB', border: '1px solid #FEF3C7', padding: '20px', borderRadius: '12px', marginBottom: '24px' }}>
-            <h3 style={{ fontSize: '16px', fontWeight: '600', color: '#92400E', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <h3 style={{ fontSize: '16px',  color: '#92400E', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>info</span>
                 이관 대기 중인 데이터 안내
             </h3>
-            <p style={{ color: '#B45309', margin: 0, lineHeight: '1.6' }}>
+            <p style={{ color: '#B45309', margin: 0}}>
                 총 <strong>{migrationData.length}</strong>개의 사업체 게시물이 이관 대기 중입니다.<br/>
                 과거 홈페이지 서버의 이미지 접근 불가(404 에러)로 인해 텍스트 정보만 이관되며, 이미지는 나중에 별도로 수정하셔야 합니다.
             </p>
@@ -111,7 +111,7 @@ export default function Migration() {
             style={{
                 backgroundColor: loading ? '#9CA3AF' : '#DC2626',
                 color: '#fff', padding: '14px 28px', borderRadius: '8px', border: 'none', 
-                cursor: loading ? 'not-allowed' : 'pointer', fontWeight: '600', fontSize: '16px',
+                cursor: loading ? 'not-allowed' : 'pointer',  fontSize: '16px',
                 display: 'flex', alignItems: 'center', gap: '8px',
                 transition: 'all 0.2s ease',
                 boxShadow: loading ? 'none' : '0 4px 6px -1px rgba(220, 38, 38, 0.2)'
@@ -139,19 +139,19 @@ export default function Migration() {
                   style={{ height: '100%', backgroundColor: '#DC2626', width: `${progress}%`, transition: 'width 0.3s ease' }}
                 />
               </div>
-              <p style={{ fontSize: '14px', color: '#6B7280', margin: '8px 0 0 0', fontWeight: '500' }}>
+              <p style={{ fontSize: '14px', color: '#6B7280', margin: '8px 0 0 0'}}>
                   진행률: {progress}% 완료
               </p>
             </div>
           )}
         </div>
 
-        <div style={{ backgroundColor: '#111827', padding: '24px', borderRadius: '12px', height: '320px', overflowY: 'auto', fontFamily: 'monospace', fontSize: '14px' }}>
+        <div style={{ backgroundColor: '#111827', padding: '24px', borderRadius: '12px', height: '320px', overflowY: 'auto',  fontSize: '14px' }}>
           {logs.length === 0 ? (
             <p style={{ color: '#4B5563', margin: 0 }}>대기 중... 실행하면 여기에 진행 로그가 표시됩니다.</p>
           ) : (
             logs.map((log, i) => (
-              <div key={i} style={{ marginBottom: '6px', color: log.includes('오류') ? '#F87171' : '#34D399', lineHeight: '1.5' }}>
+              <div key={i} style={{ marginBottom: '6px', color: log.includes('오류') ? '#F87171' : '#34D399'}}>
                 {log}
               </div>
             ))

@@ -31,7 +31,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://shintanjin.or.kr/nurture</loc>
+    <loc>https://shintanjin.or.kr/welcome</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -41,27 +41,27 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://shintanjin.or.kr/cellgroup</loc>
+    <loc>https://shintanjin.or.kr/community</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://shintanjin.or.kr/schedule</loc>
+    <loc>https://shintanjin.or.kr/events</loc>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://shintanjin.or.kr/missions</loc>
+    <loc>https://shintanjin.or.kr/outreach</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://shintanjin.or.kr/members-news</loc>
+    <loc>https://shintanjin.or.kr/koinonia</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://shintanjin.or.kr/member-business</loc>
+    <loc>https://shintanjin.or.kr/network</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>

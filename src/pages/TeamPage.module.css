@@ -53,7 +53,7 @@
     }
 }
 
-.baseImage, .hoverImage {
+.baseImage {
     position: absolute;
     top: 0;
     left: 0;
@@ -62,33 +62,6 @@
     object-fit: cover;
     object-position: center top;
     display: block;
-    transition: opacity 0.5s ease-in-out;
-}
-
-.baseImage {
-    z-index: 1;
-}
-
-.hoverImage {
-    opacity: 0;
-    z-index: 2;
-}
-
-/* Hovering over the card makes the hover image fade in (only on devices that support hover) */
-@media (hover: hover) {
-    .memberCard:hover .hoverImage {
-        opacity: 1;
-    }
-}
-
-/* For mobile tap */
-.memberCard.tapped .hoverImage {
-    opacity: 1;
-}
-
-/* Initial reveal state applied by React */
-.hoverImage.initialReveal {
-    opacity: 1;
 }
 
 .infoWrapper {
@@ -97,21 +70,13 @@
     width: 100%;
 }
 
-.memberName {
-    font-family: 'Pretendard', sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--color-text-dark);
+.memberName {    font-size: 16px;    color: var(--color-text-dark);
     margin-bottom: 4px;
     transition: color 0.2s ease;
 }
 
 .memberDesc {
-    font-size: 14px;
-    font-weight: 300;
-    color: rgba(var(--color-text-dark-rgb), 0.7);
-    line-height: 1.6;
-    margin-bottom: 0;
+    font-size: 14px;    color: rgba(var(--color-text-dark-rgb), 0.7);    margin-bottom: 0;
 }
 
 @media (min-width: 768px) {
@@ -121,9 +86,7 @@
     }
     
     .memberDesc {
-        font-size: 16px;
-        line-height: 1.8;
-    }
+        font-size: 16px;    }
 }
 
 .categorySection {
@@ -134,10 +97,6 @@
     margin-bottom: 0;
 }
 
-.categoryTitle {
-    font-family: 'Pretendard', sans-serif;
-    font-size: 28px;
-    font-weight: 500;
-    color: var(--color-text-dark);
+.categoryTitle {    font-size: 28px;    color: var(--color-text-dark);
     margin-bottom: 40px;
 }

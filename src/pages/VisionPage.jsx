@@ -22,7 +22,7 @@ const VisionPage = () => {
 
 
             <main className={styles.mainContent}>
-                <SubPageSection title="인사말 · 비전" icon={visionIcon}>
+                <SubPageSection title="인사말 · 비전" engTitle="Vision" icon={visionIcon}>
                     <div className={styles.greetingWrapper}>
                         <div className={styles.paperLayout}>
                             <div className={styles.flutterEngine}>

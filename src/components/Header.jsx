@@ -3,7 +3,7 @@ import logoSbc from '../assets/shintanjin-baptist-church-logo.svg';
 import '../index.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import PretendardButton from './ui/PretendardButton';
+import SuitButton from './ui/SuitButton';
 import styles from './MenuDropdown.module.css';
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -139,8 +139,8 @@ const Header = () => {
         {
             id: "step-3", title: "공동체", icon: "local_library", iconColor: styles.iconBlue,
             links: [
-                { text: "새가족", path: "/nurture" },
-                { text: "구역 안내", path: "/cellgroup" }
+                { text: "새가족", path: "/welcome" },
+                { text: "구역 안내", path: "/community" }
             ]
         },
         {
@@ -149,15 +149,15 @@ const Header = () => {
         },
         {
             id: "step-5", title: "선교전도", icon: "public", iconColor: styles.iconBlue,
-            singlePagePath: "/missions"
+            singlePagePath: "/outreach"
         },
         {
             id: "step-6", title: "나눔터", icon: "forum", iconColor: styles.iconBlue,
             links: [
-                { text: "교회소식 · 주보", path: "/news?tab=church" },
-                { text: "교회 일정", path: "/schedule" },
-                { text: "성도 소식", path: "/members-news" },
-                { text: "성도 사업체", path: "/member-business" }
+                { text: "교회소식 · 주보", path: "/news?tab=news" },
+                { text: "교회 일정", path: "/events" },
+                { text: "성도 소식", path: "/koinonia" },
+                { text: "성도 사업체", path: "/network" }
             ]
         }
     ];

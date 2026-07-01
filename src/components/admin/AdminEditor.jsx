@@ -97,17 +97,13 @@ const AdminEditor = ({ initialValue, onChange, height = '800px' }) => {
             <style>
                 {`
                 .toastui-editor-contents, .ProseMirror {
-                    font-family: var(--font-body) !important;
                     color: var(--color-text-body) !important;
                     font-size: 16px !important;
-                    letter-spacing: -0.02em !important;
                 }
                 .toastui-editor-contents p, .ProseMirror p,
                 .toastui-editor-contents span, .ProseMirror span,
                 .toastui-editor-contents li, .ProseMirror li {
                     font-size: 16px !important;
-                    font-family: inherit !important;
-                    line-height: var(--leading-body) !important;
                 }
                 .toastui-editor-contents h1, .ProseMirror h1,
                 .toastui-editor-contents h2, .ProseMirror h2,
@@ -115,14 +111,10 @@ const AdminEditor = ({ initialValue, onChange, height = '800px' }) => {
                 .toastui-editor-contents h4, .ProseMirror h4,
                 .toastui-editor-contents h5, .ProseMirror h5,
                 .toastui-editor-contents h6, .ProseMirror h6 {
-                    font-family: var(--font-body) !important;
                     border-bottom: none !important;
                     color: var(--color-text-dark) !important;
-                    font-weight: 600 !important;
-                    letter-spacing: -0.02em !important;
                     margin-top: 1.2em !important;
                     margin-bottom: 0.5em !important;
-                    line-height: 1.4 !important;
                     word-break: keep-all !important;
                 }
                 .toastui-editor-contents h1, .ProseMirror h1 { font-size: 36px !important; }

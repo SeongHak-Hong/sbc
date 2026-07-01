@@ -2,18 +2,18 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import MainPage from './pages/MainPage';
-import NurturePage from './pages/NurturePage';
+import WelcomePage from './pages/WelcomePage';
 import HistoryPage from './pages/HistoryPage';
 import VisionPage from './pages/VisionPage';
 import WorshipPage from './pages/WorshipPage';
 import TeamPage from './pages/TeamPage';
 import NextGenPage from './pages/NextGenPage';
-import CellgroupPage from './pages/CellgroupPage';
-import SchedulePage from './pages/SchedulePage';
-import MissionsPage from './pages/MissionsPage';
+import CommunityPage from './pages/CommunityPage';
+import OutreachPage from './pages/OutreachPage';
+import EventsPage from './pages/EventsPage';
 import NewsPage from './pages/NewsPage';
-import MembersNewsPage from './pages/MembersNewsPage';
-import MemberBusinessPage from './pages/MemberBusinessPage';
+import KoinoniaPage from './pages/KoinoniaPage';
+import NetworkPage from './pages/NetworkPage';
 import PostDetailPage from './pages/PostDetailPage';
 import ScrollToTop from './components/ScrollToTop';
 
@@ -34,6 +34,35 @@ import Migration from './pages/admin/Migration';
 import Lenis from 'lenis';
 import './App.css';
 
+class GlobalErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null, errorInfo: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  componentDidCatch(error, errorInfo) {
+    this.setState({ errorInfo });
+    console.error('GlobalErrorBoundary caught:', error, errorInfo);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ padding: '40px', backgroundColor: '#fee', color: 'red', minHeight: '100vh', zIndex: 9999, position: 'relative' }}>
+          <h2>CRITICAL REACT ERROR</h2>
+          <details style={{ whiteSpace: 'pre-wrap', marginTop: '20px', fontSize: '14px' }}>
+            {this.state.error && this.state.error.toString()}
+            <br /><br />
+            {this.state.errorInfo && this.state.errorInfo.componentStack}
+          </details>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 function AppRoutes() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/manager-lounge');
@@ -43,18 +72,18 @@ function AppRoutes() {
       {!isAdminRoute && <Header />}
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<MainPage />} />
-        <Route path="/nurture" element={<NurturePage />} />
+        <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/history" element={<HistoryPage />} />
         <Route path="/vision" element={<VisionPage />} />
         <Route path="/worship" element={<WorshipPage />} />
         <Route path="/team" element={<TeamPage />} />
         <Route path="/nextgen" element={<NextGenPage />} />
-        <Route path="/cellgroup" element={<CellgroupPage />} />
-        <Route path="/schedule" element={<SchedulePage />} />
-        <Route path="/missions" element={<MissionsPage />} />
+        <Route path="/community" element={<CommunityPage />} />
+        <Route path="/events" element={<EventsPage />} />
+        <Route path="/outreach" element={<OutreachPage />} />
         <Route path="/news" element={<NewsPage />} />
-        <Route path="/members-news" element={<MembersNewsPage />} />
-        <Route path="/member-business" element={<MemberBusinessPage />} />
+        <Route path="/koinonia" element={<KoinoniaPage />} />
+        <Route path="/network" element={<NetworkPage />} />
         <Route path="/post/:id" element={<PostDetailPage />} />
 
         {/* 관리자 라우트 */}
@@ -111,8 +140,10 @@ function App() {
 
   return (
     <Router basename={import.meta.env.BASE_URL}>
-      <ScrollToTop />
-      <AppRoutes />
+      <GlobalErrorBoundary>
+        <ScrollToTop />
+        <AppRoutes />
+      </GlobalErrorBoundary>
     </Router>
   );
 }

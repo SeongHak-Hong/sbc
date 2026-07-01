@@ -23,7 +23,7 @@ const ProtectedRoute = ({ children }) => {
     }, []);
 
     if (loading) {
-        return <div style={{ padding: '40px', textAlign: 'center', fontFamily: 'Pretendard' }}>로딩 중...</div>;
+        return <div style={{ padding: '40px', textAlign: 'center'}}>로딩 중...</div>;
     }
 
     if (!user) {

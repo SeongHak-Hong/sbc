@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BlurFade } from './ui/BlurFade';
-import PretendardButton from './ui/PretendardButton';
+import SuitButton from './ui/SuitButton';
 import { useNavigate } from 'react-router-dom';
 
 const ServiceInfoSection = () => {
@@ -29,11 +29,10 @@ const ServiceInfoSection = () => {
     };
 
     const titleStyle = {
-        fontFamily: 'LXGWWenKaiMonoKR, sans-serif',
         fontSize: isMobile ? '32px' : '48px',
-        fontWeight: 400,
-        lineHeight: '1.6',
-        letterSpacing: '-0.1em',
+        
+        
+        
         color: 'var(--color-text-dark)',
         marginBottom: '64px',
         textAlign: 'center',
@@ -54,9 +53,9 @@ const ServiceInfoSection = () => {
                     <h2 style={titleStyle}>당신을 기다리는<br />예배의 자리.</h2>
                 </BlurFade>
                 <BlurFade delay={0.4} inView>
-                    <PretendardButton style={buttonStyle} onClick={() => navigate('/worship')}>
+                    <SuitButton style={buttonStyle} onClick={() => navigate('/worship')}>
                         예배 안내 보기
-                    </PretendardButton>
+                    </SuitButton>
                 </BlurFade>
             </div>
         </section>

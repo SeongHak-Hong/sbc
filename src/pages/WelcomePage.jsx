@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
-import PretendardButton from '../components/ui/PretendardButton';
-import styles from './NurturePage.module.css';
+import SuitButton from '../components/ui/SuitButton';
+import styles from './WelcomePage.module.css';
+import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.webp';
 import welcomeImg from '../assets/nurture/shintanjin-baptist-church-welcome.webp';
 import step01 from '../assets/nurture/shintanjin-baptist-church-nurture-step-01.webp';
 import step02 from '../assets/nurture/shintanjin-baptist-church-nurture-step-02.webp';
@@ -151,7 +152,7 @@ const ScrollStackCard = ({ step, index, total, containerRef }) => {
     );
 };
 
-const NurturePage = () => {
+const WelcomePage = () => {
     const stackContainerRef = useRef(null);
     const navigate = useNavigate();
 
@@ -169,13 +170,11 @@ const NurturePage = () => {
                     <SubPageSection 
                         title={
                             <>
-                                새가족 여러분을<br />
-                                축복하고 환영합니다!
+                                축복하고 환영합니다.
                             </>
                         } 
-                        subtitle={
-                            <p className={styles.headerSubtitle} style={{ fontSize: '18px', margin: 0 }}>신탄진교회에 스며드는 따뜻한 4단계의 시간을 안내해 드려요.</p>
-                        }
+                        engTitle="Welcome"
+                        icon={visionIcon}
                     >
 
                     <div className={styles.fanStackArea}>
@@ -195,9 +194,9 @@ const NurturePage = () => {
 
 
             <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap', paddingTop: '160px', paddingBottom: '120px', position: 'relative', zIndex: 10 }}>
-                <PretendardButton>
+                <SuitButton>
                     새가족 교육과정 보기
-                </PretendardButton>
+                </SuitButton>
                 <motion.button
                     style={{
                         backgroundColor: 'var(--color-text-dark)',
@@ -216,4 +215,4 @@ const NurturePage = () => {
     );
 };
 
-export default NurturePage;
+export default WelcomePage;

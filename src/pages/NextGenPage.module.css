@@ -2,18 +2,12 @@
 .pageWrapper {
     width: 100%;
     min-height: 100vh;
-    color: var(--color-text-dark);
-    font-family: 'Pretendard', sans-serif;
-    position: relative;
+    color: var(--color-text-dark);    position: relative;
     overflow-x: hidden;
 }
 
 .headerSubtitle {
-    font-size: var(--text-body);
-    line-height: var(--leading-body);
-    color: rgba(var(--color-text-dark-rgb), 0.7);
-    font-weight: 300;
-    max-width: 600px;
+    font-size: var(--text-body);    color: rgba(var(--color-text-dark-rgb), 0.7);    max-width: 600px;
     margin: 0 auto;
 }
 
@@ -38,11 +32,7 @@
     gap: 24px;
 }
 
-.blockTitle {
-    font-family: 'Pretendard', sans-serif;
-    font-size: 24px;
-    font-weight: 500;
-    color: var(--color-text-dark);
+.blockTitle {    font-size: 24px;    color: var(--color-text-dark);
     margin-bottom: 8px;
 }
 
@@ -62,23 +52,13 @@
 .infoLabel {
     width: 120px;
     flex-shrink: 0;
-    font-size: 18px;
-    font-weight: 300;
-    color: rgba(var(--color-text-dark-rgb), 0.7);
-    line-height: 1.8;
-}
+    font-size: 18px;    color: rgba(var(--color-text-dark-rgb), 0.7);}
 
 .infoValue {
-    font-size: 18px;
-    font-weight: 300;
-    color: var(--color-text-dark);
-    line-height: 1.8;
-    margin: 0;
+    font-size: 18px;    color: var(--color-text-dark);    margin: 0;
 }
 
-.highlightText {
-    font-weight: 500;
-}
+.highlightText {}
 
 .teamGrid {
     display: flex;
@@ -87,11 +67,7 @@
 }
 
 .teamItem {
-    font-size: 18px;
-    font-weight: 300;
-    color: var(--color-text-dark);
-    line-height: 1.8;
-}
+    font-size: 18px;    color: var(--color-text-dark);}
 
 .teamItem::after {
     content: '|';
@@ -115,11 +91,7 @@
     margin-bottom: 40px;
 }
 
-.eventsTitle {
-    font-family: 'Pretendard', sans-serif;
-    font-size: 28px;
-    font-weight: 500;
-    color: var(--color-text-dark);
+.eventsTitle {    font-size: 28px;    color: var(--color-text-dark);
     margin: 0;
 }
 
@@ -176,24 +148,16 @@
 }
 
 .eventStatus {
-    font-size: 14px;
-    font-weight: 500;
-    padding: 4px 12px;
+    font-size: 14px;    padding: 4px 12px;
     border-radius: 0;
     color: var(--color-background-dark);
 }
 
 .eventDate {
-    font-size: 14px;
-    font-weight: 300;
-    color: rgba(var(--color-text-dark-rgb), 0.7);
+    font-size: 14px;    color: rgba(var(--color-text-dark-rgb), 0.7);
 }
 
-.eventTitle {
-    font-family: 'Pretendard', sans-serif;
-    font-size: 20px;
-    font-weight: 500;
-    color: var(--color-text-dark);
+.eventTitle {    font-size: 20px;    color: var(--color-text-dark);
     margin-bottom: 8px;
     transition: color 0.2s ease;
 }
@@ -203,11 +167,7 @@
 }
 
 .eventDesc {
-    font-size: 16px;
-    font-weight: 300;
-    color: rgba(var(--color-text-dark-rgb), 0.7);
-    line-height: 1.8;
-    display: -webkit-box;
+    font-size: 16px;    color: rgba(var(--color-text-dark-rgb), 0.7);    display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;

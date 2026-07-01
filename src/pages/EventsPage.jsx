@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../firebase';
-import styles from './SchedulePage.module.css';
+import styles from './EventsPage.module.css';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
+import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.webp';
 
-const SchedulePage = () => {
+const EventsPage = () => {
     const navigate = useNavigate();
     const [currentMonthIndex, setCurrentMonthIndex] = useState(0);
     const [groupedSchedules, setGroupedSchedules] = useState([]);
@@ -174,7 +175,7 @@ const SchedulePage = () => {
 
     return (
         <div className={styles.pageWrapper}>
-            <SubPageSection title="교회 일정">
+            <SubPageSection title="교회 일정" engTitle="Events" icon={visionIcon}>
                 <div className={styles.contentWrapper}>
                     <div className={styles.monthNav}>
                         <button 
@@ -214,7 +215,7 @@ const SchedulePage = () => {
                                                 style={{
                                                     padding: '12px 16px', textAlign: 'center', cursor: 'pointer',
                                                     background: idx === currentMonthIndex ? '#F3F4F6' : 'transparent',
-                                                    fontWeight: idx === currentMonthIndex ? '600' : '400',
+                                                    
                                                     color: idx === currentMonthIndex ? '#111827' : '#4B5563',
                                                     fontSize: '15px', borderBottom: idx === groupedSchedules.length - 1 ? 'none' : '1px solid #F3F4F6'
                                                 }}
@@ -284,4 +285,4 @@ const SchedulePage = () => {
     );
 };
 
-export default SchedulePage;
+export default EventsPage;

@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { doc, getDoc, collection, getDocs, updateDoc, increment } from 'firebase/firestore';
+import { db } from '../firebase';
 import { motion } from 'framer-motion';
 import { Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
-import PretendardButton from '../components/ui/PretendardButton';
+import SuitButton from '../components/ui/SuitButton';
 import styles from './PostDetailPage.module.css';
 import dummyImg from '../assets/news/260628-church-bulletin-01.webp';
 
@@ -54,7 +56,6 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
                     maxHeight: '800px',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
                     justifyContent: 'center',
                     backgroundColor: '#111',
                     overflow: 'hidden'
@@ -390,17 +391,13 @@ const PostDetailPage = () => {
                                     <style>
                                         {`
                                         .toastui-editor-contents, .ProseMirror {
-                                            font-family: var(--font-body) !important;
                                             color: var(--color-text-body) !important;
                                             font-size: 16px !important;
-                                            letter-spacing: -0.02em !important;
                                         }
                                         .toastui-editor-contents p, .ProseMirror p,
                                         .toastui-editor-contents span, .ProseMirror span,
                                         .toastui-editor-contents li, .ProseMirror li {
                                             font-size: 16px !important;
-                                            font-family: inherit !important;
-                                            line-height: var(--leading-body) !important;
                                         }
                                         .toastui-editor-contents h1, .ProseMirror h1,
                                         .toastui-editor-contents h2, .ProseMirror h2,
@@ -408,14 +405,10 @@ const PostDetailPage = () => {
                                         .toastui-editor-contents h4, .ProseMirror h4,
                                         .toastui-editor-contents h5, .ProseMirror h5,
                                         .toastui-editor-contents h6, .ProseMirror h6 {
-                                            font-family: var(--font-body) !important;
                                             border-bottom: none !important;
                                             color: var(--color-text-dark) !important;
-                                            font-weight: 600 !important;
-                                            letter-spacing: -0.02em !important;
                                             margin-top: 1.2em !important;
                                             margin-bottom: 0.5em !important;
-                                            line-height: 1.4 !important;
                                             word-break: keep-all !important;
                                         }
                                         .toastui-editor-contents h1, .ProseMirror h1 { font-size: 36px !important; }
@@ -433,12 +426,12 @@ const PostDetailPage = () => {
 
                         {/* Actions */}
                         <div className={styles.buttonWrapper}>
-                            <PretendardButton 
+                            <SuitButton 
                                 onClick={() => navigate(-1)}
                                 style={{ borderColor: 'rgba(var(--color-text-dark-rgb), 0.3)', color: 'var(--color-text-dark)', background: 'transparent' }}
                             >
                                 목록으로
-                            </PretendardButton>
+                            </SuitButton>
                         </div>
                     </motion.div>
                 </div>

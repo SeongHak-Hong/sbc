@@ -190,12 +190,12 @@ const AdminMemberBusiness = () => {
         return (
             <div style={{ backgroundColor: '#fff', padding: '32px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                    <h2 style={{ fontSize: '24px', fontWeight: '700' }}>{currentPost ? '사업체 정보 수정' : '새 사업체 등록'}</h2>
+                    <h2 style={{ fontSize: '24px'}}>{currentPost ? '사업체 정보 수정' : '새 사업체 등록'}</h2>
                 </div>
 
                 <div style={{ display: 'grid', gap: '20px' }}>
                     <div>
-                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>상호명 / 제목</label>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>상호명 / 제목</label>
                         <input 
                             type="text" 
                             value={title} 
@@ -205,7 +205,7 @@ const AdminMemberBusiness = () => {
                         />
                     </div>
                     <div>
-                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>대표자 <span style={{ fontWeight: 'normal', color: '#6B7280' }}>(성도이름)</span></label>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>대표자 <span style={{  color: '#6B7280' }}>(성도이름)</span></label>
                         <input 
                             type="text" 
                             value={author} 
@@ -216,7 +216,7 @@ const AdminMemberBusiness = () => {
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>작성일자</label>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>작성일자</label>
                         <input 
                             type="date" 
                             value={date ? date.replace(/\.\s*/g, '-').replace(/-$/, '') : ''} 
@@ -229,12 +229,12 @@ const AdminMemberBusiness = () => {
                                 const [y, m, d] = val.split('-');
                                 setDate(`${y}. ${m}. ${d}`);
                             }}
-                            style={{ width: '200px', padding: '10px', borderRadius: '4px', border: '1px solid #ddd', fontFamily: 'inherit' }}
+                            style={{ width: '200px', padding: '10px', borderRadius: '4px', border: '1px solid #ddd'}}
                         />
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>상세 소개글</label>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>상세 소개글</label>
                         <AdminEditor 
                             key={formId}
                             initialValue={content}
@@ -243,7 +243,7 @@ const AdminMemberBusiness = () => {
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>이미지 첨부 <span style={{ fontWeight: 'normal', color: '#6B7280' }}>(간판, 메뉴 등)</span></label>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>이미지 첨부 <span style={{  color: '#6B7280' }}>(간판, 메뉴 등)</span></label>
                         {images.length > 0 && (
                             <div style={{ marginBottom: '16px' }}>
                                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
@@ -275,14 +275,14 @@ const AdminMemberBusiness = () => {
                     <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
                         <button 
                             onClick={() => setViewMode('list')}
-                            style={{ padding: '12px 24px', borderRadius: '4px', border: '1px solid #D1D5DB', backgroundColor: '#fff', cursor: 'pointer', fontSize: '16px', fontWeight: '500' }}
+                            style={{ padding: '12px 24px', borderRadius: '4px', border: '1px solid #D1D5DB', backgroundColor: '#fff', cursor: 'pointer', fontSize: '16px'}}
                         >
                             취소
                         </button>
                         <button 
                             onClick={handleSave}
                             disabled={!!saveMessage}
-                            style={{ backgroundColor: '#10B981', color: '#fff', padding: '12px 24px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontSize: '16px', fontWeight: '600' }}
+                            style={{ backgroundColor: '#10B981', color: '#fff', padding: '12px 24px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontSize: '16px'}}
                         >
                             {saveMessage ? saveMessage : '저장하기'}
                         </button>
@@ -298,10 +298,10 @@ const AdminMemberBusiness = () => {
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                <h2 style={{ fontSize: '24px', fontWeight: '700' }}>성도 사업체 관리</h2>
+                <h2 style={{ fontSize: '24px'}}>성도 사업체 관리</h2>
                 <button 
                     onClick={handleCreateNew}
-                    style={{ backgroundColor: '#3B82F6', color: '#fff', padding: '10px 20px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontWeight: '500' }}
+                    style={{ backgroundColor: '#3B82F6', color: '#fff', padding: '10px 20px', borderRadius: '4px', border: 'none', cursor: 'pointer'}}
                 >
                     + 새 사업체 등록
                 </button>
@@ -323,7 +323,7 @@ const AdminMemberBusiness = () => {
                             <tr><td colSpan="5" style={{ padding: '32px', textAlign: 'center', color: '#6B7280' }}>등록된 사업체가 없습니다.</td></tr>
                         ) : currentPosts.map(post => (
                             <tr key={post.id} style={{ borderBottom: '1px solid #E5E7EB' }}>
-                                <td style={{ padding: '16px', fontWeight: '500' }}>{post.title}</td>
+                                <td style={{ padding: '16px'}}>{post.title}</td>
                                 <td style={{ padding: '16px' }}>{post.author}</td>
                                 <td style={{ padding: '16px', color: '#6B7280', fontSize: '16px' }}>{post.date}</td>
                                 <td style={{ padding: '16px', textAlign: 'center', color: '#6B7280' }}>{post.views || 0}</td>
@@ -359,7 +359,7 @@ const AdminMemberBusiness = () => {
                                     border: currentPage === i + 1 ? '1px solid #3B82F6' : '1px solid #D1D5DB', 
                                     backgroundColor: currentPage === i + 1 ? '#EFF6FF' : '#fff', 
                                     color: currentPage === i + 1 ? '#2563EB' : '#374151',
-                                    fontWeight: currentPage === i + 1 ? '600' : '400',
+                                    
                                     cursor: 'pointer' 
                                 }}
                             >

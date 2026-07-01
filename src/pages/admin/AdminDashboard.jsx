@@ -55,10 +55,10 @@ const AdminDashboard = () => {
                     boxShadow: '0 10px 25px -5px rgba(59, 130, 246, 0.5)'
                 }}
             >
-                <h1 style={{ fontSize: '32px', fontWeight: '700', marginBottom: '12px', letterSpacing: '-0.5px' }}>
+                <h1 style={{ fontSize: '32px',  marginBottom: '12px'}}>
                     환영합니다, 관리자님! 👋
                 </h1>
-                <p style={{ fontSize: '16px', color: '#DBEAFE', opacity: 0.9, lineHeight: '1.6', maxWidth: '600px' }}>
+                <p style={{ fontSize: '16px', color: '#DBEAFE', opacity: 0.9,  maxWidth: '600px' }}>
                     신탄진침례교회 웹사이트의 모든 콘텐츠를 관리할 수 있는 통합 대시보드입니다.<br/>
                     원하시는 메뉴를 선택하여 데이터를 간편하게 수정하고 업데이트하세요.
                 </p>
@@ -112,11 +112,11 @@ const AdminDashboard = () => {
                                 }}>
                                     <span className="material-symbols-outlined" style={{ fontSize: '24px' }}>{link.icon}</span>
                                 </div>
-                                <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#1F2937', margin: 0 }}>
+                                <h3 style={{ fontSize: '18px',  color: '#1F2937', margin: 0 }}>
                                     {link.title}
                                 </h3>
                             </div>
-                            <p style={{ color: '#6B7280', fontSize: '14px', lineHeight: '1.5', margin: 0 }}>
+                            <p style={{ color: '#6B7280', fontSize: '14px',  margin: 0 }}>
                                 {link.desc}
                             </p>
                         </Link>
@@ -149,9 +149,9 @@ const AdminDashboard = () => {
                         <span className="material-symbols-outlined" style={{ fontSize: '28px' }}>warning</span>
                     </div>
                     <div>
-                        <h2 style={{ fontSize: '20px', fontWeight: '700', color: '#991B1B', marginBottom: '8px', marginTop: 0 }}>시스템 관리 (System Administration)</h2>
-                        <h3 style={{ fontSize: '16px', fontWeight: '600', color: '#B91C1C', marginBottom: '8px', marginTop: 0 }}>데이터 마이그레이션 (Seeding)</h3>
-                        <p style={{ color: '#7F1D1D', fontSize: '15px', marginBottom: '20px', lineHeight: '1.6', maxWidth: '800px' }}>
+                        <h2 style={{ fontSize: '20px',  color: '#991B1B', marginBottom: '8px', marginTop: 0 }}>시스템 관리 (System Administration)</h2>
+                        <h3 style={{ fontSize: '16px',  color: '#B91C1C', marginBottom: '8px', marginTop: 0 }}>데이터 마이그레이션 (Seeding)</h3>
+                        <p style={{ color: '#7F1D1D', fontSize: '15px', marginBottom: '20px',  maxWidth: '800px' }}>
                             웹사이트 소스코드에 하드코딩되어 있던 데이터를 Firebase Firestore DB로 일괄 등록합니다.<br/>
                             <strong>주의사항:</strong> 중복 데이터가 삽입될 수 있으므로 서버 초기 세팅 시에만 1회 클릭해야 합니다. 이 작업은 되돌릴 수 없습니다.
                         </p>
@@ -160,7 +160,7 @@ const AdminDashboard = () => {
                             style={{
                                 backgroundColor: '#DC2626', color: '#fff', padding: '12px 24px', 
                                 borderRadius: '8px', border: 'none', cursor: 'pointer', 
-                                fontWeight: '600', fontSize: '15px',
+                                 fontSize: '15px',
                                 display: 'flex', alignItems: 'center', gap: '8px',
                                 transition: 'background-color 0.2s',
                                 boxShadow: '0 4px 6px -1px rgba(220, 38, 38, 0.2)'

@@ -30,18 +30,16 @@ const VerseSection = () => {
                 filter: 'blur(10px)',
                 display: 'inline-flex',
                 alignItems: 'center',
-                fontSize: isCitation ? (isMobile ? '24px' : '40px') : 'inherit',
-                marginTop: isCitation ? '40px' : '0',
-                color: isCitation ? 'var(--color-text-dark)' : 'inherit',
-                fontWeight: isCitation ? 500 : 'inherit'
-            };
+                fontSize: isCitation ? (isMobile ? '20px' : 'var(--text-h4)') : 'inherit',
+                marginTop: isCitation ? '24px' : '0',
+                color: isCitation ? 'var(--color-text-dark)' : 'inherit'};
 
             return (
                 <span className="word" key={index} style={wordStyle}>
                     {isCitation && (
                         <span style={{
                             display: 'inline-block',
-                            width: '32px',
+                            width: '24px',
                             height: '3px',
                             backgroundColor: 'var(--color-text-dark)',
                             marginRight: '16px', // Gap between line and text
@@ -121,15 +119,11 @@ const VerseSection = () => {
     };
 
     const textStyle = {
-        fontFamily: 'LXGWWenKaiMonoKR, sans-serif',
-        fontSize: isMobile ? '24px' : '40px',
-        lineHeight: '1.6', // 160%
-        letterSpacing: '-0.1em', // -10% from design system
+        fontSize: isMobile ? '24px' : 'var(--text-h4)',
+        lineHeight: 'var(--line-height-base)',
         color: 'rgba(var(--color-text-dark-rgb), 0.7)',
         textAlign: 'center',
-        whiteSpace: 'pre-line',
-        fontWeight: 300 // Light weight
-    };
+        whiteSpace: 'pre-line'};
 
     return (
         <section ref={sectionRef} style={sectionStyle}>

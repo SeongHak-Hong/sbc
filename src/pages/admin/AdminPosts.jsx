@@ -206,12 +206,12 @@ const AdminPosts = () => {
         return (
             <div style={{ backgroundColor: '#fff', padding: '32px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                    <h2 style={{ fontSize: '24px', fontWeight: '700' }}>{currentPost ? '게시물 수정' : '새 게시물 작성'}</h2>
+                    <h2 style={{ fontSize: '24px'}}>{currentPost ? '게시물 수정' : '새 게시물 작성'}</h2>
                 </div>
 
                 <div style={{ display: 'grid', gap: '20px' }}>
                     <div>
-                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>분류</label>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>분류</label>
                         <select 
                             value={category} 
                             onChange={(e) => setCategory(e.target.value)}
@@ -223,20 +223,20 @@ const AdminPosts = () => {
                     </div>
                     
                     <div>
-                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>
-                            제목 <span style={{ fontWeight: 'normal', color: '#6B7280' }}>(생략 가능, 공란이면 몇째 주일인지 자동 표기됩니다)</span>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>
+                            제목 <span style={{  color: '#6B7280' }}>(생략 가능, 공란이면 몇째 주일인지 자동 표기됩니다)</span>
                         </label>
                         <input 
                             type="text" 
                             value={title} 
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="제목을 입력하세요"
-                            style={{ width: '100%', padding: '12px', borderRadius: '4px', border: '1px solid #ddd', fontSize: '18px', fontWeight: 'bold', color: '#111827' }}
+                            style={{ width: '100%', padding: '12px', borderRadius: '4px', border: '1px solid #ddd', fontSize: '18px',  color: '#111827' }}
                         />
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>해당 주일 날짜 <span style={{ fontWeight: 'normal', color: '#6B7280' }}>(예: 2026-07-05)</span></label>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>해당 주일 날짜 <span style={{  color: '#6B7280' }}>(예: 2026-07-05)</span></label>
                         <input 
                             type="date" 
                             value={date ? date.replace(/\.\s*/g, '-').replace(/-$/, '') : ''} 
@@ -249,13 +249,13 @@ const AdminPosts = () => {
                                 const [y, m, d] = val.split('-');
                                 setDate(`${y}. ${m}. ${d}`);
                             }}
-                            style={{ width: '200px', padding: '10px', borderRadius: '4px', border: '1px solid #ddd', fontFamily: 'inherit' }}
+                            style={{ width: '200px', padding: '10px', borderRadius: '4px', border: '1px solid #ddd'}}
                         />
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>
-                            내용 <span style={{ fontWeight: 'normal', color: '#6B7280' }}>(주보의 경우 생략 가능)</span>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>
+                            내용 <span style={{  color: '#6B7280' }}>(주보의 경우 생략 가능)</span>
                         </label>
                         <AdminEditor 
                             key={formId}
@@ -265,7 +265,7 @@ const AdminPosts = () => {
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>이미지 첨부 <span style={{ fontWeight: 'normal', color: '#6B7280' }}>(여러 장 가능)</span></label>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>이미지 첨부 <span style={{  color: '#6B7280' }}>(여러 장 가능)</span></label>
                         
                         {/* Existing Images */}
                         {images.length > 0 && (
@@ -313,14 +313,14 @@ const AdminPosts = () => {
                     <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
                         <button 
                             onClick={() => setViewMode('list')}
-                            style={{ padding: '12px 24px', borderRadius: '4px', border: '1px solid #D1D5DB', backgroundColor: '#fff', cursor: 'pointer', fontSize: '16px', fontWeight: '500' }}
+                            style={{ padding: '12px 24px', borderRadius: '4px', border: '1px solid #D1D5DB', backgroundColor: '#fff', cursor: 'pointer', fontSize: '16px'}}
                         >
                             취소
                         </button>
                         <button 
                             onClick={handleSave}
                             disabled={!!saveMessage}
-                            style={{ backgroundColor: '#10B981', color: '#fff', padding: '12px 24px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontSize: '16px', fontWeight: '600' }}
+                            style={{ backgroundColor: '#10B981', color: '#fff', padding: '12px 24px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontSize: '16px'}}
                         >
                             {saveMessage ? saveMessage : '저장하기'}
                         </button>
@@ -333,10 +333,10 @@ const AdminPosts = () => {
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                <h2 style={{ fontSize: '24px', fontWeight: '700' }}>나눔터 (소식/주보) 관리</h2>
+                <h2 style={{ fontSize: '24px'}}>나눔터 (소식/주보) 관리</h2>
                 <button 
                     onClick={handleCreateNew}
-                    style={{ backgroundColor: '#3B82F6', color: '#fff', padding: '10px 20px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontWeight: '500' }}
+                    style={{ backgroundColor: '#3B82F6', color: '#fff', padding: '10px 20px', borderRadius: '4px', border: 'none', cursor: 'pointer'}}
                 >
                     + 새 게시물 작성
                 </button>
@@ -364,12 +364,11 @@ const AdminPosts = () => {
                                     <span style={{ 
                                         backgroundColor: post.category === 'news' ? '#DBEAFE' : '#FEF3C7', 
                                         color: post.category === 'news' ? '#1E3A8A' : '#92400E',
-                                        padding: '4px 8px', borderRadius: '4px', fontSize: '13px', fontWeight: '500'
-                                    }}>
+                                        padding: '4px 8px', borderRadius: '4px', fontSize: '13px'}}>
                                         {post.category === 'news' ? '소식' : '주보'}
                                     </span>
                                 </td>
-                                <td style={{ padding: '16px', fontWeight: '500' }}>{post.title}</td>
+                                <td style={{ padding: '16px'}}>{post.title}</td>
                                 <td style={{ padding: '16px', color: '#6B7280', fontSize: '16px' }}>{post.date}</td>
                                 <td style={{ padding: '16px', textAlign: 'center', color: '#6B7280' }}>{post.views || 0}</td>
                                 <td style={{ padding: '16px', display: 'flex', justifyContent: 'center', gap: '8px' }}>

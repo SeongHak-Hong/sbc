@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BlurFade } from './ui/BlurFade';
 import { motion } from 'framer-motion';
-import PretendardButton from './ui/PretendardButton';
+import SuitButton from './ui/SuitButton';
 
 const NewcomerSection = ({ 
     title = <>당신을 향한 사랑,<br />이곳에 있습니다.</>,
@@ -30,11 +30,7 @@ const NewcomerSection = ({
     };
 
     const titleStyle = {
-        fontFamily: 'LXGWWenKaiMonoKR, sans-serif',
         fontSize: isMobile ? '32px' : '48px',
-        fontWeight: 400,
-        lineHeight: '1.6',
-        letterSpacing: '-0.1em',
         color: 'var(--color-white)', // Changed back to white for visibility on dark background
         marginBottom: '64px',
         textAlign: 'center',
@@ -66,9 +62,9 @@ const NewcomerSection = ({
                 <h2 style={titleStyle}>{title}</h2>
             </BlurFade>
             <BlurFade delay={0.4} inView>
-                <PretendardButton style={buttonStyle}>
+                <SuitButton style={buttonStyle}>
                     {buttonText}
-                </PretendardButton>
+                </SuitButton>
             </BlurFade>
 
             {/* Additional hill layers could be added for depth */}

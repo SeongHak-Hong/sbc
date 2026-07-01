@@ -1,25 +1,11 @@
 /* Color Palette */
-:root {
-    --cream: #FAF7F2;
-    --cream-light: #FDFCFB;
-    --navy: #1C2A43;
-    --navy-light: #515E75;
-    --navy-muted: #8A97AE;
-    --accent-gold: #D4AF37;
-    --accent-sand: #E6DCC8;
 
-    --shadow-soft: 0 20px 40px -15px rgba(28, 42, 67, 0.05);
-    --shadow-card: 0 10px 30px -10px rgba(28, 42, 67, 0.08);
-    --shadow-icon-3d: 0 8px 16px -4px rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(var(--color-text-dark-rgb), 0.9), inset 0 -2px 4px rgba(0, 0, 0, 0.05);
-}
 
 .pageContainer {
     color: var(--color-text-dark);
     min-height: 100vh;
     position: relative;
-    overflow-x: hidden;
-    font-family: var(--font-body);
-}
+    overflow-x: hidden;}
 
 .navWrapper {
     position: relative;
@@ -45,9 +31,7 @@
     position: relative;
     width: fit-content;
     max-width: 100%;
-    margin: 0 auto;
-    font-family: var(--font-letter);
-}
+    margin: 0 auto;}
 
 .letterImage {
     display: block;
@@ -56,9 +40,7 @@
     height: auto;
 }
 
-.greetingCard * {
-    font-family: var(--font-letter) !important;
-}
+.greetingCard * {}
 
 @media (max-width: 1023px) {
     .greetingCard {
@@ -73,7 +55,7 @@
     width: 20%;
     height: auto;
     border-radius: 0;
-    box-shadow: 6px 8px 16px rgba(0, 0, 0, 0.15);
+    
     object-fit: cover;
     pointer-events: none;
     /* Let clicks pass through to the card for zooming */
@@ -119,7 +101,7 @@
 .photoGradient {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(28, 42, 67, 0.3), transparent, transparent);
+    background: var(--color-background-beige);
 }
 
 .textCol {
@@ -135,34 +117,24 @@
     }
 }
 
-.greetingTitle {
-    font-family: var(--font-body) !important;
-    font-size: var(--pc-text-h3);
-    color: var(--navy);
-    margin-bottom: 32px;
-    line-height: 1.4;
-    font-weight: 500;
-}
+.greetingTitle {    font-size: var(--pc-text-h3);
+    color: var(--color-text-dark);
+    margin-bottom: 32px;}
 
 .italicGold {
-    color: var(--accent-gold);
+    color: var(--color-text-dark);
 }
 
 .greetingBody {
     display: flex;
     flex-direction: column;
     gap: 24px;
-    color: var(--navy-light);
-    font-size: var(--pc-text-body-card);
-    font-weight: 300;
-    line-height: 1.8;
-    flex-grow: 1;
+    color: rgba(var(--color-text-dark-rgb), 0.7);
+    font-size: var(--pc-text-body-card);    flex-grow: 1;
 }
 
 .greetingBody p {
-    margin: 0;
-    font-family: var(--font-body);
-    color: var(--navy-light);
+    margin: 0;    color: rgba(var(--color-text-dark-rgb), 0.7);
     font-size: var(--pc-text-body-card);
 }
 
@@ -180,27 +152,16 @@
 
 .signatureEyebrow {
     font-size: var(--pc-text-body-card);
-    color: var(--navy-muted);
-    letter-spacing: 0.05em;
-    font-weight: 500;
-    margin-bottom: 4px;
-    font-family: var(--font-body);
-}
+    color: rgba(var(--color-text-dark-rgb), 0.5);    margin-bottom: 4px;}
 
 .signatureKoreanName {
     font-size: var(--pc-text-body-card);
-    color: var(--navy);
-    font-weight: 500;
-    margin: 0 0 -16px 0;
+    color: var(--color-text-dark);    margin: 0 0 -16px 0;
     position: relative;
-    z-index: 10;
-    font-family: var(--font-body);
-}
+    z-index: 10;}
 
-.signatureName {
-    font-family: 'Allura', cursive;
-    font-size: 3rem;
-    color: var(--navy);
+.signatureName {    font-size: 3rem;
+    color: var(--color-text-dark);
     transform: rotate(-2deg);
     transform-origin: right;
     padding-right: 16px;
@@ -233,9 +194,7 @@
 .pillarsDesc {
     color: var(--color-text-dark);
     max-width: 42rem;
-    margin: 0 auto;
-    font-family: var(--font-body);
-    font-size: var(--text-body);
+    margin: 0 auto;    font-size: var(--text-body);
 }
 
 .pillarsGrid {
@@ -256,7 +215,7 @@
     backdrop-filter: blur(12px);
     border-radius: 0;
     padding: 40px;
-    box-shadow: var(--shadow-card);
+    
     border: 1px solid rgba(0, 0, 0, 0.02);
     transition: all 0.3s ease;
 }
@@ -274,7 +233,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--shadow-icon-3d);
+    
     margin-bottom: 32px;
     transition: transform 0.5s ease;
 }
@@ -286,49 +245,44 @@
 }
 
 .iconBox1 {
-    background: linear-gradient(to bottom right, #F3FAED, #D5E8C9);
+    background: var(--color-background-beige);
 }
 
 .iconBox2 {
-    background: linear-gradient(to bottom right, #FFF0F0, #FAD4D4);
+    background: var(--color-background-beige);
 }
 
 .iconBox3 {
-    background: linear-gradient(to bottom right, #FFF8E6, #FDE4AA);
+    background: var(--color-background-beige);
 }
 
 .icon1 {
     color: #4C7C3A;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    
 }
 
 .icon2 {
     color: #B94A4A;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    
 }
 
 .icon3 {
     color: #B38024;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    
 }
 
 .pillarHeading {
-    color: var(--navy);
+    color: var(--color-text-dark);
     margin-bottom: 16px;
     transition: color 0.3s ease;
 }
 
 .pillarCard:hover .pillarHeading {
-    color: var(--accent-gold);
+    color: var(--color-text-dark);
 }
 
 .pillarText {
-    color: var(--navy-light);
-    line-height: 1.625;
-    font-weight: 300;
-    margin: 0;
-    font-family: var(--font-body);
-    font-size: var(--text-body-card);
+    color: rgba(var(--color-text-dark-rgb), 0.7);    margin: 0;    font-size: var(--text-body-card);
 }
 
 /* --- Paper Flutter Effects --- */

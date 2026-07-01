@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BlurFade } from './ui/BlurFade';
-import PretendardButton from './ui/PretendardButton';
+import SuitButton from './ui/SuitButton';
 import { useNavigate } from 'react-router-dom';
 
 const EventSection = () => {
@@ -28,11 +28,10 @@ const EventSection = () => {
     };
 
     const titleStyle = {
-        fontFamily: 'LXGWWenKaiMonoKR, sans-serif',
         fontSize: isMobile ? '32px' : '48px',
-        fontWeight: 400,
-        lineHeight: '1.6',
-        letterSpacing: '-0.1em',
+        
+        
+        
         color: 'var(--color-text-dark)',
         marginBottom: '64px',
         textAlign: 'center',
@@ -53,9 +52,9 @@ const EventSection = () => {
                     <h2 style={titleStyle}>함께 만들어가는<br />이달의 이야기.</h2>
                 </BlurFade>
                 <BlurFade delay={0.4} inView>
-                    <PretendardButton style={buttonStyle} onClick={() => navigate('/schedule')}>
+                    <SuitButton style={buttonStyle} onClick={() => navigate('/events')}>
                         일정 보기
-                    </PretendardButton>
+                    </SuitButton>
                 </BlurFade>
             </div>
         </section>

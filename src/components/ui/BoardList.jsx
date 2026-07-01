@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import styles from '../../pages/NewsPage.module.css';
 
 const BoardList = ({ 
@@ -13,15 +12,7 @@ const BoardList = ({
 }) => {
     return (
         <div className={styles.boardContainer}>
-            <AnimatePresence mode="wait">
-                <motion.div
-                    key={animationKey || currentPage}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3 }}
-                    className={styles.boardList}
-                >
+            <div className={styles.boardList}>
                     {posts.length > 0 ? posts.map((post) => (
                         <div 
                             key={post.id} 
@@ -46,8 +37,7 @@ const BoardList = ({
                             {emptyMessage}
                         </div>
                     )}
-                </motion.div>
-            </AnimatePresence>
+            </div>
 
             {/* Pagination */}
             {posts.length > 0 && (
