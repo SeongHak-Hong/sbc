@@ -1,54 +1,79 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { Viewer } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor.css';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
 import PretendardButton from '../components/ui/PretendardButton';
 import styles from './PostDetailPage.module.css';
 import dummyImg from '../assets/news/260628-church-bulletin-01.webp';
 
-const ImageViewer = ({ imageUrl, totalPages = 3, images = [] }) => {
-    const isMultipleFiles = images && images.length > 0;
-    const count = isMultipleFiles ? images.length : (imageUrl ? totalPages : 0);
+const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true }) => {
+    const actualImages = images.length > 0 ? images : (imageUrl ? [imageUrl] : []);
+    const count = isBulletin ? actualImages.length * totalPages : actualImages.length;
     const [currentIndex, setCurrentIndex] = useState(0);
 
     if (count === 0) return null;
 
     const renderMainImage = (index) => {
-        if (isMultipleFiles) {
+        if (isBulletin) {
+            const totalWidth = actualImages.length * totalPages * 100;
+            const translateX = (currentIndex / (actualImages.length * totalPages)) * 100;
+            
             return (
-                <img 
-                    src={images[index]} 
-                    alt={`첨부 이미지 ${index + 1}`} 
-                />
+                <div style={{ 
+                    display: 'flex', 
+                    width: `${totalWidth}%`,
+                    transform: `translateX(-${translateX}%)`,
+                    transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+                }}>
+                    {actualImages.map((img, idx) => (
+                        <img 
+                            key={idx}
+                            src={img} 
+                            alt={`주보 원본 ${idx + 1}`} 
+                            style={{ 
+                                width: `${100 / actualImages.length}%`, 
+                                maxWidth: 'none',
+                                height: 'auto',
+                                flexShrink: 0,
+                                display: 'block'
+                            }} 
+                        />
+                    ))}
+                </div>
             );
         } else {
             return (
                 <img 
-                    src={imageUrl} 
-                    alt={`주보 ${index + 1}면`} 
-                    style={{ marginLeft: `-${index * 100}%` }} 
-                    className={styles.slicedImage}
+                    src={actualImages[index]} 
+                    alt={`첨부 이미지 ${index + 1}`} 
+                    style={{ maxWidth: '100%', maxHeight: '70vh', width: 'auto', height: 'auto', display: 'block', margin: '0 auto' }}
                 />
             );
         }
     };
 
     const renderThumbnail = (index) => {
-        if (isMultipleFiles) {
+        const imageIndex = isBulletin ? Math.floor(index / totalPages) : index;
+        const sliceIndex = isBulletin ? index % totalPages : 0;
+        
+        if (isBulletin) {
             return (
                 <img 
-                    src={images[index]} 
-                    alt={`썸네일 ${index + 1}`} 
+                    src={actualImages[imageIndex]} 
+                    alt={`주보 썸네일 ${index + 1}면`} 
+                    style={{ left: `-${sliceIndex * 100}%` }} 
+                    className={styles.slicedImage}
                 />
             );
         } else {
             return (
                 <img 
-                    src={imageUrl} 
-                    alt={`주보 썸네일 ${index + 1}면`} 
-                    style={{ marginLeft: `-${index * 100}%` }} 
-                    className={styles.slicedImage}
+                    src={actualImages[imageIndex]} 
+                    alt={`썸네일 ${index + 1}`} 
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
             );
         }
@@ -58,7 +83,7 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [] }) => {
         <div className={styles.bulletinViewerContainer}>
             {/* Main Viewer Area */}
             {count > 1 && (
-                <div className={styles.mainViewerWrapper}>
+                <div className={styles.mainViewerWrapper} style={{ maxWidth: isBulletin ? '400px' : '100%' }}>
                     <button 
                         className={`${styles.navButton} ${styles.prevButton}`}
                         onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
@@ -69,7 +94,7 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [] }) => {
                     </button>
                     
                     <div className={styles.mainViewer}>
-                        <div className={styles.bulletinPageWrapper}>
+                        <div className={isBulletin ? styles.bulletinPageWrapper : ''}>
                             {renderMainImage(currentIndex)}
                         </div>
                     </div>
@@ -86,9 +111,9 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [] }) => {
             )}
             
             {count === 1 && (
-                <div className={styles.mainViewerWrapper}>
+                <div className={styles.mainViewerWrapper} style={{ maxWidth: isBulletin ? '400px' : '100%' }}>
                     <div className={styles.mainViewer}>
-                        <div className={styles.bulletinPageWrapper}>
+                        <div className={isBulletin ? styles.bulletinPageWrapper : ''}>
                             {renderMainImage(0)}
                         </div>
                     </div>
@@ -190,10 +215,18 @@ const PostDetailPage = () => {
 
     if (!post) return null;
 
+    let authorLabel = "작성자";
     let authorText = "관리자";
-    if (post.author) authorText = post.author; // nextgen
-    else if (post.category === 'news') authorText = "신탄진침례교회";
-    else if (post.category === 'bulletin') authorText = "사무국";
+
+    if (id && id.startsWith('memberBusiness_')) {
+        authorLabel = "운영 성도";
+        authorText = post.author === '관리자' ? '확인 필요' : (post.author || '관리자');
+    } else {
+        if (post.author) authorText = post.author;
+        else if (post.category === 'news') authorText = "신탄진침례교회";
+        else if (post.category === 'bulletin') authorText = "사무국";
+        else if (post.category === 'schedule') authorText = "신탄진침례교회";
+    }
 
     // Extract images correctly for ImageViewer
     let viewerImages = [];
@@ -217,20 +250,9 @@ const PostDetailPage = () => {
                     >
                         {/* Post Header */}
                         <div className={styles.postHeader}>
-                            <div style={{ marginBottom: '8px' }}>
-                                {post.category && (
-                                    <span style={{ 
-                                        backgroundColor: post.category === 'news' ? '#DBEAFE' : '#FEF3C7', 
-                                        color: post.category === 'news' ? '#1E3A8A' : '#92400E',
-                                        padding: '4px 8px', borderRadius: '4px', fontSize: '13px', fontWeight: '500'
-                                    }}>
-                                        {post.category === 'news' ? '소식' : '주보'}
-                                    </span>
-                                )}
-                            </div>
                             <h1 className={styles.postTitle}>{post.title}</h1>
                             <div className={styles.postMeta}>
-                                <span>작성자: {authorText}</span>
+                                <span>{authorLabel}: {authorText}</span>
                                 <span className={styles.metaDivider}>|</span>
                                 <span>{post.date}</span>
                                 {post.views !== undefined && (
@@ -249,12 +271,54 @@ const PostDetailPage = () => {
                                     imageUrl={viewerImages.length === 1 ? viewerImages[0] : null} 
                                     images={viewerImages.length > 1 ? viewerImages : []} 
                                     totalPages={3} // this handles CSS slicing fallback if needed
+                                    isBulletin={post.category === 'bulletin'}
                                 />
                             )}
                             
-                            <div style={{ marginTop: '24px', whiteSpace: 'pre-wrap', lineHeight: '1.8' }}>
-                                {post.content}
-                            </div>
+                            {post.content && (
+                                <div style={{ marginTop: '24px' }}>
+                                    <style>
+                                        {`
+                                        .toastui-editor-contents, .ProseMirror {
+                                            font-family: var(--font-body) !important;
+                                            color: var(--color-text-body) !important;
+                                            font-size: 16px !important;
+                                            letter-spacing: -0.02em !important;
+                                        }
+                                        .toastui-editor-contents p, .ProseMirror p,
+                                        .toastui-editor-contents span, .ProseMirror span,
+                                        .toastui-editor-contents li, .ProseMirror li {
+                                            font-size: 16px !important;
+                                            font-family: inherit !important;
+                                            line-height: var(--leading-body) !important;
+                                        }
+                                        .toastui-editor-contents h1, .ProseMirror h1,
+                                        .toastui-editor-contents h2, .ProseMirror h2,
+                                        .toastui-editor-contents h3, .ProseMirror h3,
+                                        .toastui-editor-contents h4, .ProseMirror h4,
+                                        .toastui-editor-contents h5, .ProseMirror h5,
+                                        .toastui-editor-contents h6, .ProseMirror h6 {
+                                            font-family: var(--font-body) !important;
+                                            border-bottom: none !important;
+                                            color: var(--color-text-dark) !important;
+                                            font-weight: 600 !important;
+                                            letter-spacing: -0.02em !important;
+                                            margin-top: 1.2em !important;
+                                            margin-bottom: 0.5em !important;
+                                            line-height: 1.4 !important;
+                                            word-break: keep-all !important;
+                                        }
+                                        .toastui-editor-contents h1, .ProseMirror h1 { font-size: 36px !important; }
+                                        .toastui-editor-contents h2, .ProseMirror h2 { font-size: 32px !important; }
+                                        .toastui-editor-contents h3, .ProseMirror h3 { font-size: 28px !important; }
+                                        .toastui-editor-contents h4, .ProseMirror h4 { font-size: 24px !important; }
+                                        .toastui-editor-contents h5, .ProseMirror h5 { font-size: 20px !important; }
+                                        .toastui-editor-contents h6, .ProseMirror h6 { font-size: 18px !important; }
+                                        `}
+                                    </style>
+                                    <Viewer initialValue={post.content} />
+                                </div>
+                            )}
                         </div>
 
                         {/* Actions */}

@@ -6,6 +6,7 @@ import { db } from '../firebase';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
 import styles from './NewsPage.module.css';
+import BoardList from '../components/ui/BoardList';
 
 const MembersNewsPage = () => {
     const navigate = useNavigate();
@@ -57,68 +58,14 @@ const MembersNewsPage = () => {
             >
                 <div className={styles.contentWrapper}>
                     <div className={styles.boardContainer}>
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={currentPage}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                transition={{ duration: 0.3 }}
-                                className={styles.boardList}
-                            >
-                                {currentPosts.length > 0 ? currentPosts.map((item) => (
-                                    <div key={item.id} className={styles.boardItem} onClick={() => handleItemClick(item)}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                            <span style={{ 
-                                                backgroundColor: '#F3E8FF', 
-                                                color: '#7E22CE',
-                                                padding: '2px 8px', borderRadius: '4px', fontSize: '12px', fontWeight: '500'
-                                            }}>
-                                                성도소식
-                                            </span>
-                                            <p className={styles.itemTitle}>{item.title}</p>
-                                        </div>
-                                        <div style={{ display: 'flex', gap: '16px', color: '#6B7280', fontSize: '14px' }}>
-                                            <span>{item.author}</span>
-                                            <p className={styles.itemDate}>{item.date}</p>
-                                        </div>
-                                    </div>
-                                )) : (
-                                    <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
-                                        등록된 소식이 없습니다.
-                                    </div>
-                                )}
-                            </motion.div>
-                        </AnimatePresence>
-
-                        {/* Footer (Pagination) */}
-                        {posts.length > 0 && (
-                            <div className={styles.boardFooter}>
-                                <div className={styles.pagination}>
-                                    <button 
-                                        className={`${styles.pageArrow} material-symbols-outlined`}
-                                        disabled={currentPage === 1}
-                                        onClick={() => setCurrentPage(p => p - 1)}
-                                    >chevron_left</button>
-                                    
-                                    {[...Array(totalPages)].map((_, i) => (
-                                        <button 
-                                            key={i + 1}
-                                            className={`${styles.pageButton} ${currentPage === i + 1 ? styles.active : ''}`}
-                                            onClick={() => setCurrentPage(i + 1)}
-                                        >
-                                            {i + 1}
-                                        </button>
-                                    ))}
-                                    
-                                    <button 
-                                        className={`${styles.pageArrow} material-symbols-outlined`}
-                                        disabled={currentPage === totalPages}
-                                        onClick={() => setCurrentPage(p => p + 1)}
-                                    >chevron_right</button>
-                                </div>
-                            </div>
-                        )}
+                        <BoardList
+                            posts={currentPosts}
+                            onItemClick={handleItemClick}
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={setCurrentPage}
+                            emptyMessage="등록된 소식이 없습니다."
+                        />
                     </div>
                 </div>
             </SubPageSection>

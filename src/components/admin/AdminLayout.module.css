@@ -2,7 +2,19 @@
     display: flex;
     min-height: 100vh;
     font-family: 'Pretendard', sans-serif;
+    line-height: 1.8;
     background-color: #F9FAFB;
+}
+
+.adminContainer h1,
+.adminContainer h2,
+.adminContainer h3,
+.adminContainer h4,
+.adminContainer h5,
+.adminContainer h6 {
+    font-family: 'Pretendard', sans-serif;
+    line-height: 1.8;
+    letter-spacing: -0.02em;
 }
 
 .sidebar {
@@ -36,6 +48,9 @@
 }
 
 .navItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     padding: 12px 24px;
     color: #9CA3AF;
     text-decoration: none;

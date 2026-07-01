@@ -40,9 +40,11 @@ const AdminLayout = () => {
                 </div>
                 <nav className={styles.nav}>
                     <NavLink to="/manager-lounge" end className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}>
+                        <span className="material-symbols-outlined">dashboard</span>
                         대시보드 홈
                     </NavLink>
                     <NavLink to="/manager-lounge/posts" className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}>
+                        <span className="material-symbols-outlined">forum</span>
                         나눔터 (소식/주보)
                     </NavLink>
                     <NavLink 
@@ -87,6 +89,15 @@ const AdminLayout = () => {
                         <span className="material-symbols-outlined">storefront</span>
                         성도 사업체 관리
                     </NavLink>
+                    {auth.currentUser?.email === 'ing6023@gmail.com' && (
+                        <NavLink 
+                            to="/manager-lounge/migration"
+                            className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}
+                        >
+                            <span className="material-symbols-outlined">upload_file</span>
+                            데이터 마이그레이션
+                        </NavLink>
+                    )}
                 </nav>
                 <div className={styles.sidebarFooter}>
                     <button onClick={handleLogout} className={styles.logoutBtn}>로그아웃</button>

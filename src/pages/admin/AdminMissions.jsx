@@ -70,14 +70,9 @@ const AdminMissions = () => {
         return (
             <div key={missionId} style={{ backgroundColor: '#fff', padding: '24px', borderRadius: '8px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                    <h3 style={{ fontSize: '18px', fontWeight: '600' }}>{data.name}</h3>
-                    <button 
-                        onClick={() => handleSave(missionId)}
-                        disabled={saving}
-                        style={{ backgroundColor: '#10B981', color: '#fff', padding: '8px 16px', borderRadius: '6px', border: 'none', cursor: 'pointer', fontWeight: '500' }}
-                    >
-                        {saving ? '저장 중...' : '변경사항 저장'}
-                    </button>
+                    <h3 style={{ fontSize: '20px', fontWeight: '600' }}>
+                        {missionId === 'overseas' ? '해외 선교' : '국내 선교'}
+                    </h3>
                 </div>
 
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -128,12 +123,22 @@ const AdminMissions = () => {
                         ))}
                     </tbody>
                 </table>
-                <button 
-                    onClick={() => handleAddListItem(missionId)}
-                    style={{ marginTop: '12px', backgroundColor: '#3B82F6', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer' }}
-                >
-                    + 새 항목 추가
-                </button>
+
+                <div style={{ display: 'flex', gap: '8px', marginTop: '16px', justifyContent: 'flex-end' }}>
+                    <button 
+                        onClick={() => handleAddListItem(missionId)}
+                        style={{ backgroundColor: 'var(--color-btn-add)', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer', fontWeight: '500' }}
+                    >
+                        + 새 항목 추가
+                    </button>
+                    <button 
+                        onClick={() => handleSave(missionId)}
+                        disabled={saving}
+                        style={{ backgroundColor: '#10B981', color: '#fff', padding: '8px 16px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontWeight: '500' }}
+                    >
+                        {saving ? '저장중...' : '변경사항 저장'}
+                    </button>
+                </div>
             </div>
         );
     };
@@ -149,13 +154,6 @@ const AdminMissions = () => {
                 <div style={{ backgroundColor: '#fff', padding: '24px', borderRadius: '8px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                         <h3 style={{ fontSize: '18px', fontWeight: '600' }}>목요전도팀 안내</h3>
-                        <button 
-                            onClick={() => handleSave('evangelism')}
-                            disabled={saving}
-                            style={{ backgroundColor: '#10B981', color: '#fff', padding: '8px 16px', borderRadius: '6px', border: 'none', cursor: 'pointer', fontWeight: '500' }}
-                        >
-                            {saving ? '저장 중...' : '변경사항 저장'}
-                        </button>
                     </div>
                     <div style={{ marginBottom: '16px' }}>
                         <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>문의처 연락처</label>
@@ -171,6 +169,16 @@ const AdminMissions = () => {
                         />
                     </div>
                     <p style={{ color: '#6B7280', fontSize: '14px' }}>* 전도팀 상세 안내 사항 및 스케줄은 현재 고정 텍스트로 표시됩니다. 향후 상세 편집 기능이 추가될 수 있습니다.</p>
+                    
+                    <div style={{ display: 'flex', gap: '8px', marginTop: '16px', justifyContent: 'flex-end' }}>
+                        <button 
+                            onClick={() => handleSave('evangelism')}
+                            disabled={saving}
+                            style={{ backgroundColor: '#10B981', color: '#fff', padding: '8px 16px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontWeight: '500' }}
+                        >
+                            {saving ? '저장중...' : '변경사항 저장'}
+                        </button>
+                    </div>
                 </div>
             )}
         </div>

@@ -16,6 +16,7 @@ const getBadgeStyle = (status) => {
             return { bg: '#DBEAFE', color: '#1E3A8A' }; // Light Blue
         case '마감임박':
             return { bg: '#FEF3C7', color: '#92400E' }; // Light Amber
+        case '마감':
         case '모집완료':
             return { bg: '#F3F4F6', color: '#374151' }; // Light Gray
         case '오픈예정':
@@ -143,47 +144,79 @@ const NextGenPage = () => {
                                 <h2 className={styles.eventsTitle}>주요 행사</h2>
                             </div>
                             <div className={styles.eventsGrid}>
-                                {activeData.events.map((ev, idx) => (
-                                    <motion.div
-                                        key={idx}
-                                        className={styles.eventCard}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ delay: idx * 0.1 }}
-                                        onClick={() => navigate(`/post/nextgen-${activeTab}-${idx}`, { 
-                                            state: { 
-                                                title: ev.title, 
-                                                author: activeData.name, 
-                                                date: ev.date, 
-                                                content: ev.desc, 
-                                                imageUrl: ev.img 
-                                            } 
-                                        })}
-                                    >
-                                        <div className={styles.eventImageWrapper}>
-                                            <img src={ev.img} alt={ev.title} className={styles.eventImage} />
-                                        </div>
-                                        <div>
-                                            <div className={styles.eventMeta}>
-                                                <span 
-                                                    className={styles.eventStatus} 
-                                                    style={{ 
-                                                        backgroundColor: getBadgeStyle(ev.status).bg,
-                                                        color: getBadgeStyle(ev.status).color
-                                                    }}
-                                                >
-                                                    {ev.status}
-                                                </span>
-                                                <span className={styles.eventDate}>
-                                                    {ev.date}
-                                                </span>
+                                {activeData.events.map((ev, idx) => {
+                                    let displayStatus = ev.status;
+                                    let displayDate = ev.date;
+
+                                    const formatDate = (dateStr) => {
+                                        if (!dateStr) return '';
+                                        const [y, m, d] = dateStr.split('-');
+                                        return `${y}. ${parseInt(m)}. ${parseInt(d)}.`;
+                                    };
+
+                                    if (ev.startDate || ev.endDate) {
+                                        const startStr = formatDate(ev.startDate);
+                                        const endStr = formatDate(ev.endDate);
+                                        if (startStr && endStr) displayDate = `${startStr} ~ ${endStr}`;
+                                        else if (startStr) displayDate = startStr;
+                                        else if (endStr) displayDate = endStr;
+                                    }
+
+                                    if (ev.endDate) {
+                                        const today = new Date();
+                                        const yyyy = today.getFullYear();
+                                        const mm = String(today.getMonth() + 1).padStart(2, '0');
+                                        const dd = String(today.getDate()).padStart(2, '0');
+                                        const todayStr = `${yyyy}-${mm}-${dd}`;
+                                        
+                                        if (todayStr > ev.endDate) {
+                                            displayStatus = '마감';
+                                        }
+                                    }
+
+                                    return (
+                                        <motion.div
+                                            key={idx}
+                                            className={styles.eventCard}
+                                            initial={{ opacity: 0, y: 20 }}
+                                            whileInView={{ opacity: 1, y: 0 }}
+                                            viewport={{ once: true }}
+                                            transition={{ delay: idx * 0.1 }}
+                                            onClick={() => navigate(`/post/nextgen-${activeTab}-${idx}`, { 
+                                                state: { 
+                                                    title: ev.title, 
+                                                    author: activeData.name, 
+                                                    date: displayDate, 
+                                                    content: ev.desc, 
+                                                    imageUrl: ev.img,
+                                                    imageUrls: ev.imageUrls
+                                                } 
+                                            })}
+                                        >
+                                            <div className={styles.eventImageWrapper}>
+                                                <img src={ev.img} alt={ev.title} className={styles.eventImage} />
                                             </div>
-                                            <h3 className={styles.eventTitle}>{ev.title}</h3>
-                                            <p className={styles.eventDesc}>{ev.desc}</p>
-                                        </div>
-                                    </motion.div>
-                                ))}
+                                            <div>
+                                                <div className={styles.eventMeta}>
+                                                    <span 
+                                                        className={styles.eventStatus} 
+                                                        style={{ 
+                                                            backgroundColor: getBadgeStyle(displayStatus).bg,
+                                                            color: getBadgeStyle(displayStatus).color
+                                                        }}
+                                                    >
+                                                        {displayStatus}
+                                                    </span>
+                                                    <span className={styles.eventDate}>
+                                                        {displayDate}
+                                                    </span>
+                                                </div>
+                                                <h3 className={styles.eventTitle}>{ev.title}</h3>
+                                                <p className={styles.eventDesc}>{ev.desc}</p>
+                                            </div>
+                                        </motion.div>
+                                    );
+                                })}
                             </div>
                         </section>
                     )}

@@ -29,6 +29,7 @@ import AdminPosts from './pages/admin/AdminPosts';
 import AdminSchedule from './pages/admin/AdminSchedule';
 import AdminMembersNews from './pages/admin/AdminMembersNews';
 import AdminMemberBusiness from './pages/admin/AdminMemberBusiness';
+import Migration from './pages/admin/Migration';
 
 import Lenis from 'lenis';
 import './App.css';
@@ -74,6 +75,7 @@ function AppRoutes() {
             <Route path="schedule" element={<AdminSchedule />} />
             <Route path="members-news" element={<AdminMembersNews />} />
             <Route path="member-business" element={<AdminMemberBusiness />} />
+            <Route path="migration" element={<Migration />} />
         </Route>
       </Routes>
     </>

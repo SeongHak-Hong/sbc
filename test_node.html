@@ -1,0 +1,796 @@
+
+<!-- 헤더 include -->
+
+
+
+
+
+
+
+
+<html>
+<head>
+<title>신탄진침례교회</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta http-equiv="Description" name="Description" content="신탄진교회,신탄진침례교회, 대전 석봉동 교회, 담임목사 최영락" />
+<meta http-equiv="Expires" content="Mon, 06 Jan 1990 00:00:01 GMT">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+
+
+<meta name="google-site-verification" content="google-site-verification: googlef5fac054ad39976c.h" />
+
+
+<meta name="naver-site-verification" content="8df1553969df3d093c784dcdd24f5b6407193746" />
+
+ 
+<!-- 동영상 모달 CSS 추가 -->
+<!-- 개발용 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script> -->
+<!-- 운영용 -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.min.js"></script>
+<script type="text/javascript" src="/common/user/js/component.js"></script>
+
+ <link rel="icon" href="/common/frnt/img/favicon.ico">
+
+<link type="text/css" href="/common/user/css/basic.css?v=20231219" rel="stylesheet"/>
+<link type="text/css" href="/common/user/css/style.css?v=20240424" rel="stylesheet"/>
+<link type="text/css" href="/common/user/css/menubar.css" rel="stylesheet"/>
+<link type="text/css" href="/common/lib/jquery/jquery-ui/jquery-ui.min.css" rel="stylesheet"/>
+<link type="text/css" href="/common/lib/jquery/tree/jquery.tree.css" rel="stylesheet"/>
+<link type="text/css" href="/common/lib/jquery/coin-slider/coin-slider-styles.css" rel="stylesheet"/>
+<link type="text/css" href="/common/lib/slide/slide.css" rel="stylesheet"/>
+<link type="text/css" href="/common/lib/player/video/video-js.css" rel="stylesheet"/>
+<link type="text/css" href="/common/lib/player/video/video-speed.css" rel="stylesheet"/>
+<link rel="stylesheet" href="/common/libs/bootstrap-5.0.2-dist/css/bootstrap.css">
+
+<!-- 동영상 모달 CSS 추가 -->
+<link rel="stylesheet" href="/common/user/css/vod-upload-modal.css">
+<!-- Element UI CSS 추가 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- TUS.js 추가 (동영상 업로드용) -->
+<script src="https://cdn.jsdelivr.net/npm/tus-js-client@3.1.0/dist/tus.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuejs-datepicker@1.6.2/dist/vuejs-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script src="/common/libs/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript" src="/common/lib/player/video/swfobject.js"></script>
+<script type="text/javascript" src="/common/lib/player/video/video.js"></script>                  
+<script type="text/javascript" src="/common/lib/player/video/video-speed.js"></script>    
+<script type="text/javascript" src="/common/lib/player/video/videoHandlers.js"></script>
+
+<script type="text/javascript" src="/common/lib/jquery/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="/common/lib/jquery/jquery.upload-1.0.2.js"></script>
+
+<!-- elUplod용 추가 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+<script type="text/javascript">
+jQuery.browser = {};
+(function () {
+    jQuery.browser.msie = false;
+    jQuery.browser.version = 0;
+    if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+        jQuery.browser.msie = true;
+        jQuery.browser.version = RegExp.$1;
+    }
+})();
+</script>
+
+<script type="text/javascript" src="/common/lib/jquery/jquery.innerfade.js"></script>
+<script type="text/javascript" src="/common/lib/jquery/jquery.scroll-follow.js"></script>
+<script type="text/javascript" src="/common/lib/jquery/jquery.filestyle.js"></script>
+<script type="text/javascript" src="/common/lib/jquery/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/common/lib/jquery/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/common/lib/jquery/coin-slider/coin-slider.min.js"></script>
+<script type="text/javascript" src="/common/lib/jquery/jPlayer.2.1.0/jquery.jplayer.min.js"></script>
+<script type="text/javascript" src="/common/lib/jquery/scrollable/scrollable.js"></script>
+<script type="text/javascript" src="/common/lib/jquery/scrollable/scrollable.navigator.js"></script>
+<script type="text/javascript" src="/common/lib/jquery/scrollable/scrollable.autoscroll.js"></script>
+<script type="text/javascript" src="/common/lib/jquery/jquery.cookie.js"></script>  
+<script type="text/javascript" src="/common/lib/zeroclipboard/ZeroClipboard.js"></script>
+<script type="text/javascript" src="/common/lib/escroll/scroll.js"></script>
+<script type="text/javascript" src="/common/js/validate.js"></script>
+<script type="text/javascript" src="/common/js/common.js?v=20240725"></script>
+<script type="text/javascript" src="/common/user/js/menu.js"></script>
+<script type="text/javascript" src="/common/user/js/player.js"></script>
+<script type="text/javascript" src="/common/user/js/user.js?v=20240725"></script>
+<script src="https://t1.kakaocdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<script type="text/javascript">
+var subContImageUseAt  = "Y";
+var copyDetectRes      = "true";
+var subMenuMoveAt      = "0";
+var subMenuMovePx      = "70";
+var subMenuMove        = "";
+var subTypeId          = "5";
+var subColor           = "";
+var userAuthCd         = "2";
+
+// 메인스킨 효과
+$(document).ready(function(){
+    if(subContImageUseAt == 'Y'){
+        $("#bbs tr").removeAttr("bgcolor");
+        $("#frm tr").removeAttr("bgcolor");
+        $("#frm td").removeAttr("bgcolor");
+        $("#frm table").removeAttr("bgcolor");
+        $("#phtoBbs tr").removeAttr("bgcolor");
+    }
+
+    var subMenuDiv = $("#sub_menu_div");
+    if(subMenuMoveAt == '1'){
+        $("#sub_menu_tr").attr("height",subMenuDiv.height()-subMenuMovePx);
+    }
+
+    var subMenuCentDiv = $("#sub_menu_cent_div");
+    if(subTypeId == "5"){
+        $("#sub_menu_cent_tr").attr("height",subMenuCentDiv.height()-200);
+    }
+});
+</script>
+</head>
+
+  <!-- 헤더 여기부터 -->
+  
+
+
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+    $('#menu6 > li').bind('mouseover', menuOpen);
+    $('#menu6 > li').bind('mouseout',  menuTimer); 
+      
+    //상위 메뉴바 후버 효과
+    $(".topmenuBar").hover(
+    //마우스 오버 했을때
+        function(){
+            $(this).css("background","");
+            $(this).css("TEXT-DECORATION", 'underline');
+        },
+        //마우스 아웃했을때
+        function(){
+            $(this).css("background","");
+            $(this).css("TEXT-DECORATION", '');
+        }
+    );
+    //하위 메뉴바 후버 효과
+    $(".submenuBar").hover(
+        //마우스 오버 했을때
+        function(){
+            $(this).css("background", '#055692');
+        },
+        //마우스 아웃했을때
+        function(){
+            $(this).css("background","");
+        }
+    );
+});
+</script>
+
+<body leftmargin='0' topmargin='0' 
+   
+  
+      style="background-image:url('/servlet/FileView?img=1767184704337.png&dir=pds&ext=png'); background-repeat:no-repeat; background-position:center top;
+      
+          background-attachment:fixed;
+      "
+  
+  >
+  
+
+<div align=center style='position:absolute;top:20px; left:50%; width:1000; margin-left:-500px;'>
+<table width=1002 cellpadding=0 cellspacing=0 align=center>
+
+  
+  
+  
+  
+
+  <div style="display:block; position:relative; width:1002px">
+    <div style="position: absolute; top:px; left:px;">
+      
+    </div>
+  </div>
+  <div style="display:block; position:relative; width:1002px">
+    <div style="position: absolute; top:px; left:px;">
+      
+    </div>
+  </div> 
+
+  <tr>
+    <!-- 서브스킨 영역 여기부터 -->
+    <td id ="subSkinArea"  height='115' valign=top >
+      <script type='text/javascript'>
+$('#subSkinArea').css({'background-image':'url("/servlet/FileView?img=&dir=pds&ext=")', 'background-size' : '1002px 0px'});</script>
+
+
+      <table width=1002 cellpadding=0 cellspacing=0 border=0 style="z-index:2;">
+        <tr>
+          <!-- 상단로고 여기부터 -->
+          
+          
+          <td width='228' align='center' rowspan='2' valign='bottom'><table width='180' border='0' cellpadding='0' cellspacing='0'><tr><td height='60' align='center' valign='middle'><div id='logo'><a href='/user/main/index'><img src='/servlet/FileView?img=1767179911977.png&dir=pds&ext=png' width='180' height='60'></a></div></td></tr></table></td>
+          
+          
+          
+          <!-- 상단로고 여기까지 -->
+          
+          <td height=46 align=right valign=top style=padding-right:15px>
+            <!--인트라넷 여기부터 -->
+            <table border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td><img src="/common/user/img/G_subm_left.png"></td>
+                <td align=center background=/common/user/img/G_subm_bg.gif><a href="/user/main/index"><img src="/common/user/img/G_subm1.gif"></a></td>
+                <td align=center valign="top" background=/common/user/img/G_subm_bg.gif><img src="/common/user/img/G_subm_line.gif"></td>
+                <td align=center background=/common/user/img/G_subm_bg.gif>
+                  
+                  
+                  
+                  <a href='/user/login/index'><img src=/common/user/img/G_subm2.gif></a>
+                  
+                  
+                </td>
+                
+                
+                <td align=center valign="top" background=/common/user/img/G_subm_bg.gif><img src="/common/user/img/G_subm_line.gif"></td>
+                <td align=center background=/common/user/img/G_subm_bg.gif><a href="/user/member/index?langType=ko"><img src="/common/user/img/G_subm3.gif"></a></td>
+                <td align=center valign="top" background=/common/user/img/G_subm_bg.gif><img src="/common/user/img/G_subm_line.gif"></td>
+                <td align=center background=/common/user/img/G_subm_bg.gif><a href="/user/login/idpw"><img src="/common/user/img/G_subm4.gif"></a></td>
+                
+
+                <!-- 쇼핑관련메뉴(2차 개발)
+                <td align=center valign="top" background=/common/user/img/G_subm_bg.gif><img src="/common/user/img/G_subm_line.gif"></td>
+                <td align=center background=/common/user/img/G_subm_bg.gif><a href="cs_order_list.php"><img src="/common/user/img/G_subm_check1.gif"></a></td>
+                <td align=center valign="top" background=/common/user/img/G_subm_bg.gif><img src="/common/user/img/G_subm_line.gif"></td>
+                <td align=center background=/common/user/img/G_subm_bg.gif><a href="cs_login_no_member_check.php"><img src="/common/user/img/G_subm_check1_2.gif"></a></td>
+                <td align=center valign="top" background=/common/user/img/G_subm_bg.gif><img src="/common/user/img/G_subm_line.gif"></td>
+                <td align=center background=/common/user/img/G_subm_bg.gif><a href="#"><img src="/common/user/img/G_subm_check2.gif"></a></td>
+                -->
+                <td align=center valign="top" background=/common/user/img/G_subm_bg.gif><img src="/common/user/img/G_subm_line.gif"></td>
+                <td align=center background=/common/user/img/G_subm_bg.gif><a href="/user/common/sitemap"><img src="/common/user/img/G_subm6.gif"></a></td>
+                
+                <td align=center valign="top" background=/common/user/img/G_subm_bg.gif><img src="/common/user/img/G_subm_line.gif"></td>
+                <!--td align=center background=/common/user/img/G_subm_bg.gif><a href="http://255.co.kr" target="_blank"><img src="/common/user/img/G_subm9.png"></a></td  -->
+                <td><img src="/common/user/img/G_subm_right.png"></td>
+              </tr>
+            </table>
+            <!--인트라넷 여기까지 -->
+          </td>
+        </tr>
+        <tr>
+          <td width='774' height=40 align="center" >
+            <!-- 상단메뉴 여기부터 -->
+            
+            <div style = 'position:relative;z-index:10;'>
+            <ul id='menu6' no-repeat;width:767px;'><li width='124px'><a href='#' class='topmenuBar' id='topmenu0' onclick=subMainAT('/user/bbs/html/index?menuId=10010007&topMenuId=1&menuType=27&newmenuAt=1',10010007); style='text-align: center; letter-spacing:-1.5px; width:124px;font-family:나눔고딕,나눔고딕체;font-size:16px;color:#FFFFFF;font-weight:600;'>교회소개</a><ul style='background-color:#003d93;position:absolute;width:142px;'><li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=subMainAT('/user/bbs/html/index?menuId=10010007&topMenuId=1&menuType=27&newmenuAt=1',10010007) >&nbsp;&nbsp;신앙가이드</a></li>
+<li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=subMainAT('/user/bbs/html/index?menuId=10005033&topMenuId=1&menuType=27&newmenuAt=1',10005033) >&nbsp;&nbsp;섬기는분</a></li>
+<li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=subMainAT('/user/bbs/html/index?menuId=10009977&topMenuId=1&menuType=27&newmenuAt=1',10009977) >&nbsp;&nbsp;교회연혁</a></li>
+<li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=subMainAT('/user/bbs/html/index?menuId=13861&topMenuId=1&menuType=27&newmenuAt=0',13861) >&nbsp;&nbsp;예배시간</a></li>
+<li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=subMainAT('/user/bbs/calendar/index?menuId=10009848&topMenuId=1&menuType=6&newmenuAt=1',10009848) >&nbsp;&nbsp;교회일정</a></li>
+<li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=subMainAT('/user/bbs/html/index?menuId=13764&topMenuId=1&menuType=27&newmenuAt=0',13764) >&nbsp;&nbsp;오시는길</a></li>
+<li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=subMainAT('/user/bbs/html/index?menuId=10008642&topMenuId=1&menuType=27&newmenuAt=1',10008642) >&nbsp;&nbsp;차량운행안내</a></li>
+<li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=subMainAT('/user/bbs/html/index?menuId=10010384&topMenuId=1&menuType=27&newmenuAt=1',10010384) >&nbsp;&nbsp;온라인헌금안내</a></li>
+</ul></li><li style = 'width:2px;'></li><li width='124px'><a href='#' class='topmenuBar' id='topmenu1' onclick=goLinkurl('http://www.youtube.com/@sbc6312/streams',1); style='text-align: center; letter-spacing:-1.5px; width:124px;font-family:나눔고딕,나눔고딕체;font-size:16px;color:#FFFFFF;font-weight:600;'>예배/방송</a><ul style='background-color:#003d93;position:absolute;width:142px;'><li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=goLinkurl('http://www.youtube.com/@sbc6312/streams',1) >&nbsp;&nbsp;유튜브영상예배</a></li>
+</ul></li><li style = 'width:2px;'></li><li width='124px'><a href='#' class='topmenuBar' id='topmenu2' onclick=subMainAT('/user/bbs/general/index?menuId=14002&topMenuId=3&menuType=1&newmenuAt=0',14002); style='text-align: center; letter-spacing:-1.5px; width:124px;font-family:나눔고딕,나눔고딕체;font-size:16px;color:#FFFFFF;font-weight:600;'>교회소식</a><ul style='background-color:#003d93;position:absolute;width:142px;'><li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=subMainAT('/user/bbs/general/index?menuId=14002&topMenuId=3&menuType=1&newmenuAt=0',14002) >&nbsp;&nbsp;교회소식</a></li>
+<li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=subMainAT('/user/bbs/general/index?menuId=14001&topMenuId=3&menuType=1&newmenuAt=0',14001) >&nbsp;&nbsp;교우마당</a></li>
+<li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=subMainAT('/user/bbs/photo/index?menuId=14003&topMenuId=3&menuType=9&newmenuAt=0',14003) >&nbsp;&nbsp;교회갤러리</a></li>
+<li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=subMainAT('/user/bbs/general/index?menuId=10010387&topMenuId=3&menuType=1&newmenuAt=1',10010387) >&nbsp;&nbsp;교우사업체</a></li>
+</ul></li><li style = 'width:2px;'></li><li width='124px'><a href='#' class='topmenuBar' id='topmenu3' onclick=subMainAT('/user/bbs/html/index?menuId=10009008&topMenuId=4&menuType=27&newmenuAt=1',10009008); style='text-align: center; letter-spacing:-1.5px; width:124px;font-family:나눔고딕,나눔고딕체;font-size:16px;color:#FFFFFF;font-weight:600;'>양육 훈련</a><ul style='background-color:#003d93;position:absolute;width:142px;'><li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=subMainAT('/user/bbs/html/index?menuId=10009008&topMenuId=4&menuType=27&newmenuAt=1',10009008) >&nbsp;&nbsp;양육새가족</a></li>
+<li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=subMainAT('/user/bbs/html/index?menuId=10008639&topMenuId=4&menuType=27&newmenuAt=1',10008639) >&nbsp;&nbsp;교  구(구역)</a></li>
+<li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=subMainAT('/user/bbs/html/index?menuId=10009391&topMenuId=4&menuType=27&newmenuAt=1',10009391) >&nbsp;&nbsp;성경공부</a></li>
+</ul></li><li style = 'width:2px;'></li><li width='124px'><a href='#' class='topmenuBar' id='topmenu4' onclick=subMainAT('/user/bbs/html/index?menuId=10009006&topMenuId=5&menuType=27&newmenuAt=1',10009006); style='text-align: center; letter-spacing:-1.5px; width:124px;font-family:나눔고딕,나눔고딕체;font-size:16px;color:#FFFFFF;font-weight:600;'>다음세대</a><ul style='background-color:#003d93;position:absolute;width:142px;'><li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=subMainAT('/user/bbs/html/index?menuId=10009006&topMenuId=5&menuType=27&newmenuAt=1',10009006) >&nbsp;&nbsp;교회학교</a></li>
+<li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=subMainAT('/user/bbs/general/index?menuId=10009007&topMenuId=5&menuType=1&newmenuAt=1',10009007) >&nbsp;&nbsp;다음세대의 모든것</a></li>
+</ul></li><li style = 'width:2px;'></li><li width='124px'><a href='#' class='topmenuBar' id='topmenu5' onclick=subMainAT('/user/bbs/general/index?menuId=14048&topMenuId=6&menuType=1&newmenuAt=0',14048); style='text-align: center; letter-spacing:-1.5px; width:124px;font-family:나눔고딕,나눔고딕체;font-size:16px;color:#FFFFFF;font-weight:600;'>선교/전도</a><ul style='background-color:#003d93;position:absolute;width:142px;'><li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=subMainAT('/user/bbs/general/index?menuId=14048&topMenuId=6&menuType=1&newmenuAt=0',14048) >&nbsp;&nbsp;선교와전도게시판</a></li>
+<li width='124px'><a href='#' class='submenuBar' style='font-family:나눔고딕,나눔고딕체;color:#ffffff;font-weight:normal;;width: 142px;' onclick=subMainAT('/user/bbs/general/index?menuId=10010335&topMenuId=6&menuType=1&newmenuAt=1',10010335) >&nbsp;&nbsp;선교와전도소개</a></li>
+</ul></li></ul>
+            </div>
+            
+            <!-- 상단메뉴 여기까지 -->
+          </td>
+        </tr>
+        <!-- mod end -->
+        <!--메인이미지부분:시작-->
+        <tr>
+          <td colspan=2 height='0'></td>
+        </tr>
+        <!--메인이미지부분:끝-->
+      </table>
+    </td>
+    <!-- 서브스킨 영역 여기까지 -->
+    <td rowspan='6' valign='top'>
+      <div id="rightBar" style=" right:-190px; margin: auto; position: relative;">
+        <div id="rightBanner">
+          <!-- 우측퀵메뉴 -->                          
+          <table border='0' cellspacing='0' cellpadding='0'>
+<tr>
+<td><img src='/common/user/img/quick_top.png' width='145' height='40'></td>
+</tr>
+<tr>
+<td align='center' background=/common/user/img/quick_bg.png>
+<table border='0' cellspacing='0' cellpadding='0'>
+<tr><td align='center'><b><a href='http://shintanjin.hompee.org/user/bbs/html/index.hpc?menuId=10005033&topMenuId=1&menuType=27&newmenuAt=true' target='_blank'>섬기는 분들</a></b></td></tr>
+<tr><td align='center'><img src='/common/user/img/quick_line.png'></td></tr>
+<tr><td align='center'><b><a href='http://www.youtube.com/@sbc6312' target='_blank'>예배영상</a></b></td></tr>
+<tr><td align='center'><img src='/common/user/img/quick_line.png'></td></tr>
+<tr><td align='center'><b><a href='http://www.jesuson.net/home/default.aspx' target='_blank'>교적부</a></b></td></tr>
+<tr><td align='center'><img src='/common/user/img/quick_line.png'></td></tr>
+</table>
+</td>
+</tr>
+<tr>
+<td><img src='/common/user/img/quick_bot.png' width='145' height='35'></td>
+</tr>
+</table><br/>
+
+          <!-- ADD : S jihyun 2018.06.28 QR 코드 누락 추가 -->
+          <!-- QR 코드 -->  
+          
+          <!-- ADD : E jihyun 2018.06.28 QR 코드 누락 추가 -->
+          <!-- 우측배너리스트 -->                          
+          
+        </div>
+      </div>
+    </td>
+  </tr>
+
+  
+
+  <!-- 헤더 여기까지 -->
+
+  <tr id="sub_menu_cent_tr">
+    <td>
+      <table width=1002 cellpadding=0 cellspacing=0>
+        <tr id="sub_menu_tr">
+          <td width=200 valign=top style=padding-top:6px>
+            <div id="sub_menu_div" >
+              <!-- 서브메뉴 여기부터 -->
+              
+              
+              
+              
+              
+              
+              
+              <table cellpadding=0 cellspacing=0>
+  <tr>
+    <td>
+<table width=200 height=60 cellpadding=0 cellspacing=0>
+  <tr>
+    <td style='padding-left:40px;padding-top:11px' valign=top>
+      <b class=b_white style='font-family:나눔고딕,나눔고딕체;font-size:16px;font-style:bold;font-weight:normal;'>교회소식</b>
+    </td>
+  </tr>
+</table>
+<table width=200 cellpadding=0 cellspacing=0 >
+  <tr height='25'>
+    <td style='padding-left:21px;padding-top:2px'>
+<img src='/common/data/upload/design_layout/subm/type03/c23/subm_icon.gif' align='absmiddle' />
+<a class='blockUIclick' url='/user/bbs/general/index?menuId=14002&topMenuId=&menuType=1&newmenuAt=0' href='#none' style='font-family:나눔고딕,나눔고딕체;font-size:12px;color:#ffffff;font-weight:normal;'>교회소식</a>&nbsp;<img src='/common/user/img/icon_new.png' align='absmiddle'/>    </td>
+  </tr>
+  <tr>
+    <td height='1' colspan='3' style='text-align:center;'><img src='/common/data/upload/design_layout/subm/type03/c23/subm_line.gif' /></td>
+  </tr>
+  <tr height='25'>
+    <td style='padding-left:21px;padding-top:2px'>
+<img src='/common/data/upload/design_layout/subm/type03/c23/subm_icon.gif' align='absmiddle' />
+<a class='blockUIclick' url='/user/bbs/general/index?menuId=14001&topMenuId=&menuType=1&newmenuAt=0' href='#none' style='font-family:나눔고딕,나눔고딕체;font-size:12px;color:#ffffff;font-weight:normal;'>교우마당</a>    </td>
+  </tr>
+  <tr>
+    <td height='1' colspan='3' style='text-align:center;'><img src='/common/data/upload/design_layout/subm/type03/c23/subm_line.gif' /></td>
+  </tr>
+  <tr height='25'>
+    <td style='padding-left:21px;padding-top:2px'>
+<img src='/common/data/upload/design_layout/subm/type03/c23/subm_icon.gif' align='absmiddle' />
+<a class='blockUIclick' url='/user/bbs/photo/index?menuId=14003&topMenuId=&menuType=9&newmenuAt=0' href='#none' style='font-family:나눔고딕,나눔고딕체;font-size:12px;color:#ffffff;font-weight:normal;'>교회갤러리</a>    </td>
+  </tr>
+  <tr>
+    <td height='1' colspan='3' style='text-align:center;'><img src='/common/data/upload/design_layout/subm/type03/c23/subm_line.gif' /></td>
+  </tr>
+  <tr height='25'>
+    <td style='padding-left:21px;padding-top:2px'>
+<img src='/common/data/upload/design_layout/subm/type03/c23/subm_icon.gif' align='absmiddle' />
+<a class='blockUIclick' url='/user/bbs/general/index?menuId=10010387&topMenuId=&menuType=1&newmenuAt=1' href='#none' style='font-family:나눔고딕,나눔고딕체;font-size:12px;color:#ffffff;font-style:bold;font-weight:normal;'>교우사업체</a>    </td>
+  </tr>
+  <tr>
+    <td height='1' colspan='3' style='text-align:center;'><img src='/common/data/upload/design_layout/subm/type03/c23/subm_line.gif' /></td>
+  </tr>
+</table>
+    </td>  </tr>
+</table>
+
+              
+              
+              
+              
+              
+              
+              <!-- 서브메뉴하단 배너 시작 -->
+              <table width="200" border="0" cellspacing="0" cellpadding="0">
+              
+              </table>
+              <!-- 서브메뉴하단 배너 끝-->
+              <!-- 서브메뉴 여기까지 -->
+            </div>
+          </td>
+          <td width=14></td>
+          <td width=788 valign=top align=center>
+            <!--##### 본문내용 여기부터 #####-->
+            <table cellpadding=0 cellspacing=0>
+                <tr>
+                    <td style = 'background-color:#FFFFFF;' >
+                        <!-- 타이틀 및 네비게이션 여기부터 -->
+                        <table width=788 cellpadding=0 cellspacing=0>
+                          <tr height='45'>
+                            <!--  서브 페이지 컬러/이미지 설정이 있다면. -->
+                            
+                            
+                            <td>
+                            
+                            
+                            
+                              <table width='788' height=48 cellpadding='0' cellspacing='0'>
+<tr>
+<td width=50% style=padding-left:18px>
+<table height='35' cellpadding='0' cellspacing='0'>
+<tr>
+<td><img src='/common/data/upload/design_layout/title/type03/c23/tit_left.png'></td>
+<td background='/common/data/upload/design_layout/title/type03/c23/tit_bg.png' align=center valign=top style='padding-top:6px;padding-left:28px;padding-right:33px'><b class='b_white' style='font-family:나눔고딕,나눔고딕체;font-size:16px;font-style:bold;font-weight:normal;'>교우사업체</b></td>
+<td><img src='/common/data/upload/design_layout/title/type03/c23/tit_right.png'></td>
+</tr>
+</table>
+</td>
+<td align='right' valign=top style='padding-right:20px;padding-top:17px' class='s_history' width=50%>
+<img src='/common/user/img/icon_history.png' align='absmiddle'> 홈<b style=color:#d1b151> > </b>교회소식<b style=color:#d1b151> > </b>교우사업체</td>
+</tr></table>
+                            </td>
+                          </tr>
+                        </table>
+                        <!-- 타이틀 및 네비게이션 여기까지 -->
+                        <table width=788 cellpadding=0 cellspacing=0>
+                          <tr>
+                            <!--  서브 페이지 컬러/이미지 설정이 있다면. -->
+                            
+                            
+                            <td align=center style="padding-top:12px;">
+                            
+                            
+                            
+                              <!-- @@ 내용 들어가는 곳:시작 @@ -->
+
+<script type="text/javascript" src="/common/user/js/bbsgeneral.js"></script>
+<script type="text/javascript">
+/**
+ * 클립보드(필수)
+ */
+$(document).ready(function(){
+	
+    Util.createHiddenTag('bbsFrm', 'currentUrl', 'value=https://shintanjin.hompee.org/user/bbs/general/view?menuId=10010387&bbsNo=283775');
+    Util.createHiddenTag('bbsFrm', 'menuId'    , 'value=10010387');
+    Util.createHiddenTag('bbsFrm', 'rootMenuId', 'value=');
+    Util.createHiddenTag('bbsFrm', 'menuType'  , 'value=');
+    Util.createHiddenTag('bbsFrm', 'newmenuAt' , 'value=');
+    Util.createHiddenTag('bbsFrm', 'pageNow'   , 'value=');
+    Util.createHiddenTag('bbsFrm', 'field'     , 'value=');
+    Util.createHiddenTag('bbsFrm', 'keyword'   , 'value=');
+    Util.createHiddenTag('bbsFrm', 'bbsNo'     , 'value=');
+    Util.createHiddenTag('bbsFrm', 'mode'      , 'value=');
+    Util.createHiddenTag('bbsFrm', 'commNo'    , '');
+    Util.createHiddenTag('bbsFrm', 'userAuthCd', 'value=2');
+    Util.createHiddenTag('bbsFrm', 'userId'    , 'value=');
+    
+    
+    var imgs = $('#printArea img');
+/*     for(var i = 0; i < imgs.length; i++){ 
+        if(imgs[i].width > 720){
+            imgs[i].width = 720;
+        }
+    } */
+    //플레시 사이즈
+    var flashs = $('#printArea embed');
+    for(var i = 0; i < flashs.length; i++){
+        if(flashs[i].width > 720){
+            flashs[i].width = 720;
+        }
+    } 
+    //add start  본문삽입<a> 새창 띄우기 
+    var aLink = $('#printArea a');
+    if(aLink.length > 0){
+    	 $('#printArea a').attr("target", "_blank");
+    }
+     //Add Start Suman.Choi 2018-12-18 url복사
+     $('#copyContentBtn').click(function(){
+    	 initClipBoard($('#currentUrl').val());
+      	});
+     //Add Start Suman.Choi 2019-01-18
+     //가로 크기가 큰 youtube 동영상 재생 시 크기 지정
+     var isTube = $('iframe').attr('src');
+     if(isTube != undefined){
+     if(isTube.indexOf("youtube") != -1){
+ 	   	 if($('iframe').width() > 730){
+ 	   		$('iframe').width("100%");
+ 		   	 }
+ 	   	 }
+	  }
+   	 //Add End Suman.Choi
+});
+//Mod Start hyeonbae.jeong 2018.06.25
+//사진의 너비가 720보다 큰 경우 너비를 조정하는 소스 수정
+$(window).on('load resize', function(){
+  $('#printArea img').each(function(){
+      var width = parseInt($(this).css("width"));
+      if(width>720) $(this).css("width", "720");
+  });
+});
+//Mod End hyeonbae.jeong 2018.06.25
+</script>
+
+<script id="dynamic"></script>
+ 
+<form id="bbsFrm" method="post">
+
+<table width=730 cellpadding=0 cellspacing=0 border=0><tr><td height='5' colspan='9' bgcolor='#ffffff'><img src='/servlet/FileView?img=1750215705170.png&dir=pds&ext=png'></td></tr></table><br/>
+
+<table width='730' cellpadding='0' cellspacing='0'>
+  <tr>
+    <td style='padding-bottom:5px'>
+      <table width='730' cellpadding='0' cellspacing='0'>
+      <tr height='30'>
+        <td width='5'><img src='/common/data/upload/design_layout/bbs/c23/bbs_left.png'></td>
+        <td background='/common/data/upload/design_layout/bbs/c23/bbs_bg.gif' align='center' width='720'><b class='white'></b></td>
+        <td width='5'><img src='/common/data/upload/design_layout/bbs/c23/bbs_right.png'></td>
+      </tr>
+      </table>
+    </td>
+  </tr>
+  <!--tr>
+    <td>
+      <table border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td><a href="http://facebook.com/" target="_blank"><img src="/common/user/img/btn_sns01.gif"/></a></td>
+        <td><a href="http://twitter.com/" target="_blank"><img src="/common/user/img/btn_sns02.gif"/></a></td>
+        <td><a href="http://www.me2day.net" target="_blank"><img src="/common/user/img/btn_sns03.gif"/></a></td>
+        <td><a href="http://www.cyworld.com/" target="_blank"><img src="/common/user/img/btn_sns04.gif"/></a></td>
+        <td><a href="http://bookmark.naver.com/" target="_blank"><img src="/common/user/img/btn_sns05.gif"/></a></td>
+        <td><a href="http://www.google.co.kr/" target="_blank"><img src="/common/user/img/btn_sns06.gif"/></a></td>
+      </tr>
+      </table>
+    </td>
+  </tr-->
+  <tr>
+    <td>
+      <table width="730" cellpadding="5" cellspacing="1" bgcolor="#dbdbdb">
+        <tr>
+          <td bgcolor="#efeeee" height="30" align="center" style="padding-top:6px">
+            <table width="97%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td><b>글쓴이</b> : </td>
+                <td align="right">
+                  <b>날짜</b> :  &nbsp;
+                  <b>조회수</b> :  &nbsp;
+                  <a href=# onclick="articlePrint('', '', '');return false;">
+                	<img src="/common/user/img/btn_print.gif" align="absmiddle"/>
+                  </a>
+                  
+                  <img id="copyContentBtn" class='cursor' src="/common/user/img/btn_copyurl.gif" align="absmiddle"/>
+                  
+                  <input id="clip_target" type="text" value="" style="position:absolute;top:-9999em;"/>
+                  
+                  
+                  
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class='substance' bgcolor="#ffffff"">  
+            <div id='printArea'></div>       
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td align='center' class="pt-3">
+      <table width='98%' cellpadding='0' cellspacing='1'>
+        <tr>
+          <td width='50%'>
+            
+            
+            
+            
+          </td>
+          <td width='50%' align='right'>
+<!--             답변쓰기 (Form.getReplyButton) -->
+            
+            
+            <img id='btnList' class='cursor' src="/common/data/upload/design_layout/btn/c23/btn_product_list_center.png">
+            
+            
+            <br>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+  
+ 
+
+<br>
+<br>
+<table width='730' cellpadding='0' cellspacing='0' border='0'>
+  
+  <tr height=30>
+<td width=5><img src=/common/data/upload/design_layout/bbs/c23/bbs_left.png></td>
+<td background=/common/data/upload/design_layout/bbs/c23/bbs_bg.gif align=center width=30><b class=white>번호</b></td>
+<td background=/common/data/upload/design_layout/bbs/c23/bbs_bg.gif align=center><b class=white>제목</b></td>
+<td background=/common/data/upload/design_layout/bbs/c23/bbs_bg.gif align=center width=70><b class=white>글쓴이</b></td>
+<td background=/common/data/upload/design_layout/bbs/c23/bbs_bg.gif align=center width=80><b class=white>날짜</b></td>
+<td background=/common/data/upload/design_layout/bbs/c23/bbs_bg.gif align=center width=40><b class=white>파일</b></td>
+<td background=/common/data/upload/design_layout/bbs/c23/bbs_bg.gif align=center width=50><b class=white>조회수</b></td>
+<td width=5><img src=/common/data/upload/design_layout/bbs/c23/bbs_right.png></td>
+</tr>
+
+</table>
+<table width="730" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td colspan='2' height='1' bgcolor='#ffffff'>
+    </td>
+  </tr>
+  <tr height="38" bgcolor="#F5F5F5">
+    <td align="left" style="padding-left:13px">
+      <table cellpadding="2" cellspacing="0">
+      <tr>
+        <td style="padding-top:2px">
+          <select name='field'>
+                <option value='subject' >제목</option>
+                <option value='content' >내용</option>
+                <option value='UserNickName' >글쓴이</option>
+          </select>
+        </td>
+        <td>
+          <input type='text' name='keyword' id='keyword' value='' size="15">
+        </td>
+        <td><img id='btnSearch' class='cursor' src="/common/user/img/btn_srch.gif"></td>
+      </tr>
+      </table>
+    </td>
+    <td align="right" style="padding-right:15px"></td>
+  </tr>
+  <tr>
+    <td colspan="2" height="10">
+    </td>
+  </tr>
+  <tr>
+    <td align="left" style="padding-left:10px">
+      <table cellpadding='2' cellspacing='0'>
+      <tr>
+        <td style="padding-left:5px">
+          
+          
+          
+          
+        </td>
+        <td style='padding-left:5px'>
+          
+          
+        </td>
+      </tr>
+      </table>
+    </td>
+    <td align="right" style="padding-right:10px">
+      
+      
+    </td>
+  </tr>
+</table>
+
+<!-- Add Start hyeonbae.jeong 2018.05.31 url상 파라미터가 다 전달되지 않는 문제 수정 -->
+<input type="hidden" name="currentUrl" id = "currentUrl" value = "https://shintanjin.hompee.org/user/bbs/general/view?menuId=10010387&bbsNo=283775"/>
+<!-- Add End -->
+</form>
+
+<!-- 푸터 import -->
+
+
+
+
+
+                              <!--@@ 내용 들어가는 곳:끝 @@ -->
+                            </td>
+                          </tr>
+                        </table>
+                        <!--  서브 페이지 컬러/이미지 설정이 없다면 하단 이미지 삽입 -->
+                        
+                        <img src=/common/user/img/bg_btm.png>
+                        
+                    </td>
+                </tr>
+            </table>
+            <!--##### 본문내용 여기까지 #####-->
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td height="10"></td>
+  </tr>
+  <tr>
+    <td align="center">
+      <!-- 푸터 여기부터 -->
+      <input type="hidden" name="mStop" id="mStop" value="0">
+      <table width="1002" cellpadding="0" cellspacing="0" >
+        <tr>
+          <td width='242' align='center'><a href='/user/main/index'><img src='/servlet/FileView?img=1767179900395.png&dir=pds&ext=png' width='180' height='60'></a></td>
+          <td width="767" style="line-height:18px; padding-top:8px"> 
+            <table width="98%" border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td width="5"><img src="/common/user/img/footer_sleft.png" width="6" height="20" /></td>
+                <td style="padding-left:3px"> 
+                  <a href="/user/common/use" class="footer_s" style="font-family:나눔고딕,나눔고딕체 ;font-size:12px;color:#ffffff;font-weight:normal;">이용약관 </a>
+                  &nbsp;<b style='color:#666666'>|</b>&nbsp;<a href="/user/common/privacy" class="footer_s" style="font-family:나눔고딕,나눔고딕체 ;font-size:12px;color:#ffffff;font-weight:normal;">개인정보처리방침</a>
+                  &nbsp;<b style='color:#666666'>|</b>&nbsp;<a href="/user/common/sitemap" class="footer_s" style="font-family:나눔고딕,나눔고딕체 ;font-size:12px;color:#ffffff;font-weight:normal;">사이트맵</a>
+                  &nbsp;<b style='color:#666666'>|</b>&nbsp;<span id='directLink1'><a href='/user/bbs/html/index?menuId=10010007&topMenuId=1&menuType=27&newmenuAt=1' class='footer_s' style='font-family:나눔고딕,나눔고딕체;font-size:12px;color:#ffffff;font-weight:normal;'>신앙가이드</a></span>&nbsp;<b style='color:#666666'>|</b>&nbsp;<span id='directLink2'><a href='/user/bbs/html/index?menuId=10001903&topMenuId=1&menuType=27&newmenuAt=1' class='footer_s' style='font-family:나눔고딕,나눔고딕체;font-size:12px;color:#ffffff;font-weight:normal;'>교회시설안내</a></span>&nbsp;<b style='color:#666666'>|</b>&nbsp;<span id='directLink3'><a href='/user/bbs/general/index?menuId=14002&topMenuId=3&menuType=1&newmenuAt=0' class='footer_s' style='font-family:나눔고딕,나눔고딕체;font-size:12px;color:#ffffff;font-weight:normal;'>교회소식</a></span>&nbsp;<b style='color:#666666'>|</b>&nbsp;<span id='directLink5'><a href='/user/bbs/html/index?menuId=13764&topMenuId=1&menuType=27&newmenuAt=0' class='footer_s' style='font-family:나눔고딕,나눔고딕체;font-size:12px;color:#ffffff;font-weight:normal;'>오시는길</a></span>
+                </td> 
+                <td width="5"><img src="/common/user/img/footer_sright.png" width="6" height="20" /></td>
+              </tr>
+            </table>
+            <table width="98%" border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="padding-top:7px; padding-bottom:5px; display:block; width:755px; word-break:normal;"><font face='나눔고딕,나눔고딕체' color='#ffffff'>상호&#40;회사명&#41; : 신탄진침례교회 <b style='color:#666666'>&nbsp;|&nbsp;</b> 주소 : 대전 대덕구 석봉로 17 &#40;석봉동, 신탄진교회&#41;  <b style='color:#666666'>&nbsp;|&nbsp;</b> 대표자 : 담임목사 최영락 <b style='color:#666666'>&nbsp;|&nbsp;</b> <br>개인정보관리책임자 : 신탄진침례교회 <b style='color:#666666'>&nbsp;|&nbsp;</b> 전화 : 042-932-8156 <b style='color:#666666'>&nbsp;|&nbsp;</b> E-mail : sbc8156@gmail.com <b style='color:#666666'>&nbsp;|&nbsp;</b> </font></td>
+              </tr>
+            </table>  
+            <table width="98%" border="0" cellpadding="0" cellspacing="0">
+              <tr> 
+                <td width="556" style="padding-bottom:5px" align="center"><span class="e_gray">Homepage Builder by 홈피닷컴(www.hompee.com)</span></td>
+                <td width="190" align="right" style="padding-bottom: 10px;">
+                  
+                  <div id="jquery_jplayer"></div>
+                  <div id="jp_container" class="player-container">
+                    <ul> 
+                      <li><img id='jogue' src='/common/user/img/btn_Player_jogue.gif'/></li>
+                      <li><a class="jp-play" href="#" onclick='musicPlay(); return false;'></a></li> 
+                      <li><a class="jp-pause" href="#" onclick='musicPause(); return false;'></a></li>
+                      <li><a class="jp-stop" href="#" onclick='musicStop(); return false;'></a></li>
+                      <li><img id='btnPrev' class='cursor' src='/common/user/img/music_pre.gif'/></li>
+                      <li><img id='btnNext' class='cursor' src='/common/user/img/music_next.gif'/></li>
+                      <li><img id='btnList' class='cursor' src='/common/user/img/music_list.gif'/></li>
+                    </ul>
+                  </div>
+                  <div id="playlist">
+                    <ul>
+                      <li>
+                        <img src="/common/user/img/playlist_top.png">
+                      </li>
+                      
+                    </ul>
+                  </div>                
+                  
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <!-- 푸터 여기까지 -->
+    </td>
+  </tr>
+  <tr>
+    <td align="center">&nbsp;</td>
+  </tr>
+</table>
+<div id="alert"></div>
+<div id="dialog"></div>
+</div>
+</body> 
+</html>
+<iframe name="mHIDE" width="0" height="0" frameborder="0"></iframe>          

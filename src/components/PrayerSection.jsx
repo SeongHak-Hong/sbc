@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { BlurFade } from './ui/BlurFade';
 import PretendardButton from './ui/PretendardButton';
+import { useNavigate } from 'react-router-dom';
 
 const PrayerSection = () => {
     const [isMobile, setIsMobile] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth <= 767);
@@ -50,7 +52,7 @@ const PrayerSection = () => {
                 <h2 style={titleStyle}>기쁨은 더하고,{isMobile ? <br /> : ' '}슬픔은 나누며.</h2>
             </BlurFade>
             <BlurFade delay={0.4} inView>
-                <PretendardButton style={buttonStyle}>
+                <PretendardButton style={buttonStyle} onClick={() => navigate('/members-news')}>
                     성도 소식 함께하기
                 </PretendardButton>
             </BlurFade>

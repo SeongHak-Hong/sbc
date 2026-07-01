@@ -103,47 +103,48 @@ const YoutubeSection = () => {
                     우리의 인생,
                 </h2>
 
-                {/* iPhone Frame */}
-                <div style={{ height: isMobile ? 'auto' : '100%', display: 'flex', justifyContent: 'center', zIndex: 10 }}>
+                {/* iPhone Frame Container */}
+                <div style={{ height: '100%', display: 'flex', justifyContent: 'center', zIndex: 10 }}>
                     <div
                         style={{
                             position: 'relative',
                             flexShrink: 0,
-                            width: isMobile ? '260px' : '360px', // Scaled down for mobile
-                            maxWidth: '100%', // Prevent overflow on very small devices
-                            height: 'auto', // Hug content tightly so absolute children don't stretch
+                            height: '100%', // Scale to available height
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center'
                         }}
                     >
-                        {/* Background Scene Replacement (SVG) */}
+                        {/* iPhone Screen Container (Groups Cover and Iframe) */}
                         <div style={{
                             position: 'absolute',
                             left: '50%',
                             top: '50%',
                             transform: 'translate(-50%, -50%)',
-                            width: '88%', // Match iframe width
-                            aspectRatio: '9 / 19.5', // Match iframe aspect ratio
-                            zIndex: isPlaying ? 1 : 3
-                        }}>
-                            <svg width="100%" height="100%">
-                                <rect width="100%" height="100%" rx={isMobile ? "24" : "32"} ry={isMobile ? "24" : "32"} fill="#000000" />
-                            </svg>
-                        </div>
-
-                        {/* YouTube Video */}
-                        <div style={{
-                            position: 'absolute',
-                            left: '50%',
-                            top: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            width: '88%',
-                            aspectRatio: '9 / 19.5', // iPhone 14 Pro rough ratio for inner screen
+                            width: '98%',
+                            height: '98%',
                             zIndex: 2,
-                            borderRadius: isMobile ? '24px' : '32px', // Adjusted border radius based on width
-                            overflow: 'hidden'
+                            /* 
+                                iPhone 비율(9:19.5)에 맞춰 
+                                가로(17.8%)와 세로(8.2%)를 다르게 주면 완벽한 원형을 유지하며 
+                                크기에 따라 비율로 무한정 늘어나고 줄어듭니다.
+                            */
+                            borderRadius: '17.8% / 8.2%', 
+                            overflow: 'hidden',
+                            backgroundColor: '#000'
                         }}>
+                            {/* Black Cover (Replaces SVG) */}
+                            <div style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                width: '100%',
+                                height: '100%',
+                                backgroundColor: '#000000',
+                                zIndex: isPlaying ? 1 : 3
+                            }}></div>
+
+                            {/* YouTube Video */}
                             <iframe
                                 src={`https://www.youtube.com/embed/bQ8ybnIaKDY?controls=0&modestbranding=1&rel=0${isPlaying ? '&autoplay=1' : ''}`}
                                 title="YouTube video player"
@@ -157,7 +158,8 @@ const YoutubeSection = () => {
                                     left: '0',
                                     width: '100%', 
                                     height: '100%',
-                                    display: 'block'
+                                    display: 'block',
+                                    zIndex: 2
                                 }}
                             ></iframe>
                         </div>
@@ -192,8 +194,8 @@ const YoutubeSection = () => {
                             alt="iPhone Frame" 
                             style={{
                                 position: 'relative',
-                                width: '100%', // Force 100% of parent width (360px)
-                                height: 'auto', // Auto height to maintain aspect ratio
+                                height: '100%', // Take full height of wrapper
+                                width: 'auto', // Maintain aspect ratio
                                 zIndex: 3,
                                 pointerEvents: 'none',
                                 display: 'block'
@@ -240,11 +242,12 @@ const YoutubeSection = () => {
                     }}>
                         그 말씀이<br />당신의 삶을 변화시킵니다.
                     </h2>
-                    <a href="https://www.youtube.com/@sbc6312" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                        <PretendardButton style={{ borderColor: 'var(--color-text-dark)', color: 'var(--color-text-dark)' }}>
-                            유튜브 채널 가기
-                        </PretendardButton>
-                    </a>
+                    <PretendardButton 
+                        onClick={() => window.open('https://www.youtube.com/@sbc6312', '_blank')}
+                        style={{ borderColor: 'var(--color-text-dark)', color: 'var(--color-text-dark)' }}
+                    >
+                        유튜브 채널 가기
+                    </PretendardButton>
                 </div>
             </div>
         </section>

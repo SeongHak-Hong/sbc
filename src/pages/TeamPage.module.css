@@ -74,8 +74,15 @@
     z-index: 2;
 }
 
-/* Hovering over the card makes the hover image fade in */
-.memberCard:hover .hoverImage {
+/* Hovering over the card makes the hover image fade in (only on devices that support hover) */
+@media (hover: hover) {
+    .memberCard:hover .hoverImage {
+        opacity: 1;
+    }
+}
+
+/* For mobile tap */
+.memberCard.tapped .hoverImage {
     opacity: 1;
 }
 

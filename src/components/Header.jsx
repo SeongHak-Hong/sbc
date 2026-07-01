@@ -73,7 +73,7 @@ const Header = () => {
     }, [isMenuOpen]);
 
     const isHistoryPage = location.pathname === '/history';
-    const forceVisible = isHistoryPage;
+    const forceVisible = isHistoryPage || isMenuOpen;
     const finalIsVisible = isVisible || forceVisible;
 
     const isSolidWhite = isScrolled && finalIsVisible && !isMenuOpen && !isHistoryPage;

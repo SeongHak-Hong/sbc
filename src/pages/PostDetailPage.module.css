@@ -58,7 +58,6 @@
     line-height: 1.8;
     color: rgba(var(--color-text-dark-rgb), 0.9);
     min-height: 400px;
-    white-space: pre-wrap;
     word-break: break-all;
 }
 
@@ -101,7 +100,6 @@
 
 .mainViewer {
     width: 100%;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .navButton {
@@ -148,7 +146,7 @@
     width: 100%;
     overflow: hidden;
     position: relative;
-    background-color: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .bulletinPageWrapper img {
@@ -158,9 +156,19 @@
     transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.bulletinPageWrapper img.slicedImage {
-    width: 300%;
+.slicedImage {
+    width: 300% !important;
     max-width: none !important;
+}
+
+.bulletinPageWrapper img.slicedImage {
+    width: 300% !important;
+    max-width: none !important;
+}
+
+.mainViewer > img,
+.mainViewer > div > img:not(.slicedImage) {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .thumbnailStrip {
@@ -212,10 +220,12 @@
 }
 
 .thumbnailInner img.slicedImage {
+    position: absolute;
+    top: 0;
     width: 300%;
-    height: auto;
+    height: 100%;
     max-width: none !important;
-    object-fit: initial;
+    object-fit: cover;
 }
 
 @media (max-width: 600px) {

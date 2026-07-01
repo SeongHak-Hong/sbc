@@ -19,36 +19,36 @@
     align-items: center;
     margin-bottom: 48px;
     padding-bottom: 24px;
-    border-bottom: 1px solid rgba(var(--color-text-dark-rgb), 0.2);
 }
 
 .navButton {
     background: transparent;
     border: none;
-    color: rgba(var(--color-text-dark-rgb), 0.2);
-    width: 48px;
-    height: 48px;
+    color: var(--color-text-dark);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: color 0.3s ease;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
     padding: 0;
 }
 
-.navButton:hover {
-    color: var(--color-text-dark);
+.navButton:hover:not(:disabled) {
+    background-color: rgba(var(--color-text-dark-rgb), 0.05);
 }
 
 .navButton span {
-    font-size: 32px !important;
+    font-size: 28px !important;
 }
 
 .monthText {
-    font-family: 'LXGWWenKaiMonoKR', sans-serif;
-    font-size: 32px;
-    font-weight: 400;
-    line-height: 1.6;
+    font-family: 'Pretendard', sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.8;
     color: var(--color-text-dark);
 }
 
@@ -65,27 +65,35 @@
 
 .eventCard {
     display: flex;
-    align-items: flex-start;
-    padding: 32px 0;
-    transition: transform 0.3s ease;
+    align-items: center;
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(var(--color-text-dark-rgb), 0.2);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.eventCard:hover {
+    background-color: rgba(var(--color-text-dark-rgb), 0.03);
 }
 
 .timeBlock {
     display: flex;
-    flex-direction: column;
-    min-width: 80px;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    min-width: 100px;
     padding-right: 24px;
 }
 
 .dateDay {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 500;
     color: var(--color-text-dark);
     line-height: 1.8;
 }
 
 .dateDayOfWeek {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 300;
     color: rgba(var(--color-text-dark-rgb), 0.2);
     line-height: 1.8;
@@ -94,13 +102,15 @@
 .eventDetails {
     flex: 1;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 8px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-width: 0;
 }
 
 .eventTitle {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
     color: var(--color-text-dark);
     line-height: 1.8;
@@ -136,14 +146,32 @@
 @media (max-width: 600px) {
     .eventCard {
         flex-direction: column;
+        align-items: flex-start;
         gap: 8px;
         padding: 24px 0;
     }
     
+    .eventDetails {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        width: 100%;
+    }
+    
     .timeBlock {
         flex-direction: row;
-        align-items: baseline;
+        align-items: center;
         gap: 8px;
         padding-right: 0;
+        min-width: auto;
+    }
+    
+    .dateDay, .dateDayOfWeek {
+        font-size: 16px;
+        color: rgba(var(--color-text-dark-rgb), 0.7);
+    }
+    
+    .eventMeta {
+        font-size: 16px;
     }
 }

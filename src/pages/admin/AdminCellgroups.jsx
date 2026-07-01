@@ -73,13 +73,6 @@ const AdminCellgroups = () => {
                     <div key={parishKey} style={{ backgroundColor: '#fff', padding: '24px', borderRadius: '8px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                             <h3 style={{ fontSize: '18px', fontWeight: '600' }}>{parishKey}</h3>
-                            <button 
-                                onClick={() => handleSave(parishKey)}
-                                disabled={saving}
-                                style={{ backgroundColor: '#10B981', color: '#fff', padding: '8px 16px', borderRadius: '6px', border: 'none', cursor: 'pointer', fontWeight: '500' }}
-                            >
-                                {saving ? '저장 중...' : '변경사항 저장'}
-                            </button>
                         </div>
                         
                         <div style={{ marginBottom: '16px' }}>
@@ -145,13 +138,22 @@ const AdminCellgroups = () => {
                                 ))}
                             </tbody>
                         </table>
-                        
-                        <button 
-                            onClick={() => handleAddZone(parishKey)}
-                            style={{ marginTop: '12px', backgroundColor: '#3B82F6', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer' }}
-                        >
-                            + 새 구역 추가
-                        </button>
+
+                        <div style={{ display: 'flex', gap: '8px', marginTop: '16px', justifyContent: 'flex-end' }}>
+                            <button 
+                                onClick={() => handleAddZone(parishKey)}
+                                style={{ backgroundColor: 'var(--color-btn-add)', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer', fontWeight: '500' }}
+                            >
+                                + 새 구역 추가
+                            </button>
+                            <button 
+                                onClick={() => handleSave(parishKey)}
+                                disabled={saving}
+                                style={{ backgroundColor: '#10B981', color: '#fff', padding: '8px 16px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontWeight: '500' }}
+                            >
+                                {saving ? '저장중...' : '변경사항 저장'}
+                            </button>
+                        </div>
                     </div>
                 );
             })}

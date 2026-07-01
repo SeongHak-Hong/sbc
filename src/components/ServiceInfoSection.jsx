@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { BlurFade } from './ui/BlurFade';
 import PretendardButton from './ui/PretendardButton';
+import { useNavigate } from 'react-router-dom';
 
 const ServiceInfoSection = () => {
     const [isMobile, setIsMobile] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth <= 767);
@@ -52,7 +54,7 @@ const ServiceInfoSection = () => {
                     <h2 style={titleStyle}>당신을 기다리는<br />예배의 자리.</h2>
                 </BlurFade>
                 <BlurFade delay={0.4} inView>
-                    <PretendardButton style={buttonStyle}>
+                    <PretendardButton style={buttonStyle} onClick={() => navigate('/worship')}>
                         예배 안내 보기
                     </PretendardButton>
                 </BlurFade>

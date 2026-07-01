@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs, doc, setDoc, deleteDoc, query, orderBy, Timestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import AdminCloseButton from '../../components/ui/AdminCloseButton';
 import { db, storage } from '../../firebase';
+import AdminEditor from '../../components/admin/AdminEditor';
 
 const AdminMemberBusiness = () => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [viewMode, setViewMode] = useState('list');
     const [currentPost, setCurrentPost] = useState(null);
-    const [saving, setSaving] = useState(false);
+    const [saveMessage, setSaveMessage] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const postsPerPage = 10;
     
     // Form state
     const [formId, setFormId] = useState('');
@@ -110,17 +114,41 @@ const AdminMemberBusiness = () => {
     const handleSave = async () => {
         if (!title.trim()) { alert('상호명을 입력해주세요.'); return; }
         
-        setSaving(true);
+        setSaveMessage('저장 준비 중...');
         try {
             const uploadedImageUrls = [...images];
-            for (let i = 0; i < newFiles.length; i++) {
-                const file = newFiles[i];
-                const fileRef = ref(storage, `memberBusiness/${formId}/${Date.now()}_${file.name}`);
-                await uploadBytes(fileRef, file);
-                const url = await getDownloadURL(fileRef);
-                uploadedImageUrls.push(url);
+            
+            if (newFiles.length > 0) {
+                const imgbbApiKey = import.meta.env.VITE_IMGBB_API_KEY;
+                if (!imgbbApiKey) {
+                    throw new Error("ImgBB API 키가 설정되지 않았습니다. .env 파일에 VITE_IMGBB_API_KEY를 추가해주세요.");
+                }
+
+                setSaveMessage(`이미지 업로드 중 (0/${newFiles.length})...`);
+                for (let i = 0; i < newFiles.length; i++) {
+                    const file = newFiles[i];
+                    
+                    const formData = new FormData();
+                    formData.append('image', file);
+                    
+                    const response = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        uploadedImageUrls.push(result.data.url);
+                    } else {
+                        throw new Error(`이미지 업로드 실패: ${result.error?.message || '알 수 없는 오류'}`);
+                    }
+                    
+                    setSaveMessage(`이미지 업로드 중 (${i + 1}/${newFiles.length})...`);
+                }
             }
 
+            setSaveMessage('데이터 저장 중...');
             const postData = {
                 title,
                 author,
@@ -138,9 +166,9 @@ const AdminMemberBusiness = () => {
             fetchPosts();
         } catch (error) {
             console.error('저장 실패:', error);
-            alert('저장 중 오류가 발생했습니다.');
+            alert(`저장 중 오류가 발생했습니다.\n에러 내용: ${error.message}`);
         } finally {
-            setSaving(false);
+            setSaveMessage('');
         }
     };
 
@@ -154,61 +182,66 @@ const AdminMemberBusiness = () => {
                 </div>
 
                 <div style={{ display: 'grid', gap: '20px' }}>
-                    <div style={{ display: 'flex', gap: '16px' }}>
-                        <div style={{ flex: 1 }}>
-                            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>상호명 / 제목</label>
-                            <input 
-                                type="text" 
-                                value={title} 
-                                onChange={(e) => setTitle(e.target.value)}
-                                placeholder="예: 은혜 카페 (신탄진역 앞)"
-                                style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ddd', fontSize: '16px' }}
-                            />
-                        </div>
-                        <div style={{ width: '200px' }}>
-                            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>작성자 (성도이름)</label>
-                            <input 
-                                type="text" 
-                                value={author} 
-                                onChange={(e) => setAuthor(e.target.value)}
-                                placeholder="예: 홍길동 성도"
-                                style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ddd', fontSize: '16px' }}
-                            />
-                        </div>
+                    <div>
+                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>상호명 / 제목</label>
+                        <input 
+                            type="text" 
+                            value={title} 
+                            onChange={(e) => setTitle(e.target.value)}
+                            placeholder="사업체 명을 입력하세요"
+                            style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ddd' }}
+                        />
+                    </div>
+                    <div>
+                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>대표자 <span style={{ fontWeight: 'normal', color: '#6B7280' }}>(성도이름)</span></label>
+                        <input 
+                            type="text" 
+                            value={author} 
+                            onChange={(e) => setAuthor(e.target.value)}
+                            placeholder="예: 홍길동 성도"
+                            style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ddd', fontSize: '16px' }}
+                        />
                     </div>
 
                     <div>
                         <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>작성일자</label>
                         <input 
-                            type="text" 
-                            value={date} 
-                            onChange={(e) => setDate(e.target.value)}
-                            style={{ width: '200px', padding: '10px', borderRadius: '4px', border: '1px solid #ddd' }}
+                            type="date" 
+                            value={date ? date.replace(/\.\s*/g, '-').replace(/-$/, '') : ''} 
+                            onChange={(e) => {
+                                const val = e.target.value;
+                                if (!val) {
+                                    setDate('');
+                                    return;
+                                }
+                                const [y, m, d] = val.split('-');
+                                setDate(`${y}. ${m}. ${d}`);
+                            }}
+                            style={{ width: '200px', padding: '10px', borderRadius: '4px', border: '1px solid #ddd', fontFamily: 'inherit' }}
                         />
                     </div>
 
                     <div>
                         <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>상세 소개글</label>
-                        <textarea 
-                            value={content} 
-                            onChange={(e) => setContent(e.target.value)}
-                            placeholder="사업체에 대한 소개를 입력하세요..."
-                            style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ddd', minHeight: '200px', fontSize: '15px' }}
+                        <AdminEditor 
+                            key={formId}
+                            initialValue={content}
+                            onChange={setContent}
                         />
                     </div>
 
                     <div>
-                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>이미지 첨부 (간판, 메뉴 등)</label>
+                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>이미지 첨부 <span style={{ fontWeight: 'normal', color: '#6B7280' }}>(간판, 메뉴 등)</span></label>
                         {images.length > 0 && (
                             <div style={{ marginBottom: '16px' }}>
                                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
                                     {images.map((img, idx) => (
                                         <div key={idx} style={{ position: 'relative', width: '100px', height: '100px', border: '1px solid #ddd', borderRadius: '4px', overflow: 'hidden' }}>
                                             <img src={typeof img === 'string' ? img : img.url} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                            <button 
+                                            <AdminCloseButton 
                                                 onClick={() => handleRemoveExistingImage(idx)}
-                                                style={{ position: 'absolute', top: '4px', right: '4px', background: 'rgba(255,0,0,0.8)', color: '#fff', border: 'none', borderRadius: '50%', width: '20px', height: '20px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                                            >x</button>
+                                                style={{ position: 'absolute', top: '4px', right: '4px' }}
+                                            />
                                         </div>
                                     ))}
                                 </div>
@@ -230,16 +263,16 @@ const AdminMemberBusiness = () => {
                     <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
                         <button 
                             onClick={() => setViewMode('list')}
-                            style={{ padding: '12px 24px', borderRadius: '6px', border: '1px solid #D1D5DB', backgroundColor: '#fff', cursor: 'pointer', fontSize: '16px', fontWeight: '500' }}
+                            style={{ padding: '12px 24px', borderRadius: '4px', border: '1px solid #D1D5DB', backgroundColor: '#fff', cursor: 'pointer', fontSize: '16px', fontWeight: '500' }}
                         >
                             취소
                         </button>
                         <button 
                             onClick={handleSave}
-                            disabled={saving}
-                            style={{ backgroundColor: '#10B981', color: '#fff', padding: '12px 24px', borderRadius: '6px', border: 'none', cursor: 'pointer', fontSize: '16px', fontWeight: '600' }}
+                            disabled={!!saveMessage}
+                            style={{ backgroundColor: '#10B981', color: '#fff', padding: '12px 24px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontSize: '16px', fontWeight: '600' }}
                         >
-                            {saving ? '저장 중...' : '저장하기'}
+                            {saveMessage ? saveMessage : '저장하기'}
                         </button>
                     </div>
                 </div>
@@ -247,13 +280,16 @@ const AdminMemberBusiness = () => {
         );
     }
 
+    const totalPages = Math.ceil(posts.length / postsPerPage) || 1;
+    const currentPosts = posts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
+
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                 <h2 style={{ fontSize: '24px', fontWeight: '700' }}>성도 사업체 관리</h2>
                 <button 
                     onClick={handleCreateNew}
-                    style={{ backgroundColor: '#3B82F6', color: '#fff', padding: '10px 20px', borderRadius: '6px', border: 'none', cursor: 'pointer', fontWeight: '500' }}
+                    style={{ backgroundColor: '#3B82F6', color: '#fff', padding: '10px 20px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontWeight: '500' }}
                 >
                     + 새 사업체 등록
                 </button>
@@ -264,23 +300,23 @@ const AdminMemberBusiness = () => {
                     <thead>
                         <tr style={{ backgroundColor: '#F9FAFB', textAlign: 'left', borderBottom: '1px solid #E5E7EB' }}>
                             <th style={{ padding: '16px' }}>상호명 / 제목</th>
-                            <th style={{ padding: '16px', width: '150px' }}>성도 이름</th>
-                            <th style={{ padding: '16px', width: '120px' }}>작성일</th>
-                            <th style={{ padding: '16px', width: '80px', textAlign: 'center' }}>조회수</th>
-                            <th style={{ padding: '16px', width: '150px', textAlign: 'center' }}>관리</th>
+                            <th style={{ padding: '16px', width: '200px' }}>성도 이름</th>
+                            <th style={{ padding: '16px', width: '160px' }}>작성일</th>
+                            <th style={{ padding: '16px', width: '100px', textAlign: 'center' }}>조회수</th>
+                            <th style={{ padding: '16px', width: '180px', textAlign: 'center' }}>관리</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {posts.length === 0 ? (
+                        {currentPosts.length === 0 ? (
                             <tr><td colSpan="5" style={{ padding: '32px', textAlign: 'center', color: '#6B7280' }}>등록된 사업체가 없습니다.</td></tr>
-                        ) : posts.map(post => (
+                        ) : currentPosts.map(post => (
                             <tr key={post.id} style={{ borderBottom: '1px solid #E5E7EB' }}>
                                 <td style={{ padding: '16px', fontWeight: '500' }}>{post.title}</td>
                                 <td style={{ padding: '16px' }}>{post.author}</td>
-                                <td style={{ padding: '16px', color: '#6B7280', fontSize: '14px' }}>{post.date}</td>
+                                <td style={{ padding: '16px', color: '#6B7280', fontSize: '16px' }}>{post.date}</td>
                                 <td style={{ padding: '16px', textAlign: 'center', color: '#6B7280' }}>{post.views || 0}</td>
-                                <td style={{ padding: '16px', textAlign: 'center' }}>
-                                    <button onClick={() => handleEdit(post)} style={{ backgroundColor: '#F3F4F6', border: '1px solid #D1D5DB', padding: '6px 12px', borderRadius: '4px', marginRight: '8px', cursor: 'pointer' }}>수정</button>
+                                <td style={{ padding: '16px', display: 'flex', justifyContent: 'center', gap: '8px' }}>
+                                    <button onClick={() => handleEdit(post)} style={{ backgroundColor: '#F3F4F6', border: '1px solid #D1D5DB', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' }}>수정</button>
                                     <button onClick={() => handleDelete(post)} style={{ backgroundColor: '#FEF2F2', color: '#DC2626', border: '1px solid #FCA5A5', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' }}>삭제</button>
                                 </td>
                             </tr>
@@ -288,6 +324,47 @@ const AdminMemberBusiness = () => {
                     </tbody>
                 </table>
             </div>
+
+            {/* Pagination UI */}
+            {posts.length > 0 && (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '24px', gap: '8px' }}>
+                    <button 
+                        disabled={currentPage === 1}
+                        onClick={() => setCurrentPage(p => p - 1)}
+                        style={{ padding: '8px 12px', borderRadius: '4px', border: '1px solid #D1D5DB', backgroundColor: currentPage === 1 ? '#F3F4F6' : '#fff', cursor: currentPage === 1 ? 'not-allowed' : 'pointer' }}
+                    >
+                        이전
+                    </button>
+                    
+                    <div style={{ display: 'flex', gap: '4px' }}>
+                        {[...Array(totalPages)].map((_, i) => (
+                            <button 
+                                key={i + 1}
+                                onClick={() => setCurrentPage(i + 1)}
+                                style={{ 
+                                    padding: '8px 16px', 
+                                    borderRadius: '4px', 
+                                    border: currentPage === i + 1 ? '1px solid #3B82F6' : '1px solid #D1D5DB', 
+                                    backgroundColor: currentPage === i + 1 ? '#EFF6FF' : '#fff', 
+                                    color: currentPage === i + 1 ? '#2563EB' : '#374151',
+                                    fontWeight: currentPage === i + 1 ? '600' : '400',
+                                    cursor: 'pointer' 
+                                }}
+                            >
+                                {i + 1}
+                            </button>
+                        ))}
+                    </div>
+
+                    <button 
+                        disabled={currentPage === totalPages}
+                        onClick={() => setCurrentPage(p => p + 1)}
+                        style={{ padding: '8px 12px', borderRadius: '4px', border: '1px solid #D1D5DB', backgroundColor: currentPage === totalPages ? '#F3F4F6' : '#fff', cursor: currentPage === totalPages ? 'not-allowed' : 'pointer' }}
+                    >
+                        다음
+                    </button>
+                </div>
+            )}
         </div>
     );
 };

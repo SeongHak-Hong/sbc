@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { BlurFade } from './ui/BlurFade';
 import PretendardButton from './ui/PretendardButton';
+import { useNavigate } from 'react-router-dom';
 
 const EventSection = () => {
     const [isMobile, setIsMobile] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth <= 767);
@@ -51,7 +53,7 @@ const EventSection = () => {
                     <h2 style={titleStyle}>함께 만들어가는<br />이달의 이야기.</h2>
                 </BlurFade>
                 <BlurFade delay={0.4} inView>
-                    <PretendardButton style={buttonStyle}>
+                    <PretendardButton style={buttonStyle} onClick={() => navigate('/schedule')}>
                         일정 보기
                     </PretendardButton>
                 </BlurFade>

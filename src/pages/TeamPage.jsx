@@ -19,6 +19,7 @@ import member07Hover from '../assets/team/shintanjin-baptist-church-member-07-ho
 
 const TeamPage = () => {
     const [isInitialReveal, setIsInitialReveal] = useState(true);
+    const [tappedMember, setTappedMember] = useState(null);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -84,6 +85,14 @@ const TeamPage = () => {
         }
     ];
 
+    const handleCardTap = (memberName) => {
+        if (tappedMember === memberName) {
+            setTappedMember(null);
+        } else {
+            setTappedMember(memberName);
+        }
+    };
+
     return (
         <div className={styles.pageWrapper}>
             <SubPageSection 
@@ -103,7 +112,11 @@ const TeamPage = () => {
                                 <h2 className={styles.categoryTitle}>{category.title}</h2>
                                 <div className={styles.teamGrid}>
                                     {category.members.map((member, index) => (
-                                        <div key={index} className={styles.memberCard}>
+                                        <div 
+                                            key={index} 
+                                            className={`${styles.memberCard} ${tappedMember === member.name ? styles.tapped : ''}`}
+                                            onClick={() => handleCardTap(member.name)}
+                                        >
                                             <div className={styles.imageWrapper}>
                                                 <img className={styles.baseImage} src={member.image} alt={member.name} />
                                                 {member.hoverImage && (

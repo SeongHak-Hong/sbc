@@ -67,14 +67,14 @@
   --section-padding-y: 180px;
   --section-padding-x: 48px;
 
-  --btn-padding-y: 20px;
-  --btn-padding-l: 48px;
-  --btn-padding-r: 42px;
-  --btn-gap: 10px;
-  --btn-font-size: 20px;
+  --btn-padding-y: 8px;
+  --btn-padding-x: 32px;
+  --btn-gap: 8px;
+  --btn-font-size: 18px;
   --btn-radius: 0;
-  --btn-icon-size: 20px;
-  --btn-bg: #1A202C; /* 湲곕낯 踰꾪듉 諛곌꼍??*/
+  --btn-icon-size: 18px;
+  --btn-bg: #1A202C;
+  --color-btn-add: #3B82F6;
 
   /* 
    * [?붿옄???쒖뒪??洹쒖튃 紐낆떆]
@@ -106,9 +106,8 @@
     --text-body-card: 18px;
     --citation-size: var(--text-h2);
     --btn-font-size: 16px;
-    --btn-padding-y: 8px;
-    --btn-padding-l: 28px;
-    --btn-padding-r: 28px;
+    --btn-padding-y: 6px;
+    --btn-padding-x: 24px;
     --btn-icon-size: 16px;
 
     /* Header Layout */
@@ -160,6 +159,11 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+input, textarea, select {
+  font-family: var(--font-body);
+  font-size: 16px;
 }
 
 img {
@@ -243,18 +247,18 @@ p {
 
 button {
   font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
+  font-size: var(--btn-font-size, 18px);
   font-weight: 300;
   letter-spacing: -0.02em;
   line-height: 1.8;
-  padding: 12px 32px;
+  padding: var(--btn-padding-y, 8px) var(--btn-padding-x, 28px);
   border-radius: 0;
   background-color: transparent;
   border: 1px solid currentColor;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   cursor: pointer;
   box-shadow: none;
   color: var(--color-text-dark);

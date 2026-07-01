@@ -81,44 +81,52 @@
 .boardFooter {
     display: flex;
     justify-content: center;
-    margin-top: 40px;
+    margin-top: 72px;
 }
 
 /* Pagination Area */
 .pagination {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 8px;
+}
+
+.pageButton, .pageArrow {
+    background: transparent;
+    border: none;
+    color: var(--color-text-dark);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+    padding: 0;
+}
+
+.pageButton:hover:not(:disabled):not(.active), 
+.pageArrow:hover:not(:disabled) {
+    background-color: rgba(var(--color-text-dark-rgb), 0.05);
 }
 
 .pageButton {
-    background: transparent;
-    border: none;
-    color: rgba(var(--color-text-dark-rgb), 0.2);
     font-size: 16px;
-    cursor: pointer;
-    transition: color 0.2s ease;
-    padding: 4px 8px;
-}
-
-.pageButton:hover {
-    color: rgba(var(--color-text-dark-rgb), 0.9);
-}
-
-.pageButton.active {
-    color: rgba(var(--color-text-dark-rgb), 0.9);
-    font-weight: 500;
+    font-family: inherit;
 }
 
 .pageArrow {
-    color: rgba(var(--color-text-dark-rgb), 0.2);
-    font-size: 18px;
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    padding: 4px;
+    font-size: 28px !important;
 }
 
-.pageArrow:hover {
-    color: rgba(var(--color-text-dark-rgb), 0.7);
+.pageButton:disabled, .pageArrow:disabled {
+    opacity: 0.2;
+    cursor: default;
+}
+
+.pageButton.active {
+    background-color: rgba(var(--color-text-dark-rgb), 0.05);
+    font-weight: 500;
+    cursor: default;
 }
