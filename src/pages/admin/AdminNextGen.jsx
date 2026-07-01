@@ -225,11 +225,13 @@ const AdminNextGen = () => {
                             {dept.events?.map((ev, index) => (
                                 <div key={index} style={{ border: '1px solid #E5E7EB', padding: '16px', borderRadius: '8px', marginBottom: '16px', position: 'relative' }}>
                                     <button onClick={() => handleDeleteArrayItem(deptId, 'events', index)} style={{ position: 'absolute', top: '16px', right: '16px', backgroundColor: '#EF4444', color: '#fff', border: 'none', padding: '4px 12px', borderRadius: '4px', cursor: 'pointer' }}>행사 삭제</button>
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr 1fr', gap: '16px', marginBottom: '12px' }}>
-                                        <div>
+                                    <div style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
+                                        <div style={{ flex: 1 }}>
                                             <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>행사명</label>
                                             <input type="text" value={ev.title} onChange={(e) => handleEventChange(deptId, index, 'title', e.target.value)} style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }} />
                                         </div>
+                                    </div>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '16px' }}>
                                         <div>
                                             <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>시작일</label>
                                             <input type="date" value={ev.startDate || ''} onChange={(e) => handleEventChange(deptId, index, 'startDate', e.target.value)} style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }} />
@@ -247,6 +249,16 @@ const AdminNextGen = () => {
                                                 <option value="진행중">진행중</option>
                                                 <option value="마감">마감</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div style={{ display: 'flex', gap: '16px', marginBottom: '12px' }}>
+                                        <div style={{ flex: 1 }}>
+                                            <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>시간</label>
+                                            <input type="text" value={ev.time || ''} onChange={(e) => handleEventChange(deptId, index, 'time', e.target.value)} placeholder="예: 주일 오후 2시" style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }} />
+                                        </div>
+                                        <div style={{ flex: 1 }}>
+                                            <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>장소</label>
+                                            <input type="text" value={ev.location || ''} onChange={(e) => handleEventChange(deptId, index, 'location', e.target.value)} placeholder="예: 비전센터 3층" style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }} />
                                         </div>
                                     </div>
                                     <div style={{ marginBottom: '12px' }}>
@@ -312,7 +324,7 @@ const AdminNextGen = () => {
 
                         <div style={{ display: 'flex', gap: '8px', marginTop: '16px', justifyContent: 'flex-end' }}>
                             <button 
-                                onClick={() => handleAddArrayItem(deptId, 'events', { title: '새 행사', startDate: '', endDate: '', status: '예정', img: '', imageUrls: [], desc: '' })}
+                                onClick={() => handleAddArrayItem(deptId, 'events', { title: '새 행사', startDate: '', endDate: '', time: '', location: '', status: '예정', img: '', imageUrls: [], desc: '' })}
                                 style={{ backgroundColor: 'var(--color-btn-add)', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer', fontWeight: '500' }}
                             >
                                 + 새 행사 추가

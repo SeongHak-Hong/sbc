@@ -185,6 +185,12 @@ const NextGenPage = () => {
                                         }
                                     }
 
+                                    let formattedContent = '';
+                                    if (ev.time) formattedContent += `**시간**: ${ev.time}  \n`;
+                                    if (ev.location) formattedContent += `**장소**: ${ev.location}  \n`;
+                                    if (formattedContent) formattedContent += `\n`;
+                                    formattedContent += ev.desc || '';
+
                                     return (
                                         <motion.div
                                             key={idx}
@@ -198,7 +204,7 @@ const NextGenPage = () => {
                                                     title: ev.title, 
                                                     author: activeData.name, 
                                                     date: displayDate, 
-                                                    content: ev.desc, 
+                                                    content: formattedContent, 
                                                     imageUrl: ev.img || defaultThumbs[activeTab] || thumbKindergarten,
                                                     imageUrls: ev.imageUrls || [defaultThumbs[activeTab] || thumbKindergarten]
                                                 } 
