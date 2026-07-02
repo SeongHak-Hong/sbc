@@ -19,7 +19,7 @@ const WorshipPage = () => {
     const adultSchedule = [
         { name: "주일 1부 예배", time: "주일 오전 07:00", location: "소예배실" },
         { name: "주일 2부 예배", time: "주일 오전 11:00", location: "대예배실" },
-        { name: "주일 3부 예배", time: "주일 오후 02:00", location: "대예배실" },
+        { name: "주일 오후 예배", time: "주일 오후 02:00", location: "대예배실" },
         { name: "새벽 기도회", time: "월~금 새벽 05:00", location: "소예배실" },
         { name: "중보 기도회", time: "매주 화요일 오전 10:30", location: "소예배실" },
         { name: "수요 예배", time: "수요일 오후 7:00", location: "대예배실" },
@@ -112,7 +112,7 @@ const WorshipPage = () => {
                                 <h4 className={styles.directionLabel}>자가용 이용 시</h4>
                                 <div className={styles.directionBody}>
                                     <p>교회 주차장 상시 개방</p>
-                                    <p>일요일은 대덕체육관 주차장 추가로 이용 가능</p>
+                                    <p>일요일은 대죽체육관 주차장 추가로 이용 가능</p>
                                 </div>
                             </div>
 
