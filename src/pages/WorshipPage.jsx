@@ -7,7 +7,7 @@ import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.w
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
 import TabMenu from '../components/TabMenu';
-import NaverMap from '../components/ui/NaverMap';
+import InteractiveShuttleMap from '../components/ui/InteractiveShuttleMap';
 
 const WorshipPage = () => {
     const [activeTab, setActiveTab] = useState('adult');
@@ -98,7 +98,7 @@ const WorshipPage = () => {
                     titleColor="#1D1A1C"
                 >
                     <div className={styles.directionsWrapper}>
-                        <NaverMap />
+                        <InteractiveShuttleMap />
                         <div className={styles.directionsContent}>
                             <div className={styles.directionGroup}>
                                 <h4 className={styles.directionLabel}>대중교통 이용 시</h4>
@@ -113,13 +113,6 @@ const WorshipPage = () => {
                                 <div className={styles.directionBody}>
                                     <p>교회 주차장 상시 개방</p>
                                     <p>일요일은 대죽체육관 주차장 추가로 이용 가능</p>
-                                </div>
-                            </div>
-
-                            <div className={styles.directionGroup}>
-                                <h4 className={styles.directionLabel}>교회차량 이용 시</h4>
-                                <div className={styles.directionBody}>
-                                    <p>차량이용을 원하시는 분은 T. 042-932-8156로 문의해 주세요.</p>
                                 </div>
                             </div>
                         </div>

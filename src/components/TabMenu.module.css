@@ -45,3 +45,13 @@
 .activeTab::after {
     background: var(--color-text-dark);
 }
+
+/* Mini Variant */
+.miniContainer {
+    margin-bottom: 24px;
+}
+
+.miniTab {
+    padding: 8px 0;
+    font-size: 14px;
+}
