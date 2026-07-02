@@ -15,8 +15,36 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
     const actualImages = images.length > 0 ? images : (imageUrl ? [imageUrl] : []);
     const count = isBulletin ? actualImages.length * totalPages : actualImages.length;
     const [currentIndex, setCurrentIndex] = useState(0);
+    
+    // Touch event states for swiping
+    const [touchStartX, setTouchStartX] = useState(null);
+    const [touchEndX, setTouchEndX] = useState(null);
 
     if (count === 0) return null;
+
+    const minSwipeDistance = 40;
+
+    const onTouchStart = (e) => {
+        setTouchEndX(null);
+        setTouchStartX(e.targetTouches[0].clientX);
+    };
+
+    const onTouchMove = (e) => {
+        setTouchEndX(e.targetTouches[0].clientX);
+    };
+
+    const onTouchEnd = () => {
+        if (!touchStartX || !touchEndX) return;
+        const distance = touchStartX - touchEndX;
+        const isLeftSwipe = distance > minSwipeDistance;
+        const isRightSwipe = distance < -minSwipeDistance;
+
+        if (isLeftSwipe && currentIndex < count - 1) {
+            setCurrentIndex(prev => prev + 1);
+        } else if (isRightSwipe && currentIndex > 0) {
+            setCurrentIndex(prev => prev - 1);
+        }
+    };
 
     const renderMainImage = (index) => {
         if (isBulletin) {
@@ -128,7 +156,13 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
         >
             {/* Main Viewer Area */}
             {count > 1 && (
-                <div className={styles.mainViewerWrapper} style={{ maxWidth: isBulletin ? '400px' : '100%' }}>
+                <div 
+                    className={styles.mainViewerWrapper} 
+                    style={{ maxWidth: isBulletin ? '400px' : '100%', touchAction: 'pan-y' }}
+                    onTouchStart={onTouchStart}
+                    onTouchMove={onTouchMove}
+                    onTouchEnd={onTouchEnd}
+                >
                     <button 
                         className={`${styles.navButton} ${styles.prevButton}`}
                         onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}

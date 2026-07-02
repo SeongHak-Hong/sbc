@@ -95,12 +95,10 @@ const WorshipPage = () => {
                     icon={visionIcon} 
                     className={styles.lightSection} 
                     titleColor="#1D1A1C"
-                    subtitle={
-                        <p className={styles.addressText}>
-                            대전 대덕구 석봉로 17 (석봉동, 신탄진교회)
-                        </p>
-                    }
                 >
+                    <p className={styles.addressText}>
+                        대전 대덕구 석봉로 17 (석봉동, 신탄진교회)
+                    </p>
                     <div className={styles.directionsWrapper}>
                         <div className={styles.directionsContent}>
                             <div className={styles.directionGroup}>

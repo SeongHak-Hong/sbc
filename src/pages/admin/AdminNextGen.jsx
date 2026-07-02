@@ -4,6 +4,7 @@ import { collection, getDocs, doc, setDoc } from 'firebase/firestore';
 import { db, storage } from '../../firebase';
 import AdminEditor from '../../components/admin/AdminEditor';
 import AdminCloseButton from '../../components/ui/AdminCloseButton';
+import TimeInput from '../../components/admin/TimeInput';
 
 const AdminNextGen = () => {
     const [departments, setDepartments] = useState({});
@@ -254,7 +255,10 @@ const AdminNextGen = () => {
                                     <div style={{ display: 'flex', gap: '16px', marginBottom: '12px' }}>
                                         <div style={{ flex: 1 }}>
                                             <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>시간</label>
-                                            <input type="text" value={ev.time || ''} onChange={(e) => handleEventChange(deptId, index, 'time', e.target.value)} placeholder="예: 주일 오후 2시" style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }} />
+                                            <TimeInput 
+                                                value={ev.time || ''} 
+                                                onChange={(val) => handleEventChange(deptId, index, 'time', val)} 
+                                            />
                                         </div>
                                         <div style={{ flex: 1 }}>
                                             <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>장소</label>

@@ -4,6 +4,7 @@ import { collection, getDocs, doc, setDoc, deleteDoc, query, orderBy, Timestamp 
 import AdminCloseButton from '../../components/ui/AdminCloseButton';
 import { db } from '../../firebase';
 import AdminEditor from '../../components/admin/AdminEditor';
+import TimeInput from '../../components/admin/TimeInput';
 
 const AdminSchedule = () => {
     const [schedules, setSchedules] = useState([]);
@@ -325,13 +326,7 @@ const AdminSchedule = () => {
                     <div style={{ display: 'flex', gap: '16px' }}>
                         <div style={{ flex: 1 }}>
                             <label style={{ display: 'block', marginBottom: '8px'}}>시간</label>
-                            <input 
-                                type="text" 
-                                value={time} 
-                                onChange={(e) => setTime(e.target.value)}
-                                placeholder="예: 오후 02:00"
-                                style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ddd' }}
-                            />
+                            <TimeInput value={time} onChange={setTime} />
                         </div>
                         <div style={{ flex: 1 }}>
                             <label style={{ display: 'block', marginBottom: '8px'}}>장소</label>

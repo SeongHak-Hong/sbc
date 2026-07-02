@@ -22,10 +22,15 @@ const historyData = Object.entries(imageModules)
 const HistoryPage = () => {
     const containerRef = useRef(null);
     const galleryRef = useRef(null);
+    const scrollerRef = useRef(null);
     const [scrollRange, setScrollRange] = useState(0);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     
     useEffect(() => {
         window.scrollTo(0, 0);
+        const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
     // Measure the exact width of the horizontal content to calculate the negative scroll limit
@@ -41,14 +46,21 @@ const HistoryPage = () => {
         return () => window.removeEventListener('resize', updateRange);
     }, []);
 
-    // Track vertical scroll progress of the tall container
+    // Track vertical scroll progress of the tall container (Desktop)
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end end"]
     });
 
+    // Track horizontal scroll progress of the native scroller (Mobile)
+    const { scrollXProgress } = useScroll({
+        container: scrollerRef
+    });
+
+    const activeProgress = isMobile ? scrollXProgress : scrollYProgress;
+
     // Apply spring physics to the scroll progress itself to eliminate any stuttering or jitter
-    const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+    const smoothProgress = useSpring(activeProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
     // Translate horizontal scroll explicitly by negative pixels (bulletproof for Framer Motion)
     const x = useTransform(smoothProgress, [0, 1], [0, -scrollRange]);
@@ -59,17 +71,15 @@ const HistoryPage = () => {
     const rawYear = useTransform(smoothProgress, [0, 1], [startYear, endYear]);
     const currentYear = useTransform(rawYear, (latest) => Math.round(latest));
 
-    // Calculate dynamic height to match 1:1 scroll ratio
-    const scrollHeight = scrollRange > 0 ? `${scrollRange + window.innerHeight}px` : '100vh';
+    // Calculate dynamic height to match 1:1 scroll ratio (Desktop only)
+    const scrollHeight = (!isMobile && scrollRange > 0) ? `${scrollRange + window.innerHeight}px` : '100vh';
 
     return (
         <div ref={containerRef} style={{ height: scrollHeight, position: 'relative' }}>
             <div className={styles.pageWrapper}>
 
-
-
-                <main className={styles.scroller}>
-                    <motion.div ref={galleryRef} style={{ x }} className={styles.galleryContainer}>
+                <main ref={scrollerRef} className={styles.scroller}>
+                    <motion.div ref={galleryRef} style={{ x: isMobile ? 0 : x }} className={styles.galleryContainer}>
                         {historyData.map((item, index) => (
                             <motion.article 
                                 key={item.id} 

@@ -71,27 +71,41 @@ const VerseSection = () => {
                 start: 'top 70%',
                 end: 'bottom 30%',
                 onEnter: () => {
-                    gsap.fromTo(textRef.current, 
-                        { y: 100 }, 
-                        { y: 0, ease: 'power2.out', duration: totalDuration, overwrite: true }
-                    );
-                    gsap.fromTo(wordElements,
-                        { opacity: 0.1, filter: 'blur(10px)' },
-                        { opacity: 1, filter: 'blur(0px)', stagger: staggerAmount, duration: textDuration, ease: 'power1.out', overwrite: true }
-                    );
+                    if (isMobile) {
+                        gsap.fromTo(wordElements,
+                            { opacity: 0.1, filter: 'blur(10px)' },
+                            { opacity: 1, filter: 'blur(0px)', duration: 0.8, ease: 'power1.out', overwrite: true }
+                        );
+                    } else {
+                        gsap.fromTo(textRef.current, 
+                            { y: 100 }, 
+                            { y: 0, ease: 'power2.out', duration: totalDuration, overwrite: true }
+                        );
+                        gsap.fromTo(wordElements,
+                            { opacity: 0.1, filter: 'blur(10px)' },
+                            { opacity: 1, filter: 'blur(0px)', stagger: staggerAmount, duration: textDuration, ease: 'power1.out', overwrite: true }
+                        );
+                    }
                 },
                 onLeave: () => {
                     gsap.to(wordElements, { opacity: 0.1, filter: 'blur(10px)', duration: 0.4, overwrite: true });
                 },
                 onEnterBack: () => {
-                    gsap.fromTo(textRef.current, 
-                        { y: 100 }, 
-                        { y: 0, ease: 'power2.out', duration: totalDuration, overwrite: true }
-                    );
-                    gsap.fromTo(wordElements,
-                        { opacity: 0.1, filter: 'blur(10px)' },
-                        { opacity: 1, filter: 'blur(0px)', stagger: staggerAmount, duration: textDuration, ease: 'power1.out', overwrite: true }
-                    );
+                    if (isMobile) {
+                        gsap.fromTo(wordElements,
+                            { opacity: 0.1, filter: 'blur(10px)' },
+                            { opacity: 1, filter: 'blur(0px)', duration: 0.8, ease: 'power1.out', overwrite: true }
+                        );
+                    } else {
+                        gsap.fromTo(textRef.current, 
+                            { y: 100 }, 
+                            { y: 0, ease: 'power2.out', duration: totalDuration, overwrite: true }
+                        );
+                        gsap.fromTo(wordElements,
+                            { opacity: 0.1, filter: 'blur(10px)' },
+                            { opacity: 1, filter: 'blur(0px)', stagger: staggerAmount, duration: textDuration, ease: 'power1.out', overwrite: true }
+                        );
+                    }
                 },
                 onLeaveBack: () => {
                     gsap.to(wordElements, { opacity: 0.1, filter: 'blur(10px)', duration: 0.4, overwrite: true });
