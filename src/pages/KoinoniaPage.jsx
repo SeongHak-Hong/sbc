@@ -38,7 +38,7 @@ const KoinoniaPage = () => {
     };
 
     const handleItemClick = (post) => {
-        navigate(`/post/membersNews_${post.id}`, { state: post });
+        navigate(`/post/koinonia_${post.id}`);
     };
 
     const totalPages = Math.ceil(posts.length / postsPerPage) || 1;

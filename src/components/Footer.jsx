@@ -22,7 +22,7 @@ const Footer = () => {
                             대전 대덕구 석봉로 17 신탄진침례교회<br />T. 042-932-8156
                         </p>
                     </div>
-                    <p className={styles.copyright}>&copy; {new Date().getFullYear()} shintanjin baptist church. All rights reserved.</p>
+                    <p className={styles.copyright}>&copy; {new Date().getFullYear()} SHINTANJIN BAPTIST CHURCH. ALL RIGHTS RESERVED.</p>
                 </div>
             </div>
         </footer>

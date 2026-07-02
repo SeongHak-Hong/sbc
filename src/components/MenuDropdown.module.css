@@ -124,7 +124,7 @@
     background: none;
     border: none;
     text-decoration: none;
-    font-size: 20px;}
+    font-size: 18px;}
 
 .menuItem:hover, .menuItem.expanded {
     color: var(--color-text-dark);
@@ -200,10 +200,10 @@
     display: block;
     padding: 10px 16px;
     border-radius: 0;
-    font-size: 16px;
+    font-size: 18px;
     color: rgba(var(--color-text-dark-rgb), 0.6);
     transition: background-color 0.2s, color 0.2s;
-    text-decoration: none;}
+    text-decoration: none;}
 
 .subItem:hover {
     color: var(--color-text-dark);

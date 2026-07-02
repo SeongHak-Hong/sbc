@@ -39,7 +39,7 @@ const NetworkPage = () => {
     };
 
     const handleItemClick = (post) => {
-        navigate(`/post/memberBusiness_${post.id}`, { state: post });
+        navigate(`/post/network_${post.id}`);
     };
 
     const totalPages = Math.ceil(posts.length / postsPerPage) || 1;

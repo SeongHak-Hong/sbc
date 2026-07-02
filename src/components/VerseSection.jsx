@@ -61,37 +61,41 @@ const VerseSection = () => {
         let ctx = gsap.context(() => {
             const wordElements = el.querySelectorAll('.word');
 
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: el,
-                    start: 'center center',
-                    end: '+=200%',          // Reduced pin distance so it moves to next section immediately after text reveal
-                    pin: true,
-                    scrub: true,
-                    anticipatePin: 1,
-                }
-            });
-
-            // Calculate total duration for the stagger animation
-            const staggerAmount = 0.1;
-            const textDuration = 1;
+            const staggerAmount = 0.08;
+            const textDuration = 0.8;
             const totalDuration = textDuration + staggerAmount * (wordElements.length > 0 ? wordElements.length - 1 : 0);
 
-            // 1. Parallax and Depth Animation for the whole text container
-            tl.fromTo(textRef.current, 
-                { y: 200, scale: 0.95 }, 
-                { y: 0, scale: 1.05, ease: 'none', duration: totalDuration }, 
-                0
-            );
-
-            // 2. Text Reveal Animation
-            tl.to(wordElements, {
-                opacity: 1,
-                filter: 'blur(0px)',
-                stagger: staggerAmount,
-                duration: textDuration,
-                ease: 'none'
-            }, 0);
+            ScrollTrigger.create({
+                trigger: el,
+                start: 'top 70%',
+                end: 'bottom 30%',
+                onEnter: () => {
+                    gsap.fromTo(textRef.current, 
+                        { y: 100, scale: 0.95 }, 
+                        { y: 0, scale: 1, ease: 'power2.out', duration: totalDuration, overwrite: true }
+                    );
+                    gsap.fromTo(wordElements, 
+                        { opacity: 0.1, filter: 'blur(10px)' },
+                        { opacity: 1, filter: 'blur(0px)', stagger: staggerAmount, duration: textDuration, ease: 'power1.out', overwrite: true }
+                    );
+                },
+                onLeave: () => {
+                    gsap.to(wordElements, { opacity: 0.1, filter: 'blur(10px)', duration: 0.4, overwrite: true });
+                },
+                onEnterBack: () => {
+                    gsap.fromTo(textRef.current, 
+                        { y: 100, scale: 0.95 }, 
+                        { y: 0, scale: 1, ease: 'power2.out', duration: totalDuration, overwrite: true }
+                    );
+                    gsap.fromTo(wordElements, 
+                        { opacity: 0.1, filter: 'blur(10px)' },
+                        { opacity: 1, filter: 'blur(0px)', stagger: staggerAmount, duration: textDuration, ease: 'power1.out', overwrite: true }
+                    );
+                },
+                onLeaveBack: () => {
+                    gsap.to(wordElements, { opacity: 0.1, filter: 'blur(10px)', duration: 0.4, overwrite: true });
+                }
+            });
 
         }, sectionRef); // Scope to section
 

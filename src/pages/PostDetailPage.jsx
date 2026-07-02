@@ -193,6 +193,8 @@ const PostDetailPage = () => {
     const [post, setPost] = useState(location.state || null);
     const [loading, setLoading] = useState(!post);
 
+    const lastFetchedId = useRef(null);
+
     useEffect(() => {
         window.scrollTo(0, 0);
 
@@ -202,7 +204,8 @@ const PostDetailPage = () => {
             return;
         }
 
-        if (id) {
+        if (id && lastFetchedId.current !== id) {
+            lastFetchedId.current = id;
             fetchPostFromFirestore();
         }
     }, [id, location.state]);
@@ -264,6 +267,12 @@ const PostDetailPage = () => {
                 const parts = id.split('_');
                 targetCollection = parts[0];
                 actualId = parts.slice(1).join('_');
+
+                if (targetCollection === 'network') {
+                    targetCollection = 'memberBusiness';
+                } else if (targetCollection === 'koinonia') {
+                    targetCollection = 'membersNews';
+                }
 
                 if (targetCollection === 'schedules') {
                     const querySnapshot = await getDocs(collection(db, 'monthly'));
@@ -329,7 +338,7 @@ const PostDetailPage = () => {
     let authorLabel = "작성자";
     let authorText = "관리자";
 
-    if (id && id.startsWith('memberBusiness_')) {
+    if (id && (id.startsWith('network_') || id.startsWith('memberBusiness_'))) {
         authorLabel = "운영 성도";
         authorText = post.author === '관리자' ? '확인 필요' : (post.author || '관리자');
     } else {
@@ -393,6 +402,9 @@ const PostDetailPage = () => {
                                         .toastui-editor-contents, .ProseMirror {
                                             color: var(--color-text-body) !important;
                                             font-size: 16px !important;
+                                        }
+                                        .toastui-editor-contents *:not(table), .ProseMirror *:not(table) {
+                                            line-height: 180% !important;
                                         }
                                         .toastui-editor-contents p, .ProseMirror p,
                                         .toastui-editor-contents span, .ProseMirror span,

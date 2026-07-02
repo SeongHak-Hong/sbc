@@ -152,11 +152,11 @@ const NextGenPage = () => {
                         </motion.section>
                     </AnimatePresence>
 
-                    {activeData.events.length > 0 && (
-                        <section className={styles.eventsSection}>
-                            <div className={styles.eventsHeader}>
-                                <h2 className={styles.eventsTitle}>주요 행사</h2>
-                            </div>
+                    <section className={styles.eventsSection}>
+                        <div className={styles.eventsHeader}>
+                            <h2 className={styles.eventsTitle}>주요 행사</h2>
+                        </div>
+                        {activeData.events && activeData.events.length > 0 ? (
                             <div className={styles.eventsGrid}>
                                 {activeData.events.map((ev, idx) => {
                                     let displayStatus = ev.status;
@@ -238,8 +238,12 @@ const NextGenPage = () => {
                                     );
                                 })}
                             </div>
-                        </section>
-                    )}
+                        ) : (
+                            <div className={styles.emptyEventsMessage}>
+                                <p>예정된 주요 행사가 없습니다.</p>
+                            </div>
+                        )}
+                    </section>
                 </div>
             </SubPageSection>
             <Footer />
