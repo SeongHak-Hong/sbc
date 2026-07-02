@@ -67,6 +67,9 @@
 
 /* Override SubPageSection background for the directions section */
 .directionsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
     max-width: 800px;
     margin: 24px auto 0;
     width: 100%;

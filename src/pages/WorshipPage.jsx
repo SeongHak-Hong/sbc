@@ -7,6 +7,7 @@ import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.w
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
 import TabMenu from '../components/TabMenu';
+import NaverMap from '../components/ui/NaverMap';
 
 const WorshipPage = () => {
     const [activeTab, setActiveTab] = useState('adult');
@@ -100,6 +101,7 @@ const WorshipPage = () => {
                         대전 대덕구 석봉로 17 (석봉동, 신탄진교회)
                     </p>
                     <div className={styles.directionsWrapper}>
+                        <NaverMap />
                         <div className={styles.directionsContent}>
                             <div className={styles.directionGroup}>
                                 <h4 className={styles.directionLabel}>대중교통 이용 시</h4>
