@@ -23,7 +23,7 @@ const VerseSection = () => {
         return verseText.split(/([ \t\n\r]+)/).map((word, index) => {
             if (word.match(/^[ \t\n\r]+$/)) return word;
             const isCitation = word.includes('사도행전');
-            
+
             // Base style for the word
             const wordStyle = {
                 opacity: 0.1,
@@ -32,7 +32,8 @@ const VerseSection = () => {
                 alignItems: 'center',
                 fontSize: isCitation ? (isMobile ? '20px' : 'var(--text-h4)') : 'inherit',
                 marginTop: isCitation ? '24px' : '0',
-                color: isCitation ? 'var(--color-text-dark)' : 'inherit'};
+                color: isCitation ? 'var(--color-text-dark)' : 'inherit'
+            };
 
             return (
                 <span className="word" key={index} style={wordStyle}>
@@ -71,10 +72,10 @@ const VerseSection = () => {
                 end: 'bottom 30%',
                 onEnter: () => {
                     gsap.fromTo(textRef.current, 
-                        { y: 100, scale: 0.95 }, 
-                        { y: 0, scale: 1, ease: 'power2.out', duration: totalDuration, overwrite: true }
+                        { y: 100 }, 
+                        { y: 0, ease: 'power2.out', duration: totalDuration, overwrite: true }
                     );
-                    gsap.fromTo(wordElements, 
+                    gsap.fromTo(wordElements,
                         { opacity: 0.1, filter: 'blur(10px)' },
                         { opacity: 1, filter: 'blur(0px)', stagger: staggerAmount, duration: textDuration, ease: 'power1.out', overwrite: true }
                     );
@@ -84,10 +85,10 @@ const VerseSection = () => {
                 },
                 onEnterBack: () => {
                     gsap.fromTo(textRef.current, 
-                        { y: 100, scale: 0.95 }, 
-                        { y: 0, scale: 1, ease: 'power2.out', duration: totalDuration, overwrite: true }
+                        { y: 100 }, 
+                        { y: 0, ease: 'power2.out', duration: totalDuration, overwrite: true }
                     );
-                    gsap.fromTo(wordElements, 
+                    gsap.fromTo(wordElements,
                         { opacity: 0.1, filter: 'blur(10px)' },
                         { opacity: 1, filter: 'blur(0px)', stagger: staggerAmount, duration: textDuration, ease: 'power1.out', overwrite: true }
                     );
@@ -127,7 +128,8 @@ const VerseSection = () => {
         lineHeight: 'var(--line-height-base)',
         color: 'rgba(var(--color-text-dark-rgb), 0.7)',
         textAlign: 'center',
-        whiteSpace: 'pre-line'};
+        whiteSpace: 'pre-line'
+    };
 
     return (
         <section ref={sectionRef} style={sectionStyle}>

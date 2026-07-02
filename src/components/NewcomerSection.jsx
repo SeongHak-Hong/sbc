@@ -40,7 +40,10 @@ const NewcomerSection = ({
 
     const buttonStyle = {
         borderColor: 'var(--color-text-secondary)',
-        color: 'var(--color-text-secondary)'
+        color: 'var(--color-text-secondary)',
+        '--suit-btn-hover-bg': 'var(--color-text-secondary)',
+        '--suit-btn-hover-border': 'var(--color-text-secondary)',
+        '--suit-btn-hover-text': 'var(--color-background-dark)'
     };
 
     // Mock hills using CSS

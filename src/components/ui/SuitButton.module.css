@@ -13,7 +13,7 @@
   left: -1px;
   right: -1px;
   bottom: -1px;
-  background-color: var(--color-text-dark);
+  background-color: var(--suit-btn-hover-bg, var(--color-text-dark));
   transform: scaleX(0);
   transform-origin: right;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -21,8 +21,8 @@
 }
 
 .animatedButton.hoverActive {
-  color: var(--color-white) !important;
-  border-color: var(--color-text-dark) !important;
+  color: var(--suit-btn-hover-text, var(--color-white)) !important;
+  border-color: var(--suit-btn-hover-border, var(--color-text-dark)) !important;
 }
 
 .animatedButton.hoverActive::before {
