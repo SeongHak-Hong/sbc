@@ -20,6 +20,10 @@ const AdminMemberBusiness = () => {
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
     const [date, setDate] = useState('');
+    const [address, setAddress] = useState('');
+    const [detailAddress, setDetailAddress] = useState('');
+    const [businessCategory, setBusinessCategory] = useState('');
+    const [phone, setPhone] = useState('');
     const [content, setContent] = useState('');
     const [images, setImages] = useState([]); 
     const [newFiles, setNewFiles] = useState([]);
@@ -53,6 +57,10 @@ const AdminMemberBusiness = () => {
         setTitle('');
         setAuthor('');
         setDate(formattedDate);
+        setAddress('');
+        setDetailAddress('');
+        setBusinessCategory('');
+        setPhone('');
         setContent('');
         setImages([]);
         setNewFiles([]);
@@ -66,6 +74,10 @@ const AdminMemberBusiness = () => {
         setTitle(post.title || '');
         setAuthor(post.author || '');
         setDate(post.date || '');
+        setAddress(post.address || '');
+        setDetailAddress(post.detailAddress || '');
+        setBusinessCategory(post.businessCategory || '');
+        setPhone(post.phone || '');
         setContent(post.content || '');
         setImages(post.imageUrls || []);
         setNewFiles([]);
@@ -165,6 +177,10 @@ const AdminMemberBusiness = () => {
                 title,
                 author,
                 date,
+                address,
+                detailAddress,
+                businessCategory,
+                phone,
                 content,
                 imageUrls: uploadedImageUrls,
                 createdAt: currentPost?.createdAt || Timestamp.now(),
@@ -230,6 +246,50 @@ const AdminMemberBusiness = () => {
                                 setDate(`${y}. ${m}. ${d}`);
                             }}
                             style={{ width: '200px', padding: '10px', borderRadius: '4px', border: '1px solid #ddd'}}
+                        />
+                    </div>
+
+                    <div>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>업종 <span style={{  color: '#6B7280' }}>(예: 음식점, 카페, 병원 등)</span></label>
+                        <input 
+                            type="text" 
+                            value={businessCategory} 
+                            onChange={(e) => setBusinessCategory(e.target.value)}
+                            placeholder="업종을 입력하세요"
+                            style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ddd', fontSize: '16px' }}
+                        />
+                    </div>
+
+                    <div>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>연락처 <span style={{  color: '#6B7280' }}>(예: 042-123-4567)</span></label>
+                        <input 
+                            type="text" 
+                            value={phone} 
+                            onChange={(e) => setPhone(e.target.value)}
+                            placeholder="연락처를 입력하세요"
+                            style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ddd', fontSize: '16px' }}
+                        />
+                    </div>
+
+                    <div>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>도로명 주소 (지도로 표시)</label>
+                        <input 
+                            type="text" 
+                            value={address} 
+                            onChange={(e) => setAddress(e.target.value)}
+                            placeholder="예: 대전광역시 서구 둔산로 123"
+                            style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ddd', fontSize: '16px' }}
+                        />
+                    </div>
+                    
+                    <div>
+                        <label style={{ display: 'block', marginBottom: '8px'}}>상세 주소 (건물명, 동/호수)</label>
+                        <input 
+                            type="text" 
+                            value={detailAddress} 
+                            onChange={(e) => setDetailAddress(e.target.value)}
+                            placeholder="예: 101동 202호 (지도 검색에는 사용되지 않고 텍스트로만 표시됩니다)"
+                            style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ddd', fontSize: '16px' }}
                         />
                     </div>
 

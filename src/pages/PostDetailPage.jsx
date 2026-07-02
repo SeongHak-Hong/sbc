@@ -10,6 +10,7 @@ import SubPageSection from '../components/SubPageSection';
 import SuitButton from '../components/ui/SuitButton';
 import styles from './PostDetailPage.module.css';
 import dummyImg from '../assets/news/260628-church-bulletin-01.webp';
+import NaverMap from '../components/ui/NaverMap';
 
 const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true }) => {
     const actualImages = images.length > 0 ? images : (imageUrl ? [imageUrl] : []);
@@ -421,12 +422,26 @@ const PostDetailPage = () => {
                         {/* Post Body */}
                         <div className={styles.postBody}>
                             {viewerImages.length > 0 && (
-                                <ImageViewer 
-                                    imageUrl={viewerImages.length === 1 ? viewerImages[0] : null} 
-                                    images={viewerImages.length > 1 ? viewerImages : []} 
-                                    totalPages={3} // this handles CSS slicing fallback if needed
-                                    isBulletin={post.category === 'bulletin'}
-                                />
+                                <div style={{ marginBottom: '32px' }}>
+                                    <ImageViewer 
+                                        imageUrl={viewerImages.length === 1 ? viewerImages[0] : null} 
+                                        images={viewerImages.length > 1 ? viewerImages : []} 
+                                        totalPages={3} // this handles CSS slicing fallback if needed
+                                        isBulletin={post.category === 'bulletin'}
+                                    />
+                                </div>
+                            )}
+
+                            {post.address && (
+                                <div style={{ marginBottom: '32px', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+                                    <NaverMap 
+                                        address={post.address} 
+                                        detailAddress={post.detailAddress}
+                                        title={post.title} 
+                                        category={post.businessCategory}
+                                        phone={post.phone}
+                                    />
+                                </div>
                             )}
                             
                             {post.content && (
