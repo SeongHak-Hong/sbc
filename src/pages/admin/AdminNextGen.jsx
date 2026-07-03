@@ -220,7 +220,9 @@ const AdminNextGen = () => {
                                             <td style={{ padding: '16px', textAlign: 'center' }}>
                                                 <span style={{ backgroundColor: '#DBEAFE', color: '#1E40AF', padding: '4px 8px', borderRadius: '4px', fontSize: '13px', fontWeight: '500' }}>기본</span>
                                             </td>
-                                            <td style={{ padding: '16px', fontWeight: '500', color: '#1E293B' }}>{dept.name} 기본 정보 및 교사 명단</td>
+                                            <td style={{ padding: '16px', fontWeight: '500', color: '#1E293B' }}>
+                                                {dept.name} 기본 정보 및 {deptId === 'youngadults' ? '임원진 명단' : '교사 명단'}
+                                            </td>
                                             <td style={{ padding: '16px', color: '#6B7280', fontSize: '16px' }}>-</td>
                                             <td style={{ padding: '16px', textAlign: 'center' }}>
                                                 <span style={{ padding: '4px 8px', borderRadius: '4px', fontSize: '13px', backgroundColor: '#F3F4F6', color: '#4B5563' }}>상시</span>
@@ -282,7 +284,9 @@ const AdminNextGen = () => {
                             // --- BASIC INFO EDIT VIEW ---
                             <div style={{ border: '1px solid #E5E7EB', padding: '24px', borderRadius: '8px', backgroundColor: '#F8FAFC' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', borderBottom: '1px solid #E2E8F0', paddingBottom: '16px' }}>
-                                    <h5 style={{ margin: 0, fontSize: '18px', color: '#1E293B' }}>{dept.name} 기본 정보 및 교사 명단 편집</h5>
+                                    <h5 style={{ margin: 0, fontSize: '18px', color: '#1E293B' }}>
+                                        {dept.name} 기본 정보 및 {deptId === 'youngadults' ? '임원진 명단' : '교사 명단'} 편집
+                                    </h5>
                                 </div>
                                 
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
@@ -334,7 +338,7 @@ const AdminNextGen = () => {
                                         disabled={saving}
                                         style={{ backgroundColor: '#10B981', color: '#fff', padding: '8px 16px', borderRadius: '4px', border: 'none', cursor: 'pointer'}}
                                     >
-                                        {saving ? '저장중...' : '저장 및 목록으로 돌아가기'}
+                                        {saving ? '저장중...' : '저장'}
                                     </button>
                                 </div>
                             </div>
@@ -459,7 +463,7 @@ const AdminNextGen = () => {
                                             disabled={saving}
                                             style={{ backgroundColor: '#10B981', color: '#fff', padding: '8px 16px', borderRadius: '4px', border: 'none', cursor: 'pointer'}}
                                         >
-                                            {saving ? '저장중...' : '저장 및 목록으로 돌아가기'}
+                                            {saving ? '저장중...' : '저장'}
                                         </button>
                                     </div>
                                 </div>
