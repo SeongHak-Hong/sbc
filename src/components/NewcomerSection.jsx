@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { BlurFade } from './ui/BlurFade';
 import { motion } from 'framer-motion';
 import SuitButton from './ui/SuitButton';
+import { useNavigate } from 'react-router-dom';
 
 const NewcomerSection = ({ 
     title = <>당신을 향한 사랑,<br />이곳에 있습니다.</>,
     buttonText = "신탄진교회 오시는 길"
 }) => {
     const [isMobile, setIsMobile] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth <= 767);
@@ -65,7 +67,7 @@ const NewcomerSection = ({
                 <h2 style={titleStyle}>{title}</h2>
             </BlurFade>
             <BlurFade delay={0.4} inView>
-                <SuitButton style={buttonStyle}>
+                <SuitButton style={buttonStyle} onClick={() => navigate('/worship#visit')}>
                     {buttonText}
                 </SuitButton>
             </BlurFade>

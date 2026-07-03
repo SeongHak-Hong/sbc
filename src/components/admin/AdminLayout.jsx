@@ -89,6 +89,13 @@ const AdminLayout = () => {
                         <span className="material-symbols-outlined">storefront</span>
                         성도 사업체 관리
                     </NavLink>
+                    <NavLink 
+                        to="/manager-lounge/feedback"
+                        className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}
+                    >
+                        <span className="material-symbols-outlined">bug_report</span>
+                        개발/수정 요청
+                    </NavLink>
                     {auth.currentUser?.email === 'ing6023@gmail.com' && (
                         <NavLink 
                             to="/manager-lounge/migration"

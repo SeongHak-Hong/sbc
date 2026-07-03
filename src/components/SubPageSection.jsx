@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import styles from './SubPageSection.module.css';
 
-const SubPageSection = ({ title, engTitle, subtitle, icon, children, className, titleColor = 'var(--color-text-dark)', hideHeader = false }) => {
+const SubPageSection = ({ id, title, engTitle, subtitle, icon, children, className, titleColor = 'var(--color-text-dark)', hideHeader = false }) => {
     return (
-        <section className={`${styles.sectionContainer} ${className || ''}`}>
+        <section id={id} className={`${styles.sectionContainer} ${className || ''}`}>
             {!hideHeader && (
                 <div className={styles.headerContent}>
                     {icon && (

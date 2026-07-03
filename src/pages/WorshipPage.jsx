@@ -91,6 +91,7 @@ const WorshipPage = () => {
 
                 {/* 오시는 길 섹션 */}
                 <SubPageSection 
+                    id="visit"
                     title="오시는 길" 
                     engTitle="Visit"
                     icon={visionIcon} 
