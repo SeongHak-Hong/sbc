@@ -4,6 +4,7 @@ import { db } from '../../firebase';
 
 const AdminCellgroups = () => {
     const [cellgroups, setCellgroups] = useState({});
+    const [activeTab, setActiveTab] = useState('');
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
 
@@ -20,6 +21,9 @@ const AdminCellgroups = () => {
                 data[doc.id] = doc.data();
             });
             setCellgroups(data);
+            if (Object.keys(data).length > 0) {
+                setActiveTab(Object.keys(data).sort()[0]);
+            }
         } catch (error) {
             console.error('구역 안내 불러오기 실패:', error);
             alert('데이터를 불러오지 못했습니다.');
@@ -67,7 +71,30 @@ const AdminCellgroups = () => {
         <div>
             <h2 style={{ fontSize: '24px',  marginBottom: '24px' }}>구역 안내 관리</h2>
             
-            {Object.keys(cellgroups).map(parishKey => {
+            {Object.keys(cellgroups).length > 0 && (
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', overflowX: 'auto', paddingBottom: '8px' }}>
+                    {Object.keys(cellgroups).sort().map(parishKey => (
+                        <button
+                            key={parishKey}
+                            onClick={() => setActiveTab(parishKey)}
+                            style={{
+                                padding: '10px 20px',
+                                backgroundColor: activeTab === parishKey ? '#1F2937' : '#F3F4F6',
+                                color: activeTab === parishKey ? '#fff' : '#4B5563',
+                                border: 'none',
+                                borderRadius: '4px',
+                                cursor: 'pointer',
+                                fontSize: '15px'
+                            }}
+                        >
+                            {parishKey}
+                        </button>
+                    ))}
+                </div>
+            )}
+            
+            {activeTab && cellgroups[activeTab] && (() => {
+                const parishKey = activeTab;
                 const parish = cellgroups[parishKey];
                 return (
                     <div key={parishKey} style={{ backgroundColor: '#fff', padding: '24px', borderRadius: '8px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
@@ -156,9 +183,10 @@ const AdminCellgroups = () => {
                         </div>
                     </div>
                 );
-            })}
+            })()}
         </div>
     );
 };
 
 export default AdminCellgroups;
+

@@ -4,6 +4,7 @@ import { db } from '../../firebase';
 
 const AdminMissions = () => {
     const [missions, setMissions] = useState({});
+    const [activeTab, setActiveTab] = useState('');
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
 
@@ -20,6 +21,9 @@ const AdminMissions = () => {
                 data[doc.id] = doc.data();
             });
             setMissions(data);
+            if (Object.keys(data).length > 0) {
+                setActiveTab('overseas');
+            }
         } catch (error) {
             console.error('선교전도 데이터 불러오기 실패:', error);
             alert('데이터를 불러오지 못했습니다.');
@@ -147,10 +151,35 @@ const AdminMissions = () => {
         <div>
             <h2 style={{ fontSize: '24px',  marginBottom: '24px' }}>선교전도 관리</h2>
             
-            {renderTableEditor('overseas')}
-            {renderTableEditor('domestic')}
+            {Object.keys(missions).length > 0 && (
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', overflowX: 'auto', paddingBottom: '8px' }}>
+                    {['overseas', 'domestic', 'evangelism'].map(missionId => {
+                        if (!missions[missionId]) return null;
+                        return (
+                            <button
+                                key={missionId}
+                                onClick={() => setActiveTab(missionId)}
+                                style={{
+                                    padding: '10px 20px',
+                                    backgroundColor: activeTab === missionId ? '#1F2937' : '#F3F4F6',
+                                    color: activeTab === missionId ? '#fff' : '#4B5563',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer',
+                                    fontSize: '15px'
+                                }}
+                            >
+                                {missionId === 'overseas' ? '해외 선교' : missionId === 'domestic' ? '국내 선교' : '목요전도팀'}
+                            </button>
+                        );
+                    })}
+                </div>
+            )}
 
-            {missions['evangelism'] && (
+            {activeTab === 'overseas' && renderTableEditor('overseas')}
+            {activeTab === 'domestic' && renderTableEditor('domestic')}
+
+            {activeTab === 'evangelism' && missions['evangelism'] && (
                 <div style={{ backgroundColor: '#fff', padding: '24px', borderRadius: '8px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                         <h3 style={{ fontSize: '18px'}}>목요전도팀 안내</h3>

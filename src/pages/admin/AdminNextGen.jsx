@@ -12,6 +12,11 @@ const AdminNextGen = () => {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [uploading, setUploading] = useState(false);
+    const [editingEventIndex, setEditingEventIndex] = useState(null);
+
+    useEffect(() => {
+        setEditingEventIndex(null);
+    }, [activeTab]);
 
     useEffect(() => {
         fetchDepartments();
@@ -150,28 +155,44 @@ const AdminNextGen = () => {
             <h2 style={{ fontSize: '24px',  marginBottom: '24px' }}>다음세대 관리</h2>
             
             {Object.keys(departments).length > 0 && (
-                <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', overflowX: 'auto', paddingBottom: '8px' }}>
-                    {Object.keys(departments).sort((a, b) => {
-                        const order = { 'kindergarten': 1, 'elementary': 2, 'youth': 3, 'youngadults': 4 };
-                        return (order[a] || 99) - (order[b] || 99);
-                    }).map(deptId => (
-                        <button
-                            key={deptId}
-                            onClick={() => setActiveTab(deptId)}
-                            style={{
-                                padding: '10px 20px',
-                                backgroundColor: activeTab === deptId ? '#1F2937' : '#F3F4F6',
-                                color: activeTab === deptId ? '#fff' : '#4B5563',
-                                border: 'none',
-                                borderRadius: '4px',
-                                cursor: 'pointer',
-                                
-                                fontSize: '15px'
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
+                    <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '8px' }}>
+                        {Object.keys(departments).sort((a, b) => {
+                            const order = { 'kindergarten': 1, 'elementary': 2, 'youth': 3, 'youngadults': 4 };
+                            return (order[a] || 99) - (order[b] || 99);
+                        }).map(deptId => (
+                            <button
+                                key={deptId}
+                                onClick={() => setActiveTab(deptId)}
+                                style={{
+                                    padding: '10px 20px',
+                                    backgroundColor: activeTab === deptId ? '#1F2937' : '#F3F4F6',
+                                    color: activeTab === deptId ? '#fff' : '#4B5563',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer',
+                                    fontSize: '15px'
+                                }}
+                            >
+                                {departments[deptId].name || deptId}
+                            </button>
+                        ))}
+                    </div>
+                    {editingEventIndex === null && activeTab && (
+                        <button 
+                            onClick={() => {
+                                const newDepts = { ...departments };
+                                if (!newDepts[activeTab].events) newDepts[activeTab].events = [];
+                                const newIndex = newDepts[activeTab].events.length;
+                                newDepts[activeTab].events.push({ title: '새 행사', startDate: '', endDate: '', time: '', location: '', status: '예정', img: '', imageUrls: [], desc: '' });
+                                setDepartments(newDepts);
+                                setEditingEventIndex(newIndex);
                             }}
+                            style={{ backgroundColor: '#3B82F6', color: '#fff', padding: '10px 20px', borderRadius: '4px', border: 'none', cursor: 'pointer' }}
                         >
-                            {departments[deptId].name || deptId}
+                            + 새 행사 추가
                         </button>
-                    ))}
+                    )}
                 </div>
             )}
             
@@ -179,71 +200,170 @@ const AdminNextGen = () => {
                 const deptId = activeTab;
                 const dept = departments[deptId];
                 return (
-                    <div key={deptId} style={{ backgroundColor: '#fff', padding: '24px', borderRadius: '8px', marginBottom: '32px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', borderBottom: '1px solid #E5E7EB', paddingBottom: '16px' }}>
-                            <h3 style={{ fontSize: '20px',  color: 'var(--color-text-body)' }}>{dept.name}</h3>
-                        </div>
-                        
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
-                            <div>
-                                <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>예배 시간</label>
-                                <input type="text" value={dept.schedule || ''} onChange={(e) => handleFieldChange(deptId, 'schedule', e.target.value)} style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }} />
-                            </div>
-                            <div>
-                                <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>예배 장소</label>
-                                <input type="text" value={dept.location || ''} onChange={(e) => handleFieldChange(deptId, 'location', e.target.value)} style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }} />
-                            </div>
-                            <div>
-                                <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>담당 교역자 이름</label>
-                                <input type="text" value={dept.leader?.name || ''} onChange={(e) => handleNestedChange(deptId, 'leader', 'name', e.target.value)} style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }} />
-                            </div>
-                            <div>
-                                <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>부장 이름</label>
-                                <input type="text" value={dept.director?.name || ''} onChange={(e) => handleNestedChange(deptId, 'director', 'name', e.target.value)} style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }} />
-                            </div>
-                        </div>
+                    <div key={deptId} style={{ marginBottom: '32px' }}>
+                        {editingEventIndex === null ? (
+                            // --- LIST VIEW ---
+                            <div style={{ backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', overflow: 'hidden' }}>
+                                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                                    <thead>
+                                        <tr style={{ backgroundColor: '#F9FAFB', textAlign: 'left', borderBottom: '1px solid #E5E7EB' }}>
+                                            <th style={{ padding: '16px', width: '100px', textAlign: 'center' }}>분류</th>
+                                            <th style={{ padding: '16px' }}>제목 / 행사명</th>
+                                            <th style={{ padding: '16px', width: '200px' }}>기간</th>
+                                            <th style={{ padding: '16px', width: '100px', textAlign: 'center' }}>상태</th>
+                                            <th style={{ padding: '16px', width: '180px', textAlign: 'center' }}>관리</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {/* 기본 정보 Row */}
+                                        <tr style={{ borderBottom: '1px solid #E5E7EB', backgroundColor: '#F8FAFC' }}>
+                                            <td style={{ padding: '16px', textAlign: 'center' }}>
+                                                <span style={{ backgroundColor: '#DBEAFE', color: '#1E40AF', padding: '4px 8px', borderRadius: '4px', fontSize: '13px', fontWeight: '500' }}>기본</span>
+                                            </td>
+                                            <td style={{ padding: '16px', fontWeight: '500', color: '#1E293B' }}>{dept.name} 기본 정보 및 교사 명단</td>
+                                            <td style={{ padding: '16px', color: '#6B7280', fontSize: '16px' }}>-</td>
+                                            <td style={{ padding: '16px', textAlign: 'center' }}>
+                                                <span style={{ padding: '4px 8px', borderRadius: '4px', fontSize: '13px', backgroundColor: '#F3F4F6', color: '#4B5563' }}>상시</span>
+                                            </td>
+                                            <td style={{ padding: '16px', display: 'flex', justifyContent: 'center', gap: '8px' }}>
+                                                <button 
+                                                    onClick={() => setEditingEventIndex('basic')}
+                                                    style={{ backgroundColor: '#F3F4F6', border: '1px solid #D1D5DB', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' }}
+                                                >수정</button>
+                                            </td>
+                                        </tr>
 
-                        {/* 교사 명단 */}
-                        <div style={{ marginBottom: '24px' }}>
-                            <h4 style={{ fontSize: '16px',  marginBottom: '12px' }}>{dept.teamTitle || '교사팀'} 명단 (쉼표 분리 불가, 한 명씩 추가)</h4>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                                {dept.teachers?.map((teacher, index) => (
-                                    <div key={index} style={{ display: 'flex', alignItems: 'center', backgroundColor: '#F3F4F6', padding: '4px 12px', borderRadius: '4px' }}>
-                                        <input type="text" value={teacher} onChange={(e) => handleArrayChange(deptId, 'teachers', index, e.target.value)} style={{ border: 'none', background: 'transparent', width: '80px', outline: 'none' }} />
-                                        <AdminCloseButton 
-                                            onClick={() => handleDeleteArrayItem(deptId, 'teachers', index)} 
-                                            style={{ marginLeft: '4px' }} 
-                                        />
+                                        {/* 이벤트 Rows */}
+                                        {(!dept.events || dept.events.length === 0) ? (
+                                            <tr>
+                                                <td colSpan="5" style={{ padding: '32px', textAlign: 'center', color: '#6B7280' }}>등록된 행사가 없습니다.</td>
+                                            </tr>
+                                        ) : dept.events.map((ev, index) => (
+                                            <tr key={index} style={{ borderBottom: '1px solid #E5E7EB' }}>
+                                                <td style={{ padding: '16px', textAlign: 'center' }}>
+                                                    <span style={{ backgroundColor: '#F1F5F9', color: '#475569', padding: '4px 8px', borderRadius: '4px', fontSize: '13px' }}>행사</span>
+                                                </td>
+                                                <td style={{ padding: '16px' }}>{ev.title || '새 행사'}</td>
+                                                <td style={{ padding: '16px', color: '#6B7280', fontSize: '16px' }}>
+                                                    {ev.startDate || '-'} {ev.endDate && `~ ${ev.endDate}`}
+                                                </td>
+                                                <td style={{ padding: '16px', textAlign: 'center' }}>
+                                                    <span style={{
+                                                        padding: '4px 8px', borderRadius: '4px', fontSize: '13px',
+                                                        backgroundColor: ev.status === '예정' ? '#F3F4F6' : ev.status === '진행중' ? '#DBEAFE' : ev.status === '마감' ? '#FCE7F3' : '#FEF3C7',
+                                                        color: ev.status === '예정' ? '#4B5563' : ev.status === '진행중' ? '#1E3A8A' : ev.status === '마감' ? '#9D174D' : '#92400E'
+                                                    }}>
+                                                        {ev.status || '예정'}
+                                                    </span>
+                                                </td>
+                                                <td style={{ padding: '16px', display: 'flex', justifyContent: 'center', gap: '8px' }}>
+                                                    <button 
+                                                        onClick={() => setEditingEventIndex(index)}
+                                                        style={{ backgroundColor: '#F3F4F6', border: '1px solid #D1D5DB', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' }}
+                                                    >수정</button>
+                                                    <button 
+                                                        onClick={() => {
+                                                            if (window.confirm('정말 이 행사를 삭제하시겠습니까?')) {
+                                                                handleDeleteArrayItem(deptId, 'events', index);
+                                                            }
+                                                        }}
+                                                        style={{ backgroundColor: '#FEF2F2', color: '#DC2626', border: '1px solid #FCA5A5', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' }}
+                                                    >삭제</button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ) : editingEventIndex === 'basic' ? (
+                            // --- BASIC INFO EDIT VIEW ---
+                            <div style={{ border: '1px solid #E5E7EB', padding: '24px', borderRadius: '8px', backgroundColor: '#F8FAFC' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', borderBottom: '1px solid #E2E8F0', paddingBottom: '16px' }}>
+                                    <h5 style={{ margin: 0, fontSize: '18px', color: '#1E293B' }}>{dept.name} 기본 정보 및 교사 명단 편집</h5>
+                                </div>
+                                
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
+                                    <div>
+                                        <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>예배 시간</label>
+                                        <input type="text" value={dept.schedule || ''} onChange={(e) => handleFieldChange(deptId, 'schedule', e.target.value)} style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }} />
                                     </div>
-                                ))}
-                                <button onClick={() => handleAddArrayItem(deptId, 'teachers')} style={{ backgroundColor: 'var(--color-btn-add)', color: '#fff', border: 'none', padding: '4px 12px', borderRadius: '4px', cursor: 'pointer' }}>+ 추가</button>
-                            </div>
-                        </div>
+                                    <div>
+                                        <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>예배 장소</label>
+                                        <input type="text" value={dept.location || ''} onChange={(e) => handleFieldChange(deptId, 'location', e.target.value)} style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }} />
+                                    </div>
+                                    <div>
+                                        <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>담당 교역자 이름</label>
+                                        <input type="text" value={dept.leader?.name || ''} onChange={(e) => handleNestedChange(deptId, 'leader', 'name', e.target.value)} style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }} />
+                                    </div>
+                                    <div>
+                                        <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>부장 이름</label>
+                                        <input type="text" value={dept.director?.name || ''} onChange={(e) => handleNestedChange(deptId, 'director', 'name', e.target.value)} style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }} />
+                                    </div>
+                                </div>
 
-                        {/* 주요 행사 */}
-                        <div>
-                            <h4 style={{ fontSize: '16px',  marginBottom: '12px' }}>주요 행사</h4>
-                            {dept.events?.map((ev, index) => (
-                                <div key={index} style={{ border: '1px solid #E5E7EB', padding: '16px', borderRadius: '8px', marginBottom: '16px', position: 'relative' }}>
-                                    <button onClick={() => handleDeleteArrayItem(deptId, 'events', index)} style={{ position: 'absolute', top: '16px', right: '16px', backgroundColor: '#EF4444', color: '#fff', border: 'none', padding: '4px 12px', borderRadius: '4px', cursor: 'pointer' }}>행사 삭제</button>
+                                {/* 교사 명단 */}
+                                <div style={{ marginBottom: '32px' }}>
+                                    <h4 style={{ fontSize: '16px',  marginBottom: '12px' }}>{dept.teamTitle || '교사팀'} 명단 (쉼표 분리 불가, 한 명씩 추가)</h4>
+                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                                        {dept.teachers?.map((teacher, index) => (
+                                            <div key={index} style={{ display: 'flex', alignItems: 'center', backgroundColor: '#F3F4F6', padding: '4px 12px', borderRadius: '4px' }}>
+                                                <input type="text" value={teacher} onChange={(e) => handleArrayChange(deptId, 'teachers', index, e.target.value)} style={{ border: 'none', background: 'transparent', width: '80px', outline: 'none' }} />
+                                                <AdminCloseButton 
+                                                    onClick={() => handleDeleteArrayItem(deptId, 'teachers', index)} 
+                                                    style={{ marginLeft: '4px' }} 
+                                                />
+                                            </div>
+                                        ))}
+                                        <button onClick={() => handleAddArrayItem(deptId, 'teachers')} style={{ backgroundColor: 'var(--color-btn-add)', color: '#fff', border: 'none', padding: '4px 12px', borderRadius: '4px', cursor: 'pointer' }}>+ 추가</button>
+                                    </div>
+                                </div>
+
+                                <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', borderTop: '1px solid #E5E7EB', paddingTop: '16px' }}>
+                                    <button 
+                                        onClick={() => setEditingEventIndex(null)}
+                                        style={{ backgroundColor: '#fff', color: '#4B5563', border: '1px solid #D1D5DB', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer' }}
+                                    >취소</button>
+                                    <button 
+                                        onClick={async () => {
+                                            await handleSave(deptId);
+                                            setEditingEventIndex(null);
+                                        }}
+                                        disabled={saving}
+                                        style={{ backgroundColor: '#10B981', color: '#fff', padding: '8px 16px', borderRadius: '4px', border: 'none', cursor: 'pointer'}}
+                                    >
+                                        {saving ? '저장중...' : '저장 및 목록으로 돌아가기'}
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (() => {
+                            // --- EVENT EDIT VIEW ---
+                            const index = editingEventIndex;
+                            const ev = dept.events[index];
+                            if (!ev) return null;
+                            return (
+                                <div style={{ border: '1px solid #3B82F6', padding: '24px', borderRadius: '8px', backgroundColor: '#F8FAFC' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', borderBottom: '1px solid #E2E8F0', paddingBottom: '16px' }}>
+                                        <h5 style={{ margin: 0, fontSize: '18px', color: '#1E40AF' }}>행사 상세 편집</h5>
+                                    </div>
+
                                     <div style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
                                         <div style={{ flex: 1 }}>
-                                            <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>행사명</label>
-                                            <input type="text" value={ev.title} onChange={(e) => handleEventChange(deptId, index, 'title', e.target.value)} style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }} />
+                                            <label style={{ display: 'block', fontSize: '14px', color: '#475569', marginBottom: '4px' }}>행사명</label>
+                                            <input type="text" value={ev.title} onChange={(e) => handleEventChange(deptId, index, 'title', e.target.value)} style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #CBD5E1', borderRadius: '4px', boxSizing: 'border-box' }} />
                                         </div>
                                     </div>
                                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '16px' }}>
                                         <div>
-                                            <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>시작일</label>
-                                            <input type="date" value={ev.startDate || ''} onChange={(e) => handleEventChange(deptId, index, 'startDate', e.target.value)} style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }} />
+                                            <label style={{ display: 'block', fontSize: '14px', color: '#475569', marginBottom: '4px' }}>시작일</label>
+                                            <input type="date" value={ev.startDate || ''} onChange={(e) => handleEventChange(deptId, index, 'startDate', e.target.value)} style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #CBD5E1', borderRadius: '4px', boxSizing: 'border-box' }} />
                                         </div>
                                         <div>
-                                            <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>종료일</label>
-                                            <input type="date" value={ev.endDate || ''} onChange={(e) => handleEventChange(deptId, index, 'endDate', e.target.value)} style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }} />
+                                            <label style={{ display: 'block', fontSize: '14px', color: '#475569', marginBottom: '4px' }}>종료일</label>
+                                            <input type="date" value={ev.endDate || ''} onChange={(e) => handleEventChange(deptId, index, 'endDate', e.target.value)} style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #CBD5E1', borderRadius: '4px', boxSizing: 'border-box' }} />
                                         </div>
                                         <div>
-                                            <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>상태</label>
-                                            <select value={ev.status} onChange={(e) => handleEventChange(deptId, index, 'status', e.target.value)} style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box', backgroundColor: '#fff' }}>
+                                            <label style={{ display: 'block', fontSize: '14px', color: '#475569', marginBottom: '4px' }}>상태</label>
+                                            <select value={ev.status} onChange={(e) => handleEventChange(deptId, index, 'status', e.target.value)} style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #CBD5E1', borderRadius: '4px', boxSizing: 'border-box', backgroundColor: '#fff' }}>
                                                 <option value="예정">예정</option>
                                                 <option value="접수중">접수중</option>
                                                 <option value="모집중">모집중</option>
@@ -254,19 +374,19 @@ const AdminNextGen = () => {
                                     </div>
                                     <div style={{ display: 'flex', gap: '16px', marginBottom: '12px' }}>
                                         <div style={{ flex: 1 }}>
-                                            <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>시간</label>
+                                            <label style={{ display: 'block', fontSize: '14px', color: '#475569', marginBottom: '4px' }}>시간</label>
                                             <TimeInput 
                                                 value={ev.time || ''} 
                                                 onChange={(val) => handleEventChange(deptId, index, 'time', val)} 
                                             />
                                         </div>
                                         <div style={{ flex: 1 }}>
-                                            <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>장소</label>
-                                            <input type="text" value={ev.location || ''} onChange={(e) => handleEventChange(deptId, index, 'location', e.target.value)} placeholder="예: 비전센터 3층" style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }} />
+                                            <label style={{ display: 'block', fontSize: '14px', color: '#475569', marginBottom: '4px' }}>장소</label>
+                                            <input type="text" value={ev.location || ''} onChange={(e) => handleEventChange(deptId, index, 'location', e.target.value)} placeholder="예: 비전센터 3층" style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #CBD5E1', borderRadius: '4px', boxSizing: 'border-box' }} />
                                         </div>
                                     </div>
                                     <div style={{ marginBottom: '12px' }}>
-                                        <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>행사 설명</label>
+                                        <label style={{ display: 'block', fontSize: '14px', color: '#475569', marginBottom: '4px' }}>행사 설명</label>
                                         <div style={{ marginTop: '4px', marginBottom: '16px' }}>
                                             <AdminEditor 
                                                 initialValue={ev.desc}
@@ -276,19 +396,19 @@ const AdminNextGen = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <label style={{ display: 'block', fontSize: '14px', color: '#6B7280', marginBottom: '4px' }}>행사 이미지 업로드 {uploading && <span style={{  color: '#6B7280' }}>(업로드 중...)</span>}</label>
+                                        <label style={{ display: 'block', fontSize: '14px', color: '#475569', marginBottom: '4px' }}>행사 이미지 업로드 {uploading && <span style={{  color: '#6B7280' }}>(업로드 중...)</span>}</label>
                                         <input 
                                             type="file" 
                                             accept="image/*" 
                                             multiple
                                             onChange={(e) => handleImageUpload(deptId, index, e.target.files)}
                                             disabled={uploading}
-                                            style={{ width: '100%', padding: '10px 12px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box', backgroundColor: '#fff', cursor: uploading ? 'not-allowed' : 'pointer', marginBottom: '8px' }} 
+                                            style={{ width: '100%', padding: '10px 12px', border: '1px solid #CBD5E1', borderRadius: '4px', boxSizing: 'border-box', backgroundColor: '#fff', cursor: uploading ? 'not-allowed' : 'pointer', marginBottom: '8px' }} 
                                         />
                                         {(ev.imageUrls && ev.imageUrls.length > 0) ? (
                                             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '8px' }}>
                                                 {ev.imageUrls.map((url, imgIdx) => (
-                                                    <div key={imgIdx} style={{ position: 'relative', border: ev.img === url ? '2px solid #3B82F6' : '1px solid #ddd', borderRadius: '4px', padding: '4px' }}>
+                                                    <div key={imgIdx} style={{ position: 'relative', border: ev.img === url ? '2px solid #3B82F6' : '1px solid #ddd', borderRadius: '4px', padding: '4px', backgroundColor: '#fff' }}>
                                                         {ev.img === url && <span style={{ position: 'absolute', top: 0, left: 0, backgroundColor: '#3B82F6', color: '#fff', fontSize: '10px', padding: '2px 4px', borderRadius: '2px' }}>썸네일</span>}
                                                         <img src={url} alt={`업로드된 이미지 ${imgIdx + 1}`} style={{ height: '60px', width: 'auto', borderRadius: '2px', display: 'block', marginBottom: '4px' }} />
                                                         <div style={{ display: 'flex', gap: '4px', justifyContent: 'center' }}>
@@ -311,7 +431,7 @@ const AdminNextGen = () => {
                                         ) : (
                                             ev.img && (
                                                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '8px' }}>
-                                                    <div style={{ position: 'relative', border: '2px solid #3B82F6', borderRadius: '4px', padding: '4px' }}>
+                                                    <div style={{ position: 'relative', border: '2px solid #3B82F6', borderRadius: '4px', padding: '4px', backgroundColor: '#fff' }}>
                                                         <span style={{ position: 'absolute', top: 0, left: 0, backgroundColor: '#3B82F6', color: '#fff', fontSize: '10px', padding: '2px 4px', borderRadius: '2px' }}>썸네일</span>
                                                         <img src={ev.img} alt="썸네일" style={{ height: '60px', width: 'auto', borderRadius: '2px', display: 'block', marginBottom: '4px' }} />
                                                         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -322,25 +442,26 @@ const AdminNextGen = () => {
                                             )
                                         )}
                                     </div>
-                                </div>
-                            ))}
-                        </div>
 
-                        <div style={{ display: 'flex', gap: '8px', marginTop: '16px', justifyContent: 'flex-end' }}>
-                            <button 
-                                onClick={() => handleAddArrayItem(deptId, 'events', { title: '새 행사', startDate: '', endDate: '', time: '', location: '', status: '예정', img: '', imageUrls: [], desc: '' })}
-                                style={{ backgroundColor: 'var(--color-btn-add)', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer'}}
-                            >
-                                + 새 행사 추가
-                            </button>
-                            <button 
-                                onClick={() => handleSave(deptId)}
-                                disabled={saving}
-                                style={{ backgroundColor: '#10B981', color: '#fff', padding: '8px 16px', borderRadius: '4px', border: 'none', cursor: 'pointer'}}
-                            >
-                                {saving ? '저장중...' : '변경사항 저장'}
-                            </button>
-                        </div>
+                                    <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', borderTop: '1px solid #E5E7EB', paddingTop: '16px', marginTop: '24px' }}>
+                                        <button 
+                                            onClick={() => setEditingEventIndex(null)}
+                                            style={{ backgroundColor: '#fff', color: '#4B5563', border: '1px solid #D1D5DB', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer' }}
+                                        >취소</button>
+                                        <button 
+                                            onClick={async () => {
+                                                await handleSave(deptId);
+                                                setEditingEventIndex(null);
+                                            }}
+                                            disabled={saving}
+                                            style={{ backgroundColor: '#10B981', color: '#fff', padding: '8px 16px', borderRadius: '4px', border: 'none', cursor: 'pointer'}}
+                                        >
+                                            {saving ? '저장중...' : '저장 및 목록으로 돌아가기'}
+                                        </button>
+                                    </div>
+                                </div>
+                            );
+                        })()}
                     </div>
                 );
             })()}
