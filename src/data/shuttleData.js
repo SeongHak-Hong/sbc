@@ -44,5 +44,13 @@ export const shuttleSchedules = [
             { id: 'nextgen-2', area: '목상동 방향', ...AREA_COORDS['목상동 방향'], carNum: '9746', time: '08:20~09:00', driver: '안병은' },
             { id: 'nextgen-3', area: '송강동 방향', ...AREA_COORDS['송강동 방향'], carNum: '3522', time: '08:20~09:00', driver: '박찬명' }
         ]
+    },
+    {
+        id: 'wednesday',
+        name: '수요예배',
+        routes: [
+            { id: 'wed-1', area: '중리동 방향', ...AREA_COORDS['중리동 방향'], carNum: '6937', time: '17:30~18:20', driver: '김정현' },
+            { id: 'wed-2', area: '송강동 방향', ...AREA_COORDS['송강동 방향'], carNum: '3522', time: '17:30~18:10', driver: '김윤섭' }
+        ]
     }
 ];

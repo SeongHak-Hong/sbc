@@ -13,29 +13,28 @@
     height: 100%;
 }
 
-/* 플로팅 패널 (좌측에 띄움) */
+/* 플로팅 패널 */
 .floatingPanel {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 16px;
+    left: 16px;
     width: 320px;
-    max-height: calc(100% - 40px);
-    background-color: rgba(255, 255, 255, 0.85); /* 반투명 흰색 */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 12px;
-    padding: 24px;
+    height: auto;
+    max-height: calc(100% - 32px);
+    background-color: #fff;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    /* 테두리(border)와 그림자(box-shadow)는 사용하지 않음 (미니멀리즘) */
+    gap: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     font-family: 'SUIT', sans-serif;
     letter-spacing: -0.05em;
     line-height: 1.8;
+    z-index: 10;
     overflow-y: auto;
 }
 
-/* 모바일 환경에서는 바텀 시트 느낌으로 하단에 배치 */
+/* 모바일 환경 */
 @media (max-width: 768px) {
     .floatingPanel {
         top: auto;
@@ -44,51 +43,53 @@
         right: 8px;
         width: auto;
         max-height: 50%;
-        padding: 16px;
     }
 }
 
 /* 탭 메뉴 (최상위: 교회위치 vs 셔틀노선) */
 .mainTabs {
-    display: flex;
-    gap: 8px;
-    background-color: rgba(0, 0, 0, 0.05);
-    padding: 4px;
-    border-radius: 8px;
+    flex-shrink: 0;
+    margin-bottom: 0 !important;
 }
 
-.mainTab {
+.mainTabs button {
+    padding: 8px !important;
+    font-size: 14px !important;
+}
+
+/* 서브 탭 그룹 (예배 시간 선택) */
+.subTabsGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.subTabRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.subTabButtonGroup {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     flex: 1;
-    padding: 10px 0;
-    text-align: center;
-    font-size: 14px;
-    color: #666;
-    background: transparent;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
 }
 
-.mainTab.active {
-    background-color: #fff;
-    color: #111;
-}
-
-/* 셔틀 노선 탭 (새벽예배, 주일2부 등) */
-.subTabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+.subTabLabel {
+    font-size: 13px;
+    color: #777;
+    flex-shrink: 0;
 }
 
 .subTab {
-    padding: 6px 12px;
-    font-size: 13px;
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
     color: #555;
-    background-color: rgba(0, 0, 0, 0.03);
+    background-color: transparent;
     border: none;
-    border-radius: 20px;
     cursor: pointer;
     transition: all 0.2s ease;
 }
@@ -102,40 +103,34 @@
 .routeList {
     display: flex;
     flex-direction: column;
-    gap: 24px; /* 아이템 간 넓은 여백으로 선을 대체 */
-    margin-top: 10px;
 }
 
 .routeItem {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    background-image: repeating-linear-gradient(to right, rgba(29, 26, 28, 0.2) 0, rgba(29, 26, 28, 0.2) 2px, transparent 2px, transparent 4px);
+    background-position: bottom;
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
 }
 
-.routeHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
+.routeItem:last-child {
+    background-image: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
 }
 
 .routeArea {
-    font-size: 15px;
-    color: #111;
-}
-
-.routeTime {
     font-size: 14px;
-    color: #888;
+    font-weight: var(--font-weight-semibold);
+    color: #111;
 }
 
 .routeDetails {
     font-size: 14px;
-    color: #444;
-}
-
-.carNumber {
-    color: #222;
-    margin-right: 8px;
+    color: #555;
 }
 
 /* 교회 위치 기본 정보 */
@@ -146,14 +141,14 @@
 }
 
 .churchTitle {
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 600;
     color: #111;
     margin: 0;
 }
 
 .churchDesc {
-    font-size: 16px;
+    font-size: 14px;
     color: #555;
     margin: 0;
 }

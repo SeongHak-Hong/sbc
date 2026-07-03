@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './InteractiveShuttleMap.module.css';
 import { CHURCH_COORDS, shuttleSchedules } from '../../data/shuttleData';
+import TabMenu from '../TabMenu';
 
 const InteractiveShuttleMap = () => {
     const mapElement = useRef(null);
@@ -134,25 +135,18 @@ const InteractiveShuttleMap = () => {
             {/* 플로팅 정보 패널 */}
             <div className={styles.floatingPanel}>
                 
-                {/* 메인 탭 (교회 위치 vs 셔틀 노선) */}
-                <div className={styles.mainTabs}>
-                    <button 
-                        className={`${styles.mainTab} ${mainTab === 'church' ? styles.active : ''}`}
-                        onClick={() => setMainTab('church')}
-                    >
-                        📍 교회 위치
-                    </button>
-                    <button 
-                        className={`${styles.mainTab} ${mainTab === 'shuttle' ? styles.active : ''}`}
-                        onClick={() => setMainTab('shuttle')}
-                    >
-                        🚌 셔틀 노선
-                    </button>
-                </div>
+                {/* 메인 탭 */}
+                <TabMenu 
+                    className={styles.mainTabs}
+                    tabs={[{id: 'church', label: '교회위치'}, {id: 'shuttle', label: '차량운행'}]}
+                    activeTab={mainTab}
+                    onTabChange={setMainTab}
+                    getTabId={(t) => t.id}
+                    getTabLabel={(t) => t.label}
+                />
 
                 {mainTab === 'church' && (
                     <div className={styles.churchInfo}>
-                        <h4 className={styles.churchTitle}>신탄진침례교회</h4>
                         <p className={styles.churchDesc}>
                             대전 대덕구 석봉로 17<br/>
                             셔틀버스 관련 문의: <a href="tel:042-932-8156" className={styles.contact}>042-932-8156</a>
@@ -162,30 +156,45 @@ const InteractiveShuttleMap = () => {
 
                 {mainTab === 'shuttle' && (
                     <>
-                        {/* 서브 탭 (예배 시간 선택) */}
-                        <div className={styles.subTabs}>
-                            {shuttleSchedules.map(schedule => (
-                                <button
-                                    key={schedule.id}
-                                    className={`${styles.subTab} ${activeScheduleId === schedule.id ? styles.active : ''}`}
-                                    onClick={() => setActiveScheduleId(schedule.id)}
-                                >
-                                    {schedule.name}
-                                </button>
-                            ))}
+                        {/* 서브 탭 그룹 (예배 시간 선택) */}
+                        <div className={styles.subTabsGroup}>
+                            <div className={styles.subTabRow}>
+                                <span className={styles.subTabLabel}>주일</span>
+                                <div className={styles.subTabButtonGroup}>
+                                    {shuttleSchedules.filter(s => ['sunday2', 'sundayAfternoon', 'nextgen'].includes(s.id)).map(schedule => (
+                                        <button
+                                            key={schedule.id}
+                                            className={`${styles.subTab} ${activeScheduleId === schedule.id ? styles.active : ''}`}
+                                            onClick={() => setActiveScheduleId(schedule.id)}
+                                        >
+                                            {schedule.name === '주일2부예배' ? '2부예배' : schedule.name === '주일오후예배' ? '오후예배' : schedule.name === '교회학교' ? '다음세대' : schedule.name}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className={styles.subTabRow}>
+                                <span className={styles.subTabLabel}>평일</span>
+                                <div className={styles.subTabButtonGroup}>
+                                    {shuttleSchedules.filter(s => ['dawn', 'wednesday'].includes(s.id)).map(schedule => (
+                                        <button
+                                            key={schedule.id}
+                                            className={`${styles.subTab} ${activeScheduleId === schedule.id ? styles.active : ''}`}
+                                            onClick={() => setActiveScheduleId(schedule.id)}
+                                        >
+                                            {schedule.name}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
 
                         {/* 선택된 예배의 노선 리스트 */}
                         <div className={styles.routeList}>
                             {activeSchedule?.routes.map(route => (
                                 <div key={route.id} className={styles.routeItem}>
-                                    <div className={styles.routeHeader}>
-                                        <span className={styles.routeArea}>{route.area}</span>
-                                        <span className={styles.routeTime}>{route.time}</span>
-                                    </div>
+                                    <span className={styles.routeArea}>{route.area}</span>
                                     <div className={styles.routeDetails}>
-                                        <span className={styles.carNumber}>{route.carNum}</span> 
-                                        {route.driver}
+                                        {route.carNum} · {route.driver} · {route.time}
                                     </div>
                                 </div>
                             ))}
