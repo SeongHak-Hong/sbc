@@ -245,7 +245,10 @@ const AdminNextGen = () => {
                                                 </td>
                                                 <td style={{ padding: '16px' }}>{ev.title || '새 행사'}</td>
                                                 <td style={{ padding: '16px', color: '#6B7280', fontSize: '16px' }}>
-                                                    {ev.startDate || '-'} {ev.endDate && `~ ${ev.endDate}`}
+                                                    {ev.startDate || '-'}
+                                                    {ev.endDate && (
+                                                        <div style={{ marginTop: '4px' }}>~ {ev.endDate}</div>
+                                                    )}
                                                 </td>
                                                 <td style={{ padding: '16px', textAlign: 'center' }}>
                                                     <span style={{
