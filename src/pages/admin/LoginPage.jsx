@@ -130,7 +130,7 @@ const LoginPage = () => {
                                 type="password" 
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="예: 1234"
+                                placeholder="예: 123456"
                                 required
                             />
                         </div>
