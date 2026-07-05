@@ -71,6 +71,21 @@ const NextGenPage = () => {
         return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>로딩 중...</div>;
     }
 
+    const extractImageFromContent = (content) => {
+        if (!content) return null;
+        const markdownRegex = /!\[.*?\]\((.*?)\)/;
+        const markdownMatch = content.match(markdownRegex);
+        if (markdownMatch && markdownMatch[1]) {
+            return markdownMatch[1];
+        }
+        const htmlRegex = /<img[^>]+src="([^">]+)"/;
+        const htmlMatch = content.match(htmlRegex);
+        if (htmlMatch && htmlMatch[1]) {
+            return htmlMatch[1];
+        }
+        return null;
+    };
+
     if (!departmentsData || Object.keys(departmentsData).length === 0) {
         return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>데이터가 없습니다.</div>;
     }
@@ -193,6 +208,10 @@ const NextGenPage = () => {
                                     if (ev.location) formattedContent += `🚩 장소: ${ev.location}  \n`;
                                     if (formattedContent) formattedContent += `\n`;
                                     formattedContent += ev.desc || '';
+                                    
+                                    const extractedImg = extractImageFromContent(ev.desc);
+                                    const finalImg = ev.img || extractedImg || defaultThumbs[activeTab] || thumbKindergarten;
+                                    const finalImageUrls = (ev.imageUrls && ev.imageUrls.length > 0) ? ev.imageUrls : (extractedImg ? [extractedImg] : [defaultThumbs[activeTab] || thumbKindergarten]);
 
                                     return (
                                         <motion.div
@@ -208,13 +227,13 @@ const NextGenPage = () => {
                                                     author: activeData.name, 
                                                     date: displayDate, 
                                                     content: formattedContent, 
-                                                    imageUrl: ev.img || defaultThumbs[activeTab] || thumbKindergarten,
-                                                    imageUrls: ev.imageUrls || [defaultThumbs[activeTab] || thumbKindergarten]
+                                                    imageUrl: finalImg,
+                                                    imageUrls: finalImageUrls
                                                 } 
                                             })}
                                         >
                                             <div className={styles.eventImageWrapper}>
-                                                <img src={ev.img || defaultThumbs[activeTab] || thumbKindergarten} alt={ev.title} className={styles.eventImage} />
+                                                <img src={finalImg} alt={ev.title} className={styles.eventImage} loading="lazy" />
                                             </div>
                                             <div>
                                                 <div className={styles.eventMeta}>

@@ -11,6 +11,17 @@ import SuitButton from '../components/ui/SuitButton';
 import styles from './PostDetailPage.module.css';
 import dummyImg from '../assets/news/260628-church-bulletin-01.webp';
 import NaverMap from '../components/ui/NaverMap';
+import thumbKindergarten from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb.webp';
+import thumbElementary from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-01.webp';
+import thumbYouth from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-02.webp';
+import thumbYoungAdults from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-03.webp';
+
+const defaultThumbs = {
+    kindergarten: thumbKindergarten,
+    elementary: thumbElementary,
+    youth: thumbYouth,
+    youngadults: thumbYoungAdults
+};
 
 const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true }) => {
     const actualImages = images.length > 0 ? images : (imageUrl ? [imageUrl] : []);
@@ -112,7 +123,9 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
                         backgroundPosition: 'center',
                         filter: 'blur(20px)',
                         opacity: 0.4,
-                        zIndex: 0
+                        zIndex: 0,
+                        transform: 'translateZ(0)',
+                        willChange: 'transform, filter'
                     }} />
                     
                     {/* Main Image */}
