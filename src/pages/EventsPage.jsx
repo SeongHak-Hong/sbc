@@ -262,7 +262,11 @@ const EventsPage = () => {
                                                     {event.endDate && (() => {
                                                         const startStr = (event.startDate || '').substring(5).replace('-', '.');
                                                         const endStr = event.endDate.substring(5).replace('-', '.');
-                                                        return startStr ? ` (${startStr}~${endStr})` : '';
+                                                        return startStr ? (
+                                                            <span style={{ color: 'rgba(var(--color-text-dark-rgb), 0.7)', marginLeft: '6px', fontWeight: 'normal' }}>
+                                                                ({startStr}~{endStr})
+                                                            </span>
+                                                        ) : null;
                                                     })()}
                                                 </span>
                                                 {(event.imageUrl || (event.imageUrls && event.imageUrls.length > 0) || (event.images && event.images.length > 0)) && (

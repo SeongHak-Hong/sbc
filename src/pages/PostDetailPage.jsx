@@ -49,8 +49,8 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
 
     const renderMainImage = (index) => {
         if (isBulletin) {
-            const totalWidth = actualImages.length * totalPages * 100;
-            const translateX = (currentIndex / (actualImages.length * totalPages)) * 100;
+            const totalWidth = count * 100;
+            const translateX = (index / count) * 100;
             
             return (
                 <div style={{ 
@@ -59,20 +59,31 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
                     transform: `translateX(-${translateX}%)`,
                     transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
                 }}>
-                    {actualImages.map((img, idx) => (
-                        <img 
-                            key={idx}
-                            src={img} 
-                            alt={`주보 원본 ${idx + 1}`} 
-                            style={{ 
-                                width: `${100 / actualImages.length}%`, 
-                                maxWidth: 'none',
-                                height: 'auto',
-                                flexShrink: 0,
-                                display: 'block'
-                            }} 
-                        />
-                    ))}
+                    {Array.from({ length: count }).map((_, idx) => {
+                        const mappedIndex = (idx + 2) % count;
+                        const imageIndex = Math.floor(mappedIndex / totalPages);
+                        const sliceIndex = mappedIndex % totalPages;
+
+                        return (
+                            <div key={idx} style={{ 
+                                width: `${100 / count}%`, 
+                                overflow: 'hidden',
+                                flexShrink: 0
+                            }}>
+                                <img 
+                                    src={actualImages[imageIndex]} 
+                                    alt={`주보 원본 ${idx + 1}`} 
+                                    style={{ 
+                                        width: `${totalPages * 100}%`, 
+                                        maxWidth: 'none',
+                                        height: 'auto',
+                                        marginLeft: `-${sliceIndex * 100}%`,
+                                        display: 'block'
+                                    }} 
+                                />
+                            </div>
+                        );
+                    })}
                 </div>
             );
         } else {
@@ -124,8 +135,9 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
     };
 
     const renderThumbnail = (index) => {
-        const imageIndex = isBulletin ? Math.floor(index / totalPages) : index;
-        const sliceIndex = isBulletin ? index % totalPages : 0;
+        const mappedIndex = isBulletin ? (index + 2) % count : index;
+        const imageIndex = isBulletin ? Math.floor(mappedIndex / totalPages) : index;
+        const sliceIndex = isBulletin ? mappedIndex % totalPages : 0;
         
         if (isBulletin) {
             return (

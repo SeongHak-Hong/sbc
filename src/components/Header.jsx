@@ -169,7 +169,7 @@ const Header = () => {
                 <div
                     style={{ 
                         height: 'var(--header-logo-height)', 
-                        aspectRatio: '459 / 67',
+                        aspectRatio: '461 / 67',
                         backgroundColor: (isSubpage || isSolidWhite) ? 'var(--color-text-dark)' : 'var(--color-white)',
                         WebkitMaskImage: `url("${logoSbc}")`,
                         maskImage: `url("${logoSbc}")`,

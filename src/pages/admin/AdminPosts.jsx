@@ -26,6 +26,30 @@ const AdminPosts = () => {
         fetchPosts();
     }, []);
 
+    const getSortableDate = (dateStr) => {
+        if (!dateStr) return '00000000';
+        const parts = dateStr.split(/[^\d]+/).filter(Boolean);
+        if (parts.length >= 3) {
+            const y = parts[0];
+            const m = parts[1].padStart(2, '0');
+            const d = parts[2].padStart(2, '0');
+            return `${y}${m}${d}`;
+        }
+        return dateStr;
+    };
+
+    const normalizeDateStr = (dateStr) => {
+        if (!dateStr) return '';
+        const parts = dateStr.split(/[^\d]+/).filter(Boolean);
+        if (parts.length >= 3) {
+            const y = parts[0];
+            const m = parts[1].padStart(2, '0');
+            const d = parts[2].padStart(2, '0');
+            return `${y}. ${m}. ${d}.`;
+        }
+        return dateStr;
+    };
+
     const fetchPosts = async () => {
         setLoading(true);
         try {
@@ -35,6 +59,21 @@ const AdminPosts = () => {
             querySnapshot.forEach((doc) => {
                 data.push({ id: doc.id, ...doc.data() });
             });
+            
+            data.sort((a, b) => {
+                const dateA = getSortableDate(a.date);
+                const dateB = getSortableDate(b.date);
+                if (dateA !== dateB) {
+                    return dateB.localeCompare(dateA); // Sort by date desc
+                }
+                const createdA = a.createdAt?.seconds || 0;
+                const createdB = b.createdAt?.seconds || 0;
+                if (createdA !== createdB) {
+                    return createdB - createdA;
+                }
+                return b.id.localeCompare(a.id);
+            });
+
             setPosts(data);
         } catch (error) {
             console.error('게시물 불러오기 실패:', error);
@@ -369,7 +408,7 @@ const AdminPosts = () => {
                                     </span>
                                 </td>
                                 <td style={{ padding: '16px'}}>{post.title}</td>
-                                <td style={{ padding: '16px', color: '#6B7280', fontSize: '16px' }}>{post.date}</td>
+                                <td style={{ padding: '16px', color: '#6B7280', fontSize: '16px' }}>{normalizeDateStr(post.date)}</td>
                                 <td style={{ padding: '16px', textAlign: 'center', color: '#6B7280' }}>{post.views || 0}</td>
                                 <td style={{ padding: '16px', display: 'flex', justifyContent: 'center', gap: '8px' }}>
                                     <button 

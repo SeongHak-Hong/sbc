@@ -53,7 +53,53 @@ const NewsPage = () => {
         }
     };
 
-    const filteredPosts = posts.filter(post => post.category === activeTab);
+    const normalizeDateStr = (dateStr) => {
+        if (!dateStr) return '';
+        const parts = dateStr.split(/[^\d]+/).filter(Boolean);
+        if (parts.length >= 3) {
+            const y = parts[0];
+            const m = parts[1].padStart(2, '0');
+            const d = parts[2].padStart(2, '0');
+            return `${y}. ${m}. ${d}.`;
+        }
+        return dateStr;
+    };
+
+    const getSortableDate = (dateStr) => {
+        if (!dateStr) return '00000000';
+        const parts = dateStr.split(/[^\d]+/).filter(Boolean);
+        if (parts.length >= 3) {
+            const y = parts[0];
+            const m = parts[1].padStart(2, '0');
+            const d = parts[2].padStart(2, '0');
+            return `${y}${m}${d}`;
+        }
+        return dateStr;
+    };
+
+    const filteredPosts = posts
+        .filter(post => post.category === activeTab)
+        .map(post => ({
+            ...post,
+            originalDate: post.date,
+            date: normalizeDateStr(post.date)
+        }))
+        .sort((a, b) => {
+            const dateA = getSortableDate(a.originalDate);
+            const dateB = getSortableDate(b.originalDate);
+            if (dateA !== dateB) {
+                return dateB.localeCompare(dateA); // Sort by date desc
+            }
+            
+            // Sort by registration time if dates are identical
+            const createdA = a.createdAt?.seconds || 0;
+            const createdB = b.createdAt?.seconds || 0;
+            if (createdA !== createdB) {
+                return createdB - createdA;
+            }
+            
+            return b.id.localeCompare(a.id);
+        });
 
     const totalPages = Math.ceil(filteredPosts.length / postsPerPage) || 1;
     const currentPosts = filteredPosts.slice(
@@ -91,10 +137,22 @@ const NewsPage = () => {
                     />
 
                     <BoardList 
-                        posts={currentPosts.map(post => ({
-                            ...post,
-                            hasImage: (post.imageUrl || (post.imageUrls && post.imageUrls.length > 0) || (post.images && post.images.length > 0))
-                        }))}
+                        posts={currentPosts.map(post => {
+                            let displayDate = post.date;
+                            let titleDate = '';
+
+                            if ((activeTab === 'bulletin' || activeTab === 'news') && post.date) {
+                                titleDate = post.date;
+                                displayDate = ''; // Hide the right-side date
+                            }
+
+                            return {
+                                ...post,
+                                titleDate,
+                                date: displayDate,
+                                hasImage: (post.imageUrl || (post.imageUrls && post.imageUrls.length > 0) || (post.images && post.images.length > 0))
+                            };
+                        })}
                         onItemClick={handlePostClick}
                         currentPage={currentPage}
                         totalPages={totalPages}

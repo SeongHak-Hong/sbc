@@ -247,9 +247,15 @@ const AdminNextGen = () => {
                                                 </td>
                                                 <td style={{ padding: '16px' }}>{ev.title || '새 행사'}</td>
                                                 <td style={{ padding: '16px', color: '#6B7280', fontSize: '16px' }}>
-                                                    {ev.startDate || '-'}
+                                                    {ev.startDate ? (() => {
+                                                        const parts = ev.startDate.split('-');
+                                                        return parts.length >= 3 ? `${parts[0]}. ${parts[1].padStart(2, '0')}. ${parts[2].padStart(2, '0')}.` : ev.startDate;
+                                                    })() : '-'}
                                                     {ev.endDate && (
-                                                        <div style={{ marginTop: '4px' }}>~ {ev.endDate}</div>
+                                                        <div style={{ marginTop: '4px' }}>~ {(() => {
+                                                            const parts = ev.endDate.split('-');
+                                                            return parts.length >= 3 ? `${parts[0]}. ${parts[1].padStart(2, '0')}. ${parts[2].padStart(2, '0')}.` : ev.endDate;
+                                                        })()}</div>
                                                     )}
                                                 </td>
                                                 <td style={{ padding: '16px', textAlign: 'center' }}>
