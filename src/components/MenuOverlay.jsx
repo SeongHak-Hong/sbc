@@ -148,7 +148,7 @@ const MenuOverlay = ({ isOpen, onClose }) => {
                             onClick={(e) => handleLinkClick(e, "/")}
                         >
                             <span className={styles.imageButtonTitle}>주보 보기</span>
-                            <span className={`material-symbols-outlined ${styles.imageButtonIcon}`}>arrow_forward</span>
+                            <span className={`material-symbols-outlined ${styles.imageButtonIcon}`} translate="no">arrow_forward</span>
                         </a>
                     </motion.div>
                 </div>

@@ -184,7 +184,7 @@ const EventsPage = () => {
                             disabled={currentMonthIndex === 0}
                             style={{ opacity: currentMonthIndex === 0 ? 0.2 : 1 }}
                         >
-                            <span className="material-symbols-outlined">chevron_left</span>
+                            <span className="material-symbols-outlined" translate="no">chevron_left</span>
                         </button>
                         <div style={{ position: 'relative' }}>
                             <span 
@@ -193,7 +193,7 @@ const EventsPage = () => {
                                 style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}
                             >
                                 {currentSection?.month}
-                                <span className="material-symbols-outlined" style={{ fontSize: '24px' }}>arrow_drop_down</span>
+                                <span className="material-symbols-outlined" style={{ fontSize: '24px' }} translate="no">arrow_drop_down</span>
                             </span>
                             
                             {showMonthPicker && (
@@ -233,7 +233,7 @@ const EventsPage = () => {
                             disabled={currentMonthIndex === groupedSchedules.length - 1}
                             style={{ opacity: currentMonthIndex === groupedSchedules.length - 1 ? 0.2 : 1 }}
                         >
-                            <span className="material-symbols-outlined">chevron_right</span>
+                            <span className="material-symbols-outlined" translate="no">chevron_right</span>
                         </button>
                     </div>
 
@@ -266,7 +266,7 @@ const EventsPage = () => {
                                                     })()}
                                                 </span>
                                                 {(event.imageUrl || (event.imageUrls && event.imageUrls.length > 0) || (event.images && event.images.length > 0)) && (
-                                                    <span className="material-symbols-outlined" style={{ fontSize: '20px', color: '#9CA3AF', flexShrink: 0 }}>image</span>
+                                                    <span className="material-symbols-outlined" style={{ fontSize: '20px', color: '#9CA3AF', flexShrink: 0 }} translate="no">image</span>
                                                 )}
                                             </div>
                                             <div className={styles.eventMeta}>

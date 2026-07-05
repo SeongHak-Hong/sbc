@@ -191,8 +191,8 @@ const Header = () => {
                     onClick={(e) => { e.stopPropagation(); setIsMenuOpen(!isMenuOpen); }}
                 >
                     <div className={styles.iconContainer}>
-                        <span className={`material-symbols-outlined ${styles.iconMenu}`}>menu</span>
-                        <span className={`material-symbols-outlined ${styles.iconClose}`}>close</span>
+                        <span className={`material-symbols-outlined ${styles.iconMenu}`} translate="no">menu</span>
+                        <span className={`material-symbols-outlined ${styles.iconClose}`} translate="no">close</span>
                     </div>
                     <span>{isMenuOpen ? '닫기' : '메뉴'}</span>
                 </button>
@@ -231,7 +231,7 @@ const Header = () => {
                                                     <div className={styles.itemLeft}>
                                                         {item.title}
                                                     </div>
-                                                    <span className={`material-symbols-outlined ${styles.chevron}`}>expand_more</span>
+                                                    <span className={`material-symbols-outlined ${styles.chevron}`} translate="no">expand_more</span>
                                                 </button>
                                                 
                                                 <div className={`${styles.submenuGrid} ${isExpanded ? styles.open : ''}`}>

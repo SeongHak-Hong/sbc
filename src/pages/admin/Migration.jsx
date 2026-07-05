@@ -12,7 +12,7 @@ export default function Migration() {
   if (auth.currentUser?.email !== 'ing6023@gmail.com') {
       return (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', color: '#6B7280' }}>
-              <span className="material-symbols-outlined" style={{ fontSize: '48px', color: '#EF4444', marginBottom: '16px' }}>lock</span>
+              <span className="material-symbols-outlined" style={{ fontSize: '48px', color: '#EF4444', marginBottom: '16px' }} translate="no">lock</span>
               <h2 style={{ fontSize: '24px',  color: '#1F2937', marginBottom: '8px' }}>접근 권한이 없습니다</h2>
               <p>이 페이지는 시스템 최고 관리자만 접근할 수 있습니다.</p>
           </div>
@@ -76,7 +76,7 @@ export default function Migration() {
               gap: '20px'
           }}
       >
-          <span className="material-symbols-outlined" style={{ fontSize: '48px', color: '#FEE2E2' }}>admin_panel_settings</span>
+          <span className="material-symbols-outlined" style={{ fontSize: '48px', color: '#FEE2E2' }} translate="no">admin_panel_settings</span>
           <div>
               <h1 style={{ fontSize: '32px',  margin: '0 0 12px 0'}}>
                   성도 사업체 데이터 마이그레이션
@@ -95,7 +95,7 @@ export default function Migration() {
       >
         <div style={{ backgroundColor: '#FFFBEB', border: '1px solid #FEF3C7', padding: '20px', borderRadius: '12px', marginBottom: '24px' }}>
             <h3 style={{ fontSize: '16px',  color: '#92400E', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>info</span>
+                <span className="material-symbols-outlined" style={{ fontSize: '20px' }} translate="no">info</span>
                 이관 대기 중인 데이터 안내
             </h3>
             <p style={{ color: '#B45309', margin: 0}}>
@@ -121,12 +121,12 @@ export default function Migration() {
           >
             {loading ? (
                 <>
-                    <span className="material-symbols-outlined" style={{ animation: 'spin 1s linear infinite' }}>sync</span>
+                    <span className="material-symbols-outlined" style={{ animation: 'spin 1s linear infinite' }} translate="no">sync</span>
                     이관 진행 중...
                 </>
             ) : (
                 <>
-                    <span className="material-symbols-outlined">start</span>
+                    <span className="material-symbols-outlined" translate="no">start</span>
                     마이그레이션 시작
                 </>
             )}

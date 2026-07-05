@@ -170,7 +170,7 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
                         disabled={currentIndex === 0}
                         aria-label="이전 이미지"
                     >
-                        <span className="material-symbols-outlined">chevron_left</span>
+                        <span className="material-symbols-outlined" translate="no">chevron_left</span>
                     </button>
                     
                     <div className={styles.mainViewer}>
@@ -185,7 +185,7 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
                         disabled={currentIndex === count - 1}
                         aria-label="다음 이미지"
                     >
-                        <span className="material-symbols-outlined">chevron_right</span>
+                        <span className="material-symbols-outlined" translate="no">chevron_right</span>
                     </button>
                 </div>
             )}

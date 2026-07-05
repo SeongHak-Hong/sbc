@@ -23,7 +23,7 @@ const AdminCloseButton = ({ onClick, style, className }) => {
                 ...style 
             }}
         >
-            <span className="material-symbols-outlined" style={{ fontSize: '16px'}}>close</span>
+            <span className="material-symbols-outlined" style={{ fontSize: '16px'}} translate="no">close</span>
         </button>
     );
 };

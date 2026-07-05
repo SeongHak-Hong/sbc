@@ -22,7 +22,7 @@ const BoardList = ({
                             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                 <p className={styles.itemTitle}>{post.title}</p>
                                 {post.hasImage && (
-                                    <span className="material-symbols-outlined" style={{ fontSize: '20px', color: '#9CA3AF' }}>image</span>
+                                    <span className="material-symbols-outlined" style={{ fontSize: '20px', color: '#9CA3AF' }} translate="no">image</span>
                                 )}
                             </div>
                             {(post.author || post.date) && (

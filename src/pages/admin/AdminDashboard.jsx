@@ -110,7 +110,7 @@ const AdminDashboard = () => {
                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                                     marginRight: '16px'
                                 }}>
-                                    <span className="material-symbols-outlined" style={{ fontSize: '24px' }}>{link.icon}</span>
+                                    <span className="material-symbols-outlined" style={{ fontSize: '24px' }} translate="no">{link.icon}</span>
                                 </div>
                                 <h3 style={{ fontSize: '18px',  color: '#1F2937', margin: 0 }}>
                                     {link.title}
@@ -146,7 +146,7 @@ const AdminDashboard = () => {
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         flexShrink: 0
                     }}>
-                        <span className="material-symbols-outlined" style={{ fontSize: '28px' }}>warning</span>
+                        <span className="material-symbols-outlined" style={{ fontSize: '28px' }} translate="no">warning</span>
                     </div>
                     <div>
                         <h2 style={{ fontSize: '20px',  color: '#991B1B', marginBottom: '8px', marginTop: 0 }}>시스템 관리 (System Administration)</h2>
@@ -168,7 +168,7 @@ const AdminDashboard = () => {
                             onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#B91C1C'}
                             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#DC2626'}
                         >
-                            <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>database</span>
+                            <span className="material-symbols-outlined" style={{ fontSize: '20px' }} translate="no">database</span>
                             DB 일괄 등록 실행하기
                         </button>
                     </div>
