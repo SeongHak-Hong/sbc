@@ -45,7 +45,7 @@ const HeroSection = () => {
     };
 
     const koreanSubStyle = {
-        paddingLeft: '16px',
+        paddingLeft: isMobile ? '16px' : '24px',
         fontSize: isMobile ? '20px' : 'var(--text-h4)',
         color: '#F4EEE2',
         opacity: 0.75,
