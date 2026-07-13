@@ -273,9 +273,17 @@ const AdminNextGen = () => {
                                                         style={{ backgroundColor: '#F3F4F6', border: '1px solid #D1D5DB', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' }}
                                                     >수정</button>
                                                     <button 
-                                                        onClick={() => {
+                                                        onClick={async () => {
                                                             if (window.confirm('정말 이 행사를 삭제하시겠습니까?')) {
-                                                                handleDeleteArrayItem(deptId, 'events', index);
+                                                                const newDepts = { ...departments };
+                                                                newDepts[deptId].events.splice(index, 1);
+                                                                setDepartments(newDepts);
+                                                                try {
+                                                                    await setDoc(doc(db, 'nextgen', deptId), newDepts[deptId]);
+                                                                } catch (error) {
+                                                                    console.error('삭제 저장 실패:', error);
+                                                                    alert('삭제 내용을 저장하는 중 오류가 발생했습니다.');
+                                                                }
                                                             }
                                                         }}
                                                         style={{ backgroundColor: '#FEF2F2', color: '#DC2626', border: '1px solid #FCA5A5', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' }}
