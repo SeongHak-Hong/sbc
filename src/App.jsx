@@ -16,6 +16,7 @@ import KoinoniaPage from './pages/KoinoniaPage';
 import NetworkPage from './pages/NetworkPage';
 import PostDetailPage from './pages/PostDetailPage';
 import ScrollToTop from './components/ScrollToTop';
+import LandingPage from './pages/LandingPage';
 
 // Admin Imports
 import AdminLayout from './components/admin/AdminLayout';
@@ -73,6 +74,7 @@ function AppRoutes() {
       {!isAdminRoute && <Header />}
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<MainPage />} />
+        <Route path="/landing-preview" element={<LandingPage />} />
         <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/history" element={<HistoryPage />} />
         <Route path="/vision" element={<VisionPage />} />

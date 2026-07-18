@@ -1,6 +1,10 @@
 import React, { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
+import { useState } from 'react';
+import Lottie from 'lottie-react';
+import confettiAnimation from '../assets/confetti.json';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
 import SuitButton from '../components/ui/SuitButton';
@@ -11,6 +15,7 @@ import step01 from '../assets/nurture/shintanjin-baptist-church-nurture-step-01.
 import step02 from '../assets/nurture/shintanjin-baptist-church-nurture-step-02.webp';
 import step03 from '../assets/nurture/shintanjin-baptist-church-nurture-step-03.webp';
 import step04 from '../assets/nurture/shintanjin-baptist-church-nurture-step-04.webp';
+import step05 from '../assets/nurture/shintanjin-baptist-church-nurture-step-05.webp';
 
 const STEPS = [
     {
@@ -18,37 +23,45 @@ const STEPS = [
         width: 400,
         aspectRatio: '1 / 1',
         title: '첫째. 새가족 등록',
-        desc: <>등록카드를 작성하며<br />담당 교역자의 따뜻한 첫 안내를 받습니다.</>,
+        desc: <>등록카드 작성 후 교구 구역 남여전도회에 배정되며<br />목사님의 환영 및 안내를 받게됩니다.</>,
     },
     {
         bg: step02,
         width: 400,
         aspectRatio: '1 / 1',
         title: '둘째. 새가족 교육 (8주)',
-        desc: <>건강한 신앙생활과 교회 정착을 위해<br />8주간의 기초 교육을 진행합니다.</>,
+        desc: <>새가족 교육을 받는동안 새가족팀에게<br />예배참석, 교육 참석 등을 돕고 안내합니다.</>,
     },
     {
         bg: step03,
         width: 400,
         aspectRatio: '1 / 1',
-        title: '셋째. 수료 및 소그룹 배정',
-        desc: '교육 수료 후, 따뜻한 소그룹(목장)에 소속되어 성도들과 풍성한 교제를 나눕니다.',
+        title: '셋째. 수료 및 교구 구역 남여전도회 배정',
+        desc: '새가족 교육은 8주 교육을 마치면 각 교구 구역 남여전도회에 배정됩니다.',
     },
     {
         bg: step04,
         width: 400,
         aspectRatio: '1 / 1',
-        title: '넷째. 침례 및 환영회',
-        desc: '침례식과 환영회를 통해 한 가족이 된 기쁨을 누리며 비전을 공유합니다.',
+        title: '넷째. 교구구역 및 남여전도회 참여 예배 참석',
+        desc: '교구 구역 및 남여전도회에 참여해서 교회에 건강하게 뿌리내리고 예배참석하여 말씀을 듣고 배움으로 신앙으로 균형을 이뤄 성장할 수 있도록 돕습니다.',
+    },
+    {
+        bg: step05,
+        width: 400,
+        aspectRatio: '1 / 1',
+        title: '다섯째. 새가족환영회',
+        desc: '예수그리스도를 구주와 주님으로 영접한 새가족은 새가족 교육 수료식과 공동체의 가족으로 환영합니다.',
     },
 ];
 
-// 각 카드의 최종 x/회전 값
+// 각 카드의 최종 x/회전 값 (5개 카드로 조정)
 const STACK_TRANSFORMS = [
-    { x: -60, rotate: -6 },   // 1번째: 왼쪽으로 이동, 반시계
-    { x: 0, rotate: 4 },      // 2번째: x이동 없음(가운데), 시계
-    { x: 60, rotate: -2 },    // 3번째: 오른쪽으로 이동, 반시계
-    { x: 0, rotate: 0 },      // 4번째: 배치된 카드 정중앙에 올라오도록
+    { x: -70, rotate: -6 },   // 1번째
+    { x: -20, rotate: 4 },    // 2번째
+    { x: 30, rotate: -3 },    // 3번째
+    { x: 60, rotate: 5 },     // 4번째
+    { x: 0, rotate: 0 },      // 5번째: 배치된 카드 정중앙에 올라오도록
 ];
 
 const ScrollStackCard = ({ step, index, total, containerRef }) => {
@@ -120,6 +133,7 @@ const ScrollStackCard = ({ step, index, total, containerRef }) => {
         WebkitBackdropFilter: 'none',
         boxShadow: 'none',
         boxSizing: 'border-box',
+        borderRadius: step.isCircle ? '50%' : '0',
     } : {
         backgroundColor: step.bgColor || 'rgba(var(--color-text-dark-rgb), 0.95)',
         aspectRatio: step.aspectRatio || '1 / 1',
@@ -129,6 +143,7 @@ const ScrollStackCard = ({ step, index, total, containerRef }) => {
         WebkitBackdropFilter: 'none',
         boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
         boxSizing: 'border-box',
+        borderRadius: step.isCircle ? '50%' : '0',
     };
 
     return (
@@ -155,6 +170,20 @@ const ScrollStackCard = ({ step, index, total, containerRef }) => {
 const WelcomePage = () => {
     const stackContainerRef = useRef(null);
     const navigate = useNavigate();
+    const [showConfetti, setShowConfetti] = useState(false);
+
+    const { scrollYProgress } = useScroll({
+        target: stackContainerRef,
+        offset: ["start start", "end end"]
+    });
+
+    useMotionValueEvent(scrollYProgress, "change", (latest) => {
+        if (latest >= 0.95 && !showConfetti) {
+            setShowConfetti(true);
+        } else if (latest < 0.90 && showConfetti) {
+            setShowConfetti(false);
+        }
+    });
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -211,6 +240,13 @@ const WelcomePage = () => {
             </div>
 
             <Footer />
+
+            {showConfetti && createPortal(
+                <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 9999, pointerEvents: 'none', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Lottie animationData={confettiAnimation} loop={false} style={{ width: '100%', height: '100%' }} />
+                </div>,
+                document.body
+            )}
         </div>
     );
 };
