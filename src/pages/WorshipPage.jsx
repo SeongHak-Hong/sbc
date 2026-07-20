@@ -104,8 +104,9 @@ const WorshipPage = () => {
                             <div className={styles.directionGroup}>
                                 <h4 className={styles.directionLabel}>대중교통 이용 시</h4>
                                 <div className={styles.directionBody}>
-                                    <p>신탄진역에서 도보 5분 거리</p>
-                                    <p>버스: 신탄진역 하차 (2번, 711번, 712번)</p>
+                                    <p>신탄진시장 정류장: 2, 703, 704, 705, 711, 712번 등 (도보 3분)</p>
+                                    <p>석봉네거리 정류장: 705, 712번 등 (도보 3분)</p>
+                                    <p>신탄진역: 기차 환승 시 편리 (도보 5분)</p>
                                 </div>
                             </div>
 

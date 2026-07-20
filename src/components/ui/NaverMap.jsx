@@ -44,8 +44,14 @@ const NaverMap = ({
                         ${address}
                         ${detailAddress ? `<br/><span style="color:#888;">${detailAddress}</span>` : ''}
                     </p>
-                    ${phone ? `<p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 600; letter-spacing: -0.5px;"><a href="tel:${phone}" style="color: #3b82f6; text-decoration: none;">📞 ${phone}</a></p>` : ''}
-                    <a href="https://map.naver.com/p/search/${encodeURIComponent(address)}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 16px; background-color: #03c75a; color: white; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 600; letter-spacing: -0.5px;">네이버 지도로 보기</a>
+                    <div style="margin-top: 12px;">
+                        <a href="https://map.naver.com/index.nhn?elng=${lng}&elat=${lat}&etext=${encodeURIComponent(title)}&menu=route" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 12px 16px; background-color: #03c75a; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600; letter-spacing: -0.5px; box-sizing: border-box; line-height: 1;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="transform: translateY(-1px);">
+                                <path d="M16.096 11.235L8.71 0H0v24h7.904V12.765L15.29 24H24V0h-7.904v11.235z"/>
+                            </svg>
+                            <span>네이버 길찾기</span>
+                        </a>
+                    </div>
                 </div>
             `;
 
