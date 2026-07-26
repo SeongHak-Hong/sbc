@@ -50,6 +50,18 @@ const CommunityPage = () => {
     const cellgroupKeys = Object.keys(cellgroupData).sort();
     const currentData = cellgroupData[activeCellgroup];
 
+    const getPastorText = (pastor) => {
+        if (!pastor) return '';
+        if (typeof pastor === 'string') return pastor;
+        const name = pastor.name || '';
+        const role = pastor.role || '';
+        if (!name) return '';
+        if (role && !name.includes(role)) {
+            return `${name} ${role}`;
+        }
+        return name;
+    };
+
     return (
         <div className={styles.pageWrapper}>
             <SubPageSection title="구역 안내" engTitle="Community" icon={visionIcon}>
@@ -70,6 +82,14 @@ const CommunityPage = () => {
                                 transition={{ duration: 0.3 }}
                                 className={styles.zoneList}
                             >
+                                {getPastorText(currentData?.pastor) && (
+                                    <div className={styles.zoneItem}>
+                                        <p className={styles.zoneName}>담당 교역자</p>
+                                        <p className={styles.zoneDetails}>
+                                            {getPastorText(currentData.pastor)}
+                                        </p>
+                                    </div>
+                                )}
                                 {currentData?.zones?.map((zone, index) => (
                                     <div key={index} className={styles.zoneItem}>
                                         <p className={styles.zoneName}>{zone.id}구역</p>
