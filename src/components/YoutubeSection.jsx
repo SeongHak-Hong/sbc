@@ -15,6 +15,49 @@ const YoutubeSection = () => {
     const part2Ref = useRef(null);
     const [isMobile, setIsMobile] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [videoId, setVideoId] = useState('bQ8ybnIaKDY'); // Fallback video ID
+
+    useEffect(() => {
+        const fetchLatestShorts = async () => {
+            const cacheKey = 'sbc_latest_shorts_id';
+            const cacheTimeKey = 'sbc_latest_shorts_time';
+            const cacheDuration = 1 * 60 * 60 * 1000; // 1 hour
+            
+            const cachedId = localStorage.getItem(cacheKey);
+            const cachedTime = localStorage.getItem(cacheTimeKey);
+            const now = new Date().getTime();
+
+            if (cachedId && cachedTime && (now - parseInt(cachedTime, 10)) < cacheDuration) {
+                setVideoId(cachedId);
+                return;
+            }
+
+            try {
+                const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
+                if (!apiKey) {
+                    console.warn("YouTube API Key is missing. Using fallback video.");
+                    return;
+                }
+                const channelId = 'UCj3wg1t2u2eiMQxWIgT2OeQ';
+                // Using videoDuration=short to filter for Shorts
+                const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&maxResults=1&order=date&type=video&videoDuration=short&key=${apiKey}`;
+                
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.items && data.items.length > 0) {
+                    const newVideoId = data.items[0].id.videoId;
+                    setVideoId(newVideoId);
+                    localStorage.setItem(cacheKey, newVideoId);
+                    localStorage.setItem(cacheTimeKey, now.toString());
+                }
+            } catch (error) {
+                console.error("Failed to fetch latest YouTube Shorts:", error);
+            }
+        };
+
+        fetchLatestShorts();
+    }, []);
 
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -145,7 +188,7 @@ const YoutubeSection = () => {
 
                             {/* YouTube Video */}
                             <iframe
-                                src={`https://www.youtube.com/embed/bQ8ybnIaKDY?controls=0&modestbranding=1&rel=0${isPlaying ? '&autoplay=1' : ''}`}
+                                src={`https://www.youtube.com/embed/${videoId}?controls=0&modestbranding=1&rel=0${isPlaying ? '&autoplay=1' : ''}`}
                                 title="YouTube video player"
                                 frameBorder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
