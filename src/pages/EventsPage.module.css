@@ -1,8 +1,9 @@
-/* d:\me\design\sbc-site\src\pages\SchedulePage.module.css */
+/* EventsPage.module.css */
 .pageWrapper {
     width: 100%;
     min-height: 100vh;
-    color: var(--color-text-dark);    position: relative;
+    color: var(--color-text-dark);
+    position: relative;
 }
 
 .contentWrapper {
@@ -11,6 +12,7 @@
     width: 100%;
 }
 
+/* --- Month Navigation Bar --- */
 .monthNav {
     display: flex;
     justify-content: space-between;
@@ -42,9 +44,156 @@
     font-size: 28px !important;
 }
 
-.monthText {    font-size: 24px;    color: var(--color-text-dark);
+/* --- Center: Year + Month text --- */
+.monthNavCenter {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    font-size: 24px;
+    color: var(--color-text-dark);
 }
 
+.yearPart {
+    cursor: default;
+}
+
+.monthPart {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    border-radius: 8px;
+    padding: 4px 8px;
+    margin: -4px -8px;
+    transition: background-color 0.2s ease;
+}
+
+.monthPart:hover {
+    background-color: rgba(var(--color-text-dark-rgb), 0.05);
+}
+
+.dropIcon {
+    font-size: 22px !important;
+    transition: transform 0.2s ease;
+    color: rgba(var(--color-text-dark-rgb), 0.4);
+}
+
+.dropIconOpen {
+    transform: rotate(180deg);
+}
+
+/* --- Month Grid Popover --- */
+.monthGridPopover {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-white);
+    border: 1px solid rgba(var(--color-text-dark-rgb), 0.1);
+    border-radius: 16px;
+    padding: 20px;
+    z-index: 100;
+    width: 280px;
+    animation: popoverIn 0.15s ease-out;
+}
+
+@keyframes popoverIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Year row inside popover */
+.popoverYearRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(var(--color-text-dark-rgb), 0.08);
+}
+
+.popoverYearText {
+    font-size: 18px;
+    color: var(--color-text-dark);
+}
+
+.popoverYearBtn {
+    background: transparent;
+    border: none;
+    color: var(--color-text-dark);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    padding: 0;
+}
+
+.popoverYearBtn:hover:not(:disabled) {
+    background-color: rgba(var(--color-text-dark-rgb), 0.05);
+}
+
+.popoverYearBtn span {
+    font-size: 22px !important;
+}
+
+/* 3×4 Month Grid */
+.monthGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+}
+
+.monthGridItem {
+    position: relative;
+    border: none;
+    background: transparent;
+    padding: 10px 0;
+    border-radius: 10px;
+    font-size: 15px;
+    color: rgba(var(--color-text-dark-rgb), 0.7);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: center;
+}
+
+.monthGridItem:hover {
+    background-color: rgba(var(--color-text-dark-rgb), 0.05);
+    color: var(--color-text-dark);
+}
+
+.monthGridItemActive {
+    background-color: var(--color-text-dark);
+    color: var(--color-white);
+}
+
+.monthGridItemActive:hover {
+    background-color: var(--color-text-dark);
+    color: var(--color-white);
+}
+
+.eventDot {
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: rgba(var(--color-text-dark-rgb), 0.25);
+}
+
+/* --- Agenda --- */
 .agendaContainer {
     display: flex;
     flex-direction: column;
@@ -79,10 +228,14 @@
 }
 
 .dateDay {
-    font-size: 18px;    color: var(--color-text-dark);}
+    font-size: 18px;
+    color: var(--color-text-dark);
+}
 
 .dateDayOfWeek {
-    font-size: 18px;    color: rgba(var(--color-text-dark-rgb), 0.2);}
+    font-size: 18px;
+    color: rgba(var(--color-text-dark-rgb), 0.2);
+}
 
 .eventDetails {
     flex: 1;
@@ -95,10 +248,14 @@
 }
 
 .eventTitle {
-    font-size: 18px;    color: var(--color-text-dark);}
+    font-size: 18px;
+    color: var(--color-text-dark);
+}
 
 .eventMeta {
-    font-size: 16px;    color: rgba(var(--color-text-dark-rgb), 0.7);    display: flex;
+    font-size: 16px;
+    color: rgba(var(--color-text-dark-rgb), 0.7);
+    display: flex;
     align-items: center;
     gap: 8px;
 }
@@ -121,6 +278,11 @@
 }
 
 @media (max-width: 600px) {
+    .monthGridPopover {
+        width: 260px;
+        padding: 16px;
+    }
+
     .eventCard {
         flex-direction: column;
         align-items: flex-start;

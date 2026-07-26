@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -9,21 +9,32 @@ import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.w
 
 const EventsPage = () => {
     const navigate = useNavigate();
-    const [currentMonthIndex, setCurrentMonthIndex] = useState(0);
-    const [groupedSchedules, setGroupedSchedules] = useState([]);
+    const [scheduleMap, setScheduleMap] = useState({});
+    const [availableYears, setAvailableYears] = useState([]);
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+    const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
     const [loading, setLoading] = useState(true);
-    const [showMonthPicker, setShowMonthPicker] = useState(false);
+    const [showMonthGrid, setShowMonthGrid] = useState(false);
+    const monthGridRef = useRef(null);
 
     useEffect(() => {
         window.scrollTo(0, 0);
         fetchSchedules();
     }, []);
 
+    // Close month grid when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (showMonthGrid && monthGridRef.current && !monthGridRef.current.contains(e.target)) {
+                setShowMonthGrid(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [showMonthGrid]);
+
     const fetchSchedules = async () => {
         try {
-            // Fetch schedules ordered by creation or date. 
-            // In a real app, you might parse the 'month' and 'date' to properly sort chronologically.
-            // For now, let's fetch all and group them in JS.
             const q = query(collection(db, 'schedules'), orderBy('createdAt', 'asc'));
             const querySnapshot = await getDocs(q);
             
@@ -32,13 +43,9 @@ const EventsPage = () => {
                 rawData.push({ id: doc.id, ...doc.data() });
             });
 
-            // Find min/max range and group by normalized month
-            const groupsMap = {};
             const today = new Date();
-            let minYear = today.getFullYear();
-            let minMonth = today.getMonth() + 1;
-            let maxYear = today.getFullYear();
-            let maxMonth = today.getMonth() + 1;
+            const map = {};
+            const yearsSet = new Set();
 
             rawData.forEach(item => {
                 let y = today.getFullYear();
@@ -49,72 +56,30 @@ const EventsPage = () => {
                     m = parseInt(match[2], 10);
                 }
                 
-                if (y < minYear || (y === minYear && m < minMonth)) {
-                    minYear = y;
-                    minMonth = m;
+                yearsSet.add(y);
+                const key = `${y}-${m}`;
+                if (!map[key]) {
+                    map[key] = [];
                 }
-                if (y > maxYear || (y === maxYear && m > maxMonth)) {
-                    maxYear = y;
-                    maxMonth = m;
-                }
-
-                const normalizedMonth = `${y}년 ${m}월`;
-                if (!groupsMap[normalizedMonth]) {
-                    groupsMap[normalizedMonth] = {
-                        month: normalizedMonth,
-                        events: []
-                    };
-                }
-                groupsMap[normalizedMonth].events.push(item);
+                map[key].push(item);
             });
 
-            // Fill in missing months in the range so navigation is continuous
-            let currY = minYear;
-            let currM = minMonth;
-            while (currY < maxYear || (currY === maxYear && currM <= maxMonth)) {
-                const mStr = `${currY}년 ${currM}월`;
-                if (!groupsMap[mStr]) {
-                    groupsMap[mStr] = {
-                        month: mStr,
-                        events: []
-                    };
-                }
-                currM++;
-                if (currM > 12) {
-                    currM = 1;
-                    currY++;
-                }
-            }
-
-            // Convert to array
-            const groupsArray = Object.values(groupsMap);
-            
-            // Sort events inside each month by date (numerically if possible)
-            groupsArray.forEach(group => {
-                group.events.sort((a, b) => parseInt(a.date, 10) - parseInt(b.date, 10));
-                // assign delays for animation
-                group.events.forEach((ev, idx) => {
+            // Sort events within each month
+            Object.keys(map).forEach(key => {
+                map[key].sort((a, b) => parseInt(a.date, 10) - parseInt(b.date, 10));
+                map[key].forEach((ev, idx) => {
                     ev.delay = `${0.1 * (idx + 1)}s`;
                 });
             });
 
-            // Sort the array by parsing the year/month chronologically
-            groupsArray.sort((a, b) => {
-                const parseMonth = (str) => {
-                    const match = str.match(/(\d+)년\s*(\d+)월/);
-                    if (match) return parseInt(match[1], 10) * 100 + parseInt(match[2], 10);
-                    return 0;
-                };
-                return parseMonth(a.month) - parseMonth(b.month);
-            });
+            // Ensure current year is always available
+            yearsSet.add(today.getFullYear());
+            const years = Array.from(yearsSet).sort((a, b) => a - b);
 
-            setGroupedSchedules(groupsArray);
-
-            // Find current month index
-            const currentMonthString = `${today.getFullYear()}년 ${today.getMonth() + 1}월`;
-            const targetIndex = groupsArray.findIndex(g => g.month === currentMonthString);
-            
-            setCurrentMonthIndex(targetIndex !== -1 ? targetIndex : 0);
+            setScheduleMap(map);
+            setAvailableYears(years);
+            setSelectedYear(today.getFullYear());
+            setSelectedMonth(today.getMonth() + 1);
         } catch (error) {
             console.error("일정 가져오기 실패:", error);
         } finally {
@@ -122,15 +87,41 @@ const EventsPage = () => {
         }
     };
 
-    const handlePrevMonth = () => {
-        if (currentMonthIndex > 0) {
-            setCurrentMonthIndex(currentMonthIndex - 1);
+    const goToPrevMonth = () => {
+        if (selectedMonth === 1) {
+            const idx = availableYears.indexOf(selectedYear);
+            if (idx > 0) {
+                setSelectedYear(availableYears[idx - 1]);
+                setSelectedMonth(12);
+            }
+        } else {
+            setSelectedMonth(selectedMonth - 1);
         }
     };
 
-    const handleNextMonth = () => {
-        if (currentMonthIndex < groupedSchedules.length - 1) {
-            setCurrentMonthIndex(currentMonthIndex + 1);
+    const goToNextMonth = () => {
+        if (selectedMonth === 12) {
+            const idx = availableYears.indexOf(selectedYear);
+            if (idx < availableYears.length - 1) {
+                setSelectedYear(availableYears[idx + 1]);
+                setSelectedMonth(1);
+            }
+        } else {
+            setSelectedMonth(selectedMonth + 1);
+        }
+    };
+
+    const handlePrevYear = () => {
+        const idx = availableYears.indexOf(selectedYear);
+        if (idx > 0) {
+            setSelectedYear(availableYears[idx - 1]);
+        }
+    };
+
+    const handleNextYear = () => {
+        const idx = availableYears.indexOf(selectedYear);
+        if (idx < availableYears.length - 1) {
+            setSelectedYear(availableYears[idx + 1]);
         }
     };
 
@@ -154,11 +145,14 @@ const EventsPage = () => {
         });
     };
 
+    const isPrevDisabled = selectedMonth === 1 && availableYears.indexOf(selectedYear) === 0;
+    const isNextDisabled = selectedMonth === 12 && availableYears.indexOf(selectedYear) === availableYears.length - 1;
+
     if (loading) {
         return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>일정을 불러오는 중입니다...</div>;
     }
 
-    if (groupedSchedules.length === 0) {
+    if (availableYears.length === 0) {
         return (
             <div className={styles.pageWrapper}>
                 <SubPageSection title="교회 일정">
@@ -171,82 +165,112 @@ const EventsPage = () => {
         );
     }
 
-    const currentSection = groupedSchedules[currentMonthIndex];
+    const currentKey = `${selectedYear}-${selectedMonth}`;
+    const currentEvents = scheduleMap[currentKey] || [];
+    const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+    // Check which months have events for the selected year (for dot indicator in grid)
+    const monthsWithEvents = new Set();
+    months.forEach(m => {
+        if (scheduleMap[`${selectedYear}-${m}`]?.length > 0) {
+            monthsWithEvents.add(m);
+        }
+    });
+
+    const isFirstYear = availableYears.indexOf(selectedYear) === 0;
+    const isLastYear = availableYears.indexOf(selectedYear) === availableYears.length - 1;
 
     return (
         <div className={styles.pageWrapper}>
             <SubPageSection title="교회 일정" engTitle="Events" icon={visionIcon}>
                 <div className={styles.contentWrapper}>
+                    {/* Month Navigation Bar */}
                     <div className={styles.monthNav}>
                         <button 
                             className={styles.navButton} 
-                            onClick={handlePrevMonth}
-                            disabled={currentMonthIndex === 0}
-                            style={{ opacity: currentMonthIndex === 0 ? 0.2 : 1 }}
+                            onClick={goToPrevMonth}
+                            disabled={isPrevDisabled}
+                            style={{ opacity: isPrevDisabled ? 0.2 : 1 }}
                         >
                             <span className="material-symbols-outlined" translate="no">chevron_left</span>
                         </button>
-                        <div style={{ position: 'relative' }}>
+
+                        <div className={styles.monthNavCenter} ref={monthGridRef}>
+                            <span className={styles.yearPart}>{selectedYear}년</span>
                             <span 
-                                className={styles.monthText} 
-                                onClick={() => setShowMonthPicker(!showMonthPicker)}
-                                style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}
+                                className={styles.monthPart}
+                                onClick={() => setShowMonthGrid(!showMonthGrid)}
                             >
-                                {currentSection?.month}
-                                <span className="material-symbols-outlined" style={{ fontSize: '24px' }} translate="no">arrow_drop_down</span>
+                                {selectedMonth}월
+                                <span className={`material-symbols-outlined ${styles.dropIcon} ${showMonthGrid ? styles.dropIconOpen : ''}`} translate="no">expand_more</span>
                             </span>
-                            
-                            {showMonthPicker && (
-                                <>
-                                    <div 
-                                        style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9 }} 
-                                        onClick={() => setShowMonthPicker(false)}
-                                    />
-                                    <div style={{
-                                        position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)',
-                                        background: 'white', border: '1px solid #E5E7EB', borderRadius: '8px',
-                                        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', zIndex: 10,
-                                        maxHeight: '250px', overflowY: 'auto', width: '140px', marginTop: '8px'
-                                    }}>
-                                        {groupedSchedules.map((g, idx) => (
-                                            <div 
-                                                key={g.month}
-                                                onClick={() => { setCurrentMonthIndex(idx); setShowMonthPicker(false); }}
-                                                style={{
-                                                    padding: '12px 16px', textAlign: 'center', cursor: 'pointer',
-                                                    background: idx === currentMonthIndex ? '#F3F4F6' : 'transparent',
-                                                    
-                                                    color: idx === currentMonthIndex ? '#111827' : '#4B5563',
-                                                    fontSize: '15px', borderBottom: idx === groupedSchedules.length - 1 ? 'none' : '1px solid #F3F4F6'
-                                                }}
-                                            >
-                                                {g.month}
-                                            </div>
-                                        ))}
+
+                            {/* Month Grid Popover */}
+                            {showMonthGrid && (
+                                <div className={styles.monthGridPopover}>
+                                    {/* Year row inside popover */}
+                                    <div className={styles.popoverYearRow}>
+                                        <button 
+                                            className={styles.popoverYearBtn}
+                                            onClick={handlePrevYear}
+                                            disabled={isFirstYear}
+                                            style={{ opacity: isFirstYear ? 0.2 : 1 }}
+                                        >
+                                            <span className="material-symbols-outlined" translate="no">chevron_left</span>
+                                        </button>
+                                        <span className={styles.popoverYearText}>{selectedYear}년</span>
+                                        <button 
+                                            className={styles.popoverYearBtn}
+                                            onClick={handleNextYear}
+                                            disabled={isLastYear}
+                                            style={{ opacity: isLastYear ? 0.2 : 1 }}
+                                        >
+                                            <span className="material-symbols-outlined" translate="no">chevron_right</span>
+                                        </button>
                                     </div>
-                                </>
+
+                                    {/* 3×4 Month Grid */}
+                                    <div className={styles.monthGrid}>
+                                        {months.map(m => {
+                                            const isActive = m === selectedMonth;
+                                            const hasEvents = monthsWithEvents.has(m);
+                                            return (
+                                                <button
+                                                    key={m}
+                                                    className={`${styles.monthGridItem} ${isActive ? styles.monthGridItemActive : ''}`}
+                                                    onClick={() => { setSelectedMonth(m); setShowMonthGrid(false); }}
+                                                >
+                                                    {m}월
+                                                    {hasEvents && !isActive && <span className={styles.eventDot} />}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
                             )}
                         </div>
+
                         <button 
                             className={styles.navButton} 
-                            onClick={handleNextMonth}
-                            disabled={currentMonthIndex === groupedSchedules.length - 1}
-                            style={{ opacity: currentMonthIndex === groupedSchedules.length - 1 ? 0.2 : 1 }}
+                            onClick={goToNextMonth}
+                            disabled={isNextDisabled}
+                            style={{ opacity: isNextDisabled ? 0.2 : 1 }}
                         >
                             <span className="material-symbols-outlined" translate="no">chevron_right</span>
                         </button>
                     </div>
 
+                    {/* Event List */}
                     <div className={styles.agendaContainer}>
-                        <div className={styles.eventStack} key={currentMonthIndex}>
-                            {(!currentSection?.events || currentSection.events.length === 0) ? (
+                        <div className={styles.eventStack} key={currentKey}>
+                            {currentEvents.length === 0 ? (
                                 <div style={{ textAlign: 'center', padding: '80px 0', color: '#6B7280', fontSize: '16px' }}>
                                     등록된 일정이 없어요.
                                 </div>
                             ) : (
-                                currentSection.events.map((event, eventIdx) => (
+                                currentEvents.map((event, eventIdx) => (
                                     <div 
-                                        key={event.id || `${currentMonthIndex}-${eventIdx}`} 
+                                        key={event.id || `${currentKey}-${eventIdx}`} 
                                         className={`${styles.eventCard} ${styles.animateSlideUp}`}
                                         style={{ animationDelay: event.delay, cursor: 'pointer' }}
                                         onClick={() => handleEventClick(event)}
