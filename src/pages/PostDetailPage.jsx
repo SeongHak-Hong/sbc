@@ -23,49 +23,147 @@ const defaultThumbs = {
     youngadults: thumbYoungAdults
 };
 
+const PinchZoomContainer = ({ children, onSwipeLeft, onSwipeRight }) => {
+    const [scale, setScale] = useState(1);
+    const [translate, setTranslate] = useState({ x: 0, y: 0 });
+
+    const touchStartRef = useRef({ dist: 0, scale: 1, x: 0, y: 0, panX: 0, panY: 0 });
+    const lastTapRef = useRef(0);
+
+    const resetZoom = () => {
+        setScale(1);
+        setTranslate({ x: 0, y: 0 });
+    };
+
+    const handleTouchStart = (e) => {
+        const now = Date.now();
+        if (e.touches.length === 1) {
+            // Double tap to zoom
+            if (now - lastTapRef.current < 300) {
+                if (scale > 1) {
+                    resetZoom();
+                } else {
+                    setScale(2.5);
+                    setTranslate({ x: 0, y: 0 });
+                }
+                lastTapRef.current = 0;
+                return;
+            }
+            lastTapRef.current = now;
+
+            touchStartRef.current = {
+                x: e.touches[0].clientX,
+                y: e.touches[0].clientY,
+                panX: translate.x,
+                panY: translate.y,
+                scale,
+                dist: 0
+            };
+        } else if (e.touches.length === 2) {
+            const dist = Math.hypot(
+                e.touches[0].clientX - e.touches[1].clientX,
+                e.touches[0].clientY - e.touches[1].clientY
+            );
+            touchStartRef.current = {
+                dist,
+                scale,
+                x: (e.touches[0].clientX + e.touches[1].clientX) / 2,
+                y: (e.touches[0].clientY + e.touches[1].clientY) / 2,
+                panX: translate.x,
+                panY: translate.y
+            };
+        }
+    };
+
+    const handleTouchMove = (e) => {
+        if (e.touches.length === 2 && touchStartRef.current.dist > 0) {
+            if (e.cancelable) e.preventDefault();
+            const dist = Math.hypot(
+                e.touches[0].clientX - e.touches[1].clientX,
+                e.touches[0].clientY - e.touches[1].clientY
+            );
+            const factor = dist / touchStartRef.current.dist;
+            const newScale = Math.min(4, Math.max(1, touchStartRef.current.scale * factor));
+
+            setScale(newScale);
+            if (newScale <= 1) {
+                setTranslate({ x: 0, y: 0 });
+            }
+        } else if (e.touches.length === 1) {
+            const deltaX = e.touches[0].clientX - touchStartRef.current.x;
+            const deltaY = e.touches[0].clientY - touchStartRef.current.y;
+
+            if (scale > 1) {
+                if (e.cancelable) e.preventDefault();
+                setTranslate({
+                    x: touchStartRef.current.panX + deltaX,
+                    y: touchStartRef.current.panY + deltaY
+                });
+            }
+        }
+    };
+
+    const handleTouchEnd = (e) => {
+        if (scale === 1 && e.changedTouches.length === 1 && touchStartRef.current.x) {
+            const deltaX = e.changedTouches[0].clientX - touchStartRef.current.x;
+            if (deltaX < -40 && onSwipeRight) {
+                onSwipeRight();
+            } else if (deltaX > 40 && onSwipeLeft) {
+                onSwipeLeft();
+            }
+        }
+
+        if (scale < 1.05) {
+            resetZoom();
+        }
+    };
+
+    return (
+        <div
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            style={{
+                width: '100%',
+                overflow: 'hidden',
+                touchAction: scale > 1 ? 'none' : 'pan-y',
+                position: 'relative',
+                userSelect: 'none',
+                WebkitUserSelect: 'none'
+            }}
+        >
+            <div
+                style={{
+                    transform: `translate3d(${translate.x}px, ${translate.y}px, 0) scale(${scale})`,
+                    transformOrigin: 'center center',
+                    transition: touchStartRef.current.dist ? 'none' : 'transform 0.15s ease-out',
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}
+            >
+                {children}
+            </div>
+        </div>
+    );
+};
+
 const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true }) => {
     const actualImages = images.length > 0 ? images : (imageUrl ? [imageUrl] : []);
     const count = isBulletin ? actualImages.length * totalPages : actualImages.length;
     const [currentIndex, setCurrentIndex] = useState(0);
-    
-    // Touch event states for swiping
-    const [touchStartX, setTouchStartX] = useState(null);
-    const [touchEndX, setTouchEndX] = useState(null);
 
     if (count === 0) return null;
-
-    const minSwipeDistance = 40;
-
-    const onTouchStart = (e) => {
-        setTouchEndX(null);
-        setTouchStartX(e.targetTouches[0].clientX);
-    };
-
-    const onTouchMove = (e) => {
-        setTouchEndX(e.targetTouches[0].clientX);
-    };
-
-    const onTouchEnd = () => {
-        if (!touchStartX || !touchEndX) return;
-        const distance = touchStartX - touchEndX;
-        const isLeftSwipe = distance > minSwipeDistance;
-        const isRightSwipe = distance < -minSwipeDistance;
-
-        if (isLeftSwipe && currentIndex < count - 1) {
-            setCurrentIndex(prev => prev + 1);
-        } else if (isRightSwipe && currentIndex > 0) {
-            setCurrentIndex(prev => prev - 1);
-        }
-    };
 
     const renderMainImage = (index) => {
         if (isBulletin) {
             const totalWidth = count * 100;
             const translateX = (index / count) * 100;
-            
+
             return (
-                <div style={{ 
-                    display: 'flex', 
+                <div style={{
+                    display: 'flex',
                     width: `${totalWidth}%`,
                     transform: `translateX(-${translateX}%)`,
                     transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
@@ -76,21 +174,21 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
                         const sliceIndex = mappedIndex % totalPages;
 
                         return (
-                            <div key={idx} style={{ 
-                                width: `${100 / count}%`, 
+                            <div key={idx} style={{
+                                width: `${100 / count}%`,
                                 overflow: 'hidden',
                                 flexShrink: 0
                             }}>
-                                <img 
-                                    src={actualImages[imageIndex]} 
-                                    alt={`주보 원본 ${idx + 1}`} 
-                                    style={{ 
-                                        width: `${totalPages * 100}%`, 
+                                <img
+                                    src={actualImages[imageIndex]}
+                                    alt={`주보 원본 ${idx + 1}`}
+                                    style={{
+                                        width: `${totalPages * 100}%`,
                                         maxWidth: 'none',
                                         height: 'auto',
                                         marginLeft: `-${sliceIndex * 100}%`,
                                         display: 'block'
-                                    }} 
+                                    }}
                                 />
                             </div>
                         );
@@ -127,17 +225,17 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
                         transform: 'translateZ(0)',
                         willChange: 'transform, filter'
                     }} />
-                    
+
                     {/* Main Image */}
-                    <img 
-                        src={actualImages[index]} 
-                        alt={`첨부 이미지 ${index + 1}`} 
-                        style={{ 
+                    <img
+                        src={actualImages[index]}
+                        alt={`첨부 이미지 ${index + 1}`}
+                        style={{
                             position: 'relative',
                             zIndex: 1,
-                            maxWidth: '100%', 
-                            maxHeight: '100%', 
-                            width: 'auto', 
+                            maxWidth: '100%',
+                            maxHeight: '100%',
+                            width: 'auto',
                             height: 'auto',
                             objectFit: 'contain'
                         }}
@@ -151,21 +249,21 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
         const mappedIndex = isBulletin ? (index + 2) % count : index;
         const imageIndex = isBulletin ? Math.floor(mappedIndex / totalPages) : index;
         const sliceIndex = isBulletin ? mappedIndex % totalPages : 0;
-        
+
         if (isBulletin) {
             return (
-                <img 
-                    src={actualImages[imageIndex]} 
-                    alt={`주보 썸네일 ${index + 1}면`} 
-                    style={{ left: `-${sliceIndex * 100}%` }} 
+                <img
+                    src={actualImages[imageIndex]}
+                    alt={`주보 썸네일 ${index + 1}면`}
+                    style={{ left: `-${sliceIndex * 100}%` }}
                     className={styles.slicedImage}
                 />
             );
         } else {
             return (
-                <img 
-                    src={actualImages[imageIndex]} 
-                    alt={`썸네일 ${index + 1}`} 
+                <img
+                    src={actualImages[imageIndex]}
+                    alt={`썸네일 ${index + 1}`}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
             );
@@ -173,7 +271,7 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
     };
 
     return (
-        <div 
+        <div
             className={styles.bulletinViewerContainer}
             style={{
                 backgroundColor: isBulletin ? 'var(--color-background-beige)' : 'transparent',
@@ -182,14 +280,11 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
         >
             {/* Main Viewer Area */}
             {count > 1 && (
-                <div 
-                    className={styles.mainViewerWrapper} 
-                    style={{ maxWidth: isBulletin ? '400px' : '100%', touchAction: 'pan-y' }}
-                    onTouchStart={onTouchStart}
-                    onTouchMove={onTouchMove}
-                    onTouchEnd={onTouchEnd}
+                <div
+                    className={styles.mainViewerWrapper}
+                    style={{ maxWidth: isBulletin ? '400px' : '100%' }}
                 >
-                    <button 
+                    <button
                         className={`${styles.navButton} ${styles.prevButton}`}
                         onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
                         disabled={currentIndex === 0}
@@ -197,14 +292,20 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
                     >
                         <span className="material-symbols-outlined" translate="no">chevron_left</span>
                     </button>
-                    
+
                     <div className={styles.mainViewer}>
-                        <div className={isBulletin ? styles.bulletinPageWrapper : ''}>
-                            {renderMainImage(currentIndex)}
-                        </div>
+                        <PinchZoomContainer
+                            key={currentIndex}
+                            onSwipeLeft={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
+                            onSwipeRight={() => setCurrentIndex(prev => Math.min(count - 1, prev + 1))}
+                        >
+                            <div className={isBulletin ? styles.bulletinPageWrapper : ''}>
+                                {renderMainImage(currentIndex)}
+                            </div>
+                        </PinchZoomContainer>
                     </div>
 
-                    <button 
+                    <button
                         className={`${styles.navButton} ${styles.nextButton}`}
                         onClick={() => setCurrentIndex(prev => Math.min(count - 1, prev + 1))}
                         disabled={currentIndex === count - 1}
@@ -214,13 +315,15 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
                     </button>
                 </div>
             )}
-            
+
             {count === 1 && (
                 <div className={styles.mainViewerWrapper} style={{ maxWidth: isBulletin ? '400px' : '100%' }}>
                     <div className={styles.mainViewer}>
-                        <div className={isBulletin ? styles.bulletinPageWrapper : ''}>
-                            {renderMainImage(0)}
-                        </div>
+                        <PinchZoomContainer>
+                            <div className={isBulletin ? styles.bulletinPageWrapper : ''}>
+                                {renderMainImage(0)}
+                            </div>
+                        </PinchZoomContainer>
                     </div>
                 </div>
             )}
@@ -229,8 +332,8 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
             {count > 1 && (
                 <div className={styles.thumbnailStrip}>
                     {Array.from({ length: count }).map((_, idx) => (
-                        <div 
-                            key={idx} 
+                        <div
+                            key={idx}
                             className={`${styles.thumbnailWrapper} ${idx === currentIndex ? styles.activeThumbnail : ''}`}
                             onClick={() => setCurrentIndex(idx)}
                         >
@@ -249,7 +352,7 @@ const PostDetailPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
-    
+
     const [post, setPost] = useState(location.state || null);
     const [loading, setLoading] = useState(!post);
 
@@ -307,10 +410,10 @@ const PostDetailPage = () => {
                             formattedContent += ev.desc || '';
 
                             setPost({
-                                title: ev.title, 
-                                author: data.name, 
-                                date: displayDate, 
-                                content: formattedContent, 
+                                title: ev.title,
+                                author: data.name,
+                                date: displayDate,
+                                content: formattedContent,
                                 imageUrl: ev.img || defaultThumbs[deptId] || thumbKindergarten,
                                 imageUrls: ev.imageUrls || [defaultThumbs[deptId] || thumbKindergarten]
                             });
@@ -352,7 +455,7 @@ const PostDetailPage = () => {
                         const locStr = foundEvent.location ? `🚩 장소: ${foundEvent.location}` : '';
                         const contentStr = foundEvent.content ? `\n\n${foundEvent.content}` : '';
                         const contentBody = [eventDateStr, timeStr, locStr, contentStr].filter(Boolean).join('\n\n');
-                        
+
                         setPost({
                             title: foundEvent.title,
                             author: '신탄진침례교회',
@@ -374,7 +477,7 @@ const PostDetailPage = () => {
             if (docSnap.exists()) {
                 const data = docSnap.data();
                 setPost({ id: docSnap.id, ...data });
-                
+
                 await updateDoc(docRef, {
                     views: increment(1)
                 });
@@ -422,7 +525,7 @@ const PostDetailPage = () => {
         <div className={styles.pageWrapper}>
             <SubPageSection title="나눔터" hideHeader={true}>
                 <div className={styles.contentWrapper}>
-                    <motion.div 
+                    <motion.div
                         className={styles.postContainer}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -448,9 +551,9 @@ const PostDetailPage = () => {
                         <div className={styles.postBody}>
                             {viewerImages.length > 0 && (
                                 <div style={{ marginBottom: '32px' }}>
-                                    <ImageViewer 
-                                        imageUrl={viewerImages.length === 1 ? viewerImages[0] : null} 
-                                        images={viewerImages.length > 1 ? viewerImages : []} 
+                                    <ImageViewer
+                                        imageUrl={viewerImages.length === 1 ? viewerImages[0] : null}
+                                        images={viewerImages.length > 1 ? viewerImages : []}
                                         totalPages={3} // this handles CSS slicing fallback if needed
                                         isBulletin={post.category === 'bulletin'}
                                     />
@@ -459,16 +562,16 @@ const PostDetailPage = () => {
 
                             {post.address && (
                                 <div style={{ marginBottom: '32px', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
-                                    <NaverMap 
-                                        address={post.address} 
+                                    <NaverMap
+                                        address={post.address}
                                         detailAddress={post.detailAddress}
-                                        title={post.title} 
+                                        title={post.title}
                                         category={post.businessCategory}
                                         phone={post.phone}
                                     />
                                 </div>
                             )}
-                            
+
                             {post.content && (
                                 <div style={{ marginTop: '24px' }}>
                                     <style>
@@ -512,7 +615,7 @@ const PostDetailPage = () => {
 
                         {/* Actions */}
                         <div className={styles.buttonWrapper}>
-                            <SuitButton 
+                            <SuitButton
                                 onClick={() => navigate(-1)}
                                 style={{ borderColor: 'rgba(var(--color-text-dark-rgb), 0.3)', color: 'var(--color-text-dark)', background: 'transparent' }}
                             >

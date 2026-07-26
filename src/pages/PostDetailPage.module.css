@@ -1,7 +1,8 @@
 .pageWrapper {
     width: 100%;
     min-height: 100vh;
-    color: var(--color-text-dark);    position: relative;
+    color: var(--color-text-dark);
+    position: relative;
     overflow-x: hidden;
 }
 
@@ -22,7 +23,9 @@
     margin-bottom: 40px;
 }
 
-.postTitle {    font-size: 24px;    margin: 0 0 16px 0;
+.postTitle {
+    font-size: 24px;
+    margin: 0 0 16px 0;
     color: var(--color-text-dark);
     word-break: keep-all;
 }
@@ -38,14 +41,16 @@
     align-items: center;
     gap: 12px;
     font-size: 16px;
-    color: rgba(var(--color-text-dark-rgb), 0.6);}
+    color: rgba(var(--color-text-dark-rgb), 0.6);
+}
 
 .metaDivider {
     color: rgba(var(--color-text-dark-rgb), 0.2);
 }
 
 .postBody {
-    font-size: 18px;    color: rgba(var(--color-text-dark-rgb), 0.9);
+    font-size: 18px;
+    color: rgba(var(--color-text-dark-rgb), 0.9);
     min-height: 400px;
     word-break: break-all;
 }
@@ -64,7 +69,7 @@
 .imageArea img {
     max-width: 100%;
     height: auto;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .bulletinViewerContainer {
@@ -125,13 +130,14 @@
 }
 
 .navButton span {
-    font-size: 36px;}
+    font-size: 36px;
+}
 
 .bulletinPageWrapper {
     width: 100%;
     overflow: hidden;
     position: relative;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .bulletinPageWrapper img {
@@ -151,9 +157,9 @@
     max-width: none !important;
 }
 
-.mainViewer > img,
-.mainViewer > div > img:not(.slicedImage) {
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+.mainViewer>img,
+.mainViewer>div>img:not(.slicedImage) {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .thumbnailStrip {
@@ -217,6 +223,7 @@
     .postBody {
         font-size: 16px;
     }
+
     .bulletinViewerContainer {
         width: 100vw;
         margin-left: calc(-50vw + 50%);
@@ -224,10 +231,12 @@
         padding: 40px 32px;
         border-radius: 0;
     }
+
     .prevButton {
         left: -32px;
         transform: translateY(-50%);
     }
+
     .nextButton {
         right: -32px;
         transform: translateY(-50%);
