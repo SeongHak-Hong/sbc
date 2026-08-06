@@ -7,20 +7,7 @@ const SubPageSection = ({ id, title, engTitle, subtitle, icon, children, classNa
         <section id={id} className={`${styles.sectionContainer} ${className || ''}`}>
             {!hideHeader && (
                 <div className={styles.headerContent}>
-                    {icon && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8 }}
-                            className={styles.iconContainer}
-                        >
-                            <img 
-                                src={icon}
-                                alt={`${title} Icon`}
-                                style={{ display: 'block', height: '100%', width: 'auto' }}
-                            />
-                        </motion.div>
-                    )}
+
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
                         {engTitle && (
                             <motion.h1

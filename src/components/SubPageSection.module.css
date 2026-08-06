@@ -2,7 +2,7 @@
     padding: var(--section-padding-y, 160px) 32px;
     display: flex;
     flex-direction: column;
-    gap: 64px;
+    gap: 80px;
     min-height: 122vh;
     width: 100%;
     box-sizing: border-box;
