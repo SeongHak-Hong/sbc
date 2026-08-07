@@ -28,43 +28,43 @@ const TeamPage = () => {
         {
             name: '최영락',
             role: '담임목사',
-            image: member01Hover,
+            image: member01,
             description: '말씀선포 및 목회총괄'
         },
         {
             name: '임현빈',
             role: '사모',
-            image: member02Hover,
+            image: member02,
             description: '담임목회 동역자'
         },
         {
             name: '김정현',
             role: '부목사',
-            image: member03Hover,
+            image: member03,
             description: '1교구 및 유초등부 담당'
         },
         {
             name: '김윤섭',
             role: '부목사',
-            image: member04Hover,
+            image: member04,
             description: '2교구 및 중고등부 담당'
         },
         {
             name: '이지은',
             role: '교육전도사',
-            image: member07Hover,
+            image: member07,
             description: '유치부 담당'
         },
         {
             name: '강현수',
             role: '전도사',
-            image: member06Hover,
+            image: member06,
             description: '청년부 담당'
         },
         {
             name: '김태인',
             role: '행정간사',
-            image: member05Hover,
+            image: member05,
             description: '행정지원'
         }
     ];
