@@ -131,10 +131,7 @@ const Header = () => {
         },
         {
             id: "step-2", title: "예배찬양", icon: "music_note", iconColor: styles.iconBlue,
-            links: [
-                { text: "설교", path: "https://www.youtube.com/@sbc6312" },
-                { text: "찬양대", path: "https://www.youtube.com/@sbc6312" }
-            ]
+            singlePagePath: "/media"
         },
         {
             id: "step-3", title: "공동체", icon: "local_library", iconColor: styles.iconBlue,

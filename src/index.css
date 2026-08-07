@@ -33,7 +33,7 @@
 }
 
 :root {
-  --max-width: 1500px;
+  --max-width: 1152px;
   --grid-columns: 12;
   --grid-margin: 48px;
   --grid-gutter: 24px;
@@ -62,7 +62,7 @@
   --font-weight-bold: 700;
 
   /* Line-height Tokens */
-  --line-height-base: 1.8;
+  --line-height-base: 1.5;
   --line-height-heading: 1.4;
 
   --text-h1: var(--pc-text-h1);

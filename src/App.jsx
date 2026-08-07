@@ -15,6 +15,7 @@ import NewsPage from './pages/NewsPage';
 import KoinoniaPage from './pages/KoinoniaPage';
 import NetworkPage from './pages/NetworkPage';
 import PostDetailPage from './pages/PostDetailPage';
+import MediaPage from './pages/MediaPage';
 import ScrollToTop from './components/ScrollToTop';
 import LandingPage from './pages/LandingPage';
 
@@ -84,6 +85,7 @@ function AppRoutes() {
         <Route path="/community" element={<CommunityPage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/outreach" element={<OutreachPage />} />
+        <Route path="/media" element={<MediaPage />} />
         <Route path="/news" element={<NewsPage />} />
         <Route path="/koinonia" element={<KoinoniaPage />} />
         <Route path="/network" element={<NetworkPage />} />
