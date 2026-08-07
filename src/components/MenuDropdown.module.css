@@ -124,7 +124,9 @@
     background: none;
     border: none;
     text-decoration: none;
-    font-size: 18px;}
+    font-size: 18px;
+    letter-spacing: -0.05em;
+}
 
 .menuItem:hover, .menuItem.expanded {
     color: var(--color-text-dark);
@@ -203,7 +205,9 @@
     font-size: 18px;
     color: rgba(var(--color-text-dark-rgb), 0.6);
     transition: background-color 0.2s, color 0.2s;
-    text-decoration: none;}
+    text-decoration: none;
+    letter-spacing: -0.05em;
+}
 
 .subItem:hover {
     color: var(--color-text-dark);
