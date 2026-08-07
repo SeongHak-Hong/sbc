@@ -113,6 +113,7 @@ const HistoryPage = () => {
                             </p>
                             <SuitButton 
                                 style={{ color: 'var(--color-text-dark)' }}
+                                onClick={() => window.open('https://www.instagram.com/ds3jhb2026/', '_blank')}
                             >
                                 인스타그램 놀러 가기
                             </SuitButton>
