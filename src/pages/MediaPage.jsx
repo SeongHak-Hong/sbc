@@ -188,10 +188,16 @@ const MediaPage = () => {
         if (descTitleMatch && descTitleMatch[1].trim() !== '') {
             title = descTitleMatch[1].trim();
         } else {
-            // 따옴표가 없을 경우 기존 방식(Fallback)
-            let cleanTitle = rawTitle.replace(/\[.*?\]|\(.*?\)|<.*?>|【.*?】/g, '').trim();
-            let titleParts = cleanTitle.split(/[-|｜:]/).map(s => s.trim()).filter(s => s);
-            title = titleParts[0]; 
+            // 따옴표가 없을 경우: 앞부분의 날짜 및 예배명 등만 제거하고 나머지는 그대로 보존 (내부의 대시 기호 등 유지)
+            let cleanTitle = rawTitle;
+            // 앞부분의 날짜 형식 제거 (예: 260816, 2026.08.16, [26.08.16] 등)
+            cleanTitle = cleanTitle.replace(/^\[?\(?\d{2,4}[./-]?\d{2}[./-]?\d{2}\)?\]?\s*/, '');
+            // 앞부분의 예배 명칭 및 바로 뒤의 구분자 제거
+            cleanTitle = cleanTitle.replace(/^(주일오전예배|주일2부예배|수요예배|헌신예배|주일오후예배|오후예배|주일예배|찬양대|특송)\s*[-|｜:]?\s*/, '');
+            // 혹시 맨 앞에 구분자가 남아있다면 추가 제거
+            cleanTitle = cleanTitle.replace(/^[-|｜:]\s*/, '');
+            
+            title = cleanTitle.trim() || rawTitle;
         }
         
         // 2. Preacher Extraction
