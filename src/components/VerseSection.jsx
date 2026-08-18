@@ -30,7 +30,7 @@ const VerseSection = () => {
                 filter: 'blur(10px)',
                 display: 'inline-flex',
                 alignItems: 'center',
-                fontSize: isCitation ? (isMobile ? '20px' : 'var(--text-h4)') : 'inherit',
+                fontSize: isCitation ? (isMobile ? '18px' : '32px') : 'inherit',
                 marginTop: isCitation ? '24px' : '0',
                 color: isCitation ? 'var(--color-text-dark)' : 'inherit'
             };
@@ -138,11 +138,15 @@ const VerseSection = () => {
     };
 
     const textStyle = {
-        fontSize: isMobile ? '24px' : 'var(--text-h4)',
-        lineHeight: 'var(--line-height-base)',
-        color: 'rgba(var(--color-text-dark-rgb), 0.7)',
+        fontFamily: 'var(--font-yuhan)',
+        fontWeight: 500,
+        fontSize: isMobile ? '24px' : '40px',
+        lineHeight: 1.6,
+        letterSpacing: '0.02em',
+        color: 'var(--color-text-dark)',
         textAlign: 'center',
-        whiteSpace: 'pre-line'
+        whiteSpace: 'pre-line',
+        wordBreak: 'keep-all'
     };
 
     return (

@@ -7,7 +7,7 @@ import { Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
-import SuitButton from '../components/ui/SuitButton';
+import LargeButton from '../components/ui/LargeButton';
 import styles from './PostDetailPage.module.css';
 import dummyImg from '../assets/news/260628-church-bulletin-01.webp';
 import NaverMap from '../components/ui/NaverMap';
@@ -615,12 +615,11 @@ const PostDetailPage = () => {
 
                         {/* Actions */}
                         <div className={styles.buttonWrapper}>
-                            <SuitButton
+                            <LargeButton
                                 onClick={() => navigate(-1)}
-                                style={{ borderColor: 'rgba(var(--color-text-dark-rgb), 0.3)', color: 'var(--color-text-dark)', background: 'transparent' }}
                             >
                                 목록으로
-                            </SuitButton>
+                            </LargeButton>
                         </div>
                     </motion.div>
                 </div>

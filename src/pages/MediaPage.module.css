@@ -1,8 +1,6 @@
 .pageContainer {
     width: 100%;
     min-height: 100vh;
-    padding-top: var(--subpage-header-padding-top);
-    padding-bottom: var(--section-padding-y);
     background-color: var(--color-white);
 }
 
@@ -20,13 +18,14 @@
 /* Tabs */
 .tabContainer {
     display: flex;
+    justify-content: center;
     margin-bottom: 80px;
 }
 
 .tabButton {
     background: none;
     border: none;
-    padding: 8px 16px;
+    padding: 8px 12px;
     font-size: 18px;
     font-weight: var(--font-weight-medium);
     color: rgba(var(--color-text-dark-rgb), 0.4);
@@ -83,6 +82,7 @@
     background-color: #000;
     position: relative;
     margin-bottom: 16px;
+    border-radius: 16px;
 }
 
 .thumbnail {

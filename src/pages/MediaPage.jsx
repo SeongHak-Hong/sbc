@@ -246,7 +246,7 @@ const MediaPage = () => {
         }
 
         // 5. Combine Info
-        const infoParts = [preacher, dateStr];
+        const infoParts = [dateStr, preacher];
         if (passage) infoParts.push(passage);
 
         return {

@@ -1,6 +1,6 @@
 import React, { useRef, useState, useLayoutEffect, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import SuitButton from '../components/ui/SuitButton';
+import LargeButton from '../components/ui/LargeButton';
 
 import styles from './HistoryPage.module.css';
 
@@ -111,12 +111,11 @@ const HistoryPage = () => {
                                 신탄진교회의 다정한 '오늘'을<br />
                                 인스타그램에서 만나보세요.
                             </p>
-                            <SuitButton 
-                                style={{ color: 'var(--color-text-dark)' }}
+                            <LargeButton 
                                 onClick={() => window.open('https://www.instagram.com/ds3jhb2026/', '_blank')}
                             >
                                 인스타그램 놀러 가기
-                            </SuitButton>
+                            </LargeButton>
                         </motion.article>
                     </motion.div>
                 </main>

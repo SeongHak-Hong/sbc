@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BlurFade } from './ui/BlurFade';
 import { motion } from 'framer-motion';
-import SuitButton from './ui/SuitButton';
+import LargeButton from './ui/LargeButton';
 import { useNavigate } from 'react-router-dom';
 
 const NewcomerSection = ({ 
@@ -32,20 +32,17 @@ const NewcomerSection = ({
     };
 
     const titleStyle = {
-        fontSize: isMobile ? '32px' : '48px',
+        fontFamily: 'var(--font-yuhan)',
+        fontWeight: 500,
+        fontSize: isMobile ? '24px' : '40px',
+        lineHeight: 1.6,
+        letterSpacing: '0.02em',
         color: 'var(--color-white)', // Changed back to white for visibility on dark background
-        marginBottom: '64px',
+        marginBottom: isMobile ? '24px' : '48px',
         textAlign: 'center',
         padding: isMobile ? '0 24px' : '0 48px',
-        boxSizing: 'border-box'
-    };
-
-    const buttonStyle = {
-        borderColor: 'var(--color-text-secondary)',
-        color: 'var(--color-text-secondary)',
-        '--suit-btn-hover-bg': 'var(--color-text-secondary)',
-        '--suit-btn-hover-border': 'var(--color-text-secondary)',
-        '--suit-btn-hover-text': 'var(--color-background-dark)'
+        boxSizing: 'border-box',
+        wordBreak: 'keep-all'
     };
 
     // Mock hills using CSS
@@ -67,9 +64,9 @@ const NewcomerSection = ({
                 <h2 style={titleStyle}>{title}</h2>
             </BlurFade>
             <BlurFade delay={0.4} inView>
-                <SuitButton style={buttonStyle} onClick={() => navigate('/worship#visit')}>
+                <LargeButton onClick={() => navigate('/worship#visit')}>
                     {buttonText}
-                </SuitButton>
+                </LargeButton>
             </BlurFade>
 
             {/* Additional hill layers could be added for depth */}

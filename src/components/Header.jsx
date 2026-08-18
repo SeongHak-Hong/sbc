@@ -3,7 +3,7 @@ import logoSbc from '../assets/shintanjin-baptist-church-logo.svg';
 import '../index.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import SuitButton from './ui/SuitButton';
+import LargeButton from './ui/LargeButton';
 import styles from './MenuDropdown.module.css';
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);

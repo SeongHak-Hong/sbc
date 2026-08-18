@@ -1,8 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap');
 
 .pageWrapper {
-    color: rgba(var(--color-text-dark-rgb), 0.7);    min-height: 100vh;
+    color: rgba(var(--color-text-dark-rgb), 0.7);
+    min-height: 100vh;
     position: relative;
+    background: linear-gradient(to bottom, #E7F5FD, #FCEBE0);
+    background-attachment: fixed;
 }
 
 .bgDots {
@@ -10,7 +13,7 @@
     background-size: 30px 30px;
 }
 
-.handwriting {}
+.handwriting {}
 
 .tapeTexture {
     background-image: repeating-linear-gradient(45deg,
@@ -23,7 +26,8 @@
 .navWrapper {
     position: relative;
     z-index: 60;
-    padding-top: 140px; /* Space for the global header */
+    padding-top: 140px;
+    /* Space for the global header */
 }
 
 .header {
@@ -169,25 +173,23 @@
 
 .fanStackWrapper {
     position: relative;
-    /* 충분한 스크롤 공간: 카드 수 × 100vh */
-    height: 400vh;
+    width: 100%;
     z-index: 10;
 }
 
-.fanStackSticky {
+.stickyCardWrapper {
     position: sticky;
     top: 0;
     height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 0;
     width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    margin: 0 auto;
-    overflow: visible;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* Let pointer events pass through to content */
+}
+
+.stickyCardWrapper > * {
+    pointer-events: auto;
 }
 
 .scrollStackHeader {
@@ -199,30 +201,23 @@
 .fanStackArea {
     position: relative;
     width: 100%;
-    max-width: 400px;
-    /* 카드들이 겹치도록 높이 고정 */
-    height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    max-width: 385px;
+    height: auto;
     margin: 0 auto;
 }
 
 .stackCard {
-    position: absolute;
-    z-index: 1;
-    padding: 32px 48px; /* Applied 48px padding for Left/Right */
-    color: var(--color-text-title); /* 본문 컬러도 타이틀과 동일하게 적용 */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    position: relative;
+    width: 385px;
+    height: 559px;
+    border-radius: 48px;
     will-change: transform, opacity;
     transform-origin: center bottom;
-    /* 카드 자체에 배경이 없으면 기본 흰 배경 적용 */
-    background: rgba(var(--color-text-dark-rgb), 0.95);
-    border-radius: 0; /* border-radius 재적용 */
-    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    background-color: var(--color-background-beige);
 }
 
 .stackCard * {
@@ -230,59 +225,158 @@
 }
 
 @media (max-width: 767px) {
-    .fanStackWrapper {
-        height: 300vh;
-    }
-
     .fanStackArea {
-        max-width: 72vw;
-        height: 72vw; /* Keep 1:1 aspect ratio on small screens */
-        max-height: 400px;
+        max-width: 340px;
     }
 
     .stackCard {
-        padding: 24px 32px;
+        width: 340px;
+        height: 494px;
+        border-radius: 40px;
     }
 }
 
-.stepBadge {
+.cardDim {
     position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 6px 20px;
-    border-radius: 0;
-    font-size: 0.875rem;    text-transform: uppercase;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    z-index: 20;
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,1) 100%);
+    opacity: 0.8;
+    z-index: 1;
 }
 
-.stepIconWrap {
-    width: 112px;
-    height: 112px;
-    margin: 0 auto 24px;
-    border-radius: 0;
+/* ==============================
+   CTA Section
+   ============================== */
+
+.spaceSpan {
+    white-space: pre-wrap;
+}
+
+@media (max-width: 767px) {
+    .spaceSpan {
+        white-space: normal;
+    }
+}
+
+.ctaSection {
+    min-height: 100vh;
+    padding: 120px 24px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: 3.75rem;
-    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+    text-align: center;
+    background-color: transparent;
     position: relative;
-    transition: transform 0.3s ease;
+    z-index: 10;
 }
 
-.stepCard:hover .stepIconWrap {
-    transform: scale(1.05);
+.ctaSection .yuhanText {
+    margin-bottom: 48px;
 }
 
-.stepTitle {
-    margin-bottom: 12px;    font-size: 20px;    color: #1D1A1C;
+@media (max-width: 767px) {
+    .ctaSection .yuhanText {
+        margin-bottom: 24px;
+    }
 }
 
-.stepDesc {    font-size: 18px;    color: var(--color-text-body);}
+.ctaTitle {
+    font-family: var(--font-yuhan);
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    color: var(--color-text-dark);
+    margin-bottom: 48px;
+    white-space: pre-line;
+    word-break: keep-all;
+}
+
+.ctaDesc {
+    font-family: var(--font-suit);
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(var(--color-text-dark-rgb), 0.7);
+    margin-bottom: 40px;
+    white-space: pre-line;
+    word-break: keep-all;
+}
+
+@media (max-width: 767px) {
+    .ctaTitle {
+        font-size: 24px;
+    }
+}
+
+@media (min-width: 768px) {
+    .ctaSection {
+        padding: 160px 48px;
+    }
+}
+
+.cardContentWrapper {
+    position: absolute;
+    inset: 0;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 2;
+}
+
+@media (max-width: 767px) {
+    .cardContentWrapper {
+        padding: 32px;
+    }
+}
+
+.stepBadgeNew {
+    align-self: flex-start;
+    padding: 4px 12px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.6;
+    letter-spacing: -0.02em;
+    color: #282E31;
+}
+
+.cardTextContainer {
+    position: relative;
+    width: 100%;
+}
+
+
+
+.cardTextContent {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.stepTitleNew {
+    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 1.4;
+    color: #ffffff;
+    margin: 0;
+}
+
+.stepDescNew {
+    font-family: 'SUIT', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.6;
+    letter-spacing: -0.05em;
+    color: #ffffff;
+    margin: 0;
+    word-break: keep-all;
+}
 
 .scrapbookGrid {
     columns: 1;
@@ -360,4 +454,96 @@
     text-align: center;
     font-size: 1.875rem;
     color: rgba(74, 85, 104, 0.9);
+}
+
+/* ==============================
+   Fade Sections (Welcome Intro)
+   ============================== */
+
+.introPinnedWrapper {
+    height: 500vh;
+    position: relative;
+    z-index: 10;
+}
+
+.introSticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+}
+
+.introAbsoluteCenter {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 var(--grid-margin);
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+.holySpiritGlow {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    /* 황금빛 그라디언트 (크기 75%로 조정) */
+    background: radial-gradient(circle at center, rgba(255, 200, 80, 0.5) 0%, rgba(255, 225, 130, 0.25) 25%, rgba(255, 245, 200, 0.1) 50%, rgba(255, 255, 255, 0) 75%);
+    animation: breathe 4s ease-in-out infinite alternate;
+    pointer-events: none;
+    transform-origin: center center;
+}
+
+@keyframes breathe {
+    0% {
+        transform: scale(0.95);
+        opacity: 0.65;
+    }
+
+    100% {
+        transform: scale(1.15);
+        opacity: 1;
+    }
+}
+
+.activeLayer {
+    pointer-events: auto;
+    z-index: 5;
+}
+
+.yuhanText {
+    font-family: var(--font-yuhan);
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+    color: var(--color-text-dark);
+    margin: 0 0 24px 0;
+    white-space: pre-line;
+    word-break: keep-all;
+}
+
+.fadeBodyText {
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--color-text-body);
+    line-height: 1.6;
+    letter-spacing: -0.02em;
+    word-break: keep-all;
+    margin: 0;
+    white-space: pre-line;
+}
+
+@media (max-width: 767px) {
+    .yuhanText {
+        font-size: 24px;
+    }
+
+    .fadeBodyText {
+        font-size: 16px;
+        white-space: normal;
+    }
 }

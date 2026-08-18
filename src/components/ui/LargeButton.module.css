@@ -1,0 +1,21 @@
+.animatedButton {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  line-height: var(--line-height-base);
+  padding: 14px 28px;
+  border-radius: 99px;
+  font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
+  font-size: 18px;
+  background-color: #245672;
+  color: var(--color-white);
+  border: 1px solid #245672;
+}
+
+@media (max-width: 767px) {
+  .animatedButton {
+    padding: 10px 24px;
+    font-size: 16px;
+  }
+}

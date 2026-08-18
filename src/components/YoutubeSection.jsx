@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import iPhoneFrameImg from '../assets/main/iPhone-14-Pro.webp';
 import playBtnImg from '../assets/main/Youtube-shorts-icon.webp';
-import SuitButton from './ui/SuitButton';
+import LargeButton from './ui/LargeButton';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -125,15 +125,17 @@ const YoutubeSection = () => {
     };
 
     const sideTextStyle = {
-        fontSize: isMobile ? '32px' : '48px', // Scaled for mobile
-         // regular
-         // 160%
-         // -10%
+        fontFamily: 'var(--font-yuhan)',
+        fontWeight: 500,
+        fontSize: isMobile ? '24px' : '40px',
+        lineHeight: 1.6,
+        letterSpacing: '0.02em',
         color: 'var(--color-text-dark)',
         margin: 0,
         whiteSpace: 'nowrap',
         zIndex: 10,
-        textAlign: 'center'
+        textAlign: 'center',
+        wordBreak: 'keep-all'
     };
 
     return (
@@ -272,23 +274,24 @@ const YoutubeSection = () => {
             }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: 'var(--max-width)', pointerEvents: 'auto' }}>
                     <h2 style={{
-                        fontSize: isMobile ? '32px' : '48px',
-                         // regular
-                         // 160%
-                         // -10%
-                        marginBottom: '64px',
+                        fontFamily: 'var(--font-yuhan)',
+                        fontWeight: 500,
+                        fontSize: isMobile ? '24px' : '40px',
+                        lineHeight: 1.6,
+                        letterSpacing: '0.02em',
+                        marginBottom: isMobile ? '24px' : '48px',
                         color: 'var(--color-text-dark)',
                         textAlign: 'center',
-                        whiteSpace: 'pre-line' // To allow <br /> to work naturally
+                        whiteSpace: 'pre-line',
+                        wordBreak: 'keep-all'
                     }}>
                         그 말씀이<br />당신의 삶을 변화시킵니다.
                     </h2>
-                    <SuitButton 
+                    <LargeButton 
                         onClick={() => window.open('https://www.youtube.com/@sbc6312', '_blank')}
-                        style={{ borderColor: 'var(--color-text-dark)', color: 'var(--color-text-dark)' }}
                     >
                         유튜브 채널 가기
-                    </SuitButton>
+                    </LargeButton>
                 </div>
             </div>
         </section>

@@ -65,3 +65,22 @@
         font-size: 32px;
     }
 }
+
+.yuhanTitle {
+    font-family: var(--font-yuhan);
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    color: var(--color-text-dark);
+    margin: 0;
+    white-space: pre-line;
+    word-break: keep-all;
+    text-align: center;
+}
+
+@media (max-width: 767px) {
+    .yuhanTitle {
+        font-size: 28px;
+    }
+}

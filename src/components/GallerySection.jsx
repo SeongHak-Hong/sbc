@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BlurFade } from './ui/BlurFade';
-import SuitButton from './ui/SuitButton';
+import LargeButton from './ui/LargeButton';
 import { InfiniteSlider } from './ui/InfiniteSlider';
 
 // Dynamically import 10 images from the history folder
@@ -39,7 +39,7 @@ const GallerySection = () => {
     };
 
     const titleContainerStyle = {
-        marginBottom: '60px',
+        marginBottom: '48px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: isMobile ? 'flex-start' : 'flex-end',
@@ -63,21 +63,23 @@ const GallerySection = () => {
             <div style={titleContainerStyle}>
                 <BlurFade delay={0.25} inView>
                     <h2 style={{ 
-                        fontSize: isMobile ? '32px' : '48px',
-                        
-                        
-                        
+                        fontFamily: 'var(--font-yuhan)',
+                        fontWeight: 500,
+                        fontSize: isMobile ? '24px' : '40px',
+                        lineHeight: 1.6,
+                        letterSpacing: '0.02em',
                         color: '#1D1A1C',
                         margin: 0, 
-                        textAlign: 'left' 
+                        textAlign: 'left',
+                        wordBreak: 'keep-all'
                     }}>
                         함께 걷고, 함께 웃습니다.
                     </h2>
                 </BlurFade>
                 <BlurFade delay={0.4} inView>
-                    <SuitButton style={{ borderColor: '#1D1A1C', color: '#1D1A1C' }}>
+                    <LargeButton>
                         더 많은 우리 보기
-                    </SuitButton>
+                    </LargeButton>
                 </BlurFade>
             </div>
 

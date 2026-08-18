@@ -32,6 +32,8 @@
 
 .photoCol {
     flex-shrink: 0;
+    border-radius: 16px;
+    overflow: hidden;
 }
 
 .profileImage {
@@ -47,7 +49,7 @@
 }
 
 .greetingTitle {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 600;
     margin-bottom: 32px;
     color: var(--color-text-dark);
@@ -55,7 +57,7 @@
 }
 
 .greetingBody {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 400;
     color: var(--color-text-dark);
     margin-bottom: 40px;
@@ -71,7 +73,7 @@
 
 .signatureText {
     text-align: right;
-    font-size: 16px;
+    font-size: 20px;
     color: var(--color-text-dark);
 }
 

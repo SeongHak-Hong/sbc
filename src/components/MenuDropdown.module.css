@@ -7,10 +7,10 @@
 }
 
 .toggleBtn {
-    padding: 8px 20px 8px 18px;
-    background-color: #1D1A1C;
+    padding: 8px 16px;
+    background-color: #245672;
     color: var(--color-white);
-    border-radius: 0;
+    border-radius: 99px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -21,10 +21,13 @@
     position: relative;
     z-index: 101;
     outline: none;
-    flex-shrink: 0;    font-size: 20px;}
+    flex-shrink: 0;
+    font-size: 18px;
+    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
+}
 
 .toggleBtn:hover {
-    background-color: #000000;
+    background-color: #1a4258;
 }
 
 .iconContainer {

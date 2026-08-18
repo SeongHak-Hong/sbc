@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BlurFade } from './ui/BlurFade';
-import SuitButton from './ui/SuitButton';
+import LargeButton from './ui/LargeButton';
 import { useNavigate } from 'react-router-dom';
 
 const PrayerSection = () => {
@@ -29,21 +29,19 @@ const PrayerSection = () => {
     };
 
     const titleStyle = {
-        fontSize: isMobile ? '32px' : '48px',
-        
-        
-        
+        fontFamily: 'var(--font-yuhan)',
+        fontWeight: 500,
+        fontSize: isMobile ? '24px' : '40px',
+        lineHeight: 1.6,
+        letterSpacing: '0.02em',
         color: '#1D1A1C',
-        marginBottom: '64px', // Standardized gap
+        marginBottom: isMobile ? '24px' : '48px', // Standardized gap
         textAlign: 'center',
         padding: isMobile ? '0 24px' : '0 48px',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        wordBreak: 'keep-all'
     };
 
-    const buttonStyle = {
-        borderColor: '#1D1A1C',
-        color: '#1D1A1C',
-    };
 
     return (
         <section style={sectionStyle}>
@@ -51,9 +49,9 @@ const PrayerSection = () => {
                 <h2 style={titleStyle}>기쁨은 더하고,{isMobile ? <br /> : ' '}슬픔은 나누며.</h2>
             </BlurFade>
             <BlurFade delay={0.4} inView>
-                <SuitButton style={buttonStyle} onClick={() => navigate('/koinonia')}>
+                <LargeButton onClick={() => navigate('/koinonia')}>
                     성도 소식 함께하기
-                </SuitButton>
+                </LargeButton>
             </BlurFade>
         </section>
     );

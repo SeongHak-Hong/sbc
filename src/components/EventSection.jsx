@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BlurFade } from './ui/BlurFade';
-import SuitButton from './ui/SuitButton';
+import LargeButton from './ui/LargeButton';
 import { useNavigate } from 'react-router-dom';
 
 const EventSection = () => {
@@ -28,22 +28,19 @@ const EventSection = () => {
     };
 
     const titleStyle = {
-        fontSize: isMobile ? '32px' : '48px',
-        
-        
-        
+        fontFamily: 'var(--font-yuhan)',
+        fontWeight: 500,
+        fontSize: isMobile ? '24px' : '40px',
+        lineHeight: 1.6,
+        letterSpacing: '0.02em',
         color: 'var(--color-text-dark)',
-        marginBottom: '64px',
+        marginBottom: isMobile ? '24px' : '48px',
         textAlign: 'center',
         padding: isMobile ? '0 24px' : '0 48px',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        wordBreak: 'keep-all'
     };
 
-    const buttonStyle = {
-        borderColor: 'var(--color-text-dark)',
-        color: 'var(--color-text-dark)',
-        marginTop: '20px'
-    };
 
     return (
         <section style={sectionStyle}>
@@ -52,9 +49,9 @@ const EventSection = () => {
                     <h2 style={titleStyle}>함께 만들어가는<br />이달의 이야기.</h2>
                 </BlurFade>
                 <BlurFade delay={0.4} inView>
-                    <SuitButton style={buttonStyle} onClick={() => navigate('/events')}>
+                    <LargeButton onClick={() => navigate('/events')}>
                         일정 보기
-                    </SuitButton>
+                    </LargeButton>
                 </BlurFade>
             </div>
         </section>
