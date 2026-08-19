@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from '../../pages/NewsPage.module.css';
+import Pagination from './Pagination';
 
 const BoardList = ({ 
     posts = [], 
@@ -49,29 +50,11 @@ const BoardList = ({
             {/* Pagination */}
             {posts.length > 0 && (
                 <div className={styles.boardFooter}>
-                    <div className={styles.pagination}>
-                        <button 
-                            className={`${styles.pageArrow} material-symbols-outlined`}
-                            disabled={currentPage === 1}
-                            onClick={() => onPageChange(currentPage - 1)}
-                        >chevron_left</button>
-                        
-                        {[...Array(totalPages)].map((_, i) => (
-                            <button 
-                                key={i + 1}
-                                className={`${styles.pageButton} ${currentPage === i + 1 ? styles.active : ''}`}
-                                onClick={() => onPageChange(i + 1)}
-                            >
-                                {i + 1}
-                            </button>
-                        ))}
-                        
-                        <button 
-                            className={`${styles.pageArrow} material-symbols-outlined`}
-                            disabled={currentPage === totalPages}
-                            onClick={() => onPageChange(currentPage + 1)}
-                        >chevron_right</button>
-                    </div>
+                    <Pagination 
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={onPageChange}
+                    />
                 </div>
             )}
         </div>

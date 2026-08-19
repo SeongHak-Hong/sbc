@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import SubPageSection from '../components/SubPageSection';
 import Footer from '../components/Footer';
+import Pagination from '../components/ui/Pagination';
+import { BlurFade } from '../components/ui/BlurFade';
 import logoSbc from '../assets/shintanjin-baptist-church-logo.svg';
 import styles from './MediaPage.module.css';
 
 const MediaPage = () => {
     const location = useLocation();
-    const [activeTab, setActiveTab] = useState('sermon');
+    const [activeTab, setActiveTab] = useState('all');
+    const [currentPage, setCurrentPage] = useState(1);
+    const postsPerPage = 10;
     const [videos, setVideos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedVideo, setSelectedVideo] = useState(null);
@@ -28,7 +33,7 @@ const MediaPage = () => {
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const tab = params.get('tab');
-        if (tab === 'praise' || tab === 'sermon') {
+        if (tab === 'praise' || tab === 'sermon' || tab === 'all') {
             setActiveTab(tab);
         }
     }, [location]);
@@ -156,6 +161,8 @@ const MediaPage = () => {
 
     // Filter recent videos locally based on keyword
     const filteredVideos = videos.filter(video => {
+        if (activeTab === 'all') return true;
+
         const title = video.snippet.title.replace(/&quot;/g, '"').replace(/&#39;/g, "'").toLowerCase();
 
         if (activeTab === 'sermon') {
@@ -207,12 +214,12 @@ const MediaPage = () => {
         };
         let preacher = findPreacher(rawTitle) || findPreacher(desc) || '최영락 담임목사';
 
-        // 3. Date Extraction (YYMMDD format)
+        // 3. Date Extraction (YYYY.MM.DD format)
         const publishedAt = new Date(video.snippet.publishedAt);
-        const yy = String(publishedAt.getFullYear()).slice(2);
+        const yyyy = publishedAt.getFullYear();
         const mm = String(publishedAt.getMonth() + 1).padStart(2, '0');
         const dd = String(publishedAt.getDate()).padStart(2, '0');
-        const dateStr = `${yy}${mm}${dd}`;
+        const dateStr = `${yyyy}.${mm}.${dd}`;
 
         // 4. Passage Extraction
         let passage = '';
@@ -246,14 +253,21 @@ const MediaPage = () => {
         }
 
         // 5. Combine Info
-        const infoParts = [dateStr, preacher];
+        const infoParts = [preacher];
         if (passage) infoParts.push(passage);
 
         return {
             title: title || rawTitle,
+            date: dateStr,
             info: infoParts.join(' · ')
         };
     };
+
+    const totalPages = Math.ceil(filteredVideos.length / postsPerPage) || 1;
+    const currentVideos = filteredVideos.slice(
+        (currentPage - 1) * postsPerPage, 
+        currentPage * postsPerPage
+    );
 
     return (
         <div className={styles.pageContainer}>
@@ -268,37 +282,45 @@ const MediaPage = () => {
                             <div className={styles.loading}>영상을 불러오는 중입니다...</div>
                         ) : (
                             <>
-                                <div className={styles.tabContainer}>
-                                    <button 
-                                        className={`${styles.tabButton} ${activeTab === 'sermon' ? styles.active : ''}`}
-                                        onClick={() => setActiveTab('sermon')}
-                                    >
-                                        설교
-                                    </button>
-                                    <button 
-                                        className={`${styles.tabButton} ${activeTab === 'praise' ? styles.active : ''}`}
-                                        onClick={() => setActiveTab('praise')}
-                                    >
-                                        찬양대
-                                    </button>
-                                </div>
+                                <BlurFade delay={0.25} inView>
+                                    <div className={styles.tabContainer}>
+                                        <button 
+                                            className={`${styles.tabButton} ${activeTab === 'all' ? styles.active : ''}`}
+                                            onClick={() => { setActiveTab('all'); setCurrentPage(1); }}
+                                        >
+                                            전체
+                                        </button>
+                                        <button 
+                                            className={`${styles.tabButton} ${activeTab === 'sermon' ? styles.active : ''}`}
+                                            onClick={() => { setActiveTab('sermon'); setCurrentPage(1); }}
+                                        >
+                                            설교
+                                        </button>
+                                        <button 
+                                            className={`${styles.tabButton} ${activeTab === 'praise' ? styles.active : ''}`}
+                                            onClick={() => { setActiveTab('praise'); setCurrentPage(1); }}
+                                        >
+                                            찬양대
+                                        </button>
+                                    </div>
+                                </BlurFade>
 
                                 <div className={styles.videoGrid}>
-                                    {filteredVideos.map(video => {
+                                    {currentVideos.map((video, index) => {
                                         const badge = getBadge(video.snippet.title);
                                         const parsedInfo = parseVideoInfo(video);
                                         return (
-                                            <a 
-                                                key={video.id.videoId}
-                                                href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className={styles.videoCard}
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    setSelectedVideo(video);
-                                                }}
-                                            >
+                                            <BlurFade key={video.id.videoId} delay={0.25 + index * 0.05} inView>
+                                                <a 
+                                                    href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className={styles.videoCard}
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        setSelectedVideo(video);
+                                                    }}
+                                                >
                                                 <div className={styles.thumbnailContainer}>
                                                     <img 
                                                         src={video.snippet.thumbnails.high?.url || video.snippet.thumbnails.medium?.url} 
@@ -307,11 +329,15 @@ const MediaPage = () => {
                                                     />
                                                 </div>
                                                 <div className={styles.videoInfo}>
-                                                    <p className={styles.badge}>{badge}</p>
+                                                    <p className={styles.date}>{parsedInfo.date}</p>
                                                     <p className={styles.title}>{parsedInfo.title}</p>
                                                     <p className={styles.description}>{parsedInfo.info}</p>
+                                                    <div className={styles.badgeWrapper}>
+                                                        <span className={styles.badge}>{badge}</span>
+                                                    </div>
                                                 </div>
                                             </a>
+                                        </BlurFade>
                                         );
                                     })}
                                     {filteredVideos.length === 0 && (
@@ -320,6 +346,13 @@ const MediaPage = () => {
                                         </div>
                                     )}
                                 </div>
+                                {filteredVideos.length > 0 && (
+                                    <Pagination 
+                                        currentPage={currentPage}
+                                        totalPages={totalPages}
+                                        onPageChange={setCurrentPage}
+                                    />
+                                )}
                             </>
                         )}
                     </div>
@@ -328,28 +361,60 @@ const MediaPage = () => {
             <Footer />
 
             {/* Video Modal */}
-            {selectedVideo && (
-                <div className={styles.modalOverlay} onClick={() => setSelectedVideo(null)}>
-                    <div className={styles.modalContent}>
-                        <div className={styles.modalBody}>
-                            <div className={styles.videoWrapper}>
-                                <button className={styles.closeButton} onClick={() => setSelectedVideo(null)}>
-                                    <span className="material-symbols-outlined" translate="no" style={{ fontSize: '48px' }}>close</span>
-                                </button>
-                                <div className={styles.iframeContainer}>
-                                    <iframe 
-                                    src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}?autoplay=1`} 
-                                    title="YouTube video player" 
-                                    frameBorder="0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                    allowFullScreen
-                                ></iframe>
-                                </div>
+            <AnimatePresence>
+                {selectedVideo && (
+                    <div className={styles.modalOverlay}>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className={styles.modalBackdrop}
+                            onClick={() => setSelectedVideo(null)}
+                        />
+                        <div className={styles.modalContent} style={{ pointerEvents: 'none' }}>
+                            <div className={styles.modalBody}>
+                                <motion.div 
+                                    initial={{ clipPath: "inset(43.5% 43.5% 33.5% 43.5%)", opacity: 0 }}
+                                    animate={{ clipPath: "inset(0 0 0 0)", opacity: 1 }}
+                                    exit={{
+                                        clipPath: "inset(43.5% 43.5% 33.5% 43.5%)",
+                                        opacity: 0,
+                                        transition: {
+                                            duration: 1,
+                                            type: "spring",
+                                            stiffness: 100,
+                                            damping: 20,
+                                            opacity: { duration: 0.2, delay: 0.8 },
+                                        },
+                                    }}
+                                    transition={{
+                                        duration: 1,
+                                        type: "spring",
+                                        stiffness: 100,
+                                        damping: 20,
+                                    }}
+                                    className={styles.videoWrapper}
+                                    style={{ pointerEvents: 'auto' }}
+                                >
+                                    <button className={styles.closeButton} onClick={() => setSelectedVideo(null)}>
+                                        <span className="material-symbols-outlined" translate="no" style={{ fontSize: '48px' }}>close</span>
+                                    </button>
+                                    <div className={styles.iframeContainer}>
+                                        <iframe 
+                                            src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}?autoplay=1`} 
+                                            title="YouTube video player" 
+                                            frameBorder="0" 
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                            allowFullScreen
+                                        ></iframe>
+                                    </div>
+                                </motion.div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
+            </AnimatePresence>
         </div>
     );
 };

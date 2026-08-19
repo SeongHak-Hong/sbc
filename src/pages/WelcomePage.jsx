@@ -234,7 +234,7 @@ const WelcomePage = () => {
             <div className={styles.ctaSection}>
                 <ScrollFadeText 
                     className={styles.yuhanText}
-                    text={"교회 등록에 대해 더 궁금한 점이 있으신가요?\n부담 없이 연락 주시면 따뜻하고 친절하게 안내해 드리겠습니다."}
+                    text={"더 궁금한 점이 있으신가요?\n문의 주시면 따뜻하고 친절하게 안내해 드리겠습니다."}
                     once={true}
                 />
                 <motion.div 

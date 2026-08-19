@@ -196,7 +196,7 @@ body {
 
 body {
   font-family: var(--font-body);
-  letter-spacing: -0.05em;
+  letter-spacing: -0.02em;
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-base);
   -webkit-font-smoothing: antialiased;

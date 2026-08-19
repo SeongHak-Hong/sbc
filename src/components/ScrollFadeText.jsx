@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ScrollFadeText = ({ text, style, mobileStyle, className, once = false }) => {
+const ScrollFadeText = ({ text, style, mobileStyle, className, once = false, as = 'div' }) => {
     const sectionRef = useRef(null);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
@@ -75,10 +75,12 @@ const ScrollFadeText = ({ text, style, mobileStyle, className, once = false }) =
 
     const activeStyle = isMobile && mobileStyle ? { ...style, ...mobileStyle } : style;
 
+    const Component = as;
+
     return (
-        <div ref={sectionRef} style={activeStyle} className={className}>
+        <Component ref={sectionRef} style={activeStyle} className={className}>
             {splitText}
-        </div>
+        </Component>
     );
 };
 
