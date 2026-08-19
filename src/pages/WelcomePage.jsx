@@ -187,8 +187,8 @@ const WelcomePage = () => {
                     <div className={`${styles.introAbsoluteCenter} ${introActiveIndex === 0 ? styles.activeLayer : ''}`}>
                         <div className={styles.fadeInner}>
                             <motion.div 
-                                initial={{ opacity: 0 }}
-                                animate={introActiveIndex === 0 ? { opacity: 1 } : { opacity: 0 }}
+                                initial={{ opacity: 0, filter: 'blur(10px)' }}
+                                animate={introActiveIndex === 0 ? { opacity: 1, filter: 'blur(0px)' } : { opacity: 0, filter: 'blur(10px)' }}
                                 transition={{ duration: 1 }}
                                 style={{
                                     fontSize: '16px',
