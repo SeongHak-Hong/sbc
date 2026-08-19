@@ -43,7 +43,6 @@
   font-family: var(--font-yuhan);
   font-weight: 500;
   font-size: 40px;
-  line-height: 1.4;
   letter-spacing: 0.02em;
   margin: 0;
   white-space: pre-line;
@@ -81,8 +80,8 @@
   --font-weight-bold: 700;
 
   /* Line-height Tokens */
-  --line-height-base: 1.5;
-  --line-height-heading: 1.4;
+  --line-height-base: 1.6;
+  --line-height-heading: 1.6;
 
   --text-h1: var(--pc-text-h1);
   --text-h2: var(--pc-text-h2);

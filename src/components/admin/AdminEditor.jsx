@@ -101,7 +101,6 @@ const AdminEditor = ({ initialValue, onChange, height = '800px' }) => {
                     font-size: 16px !important;
                 }
                 .toastui-editor-contents *:not(table), .ProseMirror *:not(table) {
-                    line-height: 180% !important;
                 }
                 .toastui-editor-contents p, .ProseMirror p,
                 .toastui-editor-contents span, .ProseMirror span,

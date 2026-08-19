@@ -194,7 +194,7 @@ const WelcomePage = () => {
                                     fontSize: '16px',
                                     fontWeight: 500,
                                     color: 'var(--color-text-placeholder)',
-                                    marginBottom: '24px',
+                                    marginBottom: '16px',
                                     fontFamily: "'YK Green Forest', var(--font-yuhan), sans-serif",
                                     textAlign: 'center'
                                 }}

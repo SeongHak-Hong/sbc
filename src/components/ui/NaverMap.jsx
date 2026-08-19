@@ -45,7 +45,7 @@ const NaverMap = ({
                         ${detailAddress ? `<br/><span style="color:#888;">${detailAddress}</span>` : ''}
                     </p>
                     <div style="margin-top: 12px;">
-                        <a href="https://map.naver.com/index.nhn?elng=${lng}&elat=${lat}&etext=${encodeURIComponent(title)}&menu=route" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 12px 16px; background-color: #03c75a; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600; letter-spacing: -0.5px; box-sizing: border-box; line-height: 1;">
+                        <a href="https://map.naver.com/index.nhn?elng=${lng}&elat=${lat}&etext=${encodeURIComponent(title)}&menu=route" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 12px 16px; background-color: #03c75a; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600; letter-spacing: -0.5px; box-sizing: border-box;">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="transform: translateY(-1px);">
                                 <path d="M16.096 11.235L8.71 0H0v24h7.904V12.765L15.29 24H24V0h-7.904v11.235z"/>
                             </svg>

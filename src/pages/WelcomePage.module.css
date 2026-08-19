@@ -185,10 +185,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    pointer-events: none; /* Let pointer events pass through to content */
+    pointer-events: none;
+    /* Let pointer events pass through to content */
 }
 
-.stickyCardWrapper > * {
+.stickyCardWrapper>* {
     pointer-events: auto;
 }
 
@@ -239,7 +240,7 @@
 .cardDim {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,1) 100%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 100%);
     opacity: 0.8;
     z-index: 1;
 }
@@ -285,7 +286,7 @@
     font-family: var(--font-yuhan);
     font-size: 40px;
     font-weight: 500;
-    line-height: 1.4;
+
     letter-spacing: 0.02em;
     color: var(--color-text-primary);
     margin-bottom: 48px;
@@ -296,7 +297,7 @@
 .ctaDesc {
     font-family: var(--font-suit);
     font-size: 16px;
-    line-height: 1.6;
+
     color: var(--color-text-muted);
     margin-bottom: 40px;
     white-space: pre-line;
@@ -339,7 +340,7 @@
     font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
     font-size: 14px;
     font-weight: bold;
-    line-height: 1.6;
+
     letter-spacing: -0.02em;
     color: #282E31;
 }
@@ -362,7 +363,7 @@
     font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
     font-weight: bold;
     font-size: 20px;
-    line-height: 1.4;
+
     color: #ffffff;
     margin: 0;
 }
@@ -371,7 +372,7 @@
     font-family: 'SUIT', sans-serif;
     font-weight: 400;
     font-size: 16px;
-    line-height: 1.6;
+
     letter-spacing: -0.05em;
     color: #ffffff;
     margin: 0;
@@ -518,7 +519,7 @@
     font-family: var(--font-yuhan);
     font-weight: 500;
     font-size: 40px;
-    line-height: 1.6;
+
     letter-spacing: 0.02em;
     color: var(--color-text-primary);
     margin: 0 0 24px 0;
@@ -530,7 +531,7 @@
     font-size: 20px;
     font-weight: 400;
     color: var(--color-text-muted);
-    line-height: 1.6;
+
     letter-spacing: -0.02em;
     word-break: keep-all;
     margin: 0;

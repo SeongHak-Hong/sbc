@@ -25,7 +25,7 @@
     font-size: 16px;
     font-weight: 500;
     color: var(--color-text-placeholder);
-    margin-bottom: 24px;
+    margin-bottom: 16px;
     font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
 }
 
@@ -33,7 +33,6 @@
     font-size: 40px;
     font-weight: 500;
     color: var(--color-text-primary);
-    line-height: 1.6;
     letter-spacing: 0.02em;
     margin-bottom: 48px;
     word-break: keep-all;
@@ -115,6 +114,7 @@
 .scrollArea::-webkit-scrollbar {
     width: 6px;
 }
+
 .scrollArea::-webkit-scrollbar-thumb {
     background-color: var(--color-text-placeholder);
     border-radius: 10px;
@@ -141,9 +141,11 @@
         font-size: 24px;
         margin-bottom: 32px;
     }
+
     .buttonGroup {
         gap: 12px;
     }
+
     .selectButton {
         padding: 10px 24px;
         font-size: 16px;

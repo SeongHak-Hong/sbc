@@ -5,6 +5,8 @@
     gap: 80px;
     min-height: 122vh;
     width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
     box-sizing: border-box;
 }
 
@@ -70,7 +72,6 @@
     font-family: var(--font-yuhan);
     font-weight: 500;
     font-size: 40px;
-    line-height: 1.4;
     letter-spacing: 0.02em;
     color: var(--color-text-primary);
     margin: 0;

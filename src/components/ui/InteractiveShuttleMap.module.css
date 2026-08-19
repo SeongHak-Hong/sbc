@@ -29,7 +29,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     font-family: 'SUIT', sans-serif;
     letter-spacing: -0.05em;
-    line-height: 1.8;
     z-index: 10;
     overflow-y: auto;
 }
