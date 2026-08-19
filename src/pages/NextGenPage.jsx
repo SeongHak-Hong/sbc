@@ -268,7 +268,7 @@ const NextGenPage = () => {
 
                 <section className={styles.eventsSection}>
                         <div className={styles.eventsHeader}>
-                            <h2 className={styles.eventsTitle}>진행중인 행사</h2>
+                            <h2 className={styles.eventsTitle}>다음세대 행사</h2>
                         </div>
                         {allEvents.length > 0 ? (
                             <div className={styles.eventsGrid}>
