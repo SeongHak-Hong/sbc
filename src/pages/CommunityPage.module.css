@@ -49,7 +49,7 @@
 }
 
 .selectButton {
-    background-color: #FFFFFF;
+    background-color: #fafafa;
     border: none;
     border-radius: 28px;
     padding: 14px 28px;
@@ -80,7 +80,7 @@
 }
 
 .selectButton.secondary {
-    background-color: #FFFFFF;
+    background-color: #fafafa;
     color: var(--color-text-primary);
 }
 
