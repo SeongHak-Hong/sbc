@@ -9,7 +9,7 @@
 .pageButton, .pageArrow {
     background: transparent;
     border: none;
-    color: var(--color-text-dark);
+    color: var(--color-text-primary);
     font-weight: var(--font-weight-medium);
     width: 40px;
     height: 40px;
@@ -25,7 +25,7 @@
 
 .pageButton:hover:not(:disabled):not(.active), 
 .pageArrow:hover:not(:disabled) {
-    background-color: rgba(var(--color-text-dark-rgb), 0.05);
+    background-color: rgba(var(--color-text-primary-rgb), 0.05);
 }
 
 .pageButton {
@@ -43,9 +43,25 @@
 }
 
 .pageButton.active {
-    background-color: rgba(var(--color-text-dark-rgb), 0.05);
-    color: var(--color-text-dark);
+    background-color: rgba(var(--color-text-primary-rgb), 0.05);
+    color: var(--color-text-primary);
     cursor: default;
+}
+
+.ellipsis {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+/* 모바일 화면 대응 */
+@media (max-width: 768px) {
+    .pagination {
+        gap: 4px;
+    }
 }
 
 .ellipsis {

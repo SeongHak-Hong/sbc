@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import ScrollFadeText from './ScrollFadeText';
 import styles from './SubPageSection.module.css';
 
-const SubPageSection = ({ id, title, engTitle, subtitle, icon, children, className, titleColor = 'var(--color-text-dark)', hideHeader = false }) => {
+const SubPageSection = ({ id, title, engTitle, subtitle, icon, children, className, titleColor = 'var(--color-text-primary)', hideHeader = false }) => {
     return (
         <section id={id} className={`${styles.sectionContainer} ${className || ''}`}>
             {!hideHeader && (

@@ -5,7 +5,7 @@
   transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   line-height: var(--line-height-base);
   padding: 14px 28px;
-  border-radius: 99px;
+  border-radius: 28px;
   font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
   font-size: 18px;
   background-color: #245672;

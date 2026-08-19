@@ -93,7 +93,7 @@ const ScrollDownIcon = ({ isActive, delayOffset = 0 }) => (
         <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            style={{ color: 'var(--color-text-dark)', display: 'flex' }}
+            style={{ color: 'var(--color-text-muted)', display: 'flex' }}
         >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 5v14M19 12l-7 7-7-7" />
@@ -186,6 +186,21 @@ const WelcomePage = () => {
                     {/* Section 1 */}
                     <div className={`${styles.introAbsoluteCenter} ${introActiveIndex === 0 ? styles.activeLayer : ''}`}>
                         <div className={styles.fadeInner}>
+                            <motion.div 
+                                initial={{ opacity: 0 }}
+                                animate={introActiveIndex === 0 ? { opacity: 1 } : { opacity: 0 }}
+                                transition={{ duration: 1 }}
+                                style={{
+                                    fontSize: '16px',
+                                    fontWeight: 500,
+                                    color: 'var(--color-text-placeholder)',
+                                    marginBottom: '24px',
+                                    fontFamily: "'YK Green Forest', var(--font-yuhan), sans-serif",
+                                    textAlign: 'center'
+                                }}
+                            >
+                                공동체 - 새가족
+                            </motion.div>
                             <WordFadeText isActive={introActiveIndex === 0} text={"신탄진침례교회에 방문하신\n여러분 환영합니다."} className={styles.yuhanText} />
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                                 <WordFadeText isActive={introActiveIndex === 0} text={"밑으로 계속 스크롤"} className={styles.fadeBodyText} delayOffset={0.2} style={{ whiteSpace: 'nowrap' }} />

@@ -32,7 +32,7 @@ const VerseSection = () => {
                 alignItems: 'center',
                 fontSize: isCitation ? (isMobile ? '18px' : '32px') : 'inherit',
                 marginTop: isCitation ? '24px' : '0',
-                color: isCitation ? 'var(--color-text-dark)' : 'inherit'
+                color: isCitation ? 'var(--color-text-primary)' : 'inherit'
             };
 
             return (
@@ -42,7 +42,7 @@ const VerseSection = () => {
                             display: 'inline-block',
                             width: isMobile ? '16px' : '24px',
                             height: isMobile ? '1px' : '3px',
-                            backgroundColor: 'var(--color-text-dark)',
+                            backgroundColor: 'var(--color-text-primary)',
                             marginRight: '16px', // Gap between line and text
                         }}></span>
                     )}
@@ -143,7 +143,7 @@ const VerseSection = () => {
         fontSize: isMobile ? '24px' : '40px',
         lineHeight: 1.6,
         letterSpacing: '0.02em',
-        color: 'var(--color-text-dark)',
+        color: 'var(--color-text-primary)',
         textAlign: 'center',
         whiteSpace: 'pre-line',
         wordBreak: 'keep-all'

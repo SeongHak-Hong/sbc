@@ -76,13 +76,13 @@
     width: 100%;
 }
 
-.memberName {    font-size: 16px;    color: var(--color-text-dark);
+.memberName {    font-size: 16px;    color: var(--color-text-primary);
     margin-bottom: 4px;
     transition: color 0.2s ease;
 }
 
 .memberDesc {
-    font-size: 14px;    color: rgba(var(--color-text-dark-rgb), 0.7);    margin-bottom: 0;
+    font-size: 14px;    color: var(--color-text-muted);    margin-bottom: 0;
 }
 
 @media (min-width: 768px) {
@@ -103,6 +103,6 @@
     margin-bottom: 0;
 }
 
-.categoryTitle {    font-size: 28px;    color: var(--color-text-dark);
+.categoryTitle {    font-size: 28px;    color: var(--color-text-primary);
     margin-bottom: 40px;
 }

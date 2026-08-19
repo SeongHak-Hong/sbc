@@ -14,8 +14,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    if (totalPages <= 1) return null;
-
     const getPageNumbers = () => {
         const pages = [];
         const maxPagesToShow = isMobile ? 3 : 5;

@@ -33,7 +33,7 @@ const EventSection = () => {
         fontSize: isMobile ? '24px' : '40px',
         lineHeight: 1.6,
         letterSpacing: '0.02em',
-        color: 'var(--color-text-dark)',
+        color: 'var(--color-text-primary)',
         marginBottom: isMobile ? '24px' : '48px',
         textAlign: 'center',
         padding: isMobile ? '0 24px' : '0 48px',

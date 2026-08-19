@@ -130,7 +130,7 @@ const YoutubeSection = () => {
         fontSize: isMobile ? '24px' : '40px',
         lineHeight: 1.6,
         letterSpacing: '0.02em',
-        color: 'var(--color-text-dark)',
+        color: 'var(--color-text-primary)',
         margin: 0,
         whiteSpace: 'nowrap',
         zIndex: 10,
@@ -280,7 +280,7 @@ const YoutubeSection = () => {
                         lineHeight: 1.6,
                         letterSpacing: '0.02em',
                         marginBottom: isMobile ? '24px' : '48px',
-                        color: 'var(--color-text-dark)',
+                        color: 'var(--color-text-primary)',
                         textAlign: 'center',
                         whiteSpace: 'pre-line',
                         wordBreak: 'keep-all'

@@ -24,7 +24,7 @@ const BoardList = ({
                                 <p className={styles.itemTitle}>
                                     {post.title}
                                     {post.titleDate && (
-                                        <span style={{ color: 'rgba(var(--color-text-dark-rgb), 0.7)', marginLeft: '6px', fontWeight: 'normal' }}>
+                                        <span style={{ color: 'var(--color-text-muted)', marginLeft: '6px', fontWeight: 'normal' }}>
                                             ({post.titleDate})
                                         </span>
                                     )}

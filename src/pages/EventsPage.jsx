@@ -287,7 +287,7 @@ const EventsPage = () => {
                                                         const startStr = (event.startDate || '').substring(5).replace('-', '.');
                                                         const endStr = event.endDate.substring(5).replace('-', '.');
                                                         return startStr ? (
-                                                            <span style={{ color: 'rgba(var(--color-text-dark-rgb), 0.7)', marginLeft: '6px', fontWeight: 'normal' }}>
+                                                            <span style={{ color: 'var(--color-text-muted)', marginLeft: '6px', fontWeight: 'normal' }}>
                                                                 ({startStr}~{endStr})
                                                             </span>
                                                         ) : null;

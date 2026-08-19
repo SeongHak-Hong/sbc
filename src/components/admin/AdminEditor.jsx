@@ -97,7 +97,7 @@ const AdminEditor = ({ initialValue, onChange, height = '800px' }) => {
             <style>
                 {`
                 .toastui-editor-contents, .ProseMirror {
-                    color: var(--color-text-body) !important;
+                    color: var(--color-text-tertiary) !important;
                     font-size: 16px !important;
                 }
                 .toastui-editor-contents *:not(table), .ProseMirror *:not(table) {
@@ -115,7 +115,7 @@ const AdminEditor = ({ initialValue, onChange, height = '800px' }) => {
                 .toastui-editor-contents h5, .ProseMirror h5,
                 .toastui-editor-contents h6, .ProseMirror h6 {
                     border-bottom: none !important;
-                    color: var(--color-text-dark) !important;
+                    color: var(--color-text-primary) !important;
                     margin-top: 1.2em !important;
                     margin-bottom: 0.5em !important;
                     word-break: keep-all !important;

@@ -46,7 +46,7 @@
 .headerContent p {
     font-size: 18px;
     margin: 0;
-    color: var(--color-text-dark);
+    color: var(--color-text-primary);
     text-align: center;
     word-break: keep-all;
 }
@@ -72,7 +72,7 @@
     font-size: 40px;
     line-height: 1.4;
     letter-spacing: 0.02em;
-    color: var(--color-text-dark);
+    color: var(--color-text-primary);
     margin: 0;
     white-space: pre-line;
     word-break: keep-all;

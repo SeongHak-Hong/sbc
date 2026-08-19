@@ -1,55 +1,148 @@
 .pageWrapper {
+    color: var(--color-text-muted);
     min-height: 100vh;
-    position: relative;}
-
-/* --- Content Wrapper --- */
-.contentWrapper {
-    max-width: 800px;
-    margin: 0 auto;
-    width: 100%;
-}
-
-/* --- Tabs --- */
-
-.listContainer {
-    min-height: 440px;
-}
-
-/* --- Zone List --- */
-.zoneList {
+    position: relative;
+    background: linear-gradient(to bottom, #E7F5FD, #FCEBE0);
+    background-attachment: fixed;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    align-items: center;
+    justify-content: center;
 }
 
-.zoneItem {
+.centerContainer {
+    width: 100%;
+    max-width: 800px;
+    padding: 24px;
     display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 16px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    z-index: 10;
 }
 
-.zoneName {    font-size: 18px;
-    color: var(--color-text-dark);
-    margin: 0;
-    word-break: keep-all;}
+.breadcrumb {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text-placeholder);
+    margin-bottom: 24px;
+    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
+}
 
-.zoneDetails {    font-size: 18px;
-    color: rgba(var(--color-text-dark-rgb), 0.7);
-    margin: 0;
-    text-align: right;
+.mainText {
+    font-size: 40px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+    margin-bottom: 48px;
     word-break: keep-all;
-    flex-shrink: 0;}
+    font-family: var(--font-yuhan);
+}
 
-@media (max-width: 480px) {
-    .zoneItem {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
+.buttonGroup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.selectButton {
+    background-color: #FFFFFF;
+    border: none;
+    border-radius: 28px;
+    padding: 14px 28px;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    box-shadow: 0px 0px 4px rgba(var(--color-text-primary-rgb), 0.12);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
+}
+
+.dropdownOpenButton {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    box-shadow: 0px -4px 12px rgba(var(--color-text-primary-rgb), 0.08);
+    transform: translateY(0) !important;
+    z-index: 51;
+}
+
+.selectButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 12px rgba(var(--color-text-primary-rgb), 0.15);
+}
+
+.selectButton.secondary {
+    background-color: #FFFFFF;
+    color: var(--color-text-primary);
+}
+
+/* Dropdown Container */
+.dropdownContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdownMenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    margin-top: 0;
+    background-color: #FFFFFF;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 0px 8px 12px rgba(var(--color-text-primary-rgb), 0.08);
+    z-index: 50;
+}
+
+.scrollArea {
+    max-height: 160px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 12px 12px 12px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.scrollArea::-webkit-scrollbar {
+    width: 6px;
+}
+.scrollArea::-webkit-scrollbar-thumb {
+    background-color: var(--color-text-placeholder);
+    border-radius: 10px;
+}
+
+.dropdownItem {
+    padding: 12px 16px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    border-radius: 12px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    text-align: left;
+}
+
+.dropdownItem:hover {
+    background-color: #F1F5F9;
+    color: var(--color-text-primary);
+}
+
+@media (max-width: 768px) {
+    .mainText {
+        font-size: 24px;
+        margin-bottom: 32px;
     }
-
-    .zoneDetails {
-        text-align: left;
-        font-size: 14px;
+    .selectButton {
+        padding: 10px 24px;
+        font-size: 16px;
     }
 }

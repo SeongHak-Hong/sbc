@@ -62,7 +62,7 @@
     margin: 0;
     font-size: 16px;
     word-break: keep-all;    
-    color: var(--color-text-secondary) !important;
+    color: var(--color-text-white-secondary) !important;
 }
 
 .copyright {
@@ -70,7 +70,7 @@
     font-size: 16px;
     opacity: 0.6;
     text-align: center;    
-    color: var(--color-text-secondary) !important;
+    color: var(--color-text-white-secondary) !important;
 }
 
 @media (max-width: 768px) {

@@ -84,7 +84,7 @@ const Header = () => {
         alignItems: 'center',
         paddingTop: 'var(--header-padding-y)',
         paddingBottom: 'var(--header-padding-y)',
-        color: isSolidWhite ? 'var(--color-text-dark)' : 'var(--color-white)',
+        color: isSolidWhite ? 'var(--color-text-primary)' : 'var(--color-white)',
         position: 'fixed',
         top: 0,
         left: 0,
@@ -162,12 +162,12 @@ const Header = () => {
     return (
         <>
             <header style={headerStyle}>
-            <Link to="/" className={styles.logo} style={{ color: (isSubpage || isSolidWhite) ? 'var(--color-text-dark)' : 'var(--color-white)', textDecoration: 'none' }}>
+            <Link to="/" className={styles.logo} style={{ color: (isSubpage || isSolidWhite) ? 'var(--color-text-primary)' : 'var(--color-white)', textDecoration: 'none' }}>
                 <div
                     style={{ 
                         height: 'var(--header-logo-height)', 
                         aspectRatio: '461 / 67',
-                        backgroundColor: (isSubpage || isSolidWhite) ? 'var(--color-text-dark)' : 'var(--color-white)',
+                        backgroundColor: (isSubpage || isSolidWhite) ? 'var(--color-text-primary)' : 'var(--color-white)',
                         WebkitMaskImage: `url("${logoSbc}")`,
                         maskImage: `url("${logoSbc}")`,
                         WebkitMaskSize: 'contain',

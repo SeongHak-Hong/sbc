@@ -58,7 +58,7 @@ const NetworkPage = () => {
                 title="성도 사업체" 
                 engTitle="Network"
                 icon={visionIcon}
-                subtitle={<p className={styles.headerSubtitle} style={{ color: 'rgba(var(--color-text-dark-rgb), 0.7)', fontSize: '18px', textAlign: 'center' }}>성도님들의 일터와 사업장을 소개하고 기도합니다.</p>}
+                subtitle={<p className={styles.headerSubtitle} style={{ color: 'var(--color-text-muted)', fontSize: '18px', textAlign: 'center' }}>성도님들의 일터와 사업장을 소개하고 기도합니다.</p>}
             >
                 <div className={styles.contentWrapper}>
                     <div className={styles.boardContainer}>

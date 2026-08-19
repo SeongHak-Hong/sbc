@@ -18,7 +18,7 @@
 
 .title {
     font-size: 24px;
-    color: var(--color-text-dark);
+    color: var(--color-text-primary);
     margin-bottom: 8px;
     text-align: center;
 }
@@ -54,7 +54,7 @@
 
 .inputGroup label {
     font-size: 14px;
-    color: var(--color-text-dark);
+    color: var(--color-text-primary);
 }
 
 .inputGroup input {
@@ -67,11 +67,11 @@
 }
 
 .inputGroup input:focus {
-    border-color: var(--color-text-dark);
+    border-color: var(--color-text-primary);
 }
 
 .loginButton {
-    background-color: var(--color-text-dark);
+    background-color: var(--color-text-primary);
     color: #fff;
     padding: 14px;
     border: none;
@@ -131,5 +131,5 @@
 }
 
 .textButton:hover {
-    color: var(--color-text-dark);
+    color: var(--color-text-primary);
 }

@@ -1,5 +1,5 @@
 .pageContainer {
-    color: var(--color-text-dark);
+    color: var(--color-text-primary);
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
@@ -52,14 +52,14 @@
     font-size: 24px;
     font-weight: 600;
     margin-bottom: 32px;
-    color: var(--color-text-dark);
+    color: var(--color-text-primary);
     word-break: keep-all;
 }
 
 .greetingBody {
     font-size: 20px;
     font-weight: 400;
-    color: var(--color-text-dark);
+    color: var(--color-text-primary);
     margin-bottom: 40px;
     word-break: keep-all;
 }
@@ -74,7 +74,7 @@
 .signatureText {
     text-align: right;
     font-size: 20px;
-    color: var(--color-text-dark);
+    color: var(--color-text-primary);
 }
 
 .signImage {

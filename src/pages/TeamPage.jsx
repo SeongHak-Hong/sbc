@@ -76,7 +76,7 @@ const TeamPage = () => {
                 title="섬기는 사람들" 
                 engTitle="Team"
                 icon={visionIcon}
-                subtitle={<p style={{ color: 'rgba(var(--color-text-dark-rgb), 0.7)', fontSize: '18px', textAlign: 'center' }}>신탄진침례교회를 섬기는 분들을 소개합니다.</p>}
+                subtitle={<p style={{ color: 'var(--color-text-muted)', fontSize: '18px', textAlign: 'center' }}>신탄진침례교회를 섬기는 분들을 소개합니다.</p>}
             >
                 <div className={styles.container}>
                     {[
