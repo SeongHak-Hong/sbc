@@ -338,7 +338,7 @@ const EventsPage = () => {
                                         className={styles.eventCard}
                                         initial={{ opacity: 0, y: 20 }}
                                         whileInView={{ opacity: 1, y: 0 }}
-                                        whileHover={{ y: -2, boxShadow: "0px 4px 12px rgba(0,0,0,0.05)" }}
+                                        whileHover={{ y: -2, boxShadow: "0px 4px 12px rgba(0,0,0,0.05)", transition: { delay: 0, duration: 0.2 } }}
                                         viewport={{ once: true }}
                                         transition={{ delay: eventIdx * 0.1 }}
                                         onClick={() => handleEventClick(event)}

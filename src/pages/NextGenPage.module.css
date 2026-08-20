@@ -92,13 +92,26 @@
     font-family: 'SUIT', sans-serif;
     font-size: 16px;
     font-weight: 600;
+    position: relative;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease;
     letter-spacing: -0.02em;
 }
 
-.switchButton.active {
+.switchText {
+    position: relative;
+    z-index: 1;
+}
+
+.activeBackground {
+    position: absolute;
+    inset: 0;
     background-color: var(--color-text-primary);
+    border-radius: 99px;
+    z-index: 0;
+}
+
+.switchButton.active {
     color: #ffffff;
 }
 

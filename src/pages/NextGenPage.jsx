@@ -178,13 +178,27 @@ const NextGenPage = () => {
                                     className={`${styles.switchButton} ${activeSwitch === 'churchSchool' ? styles.active : ''}`}
                                     onClick={() => setActiveSwitch('churchSchool')}
                                 >
-                                    교회학교
+                                    {activeSwitch === 'churchSchool' && (
+                                        <motion.div
+                                            layoutId="activeSwitch_NextGen"
+                                            transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
+                                            className={styles.activeBackground}
+                                        />
+                                    )}
+                                    <span className={styles.switchText}>교회학교</span>
                                 </button>
                                 <button
                                     className={`${styles.switchButton} ${activeSwitch === 'tteokbokki' ? styles.active : ''}`}
                                     onClick={() => setActiveSwitch('tteokbokki')}
                                 >
-                                    떡볶이데이
+                                    {activeSwitch === 'tteokbokki' && (
+                                        <motion.div
+                                            layoutId="activeSwitch_NextGen"
+                                            transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
+                                            className={styles.activeBackground}
+                                        />
+                                    )}
+                                    <span className={styles.switchText}>떡볶이데이</span>
                                 </button>
                             </div>
 
@@ -345,7 +359,7 @@ const NextGenPage = () => {
                                             className={styles.eventCard}
                                             initial={{ opacity: 0, y: 20 }}
                                             whileInView={{ opacity: 1, y: 0 }}
-                                            whileHover={{ y: -2, boxShadow: "0px 4px 12px rgba(0,0,0,0.05)" }}
+                                            whileHover={{ y: -2, boxShadow: "0px 4px 12px rgba(0,0,0,0.05)", transition: { delay: 0, duration: 0.2 } }}
                                             viewport={{ once: true }}
                                             transition={{ delay: idx * 0.1 }}
                                             onMouseEnter={(e) => {
