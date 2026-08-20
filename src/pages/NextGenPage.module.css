@@ -310,13 +310,7 @@
     backdrop-filter: blur(10px);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.04);
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
     position: relative;
-}
-
-.eventCard:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .floatingThumbnailContainer {
@@ -361,7 +355,6 @@
 
 .calendarMonth {
     background-color: #3a86ff;
-    padding: 3px;
     font-family: 'SUIT', sans-serif;
     font-weight: 600;
     font-size: 14px;
@@ -400,7 +393,6 @@
         max-width: 64px;
     }
     .calendarMonth {
-        padding: 2px;
         font-size: 14px;
     }
     .calendarDate {

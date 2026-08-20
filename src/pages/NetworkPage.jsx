@@ -5,10 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
-import TabMenu from '../components/TabMenu';
-import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.webp';
+import ScrollFadeText from '../components/ScrollFadeText';
 import styles from './NewsPage.module.css';
-import BoardList from '../components/ui/BoardList';
 
 const NetworkPage = () => {
     const navigate = useNavigate();
@@ -54,28 +52,94 @@ const NetworkPage = () => {
 
     return (
         <div className={styles.pageWrapper}>
-            <SubPageSection 
-                title="성도 사업체" 
-                engTitle="Network"
-                icon={visionIcon}
-                subtitle={<p className={styles.headerSubtitle} style={{ color: 'var(--color-text-muted)', fontSize: '18px', textAlign: 'center' }}>성도님들의 일터와 사업장을 소개하고 기도합니다.</p>}
-            >
-                <div className={styles.contentWrapper}>
-                    <div className={styles.boardContainer}>
-                        <BoardList
-                            posts={currentPosts.map(item => ({
-                                ...item,
-                                author: item.author === '관리자' ? '정보 확인 필요' : item.author,
-                                date: null // 사업체 목록에서는 날짜를 숨김
-                            }))}
-                            onItemClick={handleItemClick}
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            onPageChange={setCurrentPage}
-                            emptyMessage="등록된 사업체가 없습니다."
-                        />
+            <SubPageSection hideHeader={true} className={styles.sectionCenter}>
+                <div style={{ textAlign: 'center' }}>
+                    <div className={styles.breadcrumb}>
+                        나눔터 - 성도 사업체
                     </div>
+                    <ScrollFadeText
+                        text={"성도님들의 일터를\n소개하고 기도합니다."}
+                        as="h1"
+                        className={styles.pageTitle}
+                        once={true}
+                    />
                 </div>
+
+                <div className={styles.eventsGrid}>
+                    {currentPosts.length === 0 ? (
+                        <div className={styles.eventCard} style={{ cursor: 'default' }}>
+                            <div className={styles.eventInfoLeft}>
+                                <div className={styles.eventDetailsContainer}>
+                                    <h3 className={styles.eventTitle}>등록된 사업체가 없습니다.</h3>
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        currentPosts.map((post, idx) => {
+                            const authorDisplay = post.author === '관리자' ? '정보 확인 필요' : post.author;
+                            
+                            return (
+                                <motion.div 
+                                    key={post.id}
+                                    className={styles.eventCard}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    whileHover={{ y: -2, boxShadow: "0px 4px 12px rgba(0,0,0,0.05)" }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: idx * 0.1 }}
+                                    onClick={() => handleItemClick(post)}
+                                >
+                                    <div className={styles.eventInfoLeft}>
+                                        <div className={styles.eventDetailsContainer}>
+                                            <h3 className={styles.eventTitle}>{post.title}</h3>
+                                            <div className={styles.eventMetaRow}>
+                                                {post.businessCategory && <span>{post.businessCategory}</span>}
+                                                {post.businessCategory && authorDisplay && <span>·</span>}
+                                                {authorDisplay && <span>{authorDisplay}</span>}
+                                                {(post.businessCategory || authorDisplay) && post.phone && <span>·</span>}
+                                                {post.phone && <span>{post.phone}</span>}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            );
+                        })
+                    )}
+                </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                    <div className={styles.boardFooter}>
+                        <div className={styles.pagination}>
+                            <button
+                                className={styles.pageArrow}
+                                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                disabled={currentPage === 1}
+                            >
+                                <span className="material-symbols-outlined" translate="no">chevron_left</span>
+                            </button>
+                            
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                                <button
+                                    key={page}
+                                    className={`${styles.pageButton} ${currentPage === page ? styles.active : ''}`}
+                                    onClick={() => setCurrentPage(page)}
+                                    disabled={currentPage === page}
+                                >
+                                    {page}
+                                </button>
+                            ))}
+
+                            <button
+                                className={styles.pageArrow}
+                                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                                disabled={currentPage === totalPages}
+                            >
+                                <span className="material-symbols-outlined" translate="no">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                )}
             </SubPageSection>
             <Footer />
         </div>

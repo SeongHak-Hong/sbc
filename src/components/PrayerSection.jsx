@@ -49,7 +49,7 @@ const PrayerSection = () => {
                 <h2 style={titleStyle}>기쁨은 더하고,{isMobile ? <br /> : ' '}슬픔은 나누며.</h2>
             </BlurFade>
             <BlurFade delay={0.4} inView>
-                <LargeButton onClick={() => navigate('/koinonia')}>
+                <LargeButton onClick={() => navigate('/news?tab=koinonia')}>
                     성도 소식 함께하기
                 </LargeButton>
             </BlurFade>

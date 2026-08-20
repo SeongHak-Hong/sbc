@@ -5,14 +5,14 @@ import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../firebase';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
-import TabMenu from '../components/TabMenu';
+import ScrollFadeText from '../components/ScrollFadeText';
 import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.webp';
 import styles from './NewsPage.module.css';
-import BoardList from '../components/ui/BoardList';
 
 const TABS = [
     { id: 'news', label: '교회 소식' },
-    { id: 'bulletin', label: '주보' }
+    { id: 'bulletin', label: '주보' },
+    { id: 'koinonia', label: '성도 소식' }
 ];
 
 const NewsPage = () => {
@@ -32,7 +32,7 @@ const NewsPage = () => {
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
         const tab = queryParams.get('tab');
-        if (tab === 'news' || tab === 'bulletin') {
+        if (tab === 'news' || tab === 'bulletin' || tab === 'koinonia') {
             setActiveTab(tab);
         }
     }, [location.search]);
@@ -40,10 +40,21 @@ const NewsPage = () => {
     const fetchPosts = async () => {
         try {
             const q = query(collection(db, 'posts'), orderBy('date', 'desc'));
-            const querySnapshot = await getDocs(q);
+            const kq = query(collection(db, 'membersNews'), orderBy('createdAt', 'desc'));
+            const [querySnapshot, koinoniaSnapshot] = await Promise.all([getDocs(q), getDocs(kq)]);
+            
             const data = [];
             querySnapshot.forEach((doc) => {
                 data.push({ id: doc.id, ...doc.data() });
+            });
+            koinoniaSnapshot.forEach((doc) => {
+                const docData = doc.data();
+                let dateStr = docData.date;
+                if (!dateStr && docData.createdAt) {
+                    const d = docData.createdAt.toDate();
+                    dateStr = `${d.getFullYear()}. ${String(d.getMonth() + 1).padStart(2, '0')}. ${String(d.getDate()).padStart(2, '0')}.`;
+                }
+                data.push({ id: `koinonia_${doc.id}`, ...docData, category: 'koinonia', date: dateStr });
             });
             setPosts(data);
         } catch (error) {
@@ -122,45 +133,113 @@ const NewsPage = () => {
 
     return (
         <div className={styles.pageWrapper}>
-            <SubPageSection 
-                title="교회소식 · 주보" 
-                engTitle="News"
-                icon={visionIcon}
-            >
-                <div className={styles.contentWrapper}>
-                    <TabMenu 
-                        tabs={TABS}
-                        activeTab={activeTab}
-                        onTabChange={handleTabChange}
-                        getTabId={(tab) => tab.id}
-                        getTabLabel={(tab) => tab.label}
-                    />
-
-                    <BoardList 
-                        posts={currentPosts.map(post => {
-                            let displayDate = post.date;
-                            let titleDate = '';
-
-                            if ((activeTab === 'bulletin' || activeTab === 'news') && post.date) {
-                                titleDate = post.date;
-                                displayDate = ''; // Hide the right-side date
-                            }
-
-                            return {
-                                ...post,
-                                titleDate,
-                                date: displayDate,
-                                hasImage: (post.imageUrl || (post.imageUrls && post.imageUrls.length > 0) || (post.images && post.images.length > 0))
-                            };
-                        })}
-                        onItemClick={handlePostClick}
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onPageChange={setCurrentPage}
-                        emptyMessage="등록된 게시물이 없습니다."
-                        animationKey={activeTab + currentPage}
+            <SubPageSection hideHeader={true} className={styles.sectionCenter}>
+                <div style={{ textAlign: 'center' }}>
+                    <div className={styles.breadcrumb}>
+                        나눔터 - 소식·주보
+                    </div>
+                    <ScrollFadeText
+                        text="소식을 전해요."
+                        as="h1"
+                        className={styles.pageTitle}
+                        once={true}
                     />
                 </div>
+
+                {/* Switch UI */}
+                    <div className={styles.switchContainer}>
+                        {TABS.map(tab => (
+                            <button
+                                key={tab.id}
+                                className={`${styles.switchButton} ${activeTab === tab.id ? styles.active : ''}`}
+                                onClick={() => handleTabChange(tab.id)}
+                            >
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className={styles.eventsGrid}>
+                        {currentPosts.length === 0 ? (
+                            <div className={styles.eventCard} style={{ cursor: 'default' }}>
+                                <div className={styles.eventInfoLeft}>
+                                    <div className={styles.eventDetailsContainer}>
+                                        <h3 className={styles.eventTitle}>등록된 게시물이 없습니다.</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            currentPosts.map((post, idx) => {
+                                let calMonth = '';
+                                let calDays = '';
+                                const dateStr = post.originalDate || post.date || '';
+                                const parts = dateStr.split(/[^\d]+/).filter(Boolean);
+                                if (parts.length >= 3) {
+                                    calMonth = `${parseInt(parts[1], 10)}월`;
+                                    calDays = parseInt(parts[2], 10).toString();
+                                } else {
+                                    calDays = dateStr;
+                                }
+
+                                return (
+                                    <motion.div 
+                                        key={post.id}
+                                        className={styles.eventCard}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        whileHover={{ y: -2, boxShadow: "0px 4px 12px rgba(0,0,0,0.05)" }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: idx * 0.1 }}
+                                        onClick={() => handlePostClick(post)}
+                                    >
+                                        <div className={styles.eventInfoLeft}>
+                                            <div className={styles.calendarIcon}>
+                                                <div className={styles.calendarMonth}>{calMonth}</div>
+                                                <div className={styles.calendarDate}>{calDays}</div>
+                                            </div>
+                                            <div className={styles.eventDetailsContainer}>
+                                                <h3 className={styles.eventTitle}>{post.title}</h3>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                );
+                            })
+                        )}
+                    </div>
+
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                        <div className={styles.boardFooter}>
+                            <div className={styles.pagination}>
+                                <button
+                                    className={styles.pageArrow}
+                                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                    disabled={currentPage === 1}
+                                >
+                                    <span className="material-symbols-outlined" translate="no">chevron_left</span>
+                                </button>
+                                
+                                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                                    <button
+                                        key={page}
+                                        className={`${styles.pageButton} ${currentPage === page ? styles.active : ''}`}
+                                        onClick={() => setCurrentPage(page)}
+                                        disabled={currentPage === page}
+                                    >
+                                        {page}
+                                    </button>
+                                ))}
+
+                                <button
+                                    className={styles.pageArrow}
+                                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                                    disabled={currentPage === totalPages}
+                                >
+                                    <span className="material-symbols-outlined" translate="no">chevron_right</span>
+                                </button>
+                            </div>
+                        </div>
+                    )}
             </SubPageSection>
             <Footer />
         </div>

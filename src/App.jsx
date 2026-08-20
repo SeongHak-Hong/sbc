@@ -12,7 +12,6 @@ import CommunityPage from './pages/CommunityPage';
 import OutreachPage from './pages/OutreachPage';
 import EventsPage from './pages/EventsPage';
 import NewsPage from './pages/NewsPage';
-import KoinoniaPage from './pages/KoinoniaPage';
 import NetworkPage from './pages/NetworkPage';
 import PostDetailPage from './pages/PostDetailPage';
 import MediaPage from './pages/MediaPage';
@@ -85,7 +84,6 @@ function AppRoutes() {
         <Route path="/outreach" element={<OutreachPage />} />
         <Route path="/media" element={<MediaPage />} />
         <Route path="/news" element={<NewsPage />} />
-        <Route path="/koinonia" element={<KoinoniaPage />} />
         <Route path="/network" element={<NetworkPage />} />
         <Route path="/post/:id" element={<PostDetailPage />} />
 

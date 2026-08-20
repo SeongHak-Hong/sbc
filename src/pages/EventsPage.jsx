@@ -1,11 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { motion } from 'framer-motion';
 import { db } from '../firebase';
 import styles from './EventsPage.module.css';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
+import ScrollFadeText from '../components/ScrollFadeText';
 import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.webp';
+import iconChevronLeft from '../assets/nextgen/chevron_left_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg';
+import iconChevronRight from '../assets/nextgen/chevron_right_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg';
 
 const EventsPage = () => {
     const navigate = useNavigate();
@@ -155,7 +159,34 @@ const EventsPage = () => {
     if (availableYears.length === 0) {
         return (
             <div className={styles.pageWrapper}>
-                <SubPageSection title="교회 일정">
+                <SubPageSection hideHeader={true}>
+                    <div style={{ textAlign: 'center' }}>
+                        <div style={{
+                            fontSize: '16px',
+                            fontWeight: 500,
+                            color: 'var(--color-text-placeholder)',
+                            marginBottom: '16px',
+                            fontFamily: "'YK Green Forest', var(--font-yuhan), sans-serif",
+                        }}>
+                            나눔터 - 교회일정
+                        </div>
+                        <ScrollFadeText
+                            text={"은혜의 시간"}
+                            as="h1"
+                            style={{
+                                fontFamily: 'var(--font-yuhan)',
+                                fontWeight: 500,
+                                fontSize: '40px',
+                                letterSpacing: '0.02em',
+                                color: 'var(--color-text-primary)',
+                                margin: 0,
+                                whiteSpace: 'pre-line',
+                                wordBreak: 'keep-all',
+                                textAlign: 'center'
+                            }}
+                            once={true}
+                        />
+                    </div>
                     <div className={styles.contentWrapper} style={{ textAlign: 'center', padding: '100px 0', color: '#6B7280' }}>
                         등록된 일정이 없어요.
                     </div>
@@ -182,9 +213,19 @@ const EventsPage = () => {
 
     return (
         <div className={styles.pageWrapper}>
-            <SubPageSection title="교회 일정" engTitle="Events" icon={visionIcon}>
-                <div className={styles.contentWrapper}>
-                    {/* Month Navigation Bar */}
+            <SubPageSection hideHeader={true}>
+                <div style={{ textAlign: 'center' }}>
+                    <div className={styles.breadcrumb}>
+                        나눔터 - 교회일정
+                    </div>
+                    <ScrollFadeText
+                        text={"은혜의 시간"}
+                        as="h1"
+                        className={styles.pageTitle}
+                        once={true}
+                    />
+                </div>
+                {/* Month Navigation Bar */}
                     <div className={styles.monthNav}>
                         <button 
                             className={styles.navButton} 
@@ -192,7 +233,7 @@ const EventsPage = () => {
                             disabled={isPrevDisabled}
                             style={{ opacity: isPrevDisabled ? 0.2 : 1 }}
                         >
-                            <span className="material-symbols-outlined" translate="no">chevron_left</span>
+                            <img src={iconChevronLeft} alt="이전 달" />
                         </button>
 
                         <div className={styles.monthNavCenter} ref={monthGridRef}>
@@ -256,57 +297,73 @@ const EventsPage = () => {
                             disabled={isNextDisabled}
                             style={{ opacity: isNextDisabled ? 0.2 : 1 }}
                         >
-                            <span className="material-symbols-outlined" translate="no">chevron_right</span>
+                            <img src={iconChevronRight} alt="다음 달" />
                         </button>
                     </div>
 
                     {/* Event List */}
-                    <div className={styles.agendaContainer}>
-                        <div className={styles.eventStack} key={currentKey}>
-                            {currentEvents.length === 0 ? (
-                                <div style={{ textAlign: 'center', padding: '80px 0', color: '#6B7280', fontSize: '16px' }}>
-                                    등록된 일정이 없어요.
+                    <div className={styles.eventsGrid} key={currentKey}>
+                        {currentEvents.length === 0 ? (
+                            <div className={styles.eventCard} style={{ cursor: 'default' }}>
+                                <div className={styles.eventInfoLeft}>
+                                    <div className={styles.calendarIcon}>
+                                        <div className={styles.calendarMonth}>&nbsp;</div>
+                                        <div className={styles.calendarDate}>&nbsp;</div>
+                                    </div>
+                                    <div className={styles.eventDetailsContainer}>
+                                        <h3 className={styles.eventTitle}>등록된 일정이 없어요.</h3>
+                                    </div>
                                 </div>
-                            ) : (
-                                currentEvents.map((event, eventIdx) => (
-                                    <div 
+                            </div>
+                        ) : (
+                            currentEvents.map((event, eventIdx) => {
+                                const calMonth = `${selectedMonth}월`;
+                                let calDays = event.date || '';
+                                
+                                if (event.startDate && event.endDate) {
+                                    const startDay = parseInt(event.startDate.split('-')[2], 10);
+                                    const endDay = parseInt(event.endDate.split('-')[2], 10);
+                                    if (startDay && endDay) {
+                                        calDays = startDay === endDay ? `${startDay}` : `${startDay}-${endDay}`;
+                                    }
+                                }
+                                
+                                const timeStr = event.time || '';
+                                const locStr = event.location || '';
+                                const hasMeta = timeStr || locStr;
+
+                                return (
+                                    <motion.div 
                                         key={event.id || `${currentKey}-${eventIdx}`} 
-                                        className={`${styles.eventCard} ${styles.animateSlideUp}`}
-                                        style={{ animationDelay: event.delay, cursor: 'pointer' }}
+                                        className={styles.eventCard}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        whileHover={{ y: -2, boxShadow: "0px 4px 12px rgba(0,0,0,0.05)" }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: eventIdx * 0.1 }}
                                         onClick={() => handleEventClick(event)}
                                     >
-                                        <div className={styles.timeBlock}>
-                                            <span className={styles.dateDay}>{event.date}</span>
-                                            <span className={styles.dateDayOfWeek}>{event.day}</span>
-                                        </div>
-                                        <div className={styles.eventDetails}>
-                                            <div className={styles.eventTitle} style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0 }}>
-                                                <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                                    {event.title}
-                                                    {event.endDate && (() => {
-                                                        const startStr = (event.startDate || '').substring(5).replace('-', '.');
-                                                        const endStr = event.endDate.substring(5).replace('-', '.');
-                                                        return startStr ? (
-                                                            <span style={{ color: 'var(--color-text-muted)', marginLeft: '6px', fontWeight: 'normal' }}>
-                                                                ({startStr}~{endStr})
-                                                            </span>
-                                                        ) : null;
-                                                    })()}
-                                                </span>
-                                                {(event.imageUrl || (event.imageUrls && event.imageUrls.length > 0) || (event.images && event.images.length > 0)) && (
-                                                    <span className="material-symbols-outlined" style={{ fontSize: '20px', color: '#9CA3AF', flexShrink: 0 }} translate="no">image</span>
+                                        <div className={styles.eventInfoLeft}>
+                                            <div className={styles.calendarIcon}>
+                                                <div className={styles.calendarMonth}>{calMonth}</div>
+                                                <div className={styles.calendarDate}>{calDays}</div>
+                                            </div>
+                                            <div className={styles.eventDetailsContainer}>
+                                                <h3 className={styles.eventTitle}>{event.title}</h3>
+                                                {hasMeta && (
+                                                    <div className={styles.eventMetaRow}>
+                                                        {timeStr && <span>{timeStr}</span>}
+                                                        {timeStr && locStr && <span>·</span>}
+                                                        {locStr && <span>{locStr}</span>}
+                                                    </div>
                                                 )}
                                             </div>
-                                            <div className={styles.eventMeta}>
-                                                {event.meta}
-                                            </div>
                                         </div>
-                                    </div>
-                                ))
-                            )}
-                        </div>
+                                    </motion.div>
+                                );
+                            })
+                        )}
                     </div>
-                </div>
             </SubPageSection>
             <Footer />
         </div>

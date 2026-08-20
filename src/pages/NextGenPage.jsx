@@ -345,9 +345,13 @@ const NextGenPage = () => {
                                             className={styles.eventCard}
                                             initial={{ opacity: 0, y: 20 }}
                                             whileInView={{ opacity: 1, y: 0 }}
+                                            whileHover={{ y: -2, boxShadow: "0px 4px 12px rgba(0,0,0,0.05)" }}
                                             viewport={{ once: true }}
                                             transition={{ delay: idx * 0.1 }}
-                                            onMouseEnter={() => setHoveredEventImg(finalImg)}
+                                            onMouseEnter={(e) => {
+                                                setMousePos({ x: e.clientX, y: e.clientY });
+                                                setHoveredEventImg(finalImg);
+                                            }}
                                             onMouseLeave={() => setHoveredEventImg(null)}
                                             onMouseMove={handleMouseMove}
                                             onClick={() => navigate(`/post/nextgen-${ev.departmentKey}-${ev.originalIndex}`, { 

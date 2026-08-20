@@ -1,30 +1,4 @@
-@font-face {
-  font-family: 'SUIT';
-  src: url('/fonts/SUIT-Light.woff2') format('woff2');
-  font-weight: 300;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'SUIT';
-  src: url('/fonts/SUIT-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'SUIT';
-  src: url('/fonts/SUIT-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'SUIT';
-  src: url('/fonts/SUIT-SemiBold.woff2') format('woff2');
-  font-weight: 600;
-  font-style: normal;
-}
+@import url("https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css");
 
 @font-face {
   font-family: 'YuhanKimberly';
