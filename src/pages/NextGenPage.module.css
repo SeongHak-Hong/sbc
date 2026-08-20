@@ -265,13 +265,6 @@
         width: 32px;
         height: 32px;
     }
-    .eventInfoLeft {
-        flex-direction: column;
-        align-items: flex-start;
-        text-align: left;
-        width: 100%;
-        min-width: 0;
-    }
 }
 
 /* =========================================
@@ -305,22 +298,20 @@
     gap: 8px;
 }
 
-@media (min-width: 768px) {
-    .eventsGrid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
 
 .eventCard {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    padding: 16px 24px 16px 16px;
+    justify-content: flex-start;
+    padding: 12px 16px;
     border-radius: 16px;
-    background-color: #fafafa;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.04);
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
 }
 
 .eventCard:hover {
@@ -328,62 +319,105 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.eventInfoLeft {
+.floatingThumbnailContainer {
+    position: fixed;
+    border-radius: 12px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background-color: #f0f0f0;
     display: flex;
-    align-items: flex-start;
-    gap: 8px;
+    justify-content: center;
+    align-items: center;
 }
 
-.eventCategory {
-    min-width: 73px;
-    background-color: #ececec;
-    border-radius: 99px;
-    padding: 4px 12px;
+.floatingThumbnail {
+    max-width: 240px;
+    max-height: 240px;
+    width: auto;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+.eventInfoLeft {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+    min-width: 0;
+}
+
+.calendarIcon {
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    text-align: center;
+    min-width: 74px;
+}
+
+.calendarMonth {
+    background-color: #3a86ff;
+    padding: 3px;
+    font-family: 'SUIT', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #fafafa;
+    letter-spacing: -0.02em;
+    line-height: 1.6;
+}
+
+.calendarDate {
+    background-color: #fafafa;
+    padding: 8px;
     font-family: 'SUIT', sans-serif;
     font-weight: 500;
-    font-size: 14px;
-    color: var(--color-text-muted);
-    text-align: center;
+    font-size: 18px;
+    color: #64748b;
     letter-spacing: -0.02em;
+    line-height: 1.6;
 }
 
 .eventTitle {
+    font-family: 'SUIT', sans-serif;
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 500;
     color: var(--color-text-primary);
     margin: 0;
     letter-spacing: -0.02em;
-    max-width: 300px;
+    line-height: 1.6;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-width: 0;
 }
-
-.eventDate {
-    font-family: 'SUIT', sans-serif;
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--color-text-muted);
-    letter-spacing: -0.02em;
-    margin: 0;
-}
-
 @media (max-width: 600px) {
-    .eventCard {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
-        padding: 16px;
+    .calendarIcon {
+        min-width: 64px;
+        max-width: 64px;
+    }
+    .calendarMonth {
+        padding: 2px;
+        font-size: 14px;
+    }
+    .calendarDate {
+        padding: 6px;
+        font-size: 16px;
+    }
+    .eventInfoLeft {
+        gap: 16px;
     }
     .eventTitle {
         font-size: 18px;
-        text-align: left;
-        max-width: 100%;
     }
-    .eventDate {
-        font-size: 16px;
+    .eventsHeader {
+        margin-bottom: 16px;
     }
 }
+
 
 .emptyEventsMessage {
     padding: 80px 0;

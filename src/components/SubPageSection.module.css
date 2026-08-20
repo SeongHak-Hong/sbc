@@ -16,6 +16,12 @@
     }
 }
 
+@media (max-width: 767px) {
+    .sectionContainer {
+        padding: var(--section-padding-y, 160px) 16px;
+    }
+}
+
 .headerContent {
     display: flex;
     flex-direction: column;

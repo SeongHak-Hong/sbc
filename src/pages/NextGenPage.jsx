@@ -47,7 +47,13 @@ const NextGenPage = () => {
     const [activeTab, setActiveTab] = useState('');
     const [activeSwitch, setActiveSwitch] = useState('churchSchool');
     const [loading, setLoading] = useState(true);
+    const [hoveredEventImg, setHoveredEventImg] = useState(null);
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const navigate = useNavigate();
+
+    const handleMouseMove = (e) => {
+        setMousePos({ x: e.clientX, y: e.clientY });
+    };
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -113,26 +119,31 @@ const NextGenPage = () => {
 
     // Aggregate events
     const allEvents = [];
+    const todayStr = new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+
     Object.keys(departmentsData).forEach(deptKey => {
         const dept = departmentsData[deptKey];
         if (dept.events && Array.isArray(dept.events)) {
             dept.events.forEach((ev, idx) => {
-                allEvents.push({
-                    ...ev,
-                    originalIndex: idx,
-                    departmentKey: deptKey,
-                    departmentName: dept.name || ''
-                });
+                const eventDate = ev.endDate || ev.date || ev.startDate || '';
+                if (!eventDate || eventDate >= todayStr) {
+                    allEvents.push({
+                        ...ev,
+                        originalIndex: idx,
+                        departmentKey: deptKey,
+                        departmentName: dept.name || ''
+                    });
+                }
             });
         }
     });
 
-    // Sort events by date (descending)
+    // Sort events by date (ascending - upcoming events first)
     allEvents.sort((a, b) => {
         const dateA = a.startDate || a.date || '';
         const dateB = b.startDate || b.date || '';
-        if (dateA > dateB) return -1;
-        if (dateA < dateB) return 1;
+        if (dateA < dateB) return -1;
+        if (dateA > dateB) return 1;
         return 0;
     });
 
@@ -268,7 +279,7 @@ const NextGenPage = () => {
 
                 <section className={styles.eventsSection}>
                         <div className={styles.eventsHeader}>
-                            <h2 className={styles.eventsTitle}>다음세대 행사</h2>
+                            <h2 className={styles.eventsTitle}>진행 중인 행사</h2>
                         </div>
                         {allEvents.length > 0 ? (
                             <div className={styles.eventsGrid}>
@@ -281,12 +292,41 @@ const NextGenPage = () => {
                                         return `${y.substring(2)}.${m}.${d}`;
                                     };
 
+                                    let calMonth = '';
+                                    let calDays = '';
+
                                     if (ev.startDate || ev.endDate) {
                                         const startStr = formatDate(ev.startDate);
                                         const endStr = formatDate(ev.endDate);
                                         if (startStr && endStr) displayDate = `${startStr} - ${endStr}`;
                                         else if (startStr) displayDate = startStr;
                                         else if (endStr) displayDate = endStr;
+
+                                        const start = ev.startDate ? ev.startDate.split('-') : null;
+                                        const end = ev.endDate ? ev.endDate.split('-') : null;
+
+                                        if (start && end) {
+                                            calMonth = `${parseInt(start[1])}월`;
+                                            if (start[1] === end[1]) {
+                                                calDays = `${parseInt(start[2])}-${parseInt(end[2])}`;
+                                            } else {
+                                                calDays = `${parseInt(start[2])}-`;
+                                            }
+                                        } else if (start) {
+                                            calMonth = `${parseInt(start[1])}월`;
+                                            calDays = `${parseInt(start[2])}`;
+                                        } else if (end) {
+                                            calMonth = `${parseInt(end[1])}월`;
+                                            calDays = `${parseInt(end[2])}`;
+                                        }
+                                    } else if (ev.date) {
+                                        const parts = ev.date.split('-');
+                                        if (parts.length >= 3) {
+                                            calMonth = `${parseInt(parts[1])}월`;
+                                            calDays = `${parseInt(parts[2])}`;
+                                        } else {
+                                            calMonth = ev.date;
+                                        }
                                     }
 
                                     let formattedContent = '';
@@ -307,6 +347,9 @@ const NextGenPage = () => {
                                             whileInView={{ opacity: 1, y: 0 }}
                                             viewport={{ once: true }}
                                             transition={{ delay: idx * 0.1 }}
+                                            onMouseEnter={() => setHoveredEventImg(finalImg)}
+                                            onMouseLeave={() => setHoveredEventImg(null)}
+                                            onMouseMove={handleMouseMove}
                                             onClick={() => navigate(`/post/nextgen-${ev.departmentKey}-${ev.originalIndex}`, { 
                                                 state: { 
                                                     title: ev.title, 
@@ -319,22 +362,50 @@ const NextGenPage = () => {
                                             })}
                                         >
                                             <div className={styles.eventInfoLeft}>
-                                                <span className={styles.eventCategory}>{ev.departmentName}</span>
+                                                <div className={styles.calendarIcon}>
+                                                    <div className={styles.calendarMonth}>{calMonth}</div>
+                                                    <div className={styles.calendarDate}>{calDays}</div>
+                                                </div>
                                                 <h3 className={styles.eventTitle}>{ev.title}</h3>
                                             </div>
-                                            <p className={styles.eventDate}>{displayDate}</p>
                                         </motion.div>
                                     );
                                 })}
                             </div>
                         ) : (
-                            <div className={styles.emptyEventsMessage}>
-                                <p>예정된 주요 행사가 없습니다.</p>
+                            <div className={styles.eventsGrid}>
+                                <div className={styles.eventCard} style={{ cursor: 'default' }}>
+                                    <div className={styles.eventInfoLeft}>
+                                        <div className={styles.calendarIcon}>
+                                            <div className={styles.calendarMonth}>&nbsp;</div>
+                                            <div className={styles.calendarDate}>&nbsp;</div>
+                                        </div>
+                                        <h3 className={styles.eventTitle}>진행 중인 행사가 없어요.</h3>
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </section>
             </SubPageSection>
             <Footer />
+
+            <AnimatePresence>
+                {hoveredEventImg && (
+                    <motion.div
+                        className={styles.floatingThumbnailContainer}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.2 }}
+                        style={{
+                            left: mousePos.x + 20,
+                            top: mousePos.y + 20
+                        }}
+                    >
+                        <img src={hoveredEventImg} alt="Preview" className={styles.floatingThumbnail} />
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };
