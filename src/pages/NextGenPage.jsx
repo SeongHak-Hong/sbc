@@ -15,6 +15,7 @@ import thumbYouth from '../assets/nextgen/shintanjin-baptist-church-nextgen-thum
 import thumbYoungAdults from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-03.webp';
 import iconChevronLeft from '../assets/nextgen/chevron_left_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg';
 import iconChevronRight from '../assets/nextgen/chevron_right_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg';
+import SwitchTabs from '../components/SwitchTabs';
 
 const defaultThumbs = {
     kindergarten: thumbKindergarten,
@@ -172,35 +173,16 @@ const NextGenPage = () => {
                     <div className={styles.clockSection}>
                         <div className={styles.clockContainer}>
                             
-                            {/* Switch Buttons */}
-                            <div className={styles.switchContainer}>
-                                <button
-                                    className={`${styles.switchButton} ${activeSwitch === 'churchSchool' ? styles.active : ''}`}
-                                    onClick={() => setActiveSwitch('churchSchool')}
-                                >
-                                    {activeSwitch === 'churchSchool' && (
-                                        <motion.div
-                                            layoutId="activeSwitch_NextGen"
-                                            transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
-                                            className={styles.activeBackground}
-                                        />
-                                    )}
-                                    <span className={styles.switchText}>교회학교</span>
-                                </button>
-                                <button
-                                    className={`${styles.switchButton} ${activeSwitch === 'tteokbokki' ? styles.active : ''}`}
-                                    onClick={() => setActiveSwitch('tteokbokki')}
-                                >
-                                    {activeSwitch === 'tteokbokki' && (
-                                        <motion.div
-                                            layoutId="activeSwitch_NextGen"
-                                            transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
-                                            className={styles.activeBackground}
-                                        />
-                                    )}
-                                    <span className={styles.switchText}>떡볶이데이</span>
-                                </button>
-                            </div>
+                            <SwitchTabs 
+                                tabs={[
+                                    { id: 'churchSchool', label: '교회학교' },
+                                    { id: 'tteokbokki', label: '떡볶이데이' }
+                                ]}
+                                activeTab={activeSwitch}
+                                onTabChange={setActiveSwitch}
+                                layoutIdPrefix="activeSwitch_NextGen"
+                                containerClassName={styles.switchContainer}
+                            />
 
                             {/* Left Navigation Button */}
                             {activeSwitch === 'churchSchool' && (

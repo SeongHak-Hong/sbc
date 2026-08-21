@@ -5,6 +5,8 @@ import SubPageSection from '../components/SubPageSection';
 import Footer from '../components/Footer';
 import Pagination from '../components/ui/Pagination';
 import { BlurFade } from '../components/ui/BlurFade';
+import ScrollFadeText from '../components/ScrollFadeText';
+import SwitchTabs from '../components/SwitchTabs';
 import logoSbc from '../assets/shintanjin-baptist-church-logo.svg';
 import styles from './MediaPage.module.css';
 
@@ -270,40 +272,38 @@ const MediaPage = () => {
     );
 
     return (
-        <div className={styles.pageContainer}>
-            <main className={styles.mainContent}>
-                <SubPageSection 
-                    id="media" 
-                    title="예배 영상" 
-                    engTitle="Media"
-                >
-                    <div className={styles.contentWrapper}>
-                        {loading ? (
-                            <div className={styles.loading}>영상을 불러오는 중입니다...</div>
-                        ) : (
-                            <>
-                                <BlurFade delay={0.25} inView>
-                                    <div className={styles.tabContainer}>
-                                        <button 
-                                            className={`${styles.tabButton} ${activeTab === 'all' ? styles.active : ''}`}
-                                            onClick={() => { setActiveTab('all'); setCurrentPage(1); }}
-                                        >
-                                            전체
-                                        </button>
-                                        <button 
-                                            className={`${styles.tabButton} ${activeTab === 'sermon' ? styles.active : ''}`}
-                                            onClick={() => { setActiveTab('sermon'); setCurrentPage(1); }}
-                                        >
-                                            설교
-                                        </button>
-                                        <button 
-                                            className={`${styles.tabButton} ${activeTab === 'praise' ? styles.active : ''}`}
-                                            onClick={() => { setActiveTab('praise'); setCurrentPage(1); }}
-                                        >
-                                            찬양대
-                                        </button>
-                                    </div>
-                                </BlurFade>
+        <div className={styles.pageWrapper}>
+            <SubPageSection hideHeader={true} className={styles.sectionCenter}>
+                <div style={{ textAlign: 'center' }}>
+                    <div className={styles.breadcrumb}>
+                        말씀과 찬양 - 예배 영상
+                    </div>
+                    <ScrollFadeText
+                        text="함께 예배해요."
+                        as="h1"
+                        className={styles.pageTitle}
+                        once={true}
+                    />
+                </div>
+
+                {loading ? (
+                    <div className={styles.loading}>영상을 불러오는 중입니다...</div>
+                ) : (
+                    <>
+                        <BlurFade delay={0.25} inView>
+                            <div style={{ display: 'flex' }}>
+                                <SwitchTabs 
+                                    tabs={[
+                                        { id: 'all', label: '전체' },
+                                        { id: 'sermon', label: '설교' },
+                                        { id: 'praise', label: '찬양대' }
+                                    ]}
+                                    activeTab={activeTab}
+                                    onTabChange={(id) => { setActiveTab(id); setCurrentPage(1); }}
+                                    layoutIdPrefix="activeSwitch_Media"
+                                />
+                            </div>
+                        </BlurFade>
 
                                 <div className={styles.videoGrid}>
                                     {currentVideos.map((video, index) => {
@@ -355,9 +355,7 @@ const MediaPage = () => {
                                 )}
                             </>
                         )}
-                    </div>
-                </SubPageSection>
-            </main>
+            </SubPageSection>
             <Footer />
 
             {/* Video Modal */}

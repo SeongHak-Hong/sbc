@@ -6,19 +6,19 @@ import { db } from '../firebase';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
 import ScrollFadeText from '../components/ScrollFadeText';
-import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.webp';
+import SwitchTabs from '../components/SwitchTabs';
 import styles from './NewsPage.module.css';
 
 const TABS = [
+    { id: 'koinonia', label: '공지사항' },
     { id: 'news', label: '교회 소식' },
-    { id: 'bulletin', label: '주보' },
-    { id: 'koinonia', label: '성도 소식' }
+    { id: 'bulletin', label: '주보' }
 ];
 
 const NewsPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const [activeTab, setActiveTab] = useState('news');
+    const [activeTab, setActiveTab] = useState('koinonia');
     const [currentPage, setCurrentPage] = useState(1);
     const postsPerPage = 8;
     const [posts, setPosts] = useState([]);
@@ -146,24 +146,13 @@ const NewsPage = () => {
                     />
                 </div>
 
-                {/* Switch UI */}
-                    <div className={styles.switchContainer}>
-                        {TABS.map(tab => (
-                            <button
-                                key={tab.id}
-                                className={`${styles.switchButton} ${activeTab === tab.id ? styles.active : ''}`}
-                                onClick={() => handleTabChange(tab.id)}
-                            >
-                                {activeTab === tab.id && (
-                                    <motion.div
-                                        layoutId="activeSwitch_News"
-                                        transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
-                                        className={styles.activeBackground}
-                                    />
-                                )}
-                                <span className={styles.switchText}>{tab.label}</span>
-                            </button>
-                        ))}
+                    <div style={{ display: 'flex', marginBottom: '24px' }}>
+                        <SwitchTabs 
+                            tabs={TABS}
+                            activeTab={activeTab}
+                            onTabChange={handleTabChange}
+                            layoutIdPrefix="activeSwitch_News"
+                        />
                     </div>
 
                     <div className={styles.eventsGrid}>

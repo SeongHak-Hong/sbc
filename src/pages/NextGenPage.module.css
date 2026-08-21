@@ -83,45 +83,9 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.04);
 }
 
-.switchButton {
-    padding: 12px 32px;
-    border-radius: 99px;
-    border: none;
-    background-color: transparent;
-    color: var(--color-text-muted);
-    font-family: 'SUIT', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    position: relative;
-    cursor: pointer;
-    transition: color 0.2s ease;
-    letter-spacing: -0.02em;
-}
-
-.switchText {
-    position: relative;
-    z-index: 1;
-}
-
-.activeBackground {
-    position: absolute;
-    inset: 0;
-    background-color: var(--color-text-primary);
-    border-radius: 99px;
-    z-index: 0;
-}
-
-.switchButton.active {
-    color: #ffffff;
-}
-
 @media (max-width: 600px) {
     .switchContainer {
         top: 16px;
-    }
-    .switchButton {
-        padding: 8px 16px;
-        font-size: 14px;
     }
 }
 
