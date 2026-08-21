@@ -163,19 +163,24 @@
         gap: 16px;
     }
     .calendarIcon {
-        width: 64px;
+        width: 56px;
+        max-width: 56px;
+        min-width: 56px;
     }
     .calendarMonth {
-        font-size: 14px;
+        font-size: 13px;
     }
     .calendarDate {
-        font-size: 16px;
+        font-size: 14px;
         padding: 6px;
     }
     .eventTitle {
         font-size: 18px;
         white-space: normal;
         word-break: keep-all;
+    }
+    .eventMetaRow {
+        font-size: 16px;
     }
 }
 

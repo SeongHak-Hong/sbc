@@ -366,15 +366,16 @@
 }
 @media (max-width: 600px) {
     .calendarIcon {
-        min-width: 64px;
-        max-width: 64px;
+        width: 56px;
+        min-width: 56px;
+        max-width: 56px;
     }
     .calendarMonth {
-        font-size: 14px;
+        font-size: 13px;
     }
     .calendarDate {
         padding: 6px;
-        font-size: 16px;
+        font-size: 14px;
     }
     .eventInfoLeft {
         gap: 16px;
