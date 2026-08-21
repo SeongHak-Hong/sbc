@@ -19,6 +19,7 @@
 @media (max-width: 767px) {
     .sectionContainer {
         padding: var(--section-padding-y, 160px) 16px;
+        gap: 56px;
     }
 }
 

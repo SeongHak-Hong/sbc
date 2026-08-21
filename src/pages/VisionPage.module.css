@@ -1,84 +1,290 @@
-.pageContainer {
-    color: var(--color-text-primary);
-    min-height: 100vh;
-    position: relative;
-    overflow-x: hidden;
+.breadcrumb {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text-placeholder);
+    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
+    text-align: center;
 }
 
-.mainContent {
+.pageWrapper {
+    color: var(--color-text-primary);
+    min-height: 100vh !important;
+    position: relative;
+    background: linear-gradient(to bottom, #E7F5FD, #FCEBE0);
+    background-attachment: fixed;
+    padding: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+}
+
+.introSectionOverride {
+    padding: 0 !important;
+    max-width: 100% !important;
+    min-height: auto !important;
+}
+
+.mainSectionOverride {
+    position: relative;
+    padding-top: 100px;
+    border-top: none;
+}
+
+/* ==============================
+   Intro Pinned Section (From WelcomePage)
+   ============================== */
+
+.introPinnedWrapper {
+    height: 250vh;
     position: relative;
     z-index: 10;
+}
+
+.introSticky {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.introAbsoluteCenter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.introAbsoluteCenter.activeLayer {
+    pointer-events: auto;
+}
+
+.fadeInner {
+    max-width: 1152px;
+    width: 100%;
+    padding: 0 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+}
+
+.yuhanText {
+    font-family: var(--font-yuhan);
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: var(--color-text-primary);
+    white-space: pre-line;
+    word-break: keep-all;
+}
+
+.fadeBodyText {
+    font-size: 16px;
+    color: var(--color-text-muted);
+}
+
+.spaceSpan {
+    white-space: pre-wrap;
+}
+
+.hallelujahBackground {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
+    font-size: 320px;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: -0.02em;
+    background: linear-gradient(to bottom, rgba(15, 23, 42, 1) 0%, rgba(15, 23, 42, 0) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0.05;
+    z-index: 0;
+    pointer-events: none;
 }
 
 .greetingWrapper {
     max-width: 1152px;
     margin: 0 auto;
     width: 100%;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
 }
 
 .greetingGrid {
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 40px;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-end;
 }
 
 @media (max-width: 1023px) {
     .greetingGrid {
-        flex-direction: column;
-        align-items: center;
+        justify-content: center;
     }
 }
 
 .photoCol {
-    flex-shrink: 0;
-    border-radius: 16px;
-    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 640px;
+    display: flex;
+    align-items: flex-end;
 }
 
 .profileImage {
-    width: 480px;
+    width: 100%;
     height: auto;
     display: block;
-    max-width: 100%;
+    filter: drop-shadow(20px 50px 80px rgba(var(--color-text-primary-rgb), 0.25));
 }
 
 .textCol {
     display: flex;
     flex-direction: column;
-}
-
-.greetingTitle {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 32px;
-    color: var(--color-text-primary);
-    word-break: keep-all;
+    width: 480px;
+    box-sizing: border-box;
+    justify-content: center;
 }
 
 .greetingBody {
+    font-family: var(--font-suit);
     font-size: 20px;
-    font-weight: 400;
+    font-weight: 500;
     color: var(--color-text-primary);
-    margin-bottom: 40px;
+    line-height: 1.6;
+    letter-spacing: -0.02em;
+    margin-top: 80px;
+    margin-bottom: 56px;
     word-break: keep-all;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.greetingBody p {
+    margin: 0;
+    text-indent: 12px;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
 }
 
 .signatureWrap {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 12px;
 }
 
 .signatureText {
-    text-align: right;
-    font-size: 20px;
+    font-family: var(--font-suit);
+    font-size: 18px;
+    font-weight: 400;
     color: var(--color-text-primary);
+    text-align: right;
+    white-space: pre-line;
 }
 
-.signImage {
-    width: 112px;
-    height: auto;
-    display: block;
+.fullWidthContainer {
+    width: 100%;
+    position: relative;
+}
+
+@media (max-width: 767px) {
+    .yuhanText {
+        font-size: 28px;
+    }
+    .spaceSpan {
+        white-space: normal;
+    }
+}
+@media (max-width: 767px) {
+    .greetingWrapper {
+        padding-top: 80px;
+        align-items: flex-start;
+        height: auto;
+    }
+    .greetingGrid {
+        flex-direction: column;
+        padding: 0 16px;
+        box-sizing: border-box;
+    }
+    .textCol {
+        width: 100%;
+        order: 1;
+    }
+    .greetingBody {
+        font-size: 16px;
+        margin-top: 0;
+        margin-bottom: 24px;
+        gap: 12px;
+    }
+    .photoCol {
+        position: relative;
+        width: 100%;
+        max-width: 240px;
+        margin: 0 auto;
+        order: 2;
+        bottom: auto;
+        left: auto;
+    }
+    .signatureWrap {
+        align-items: flex-end;
+    }
+    .signatureText {
+        font-size: 16px;
+    }
+}
+@media (max-width: 767px) {
+    /* 紐⑤컮?쇱뿉?쒕뒗 100vh 怨좎젙???怨??먯뿰?ㅻ윭???ㅽ겕濡??먮쫫?쇰줈 蹂寃?*/
+    .introPinnedWrapper {
+        height: auto !important;
+    }
+    .introSticky {
+        position: relative !important;
+        height: auto !important;
+        overflow: visible !important;
+        flex-direction: column !important;
+    }
+    .introAbsoluteCenter {
+        position: relative !important;
+        height: auto !important;
+        min-height: 100vh;
+        opacity: 1 !important;
+        filter: blur(0px) !important;
+        pointer-events: auto !important;
+        padding-bottom: 60px;
+    }
+    .introAbsoluteCenter:last-child {
+        padding-bottom: 0;
+    }
+}
+@media (max-width: 767px) {
+    /* Override framer-motion inline styles that might hide content */
+    .breadcrumb,
+    .yuhanText,
+    .fadeBodyText,
+    .fullWidthContainer {
+        opacity: 1 !important;
+        filter: blur(0px) !important;
+    }
 }

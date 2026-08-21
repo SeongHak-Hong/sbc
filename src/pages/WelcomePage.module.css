@@ -282,6 +282,29 @@
     }
 }
 
+.lightButton {
+    background-color: var(--color-text-primary);
+    border: none;
+    border-radius: 28px;
+    padding: 14px 28px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #fafafa;
+    cursor: pointer;
+    box-shadow: 0px 0px 4px rgba(var(--color-text-primary-rgb), 0.12);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
+}
+
+.lightButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 12px rgba(var(--color-text-primary-rgb), 0.15);
+}
+
 .ctaTitle {
     font-family: var(--font-yuhan);
     font-size: 40px;

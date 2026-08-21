@@ -25,7 +25,7 @@ const MenuOverlay = ({ isOpen, onClose }) => {
             ]
         },
         {
-            id: "step-2", num: "02", title: "예배찬양",
+            id: "step-2", num: "02", title: "예배 영상",
             links: [
                 { text: "주일예배", path: "https://www.youtube.com/@sbc6312" },
                 { text: "찬양대", path: "https://www.youtube.com/@sbc6312" },

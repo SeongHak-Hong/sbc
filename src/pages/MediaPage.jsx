@@ -276,7 +276,7 @@ const MediaPage = () => {
             <SubPageSection hideHeader={true} className={styles.sectionCenter}>
                 <div style={{ textAlign: 'center' }}>
                     <div className={styles.breadcrumb}>
-                        말씀과 찬양 - 예배 영상
+                        예배 영상
                     </div>
                     <ScrollFadeText
                         text="함께 예배해요."

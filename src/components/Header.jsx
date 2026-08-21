@@ -130,7 +130,7 @@ const Header = () => {
             ]
         },
         {
-            id: "step-2", title: "예배찬양", icon: "music_note", iconColor: styles.iconBlue,
+            id: "step-2", title: "예배 영상", icon: "music_note", iconColor: styles.iconBlue,
             singlePagePath: "/media"
         },
         {

@@ -259,9 +259,9 @@ const WelcomePage = () => {
                     transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
                     style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}
                 >
-                    <LargeButton>
+                    <button className={styles.lightButton}>
                         새가족 등록 문의하기
-                    </LargeButton>
+                    </button>
                 </motion.div>
             </div>
 
