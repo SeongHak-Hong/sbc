@@ -190,7 +190,7 @@ const Header = () => {
                         <span className={`material-symbols-outlined ${styles.iconMenu}`} translate="no">menu</span>
                         <span className={`material-symbols-outlined ${styles.iconClose}`} translate="no">close</span>
                     </div>
-                    <span>{isMenuOpen ? '닫기' : '메뉴'}</span>
+                    <span className={styles.toggleBtnText}>{isMenuOpen ? '닫기' : '메뉴'}</span>
                 </button>
 
                 <div className={`${styles.backdrop} ${isMenuOpen ? styles.open : ''}`} onClick={(e) => { e.stopPropagation(); setIsMenuOpen(false); }}></div>
