@@ -207,6 +207,7 @@
 .fullWidthContainer {
     width: 100%;
     position: relative;
+    overflow: hidden;
 }
 
 @media (max-width: 767px) {
