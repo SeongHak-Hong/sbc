@@ -7,6 +7,7 @@ import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
 import ScrollFadeText from '../components/ScrollFadeText';
 import SwitchTabs from '../components/SwitchTabs';
+import Pagination from '../components/ui/Pagination';
 import styles from './NewsPage.module.css';
 
 const TABS = [
@@ -206,34 +207,11 @@ const NewsPage = () => {
                     {/* Pagination */}
                     {totalPages > 1 && (
                         <div className={styles.boardFooter}>
-                            <div className={styles.pagination}>
-                                <button
-                                    className={styles.pageArrow}
-                                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                                    disabled={currentPage === 1}
-                                >
-                                    <span className="material-symbols-outlined" translate="no">chevron_left</span>
-                                </button>
-                                
-                                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                                    <button
-                                        key={page}
-                                        className={`${styles.pageButton} ${currentPage === page ? styles.active : ''}`}
-                                        onClick={() => setCurrentPage(page)}
-                                        disabled={currentPage === page}
-                                    >
-                                        {page}
-                                    </button>
-                                ))}
-
-                                <button
-                                    className={styles.pageArrow}
-                                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                                    disabled={currentPage === totalPages}
-                                >
-                                    <span className="material-symbols-outlined" translate="no">chevron_right</span>
-                                </button>
-                            </div>
+                            <Pagination 
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                onPageChange={(page) => setCurrentPage(page)}
+                            />
                         </div>
                     )}
             </SubPageSection>

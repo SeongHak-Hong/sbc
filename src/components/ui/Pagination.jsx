@@ -52,12 +52,23 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         return pages;
     };
 
+    const handlePageChange = (page) => {
+        onPageChange(page);
+        setTimeout(() => {
+            if (window.lenis) {
+                window.lenis.scrollTo(0, { immediate: false, duration: 1.2 });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }, 50);
+    };
+
     return (
         <div className={styles.pagination}>
             <button 
                 className={`${styles.pageArrow} material-symbols-outlined`}
                 disabled={currentPage === 1}
-                onClick={() => onPageChange(currentPage - 1)}
+                onClick={() => handlePageChange(currentPage - 1)}
             >chevron_left</button>
             
             {getPageNumbers().map((page, index) => {
@@ -77,7 +88,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
                     <button 
                         key={page}
                         className={`${styles.pageButton} ${currentPage === page ? styles.active : ''}`}
-                        onClick={() => onPageChange(page)}
+                        onClick={() => handlePageChange(page)}
                     >
                         {page}
                     </button>
@@ -87,7 +98,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             <button 
                 className={`${styles.pageArrow} material-symbols-outlined`}
                 disabled={currentPage === totalPages}
-                onClick={() => onPageChange(currentPage + 1)}
+                onClick={() => handlePageChange(currentPage + 1)}
             >chevron_right</button>
         </div>
     );

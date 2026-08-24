@@ -296,7 +296,7 @@ const MediaPage = () => {
                                     tabs={[
                                         { id: 'all', label: '전체' },
                                         { id: 'sermon', label: '설교' },
-                                        { id: 'praise', label: '찬양대' }
+                                        { id: 'praise', label: '찬양' }
                                     ]}
                                     activeTab={activeTab}
                                     onTabChange={(id) => { setActiveTab(id); setCurrentPage(1); }}

@@ -549,17 +549,6 @@ const PostDetailPage = () => {
 
                         {/* Post Body */}
                         <div className={styles.postBody}>
-                            {viewerImages.length > 0 && (
-                                <div style={{ marginBottom: '32px' }}>
-                                    <ImageViewer
-                                        imageUrl={viewerImages.length === 1 ? viewerImages[0] : null}
-                                        images={viewerImages.length > 1 ? viewerImages : []}
-                                        totalPages={3} // this handles CSS slicing fallback if needed
-                                        isBulletin={post.category === 'bulletin'}
-                                    />
-                                </div>
-                            )}
-
                             {post.address && (
                                 <div style={{ marginBottom: '32px', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
                                     <NaverMap
@@ -568,6 +557,17 @@ const PostDetailPage = () => {
                                         title={post.title}
                                         category={post.businessCategory}
                                         phone={post.phone}
+                                    />
+                                </div>
+                            )}
+
+                            {viewerImages.length > 0 && (
+                                <div style={{ marginBottom: '32px' }}>
+                                    <ImageViewer
+                                        imageUrl={viewerImages.length === 1 ? viewerImages[0] : null}
+                                        images={viewerImages.length > 1 ? viewerImages : []}
+                                        totalPages={3} // this handles CSS slicing fallback if needed
+                                        isBulletin={post.category === 'bulletin'}
                                     />
                                 </div>
                             )}
