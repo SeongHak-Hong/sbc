@@ -4,6 +4,7 @@
     color: var(--color-text-primary);
     position: relative;
     overflow-x: hidden;
+    background: linear-gradient(to bottom, #E7F5FD, #FCEBE0);
 }
 
 .contentWrapper {
@@ -15,16 +16,22 @@
 .postContainer {
     margin-top: 40px;
     margin-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
 }
 
 .postHeader {
-    padding-bottom: 24px;
-    border-bottom: 1px solid rgba(var(--color-text-primary-rgb), 0.2);
-    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .postTitle {
-    font-size: 24px;
+    font-family: 'YuhanKimberly', sans-serif;
+    font-size: 40px;
+    font-weight: 500;
     margin: 0 0 16px 0;
     color: var(--color-text-primary);
     word-break: keep-all;
@@ -32,14 +39,16 @@
 
 @media (max-width: 600px) {
     .postTitle {
-        font-size: 24px;
+        font-size: 28px;
     }
 }
 
 .postMeta {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 24px;
+    font-family: 'YuhanKimberly', sans-serif;
+    font-weight: 500;
     font-size: 16px;
     color: var(--color-text-muted);
 }
@@ -49,29 +58,134 @@
 }
 
 .postBody {
-    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sliderContainer {
+    position: relative;
+    width: 100%;
+    margin-bottom: 40px;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.sliderContainer::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 92%, rgba(0, 0, 0, 0.25) 100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 5;
+}
+
+.sliderContainer:hover::after {
+    opacity: 1;
+}
+
+.sliderImage {
+    width: 100%;
+    height: auto;
+    max-height: 640px;
+    object-fit: contain;
+    display: block;
+}
+
+.navButton {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
     color: var(--color-text-primary);
-    min-height: 400px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    padding: 0;
+    flex-shrink: 0;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.navButton:hover:not(:disabled) {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.navButton:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+.prevButton {
+    left: 8px;
+}
+
+.nextButton {
+    right: 8px;
+}
+
+.navButton span {
+    font-size: 20px;
+}
+
+.paginationContainer {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 10;
+}
+
+.paginationDot {
+    width: 8px;
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.paginationDotActive {
+    width: 16px;
+    height: 8px;
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 5px;
+}
+
+.contentTitle {
+    font-family: 'YuhanKimberly', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: var(--color-text-primary);
+    margin: 0 0 8px 0;
+}
+
+.contentText {
+    font-family: 'YuhanKimberly', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin: 0;
+    white-space: pre-wrap;
     word-break: break-all;
 }
 
-.imageArea {
-    width: 100%;
-    background-color: var(--color-background-beige);
-    padding: 40px 24px;
-    margin-bottom: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-}
-
-.imageArea img {
-    max-width: 100%;
-    height: auto;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
+/* Bulletin legacy styles */
 .bulletinViewerContainer {
     display: flex;
     flex-direction: column;
@@ -94,45 +208,6 @@
     width: 100%;
 }
 
-.navButton {
-    background: transparent;
-    border: none;
-    color: var(--color-text-primary);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px;
-    border-radius: 50%;
-    transition: background-color 0.2s ease, opacity 0.2s ease;
-    position: absolute;
-    top: 50%;
-    z-index: 10;
-}
-
-.prevButton {
-    left: -32px;
-    transform: translate(-50%, -50%);
-}
-
-.nextButton {
-    right: -32px;
-    transform: translate(50%, -50%);
-}
-
-.navButton:hover:not(:disabled) {
-    background-color: rgba(var(--color-text-primary-rgb), 0.05);
-}
-
-.navButton:disabled {
-    opacity: 0.2;
-    cursor: not-allowed;
-}
-
-.navButton span {
-    font-size: 36px;
-}
-
 .bulletinPageWrapper {
     width: 100%;
     overflow: hidden;
@@ -150,16 +225,6 @@
 .slicedImage {
     width: 300% !important;
     max-width: none !important;
-}
-
-.bulletinPageWrapper img.slicedImage {
-    width: 300% !important;
-    max-width: none !important;
-}
-
-.mainViewer>img,
-.mainViewer>div>img:not(.slicedImage) {
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .thumbnailStrip {
@@ -219,11 +284,45 @@
     object-fit: cover;
 }
 
-@media (max-width: 600px) {
-    .postBody {
-        font-size: 16px;
-    }
+.bulletinNavButton {
+    background: transparent;
+    border: none;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+}
+.bulletinPrevButton {
+    left: -32px;
+    transform: translate(-50%, -50%);
+}
 
+.bulletinNextButton {
+    right: -32px;
+    transform: translate(50%, -50%);
+}
+
+.bulletinNavButton:hover:not(:disabled) {
+    background-color: rgba(var(--color-text-primary-rgb), 0.05);
+}
+
+.bulletinNavButton:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+.bulletinNavButton span {
+    font-size: 36px;
+}
+
+@media (max-width: 600px) {
     .bulletinViewerContainer {
         width: 100vw;
         margin-left: calc(-50vw + 50%);
@@ -231,13 +330,11 @@
         padding: 40px 32px;
         border-radius: 0;
     }
-
-    .prevButton {
+    .bulletinPrevButton {
         left: -32px;
         transform: translateY(-50%);
     }
-
-    .nextButton {
+    .bulletinNextButton {
         right: -32px;
         transform: translateY(-50%);
     }
@@ -246,7 +343,24 @@
 .buttonWrapper {
     display: flex;
     justify-content: center;
-    margin-top: 80px;
-    border-top: 1px solid rgba(var(--color-text-primary-rgb), 0.1);
-    padding-top: 40px;
+}
+
+.backButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background-color: var(--color-text-primary);
+    color: #fafafa;
+    border-radius: 99px;
+    font-family: 'SUIT', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.backButton:hover {
+    background-color: var(--color-text-secondary);
+    transform: translateY(-2px);
 }

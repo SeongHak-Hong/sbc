@@ -156,134 +156,109 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
 
     if (count === 0) return null;
 
+    if (!isBulletin) {
+        return (
+            <div className={styles.sliderContainer}>
+                {count > 1 && (
+                    <button
+                        className={`${styles.navButton} ${styles.prevButton}`}
+                        onClick={() => setCurrentIndex(prev => prev === 0 ? actualImages.length - 1 : prev - 1)}
+                        aria-label="이전 이미지"
+                    >
+                        <span className="material-symbols-outlined" translate="no">chevron_left</span>
+                    </button>
+                )}
+                
+                <img
+                    src={actualImages[currentIndex]}
+                    alt={`게시물 이미지 ${currentIndex + 1}`}
+                    className={styles.sliderImage}
+                />
+
+                {count > 1 && (
+                    <button
+                        className={`${styles.navButton} ${styles.nextButton}`}
+                        onClick={() => setCurrentIndex(prev => prev === actualImages.length - 1 ? 0 : prev + 1)}
+                        aria-label="다음 이미지"
+                    >
+                        <span className="material-symbols-outlined" translate="no">chevron_right</span>
+                    </button>
+                )}
+
+                {count > 1 && (
+                    <div className={styles.paginationContainer}>
+                        {actualImages.map((_, idx) => (
+                            <div
+                                key={idx}
+                                className={idx === currentIndex ? styles.paginationDotActive : styles.paginationDot}
+                                onClick={() => setCurrentIndex(idx)}
+                            />
+                        ))}
+                    </div>
+                )}
+            </div>
+        );
+    }
+
     const renderMainImage = (index) => {
-        if (isBulletin) {
-            const totalWidth = count * 100;
-            const translateX = (index / count) * 100;
+        const totalWidth = count * 100;
+        const translateX = (index / count) * 100;
 
-            return (
-                <div style={{
-                    display: 'flex',
-                    width: `${totalWidth}%`,
-                    transform: `translateX(-${translateX}%)`,
-                    transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
-                }}>
-                    {Array.from({ length: count }).map((_, idx) => {
-                        const mappedIndex = (idx + 2) % count;
-                        const imageIndex = Math.floor(mappedIndex / totalPages);
-                        const sliceIndex = mappedIndex % totalPages;
+        return (
+            <div style={{
+                display: 'flex',
+                width: `${totalWidth}%`,
+                transform: `translateX(-${translateX}%)`,
+                transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+            }}>
+                {Array.from({ length: count }).map((_, idx) => {
+                    const mappedIndex = (idx + 2) % count;
+                    const imageIndex = Math.floor(mappedIndex / totalPages);
+                    const sliceIndex = mappedIndex % totalPages;
 
-                        return (
-                            <div key={idx} style={{
-                                width: `${100 / count}%`,
-                                overflow: 'hidden',
-                                flexShrink: 0
-                            }}>
-                                <img
-                                    src={actualImages[imageIndex]}
-                                    alt={`주보 원본 ${idx + 1}`}
-                                    style={{
-                                        width: `${totalPages * 100}%`,
-                                        maxWidth: 'none',
-                                        height: 'auto',
-                                        marginLeft: `-${sliceIndex * 100}%`,
-                                        display: 'block'
-                                    }}
-                                />
-                            </div>
-                        );
-                    })}
-                </div>
-            );
-        } else {
-            return (
-                <div style={{
-                    position: 'relative',
-                    width: '100%',
-                    height: '60vh',
-                    minHeight: '400px',
-                    maxHeight: '800px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: '#111',
-                    overflow: 'hidden'
-                }}>
-                    {/* Blurred Background Layer */}
-                    <div style={{
-                        position: 'absolute',
-                        top: '-10%',
-                        left: '-10%',
-                        width: '120%',
-                        height: '120%',
-                        backgroundImage: `url(${actualImages[index]})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        filter: 'blur(20px)',
-                        opacity: 0.4,
-                        zIndex: 0,
-                        transform: 'translateZ(0)',
-                        willChange: 'transform, filter'
-                    }} />
-
-                    {/* Main Image */}
-                    <img
-                        src={actualImages[index]}
-                        alt={`첨부 이미지 ${index + 1}`}
-                        style={{
-                            position: 'relative',
-                            zIndex: 1,
-                            maxWidth: '100%',
-                            maxHeight: '100%',
-                            width: 'auto',
-                            height: 'auto',
-                            objectFit: 'contain'
-                        }}
-                    />
-                </div>
-            );
-        }
+                    return (
+                        <div key={idx} style={{
+                            width: `${100 / count}%`,
+                            overflow: 'hidden',
+                            flexShrink: 0
+                        }}>
+                            <img
+                                src={actualImages[imageIndex]}
+                                alt={`주보 원본 ${idx + 1}`}
+                                style={{
+                                    width: `${totalPages * 100}%`,
+                                    maxWidth: 'none',
+                                    height: 'auto',
+                                    marginLeft: `-${sliceIndex * 100}%`,
+                                    display: 'block'
+                                }}
+                            />
+                        </div>
+                    );
+                })}
+            </div>
+        );
     };
 
     const renderThumbnail = (index) => {
-        const mappedIndex = isBulletin ? (index + 2) % count : index;
-        const imageIndex = isBulletin ? Math.floor(mappedIndex / totalPages) : index;
-        const sliceIndex = isBulletin ? mappedIndex % totalPages : 0;
+        const mappedIndex = (index + 2) % count;
+        const imageIndex = Math.floor(mappedIndex / totalPages);
+        const sliceIndex = mappedIndex % totalPages;
 
-        if (isBulletin) {
-            return (
-                <img
-                    src={actualImages[imageIndex]}
-                    alt={`주보 썸네일 ${index + 1}면`}
-                    style={{ left: `-${sliceIndex * 100}%` }}
-                    className={styles.slicedImage}
-                />
-            );
-        } else {
-            return (
-                <img
-                    src={actualImages[imageIndex]}
-                    alt={`썸네일 ${index + 1}`}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-            );
-        }
+        return (
+            <img
+                src={actualImages[imageIndex]}
+                alt={`주보 썸네일 ${index + 1}면`}
+                style={{ left: `-${sliceIndex * 100}%` }}
+                className={styles.slicedImage}
+            />
+        );
     };
 
     return (
-        <div
-            className={styles.bulletinViewerContainer}
-            style={{
-                backgroundColor: isBulletin ? 'var(--color-background-beige)' : 'transparent',
-                padding: isBulletin ? '40px 32px' : '0'
-            }}
-        >
-            {/* Main Viewer Area */}
-            {count > 1 && (
-                <div
-                    className={styles.mainViewerWrapper}
-                    style={{ maxWidth: isBulletin ? '400px' : '100%' }}
-                >
+        <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+            <div className={styles.sliderContainer} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '500px', marginBottom: count > 1 ? '24px' : '40px', padding: '20px 0' }}>
+                {count > 1 && (
                     <button
                         className={`${styles.navButton} ${styles.prevButton}`}
                         onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
@@ -292,19 +267,26 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
                     >
                         <span className="material-symbols-outlined" translate="no">chevron_left</span>
                     </button>
+                )}
 
+                <div
+                    className={styles.mainViewerWrapper}
+                    style={{ maxWidth: '400px', width: '100%', position: 'relative', zIndex: 1 }}
+                >
                     <div className={styles.mainViewer}>
                         <PinchZoomContainer
                             key={currentIndex}
                             onSwipeLeft={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
                             onSwipeRight={() => setCurrentIndex(prev => Math.min(count - 1, prev + 1))}
                         >
-                            <div className={isBulletin ? styles.bulletinPageWrapper : ''}>
+                            <div className={styles.bulletinPageWrapper}>
                                 {renderMainImage(currentIndex)}
                             </div>
                         </PinchZoomContainer>
                     </div>
+                </div>
 
+                {count > 1 && (
                     <button
                         className={`${styles.navButton} ${styles.nextButton}`}
                         onClick={() => setCurrentIndex(prev => Math.min(count - 1, prev + 1))}
@@ -313,24 +295,11 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
                     >
                         <span className="material-symbols-outlined" translate="no">chevron_right</span>
                     </button>
-                </div>
-            )}
+                )}
+            </div>
 
-            {count === 1 && (
-                <div className={styles.mainViewerWrapper} style={{ maxWidth: isBulletin ? '400px' : '100%' }}>
-                    <div className={styles.mainViewer}>
-                        <PinchZoomContainer>
-                            <div className={isBulletin ? styles.bulletinPageWrapper : ''}>
-                                {renderMainImage(0)}
-                            </div>
-                        </PinchZoomContainer>
-                    </div>
-                </div>
-            )}
-
-            {/* Thumbnail Strip */}
             {count > 1 && (
-                <div className={styles.thumbnailStrip}>
+                <div className={styles.thumbnailStrip} style={{ marginTop: 0, marginBottom: '40px' }}>
                     {Array.from({ length: count }).map((_, idx) => (
                         <div
                             key={idx}
@@ -521,6 +490,33 @@ const PostDetailPage = () => {
         viewerImages = post.images;
     }
 
+    const handleGoBack = () => {
+        if (!post) {
+            navigate(-1);
+            return;
+        }
+        switch (post.category) {
+            case 'bulletin':
+                navigate('/community/bulletin');
+                break;
+            case 'news':
+                navigate('/community/news');
+                break;
+            case 'events':
+                navigate('/community/events');
+                break;
+            default:
+                if (id && id.startsWith('nextgen-')) {
+                    navigate('/nextgen');
+                } else if (id && id.startsWith('missions_')) {
+                    navigate('/missions');
+                } else {
+                    navigate(-1);
+                }
+                break;
+        }
+    };
+
     return (
         <div className={styles.pageWrapper}>
             <SubPageSection title="나눔터" hideHeader={true}>
@@ -535,14 +531,10 @@ const PostDetailPage = () => {
                         <div className={styles.postHeader}>
                             <h1 className={styles.postTitle}>{post.title}</h1>
                             <div className={styles.postMeta}>
-                                <span>{authorLabel}: {authorText}</span>
-                                <span className={styles.metaDivider}>|</span>
+                                <span>{authorText}</span>
                                 <span>{post.date}</span>
                                 {post.views !== undefined && (
-                                    <>
-                                        <span className={styles.metaDivider}>|</span>
-                                        <span>조회수 {post.views}</span>
-                                    </>
+                                    <span>조회수 {post.views}</span>
                                 )}
                             </div>
                         </div>
@@ -562,30 +554,29 @@ const PostDetailPage = () => {
                             )}
 
                             {viewerImages.length > 0 && (
-                                <div style={{ marginBottom: '32px' }}>
-                                    <ImageViewer
-                                        imageUrl={viewerImages.length === 1 ? viewerImages[0] : null}
-                                        images={viewerImages.length > 1 ? viewerImages : []}
-                                        totalPages={3} // this handles CSS slicing fallback if needed
-                                        isBulletin={post.category === 'bulletin'}
-                                    />
-                                </div>
+                                <ImageViewer
+                                    imageUrl={viewerImages.length === 1 ? viewerImages[0] : null}
+                                    images={viewerImages.length > 1 ? viewerImages : []}
+                                    totalPages={3}
+                                    isBulletin={post.category === 'bulletin'}
+                                />
                             )}
 
                             {post.content && (
-                                <div style={{ marginTop: '24px' }}>
+                                <div>
                                     <style>
                                         {`
                                         .toastui-editor-contents, .ProseMirror {
-                                            color: var(--color-text-tertiary) !important;
+                                            font-family: 'YuhanKimberly', sans-serif !important;
+                                            color: ${post.category !== 'bulletin' ? 'var(--color-text-muted)' : 'var(--color-text-tertiary)'} !important;
                                             font-size: 16px !important;
-                                        }
-                                        .toastui-editor-contents *:not(table), .ProseMirror *:not(table) {
+                                            font-weight: 500 !important;
                                         }
                                         .toastui-editor-contents p, .ProseMirror p,
                                         .toastui-editor-contents span, .ProseMirror span,
                                         .toastui-editor-contents li, .ProseMirror li {
                                             font-size: 16px !important;
+                                            line-height: 1.6 !important;
                                         }
                                         .toastui-editor-contents h1, .ProseMirror h1,
                                         .toastui-editor-contents h2, .ProseMirror h2,
@@ -598,6 +589,8 @@ const PostDetailPage = () => {
                                             margin-top: 1.2em !important;
                                             margin-bottom: 0.5em !important;
                                             word-break: keep-all !important;
+                                            font-family: 'YuhanKimberly', sans-serif !important;
+                                            font-weight: 500 !important;
                                         }
                                         .toastui-editor-contents h1, .ProseMirror h1 { font-size: 36px !important; }
                                         .toastui-editor-contents h2, .ProseMirror h2 { font-size: 32px !important; }
@@ -614,11 +607,12 @@ const PostDetailPage = () => {
 
                         {/* Actions */}
                         <div className={styles.buttonWrapper}>
-                            <LargeButton
-                                onClick={() => navigate(-1)}
+                            <button
+                                className={styles.backButton}
+                                onClick={handleGoBack}
                             >
                                 목록으로
-                            </LargeButton>
+                            </button>
                         </div>
                     </motion.div>
                 </div>

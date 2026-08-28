@@ -64,6 +64,39 @@ class GlobalErrorBoundary extends React.Component {
   }
 }
 
+export const SquiCircleFilterStatic = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ position: 'absolute', width: 0, height: 0, visibility: 'hidden' }}
+      version="1.1"
+    >
+      <defs>
+        <filter id="SkiperSquiCircleFilterLayout">
+          {/* 1. Normalize alpha so the semi-transparent background and opaque children become a uniform solid block */}
+          <feColorMatrix 
+            in="SourceAlpha" 
+            type="matrix" 
+            values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1000 0" 
+            result="solidAlpha" 
+          />
+          {/* 2. Blur the uniform solid block */}
+          <feGaussianBlur in="solidAlpha" stdDeviation="10" result="blur" />
+          {/* 3. Threshold to create the squircle shape (20 -10 aligns the edges exactly and rounds the corners) */}
+          <feColorMatrix
+            in="blur"
+            mode="matrix"
+            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -10"
+            result="squircle_mask"
+          />
+          {/* 4. Mask the original unblurred graphic */}
+          <feComposite in="SourceGraphic" in2="squircle_mask" operator="in" />
+        </filter>
+      </defs>
+    </svg>
+  );
+};
+
 function AppRoutes() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/manager-lounge');
@@ -143,6 +176,7 @@ function App() {
   return (
     <Router basename={import.meta.env.BASE_URL}>
       <GlobalErrorBoundary>
+        <SquiCircleFilterStatic />
         <ScrollToTop />
         <AppRoutes />
       </GlobalErrorBoundary>
