@@ -5,6 +5,7 @@
     position: relative;
     overflow-x: hidden;
     background: linear-gradient(to bottom, #E7F5FD, #FCEBE0);
+    background-attachment: fixed;
 }
 
 .contentWrapper {
