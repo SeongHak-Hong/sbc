@@ -497,19 +497,24 @@ const PostDetailPage = () => {
         }
         switch (post.category) {
             case 'bulletin':
-                navigate('/community/bulletin');
+                navigate('/news?tab=bulletin');
                 break;
             case 'news':
-                navigate('/community/news');
+                navigate('/news?tab=news');
                 break;
             case 'events':
-                navigate('/community/events');
+                navigate('/events');
+                break;
+            case 'koinonia':
+                navigate('/news?tab=koinonia');
                 break;
             default:
                 if (id && id.startsWith('nextgen-')) {
                     navigate('/nextgen');
                 } else if (id && id.startsWith('missions_')) {
                     navigate('/missions');
+                } else if (id && id.startsWith('koinonia_')) {
+                    navigate('/news?tab=koinonia');
                 } else {
                     navigate(-1);
                 }
