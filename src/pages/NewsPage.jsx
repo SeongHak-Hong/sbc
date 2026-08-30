@@ -183,9 +183,8 @@ const NewsPage = () => {
                                         key={post.id}
                                         className={styles.eventCard}
                                         initial={{ opacity: 0, y: 20 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
+                                        animate={{ opacity: 1, y: 0 }}
                                         whileHover={{ y: -2, transition: { delay: 0, duration: 0.2 } }}
-                                        viewport={{ once: true }}
                                         transition={{ delay: idx * 0.1 }}
                                         onClick={() => handlePostClick(post)}
                                     >
