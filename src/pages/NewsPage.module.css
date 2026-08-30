@@ -186,7 +186,6 @@
 .boardFooter {
     display: flex;
     justify-content: center;
-    margin-top: 72px;
 }
 
 /* Pagination Area */
