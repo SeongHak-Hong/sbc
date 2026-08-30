@@ -253,3 +253,41 @@ button span.icon {
   backface-visibility: hidden;
   transform: translateZ(0);
 }
+
+/* Toast UI Editor Custom Styles */
+.toastui-editor-contents, .ProseMirror {
+    font-family: 'YuhanKimberly', sans-serif !important;
+    color: #727272 !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+}
+
+.toastui-editor-contents p, .ProseMirror p,
+.toastui-editor-contents span, .ProseMirror span,
+.toastui-editor-contents li, .ProseMirror li {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+    color: #727272 !important;
+}
+
+.toastui-editor-contents h1, .ProseMirror h1,
+.toastui-editor-contents h2, .ProseMirror h2,
+.toastui-editor-contents h3, .ProseMirror h3,
+.toastui-editor-contents h4, .ProseMirror h4,
+.toastui-editor-contents h5, .ProseMirror h5,
+.toastui-editor-contents h6, .ProseMirror h6 {
+    border-bottom: none !important;
+    color: var(--color-text-primary) !important;
+    margin-top: 1.2em !important;
+    margin-bottom: 0.5em !important;
+    word-break: keep-all !important;
+    font-family: 'YuhanKimberly', sans-serif !important;
+    font-weight: 500 !important;
+}
+
+.toastui-editor-contents h1, .ProseMirror h1 { font-size: 36px !important; }
+.toastui-editor-contents h2, .ProseMirror h2 { font-size: 32px !important; }
+.toastui-editor-contents h3, .ProseMirror h3 { font-size: 28px !important; }
+.toastui-editor-contents h4, .ProseMirror h4 { font-size: 24px !important; }
+.toastui-editor-contents h5, .ProseMirror h5 { font-size: 20px !important; }
+.toastui-editor-contents h6, .ProseMirror h6 { font-size: 18px !important; }
