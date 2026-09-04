@@ -255,6 +255,16 @@ button span.icon {
   transform: translateZ(0);
 }
 
+/* iOS Safari Bug Fix: The gooey SVG filter completely breaks Safari DOM rendering. 
+   Fallback to border-radius, which iOS naturally renders as a squircle anyway. */
+@supports (-webkit-touch-callout: none) {
+  .squircle-wrapper {
+    filter: none !important;
+    -webkit-filter: none !important;
+    border-radius: 16px !important;
+  }
+}
+
 /* Toast UI Editor Custom Styles */
 .toastui-editor-contents, .ProseMirror {
     font-family: 'YuhanKimberly', sans-serif !important;
