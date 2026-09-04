@@ -158,7 +158,7 @@ const NewsPage = () => {
 
                     <div className={styles.eventsGrid}>
                         {currentPosts.length === 0 ? (
-                            <div className={styles.eventCard} style={{ cursor: 'default' }}>
+                            <div className={`${styles.eventCard} squircle-wrapper`} style={{ cursor: 'default' }}>
                                 <div className={styles.eventInfoLeft}>
                                     <div className={styles.eventDetailsContainer}>
                                         <h3 className={styles.eventTitle}>등록된 게시물이 없습니다.</h3>
@@ -181,20 +181,22 @@ const NewsPage = () => {
                                 return (
                                     <motion.div 
                                         key={post.id}
-                                        className={styles.eventCard}
+                                        style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column' }}
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         whileHover={{ y: -2, transition: { delay: 0, duration: 0.2 } }}
                                         transition={{ delay: idx * 0.1 }}
                                         onClick={() => handlePostClick(post)}
                                     >
-                                        <div className={styles.eventInfoLeft}>
-                                            <div className={styles.calendarIcon}>
-                                                <div className={styles.calendarMonth}>{calMonth}</div>
-                                                <div className={styles.calendarDate}>{calDays}</div>
-                                            </div>
-                                            <div className={styles.eventDetailsContainer}>
-                                                <h3 className={styles.eventTitle}>{post.title}</h3>
+                                        <div className={`${styles.eventCard} squircle-wrapper`} style={{ width: '100%', height: '100%' }}>
+                                            <div className={styles.eventInfoLeft}>
+                                                <div className={styles.calendarIcon}>
+                                                    <div className={styles.calendarMonth}>{calMonth}</div>
+                                                    <div className={styles.calendarDate}>{calDays}</div>
+                                                </div>
+                                                <div className={styles.eventDetailsContainer}>
+                                                    <h3 className={styles.eventTitle}>{post.title}</h3>
+                                                </div>
                                             </div>
                                         </div>
                                     </motion.div>

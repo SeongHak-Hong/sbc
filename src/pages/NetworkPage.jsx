@@ -68,7 +68,7 @@ const NetworkPage = () => {
 
                 <div className={styles.eventsGrid}>
                     {currentPosts.length === 0 ? (
-                        <div className={styles.eventCard} style={{ cursor: 'default' }}>
+                        <div className={`${styles.eventCard} squircle-wrapper`} style={{ cursor: 'default' }}>
                             <div className={styles.eventInfoLeft}>
                                 <div className={styles.eventDetailsContainer}>
                                     <h3 className={styles.eventTitle}>등록된 사업체가 없습니다.</h3>
@@ -82,7 +82,7 @@ const NetworkPage = () => {
                             return (
                                 <motion.div 
                                     key={post.id}
-                                    className={styles.eventCard}
+                                    style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column' }}
                                     initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     whileHover={{ y: -2, transition: { delay: 0, duration: 0.2 } }}
@@ -90,15 +90,17 @@ const NetworkPage = () => {
                                     transition={{ delay: idx * 0.1 }}
                                     onClick={() => handleItemClick(post)}
                                 >
-                                    <div className={styles.eventInfoLeft}>
-                                        <div className={styles.eventDetailsContainer}>
-                                            <h3 className={styles.eventTitle}>{post.title}</h3>
-                                            <div className={styles.eventMetaRow}>
-                                                {post.businessCategory && <span>{post.businessCategory}</span>}
-                                                {post.businessCategory && authorDisplay && <span>·</span>}
-                                                {authorDisplay && <span>{authorDisplay}</span>}
-                                                {(post.businessCategory || authorDisplay) && post.phone && <span>·</span>}
-                                                {post.phone && <span>{post.phone}</span>}
+                                    <div className={`${styles.eventCard} squircle-wrapper`} style={{ width: '100%', height: '100%' }}>
+                                        <div className={styles.eventInfoLeft}>
+                                            <div className={styles.eventDetailsContainer}>
+                                                <h3 className={styles.eventTitle}>{post.title}</h3>
+                                                <div className={styles.eventMetaRow}>
+                                                    {post.businessCategory && <span>{post.businessCategory}</span>}
+                                                    {post.businessCategory && authorDisplay && <span>·</span>}
+                                                    {authorDisplay && <span>{authorDisplay}</span>}
+                                                    {(post.businessCategory || authorDisplay) && post.phone && <span>·</span>}
+                                                    {post.phone && <span>{post.phone}</span>}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

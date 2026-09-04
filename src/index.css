@@ -245,8 +245,9 @@ button span.icon {
 }
 
 /* Squircle Filter Application for Subpage Cards */
-[class*="eventsGrid"] > div {
+.squircle-wrapper {
   filter: url(#SkiperSquiCircleFilterLayout);
+  -webkit-filter: url(#SkiperSquiCircleFilterLayout);
   border-radius: 0 !important;
   will-change: transform;
   -webkit-backface-visibility: hidden;

@@ -338,7 +338,7 @@ const NextGenPage = () => {
                                     return (
                                         <motion.div
                                             key={idx}
-                                            className={styles.eventCard}
+                                            style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column' }}
                                             initial={{ opacity: 0, y: 20 }}
                                             whileInView={{ opacity: 1, y: 0 }}
                                             whileHover={{ y: -2, transition: { delay: 0, duration: 0.2 } }}
@@ -361,12 +361,14 @@ const NextGenPage = () => {
                                                 } 
                                             })}
                                         >
-                                            <div className={styles.eventInfoLeft}>
-                                                <div className={styles.calendarIcon}>
-                                                    <div className={styles.calendarMonth}>{calMonth}</div>
-                                                    <div className={styles.calendarDate}>{calDays}</div>
+                                            <div className={`${styles.eventCard} squircle-wrapper`} style={{ width: '100%', height: '100%' }}>
+                                                <div className={styles.eventInfoLeft}>
+                                                    <div className={styles.calendarIcon}>
+                                                        <div className={styles.calendarMonth}>{calMonth}</div>
+                                                        <div className={styles.calendarDate}>{calDays}</div>
+                                                    </div>
+                                                    <h3 className={styles.eventTitle}>{ev.title}</h3>
                                                 </div>
-                                                <h3 className={styles.eventTitle}>{ev.title}</h3>
                                             </div>
                                         </motion.div>
                                     );
@@ -374,7 +376,7 @@ const NextGenPage = () => {
                             </div>
                         ) : (
                             <div className={styles.eventsGrid}>
-                                <div className={styles.eventCard} style={{ cursor: 'default' }}>
+                                <div className={`${styles.eventCard} squircle-wrapper`} style={{ cursor: 'default' }}>
                                     <div className={styles.eventInfoLeft}>
                                         <div className={styles.calendarIcon}>
                                             <div className={styles.calendarMonth}>&nbsp;</div>
