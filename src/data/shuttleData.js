@@ -23,7 +23,7 @@ export const shuttleSchedules = [
         routes: [
             { id: 'sun2-1', area: '중리동 방향', ...AREA_COORDS['중리동 방향'], carNum: '6937', time: '09:20~09:40', driver: '배정관' },
             { id: 'sun2-2', area: '송강동 방향', ...AREA_COORDS['송강동 방향'], carNum: '3522', time: '09:20~09:40', driver: '박희우' },
-            { id: 'sun2-3', area: '갈마동 방향', ...AREA_COORDS['갈마동 방향'], carNum: '9746', time: '09:20~09:40', driver: '허은준' },
+            { id: 'sun2-3', area: '갈마동 방향', ...AREA_COORDS['갈마동 방향'], carNum: '6709', time: '09:20~09:40', driver: '허은준' },
             { id: 'sun2-4', area: '신탄진 교회 주변', ...AREA_COORDS['신탄진 교회 주변'], carNum: '4922', time: '09:20~09:40', driver: '안중열' }
         ]
     },
@@ -41,7 +41,7 @@ export const shuttleSchedules = [
         name: '교회학교',
         routes: [
             { id: 'nextgen-1', area: '신탄진 교회 주변', ...AREA_COORDS['신탄진 교회 주변'], carNum: '6937', time: '08:20~09:00', driver: '정영봉' },
-            { id: 'nextgen-2', area: '목상동 방향', ...AREA_COORDS['목상동 방향'], carNum: '9746', time: '08:20~09:00', driver: '안병은' },
+            { id: 'nextgen-2', area: '목상동 방향', ...AREA_COORDS['목상동 방향'], carNum: '6709', time: '08:20~09:00', driver: '안병은' },
             { id: 'nextgen-3', area: '송강동 방향', ...AREA_COORDS['송강동 방향'], carNum: '3522', time: '08:20~09:00', driver: '박찬명' }
         ]
     },
