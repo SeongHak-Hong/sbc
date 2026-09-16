@@ -64,8 +64,8 @@ const WordFadeText = ({ isActive, text, delayOffset = 0, className, style }) => 
                         key={index}
                         initial={{ opacity: 0, filter: 'blur(10px)' }}
                         animate={isActive ? { opacity: 1, filter: 'blur(0px)' } : { opacity: 0, filter: 'blur(10px)' }}
-                        transition={{ 
-                            duration: 0.8, 
+                        transition={{
+                            duration: 0.8,
                             // Stagger logic: each word index increments by 2 (spaces are odd).
                             // So index * 0.04 creates an effective 0.08s stagger per word.
                             delay: isActive ? delayOffset + (index * 0.04) : 0,
@@ -186,7 +186,7 @@ const WelcomePage = () => {
                     {/* Section 1 */}
                     <div className={`${styles.introAbsoluteCenter} ${introActiveIndex === 0 ? styles.activeLayer : ''}`}>
                         <div className={styles.fadeInner}>
-                            <motion.div 
+                            <motion.div
                                 initial={{ opacity: 0, filter: 'blur(10px)' }}
                                 animate={introActiveIndex === 0 ? { opacity: 1, filter: 'blur(0px)' } : { opacity: 0, filter: 'blur(10px)' }}
                                 transition={{ duration: 1 }}
@@ -247,12 +247,12 @@ const WelcomePage = () => {
 
             {/* CTA Section */}
             <div className={styles.ctaSection}>
-                <ScrollFadeText 
+                <ScrollFadeText
                     className={styles.yuhanText}
                     text={"더 궁금한 점이 있으신가요?\n문의 주시면 따뜻하고 친절하게 안내해 드리겠습니다."}
                     once={true}
                 />
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0, filter: 'blur(10px)' }}
                     whileInView={{ opacity: 1, filter: 'blur(0px)' }}
                     viewport={{ once: true, amount: 0, margin: "0px 0px -30% 0px" }}

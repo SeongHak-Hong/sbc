@@ -103,7 +103,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
-    font-size: 320px;
+    font-size: 300px;
     font-weight: 500;
     line-height: 1.6;
     letter-spacing: -0.02em;
@@ -143,7 +143,7 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 640px;
+    width: 600px;
     display: flex;
     align-items: flex-end;
 }
@@ -164,8 +164,8 @@
 }
 
 .greetingBody {
-    font-family: var(--font-suit);
-    font-size: 20px;
+    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
+    font-size: 18px;
     font-weight: 500;
     color: var(--color-text-primary);
     line-height: 1.6;
@@ -180,7 +180,6 @@
 
 .greetingBody p {
     margin: 0;
-    text-indent: 12px;
     font-family: inherit;
     font-size: inherit;
     font-weight: inherit;
@@ -196,7 +195,7 @@
 }
 
 .signatureText {
-    font-family: var(--font-suit);
+    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
     font-size: 18px;
     font-weight: 400;
     color: var(--color-text-primary);

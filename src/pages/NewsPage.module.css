@@ -130,7 +130,7 @@
 }
 
 .eventTitle {
-    font-family: 'SUIT', sans-serif;
+    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
     font-size: 20px;
     font-weight: 400;
     color: var(--color-text-primary);
