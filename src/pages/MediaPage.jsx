@@ -310,7 +310,7 @@ const MediaPage = () => {
                                         const badge = getBadge(video.snippet.title);
                                         const parsedInfo = parseVideoInfo(video);
                                         return (
-                                            <BlurFade key={video.id.videoId} delay={0.25 + index * 0.05} inView>
+                                            <BlurFade key={`${activeTab}-${currentPage}-${video.id.videoId}`} delay={0.25 + index * 0.05} inView>
                                                 <a 
                                                     href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
                                                     target="_blank"
