@@ -1,4 +1,4 @@
-.animatedButton {
+﻿.animatedButton {
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -6,7 +6,6 @@
   line-height: var(--line-height-base);
   padding: 14px 28px;
   border-radius: 28px;
-  font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
   font-size: 18px;
   font-weight: 500;
   background-color: #245672;

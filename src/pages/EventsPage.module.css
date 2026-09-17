@@ -1,4 +1,4 @@
-/* EventsPage.module.css */
+﻿/* EventsPage.module.css */
 .pageWrapper {
     width: 100%;
     min-height: 100vh;
@@ -20,11 +20,9 @@
     font-weight: 500;
     color: var(--color-text-placeholder);
     margin-bottom: 16px;
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
 }
 
 .pageTitle {
-    font-family: var(--font-yuhan);
     font-weight: 500;
     font-size: 40px;
     letter-spacing: 0.02em;
@@ -84,7 +82,6 @@
     align-items: center;
     gap: 6px;
     position: relative;
-    font-family: 'SUIT', sans-serif;
     font-weight: 500;
     font-size: 28px;
     color: var(--color-text-secondary);
@@ -185,7 +182,7 @@
     font-size: 22px !important;
 }
 
-/* 3×4 Month Grid */
+/* 3횞4 Month Grid */
 .monthGrid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -273,7 +270,6 @@
 
 .calendarMonth {
     background-color: #3a86ff;
-    font-family: 'SUIT', sans-serif;
     font-weight: 600;
     font-size: 14px;
     color: #fafafa;
@@ -284,7 +280,6 @@
 .calendarDate {
     background-color: #fafafa;
     padding: 8px;
-    font-family: 'SUIT', sans-serif;
     font-weight: 500;
     font-size: 18px;
     color: #64748b;
@@ -300,7 +295,6 @@
 }
 
 .eventTitle {
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
     font-size: 20px;
     font-weight: 400;
     color: var(--color-text-primary);
@@ -314,7 +308,6 @@
 }
 
 .eventMetaRow {
-    font-family: 'SUIT', sans-serif;
     font-size: 18px;
     font-weight: 400;
     color: var(--color-text-muted);

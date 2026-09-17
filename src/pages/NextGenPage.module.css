@@ -1,4 +1,4 @@
-.pageWrapper {
+﻿.pageWrapper {
     width: 100%;
     min-height: 100vh;
     color: var(--color-text-primary);
@@ -9,7 +9,6 @@
 }
 
 .headerMainTitle {
-    font-family: var(--font-yuhan);
     font-weight: 500;
     font-size: 40px;
 
@@ -55,7 +54,7 @@
     height: 500px;
     border-radius: 100px;
     background-color: #fafafa;
-    box-shadow: 0 30px 50px -30px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 30px 50px -30px rgba(15, 23, 42, 0.12);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -97,10 +96,13 @@
     align-items: center;
 }
 
+.worshipInfo p {
+    font-family: inherit;
+}
+
 .worshipCategory {
-    font-family: 'SUIT', sans-serif;
     font-size: 24px;
-    font-weight: 600;
+    font-weight: var(--font-weight-medium);
     color: var(--color-text-primary);
     margin-bottom: 12px;
     letter-spacing: -0.02em;
@@ -115,17 +117,15 @@
 }
 
 .timeText {
-    font-family: 'YK Green Forest', sans-serif;
     font-size: 80px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     color: #3a86ff;
 
 }
 
 .amPmText {
-    font-family: 'SUIT', sans-serif;
     font-size: 24px;
-    font-weight: 600;
+    font-weight: var(--font-weight-medium);
     color: #3a86ff;
     letter-spacing: -0.02em;
 }
@@ -147,7 +147,6 @@
 }
 
 .locationText {
-    font-family: 'SUIT', sans-serif;
     font-size: 24px;
     color: var(--color-text-muted);
     letter-spacing: -0.02em;
@@ -256,7 +255,6 @@
 }
 
 .eventsTitle {
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
     font-size: 28px;
     font-weight: 500;
     color: var(--color-text-primary);
@@ -331,7 +329,6 @@
 
 .calendarMonth {
     background-color: #3a86ff;
-    font-family: 'SUIT', sans-serif;
     font-weight: 600;
     font-size: 14px;
     color: #fafafa;
@@ -342,7 +339,6 @@
 .calendarDate {
     background-color: #fafafa;
     padding: 8px;
-    font-family: 'SUIT', sans-serif;
     font-weight: 500;
     font-size: 18px;
     color: #64748b;
@@ -351,7 +347,6 @@
 }
 
 .eventTitle {
-    font-family: 'SUIT', sans-serif;
     font-size: 20px;
     font-weight: 400;
     color: var(--color-text-primary);

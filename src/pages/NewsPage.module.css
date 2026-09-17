@@ -1,4 +1,4 @@
-.pageWrapper {
+﻿.pageWrapper {
     width: 100%;
     min-height: 100vh;
     color: var(--color-text-primary);
@@ -28,11 +28,9 @@
     font-weight: 500;
     color: var(--color-text-placeholder);
     margin-bottom: 16px;
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
 }
 
 .pageTitle {
-    font-family: var(--font-yuhan);
     font-weight: 500;
     font-size: 40px;
     letter-spacing: 0.02em;
@@ -130,7 +128,6 @@
 }
 
 .eventTitle {
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
     font-size: 20px;
     font-weight: 400;
     color: var(--color-text-primary);
@@ -144,7 +141,6 @@
 }
 
 .eventMetaRow {
-    font-family: 'SUIT', sans-serif;
     font-size: 18px;
     font-weight: 400;
     color: var(--color-text-muted);

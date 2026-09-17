@@ -30,7 +30,6 @@
 }
 
 .postTitle {
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
     font-size: 32px;
     font-weight: 500;
     margin: 0 0 16px 0;
@@ -48,7 +47,6 @@
     display: flex;
     align-items: center;
     gap: 24px;
-    font-family: 'YuhanKimberly', sans-serif;
     font-weight: 500;
     font-size: 16px;
     color: var(--color-text-muted);
@@ -66,13 +64,16 @@
 /* Override Toast UI Editor fonts cleanly using high specificity */
 .postContainer .postBody :global(.toastui-editor-contents),
 .postContainer .postBody :global(.toastui-editor-contents) * {
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
 }
 
 /* Remove default margins for specific elements */
 .postContainer .postBody :global(.toastui-editor-contents) p,
 .postContainer .postBody :global(.toastui-editor-contents) ul {
     margin: 0;
+}
+
+.postContainer .postBody :global(.toastui-editor-contents) img {
+    border-radius: 16px;
 }
 
 .sliderContainer {
@@ -180,7 +181,6 @@
 }
 
 .contentTitle {
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
     font-weight: 500;
     font-size: 20px;
     color: var(--color-text-primary);
@@ -188,7 +188,6 @@
 }
 
 .contentText {
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
     font-weight: 500;
     font-size: 16px;
     color: var(--color-text-muted);
@@ -366,7 +365,6 @@
     background-color: var(--color-text-primary);
     color: #fafafa;
     border-radius: 99px;
-    font-family: 'SUIT', sans-serif;
     font-weight: 500;
     font-size: 16px;
     border: none;

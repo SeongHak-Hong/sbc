@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap');
 
 .pageWrapper {
     color: var(--color-text-muted);
@@ -57,7 +57,7 @@
 
 .eyebrow {
     font-size: 20px;
-    /* 모바일 환경 (줄어든 크기) */
+    /* 紐⑤컮???섍꼍 (以꾩뼱???ш린) */
     margin-bottom: 16px;
     transform: rotate(-2deg);
     display: inline-block;
@@ -67,7 +67,7 @@
 @media (min-width: 768px) {
     .eyebrow {
         font-size: 1.875rem;
-        /* PC 환경 (기존 크기 30px 유지) */
+        /* PC ?섍꼍 (湲곗〈 ?ш린 30px ?좎?) */
     }
 }
 
@@ -297,7 +297,6 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
 }
 
 .lightButton:hover {
@@ -306,7 +305,6 @@
 }
 
 .ctaTitle {
-    font-family: var(--font-yuhan);
     font-size: 40px;
     font-weight: 500;
 
@@ -318,7 +316,6 @@
 }
 
 .ctaDesc {
-    font-family: var(--font-suit);
     font-size: 16px;
 
     color: var(--color-text-muted);
@@ -360,7 +357,6 @@
     padding: 4px 12px;
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 12px;
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
     font-size: 14px;
     font-weight: bold;
 
@@ -383,7 +379,6 @@
 }
 
 .stepTitleNew {
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
     font-weight: bold;
     font-size: 20px;
 
@@ -392,7 +387,6 @@
 }
 
 .stepDescNew {
-    font-family: 'SUIT', sans-serif;
     font-weight: 400;
     font-size: 16px;
 
@@ -514,7 +508,7 @@
     position: absolute;
     inset: 0;
     z-index: -1;
-    /* 황금빛 그라디언트 (크기 75%로 조정) */
+    /* ?⑷툑鍮?洹몃씪?붿뼵??(?ш린 75%濡?議곗젙) */
     background: radial-gradient(circle at center, rgba(255, 200, 80, 0.5) 0%, rgba(255, 225, 130, 0.25) 25%, rgba(255, 245, 200, 0.1) 50%, rgba(255, 255, 255, 0) 75%);
     animation: breathe 4s ease-in-out infinite alternate;
     pointer-events: none;
@@ -539,7 +533,6 @@
 }
 
 .yuhanText {
-    font-family: var(--font-yuhan);
     font-weight: 500;
     font-size: 40px;
 

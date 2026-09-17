@@ -23,17 +23,16 @@
   word-break: keep-all;
   text-align: center;
 }
-
-:root {
+:root {
   --max-width: 1152px;
   --grid-columns: 12;
   --grid-margin: 48px;
   --grid-gutter: 24px;
 
-  --font-title: 'SUIT', sans-serif;
-  --font-body: 'SUIT', sans-serif;
-  --font-letter: 'SUIT', sans-serif;
-  --font-btn: 'SUIT', sans-serif;
+  --font-title: 'YK Green Forest', var(--font-yuhan), sans-serif;
+  --font-body: 'YK Green Forest', var(--font-yuhan), sans-serif;
+  --font-letter: 'YK Green Forest', var(--font-yuhan), sans-serif;
+  --font-btn: 'YK Green Forest', var(--font-yuhan), sans-serif;
   --font-yuhan: 'YuhanKimberly', sans-serif;
 
   --color-text-white-secondary: rgba(255, 255, 255, 0.8);
@@ -75,6 +74,8 @@
   --color-text-secondary-rgb: 51, 65, 85;
   --color-text-tertiary: #475569;
   --color-text-tertiary-rgb: 71, 85, 105;
+  --color-text-quaternary: #64748B;
+  --color-text-quaternary-rgb: 100, 116, 139;
   --color-text-muted: #969696;
   --color-text-muted-rgb: 150, 150, 150;
   --color-text-placeholder: #94A3B8;

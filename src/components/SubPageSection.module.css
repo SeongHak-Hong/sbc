@@ -1,4 +1,4 @@
-.sectionContainer {
+﻿.sectionContainer {
     padding: var(--section-padding-y, 160px) 0;
     display: flex;
     flex-direction: column;
@@ -76,7 +76,6 @@
 }
 
 .yuhanTitle {
-    font-family: var(--font-yuhan);
     font-weight: 500;
     font-size: 40px;
     letter-spacing: 0.02em;

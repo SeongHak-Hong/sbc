@@ -1,8 +1,7 @@
-.breadcrumb {
+﻿.breadcrumb {
     font-size: 16px;
     font-weight: 500;
     color: var(--color-text-placeholder);
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
     text-align: center;
 }
 
@@ -78,7 +77,6 @@
 }
 
 .yuhanText {
-    font-family: var(--font-yuhan);
     font-size: 40px;
     font-weight: 500;
     line-height: 1.5;
@@ -102,15 +100,14 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
     font-size: 300px;
     font-weight: 500;
     line-height: 1.6;
     letter-spacing: -0.02em;
-    background: linear-gradient(to bottom, rgba(15, 23, 42, 1) 0%, rgba(15, 23, 42, 0) 100%);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    opacity: 0.05;
+    opacity: 0.65;
     z-index: 0;
     pointer-events: none;
 }
@@ -164,7 +161,6 @@
 }
 
 .greetingBody {
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
     font-size: 18px;
     font-weight: 500;
     color: var(--color-text-primary);
@@ -195,7 +191,6 @@
 }
 
 .signatureText {
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
     font-size: 18px;
     font-weight: 400;
     color: var(--color-text-primary);
@@ -255,7 +250,7 @@
     }
 }
 @media (max-width: 767px) {
-    /* 紐⑤컮?쇱뿉?쒕뒗 100vh 怨좎젙???怨??먯뿰?ㅻ윭???ㅽ겕濡??먮쫫?쇰줈 蹂寃?*/
+    /* 筌뤴뫀而??깅퓠??뺣뮉 100vh ?⑥쥙????????癒?염??살쑎????쎄쾿嚥??癒?カ??곗쨮 癰궰野?*/
     .introPinnedWrapper {
         height: auto !important;
     }

@@ -1,4 +1,4 @@
-.switchContainer {
+﻿.switchContainer {
     display: flex;
     padding: 6px;
     width: fit-content;
@@ -12,10 +12,9 @@
     border-radius: 99px;
     border: none;
     background-color: transparent;
-    color: var(--color-text-muted);
-    font-family: 'SUIT', sans-serif;
+    color: var(--color-text-quaternary);
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     position: relative;
     cursor: pointer;
     transition: color 0.2s ease;

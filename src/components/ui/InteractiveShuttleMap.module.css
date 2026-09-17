@@ -1,19 +1,19 @@
-.mapContainer {
+﻿.mapContainer {
     position: relative;
     width: 100%;
     height: 600px;
     border-radius: 12px;
     overflow: hidden;
-    background-color: #f5f5f5; /* 로딩 전 배경 */
+    background-color: #f5f5f5; /* 濡쒕뵫 ??諛곌꼍 */
 }
 
-/* 지도 영역 */
+/* 吏???곸뿭 */
 .mapArea {
     width: 100%;
     height: 100%;
 }
 
-/* 플로팅 패널 */
+/* ?뚮줈???⑤꼸 */
 .floatingPanel {
     position: absolute;
     top: 16px;
@@ -27,13 +27,12 @@
     flex-direction: column;
     gap: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    font-family: 'SUIT', sans-serif;
     letter-spacing: -0.05em;
     z-index: 10;
     overflow-y: auto;
 }
 
-/* 모바일 환경 */
+/* 紐⑤컮???섍꼍 */
 @media (max-width: 768px) {
     .floatingPanel {
         top: auto;
@@ -45,7 +44,7 @@
     }
 }
 
-/* 탭 메뉴 (최상위: 교회위치 vs 셔틀노선) */
+/* ??硫붾돱 (理쒖긽?? 援먰쉶?꾩튂 vs ?뷀??몄꽑) */
 .mainTabs {
     flex-shrink: 0;
     margin-bottom: 0 !important;
@@ -56,7 +55,7 @@
     font-size: 14px !important;
 }
 
-/* 서브 탭 그룹 (예배 시간 선택) */
+/* ?쒕툕 ??洹몃９ (?덈같 ?쒓컙 ?좏깮) */
 .subTabsGroup {
     display: flex;
     flex-direction: column;
@@ -97,7 +96,7 @@
     color: #fff;
 }
 
-/* 차량 리스트 영역 */
+/* 李⑤웾 由ъ뒪???곸뿭 */
 .routeList {
     display: flex;
     flex-direction: column;
@@ -131,7 +130,7 @@
     color: #555;
 }
 
-/* 교회 위치 기본 정보 */
+/* 援먰쉶 ?꾩튂 湲곕낯 ?뺣낫 */
 .churchInfo {
     display: flex;
     flex-direction: column;
@@ -156,7 +155,7 @@
     text-decoration: none;
 }
 
-/* 네이버 스타일 커스텀 말풍선 마커 */
+/* ?ㅼ씠踰??ㅽ???而ㅼ뒪? 留먰뭾??留덉빱 */
 .naverMarker {
     position: relative;
     display: flex;
@@ -174,7 +173,7 @@
     white-space: nowrap;
 }
 
-/* 말풍선 꼬리 */
+/* 留먰뭾??瑗щ━ */
 .naverMarker::after {
     content: '';
     position: absolute;
@@ -188,7 +187,7 @@
     border-bottom: 1px solid #bbb;
 }
 
-/* 네이버 그린 포인트 마커 (교회용) */
+/* ?ㅼ씠踰?洹몃┛ ?ъ씤??留덉빱 (援먰쉶?? */
 .naverMarkerPrimary {
     background-color: #03C75A;
     color: #fff;

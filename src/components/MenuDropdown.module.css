@@ -1,4 +1,4 @@
-.toggleContainer {
+﻿.toggleContainer {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -23,7 +23,6 @@
     outline: none;
     flex-shrink: 0;
     font-size: 18px;
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
 }
 
 .toggleBtn:hover {

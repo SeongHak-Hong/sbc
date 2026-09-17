@@ -1,4 +1,4 @@
-.pageWrapper {
+﻿.pageWrapper {
     color: var(--color-text-muted);
     min-height: 100vh;
     position: relative;
@@ -26,7 +26,6 @@
     font-weight: 500;
     color: var(--color-text-placeholder);
     margin-bottom: 16px;
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
 }
 
 .mainText {
@@ -36,7 +35,6 @@
     letter-spacing: 0.02em;
     margin-bottom: 48px;
     word-break: keep-all;
-    font-family: var(--font-yuhan);
 }
 
 .buttonGroup {
@@ -62,7 +60,6 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
 }
 
 .dropdownOpenButton {
