@@ -1,4 +1,4 @@
-﻿.pageWrapper {
+.pageWrapper {
     color: var(--color-text-muted);
     min-height: 100vh;
     position: relative;
@@ -54,8 +54,7 @@
 
     color: var(--color-text-secondary);
     cursor: pointer;
-    box-shadow: 0px 0px 4px rgba(var(--color-text-primary-rgb), 0.12);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -65,14 +64,12 @@
 .dropdownOpenButton {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    box-shadow: 0px -4px 12px rgba(var(--color-text-primary-rgb), 0.08);
     transform: translateY(0) !important;
     z-index: 51;
 }
 
 .selectButton:hover {
     transform: translateY(-2px);
-    box-shadow: 0px 4px 12px rgba(var(--color-text-primary-rgb), 0.15);
 }
 
 .selectButton.secondary {

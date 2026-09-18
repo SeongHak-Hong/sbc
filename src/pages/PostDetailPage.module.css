@@ -5,7 +5,8 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(var(--color-text-primary-rgb), 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
     z-index: 9999;
     display: flex;
     align-items: center;
