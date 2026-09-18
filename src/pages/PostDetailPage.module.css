@@ -1,4 +1,4 @@
-.pageWrapper {
+﻿.pageWrapper {
     width: 100%;
     min-height: 100vh;
     color: var(--color-text-primary);
@@ -272,7 +272,7 @@
     aspect-ratio: 1/1.4;
     overflow: hidden;
     position: relative;
-    background-color: #fff;
+    background-color: var(--color-white);
     border-radius: 2px;
     display: flex;
     justify-content: center;
@@ -363,7 +363,7 @@
     justify-content: center;
     padding: 10px 20px;
     background-color: var(--color-text-primary);
-    color: #fafafa;
+    color: var(--color-gray-50);
     border-radius: 99px;
     font-weight: 500;
     font-size: 16px;
@@ -375,3 +375,4 @@
     background-color: var(--color-text-secondary);
     transform: translateY(-2px);
 }
+

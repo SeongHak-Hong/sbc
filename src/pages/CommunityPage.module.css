@@ -46,7 +46,7 @@
 }
 
 .selectButton {
-    background-color: #fafafa;
+    background-color: var(--color-gray-50);
     border: none;
     border-radius: 28px;
     padding: 14px 28px;
@@ -76,7 +76,7 @@
 }
 
 .selectButton.secondary {
-    background-color: #fafafa;
+    background-color: var(--color-gray-50);
     color: var(--color-text-primary);
 }
 
@@ -92,7 +92,7 @@
     left: 0;
     width: 100%;
     margin-top: 0;
-    background-color: #FFFFFF;
+    background-color: var(--color-white);
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     box-shadow: 0px 8px 12px rgba(var(--color-text-primary-rgb), 0.08);
@@ -148,3 +148,4 @@
         font-size: 16px;
     }
 }
+

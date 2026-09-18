@@ -21,7 +21,7 @@
     width: 320px;
     height: auto;
     max-height: calc(100% - 32px);
-    background-color: #fff;
+    background-color: var(--color-white);
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -93,7 +93,7 @@
 
 .subTab.active {
     background-color: #111;
-    color: #fff;
+    color: var(--color-white);
 }
 
 /* 李⑤웾 由ъ뒪???곸뿭 */
@@ -160,7 +160,7 @@
     position: relative;
     display: flex;
     align-items: center;
-    background-color: #fff;
+    background-color: var(--color-white);
     border: 1px solid #bbb;
     border-radius: 20px;
     padding: 6px 14px;
@@ -182,7 +182,7 @@
     transform: translateX(-50%) rotate(45deg);
     width: 8px;
     height: 8px;
-    background-color: #fff;
+    background-color: var(--color-white);
     border-right: 1px solid #bbb;
     border-bottom: 1px solid #bbb;
 }
@@ -190,7 +190,7 @@
 /* ?ㅼ씠踰?洹몃┛ ?ъ씤??留덉빱 (援먰쉶?? */
 .naverMarkerPrimary {
     background-color: #03C75A;
-    color: #fff;
+    color: var(--color-white);
     border-color: #01b14f;
     font-weight: 700;
 }
@@ -207,3 +207,4 @@
     margin-right: 6px;
     background-color: #3b82f6;
 }
+

@@ -272,13 +272,13 @@
     background-color: #3a86ff;
     font-weight: 600;
     font-size: 14px;
-    color: #fafafa;
+    color: var(--color-gray-50);
     letter-spacing: -0.02em;
     line-height: 1.6;
 }
 
 .calendarDate {
-    background-color: #fafafa;
+    background-color: var(--color-gray-50);
     padding: 8px;
     font-weight: 500;
     font-size: 18px;
@@ -363,3 +363,4 @@
         transform: translateY(0);
     }
 }
+

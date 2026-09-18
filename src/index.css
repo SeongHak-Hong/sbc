@@ -59,14 +59,37 @@
   --text-h1: var(--pc-text-h1);
   --text-h2: var(--pc-text-h2);
   --text-h3: var(--pc-text-h3);
+  --pc-text-h2: 64px;
+  --pc-text-h3: 48px;
+  --pc-text-h4: 32px;
+  --pc-text-body: 28px;
+  --pc-text-body-card: 24px;
+  --pc-text-sub-title: 24px;
+
+  /* Font Weight Tokens */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line-height Tokens */
+  --line-height-base: 1.6;
+  --line-height-heading: 1.6;
+
+  --text-h1: var(--pc-text-h1);
+  --text-h2: var(--pc-text-h2);
+  --text-h3: var(--pc-text-h3);
   --text-h4: var(--pc-text-h4);
   --text-body: var(--pc-text-body);
   --text-body-card: var(--pc-text-body-card);
   --text-sub-title: var(--pc-text-sub-title);
 
-  --color-background-dark: #141C24;
-  --color-white: #fafafa;
-  --color-white-rgb: 250, 250, 250;
+  --color-white: #ffffff;
+  --color-gray-50: #fafafa;
+  --color-black: #1a1a1a;
+  
+  /* Text Colors */
   --color-background-beige: #F0EEED;
   --color-text-primary: #0F172A;
   --color-text-primary-rgb: 15, 23, 42;

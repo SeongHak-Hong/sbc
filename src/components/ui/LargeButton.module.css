@@ -9,7 +9,7 @@
   font-size: 18px;
   font-weight: 500;
   background-color: #245672;
-  color: #fafafa;
+  color: var(--color-gray-50);
   border: none;
   box-shadow: 0px 0px 4px rgba(var(--color-text-primary-rgb), 0.12);
   cursor: pointer;
@@ -26,3 +26,4 @@
     font-size: 16px;
   }
 }
+

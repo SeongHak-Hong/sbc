@@ -132,7 +132,7 @@
 .badge {
     display: inline-block;
     color: var(--color-text-secondary);
-    background-color: #ffffff;
+    background-color: var(--color-gray-50);
     font-weight: var(--font-weight-medium);
     font-size: 14px;
     padding: 4px 12px;
@@ -283,3 +283,4 @@
         font-size: 14px;
     }
 }
+

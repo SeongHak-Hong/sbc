@@ -35,7 +35,7 @@ const MediaPage = () => {
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const tab = params.get('tab');
-        if (tab === 'praise' || tab === 'sermon' || tab === 'all') {
+        if (tab === 'praise' || tab === 'sermon' || tab === 'nextgen' || tab === 'all') {
             setActiveTab(tab);
         }
     }, [location]);
@@ -45,7 +45,7 @@ const MediaPage = () => {
             setLoading(true);
             try {
                 // 1. 캐시 확인 (6시간 유지)
-                const cacheKey = 'sbc_youtube_videos';
+                const cacheKey = 'sbc_youtube_videos_v2';
                 const cachedDataStr = localStorage.getItem(cacheKey);
                 if (cachedDataStr) {
                     const cachedData = JSON.parse(cachedDataStr);
@@ -87,6 +87,36 @@ const MediaPage = () => {
                     }
                 }
 
+                // 추가로 '유치부' 키워드로 채널 내 영상 검색 (최대 50개)
+                try {
+                    const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&maxResults=50&q=${encodeURIComponent('유치부')}&type=video&key=${apiKey}`;
+                    const searchResponse = await fetch(searchUrl);
+                    const searchData = await searchResponse.json();
+                    
+                    if (searchData.items) {
+                        // search API의 응답은 item.id.videoId 형태이므로 호환성을 위해 변환
+                        const searchItems = searchData.items.map(item => ({
+                            ...item,
+                            snippet: {
+                                ...item.snippet,
+                                resourceId: { videoId: item.id.videoId }
+                            }
+                        }));
+                        allItems = [...allItems, ...searchItems];
+                    }
+                } catch (searchError) {
+                    console.error("Failed to fetch search results for NextGen:", searchError);
+                }
+
+                // 중복 제거 (videoId 기준)
+                const uniqueItemsMap = new Map();
+                allItems.forEach(item => {
+                    if (item.snippet && item.snippet.resourceId && item.snippet.resourceId.videoId) {
+                        uniqueItemsMap.set(item.snippet.resourceId.videoId, item);
+                    }
+                });
+                allItems = Array.from(uniqueItemsMap.values());
+
                 if (allItems.length > 0) {
                     // 유효한 항목 필터링
                     const validItems = allItems.filter(item => item.snippet && item.snippet.resourceId && item.snippet.resourceId.videoId);
@@ -120,6 +150,9 @@ const MediaPage = () => {
 
                     // 5분 이내 영상(쇼츠 등) 제외
                     const nonShortsVideos = validItems.filter(item => {
+                        const title = (item.snippet.title || '').replace(/&quot;/g, '"').replace(/&#39;/g, "'").toLowerCase();
+                        if (title.includes('유치부')) return true; // 유치부 영상은 길이 무관하게 포함
+
                         const videoId = item.snippet.resourceId.videoId;
                         const durationStr = durationMap[videoId];
                         if (durationStr) {
@@ -135,7 +168,7 @@ const MediaPage = () => {
                     }));
 
                     // 새로운 데이터를 캐시에 저장
-                    localStorage.setItem('sbc_youtube_videos', JSON.stringify({
+                    localStorage.setItem('sbc_youtube_videos_v2', JSON.stringify({
                         timestamp: new Date().getTime(),
                         videos: formattedVideos
                     }));
@@ -148,7 +181,7 @@ const MediaPage = () => {
                 console.error("Failed to fetch YouTube videos:", error);
                 
                 // 할당량 초과(Quota Exceeded) 등 에러 발생 시, 만료된 캐시라도 있다면 보여줌 (빈 화면 방지)
-                const cachedDataStr = localStorage.getItem('sbc_youtube_videos');
+                const cachedDataStr = localStorage.getItem('sbc_youtube_videos_v2') || localStorage.getItem('sbc_youtube_videos');
                 if (cachedDataStr) {
                     const cachedData = JSON.parse(cachedDataStr);
                     setVideos(cachedData.videos);
@@ -168,7 +201,10 @@ const MediaPage = () => {
         const title = video.snippet.title.replace(/&quot;/g, '"').replace(/&#39;/g, "'").toLowerCase();
 
         if (activeTab === 'sermon') {
+            if (title.includes('유치부')) return false;
             return title.includes('주일') || title.includes('오후') || title.includes('수요') || title.includes('예배') || title.includes('설교') || title.includes('헌신');
+        } else if (activeTab === 'nextgen') {
+            return title.includes('유치부');
         } else {
             return title.includes('찬양') || title.includes('특송');
         }
@@ -176,6 +212,7 @@ const MediaPage = () => {
 
     const getBadge = (rawTitle) => {
         const title = rawTitle.replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+        if (title.includes('유치부')) return '다음세대';
         if (title.includes('헌신예배')) return '헌신예배';
         if (title.includes('주일2부')) return '주일2부예배';
         if (title.includes('주일오후') || title.includes('오후예배')) return '주일오후예배';
@@ -215,6 +252,10 @@ const MediaPage = () => {
             return match ? match[0] : null;
         };
         let preacher = findPreacher(rawTitle) || findPreacher(desc) || '최영락 담임목사';
+        
+        if (rawTitle.toLowerCase().includes('유치부')) {
+            preacher = '-';
+        }
 
         // 3. Date Extraction (YYYY.MM.DD format)
         const publishedAt = new Date(video.snippet.publishedAt);
@@ -296,7 +337,8 @@ const MediaPage = () => {
                                     tabs={[
                                         { id: 'all', label: '전체' },
                                         { id: 'sermon', label: '설교' },
-                                        { id: 'praise', label: '찬양' }
+                                        { id: 'praise', label: '찬양' },
+                                        { id: 'nextgen', label: '다음세대' }
                                     ]}
                                     activeTab={activeTab}
                                     onTabChange={(id) => { setActiveTab(id); setCurrentPage(1); }}

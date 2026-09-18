@@ -2,7 +2,7 @@
     display: flex;
     padding: 6px;
     width: fit-content;
-    background-color: #ffffff;
+    background-color: var(--color-white);
     border-radius: 99px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.04);
 }
@@ -36,7 +36,7 @@
 }
 
 .switchButton.active {
-    color: #ffffff;
+    color: var(--color-white);
 }
 
 @media (max-width: 600px) {
@@ -45,3 +45,4 @@
         font-size: 14px;
     }
 }
+

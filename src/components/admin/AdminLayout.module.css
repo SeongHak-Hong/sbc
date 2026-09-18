@@ -1,4 +1,4 @@
-.adminContainer {
+﻿.adminContainer {
     display: flex;
     min-height: 100vh;
     background-color: #F9FAFB;
@@ -15,7 +15,7 @@
 .sidebar {
     width: 250px;
     background-color: #111827;
-    color: #fff;
+    color: var(--color-white);
     display: flex;
     flex-direction: column;
     position: sticky;
@@ -53,12 +53,12 @@
 
 .navItem:hover {
     background-color: #1F2937;
-    color: #fff;
+    color: var(--color-white);
 }
 
 .navItem.active {
     background-color: #374151;
-    color: #fff;
+    color: var(--color-white);
     border-left: 4px solid #FBCB51;
 }
 
@@ -83,7 +83,7 @@
 
 .logoutBtn:hover {
     background-color: #374151;
-    color: #fff;
+    color: var(--color-white);
 }
 
 .homeLink {
@@ -95,7 +95,7 @@
 }
 
 .homeLink:hover {
-    color: #fff;
+    color: var(--color-white);
     text-decoration: underline;
 }
 
@@ -104,3 +104,4 @@
     padding: 40px;
     overflow-y: auto;
 }
+
