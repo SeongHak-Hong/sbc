@@ -110,8 +110,7 @@ function FullScreenCard({ member, isMobile, index, totalCards, spacing, scrollPr
         pointerEvents: isActive ? 'auto' : 'none',
         zIndex: isActive ? 20 : 10 - Math.abs(index),
         willChange: 'transform',
-        transform: `translateX(${initialOffset}px)`,
-      }}
+        transform: `translateX(${initialOffset}px)` }}
     >
       <SingleLanyard member={member} isMobile={isMobile} />
     </div>

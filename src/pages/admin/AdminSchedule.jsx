@@ -214,8 +214,7 @@ const AdminSchedule = () => {
                     const options = {
                         maxSizeMB: 2,
                         maxWidthOrHeight: 1920,
-                        useWebWorker: true,
-                    };
+                        useWebWorker: true };
                     const compressedFile = await imageCompression(file, options);
                     
                     const formData = new FormData();
@@ -431,7 +430,7 @@ const AdminSchedule = () => {
                                 <td style={{ padding: '16px'}}>{item.month}</td>
                                 <td style={{ padding: '16px' }}>{item.date} ({item.day[0]})</td>
                                 <td style={{ padding: '16px' }}>
-                                    <div style={{}}>
+                                    <div >
                                         {item.title}
                                         {item.endDate && (() => {
                                             const startStr = (item.startDate || '').substring(5).replace('-', '.');

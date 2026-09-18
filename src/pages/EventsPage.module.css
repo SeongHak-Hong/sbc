@@ -1,4 +1,4 @@
-﻿/* EventsPage.module.css */
+/* EventsPage.module.css */
 .pageWrapper {
     width: 100%;
     min-height: 100vh;
@@ -13,17 +13,18 @@
     max-width: 1440px;
     margin: 0 auto;
     width: 100%;
+    overflow: hidden;
 }
 
 .breadcrumb {
     font-size: 16px;
-    font-weight: 500;
+
     color: var(--color-text-placeholder);
     margin-bottom: 16px;
 }
 
 .pageTitle {
-    font-weight: 500;
+
     font-size: 40px;
     letter-spacing: 0.02em;
     color: var(--color-text-primary);
@@ -82,7 +83,7 @@
     align-items: center;
     gap: 6px;
     position: relative;
-    font-weight: 500;
+
     font-size: 28px;
     color: var(--color-text-secondary);
 }
@@ -235,6 +236,10 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 8px;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .eventCard {
@@ -248,12 +253,16 @@
     backdrop-filter: blur(10px);
     cursor: pointer;
     position: relative;
+    overflow: hidden;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .eventInfoLeft {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 20px;
     width: 100%;
     min-width: 0;
 }
@@ -265,12 +274,14 @@
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.12);
     overflow: hidden;
     text-align: center;
-    min-width: 74px;
+    min-width: 68px;
+    width: 68px;
+    flex-shrink: 0;
 }
 
 .calendarMonth {
     background-color: #3a86ff;
-    font-weight: 600;
+
     font-size: 14px;
     color: var(--color-gray-50);
     letter-spacing: -0.02em;
@@ -280,9 +291,9 @@
 .calendarDate {
     background-color: var(--color-gray-50);
     padding: 8px;
-    font-weight: 500;
-    font-size: 18px;
-    color: #64748b;
+
+    font-size: 16px;
+    color: var(--color-text-quaternary);
     letter-spacing: -0.02em;
     line-height: 1.6;
 }
@@ -292,11 +303,12 @@
     flex-direction: column;
     gap: 4px;
     min-width: 0;
+    overflow: hidden;
 }
 
 .eventTitle {
-    font-size: 20px;
-    font-weight: 400;
+    font-size: 18px;
+
     color: var(--color-text-primary);
     margin: 0;
     letter-spacing: -0.02em;
@@ -308,8 +320,8 @@
 }
 
 .eventMetaRow {
-    font-size: 18px;
-    font-weight: 400;
+    font-size: 16px;
+
     color: var(--color-text-muted);
     margin: 0;
     letter-spacing: -0.02em;

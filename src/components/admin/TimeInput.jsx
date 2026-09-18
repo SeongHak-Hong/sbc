@@ -85,7 +85,7 @@ const TimeInput = ({ value, onChange }) => {
                 placeholder="00"
                 style={{ width: '60px', padding: '0', textAlign: 'center', height: '48px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
             />
-            <span style={{ fontWeight: 'bold', color: '#333' }}>:</span>
+            <span style={{  color: '#333' }}>:</span>
             <input 
                 type="text" 
                 value={minute} 

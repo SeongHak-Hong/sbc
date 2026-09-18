@@ -121,7 +121,7 @@
 
 .routeArea {
     font-size: 14px;
-    font-weight: var(--font-weight-semibold);
+
     color: #111;
 }
 
@@ -139,7 +139,7 @@
 
 .churchTitle {
     font-size: 14px;
-    font-weight: 600;
+
     color: #111;
     margin: 0;
 }
@@ -165,7 +165,7 @@
     border-radius: 20px;
     padding: 6px 14px;
     font-size: 13px;
-    font-weight: 600;
+
     color: #111;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     transform: translate(-50%, -100%);
@@ -192,7 +192,7 @@
     background-color: #03C75A;
     color: var(--color-white);
     border-color: #01b14f;
-    font-weight: 700;
+
 }
 
 .naverMarkerPrimary::after {

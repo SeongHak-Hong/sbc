@@ -29,7 +29,7 @@ const EventSection = () => {
 
     const titleStyle = {
         fontFamily: 'var(--font-yuhan)',
-        fontWeight: 500,
+        
         fontSize: isMobile ? '24px' : '40px',
         lineHeight: 1.6,
         letterSpacing: '0.02em',

@@ -1,4 +1,4 @@
-﻿.pageWrapper {
+.pageWrapper {
     width: 100%;
     min-height: 100vh;
     color: var(--color-text-primary);
@@ -25,13 +25,13 @@
 
 .breadcrumb {
     font-size: 16px;
-    font-weight: 500;
+
     color: var(--color-text-placeholder);
     margin-bottom: 16px;
 }
 
 .pageTitle {
-    font-weight: 500;
+
     font-size: 40px;
     letter-spacing: 0.02em;
     color: var(--color-text-primary);
@@ -89,7 +89,7 @@
 .eventInfoLeft {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 20px;
     width: 100%;
     min-width: 0;
 }
@@ -102,21 +102,22 @@
     overflow: hidden;
     text-align: center;
     flex-shrink: 0;
-    width: 64px;
+    width: 68px;
+    min-width: 68px;
 }
 
 .calendarMonth {
     background-color: #3B82F6;
     color: white;
     font-size: 14px;
-    font-weight: 600;
+
 }
 
 .calendarDate {
     background-color: white;
-    color: #1E3A8A;
+    color: var(--color-text-quaternary);
     font-size: 16px;
-    font-weight: 700;
+
     padding: 6px;
 }
 
@@ -128,8 +129,8 @@
 }
 
 .eventTitle {
-    font-size: 20px;
-    font-weight: 400;
+    font-size: 18px;
+
     color: var(--color-text-primary);
     margin: 0;
     letter-spacing: -0.02em;
@@ -141,8 +142,8 @@
 }
 
 .eventMetaRow {
-    font-size: 18px;
-    font-weight: 400;
+    font-size: 16px;
+
     color: var(--color-text-muted);
     margin: 0;
     letter-spacing: -0.02em;

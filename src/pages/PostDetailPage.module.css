@@ -1,378 +1,438 @@
-﻿.pageWrapper {
-    width: 100%;
-    min-height: 100vh;
-    color: var(--color-text-primary);
-    position: relative;
-    overflow-x: hidden;
-    background: linear-gradient(to bottom, #E7F5FD, #FCEBE0);
-    background-attachment: fixed;
-}
-
-.contentWrapper {
-    max-width: 800px;
-    margin: 0 auto;
-    width: 100%;
-}
-
-.postContainer {
-    margin-top: 40px;
-    margin-bottom: 80px;
-    display: flex;
-    flex-direction: column;
-    gap: 64px;
-}
-
-.postHeader {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-.postTitle {
-    font-size: 32px;
-    font-weight: 500;
-    margin: 0 0 16px 0;
-    color: var(--color-text-primary);
-    word-break: keep-all;
-}
-
-@media (max-width: 600px) {
-    .postTitle {
-        font-size: 28px;
-    }
-}
-
-.postMeta {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    font-weight: 500;
-    font-size: 16px;
-    color: var(--color-text-muted);
-}
-
-.metaDivider {
-    color: rgba(var(--color-text-primary-rgb), 0.2);
-}
-
-.postBody {
-    display: flex;
-    flex-direction: column;
-}
-
-/* Override Toast UI Editor fonts cleanly using high specificity */
-.postContainer .postBody :global(.toastui-editor-contents),
-.postContainer .postBody :global(.toastui-editor-contents) * {
-}
-
-/* Remove default margins for specific elements */
-.postContainer .postBody :global(.toastui-editor-contents) p,
-.postContainer .postBody :global(.toastui-editor-contents) ul {
-    margin: 0;
-}
-
-.postContainer .postBody :global(.toastui-editor-contents) img {
-    border-radius: 16px;
-}
-
-.sliderContainer {
-    position: relative;
-    width: 100%;
-    margin-bottom: 40px;
-    border-radius: 16px;
-    overflow: hidden;
-    background-color: #000;
-}
-
-.sliderContainer::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 92%, rgba(0, 0, 0, 0.25) 100%);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    z-index: 5;
-}
-
-.sliderContainer:hover::after {
-    opacity: 1;
-}
-
-.sliderImage {
-    width: 100%;
-    height: auto;
-    max-height: 640px;
-    object-fit: contain;
-    display: block;
-}
-
-.navButton {
-    background-color: rgba(255, 255, 255, 0.8);
-    border: none;
-    color: var(--color-text-primary);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    min-height: 32px;
-    padding: 0;
-    flex-shrink: 0;
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    transition: background-color 0.2s ease, opacity 0.2s ease;
-}
-
-.navButton:hover:not(:disabled) {
-    background-color: rgba(255, 255, 255, 1);
-}
-
-.navButton:disabled {
-    opacity: 0.2;
-    cursor: not-allowed;
-}
-
-.prevButton {
-    left: 8px;
-}
-
-.nextButton {
-    right: 8px;
-}
-
-.navButton span {
-    font-size: 20px;
-}
-
-.paginationContainer {
-    position: absolute;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 6px;
-    z-index: 10;
-}
-
-.paginationDot {
-    width: 8px;
-    height: 8px;
-    background-color: rgba(255, 255, 255, 0.4);
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.paginationDotActive {
-    width: 16px;
-    height: 8px;
-    background-color: rgba(255, 255, 255, 1);
-    border-radius: 5px;
-}
-
-.contentTitle {
-    font-weight: 500;
-    font-size: 20px;
-    color: var(--color-text-primary);
-    margin: 0 0 8px 0;
-}
-
-.contentText {
-    font-weight: 500;
-    font-size: 16px;
-    color: var(--color-text-muted);
-    line-height: 1.6;
-    margin: 0;
-    white-space: pre-wrap;
-    word-break: break-all;
-}
-
-/* Bulletin legacy styles */
-.bulletinViewerContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin-bottom: 40px;
-    box-sizing: border-box;
-    align-items: center;
-}
-
-.mainViewerWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    position: relative;
-    max-width: 400px;
-}
-
-.mainViewer {
-    width: 100%;
-}
-
-.bulletinPageWrapper {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.bulletinPageWrapper img {
-    width: 100%;
-    height: auto;
-    display: block;
-    transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.slicedImage {
-    width: 300% !important;
-    max-width: none !important;
-}
-
-.thumbnailStrip {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    margin-top: 24px;
-    width: 100%;
-    flex-wrap: wrap;
-}
-
-.thumbnailWrapper {
-    width: 80px;
-    cursor: pointer;
-    border: 2px solid transparent;
-    border-radius: 4px;
-    transition: border-color 0.2s ease, opacity 0.2s ease;
-    opacity: 0.5;
-    padding: 2px;
-}
-
-.thumbnailWrapper:hover {
-    opacity: 0.8;
-}
-
-.activeThumbnail {
-    border-color: var(--color-text-primary);
-    opacity: 1;
-}
-
-.thumbnailInner {
-    width: 100%;
-    aspect-ratio: 1/1.4;
-    overflow: hidden;
-    position: relative;
-    background-color: var(--color-white);
-    border-radius: 2px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.thumbnailInner img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    pointer-events: none;
-}
-
-.thumbnailInner img.slicedImage {
-    position: absolute;
+/* Drawer Overlay */
+.overlay {
+    position: fixed;
     top: 0;
-    width: 300%;
-    height: 100%;
-    max-width: none !important;
-    object-fit: cover;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(var(--color-text-primary-rgb), 0.5);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.bulletinNavButton {
-    background: transparent;
+/* Drawer Container */
+.drawer {
+    width: 1308px;
+    height: 854px;
+    background-color: var(--color-white);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+
+.drawer.textOnly {
+    width: 654px;
+}
+
+.imageSection {
+    width: 654px;
+    height: 100%;
+    background-color: #000;
+    position: relative;
+}
+
+.textSection {
+    width: 654px;
+    height: 100%;
+    padding: 64px;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.textSection::-webkit-scrollbar {
+    display: none;
+}
+
+.textContentWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+/* Close Button and Header */
+.mobileHeader {
+    display: contents;
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--color-gray-50);
     border: none;
-    color: var(--color-text-primary);
     cursor: pointer;
+    color: var(--color-text-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 8px;
     border-radius: 50%;
-    transition: background-color 0.2s ease, opacity 0.2s ease;
-    position: absolute;
-    top: 50%;
-    z-index: 10;
-}
-.bulletinPrevButton {
-    left: -32px;
-    transform: translate(-50%, -50%);
+    transition: background-color 0.2s;
 }
 
-.bulletinNextButton {
-    right: -32px;
-    transform: translate(50%, -50%);
+.closeButton:hover {
+    background-color: var(--color-background-beige);
 }
 
-.bulletinNavButton:hover:not(:disabled) {
-    background-color: rgba(var(--color-text-primary-rgb), 0.05);
+.closeButton img {
+    width: 28px;
+    height: 28px;
 }
 
-.bulletinNavButton:disabled {
-    opacity: 0.2;
-    cursor: not-allowed;
-}
-
-.bulletinNavButton span {
-    font-size: 36px;
-}
-
-@media (max-width: 600px) {
-    .bulletinViewerContainer {
-        width: 100vw;
-        margin-left: calc(-50vw + 50%);
-        margin-right: calc(-50vw + 50%);
-        padding: 40px 32px;
-        border-radius: 0;
-    }
-    .bulletinPrevButton {
-        left: -32px;
-        transform: translateY(-50%);
-    }
-    .bulletinNextButton {
-        right: -32px;
-        transform: translateY(-50%);
-    }
-}
-
-.buttonWrapper {
+/* Content Wrapper */
+.contentWrapper {
     display: flex;
-    justify-content: flex-start;
+    flex-direction: column;
+    gap: 48px;
+    width: 100%;
 }
 
-.backButton {
+/* Post Header */
+.postHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    text-align: center;
+}
+
+.postTitle {
+    font-size: 24px;
+
+    color: var(--color-text-primary);
+    margin: 0;
+    line-height: var(--line-height-heading);
+}
+
+.postMeta {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+
+    color: var(--color-text-muted);
+}
+
+.postMeta span {
+    display: flex;
+    align-items: center;
+}
+
+.postMeta span:not(:last-child)::after {
+    content: "";
+    display: inline-block;
+    width: 1px;
+    height: 10px;
+    background-color: #eeeeee;
+    border-radius: 10px;
+    margin-left: 12px;
+}
+
+/* Post Body (Content area) */
+.postBody {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 100%;
+}
+
+.viewerWrapper {
+    font-size: 16px;
+    color: var(--color-text-tertiary);
+    line-height: var(--line-height-base);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.viewerWrapper strong,
+.viewerWrapper b,
+.viewerWrapper :global(.toastui-editor-contents) strong,
+.viewerWrapper :global(.toastui-editor-contents) b {
+    font-weight: normal !important;
+}
+
+/* Force override of any hardcoded inline line-heights inside the post content */
+.viewerWrapper :global(.toastui-editor-contents) * {
+    line-height: var(--line-height-base) !important;
+    font-family: var(--font-body) !important;
+}
+
+.viewerWrapper :global(.toastui-editor-contents) h1,
+.viewerWrapper :global(.toastui-editor-contents) h2,
+.viewerWrapper :global(.toastui-editor-contents) h3,
+.viewerWrapper :global(.toastui-editor-contents) h4,
+.viewerWrapper :global(.toastui-editor-contents) h5,
+.viewerWrapper :global(.toastui-editor-contents) h6 {
+    line-height: var(--line-height-heading) !important;
+    font-weight: 400 !important;
+    color: var(--color-text-body) !important;
+    font-size: 16px !important;
+}
+
+/* ImageViewer overrides for Drawer */
+.sliderContainer {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    overflow: hidden;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 20px;
-    background-color: var(--color-text-primary);
-    color: var(--color-gray-50);
-    border-radius: 99px;
-    font-weight: 500;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-}
-.backButton:hover {
-    background-color: var(--color-text-secondary);
-    transform: translateY(-2px);
 }
 
+.sliderImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Image Viewer Nav Buttons */
+.navButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    border: none;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    z-index: 10;
+}
+
+.prevButton {
+    left: 10px;
+}
+
+.nextButton {
+    right: 10px;
+}
+
+.navButton img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.navButton:disabled {
+    cursor: not-allowed;
+}
+
+/* Pagination Dots */
+.paginationContainer {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 4px;
+    z-index: 10;
+}
+
+.paginationDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.paginationDotActive {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: white;
+}
+
+/* Bulletin / Sliced Viewer Styles */
+.mainViewerWrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mainViewer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bulletinPageWrapper {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.thumbnailStrip {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 10px 0;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.thumbnailStrip::-webkit-scrollbar {
+    display: none;
+}
+
+.thumbnailWrapper {
+    width: 40px;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s, border 0.2s;
+    border: 2px solid transparent;
+}
+
+.activeThumbnail {
+    opacity: 1;
+    border-color: var(--color-text-primary);
+}
+
+.thumbnailInner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.slicedImage {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 300%;
+    object-fit: cover;
+}
+
+/* Responsive - Mobile */
+@media (max-width: 768px) {
+    .overlay {
+        background-color: var(--color-white);
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+
+    .drawer {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        box-shadow: none;
+        flex-direction: column;
+        overflow-y: auto;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .drawer::-webkit-scrollbar {
+        display: none;
+    }
+
+    .drawer.textOnly {
+        width: 100%;
+    }
+
+    .imageSection {
+        width: 100%;
+        height: 80vh;
+        flex-shrink: 0;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .textSection {
+        width: 100%;
+        height: auto;
+        flex: 1;
+        padding: 24px 20px 100px 20px;
+        overflow-y: visible;
+    }
+
+    .textContentWrapper {
+        gap: 24px;
+    }
+
+    .mobileHeader {
+        display: flex;
+        width: 100%;
+        position: sticky;
+        top: 0;
+        background-color: var(--color-white);
+        z-index: 50;
+        padding: 12px 16px;
+        box-sizing: border-box;
+    }
+
+    .closeButton {
+        position: static;
+        margin: 0;
+        padding: 0;
+        background-color: transparent;
+        z-index: 20;
+    }
+
+    .closeButton img {
+        width: 24px;
+        height: 24px;
+    }
+
+    .postHeader {
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .postTitle {
+        font-size: 20px;
+    }
+
+    .postMeta {
+        justify-content: flex-start;
+    }
+
+    .sliderContainer {
+        height: 100%;
+    }
+
+    .navButton {
+        width: 28px;
+        height: 28px;
+    }
+
+    .prevButton {
+        left: 8px;
+    }
+
+    .nextButton {
+        right: 8px;
+    }
+
+    .paginationContainer {
+        bottom: 12px;
+    }
+
+    .thumbnailStrip {
+        display: none !important;
+    }
+}

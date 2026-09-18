@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { motion } from 'framer-motion';
 import { db } from '../firebase';
@@ -13,6 +13,7 @@ import iconChevronRight from '../assets/nextgen/chevron_right_24dp_1F1F1F_FILL0_
 
 const EventsPage = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [scheduleMap, setScheduleMap] = useState({});
     const [availableYears, setAvailableYears] = useState([]);
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
@@ -144,7 +145,8 @@ const EventsPage = () => {
                 id: event.id,
                 category: 'schedule',
                 date: displayDate,
-                content: contentBody
+                content: contentBody,
+                background: location
             }
         });
     };
@@ -163,11 +165,10 @@ const EventsPage = () => {
                     <div style={{ textAlign: 'center' }}>
                         <div style={{
                             fontSize: '16px',
-                            fontWeight: 500,
+                            
                             color: 'var(--color-text-placeholder)',
                             marginBottom: '16px',
-                            fontFamily: "'YK Green Forest', var(--font-yuhan), sans-serif",
-                        }}>
+                            fontFamily: "'YK Green Forest', var(--font-yuhan), sans-serif" }}>
                             나눔터 - 교회일정
                         </div>
                         <ScrollFadeText
@@ -175,7 +176,7 @@ const EventsPage = () => {
                             as="h1"
                             style={{
                                 fontFamily: 'var(--font-yuhan)',
-                                fontWeight: 500,
+                                
                                 fontSize: '40px',
                                 letterSpacing: '0.02em',
                                 color: 'var(--color-text-primary)',
@@ -335,7 +336,7 @@ const EventsPage = () => {
                                 return (
                                     <motion.div 
                                         key={event.id || `${currentKey}-${eventIdx}`} 
-                                        style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column' }}
+                                        style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', minWidth: 0, width: '100%' }}
                                         initial={{ opacity: 0, y: 20 }}
                                         whileInView={{ opacity: 1, y: 0 }}
                                         whileHover={{ y: -2, transition: { delay: 0, duration: 0.2 } }}

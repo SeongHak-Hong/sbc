@@ -23,32 +23,27 @@ const STEPS = [
         bg: step01,
         stepText: 'STEP 1',
         title: '새가족 등록',
-        desc: '등록 카드를 작성하시면 교회의 따뜻한 환영과 함께, 앞으로의 신앙생활 및 소속될 기관에 대한 전반적인 안내를 받게 됩니다.',
-    },
+        desc: '등록 카드를 작성하시면 교회의 따뜻한 환영과 함께, 앞으로의 신앙생활 및 소속될 기관에 대한 전반적인 안내를 받게 됩니다.' },
     {
         bg: step02,
         stepText: 'STEP 2',
         title: '새가족 교육 (8주)',
-        desc: '8주간 진행되는 새가족 교육 기간 동안, 새가족팀에서 주일 예배와 교육 참석 등 전반적인 교회 생활을 친절하게 안내해 드립니다.',
-    },
+        desc: '8주간 진행되는 새가족 교육 기간 동안, 새가족팀에서 주일 예배와 교육 참석 등 전반적인 교회 생활을 친절하게 안내해 드립니다.' },
     {
         bg: step03,
         stepText: 'STEP 3',
         title: '교육 수료 및 기관 편성',
-        desc: '새가족 교육 과정을 모두 수료하시면, 연령과 지역에 맞춰 각 교구와 구역, 그리고 남·여 전도회에 정식으로 편성됩니다.',
-    },
+        desc: '새가족 교육 과정을 모두 수료하시면, 연령과 지역에 맞춰 각 교구와 구역, 그리고 남·여 전도회에 정식으로 편성됩니다.' },
     {
         bg: step04,
         stepText: 'STEP 4',
         title: '구역 및 전도회 예배 참여',
-        desc: '소속된 구역과 전도회의 예배 및 모임에 참여하여, 함께 말씀을 나누고 교제하며 신앙이 더욱 성장할 수 있도록 돕습니다.',
-    },
+        desc: '소속된 구역과 전도회의 예배 및 모임에 참여하여, 함께 말씀을 나누고 교제하며 신앙이 더욱 성장할 수 있도록 돕습니다.' },
     {
         bg: step05,
         stepText: 'STEP 5',
         title: '새가족 환영회',
-        desc: '새가족 교육 수료식을 진행하며, 예수 그리스도를 구주로 영접한 성도님들을 우리 교회의 진정한 가족으로 따뜻하게 환영합니다.',
-    },
+        desc: '새가족 교육 수료식을 진행하며, 예수 그리스도를 구주로 영접한 성도님들을 우리 교회의 진정한 가족으로 따뜻하게 환영합니다.' },
 ];
 
 const WordFadeText = ({ isActive, text, delayOffset = 0, className, style }) => {
@@ -192,7 +187,7 @@ const WelcomePage = () => {
                                 transition={{ duration: 1 }}
                                 style={{
                                     fontSize: '16px',
-                                    fontWeight: 500,
+                                    
                                     color: 'var(--color-text-placeholder)',
                                     marginBottom: '16px',
                                     fontFamily: "'YK Green Forest', var(--font-yuhan), sans-serif",

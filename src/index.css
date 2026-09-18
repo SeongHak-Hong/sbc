@@ -2,8 +2,29 @@
 
 @font-face {
   font-family: 'YuhanKimberly';
+  src: url('/fonts/yuhan-kimberly_font_WebFont/유한킴벌리_푸른숲체_Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'YuhanKimberly';
+  src: url('/fonts/yuhan-kimberly_font_WebFont/유한킴벌리_푸른숲체_Medium.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'YuhanKimberly';
   src: url('/fonts/yuhan-kimberly_font_WebFont/유한킴벌리_푸른숲체_Medium.woff2') format('woff2');
   font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'YuhanKimberly';
+  src: url('/fonts/yuhan-kimberly_font_WebFont/유한킴벌리_푸른숲체_Bold.woff2') format('woff2');
+  font-weight: 700;
   font-style: normal;
 }
 
@@ -15,7 +36,7 @@
 
 .yuhan-title {
   font-family: var(--font-yuhan);
-  font-weight: 500;
+
   font-size: 40px;
   letter-spacing: 0.02em;
   margin: 0;
@@ -23,7 +44,8 @@
   word-break: keep-all;
   text-align: center;
 }
-:root {
+
+:root {
   --max-width: 1152px;
   --grid-columns: 12;
   --grid-margin: 48px;
@@ -88,7 +110,7 @@
   --color-white: #ffffff;
   --color-gray-50: #fafafa;
   --color-black: #1a1a1a;
-  
+
   /* Text Colors */
   --color-background-beige: #F0EEED;
   --color-text-primary: #0F172A;
@@ -99,6 +121,7 @@
   --color-text-tertiary-rgb: 71, 85, 105;
   --color-text-quaternary: #64748B;
   --color-text-quaternary-rgb: 100, 116, 139;
+  --color-text-body: #505050;
   --color-text-muted: #969696;
   --color-text-muted-rgb: 150, 150, 150;
   --color-text-placeholder: #94A3B8;
@@ -142,14 +165,29 @@
     --header-logo-height: 24px;
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-title);
   }
-  h1 { font-size: var(--text-h1); }
-  h2 { font-size: var(--text-h2); }
-  h3 { font-size: var(--text-h3); }
-  h4 { font-size: var(--text-h4); }
-  
+
+  h1 {
+    font-size: var(--text-h1);
+  }
+
+  h2 {
+    font-size: var(--text-h2);
+  }
+
+  h3 {
+    font-size: var(--text-h3);
+  }
+
+  h4 {
+    font-size: var(--text-h4);
+  }
+
   .yuhan-title {
     font-size: 28px;
   }
@@ -174,7 +212,9 @@
   padding: 0;
 }
 
-input, textarea, select {
+input,
+textarea,
+select {
   font-family: var(--font-body);
   font-size: 16px;
 }
@@ -199,8 +239,9 @@ body {
 
 body {
   font-family: var(--font-body);
+  font-weight: var(--font-weight-medium);
   letter-spacing: -0.02em;
-  font-weight: var(--font-weight-regular);
+
   line-height: var(--line-height-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -214,17 +255,30 @@ body {
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5,
+h6 {
   font-family: var(--font-title);
-  font-weight: var(--font-weight-regular);
+  font-weight: inherit;
   line-height: var(--line-height-heading);
   margin-bottom: 0.5em;
 }
 
-h1 { font-size: var(--text-h1); }
-h2 { font-size: var(--text-h2); }
-h3 { font-size: var(--text-h3); }
-h4 { font-size: var(--text-h4); }
+h1 {
+  font-size: var(--text-h1);
+}
+
+h2 {
+  font-size: var(--text-h2);
+}
+
+h3 {
+  font-size: var(--text-h3);
+}
+
+h4 {
+  font-size: var(--text-h4);
+}
 
 p {
   font-family: var(--font-body);
@@ -265,14 +319,29 @@ p {
     --header-logo-height: 24px;
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-title);
   }
-  h1 { font-size: var(--text-h1); }
-  h2 { font-size: var(--text-h2); }
-  h3 { font-size: var(--text-h3); }
-  h4 { font-size: var(--text-h4); }
-  
+
+  h1 {
+    font-size: var(--text-h1);
+  }
+
+  h2 {
+    font-size: var(--text-h2);
+  }
+
+  h3 {
+    font-size: var(--text-h3);
+  }
+
+  h4 {
+    font-size: var(--text-h4);
+  }
+
   .yuhan-title {
     font-size: 28px;
   }
@@ -297,7 +366,9 @@ p {
   padding: 0;
 }
 
-input, textarea, select {
+input,
+textarea,
+select {
   font-family: var(--font-body);
   font-size: 16px;
 }
@@ -323,7 +394,7 @@ body {
 body {
   font-family: var(--font-body);
   letter-spacing: -0.02em;
-  font-weight: var(--font-weight-regular);
+
   line-height: var(--line-height-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -339,15 +410,26 @@ h2,
 h3,
 h4 {
   font-family: var(--font-title);
-  font-weight: var(--font-weight-regular);
+
   line-height: var(--line-height-heading);
   margin-bottom: 0.5em;
 }
 
-h1 { font-size: var(--text-h1); }
-h2 { font-size: var(--text-h2); }
-h3 { font-size: var(--text-h3); }
-h4 { font-size: var(--text-h4); }
+h1 {
+  font-size: var(--text-h1);
+}
+
+h2 {
+  font-size: var(--text-h2);
+}
+
+h3 {
+  font-size: var(--text-h3);
+}
+
+h4 {
+  font-size: var(--text-h4);
+}
 
 p {
   font-family: var(--font-body);
@@ -387,7 +469,7 @@ button span.icon {
   height: var(--btn-icon-size);
 }
 
-#root > div {
+#root>div {
   padding-bottom: 0 !important;
 }
 
@@ -413,39 +495,80 @@ button span.icon {
 }
 
 /* Toast UI Editor Custom Styles */
-.toastui-editor-contents, .ProseMirror {
-    font-family: 'YuhanKimberly', sans-serif !important;
-    color: #727272 !important;
-    font-size: 16px !important;
-    font-weight: 500 !important;
+.toastui-editor-contents,
+.ProseMirror {
+  font-family: 'YuhanKimberly', sans-serif !important;
+  color: var(--color-text-body) !important;
+  font-size: 16px !important;
+
 }
 
-.toastui-editor-contents p, .ProseMirror p,
-.toastui-editor-contents span, .ProseMirror span,
-.toastui-editor-contents li, .ProseMirror li {
-    font-size: 16px !important;
-    line-height: 1.6 !important;
-    color: #727272 !important;
+.toastui-editor-contents span,
+.ProseMirror span,
+.toastui-editor-contents li,
+.ProseMirror li {
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  color: var(--color-text-body) !important;
 }
 
-.toastui-editor-contents h1, .ProseMirror h1,
-.toastui-editor-contents h2, .ProseMirror h2,
-.toastui-editor-contents h3, .ProseMirror h3,
-.toastui-editor-contents h4, .ProseMirror h4,
-.toastui-editor-contents h5, .ProseMirror h5,
-.toastui-editor-contents h6, .ProseMirror h6 {
-    border-bottom: none !important;
-    color: var(--color-text-primary) !important;
-    margin-top: 1.2em !important;
-    margin-bottom: 0.5em !important;
-    word-break: keep-all !important;
-    font-family: 'YuhanKimberly', sans-serif !important;
-    font-weight: 500 !important;
+.toastui-editor-contents p,
+.ProseMirror p {
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  color: var(--color-text-body) !important;
 }
 
-.toastui-editor-contents h1, .ProseMirror h1 { font-size: 36px !important; }
-.toastui-editor-contents h2, .ProseMirror h2 { font-size: 32px !important; }
-.toastui-editor-contents h3, .ProseMirror h3 { font-size: 28px !important; }
-.toastui-editor-contents h4, .ProseMirror h4 { font-size: 24px !important; }
-.toastui-editor-contents h5, .ProseMirror h5 { font-size: 20px !important; }
-.toastui-editor-contents h6, .ProseMirror h6 { font-size: 18px !important; }
+.toastui-editor-contents *,
+.ProseMirror * {
+  margin: 0 !important;
+}
+
+.toastui-editor-contents h1,
+.ProseMirror h1,
+.toastui-editor-contents h2,
+.ProseMirror h2,
+.toastui-editor-contents h3,
+.ProseMirror h3,
+.toastui-editor-contents h4,
+.ProseMirror h4,
+.toastui-editor-contents h5,
+.ProseMirror h5,
+.toastui-editor-contents h6,
+.ProseMirror h6 {
+  border-bottom: none !important;
+  color: var(--color-text-primary) !important;
+  word-break: keep-all !important;
+  font-family: 'YuhanKimberly', sans-serif !important;
+
+}
+
+.toastui-editor-contents h1,
+.ProseMirror h1 {
+  font-size: 36px !important;
+}
+
+.toastui-editor-contents h2,
+.ProseMirror h2 {
+  font-size: 32px !important;
+}
+
+.toastui-editor-contents h3,
+.ProseMirror h3 {
+  font-size: 28px !important;
+}
+
+.toastui-editor-contents h4,
+.ProseMirror h4 {
+  font-size: 24px !important;
+}
+
+.toastui-editor-contents h5,
+.ProseMirror h5 {
+  font-size: 20px !important;
+}
+
+.toastui-editor-contents h6,
+.ProseMirror h6 {
+  font-size: 18px !important;
+}

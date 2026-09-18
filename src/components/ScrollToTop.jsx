@@ -1,10 +1,19 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigationType } from 'react-router-dom';
 
 export default function ScrollToTop() {
-  const { pathname, hash } = useLocation();
+  const { pathname, hash, state } = useLocation();
+  const navType = useNavigationType();
 
   useEffect(() => {
+    // 배경 페이지가 있는 팝업 모달 라우팅의 경우 스크롤을 이동하지 않음
+    if (state && state.background) {
+      return;
+    }
+    // 뒤로가기(POP) 액션인 경우 브라우저의 기본 스크롤 복원을 따르고 최상단 강제 스크롤 안 함
+    if (navType === 'POP') {
+      return;
+    }
     const scrollToTarget = () => {
       if (hash) {
         const id = hash.replace('#', '');

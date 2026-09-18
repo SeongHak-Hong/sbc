@@ -146,8 +146,7 @@ const AdminMemberBusiness = () => {
                     const options = {
                         maxSizeMB: 2,
                         maxWidthOrHeight: 1920,
-                        useWebWorker: true,
-                    };
+                        useWebWorker: true };
                     const compressedFile = await imageCompression(file, options);
                     
                     const formData = new FormData();

@@ -126,7 +126,7 @@ const YoutubeSection = () => {
 
     const sideTextStyle = {
         fontFamily: 'var(--font-yuhan)',
-        fontWeight: 500,
+        
         fontSize: isMobile ? '24px' : '40px',
         lineHeight: 1.6,
         letterSpacing: '0.02em',
@@ -275,7 +275,7 @@ const YoutubeSection = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: 'var(--max-width)', pointerEvents: 'auto' }}>
                     <h2 style={{
                         fontFamily: 'var(--font-yuhan)',
-                        fontWeight: 500,
+                        
                         fontSize: isMobile ? '24px' : '40px',
                         lineHeight: 1.6,
                         letterSpacing: '0.02em',

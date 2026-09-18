@@ -14,7 +14,6 @@
 
 .footerDark p,
 .footerDark span {
-    color: var(--color-white);
 }
 
 .footerSubpage p, 
@@ -40,6 +39,7 @@
     gap: 24px;
     margin-bottom: 24px;
     font-size: 16px;
+    color: var(--color-text-quaternary);
 }
 
 .link {
@@ -51,6 +51,11 @@
     flex-direction: column;
     gap: 16px;
     align-items: center;
+    color: var(--color-text-placeholder);
+}
+
+.infoWrapper p {
+    color: var(--color-text-placeholder);
 }
 
 .addressBox {
@@ -60,17 +65,15 @@
 
 .address {
     margin: 0;
-    font-size: 16px;
+    font-size: 14px;
     word-break: keep-all;    
-    color: var(--color-text-white-secondary) !important;
 }
 
 .copyright {
     margin: 0;
-    font-size: 16px;
+    font-size: 14px;
     opacity: 0.6;
     text-align: center;    
-    color: var(--color-text-white-secondary) !important;
 }
 
 @media (max-width: 768px) {

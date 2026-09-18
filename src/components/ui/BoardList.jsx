@@ -21,10 +21,10 @@ const BoardList = ({
                             onClick={() => onItemClick(post)}
                         >
                             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                <p className={styles.itemTitle}>
+                                <p className={styles.itemTitle} style={{ fontSize: '18px', margin: 0,  color: 'var(--color-text-primary)' }}>
                                     {post.title}
                                     {post.titleDate && (
-                                        <span style={{ color: 'var(--color-text-muted)', marginLeft: '6px', fontWeight: 'normal' }}>
+                                        <span style={{ color: 'var(--color-text-muted)', marginLeft: '6px' }}>
                                             ({post.titleDate})
                                         </span>
                                     )}

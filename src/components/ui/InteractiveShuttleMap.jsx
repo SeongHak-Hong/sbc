@@ -25,9 +25,7 @@ const InteractiveShuttleMap = () => {
                 zoom: 16,
                 zoomControl: true,
                 zoomControlOptions: {
-                    position: naver.maps.Position.TOP_RIGHT,
-                },
-            };
+                    position: naver.maps.Position.TOP_RIGHT } };
             mapInstance.current = new naver.maps.Map(mapElement.current, mapOptions);
         }
     }, []);
@@ -152,7 +150,7 @@ const InteractiveShuttleMap = () => {
                             셔틀버스 관련 문의: <a href="tel:042-932-8156" className={styles.contact}>042-932-8156</a>
                         </p>
                         <div style={{ marginTop: '12px' }}>
-                            <a href={`https://map.naver.com/index.nhn?elng=${CHURCH_COORDS.lng}&elat=${CHURCH_COORDS.lat}&etext=${encodeURIComponent('신탄진침례교회')}&menu=route`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', width: '100%', padding: '12px 16px', backgroundColor: '#03c75a', color: 'white', textDecoration: 'none', borderRadius: '6px', fontSize: '14px', fontWeight: '600', letterSpacing: '-0.5px', lineHeight: '1' }}>
+                            <a href={`https://map.naver.com/index.nhn?elng=${CHURCH_COORDS.lng}&elat=${CHURCH_COORDS.lat}&etext=${encodeURIComponent('신탄진침례교회')}&menu=route`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', width: '100%', padding: '12px 16px', backgroundColor: '#03c75a', color: 'white', textDecoration: 'none', borderRadius: '6px', fontSize: '14px',  letterSpacing: '-0.5px', lineHeight: '1' }}>
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style={{ transform: 'translateY(-1px)' }}>
                                     <path d="M16.096 11.235L8.71 0H0v24h7.904V12.765L15.29 24H24V0h-7.904v11.235z"/>
                                 </svg>

@@ -288,7 +288,7 @@
     border-radius: 28px;
     padding: 14px 28px;
     font-size: 18px;
-    font-weight: 500;
+
     color: var(--color-gray-50);
     cursor: pointer;
     box-shadow: 0px 0px 4px rgba(var(--color-text-primary-rgb), 0.12);
@@ -306,7 +306,6 @@
 
 .ctaTitle {
     font-size: 40px;
-    font-weight: 500;
 
     letter-spacing: 0.02em;
     color: var(--color-text-primary);
@@ -358,7 +357,6 @@
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 12px;
     font-size: 14px;
-    font-weight: bold;
 
     letter-spacing: -0.02em;
     color: #282E31;
@@ -379,7 +377,7 @@
 }
 
 .stepTitleNew {
-    font-weight: bold;
+
     font-size: 20px;
 
     color: var(--color-white);
@@ -387,7 +385,7 @@
 }
 
 .stepDescNew {
-    font-weight: 400;
+
     font-size: 16px;
 
     letter-spacing: -0.05em;
@@ -533,7 +531,7 @@
 }
 
 .yuhanText {
-    font-weight: 500;
+
     font-size: 40px;
 
     letter-spacing: 0.02em;
@@ -545,7 +543,7 @@
 
 .fadeBodyText {
     font-size: 20px;
-    font-weight: 400;
+
     color: var(--color-text-muted);
 
     letter-spacing: -0.02em;

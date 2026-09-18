@@ -1,4 +1,4 @@
-﻿.pageWrapper {
+.pageWrapper {
     width: 100%;
     min-height: 100vh;
     color: var(--color-text-primary);
@@ -16,13 +16,13 @@
 
 .breadcrumb {
     font-size: 16px;
-    font-weight: 500;
+
     color: var(--color-text-placeholder);
     margin-bottom: 16px;
 }
 
 .pageTitle {
-    font-weight: 500;
+
     font-size: 40px;
     letter-spacing: 0.02em;
     color: var(--color-text-primary);
@@ -103,7 +103,7 @@
 
 .date {
     color: var(--color-text-quaternary);
-    font-weight: var(--font-weight-medium);
+
     font-size: 14px;
     margin: 0;
     line-height: var(--line-height-base);
@@ -111,7 +111,7 @@
 
 .title {
     color: var(--color-text-primary);
-    font-weight: var(--font-weight-medium);
+
     font-size: 22px;
     margin: 0;
     line-height: var(--line-height-base);
@@ -119,7 +119,7 @@
 
 .description {
     color: var(--color-text-secondary);
-    font-weight: var(--font-weight-medium);
+
     font-size: 16px;
     margin: 0;
     line-height: var(--line-height-base);
@@ -133,7 +133,7 @@
     display: inline-block;
     color: var(--color-text-secondary);
     background-color: var(--color-gray-50);
-    font-weight: var(--font-weight-medium);
+
     font-size: 14px;
     padding: 4px 12px;
     border-radius: 99px;
@@ -184,8 +184,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(8px);
+    background-color: rgba(var(--color-text-primary-rgb), 0.15);
     z-index: -1;
 }
 
@@ -256,7 +255,7 @@
 
 .modalTitle {
     font-size: 24px;
-    font-weight: var(--font-weight-semibold);
+
     color: var(--color-white);
     margin: 0;
     line-height: var(--line-height-base);

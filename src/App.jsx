@@ -100,11 +100,12 @@ export const SquiCircleFilterStatic = () => {
 function AppRoutes() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/manager-lounge');
+  const background = location.state && location.state.background;
 
   return (
     <>
       {!isAdminRoute && <Header />}
-      <Routes location={location} key={location.pathname}>
+      <Routes location={background || location} key={(background || location).pathname}>
         <Route path="/" element={<MainPage />} />
         <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/history" element={<HistoryPage />} />
@@ -142,6 +143,12 @@ function AppRoutes() {
             <Route path="migration" element={<Migration />} />
         </Route>
       </Routes>
+
+      {background && (
+        <Routes>
+          <Route path="/post/:id" element={<PostDetailPage />} />
+        </Routes>
+      )}
     </>
   );
 }

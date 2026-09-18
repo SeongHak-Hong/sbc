@@ -10,8 +10,7 @@ export function InfiniteSlider({
   durationOnHover,
   direction = 'horizontal',
   reverse = false,
-  className,
-}) {
+  className }) {
   const controlsRef = React.useRef(null);
   const [ref, { width, height }] = useMeasure();
   const translation = useMotionValue(0);
@@ -23,8 +22,7 @@ export function InfiniteSlider({
       duration: duration,
       repeat: Infinity,
       repeatType: 'loop',
-      repeatDelay: 0,
-    });
+      repeatDelay: 0 });
 
     return () => controlsRef.current?.stop();
   }, [duration, translation]);
@@ -40,8 +38,7 @@ export function InfiniteSlider({
         if (controlsRef.current) {
           controlsRef.current.speed = 1;
         }
-      },
-    }
+      } }
     : {};
 
   return (
@@ -50,8 +47,7 @@ export function InfiniteSlider({
         style={{
           display: 'flex',
           width: 'max-content',
-          x: useTransform(translation, (value) => `${value}%`),
-        }}
+          x: useTransform(translation, (value) => `${value}%`) }}
         ref={ref}
         {...hoverProps}
       >

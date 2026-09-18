@@ -97,8 +97,7 @@ const AdminNextGen = () => {
                 const options = {
                     maxSizeMB: 2,
                     maxWidthOrHeight: 1920,
-                    useWebWorker: true,
-                };
+                    useWebWorker: true };
                 const compressedFile = await imageCompression(files[i], options);
 
                 const formData = new FormData();
@@ -261,9 +260,7 @@ const AdminNextGen = () => {
                                     border: 'none',
                                     borderRadius: '4px',
                                     cursor: 'pointer',
-                                    fontSize: '14px',
-                                    fontWeight: 500
-                                }}
+                                    fontSize: '14px' }}
                             >
                                 {departments[deptId].name} 기본정보 수정
                             </button>
@@ -281,7 +278,7 @@ const AdminNextGen = () => {
                                         event: { title: '새 행사', startDate: '', endDate: '', time: '', location: '', img: '', imageUrls: [], desc: '' }
                                     });
                                 }}
-                                style={{ backgroundColor: '#3B82F6', color: '#fff', padding: '10px 20px', borderRadius: '4px', border: 'none', cursor: 'pointer', fontWeight: 500 }}
+                                style={{ backgroundColor: '#3B82F6', color: '#fff', padding: '10px 20px', borderRadius: '4px', border: 'none', cursor: 'pointer' }}
                             >
                                 + 새 행사 추가
                             </button>
@@ -370,7 +367,7 @@ const AdminNextGen = () => {
                                 <select 
                                     value={editingEvent.deptId} 
                                     onChange={(e) => setEditingEvent(prev => ({ ...prev, deptId: e.target.value }))}
-                                    style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #3B82F6', borderRadius: '4px', boxSizing: 'border-box', backgroundColor: '#fff', fontWeight: 'bold' }}
+                                    style={{ width: '100%', padding: '0 12px', height: '48px', border: '1px solid #3B82F6', borderRadius: '4px', boxSizing: 'border-box', backgroundColor: '#fff' }}
                                 >
                                     <option value="" disabled>부서를 선택하세요</option>
                                     {Object.keys(departments).sort((a, b) => {
@@ -504,7 +501,7 @@ const AdminNextGen = () => {
                             ) : allEvents.map((ev, index) => (
                                 <tr key={index} style={{ borderBottom: '1px solid #E5E7EB' }}>
                                     <td style={{ padding: '16px', textAlign: 'center' }}>
-                                        <span style={{ backgroundColor: '#F1F5F9', color: '#475569', padding: '4px 8px', borderRadius: '4px', fontSize: '13px', fontWeight: 500 }}>
+                                        <span style={{ backgroundColor: '#F1F5F9', color: '#475569', padding: '4px 8px', borderRadius: '4px', fontSize: '13px' }}>
                                             {ev.deptName}
                                         </span>
                                     </td>

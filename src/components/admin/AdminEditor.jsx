@@ -44,7 +44,7 @@ const AdminEditor = ({ initialValue, onChange, height = '800px' }) => {
     const handleChange = () => {
         if (editorRef.current) {
             const instance = editorRef.current.getInstance();
-            onChange(instance.getMarkdown());
+            onChange(instance.getHTML());
         }
     };
 
@@ -52,7 +52,7 @@ const AdminEditor = ({ initialValue, onChange, height = '800px' }) => {
     const handleImageUpload = async (blob, callback) => {
         const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
         const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
-        
+
         if (!cloudName || !uploadPreset) {
             alert('Cloudinary API 키가 설정되지 않았습니다.');
             callback('', '업로드 실패');
@@ -64,19 +64,19 @@ const AdminEditor = ({ initialValue, onChange, height = '800px' }) => {
             const options = {
                 maxSizeMB: 2, // 최대 2MB
                 maxWidthOrHeight: 1920, // FHD 해상도까지 허용
-                useWebWorker: true,
+                useWebWorker: true
             };
             const compressedBlob = await imageCompression(blob, options);
 
             const formData = new FormData();
             formData.append('file', compressedBlob);
             formData.append('upload_preset', uploadPreset);
-            
+
             const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
                 method: 'POST',
                 body: formData
             });
-            
+
             const result = await response.json();
             if (response.ok) {
                 // Cloudinary 자동 최적화 파라미터 적용 (WebP/AVIF 자동 변환 및 용량 최적화)
@@ -99,6 +99,7 @@ const AdminEditor = ({ initialValue, onChange, height = '800px' }) => {
                 .toastui-editor-contents, .ProseMirror {
                     color: var(--color-text-tertiary) !important;
                     font-size: 16px !important;
+                    font-family: var(--font-body) !important;
                 }
                 .toastui-editor-contents *:not(table), .ProseMirror *:not(table) {
                 }
@@ -114,17 +115,18 @@ const AdminEditor = ({ initialValue, onChange, height = '800px' }) => {
                 .toastui-editor-contents h5, .ProseMirror h5,
                 .toastui-editor-contents h6, .ProseMirror h6 {
                     border-bottom: none !important;
-                    color: var(--color-text-primary) !important;
+                    color: var(--color-text-body) !important;
                     margin-top: 1.2em !important;
                     margin-bottom: 0.5em !important;
                     word-break: keep-all !important;
+                    font-weight: 400 !important;
                 }
-                .toastui-editor-contents h1, .ProseMirror h1 { font-size: 36px !important; }
-                .toastui-editor-contents h2, .ProseMirror h2 { font-size: 32px !important; }
-                .toastui-editor-contents h3, .ProseMirror h3 { font-size: 28px !important; }
-                .toastui-editor-contents h4, .ProseMirror h4 { font-size: 24px !important; }
-                .toastui-editor-contents h5, .ProseMirror h5 { font-size: 20px !important; }
-                .toastui-editor-contents h6, .ProseMirror h6 { font-size: 18px !important; }
+                .toastui-editor-contents h1, .ProseMirror h1,
+                .toastui-editor-contents h2, .ProseMirror h2,
+                .toastui-editor-contents h3, .ProseMirror h3,
+                .toastui-editor-contents h4, .ProseMirror h4,
+                .toastui-editor-contents h5, .ProseMirror h5,
+                .toastui-editor-contents h6, .ProseMirror h6 { font-size: 16px !important; }
                 
                 /* 커스텀 제목 드롭다운 (H1~H4 숨김, H5->제목1, H6->제목2) */
                 .toastui-editor-popup-add-heading li:nth-child(1),
@@ -175,10 +177,10 @@ const AdminEditor = ({ initialValue, onChange, height = '800px' }) => {
                     addImageBlobHook: handleImageUpload
                 }}
                 toolbarItems={[
-                    ['heading', 'bold', 'italic', 'strike'],
+                    ['italic', 'strike'],
                     ['hr', 'quote'],
                     ['ul', 'ol', 'task', 'indent', 'outdent'],
-                    ['table', 'image', 'link'],
+                    ['table', 'link'],
                     ['code', 'codeblock']
                 ]}
             />

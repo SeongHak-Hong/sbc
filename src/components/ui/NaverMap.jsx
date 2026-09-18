@@ -23,16 +23,13 @@ const NaverMap = ({
                 zoom: 17,
                 zoomControl: true,
                 zoomControlOptions: {
-                    position: naver.maps.Position.TOP_RIGHT,
-                },
-            };
+                    position: naver.maps.Position.TOP_RIGHT } };
 
             const map = new naver.maps.Map(mapElement.current, mapOptions);
 
             const marker = new naver.maps.Marker({
                 position: location,
-                map: map,
-            });
+                map: map });
 
             const contentString = `
                 <div style="padding: 15px 20px; text-align: center; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #eee;">

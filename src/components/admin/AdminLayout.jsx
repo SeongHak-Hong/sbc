@@ -80,7 +80,7 @@ const AdminLayout = () => {
                         className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}
                     >
                         <span className="material-symbols-outlined" translate="no">diversity_1</span>
-                        성도 소식 관리
+                        공지사항 관리
                     </NavLink>
                     <NavLink 
                         to="/manager-lounge/member-business"

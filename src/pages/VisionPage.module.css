@@ -1,6 +1,6 @@
 ﻿.breadcrumb {
     font-size: 16px;
-    font-weight: 500;
+
     color: var(--color-text-placeholder);
     text-align: center;
 }
@@ -78,7 +78,7 @@
 
 .yuhanText {
     font-size: 40px;
-    font-weight: 500;
+
     line-height: 1.5;
     letter-spacing: 0.02em;
     color: var(--color-text-primary);
@@ -101,7 +101,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 300px;
-    font-weight: 500;
+
     line-height: 1.6;
     letter-spacing: -0.02em;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
@@ -162,7 +162,7 @@
 
 .greetingBody {
     font-size: 18px;
-    font-weight: 500;
+
     color: var(--color-text-primary);
     line-height: 1.6;
     letter-spacing: -0.02em;
@@ -178,7 +178,7 @@
     margin: 0;
     font-family: inherit;
     font-size: inherit;
-    font-weight: inherit;
+
     color: inherit;
     line-height: inherit;
     letter-spacing: inherit;
@@ -192,7 +192,7 @@
 
 .signatureText {
     font-size: 18px;
-    font-weight: 400;
+
     color: var(--color-text-primary);
     text-align: right;
     white-space: pre-line;

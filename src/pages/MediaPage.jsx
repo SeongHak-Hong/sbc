@@ -425,15 +425,12 @@ const MediaPage = () => {
                                             type: "spring",
                                             stiffness: 100,
                                             damping: 20,
-                                            opacity: { duration: 0.2, delay: 0.8 },
-                                        },
-                                    }}
+                                            opacity: { duration: 0.2, delay: 0.8 } } }}
                                     transition={{
                                         duration: 1,
                                         type: "spring",
                                         stiffness: 100,
-                                        damping: 20,
-                                    }}
+                                        damping: 20 }}
                                     className={styles.videoWrapper}
                                     style={{ pointerEvents: 'auto' }}
                                 >

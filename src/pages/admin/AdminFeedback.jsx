@@ -295,7 +295,7 @@ const styles = {
     },
     title: {
         fontSize: '28px',
-        fontWeight: 'bold',
+        
         color: '#111827',
         margin: '0 0 8px 0'
     },
@@ -311,7 +311,7 @@ const styles = {
         padding: '10px 20px',
         borderRadius: '6px',
         fontSize: '15px',
-        fontWeight: '500',
+        
         cursor: 'pointer',
         boxShadow: '0 2px 4px rgba(59, 130, 246, 0.2)',
         transition: 'background-color 0.2s'
@@ -338,9 +338,7 @@ const styles = {
     badge: {
         padding: '4px 8px',
         borderRadius: '9999px',
-        fontSize: '12px',
-        fontWeight: '600'
-    },
+        fontSize: '12px' },
     date: {
         fontSize: '13px',
         color: '#9CA3AF',
@@ -348,7 +346,7 @@ const styles = {
     },
     cardTitle: {
         fontSize: '18px',
-        fontWeight: '600',
+        
         color: '#1F2937',
         margin: '0 0 8px 0',
         display: '-webkit-box',
@@ -385,7 +383,7 @@ const styles = {
     label: {
         display: 'block',
         fontSize: '14px',
-        fontWeight: '600',
+        
         color: '#374151',
         marginBottom: '8px'
     },
@@ -412,7 +410,7 @@ const styles = {
         padding: '10px 24px',
         borderRadius: '6px',
         fontSize: '15px',
-        fontWeight: '500',
+        
         cursor: 'pointer'
     },
     submitBtn: {
@@ -422,7 +420,7 @@ const styles = {
         padding: '10px 24px',
         borderRadius: '6px',
         fontSize: '15px',
-        fontWeight: '500',
+        
         cursor: 'pointer',
         boxShadow: '0 2px 4px rgba(16, 185, 129, 0.2)'
     },
@@ -455,7 +453,7 @@ const styles = {
         padding: '10px 20px',
         borderRadius: '6px',
         fontSize: '14px',
-        fontWeight: '500',
+        
         cursor: 'pointer',
         boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
     },
@@ -478,7 +476,7 @@ const styles = {
         justifyContent: 'center',
         borderRadius: '6px',
         fontSize: '14px',
-        fontWeight: '500',
+        
         cursor: 'pointer',
         transition: 'all 0.2s'
     }

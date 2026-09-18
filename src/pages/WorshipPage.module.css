@@ -4,7 +4,8 @@
     color: var(--color-text-primary);
     min-height: 100vh;
     position: relative;
-    overflow-x: hidden;}
+    overflow-x: hidden;
+}
 
 .mainContent {
     position: relative;
@@ -38,17 +39,21 @@
     gap: 16px;
 }
 
-.scheduleName {    font-size: 18px;
+.scheduleName {
+    font-size: 18px;
     color: var(--color-text-primary);
     margin: 0;
-    word-break: keep-all;}
+    word-break: keep-all;
+}
 
-.scheduleDetails {    font-size: 18px;
+.scheduleDetails {
+    font-size: 18px;
     color: var(--color-text-muted);
     margin: 0;
     text-align: right;
     word-break: keep-all;
-    flex-shrink: 0;}
+    flex-shrink: 0;
+}
 
 @media (max-width: 480px) {
     .scheduleItem {
@@ -75,7 +80,9 @@
     width: 100%;
 }
 
-.addressText {    font-size: 18px;    color: var(--color-text-muted);
+.addressText {
+    font-size: 18px;
+    color: var(--color-text-muted);
     text-align: center;
     margin: 0;
 }
@@ -94,7 +101,7 @@
 
 .directionLabel {
     font-size: 18px;
-    font-weight: var(--font-weight-semibold);
+
     color: var(--color-text-primary);
     margin: 0;
 }
@@ -105,8 +112,11 @@
     padding-left: 16px;
 }
 
-.directionBody p {    font-size: 18px;    color: var(--color-text-muted);
-    margin: 0;}
+.directionBody p {
+    font-size: 18px;
+    color: var(--color-text-muted);
+    margin: 0;
+}
 
 /* === Light Section (오시는 길) === */
 .lightSection {

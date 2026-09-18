@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -51,6 +51,7 @@ const NextGenPage = () => {
     const [hoveredEventImg, setHoveredEventImg] = useState(null);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleMouseMove = (e) => {
         setMousePos({ x: e.clientX, y: e.clientY });
@@ -154,11 +155,10 @@ const NextGenPage = () => {
                 <div style={{ textAlign: 'center' }}>
                     <div style={{
                         fontSize: '16px',
-                        fontWeight: 500,
+                        
                         color: 'var(--color-text-placeholder)',
                         marginBottom: '16px',
-                        fontFamily: "'YK Green Forest', var(--font-yuhan), sans-serif",
-                    }}>
+                        fontFamily: "'YK Green Forest', var(--font-yuhan), sans-serif" }}>
                         다음세대
                     </div>
                     <ScrollFadeText
@@ -352,6 +352,7 @@ const NextGenPage = () => {
                                             onMouseMove={handleMouseMove}
                                             onClick={() => navigate(`/post/nextgen-${ev.departmentKey}-${ev.originalIndex}`, { 
                                                 state: { 
+                                                    background: location,
                                                     title: ev.title, 
                                                     author: ev.departmentName, 
                                                     date: displayDate, 

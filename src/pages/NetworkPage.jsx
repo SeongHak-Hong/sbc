@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
@@ -11,6 +11,7 @@ import styles from './NewsPage.module.css';
 
 const NetworkPage = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
@@ -38,7 +39,7 @@ const NetworkPage = () => {
     };
 
     const handleItemClick = (post) => {
-        navigate(`/post/network_${post.id}`);
+        navigate(`/post/network_${post.id}`, { state: { background: location } });
     };
 
     const totalPages = Math.ceil(posts.length / postsPerPage) || 1;

@@ -125,7 +125,7 @@ const NewsPage = () => {
     };
 
     const handlePostClick = (post) => {
-        navigate(`/post/${post.id}`);
+        navigate(`/post/${post.id}`, { state: { background: location } });
     };
 
     if (loading) {

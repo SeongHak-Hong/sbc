@@ -4,9 +4,8 @@ import { doc, getDoc, collection, getDocs, updateDoc, increment } from 'firebase
 import { db } from '../firebase';
 import { motion } from 'framer-motion';
 import { Viewer } from '@toast-ui/react-editor';
+import Lenis from 'lenis';
 import '@toast-ui/editor/dist/toastui-editor.css';
-import Footer from '../components/Footer';
-import SubPageSection from '../components/SubPageSection';
 import LargeButton from '../components/ui/LargeButton';
 import styles from './PostDetailPage.module.css';
 import dummyImg from '../assets/news/260628-church-bulletin-01.webp';
@@ -15,6 +14,11 @@ import thumbKindergarten from '../assets/nextgen/shintanjin-baptist-church-nextg
 import thumbElementary from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-01.webp';
 import thumbYouth from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-02.webp';
 import thumbYoungAdults from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-03.webp';
+import iconChevronLeft from '../assets/nextgen/chevron_left_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg';
+import iconChevronRight from '../assets/nextgen/chevron_right_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg';
+import iconClose from '../assets/post/close_24dp_0F1721_FILL0_wght400_GRAD0_opsz24.svg';
+import iconBtnPrev from '../assets/post/btn-post-prev.svg';
+import iconBtnNext from '../assets/post/btn-post-next.svg';
 
 const defaultThumbs = {
     kindergarten: thumbKindergarten,
@@ -125,6 +129,7 @@ const PinchZoomContainer = ({ children, onSwipeLeft, onSwipeRight }) => {
             onTouchEnd={handleTouchEnd}
             style={{
                 width: '100%',
+                height: '100%',
                 overflow: 'hidden',
                 touchAction: scale > 1 ? 'none' : 'pan-y',
                 position: 'relative',
@@ -138,6 +143,7 @@ const PinchZoomContainer = ({ children, onSwipeLeft, onSwipeRight }) => {
                     transformOrigin: 'center center',
                     transition: touchStartRef.current.dist ? 'none' : 'transform 0.15s ease-out',
                     width: '100%',
+                    height: '100%',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center'
@@ -165,10 +171,10 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
                         onClick={() => setCurrentIndex(prev => prev === 0 ? actualImages.length - 1 : prev - 1)}
                         aria-label="이전 이미지"
                     >
-                        <span className="material-symbols-outlined" translate="no">chevron_left</span>
+                        <img src={iconBtnPrev} alt="이전 이미지" />
                     </button>
                 )}
-                
+
                 <img
                     src={actualImages[currentIndex]}
                     alt={`게시물 이미지 ${currentIndex + 1}`}
@@ -181,7 +187,7 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
                         onClick={() => setCurrentIndex(prev => prev === actualImages.length - 1 ? 0 : prev + 1)}
                         aria-label="다음 이미지"
                     >
-                        <span className="material-symbols-outlined" translate="no">chevron_right</span>
+                        <img src={iconBtnNext} alt="다음 이미지" />
                     </button>
                 )}
 
@@ -207,6 +213,8 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
         return (
             <div style={{
                 display: 'flex',
+                alignItems: 'center',
+                height: '100%',
                 width: `${totalWidth}%`,
                 transform: `translateX(-${translateX}%)`,
                 transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
@@ -219,8 +227,12 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
                     return (
                         <div key={idx} style={{
                             width: `${100 / count}%`,
+                            height: '100%',
                             overflow: 'hidden',
-                            flexShrink: 0
+                            flexShrink: 0,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center'
                         }}>
                             <img
                                 src={actualImages[imageIndex]}
@@ -229,8 +241,12 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
                                     width: `${totalPages * 100}%`,
                                     maxWidth: 'none',
                                     height: 'auto',
-                                    marginLeft: `-${sliceIndex * 100}%`,
-                                    display: 'block'
+                                    maxHeight: '100%',
+                                    objectFit: 'contain',
+                                    display: 'block',
+                                    clipPath: `inset(0 ${((totalPages - 1 - sliceIndex) / totalPages) * 100}% 0 ${(sliceIndex / totalPages) * 100}%)`,
+                                    WebkitClipPath: `inset(0 ${((totalPages - 1 - sliceIndex) / totalPages) * 100}% 0 ${(sliceIndex / totalPages) * 100}%)`,
+                                    transform: `translateX(${((totalPages - 1 - 2 * sliceIndex) * 100) / (2 * totalPages)}%)`
                                 }}
                             />
                         </div>
@@ -256,16 +272,16 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
     };
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-            <div className={styles.sliderContainer} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '500px', marginBottom: count > 1 ? '24px' : '40px', padding: '20px 0' }}>
-                {count > 1 && (
+        <div style={{ display: 'flex', flexDirection: 'column', width: '100%', position: 'relative', height: '100%' }}>
+            <div className={styles.sliderContainer} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', marginBottom: count > 1 ? '24px' : '40px' }}>
+                {currentIndex > 0 && (
                     <button
                         className={`${styles.navButton} ${styles.prevButton}`}
                         onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
                         disabled={currentIndex === 0}
                         aria-label="이전 이미지"
                     >
-                        <span className="material-symbols-outlined" translate="no">chevron_left</span>
+                        <img src={iconBtnPrev} alt="이전 이미지" />
                     </button>
                 )}
 
@@ -286,20 +302,20 @@ const ImageViewer = ({ imageUrl, totalPages = 3, images = [], isBulletin = true 
                     </div>
                 </div>
 
-                {count > 1 && (
+                {currentIndex < count - 1 && (
                     <button
                         className={`${styles.navButton} ${styles.nextButton}`}
                         onClick={() => setCurrentIndex(prev => Math.min(count - 1, prev + 1))}
                         disabled={currentIndex === count - 1}
                         aria-label="다음 이미지"
                     >
-                        <span className="material-symbols-outlined" translate="no">chevron_right</span>
+                        <img src={iconBtnNext} alt="다음 이미지" />
                     </button>
                 )}
             </div>
 
             {count > 1 && (
-                <div className={styles.thumbnailStrip} style={{ marginTop: 0, marginBottom: '40px' }}>
+                <div className={styles.thumbnailStrip} style={{ position: 'absolute', bottom: '0px', left: 0, width: '100%', justifyContent: 'center', zIndex: 10, margin: 0 }}>
                     {Array.from({ length: count }).map((_, idx) => (
                         <div
                             key={idx}
@@ -326,11 +342,66 @@ const PostDetailPage = () => {
     const [loading, setLoading] = useState(!post);
 
     const lastFetchedId = useRef(null);
+    const drawerRef = useRef(null);
+    const textSectionRef = useRef(null);
+    const lenisRafId = useRef(null);
 
     useEffect(() => {
-        window.scrollTo(0, 0);
+        // 배경 스크롤 방지
+        document.body.style.overflow = 'hidden';
+        if (window.lenis) window.lenis.stop();
 
-        if (location.state) {
+        let localLenis;
+
+        const isMobile = window.innerWidth <= 768;
+        const scrollWrapper = isMobile ? drawerRef.current : textSectionRef.current;
+
+        if (scrollWrapper) {
+            localLenis = new Lenis({
+                wrapper: scrollWrapper,
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                smoothWheel: true,
+                smoothTouch: false });
+
+            const raf = (time) => {
+                localLenis.raf(time);
+                lenisRafId.current = requestAnimationFrame(raf);
+            };
+            lenisRafId.current = requestAnimationFrame(raf);
+        }
+
+        return () => {
+            if (lenisRafId.current) cancelAnimationFrame(lenisRafId.current);
+            if (localLenis) localLenis.destroy();
+            document.body.style.overflow = 'auto';
+            if (window.lenis) window.lenis.start();
+        };
+    }, []);
+
+    useEffect(() => {
+        // 직접 접속 시 배경 페이지 설정 후 리다이렉트
+        if (!location.state || !location.state.background) {
+            let parentPath = '/news';
+            if (id) {
+                if (id.startsWith('nextgen-')) parentPath = '/nextgen';
+                else if (id.startsWith('network_') || id.startsWith('memberBusiness_')) parentPath = '/network';
+                else if (id.startsWith('schedules_')) parentPath = '/events';
+                else if (id.startsWith('missions_')) parentPath = '/missions';
+                else if (id.startsWith('koinonia_')) parentPath = '/news?tab=koinonia';
+            }
+
+            navigate(`/post/${id}`, {
+                state: {
+                    ...location.state,
+                    background: { pathname: parentPath.split('?')[0], search: parentPath.split('?')[1] ? `?${parentPath.split('?')[1]}` : '' }
+                },
+                replace: true
+            });
+            return;
+        }
+
+        if (location.state && location.state.title) {
             setPost(location.state);
             setLoading(false);
             return;
@@ -340,7 +411,7 @@ const PostDetailPage = () => {
             lastFetchedId.current = id;
             fetchPostFromFirestore();
         }
-    }, [id, location.state]);
+    }, [id, location.state, navigate]);
 
     const fetchPostFromFirestore = async () => {
         try {
@@ -462,7 +533,13 @@ const PostDetailPage = () => {
     };
 
     if (loading) {
-        return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>로딩 중...</div>;
+        return (
+            <div className={styles.overlay}>
+                <div className={styles.drawer}>
+                    <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>로딩 중...</div>
+                </div>
+            </div>
+        );
     }
 
     if (!post) return null;
@@ -491,103 +568,86 @@ const PostDetailPage = () => {
     }
 
     const handleGoBack = () => {
-        if (!post) {
+        // 앱 내에서 정상적으로 타고 들어온 경우(히스토리가 있는 경우) 단순히 뒤로가기 수행
+        if (window.history.state && window.history.state.idx > 0) {
             navigate(-1);
             return;
         }
-        switch (post.category) {
-            case 'bulletin':
-                navigate('/news?tab=bulletin');
-                break;
-            case 'news':
-                navigate('/news?tab=news');
-                break;
-            case 'events':
-                navigate('/events');
-                break;
-            case 'koinonia':
-                navigate('/news?tab=koinonia');
-                break;
-            default:
-                if (id && id.startsWith('nextgen-')) {
-                    navigate('/nextgen');
-                } else if (id && id.startsWith('missions_')) {
-                    navigate('/missions');
-                } else if (id && id.startsWith('koinonia_')) {
-                    navigate('/news?tab=koinonia');
-                } else {
-                    navigate(-1);
-                }
-                break;
+
+        // 다이렉트 URL로 접속해서 히스토리가 없는 경우(뒤로가기 불가), 원래 게시판 목록으로 리다이렉트
+        if (location.state && location.state.background) {
+            const bgPath = location.state.background.pathname + (location.state.background.search || '');
+            navigate(bgPath, { replace: true });
+        } else {
+            navigate('/');
         }
     };
 
     return (
-        <div className={styles.pageWrapper}>
-            <SubPageSection title="나눔터" hideHeader={true}>
-                <div className={styles.contentWrapper}>
-                    <motion.div
-                        className={styles.postContainer}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4 }}
-                    >
-                        {/* Post Header */}
-                        <div className={styles.postHeader}>
-                            <h1 className={styles.postTitle}>{post.title}</h1>
-                            <div className={styles.postMeta}>
-                                <span>{authorText}</span>
-                                <span>{post.date}</span>
-                                {post.views !== undefined && (
-                                    <span>조회수 {post.views}</span>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Post Body */}
-                        <div className={styles.postBody}>
-                            {post.address && (
-                                <div style={{ marginBottom: '32px', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
-                                    <NaverMap
-                                        address={post.address}
-                                        detailAddress={post.detailAddress}
-                                        title={post.title}
-                                        category={post.businessCategory}
-                                        phone={post.phone}
-                                    />
-                                </div>
-                            )}
-
-                            {viewerImages.length > 0 && (
-                                <ImageViewer
-                                    imageUrl={viewerImages.length === 1 ? viewerImages[0] : null}
-                                    images={viewerImages.length > 1 ? viewerImages : []}
-                                    totalPages={3}
-                                    isBulletin={post.category === 'bulletin'}
-                                />
-                            )}
-
-                            {post.content && (
-                                <div>
-
-                                    <Viewer initialValue={post.content} />
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Actions */}
-                        <div className={styles.buttonWrapper}>
-                            <button
-                                className={styles.backButton}
-                                onClick={handleGoBack}
-                            >
-                                목록으로
-                            </button>
-                        </div>
-                    </motion.div>
+        <div className={styles.overlay} onClick={handleGoBack}>
+            <motion.div
+                ref={drawerRef}
+                className={`${styles.drawer} ${viewerImages.length === 0 ? styles.textOnly : ''}`}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside drawer
+            >
+                <div className={styles.mobileHeader}>
+                    <button className={styles.closeButton} onClick={handleGoBack}>
+                        <img src={iconClose} alt="닫기" />
+                    </button>
                 </div>
-            </SubPageSection>
-            <Footer />
+
+                {viewerImages.length > 0 && (
+                    <div className={styles.imageSection}>
+                        <ImageViewer
+                            imageUrl={viewerImages.length === 1 ? viewerImages[0] : null}
+                            images={viewerImages.length > 1 ? viewerImages : []}
+                            totalPages={3}
+                            isBulletin={post.category === 'bulletin'}
+                        />
+                    </div>
+                )}
+
+                <div className={styles.textSection} ref={textSectionRef}>
+                    <div className={styles.textContentWrapper}>
+                        {/* Post Header */}
+                    <div className={styles.postHeader}>
+                        <h1 className={styles.postTitle}>{post.title}</h1>
+                        <div className={styles.postMeta}>
+                            <span>{authorText}</span>
+                            <span>{post.date}</span>
+                            {post.views !== undefined && (
+                                <span>조회수 {post.views}</span>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Post Body */}
+                    <div className={styles.postBody}>
+                        {post.address && (
+                            <div style={{ marginBottom: '32px', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+                                <NaverMap
+                                    address={post.address}
+                                    detailAddress={post.detailAddress}
+                                    title={post.title}
+                                    category={post.businessCategory}
+                                    phone={post.phone}
+                                />
+                            </div>
+                        )}
+
+                        {post.content && (
+                            <div className={styles.viewerWrapper}>
+                                <Viewer initialValue={post.content} />
+                            </div>
+                        )}
+                    </div>
+                </div>
+                </div>
+            </motion.div>
         </div>
     );
 };

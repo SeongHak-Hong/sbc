@@ -22,8 +22,7 @@ const ScrollFadeText = ({ text, style, mobileStyle, className, once = false, as 
                 opacity: 0.1,
                 filter: 'blur(10px)',
                 display: 'inline-block',
-                whiteSpace: 'pre-wrap',
-            };
+                whiteSpace: 'pre-wrap' };
 
             return (
                 <span className="word" key={index} style={wordStyle}>
