@@ -76,6 +76,7 @@
 
   /* Line-height Tokens */
   --line-height-base: 1.6;
+  --line-height-loose: 1.75;
   --line-height-heading: 1.6;
 
   --text-h1: var(--pc-text-h1);
@@ -97,6 +98,7 @@
 
   /* Line-height Tokens */
   --line-height-base: 1.6;
+  --line-height-loose: 1.75;
   --line-height-heading: 1.6;
 
   --text-h1: var(--pc-text-h1);
