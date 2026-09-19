@@ -178,7 +178,7 @@ const WorshipPage = () => {
                     >
                         {/* Breadcrumb */}
                         <div className={styles.breadcrumb}>
-                            교회소개 - 예배 안내
+                            교회소개 - 교회 안내
                         </div>
 
                         {/* Main Text */}

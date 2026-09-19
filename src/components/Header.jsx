@@ -124,7 +124,7 @@ const Header = () => {
             id: "step-1", title: "교회소개", icon: "church", iconColor: styles.iconBlue,
             links: [
                 { text: "인사말 · 비전", path: "/vision" },
-                { text: "예배 안내", path: "/guide" },
+                { text: "교회 안내", path: "/guide" },
                 { text: "추억 갤러리", path: "/history" },
                 { text: "섬기는 사람들", path: "/team" },
             ]
