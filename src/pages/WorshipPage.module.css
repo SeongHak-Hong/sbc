@@ -208,7 +208,8 @@
         gap: 12px;
     }
 
-    .selectButton {
+    .selectButton,
+    .naverButton {
         padding: 10px 24px;
         font-size: 16px;
     }
