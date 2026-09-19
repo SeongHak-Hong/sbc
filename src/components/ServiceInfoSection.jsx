@@ -49,7 +49,7 @@ const ServiceInfoSection = () => {
                     <h2 style={titleStyle}>당신을 기다리는<br />예배의 자리.</h2>
                 </BlurFade>
                 <BlurFade delay={0.4} inView>
-                    <LargeButton onClick={() => navigate('/worship')}>
+                    <LargeButton onClick={() => navigate('/guide')}>
                         예배 안내 보기
                     </LargeButton>
                 </BlurFade>

@@ -2,6 +2,8 @@
     width: 100%;
     min-height: 100vh;
     padding-bottom: 120px;
+    background: linear-gradient(to bottom, #E7F5FD, #FCEBE0);
+    background-attachment: fixed;
 }
 
 .container {

@@ -110,7 +110,7 @@ function AppRoutes() {
         <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/history" element={<HistoryPage />} />
         <Route path="/vision" element={<VisionPage />} />
-        <Route path="/worship" element={<WorshipPage />} />
+        <Route path="/guide" element={<WorshipPage />} />
         <Route path="/team" element={<TeamPage />} />
         <Route path="/nextgen" element={<NextGenPage />} />
         <Route path="/community" element={<CommunityPage />} />

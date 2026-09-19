@@ -142,17 +142,6 @@ const CommunityPage = () => {
         <div className={styles.pageWrapper}>
             <div className={styles.centerContainer}>
                 
-                {/* Breadcrumb */}
-                <motion.div 
-                    className={styles.breadcrumb}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 1 }}
-                >
-                    공동체 - 구역 안내
-                </motion.div>
-
-                {/* Main Text */}
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={step === 3 ? activeZone.id : step}
@@ -160,86 +149,77 @@ const CommunityPage = () => {
                         initial="hidden"
                         animate="show"
                         exit="exit"
-                        className={styles.mainText}
-                        style={{ whiteSpace: 'pre-line' }}
+                        style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
                     >
-                        {renderMainText()}
+                        {/* Breadcrumb */}
+                        <div className={styles.breadcrumb}>
+                            공동체 - 구역 안내
+                        </div>
+
+                        {/* Main Text */}
+                        <div className={styles.mainText} style={{ whiteSpace: 'pre-line' }}>
+                            {renderMainText()}
+                        </div>
+
+                        {/* Buttons Area */}
+                        <div className={styles.buttonGroup}>
+                            {step === 1 && (
+                                <>
+                                    {cellgroupKeys.map(key => {
+                                        const pastor = getPastorText(cellgroupData[key].pastor);
+                                        return (
+                                            <button 
+                                                key={key} 
+                                                className={styles.selectButton}
+                                                onClick={() => handleSelectCellgroup(key)}
+                                            >
+                                                {key}{pastor ? ` - ${pastor}` : ''}
+                                            </button>
+                                        );
+                                    })}
+                                </>
+                            )}
+
+                            {(step === 2 || step === 3) && (
+                                <>
+                                    <div className={styles.dropdownContainer} ref={dropdownRef}>
+                                        <button 
+                                            className={`${styles.selectButton} ${dropdownOpen ? styles.dropdownOpenButton : ''}`} 
+                                            onClick={toggleDropdown}
+                                        >
+                                            구역 선택
+                                            <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
+                                                {dropdownOpen ? 'expand_less' : 'expand_more'}
+                                            </span>
+                                        </button>
+                                        
+                                            {dropdownOpen && (
+                                                <div className={styles.dropdownMenu}>
+                                                    <div className={styles.scrollArea} data-lenis-prevent>
+                                                        {currentZones.map((zone, idx) => (
+                                                            <div 
+                                                                key={idx} 
+                                                                className={styles.dropdownItem}
+                                                                onClick={() => handleSelectZone(zone)}
+                                                            >
+                                                                {zone.id}구역
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                    </div>
+                                    <button 
+                                        className={`${styles.selectButton} ${styles.secondary}`}
+                                        onClick={handleResetCellgroup}
+                                    >
+                                        교구 다시 선택하기
+                                    </button>
+                                </>
+                            )}
+                        </div>
                     </motion.div>
                 </AnimatePresence>
-
-                {/* Buttons Area */}
-                <div className={styles.buttonGroup}>
-                    <AnimatePresence mode="wait">
-                        {step === 1 && (
-                            <motion.div 
-                                key="step1-buttons"
-                                variants={buttonFadeVariants}
-                                initial="hidden"
-                                animate="show"
-                                exit="exit"
-                                className={styles.buttonGroup}
-                            >
-                                {cellgroupKeys.map(key => {
-                                    const pastor = getPastorText(cellgroupData[key].pastor);
-                                    return (
-                                        <button 
-                                            key={key} 
-                                            className={styles.selectButton}
-                                            onClick={() => handleSelectCellgroup(key)}
-                                        >
-                                            {key}{pastor ? ` - ${pastor}` : ''}
-                                        </button>
-                                    );
-                                })}
-                            </motion.div>
-                        )}
-
-                        {(step === 2 || step === 3) && (
-                            <motion.div 
-                                key="step2-buttons"
-                                variants={buttonFadeVariants}
-                                initial="hidden"
-                                animate="show"
-                                exit="exit"
-                                className={styles.buttonGroup}
-                            >
-                                <div className={styles.dropdownContainer} ref={dropdownRef}>
-                                    <button 
-                                        className={`${styles.selectButton} ${dropdownOpen ? styles.dropdownOpenButton : ''}`} 
-                                        onClick={toggleDropdown}
-                                    >
-                                        구역 선택
-                                        <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
-                                            {dropdownOpen ? 'expand_less' : 'expand_more'}
-                                        </span>
-                                    </button>
-                                    
-                                        {dropdownOpen && (
-                                            <div className={styles.dropdownMenu}>
-                                                <div className={styles.scrollArea} data-lenis-prevent>
-                                                    {currentZones.map((zone, idx) => (
-                                                        <div 
-                                                            key={idx} 
-                                                            className={styles.dropdownItem}
-                                                            onClick={() => handleSelectZone(zone)}
-                                                        >
-                                                            {zone.id}구역
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        )}
-                                </div>
-                                <button 
-                                    className={`${styles.selectButton} ${styles.secondary}`}
-                                    onClick={handleResetCellgroup}
-                                >
-                                    교구 다시 선택하기
-                                </button>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-                </div>
 
             </div>
         </div>

@@ -128,6 +128,8 @@
   --color-text-muted-rgb: 150, 150, 150;
   --color-text-placeholder: #94A3B8;
   --color-text-placeholder-rgb: 148, 163, 184;
+  --color-text-warm-primary: #625852;
+  --color-text-warm-secondary: #BDB4AF;
 
   --section-padding-y: 180px;
   --section-padding-x: 48px;

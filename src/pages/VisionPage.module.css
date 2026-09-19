@@ -1,4 +1,4 @@
-﻿.breadcrumb {
+.breadcrumb {
     font-size: 16px;
 
     color: var(--color-text-placeholder);
@@ -140,7 +140,7 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 600px;
+    width: 640px;
     display: flex;
     align-items: flex-end;
 }
@@ -158,13 +158,14 @@
     width: 480px;
     box-sizing: border-box;
     justify-content: center;
+    line-height: var(--line-height-loose);
 }
 
 .greetingBody {
     font-size: 18px;
 
     color: var(--color-text-primary);
-    line-height: 1.6;
+    line-height: var(--line-height-loose);
     letter-spacing: -0.02em;
     margin-top: 80px;
     margin-bottom: 56px;

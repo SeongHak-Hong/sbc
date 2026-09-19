@@ -64,7 +64,7 @@ const NewcomerSection = ({
                 <h2 style={titleStyle}>{title}</h2>
             </BlurFade>
             <BlurFade delay={0.4} inView>
-                <LargeButton onClick={() => navigate('/worship#visit')}>
+                <LargeButton onClick={() => navigate('/guide#visit')}>
                     {buttonText}
                 </LargeButton>
             </BlurFade>

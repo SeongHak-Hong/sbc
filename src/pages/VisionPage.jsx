@@ -21,8 +21,8 @@ const WordFadeText = ({ isActive, text, delayOffset = 0, className, style }) => 
                         key={index}
                         initial={{ opacity: 0, filter: 'blur(10px)' }}
                         animate={isActive ? { opacity: 1, filter: 'blur(0px)' } : { opacity: 0, filter: 'blur(10px)' }}
-                        transition={{ 
-                            duration: 0.8, 
+                        transition={{
+                            duration: 0.8,
                             delay: isActive ? delayOffset + (index * 0.04) : 0,
                             ease: "easeOut"
                         }}
@@ -74,15 +74,15 @@ const VisionPage = () => {
     }, []);
 
     return (
-        <>
-            <SubPageSection hideHeader={true} className={styles.pageWrapper}>
+        <div className={styles.pageWrapper}>
+            <SubPageSection hideHeader={true} className={styles.introSectionOverride}>
                 <div ref={introScrollRef} className={styles.introPinnedWrapper}>
                     <div className={styles.introSticky}>
-                        
+
                         {/* Section 1: Intro */}
                         <div className={`${styles.introAbsoluteCenter} ${introActiveIndex === 0 ? styles.activeLayer : ''}`}>
                             <div className={styles.fadeInner}>
-                                <motion.div 
+                                <motion.div
                                     className={styles.breadcrumb}
                                     initial={{ opacity: 0, filter: 'blur(10px)' }}
                                     animate={introActiveIndex === 0 ? { opacity: 1, filter: 'blur(0px)' } : { opacity: 0, filter: 'blur(10px)' }}
@@ -100,7 +100,7 @@ const VisionPage = () => {
 
                         {/* Section 2: Pastor Profile */}
                         <div className={`${styles.introAbsoluteCenter} ${introActiveIndex === 1 ? styles.activeLayer : ''}`}>
-                            <motion.div 
+                            <motion.div
                                 className={styles.fullWidthContainer}
                                 initial={{ opacity: 0, filter: 'blur(10px)' }}
                                 animate={introActiveIndex === 1 ? { opacity: 1, filter: 'blur(0px)' } : { opacity: 0, filter: 'blur(10px)' }}
@@ -110,7 +110,7 @@ const VisionPage = () => {
                                 <div className={styles.greetingWrapper}>
                                     <div className={styles.greetingGrid}>
                                         <div className={styles.photoCol}>
-                                            <img 
+                                            <img
                                                 src={pastorIDImage}
                                                 alt="담임목사 프로필"
                                                 className={styles.profileImage}
@@ -159,7 +159,7 @@ const VisionPage = () => {
                 </div>
             </SubPageSection>
             <Footer />
-        </>
+        </div>
     );
 };
 

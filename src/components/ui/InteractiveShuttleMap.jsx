@@ -1,17 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './InteractiveShuttleMap.module.css';
 import { CHURCH_COORDS, shuttleSchedules } from '../../data/shuttleData';
-import TabMenu from '../TabMenu';
 
-const InteractiveShuttleMap = () => {
+const InteractiveShuttleMap = ({ mode = 'church', scheduleId = null }) => {
     const mapElement = useRef(null);
     const mapInstance = useRef(null);
     const markersRef = useRef([]);
-
-    // 'church' (교회 위치) or 'shuttle' (셔틀 노선)
-    const [mainTab, setMainTab] = useState('church');
-    // 셔틀 노선 중 활성화된 탭 (새벽예배, 주일2부 등)
-    const [activeScheduleId, setActiveScheduleId] = useState(shuttleSchedules[1].id); // 기본값: 주일2부예배
 
     // 지도 초기화
     useEffect(() => {
@@ -30,7 +24,7 @@ const InteractiveShuttleMap = () => {
         }
     }, []);
 
-    // 탭 상태가 변경될 때마다 마커 업데이트 및 줌 조절
+    // mode와 scheduleId가 변경될 때마다 마커 업데이트
     useEffect(() => {
         const { naver } = window;
         if (!mapInstance.current || !naver) return;
@@ -41,65 +35,141 @@ const InteractiveShuttleMap = () => {
         markersRef.current.forEach(marker => marker.setMap(null));
         markersRef.current = [];
 
-        if (mainTab === 'church') {
+        if (mode === 'church') {
             // [교회 위치 모드]
             const churchLocation = new naver.maps.LatLng(CHURCH_COORDS.lat, CHURCH_COORDS.lng);
             
-            // 교회 마커 생성 (네이버 스타일 말풍선)
+            const churchMarkerHTML = `
+                <div class="${styles.churchMarkerCard}">
+                    <div class="${styles.churchMarkerTitle}">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        신탄진침례교회
+                    </div>
+                    <div class="${styles.churchMarkerAddress}">
+                        대전 대덕구 석봉로 17
+                    </div>
+                    <div class="${styles.churchMarkerContact}">
+                        도움이 필요하시면 언제든 연락해 주세요<br/>
+                        <a href="tel:042-932-8156">📞 042-932-8156</a>
+                    </div>
+                </div>
+            `;
+
             const churchMarker = new naver.maps.Marker({
                 position: churchLocation,
                 map: map,
                 icon: {
-                    content: `
-                        <div class="${styles.naverMarker} ${styles.naverMarkerPrimary}">
-                            신탄진침례교회
-                        </div>
-                    `,
-                    anchor: new naver.maps.Point(0, 0)
-                }
-            });
-            markersRef.current.push(churchMarker);
-
-            // 교회 중심으로 줌 인 및 이동 (부드럽게)
-            map.morph(churchLocation, 16, { duration: 500 });
-
-        } else if (mainTab === 'shuttle') {
-            // [셔틀 노선 모드]
-            const activeSchedule = shuttleSchedules.find(s => s.id === activeScheduleId);
-            if (!activeSchedule) return;
-
-            const bounds = new naver.maps.LatLngBounds();
-
-            // 1. 중심을 잡기 위해 교회 좌표도 bounds에 추가
-            const churchLocation = new naver.maps.LatLng(CHURCH_COORDS.lat, CHURCH_COORDS.lng);
-            bounds.extend(churchLocation);
-            
-            // 교회 마커 (네이버 스타일 말풍선)
-            const churchMarker = new naver.maps.Marker({
-                position: churchLocation,
-                map: map,
-                icon: {
-                    content: `
-                        <div class="${styles.naverMarker} ${styles.naverMarkerPrimary}">
-                            신탄진침례교회
-                        </div>
-                    `,
+                    content: churchMarkerHTML,
                     anchor: new naver.maps.Point(0, 0)
                 },
                 zIndex: 10
             });
+
+            naver.maps.Event.addListener(churchMarker, 'mouseover', () => {
+                churchMarker.setZIndex(1000);
+            });
+            naver.maps.Event.addListener(churchMarker, 'mouseout', () => {
+                churchMarker.setZIndex(10);
+            });
             markersRef.current.push(churchMarker);
 
-            // 2. 셔틀 정류장 마커 추가
+            // 대중교통 마커
+            const TRANSIT_STOPS = [
+                { name: '신탄진시장 정류장', time: '도보 3분', type: 'bus', lat: 36.4455, lng: 127.4265 },
+                { name: '석봉네거리 정류장', time: '도보 3분', type: 'bus', lat: 36.4470, lng: 127.4205 },
+                { name: '신탄진역', time: '도보 5분', type: 'train', lat: 36.4491, lng: 127.4285 }
+            ];
+
+            const bounds = new naver.maps.LatLngBounds();
+            bounds.extend(churchLocation);
+
+            TRANSIT_STOPS.forEach(stop => {
+                const stopLoc = new naver.maps.LatLng(stop.lat, stop.lng);
+                bounds.extend(stopLoc);
+                const markerHTML = `
+                    <div class="${styles.shuttleMarkerCard}">
+                        <div class="${styles.shuttleMarkerTitle}">
+                            <div class="${styles.transitDot}"></div>
+                            ${stop.name}
+                        </div>
+                        <div class="${styles.shuttleMarkerDetails}">
+                            <span>${stop.time}</span>
+                        </div>
+                    </div>
+                `;
+                const marker = new naver.maps.Marker({
+                    position: stopLoc,
+                    map: map,
+                    icon: { content: markerHTML, anchor: new naver.maps.Point(0, 0) },
+                    zIndex: 100
+                });
+                naver.maps.Event.addListener(marker, 'mouseover', () => marker.setZIndex(1000));
+                naver.maps.Event.addListener(marker, 'mouseout', () => marker.setZIndex(100));
+                markersRef.current.push(marker);
+            });
+
+            if (map.getZoom() < 15) {
+                map.morph(churchLocation, 16, { duration: 500 });
+            } else {
+                map.panTo(churchLocation);
+            }
+
+        } else if (mode === 'shuttle' && scheduleId) {
+            // [셔틀 노선 모드]
+            const activeSchedule = shuttleSchedules.find(s => s.id === scheduleId);
+            if (!activeSchedule) return;
+
+            const bounds = new naver.maps.LatLngBounds();
+
+            const churchLocation = new naver.maps.LatLng(CHURCH_COORDS.lat, CHURCH_COORDS.lng);
+            bounds.extend(churchLocation);
+            
+            const churchMarkerHTML = `
+                <div class="${styles.churchMarkerCard}">
+                    <div class="${styles.churchMarkerTitle}">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        신탄진침례교회
+                    </div>
+                </div>
+            `;
+
+            const churchMarker = new naver.maps.Marker({
+                position: churchLocation,
+                map: map,
+                icon: {
+                    content: churchMarkerHTML,
+                    anchor: new naver.maps.Point(0, 0)
+                },
+                zIndex: 10
+            });
+
+            naver.maps.Event.addListener(churchMarker, 'mouseover', () => {
+                churchMarker.setZIndex(1000);
+            });
+            naver.maps.Event.addListener(churchMarker, 'mouseout', () => {
+                churchMarker.setZIndex(10);
+            });
+
+            markersRef.current.push(churchMarker);
+
             activeSchedule.routes.forEach((route) => {
                 const routeLocation = new naver.maps.LatLng(route.lat, route.lng);
                 bounds.extend(routeLocation);
 
-                // 네이버 스타일 말풍선 커스텀 마커
                 const markerHTML = `
-                    <div class="${styles.naverMarker}">
-                        <div class="${styles.markerDot}"></div>
-                        ${route.area}
+                    <div class="${styles.shuttleMarkerCard}">
+                        <div class="${styles.shuttleMarkerTitle}">
+                            <div class="${styles.markerDot}"></div>
+                            ${route.area} 방향
+                        </div>
+                        <div class="${styles.shuttleMarkerDetails}">
+                            <span>차량: ${route.carNum} (${route.driver})</span>
+                            <span>시간: ${route.time}</span>
+                        </div>
                     </div>
                 `;
 
@@ -113,102 +183,24 @@ const InteractiveShuttleMap = () => {
                     zIndex: 100
                 });
 
+                naver.maps.Event.addListener(marker, 'mouseover', () => {
+                    marker.setZIndex(1000);
+                });
+                naver.maps.Event.addListener(marker, 'mouseout', () => {
+                    marker.setZIndex(100);
+                });
+
                 markersRef.current.push(marker);
             });
 
-            // 생성된 모든 마커가 보이도록 지도의 뷰포트 자동 조절 (Auto-Fit Bounds)
-            // 패널이 지도 좌측/하단을 가리므로 여백(margin)을 넉넉히 줍니다.
-            map.panToBounds(bounds, { duration: 500 }, { top: 50, right: 50, bottom: 300, left: 350 });
+            map.panToBounds(bounds, { duration: 500 }, { top: 50, right: 50, bottom: 50, left: 50 });
         }
 
-    }, [mainTab, activeScheduleId]);
-
-    const activeSchedule = shuttleSchedules.find(s => s.id === activeScheduleId);
+    }, [mode, scheduleId]);
 
     return (
         <div className={styles.mapContainer}>
-            {/* 네이버 지도 렌더링 타겟 */}
             <div ref={mapElement} className={styles.mapArea} />
-
-            {/* 플로팅 정보 패널 */}
-            <div className={styles.floatingPanel}>
-                
-                {/* 메인 탭 */}
-                <TabMenu 
-                    className={styles.mainTabs}
-                    tabs={[{id: 'church', label: '교회위치'}, {id: 'shuttle', label: '차량운행'}]}
-                    activeTab={mainTab}
-                    onTabChange={setMainTab}
-                    getTabId={(t) => t.id}
-                    getTabLabel={(t) => t.label}
-                />
-
-                {mainTab === 'church' && (
-                    <div className={styles.churchInfo}>
-                        <p className={styles.churchDesc}>
-                            대전 대덕구 석봉로 17<br/>
-                            셔틀버스 관련 문의: <a href="tel:042-932-8156" className={styles.contact}>042-932-8156</a>
-                        </p>
-                        <div style={{ marginTop: '12px' }}>
-                            <a href={`https://map.naver.com/index.nhn?elng=${CHURCH_COORDS.lng}&elat=${CHURCH_COORDS.lat}&etext=${encodeURIComponent('신탄진침례교회')}&menu=route`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', width: '100%', padding: '12px 16px', backgroundColor: '#03c75a', color: 'white', textDecoration: 'none', borderRadius: '6px', fontSize: '14px',  letterSpacing: '-0.5px', lineHeight: '1' }}>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style={{ transform: 'translateY(-1px)' }}>
-                                    <path d="M16.096 11.235L8.71 0H0v24h7.904V12.765L15.29 24H24V0h-7.904v11.235z"/>
-                                </svg>
-                                <span>네이버 길찾기</span>
-                            </a>
-                        </div>
-                    </div>
-                )}
-
-                {mainTab === 'shuttle' && (
-                    <>
-                        {/* 서브 탭 그룹 (예배 시간 선택) */}
-                        <div className={styles.subTabsGroup}>
-                            <div className={styles.subTabRow}>
-                                <span className={styles.subTabLabel}>주일</span>
-                                <div className={styles.subTabButtonGroup}>
-                                    {shuttleSchedules.filter(s => ['sunday2', 'sundayAfternoon', 'nextgen'].includes(s.id)).map(schedule => (
-                                        <button
-                                            key={schedule.id}
-                                            className={`${styles.subTab} ${activeScheduleId === schedule.id ? styles.active : ''}`}
-                                            onClick={() => setActiveScheduleId(schedule.id)}
-                                        >
-                                            {schedule.name === '주일2부예배' ? '2부예배' : schedule.name === '주일오후예배' ? '오후예배' : schedule.name === '교회학교' ? '다음세대' : schedule.name}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className={styles.subTabRow}>
-                                <span className={styles.subTabLabel}>평일</span>
-                                <div className={styles.subTabButtonGroup}>
-                                    {shuttleSchedules.filter(s => ['dawn', 'wednesday'].includes(s.id)).map(schedule => (
-                                        <button
-                                            key={schedule.id}
-                                            className={`${styles.subTab} ${activeScheduleId === schedule.id ? styles.active : ''}`}
-                                            onClick={() => setActiveScheduleId(schedule.id)}
-                                        >
-                                            {schedule.name}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* 선택된 예배의 노선 리스트 */}
-                        <div className={styles.routeList}>
-                            {activeSchedule?.routes.map(route => (
-                                <div key={route.id} className={styles.routeItem}>
-                                    <span className={styles.routeArea}>{route.area}</span>
-                                    <div className={styles.routeDetails}>
-                                        {route.carNum} · {route.driver} · {route.time}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </>
-                )}
-
-            </div>
         </div>
     );
 };

@@ -1,129 +1,310 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './WorshipPage.module.css';
 
-import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.webp';
-
-import Footer from '../components/Footer';
-import SubPageSection from '../components/SubPageSection';
-import TabMenu from '../components/TabMenu';
 import InteractiveShuttleMap from '../components/ui/InteractiveShuttleMap';
+import { CHURCH_COORDS, shuttleSchedules } from '../data/shuttleData';
+
+const fadeVariants = {
+    hidden: { opacity: 0, filter: 'blur(10px)', y: 10 },
+    show: { 
+        opacity: 1, 
+        filter: 'blur(0px)', 
+        y: 0,
+        transition: { duration: 0.6, ease: "easeOut" }
+    },
+    exit: { 
+        opacity: 0, 
+        filter: 'blur(10px)', 
+        y: -10,
+        transition: { duration: 0.4, ease: "easeIn" }
+    }
+};
+
+const adultSchedule = [
+    { name: "주일 1부 예배", time: "주일 오전 07:00", location: "소예배실" },
+    { name: "주일 2부 예배", time: "주일 오전 11:00", location: "대예배실" },
+    { name: "주일 오후 예배", time: "주일 오후 02:00", location: "대예배실" },
+    { name: "새벽 기도회", time: "월~금 새벽 05:00", location: "소예배실" },
+    { name: "중보 기도회", time: "매주 화요일 오전 10:30", location: "소예배실" },
+    { name: "수요 예배", time: "수요일 오후 7:00", location: "대예배실" },
+    { name: "금요 기도회", time: "금요일 오후 9:00", location: "소예배실" }
+];
+
+const nextgenSchedule = [
+    { name: "유치부(7세 이하)", time: "주일 오전 09:00", location: "유치부실" },
+    { name: "초등부 주일예배", time: "주일 오전 09:00", location: "러브키즈예배실" },
+    { name: "떡볶이 데이", time: "매주 목요일 오후 1~4시", location: "식당" },
+    { name: "중고등부 주일예배", time: "주일 오전 09:00", location: "소예배실" },
+    { name: "청년부", time: "주일 오후 1:30", location: "소예배실" }
+];
 
 const WorshipPage = () => {
-    const [activeTab, setActiveTab] = useState('adult');
+    // State management
+    const [step, setStep] = useState(1);
+    const [category, setCategory] = useState(null); // 'worship' or 'directions'
+    const [subCategory, setSubCategory] = useState(null); // 'adult', 'nextgen', 'location', 'shuttle', 'transit', 'parking'
+    const [selectedWorship, setSelectedWorship] = useState(null);
+    const [selectedShuttle, setSelectedShuttle] = useState(null); // shuttle schedule object
+    
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
-    const adultSchedule = [
-        { name: "주일 1부 예배", time: "주일 오전 07:00", location: "소예배실" },
-        { name: "주일 2부 예배", time: "주일 오전 11:00", location: "대예배실" },
-        { name: "주일 오후 예배", time: "주일 오후 02:00", location: "대예배실" },
-        { name: "새벽 기도회", time: "월~금 새벽 05:00", location: "소예배실" },
-        { name: "중보 기도회", time: "매주 화요일 오전 10:30", location: "소예배실" },
-        { name: "수요 예배", time: "수요일 오후 7:00", location: "대예배실" },
-        { name: "금요 기도회", time: "금요일 오후 9:00", location: "소예배실" }
-    ];
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setDropdownOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
-    const nextgenSchedule = [
-        { name: "유치부(7세 이하)", time: "주일 오전 09:00", location: "유치부실" },
-        { name: "초등부 주일예배", time: "주일 오전 09:00", location: "러브키즈예배실" },
-        { name: "떡볶이 데이", time: "매주 목요일 오후 1~4시", location: "식당" },
-        { name: "중고등부 주일예배", time: "주일 오전 09:00", location: "소예배실" },
-        { name: "청년부", time: "주일 오후 1:30", location: "소예배실" }
-    ];
+    const resetToHome = () => {
+        setStep(1);
+        setCategory(null);
+        setSubCategory(null);
+        setSelectedWorship(null);
+        setSelectedShuttle(null);
+        setDropdownOpen(false);
+    };
 
-    const meetingsSchedule = [
-        { name: "운영위원회", time: "매월 마지막주 2부 예배 후", location: "목양실" }
-    ];
+    const handleCategorySelect = (cat) => {
+        setCategory(cat);
+        setStep(2);
+        setSubCategory(null);
+        setSelectedWorship(null);
+        setSelectedShuttle(null);
+        setDropdownOpen(false);
+    };
 
-    const getScheduleData = () => {
-        switch (activeTab) {
-            case 'nextgen': return nextgenSchedule;
-            case 'meetings': return meetingsSchedule;
-            default: return adultSchedule;
+    const handleBackToWorshipCategory = () => {
+        setStep(2);
+        setSubCategory(null);
+        setSelectedWorship(null);
+        setDropdownOpen(false);
+    };
+
+    const handleBackToDirections = () => {
+        setSubCategory(null);
+        setSelectedShuttle(null);
+        setDropdownOpen(false);
+    };
+
+    const handleSubCategorySelect = (subCat) => {
+        setSubCategory(subCat);
+        setSelectedShuttle(null);
+        setDropdownOpen(false);
+        if (category === 'worship') {
+            setStep(3);
         }
     };
 
+    const handleWorshipSelect = (worship) => {
+        setSelectedWorship(worship);
+        setDropdownOpen(false);
+    };
+
+    const handleShuttleSelect = (schedule) => {
+        setSelectedShuttle(schedule);
+        setDropdownOpen(false);
+    };
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen);
+    };
+
+    // Main Text Rendering
+    const renderMainText = () => {
+        if (step === 1) {
+            return "신탄진침례교회에 오시는 걸음,\n어떤 안내가 필요하신가요?";
+        }
+        
+        if (category === 'worship') {
+            if (!selectedWorship) {
+                return "어느 예배의 자리를 찾으시나요?";
+            }
+            return `${selectedWorship.name}\n${selectedWorship.time}, ${selectedWorship.location}에서 함께합니다.`;
+        }
+        
+        if (category === 'directions') {
+            if (subCategory === 'location') {
+                return "발걸음하시는 길이\n평안하시기를 기도합니다.";
+            }
+        }
+
+        if (category === 'shuttle') {
+            if (!selectedShuttle) {
+                return "편안한 이동을 위해\n어느 예배의 차량을 이용하시겠어요?";
+            }
+            return "교회로 오시는 길,\n차량 운행 노선을 확인해 보세요.";
+        }
+
+        if (category === 'parking') {
+            return "교회 주차장은 언제나 열려 있습니다.\n주일에는 대죽체육관 주차장도\n편하게 이용해 주세요.";
+        }
+        
+        return "";
+    };
+
+    const getWorshipOptions = () => {
+        if (subCategory === 'adult') return adultSchedule;
+        if (subCategory === 'nextgen') return nextgenSchedule;
+        if (subCategory === 'all') return [...adultSchedule, ...nextgenSchedule];
+        return [];
+    };
+
+    // 지도 표시 여부 및 모드
+    const showMap = (category === 'directions' && subCategory === 'location') || (category === 'shuttle' && selectedShuttle !== null);
+    const mapMode = category === 'shuttle' ? 'shuttle' : 'church';
+    const mapScheduleId = selectedShuttle?.id || null;
+
     return (
-        <div className={styles.pageContainer}>
-            <main className={styles.mainContent}>
-
-                {/* 예배 안내 섹션 */}
-                <SubPageSection title="예배 시간" engTitle="Worship" icon={visionIcon}>
-                    <div className={styles.contentWrapper}>
-                        <TabMenu 
-                            tabs={[
-                                { id: 'adult', label: '예배' },
-                                { id: 'nextgen', label: '다음세대' },
-                                { id: 'meetings', label: '모임' }
-                            ]}
-                            activeTab={activeTab}
-                            onTabChange={setActiveTab}
-                            getTabId={(tab) => tab.id}
-                            getTabLabel={(tab) => tab.label}
-                        />
-
-                        <div className={styles.listContainer}>
-                            <AnimatePresence mode="wait">
-                                <motion.div
-                                    key={activeTab}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -10 }}
-                                    transition={{ duration: 0.3 }}
-                                    className={styles.scheduleList}
-                                >
-                                    {getScheduleData().map((item, index) => (
-                                        <div key={index} className={styles.scheduleItem}>
-                                            <p className={styles.scheduleName}>{item.name}</p>
-                                            <p className={styles.scheduleDetails}>
-                                                {item.time} / {item.location}
-                                            </p>
-                                        </div>
-                                    ))}
-                                </motion.div>
-                            </AnimatePresence>
+        <div className={styles.pageWrapper}>
+            <div className={styles.centerContainer}>
+                
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={`${step}-${category}-${subCategory}-${selectedWorship?.name}-${selectedShuttle?.id}`}
+                        variants={fadeVariants}
+                        initial="hidden"
+                        animate="show"
+                        exit="exit"
+                        style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+                    >
+                        {/* Breadcrumb */}
+                        <div className={styles.breadcrumb}>
+                            교회소개 - 예배 안내
                         </div>
-                    </div>
-                </SubPageSection>
 
-                {/* 오시는 길 섹션 */}
-                <SubPageSection 
-                    id="visit"
-                    title="오시는 길" 
-                    engTitle="Visit"
-                    icon={visionIcon} 
-                    className={styles.lightSection} 
-                    titleColor="#1D1A1C"
-                >
-                    <div className={styles.directionsWrapper}>
-                        <InteractiveShuttleMap />
-                        <div className={styles.directionsContent}>
-                            <div className={styles.directionGroup}>
-                                <h4 className={styles.directionLabel}>대중교통 이용 시</h4>
-                                <div className={styles.directionBody}>
-                                    <p>신탄진시장 정류장: 2, 703, 704, 705, 711, 712번 등 (도보 3분)</p>
-                                    <p>석봉네거리 정류장: 705, 712번 등 (도보 3분)</p>
-                                    <p>신탄진역: 기차 환승 시 편리 (도보 5분)</p>
-                                </div>
-                            </div>
-
-                            <div className={styles.directionGroup}>
-                                <h4 className={styles.directionLabel}>자가용 이용 시</h4>
-                                <div className={styles.directionBody}>
-                                    <p>교회 주차장 상시 개방</p>
-                                    <p>일요일은 대죽체육관 주차장 추가로 이용 가능</p>
-                                </div>
-                            </div>
+                        {/* Main Text */}
+                        <div className={styles.mainText} style={{ whiteSpace: 'pre-line' }}>
+                            {renderMainText()}
                         </div>
-                    </div>
-                </SubPageSection>
 
-            </main>
+                        {/* Map (마커만 표시, 플로팅 패널 없음) */}
+                        {showMap && (
+                            <div className={styles.mapSection}>
+                                <InteractiveShuttleMap 
+                                    mode={mapMode}
+                                    scheduleId={mapScheduleId}
+                                />
+                            </div>
+                        )}
 
-            <Footer />
+                        {/* Buttons Area */}
+                        <div className={styles.buttonGroup}>
+                            {/* Step 1: 메인 선택 */}
+                            {step === 1 && (
+                                <>
+                                    <button className={styles.selectButton} onClick={() => { setCategory('worship'); setSubCategory('all'); setStep(2); }}>예배시간</button>
+                                    <button className={styles.selectButton} onClick={() => { setCategory('directions'); setSubCategory('location'); setStep(2); }}>오시는 길</button>
+                                    <button className={styles.selectButton} onClick={() => { setCategory('shuttle'); setSubCategory('shuttle'); setStep(2); }}>차량운행</button>
+                                    <button className={styles.selectButton} onClick={() => { setCategory('parking'); setSubCategory('parking'); setStep(2); }}>주차</button>
+                                </>
+                            )}
+
+                            {/* 예배시간 선택됨 (드롭다운) */}
+                            {step === 2 && category === 'worship' && (
+                                <>
+                                    <div className={styles.dropdownContainer} ref={dropdownRef}>
+                                        <button 
+                                            className={`${styles.selectButton} ${dropdownOpen ? styles.dropdownOpenButton : ''}`} 
+                                            onClick={toggleDropdown}
+                                        >
+                                            예배 선택
+                                            <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
+                                                {dropdownOpen ? 'expand_less' : 'expand_more'}
+                                            </span>
+                                        </button>
+                                        
+                                        {dropdownOpen && (
+                                            <div className={styles.dropdownMenu}>
+                                                <div className={styles.scrollArea} data-lenis-prevent>
+                                                    {getWorshipOptions().map((worship, idx) => (
+                                                        <div 
+                                                            key={idx} 
+                                                            className={styles.dropdownItem}
+                                                            onClick={() => handleWorshipSelect(worship)}
+                                                        >
+                                                            {worship.name}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <button className={`${styles.selectButton} ${styles.secondary}`} onClick={resetToHome}>처음으로</button>
+                                </>
+                            )}
+
+                            {/* 교회 위치 및 대중교통 선택됨 (지도 화면) */}
+                            {step === 2 && category === 'directions' && subCategory === 'location' && (
+                                <>
+                                    <a 
+                                        href={`https://map.naver.com/index.nhn?elng=${CHURCH_COORDS.lng}&elat=${CHURCH_COORDS.lat}&etext=${encodeURIComponent('신탄진침례교회')}&menu=route`} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className={styles.naverButton}
+                                    >
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#03C75A" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M16.096 11.235L8.71 0H0v24h7.904V12.765L15.29 24H24V0h-7.904v11.235z"/>
+                                        </svg>
+                                        네이버 길찾기
+                                    </a>
+                                    <button className={`${styles.selectButton} ${styles.secondary}`} onClick={resetToHome}>처음으로</button>
+                                </>
+                            )}
+
+                            {/* 차량운행 - 셔틀 예배 선택 드롭다운 */}
+                            {step === 2 && category === 'shuttle' && subCategory === 'shuttle' && (
+                                <>
+                                    <div className={styles.dropdownContainer} ref={dropdownRef}>
+                                        <button 
+                                            className={`${styles.selectButton} ${dropdownOpen ? (selectedShuttle ? styles.dropdownOpenButtonUp : styles.dropdownOpenButton) : ''}`} 
+                                            onClick={toggleDropdown}
+                                        >
+                                            예배 선택
+                                            <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
+                                                {dropdownOpen ? 'expand_less' : 'expand_more'}
+                                            </span>
+                                        </button>
+                                        
+                                        {dropdownOpen && (
+                                            <div className={`${styles.dropdownMenu} ${selectedShuttle ? styles.dropdownMenuUp : ''}`}>
+                                                <div className={`${styles.scrollArea} ${selectedShuttle ? styles.scrollAreaUp : ''}`} data-lenis-prevent>
+                                                    {shuttleSchedules.map((schedule) => (
+                                                        <div 
+                                                            key={schedule.id} 
+                                                            className={styles.dropdownItem}
+                                                            onClick={() => handleShuttleSelect(schedule)}
+                                                        >
+                                                            {schedule.name}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <button className={`${styles.selectButton} ${styles.secondary}`} onClick={resetToHome}>처음으로</button>
+                                </>
+                            )}
+
+                            {/* 주차 선택됨 (첫 화면에서 직접 진입) */}
+                            {step === 2 && category === 'parking' && subCategory === 'parking' && (
+                                <>
+                                    <button className={`${styles.selectButton} ${styles.secondary}`} onClick={resetToHome}>처음으로</button>
+                                </>
+                            )}
+                        </div>
+                    </motion.div>
+                </AnimatePresence>
+            </div>
+            
         </div>
     );
 };
