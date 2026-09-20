@@ -84,8 +84,9 @@
 }
 
 .selectButton.secondary {
-    background-color: var(--color-white);
+    background-color: var(--color-gray-50);
     color: var(--color-text-secondary);
+    box-shadow: inset 0 4px 4px #ffffff, 0 4px 4px rgba(255, 138, 63, 0.08);
 }
 
 /* Dropdown Container */

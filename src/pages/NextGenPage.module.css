@@ -52,9 +52,9 @@
     position: relative;
     width: 500px;
     height: 500px;
-    border-radius: 100px;
+    border-radius: 150px;
     background-color: var(--color-gray-50);
-    box-shadow: 0 30px 50px -30px rgba(15, 23, 42, 0.12);
+    box-shadow: 0 30px 50px rgba(255, 138, 63, 0.06), inset 0 10px 20px rgba(255, 255, 255, 0.5), inset 0 -10px 20px rgba(96, 197, 255, 0.12);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -119,14 +119,14 @@
 .timeText {
     font-size: 80px;
 
-    color: #3a86ff;
+    color: #37ABEA;
 
 }
 
 .amPmText {
     font-size: 24px;
 
-    color: #3a86ff;
+    color: #37ABEA;
     letter-spacing: -0.02em;
 }
 
@@ -147,8 +147,8 @@
 }
 
 .locationText {
-    font-size: 24px;
-    color: var(--color-text-muted);
+    font-size: 22px;
+    color: var(--color-text-tertiary);
     letter-spacing: -0.02em;
     white-space: pre-line;
     text-align: center;
@@ -330,7 +330,7 @@
 }
 
 .calendarMonth {
-    background-color: #3a86ff;
+    background-color: #37ABEA;
 
     font-size: 14px;
     color: var(--color-gray-50);
@@ -343,7 +343,7 @@
     padding: 8px;
 
     font-size: 16px;
-    color: var(--color-text-quaternary);
+    color: var(--color-text-tertiary);
     letter-spacing: -0.02em;
     line-height: 1.6;
 }

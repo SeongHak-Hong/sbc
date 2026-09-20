@@ -115,14 +115,12 @@
 
   /* Text Colors */
   --color-background-beige: #F0EEED;
-  --color-text-primary: #0F172A;
-  --color-text-primary-rgb: 15, 23, 42;
-  --color-text-secondary: #334155;
-  --color-text-secondary-rgb: 51, 65, 85;
-  --color-text-tertiary: #475569;
-  --color-text-tertiary-rgb: 71, 85, 105;
-  --color-text-quaternary: #64748B;
-  --color-text-quaternary-rgb: 100, 116, 139;
+  --color-text-primary: #243B48;
+  --color-text-primary-rgb: 36, 59, 72;
+  --color-text-secondary: #465468;
+  --color-text-secondary-rgb: 70, 84, 104;
+  --color-text-tertiary: #64748B;
+  --color-text-tertiary-rgb: 100, 116, 139;
   --color-text-body: #505050;
   --color-text-muted: #969696;
   --color-text-muted-rgb: 150, 150, 150;
