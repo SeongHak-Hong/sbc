@@ -153,12 +153,7 @@ const NextGenPage = () => {
         <div className={styles.pageWrapper}>
             <SubPageSection hideHeader={true}>
                 <div style={{ textAlign: 'center' }}>
-                    <div style={{
-                        fontSize: '16px',
-                        
-                        color: 'var(--color-text-placeholder)',
-                        marginBottom: '16px',
-                        fontFamily: "'YK Green Forest', var(--font-yuhan), sans-serif" }}>
+                    <div className={styles.subTitle}>
                         다음세대
                     </div>
                     <ScrollFadeText

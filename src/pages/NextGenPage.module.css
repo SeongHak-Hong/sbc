@@ -22,7 +22,21 @@
 
 @media (max-width: 767px) {
     .headerMainTitle {
-        font-size: 28px;
+        font-size: 24px;
+    }
+}
+
+.subTitle {
+    font-size: 16px;
+    color: var(--color-text-placeholder);
+    margin-bottom: 16px;
+    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
+}
+
+@media (max-width: 767px) {
+    .subTitle {
+        font-size: 14px;
+        margin-bottom: 12px;
     }
 }
 
@@ -251,11 +265,11 @@
 }
 
 .eventsHeader {
-    margin-bottom: 24px;
+    margin-bottom: 12px;
 }
 
 .eventsTitle {
-    font-size: 28px;
+    font-size: 18px;
 
     color: var(--color-text-primary);
     margin: 0 0 0 4px;
@@ -263,7 +277,7 @@
 
 @media (max-width: 600px) {
     .eventsTitle {
-        font-size: 20px;
+        font-size: 18px;
     }
 }
 
@@ -380,7 +394,7 @@
         font-size: 18px;
     }
     .eventsHeader {
-        margin-bottom: 16px;
+        margin-bottom: 12px;
     }
 }
 
