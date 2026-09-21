@@ -337,7 +337,7 @@ const WorshipPage = () => {
                         {/* 시설 안내 레이아웃 */}
                         {step === 2 && category === 'facilities' && (
                             <div className={styles.facilitiesContainer}>
-                                <div className={styles.facilitiesSidebar}>
+                                <div className={styles.facilitiesSidebarDesktop}>
                                     <div className={styles.verticalButtonGroup}>
                                         {facilityTabs.map(tab => (
                                             <button 
@@ -347,7 +347,7 @@ const WorshipPage = () => {
                                             >
                                                 {subCategory === tab.id && (
                                                     <motion.div
-                                                        layoutId="facilityActiveTab"
+                                                        layoutId="facilityActiveTabDesktop"
                                                         transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
                                                         className={styles.activeBackground}
                                                     />
@@ -356,7 +356,7 @@ const WorshipPage = () => {
                                             </button>
                                         ))}
                                     </div>
-                                    <button className={styles.selectButton} onClick={resetToHome} style={{ width: '100%' }}>처음으로</button>
+                                    <button className={styles.selectButton} onClick={resetToHome} style={{ width: '100%', marginTop: '12px' }}>처음으로</button>
                                 </div>
                                 <div className={styles.facilitiesMapArea}>
                                     <AnimatePresence mode="wait">
@@ -376,6 +376,42 @@ const WorshipPage = () => {
                     </motion.div>
                 </AnimatePresence>
             </div>
+            
+            {/* 시설 안내 레이아웃 (모바일 사이드바) */}
+            <AnimatePresence>
+                {step === 2 && category === 'facilities' && (
+                    <motion.div 
+                        className={styles.facilitiesSidebarMobile}
+                        variants={fadeVariants}
+                        initial="hidden"
+                        animate="show"
+                        exit="exit"
+                    >
+                        <div className={styles.verticalButtonGroup}>
+                            {facilityTabs.map(tab => (
+                                <button 
+                                    key={tab.id}
+                                    className={`${styles.verticalSelectButton} ${subCategory === tab.id ? styles.active : ''}`}
+                                    onClick={(e) => {
+                                        setSubCategory(tab.id);
+                                        e.currentTarget.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                                    }}
+                                >
+                                    {subCategory === tab.id && (
+                                        <motion.div
+                                            layoutId="facilityActiveTabMobile"
+                                            transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
+                                            className={styles.activeBackground}
+                                        />
+                                    )}
+                                    <span className={styles.switchText}>{tab.label}</span>
+                                </button>
+                            ))}
+                        </div>
+                        <button className={styles.selectButton} onClick={resetToHome} style={{ width: '100%', marginTop: '12px' }}>처음으로</button>
+                    </motion.div>
+                )}
+            </AnimatePresence>
             
         </div>
     );

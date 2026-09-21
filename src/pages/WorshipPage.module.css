@@ -222,11 +222,10 @@
     align-items: flex-start;
     justify-content: center;
     width: 100%;
-    margin-top: 24px;
     position: relative;
 }
 
-.facilitiesSidebar {
+.facilitiesSidebarDesktop {
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -235,6 +234,10 @@
     position: absolute;
     top: 0;
     left: 0;
+}
+
+.facilitiesSidebarMobile {
+    display: none;
 }
 
 .verticalButtonGroup {
@@ -301,30 +304,50 @@
         flex-direction: column;
         align-items: center;
         gap: 24px;
+        position: static;
     }
     
-    .facilitiesSidebar {
+    .facilitiesSidebarDesktop {
+        display: none;
+    }
+
+    .facilitiesSidebarMobile {
+        display: flex;
         width: 100%;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: center;
-        flex-wrap: wrap;
-        position: relative;
-        top: auto;
-        left: auto;
+        align-items: center;
+        position: fixed;
+        bottom: 16px;
+        left: 0;
+        padding: 0 16px;
+        z-index: 50;
     }
     
     .verticalButtonGroup {
         flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
         padding: 6px;
         width: 100%;
-        border-radius: 20px;
+        border-radius: 99px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    
+    .verticalButtonGroup::-webkit-scrollbar {
+        display: none;
     }
     
     .verticalSelectButton {
         width: auto;
-        padding: 10px 16px;
-        flex-grow: 1;
+        padding: 10px 20px;
+        flex-grow: 0;
+        flex-shrink: 0;
+        scroll-snap-align: center;
     }
 }
