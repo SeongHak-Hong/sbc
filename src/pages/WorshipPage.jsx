@@ -5,6 +5,31 @@ import styles from './WorshipPage.module.css';
 import InteractiveShuttleMap from '../components/ui/InteractiveShuttleMap';
 import { CHURCH_COORDS, shuttleSchedules } from '../data/shuttleData';
 
+import map1F from '../assets/guide/1F.svg';
+import map2F from '../assets/guide/2F.svg';
+import map3F from '../assets/guide/3F.svg';
+import mapSemi3F from '../assets/guide/semi-3F.svg';
+import mapDasom1F from '../assets/guide/dasom-1F.svg';
+import mapDasom2F from '../assets/guide/dasom-2F.svg';
+
+const facilityTabs = [
+    { id: '1F', label: '1층 식당' },
+    { id: '2F', label: '2층' },
+    { id: '3F', label: '3층' },
+    { id: 'semi3F', label: '준3층' },
+    { id: 'dasom1F', label: '다솜관 1층' },
+    { id: 'dasom2F', label: '다솜관 2층' },
+];
+
+const mapImages = {
+    '1F': map1F,
+    '2F': map2F,
+    '3F': map3F,
+    'semi3F': mapSemi3F,
+    'dasom1F': mapDasom1F,
+    'dasom2F': mapDasom2F
+};
+
 const fadeVariants = {
     hidden: { opacity: 0, filter: 'blur(10px)', y: 10 },
     show: { 
@@ -124,6 +149,10 @@ const WorshipPage = () => {
             return "신탄진침례교회에 오시는 걸음,\n어떤 안내가 필요하신가요?";
         }
         
+        if (category === 'facilities') {
+            return "구석구석 교회탐방";
+        }
+        
         if (category === 'worship') {
             if (!selectedWorship) {
                 return "어느 예배의 자리를 찾으시나요?";
@@ -169,7 +198,7 @@ const WorshipPage = () => {
                 
                 <AnimatePresence mode="wait">
                     <motion.div
-                        key={`${step}-${category}-${subCategory}-${selectedWorship?.name}-${selectedShuttle?.id}`}
+                        key={`${step}-${category}-${category === 'facilities' ? 'fixed' : subCategory}-${selectedWorship?.name}-${selectedShuttle?.id}`}
                         variants={fadeVariants}
                         initial="hidden"
                         animate="show"
@@ -197,6 +226,7 @@ const WorshipPage = () => {
                         )}
 
                         {/* Buttons Area */}
+                        {category !== 'facilities' && (
                         <div className={styles.buttonGroup}>
                             {/* Step 1: 메인 선택 */}
                             {step === 1 && (
@@ -205,6 +235,7 @@ const WorshipPage = () => {
                                     <button className={styles.selectButton} onClick={() => { setCategory('directions'); setSubCategory('location'); setStep(2); }}>오시는 길</button>
                                     <button className={styles.selectButton} onClick={() => { setCategory('shuttle'); setSubCategory('shuttle'); setStep(2); }}>차량운행</button>
                                     <button className={styles.selectButton} onClick={() => { setCategory('parking'); setSubCategory('parking'); setStep(2); }}>주차</button>
+                                    <button className={styles.selectButton} onClick={() => { setCategory('facilities'); setSubCategory('1F'); setStep(2); }}>시설 안내</button>
                                 </>
                             )}
 
@@ -301,6 +332,47 @@ const WorshipPage = () => {
                                 </>
                             )}
                         </div>
+                        )}
+
+                        {/* 시설 안내 레이아웃 */}
+                        {step === 2 && category === 'facilities' && (
+                            <div className={styles.facilitiesContainer}>
+                                <div className={styles.facilitiesSidebar}>
+                                    <div className={styles.verticalButtonGroup}>
+                                        {facilityTabs.map(tab => (
+                                            <button 
+                                                key={tab.id}
+                                                className={`${styles.verticalSelectButton} ${subCategory === tab.id ? styles.active : ''}`}
+                                                onClick={() => setSubCategory(tab.id)}
+                                            >
+                                                {subCategory === tab.id && (
+                                                    <motion.div
+                                                        layoutId="facilityActiveTab"
+                                                        transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
+                                                        className={styles.activeBackground}
+                                                    />
+                                                )}
+                                                <span className={styles.switchText}>{tab.label}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <button className={styles.selectButton} onClick={resetToHome} style={{ width: '100%' }}>처음으로</button>
+                                </div>
+                                <div className={styles.facilitiesMapArea}>
+                                    <AnimatePresence mode="wait">
+                                        <motion.img 
+                                            key={subCategory}
+                                            src={mapImages[subCategory]} 
+                                            alt="시설 안내 지도" 
+                                            variants={fadeVariants}
+                                            initial="hidden"
+                                            animate="show"
+                                            exit="exit"
+                                        />
+                                    </AnimatePresence>
+                                </div>
+                            </div>
+                        )}
                     </motion.div>
                 </AnimatePresence>
             </div>
