@@ -30,7 +30,6 @@
 .mainText {
     font-size: 40px;
     color: var(--color-text-primary);
-    letter-spacing: 0.02em;
     margin-bottom: 48px;
     word-break: keep-all;
 }
@@ -81,12 +80,6 @@
 
 .selectButton:hover {
     transform: translateY(-2px);
-}
-
-.selectButton.secondary {
-    background-color: var(--color-gray-50);
-    color: var(--color-text-secondary);
-    box-shadow: inset 0 4px 4px #ffffff, 0 4px 4px rgba(255, 138, 63, 0.08);
 }
 
 /* Dropdown Container */
@@ -177,7 +170,7 @@
     border: none;
     border-radius: 28px;
     padding: 14px 28px;
-    font-size: 18px;
+    font-size: 16px;
     color: var(--color-text-secondary);
     cursor: pointer;
     transition: transform 0.2s ease;
@@ -271,7 +264,6 @@
 
 .verticalSelectButton.active {
     color: var(--color-white);
-    font-weight: 500;
 }
 
 .activeBackground {

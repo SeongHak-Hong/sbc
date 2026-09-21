@@ -29,12 +29,9 @@ const PrayerSection = () => {
     };
 
     const titleStyle = {
-        fontFamily: 'var(--font-yuhan)',
-        
-        fontSize: isMobile ? '24px' : '40px',
+ fontSize: isMobile ? '24px' : '40px',
         lineHeight: 1.6,
-        letterSpacing: '0.02em',
-        color: '#1D1A1C',
+ color: '#1D1A1C',
         marginBottom: isMobile ? '24px' : '48px', // Standardized gap
         textAlign: 'center',
         padding: isMobile ? '0 24px' : '0 48px',

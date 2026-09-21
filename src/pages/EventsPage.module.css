@@ -26,7 +26,6 @@
 .pageTitle {
 
     font-size: 40px;
-    letter-spacing: 0.02em;
     color: var(--color-text-primary);
     margin: 0;
     white-space: pre-line;
@@ -284,8 +283,6 @@
 
     font-size: 14px;
     color: var(--color-gray-50);
-    letter-spacing: -0.02em;
-    line-height: 1.6;
 }
 
 .calendarDate {
@@ -294,8 +291,6 @@
 
     font-size: 16px;
     color: var(--color-text-tertiary);
-    letter-spacing: -0.02em;
-    line-height: 1.6;
 }
 
 .eventDetailsContainer {
@@ -309,10 +304,8 @@
 .eventTitle {
     font-size: 18px;
 
-    color: var(--color-text-primary);
+    color: var(--color-text-secondary);
     margin: 0;
-    letter-spacing: -0.02em;
-    line-height: 1.6;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -324,8 +317,6 @@
 
     color: var(--color-text-muted);
     margin: 0;
-    letter-spacing: -0.02em;
-    line-height: 1.6;
     display: flex;
     align-items: center;
     gap: 8px;

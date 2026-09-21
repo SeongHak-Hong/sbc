@@ -32,12 +32,9 @@ const NewcomerSection = ({
     };
 
     const titleStyle = {
-        fontFamily: 'var(--font-yuhan)',
-        
-        fontSize: isMobile ? '24px' : '40px',
+ fontSize: isMobile ? '24px' : '40px',
         lineHeight: 1.6,
-        letterSpacing: '0.02em',
-        color: 'var(--color-white)', // Changed back to white for visibility on dark background
+ color: 'var(--color-white)', // Changed back to white for visibility on dark background
         marginBottom: isMobile ? '24px' : '48px',
         textAlign: 'center',
         padding: isMobile ? '0 24px' : '0 48px',

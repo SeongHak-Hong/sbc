@@ -73,6 +73,13 @@ const InteractiveShuttleMap = ({ mode = 'church', scheduleId = null }) => {
             naver.maps.Event.addListener(churchMarker, 'mouseout', () => {
                 churchMarker.setZIndex(10);
             });
+            naver.maps.Event.addListener(churchMarker, 'click', () => {
+                markersRef.current.forEach(m => {
+                    const isChurch = m.getIcon().content.includes('churchMarkerTitle');
+                    m.setZIndex(isChurch ? 10 : 100);
+                });
+                churchMarker.setZIndex(1000);
+            });
             markersRef.current.push(churchMarker);
 
             // 대중교통 마커
@@ -107,6 +114,13 @@ const InteractiveShuttleMap = ({ mode = 'church', scheduleId = null }) => {
                 });
                 naver.maps.Event.addListener(marker, 'mouseover', () => marker.setZIndex(1000));
                 naver.maps.Event.addListener(marker, 'mouseout', () => marker.setZIndex(100));
+                naver.maps.Event.addListener(marker, 'click', () => {
+                    markersRef.current.forEach(m => {
+                        const isChurch = m.getIcon().content.includes('churchMarkerTitle');
+                        m.setZIndex(isChurch ? 10 : 100);
+                    });
+                    marker.setZIndex(1000);
+                });
                 markersRef.current.push(marker);
             });
 
@@ -153,6 +167,13 @@ const InteractiveShuttleMap = ({ mode = 'church', scheduleId = null }) => {
             naver.maps.Event.addListener(churchMarker, 'mouseout', () => {
                 churchMarker.setZIndex(10);
             });
+            naver.maps.Event.addListener(churchMarker, 'click', () => {
+                markersRef.current.forEach(m => {
+                    const isChurch = m.getIcon().content.includes('churchMarkerTitle');
+                    m.setZIndex(isChurch ? 10 : 100);
+                });
+                churchMarker.setZIndex(1000);
+            });
 
             markersRef.current.push(churchMarker);
 
@@ -188,6 +209,13 @@ const InteractiveShuttleMap = ({ mode = 'church', scheduleId = null }) => {
                 });
                 naver.maps.Event.addListener(marker, 'mouseout', () => {
                     marker.setZIndex(100);
+                });
+                naver.maps.Event.addListener(marker, 'click', () => {
+                    markersRef.current.forEach(m => {
+                        const isChurch = m.getIcon().content.includes('churchMarkerTitle');
+                        m.setZIndex(isChurch ? 10 : 100);
+                    });
+                    marker.setZIndex(1000);
                 });
 
                 markersRef.current.push(marker);

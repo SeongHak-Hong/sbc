@@ -34,15 +34,15 @@ const NaverMap = ({
             const contentString = `
                 <div style="padding: 15px 20px; text-align: center; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #eee;">
                     <div style="display: flex; justify-content: center; align-items: center; gap: 6px; margin-bottom: 6px;">
-                        <h4 style="margin: 0; font-size: 16px; font-weight: 700; color: #111; letter-spacing: -0.5px;">${title}</h4>
-                        ${category ? `<span style="font-size: 11px; padding: 2px 6px; background: #f3f4f6; color: #4b5563; border-radius: 4px; font-weight: 600;">${category}</span>` : ''}
+                        <h4 style="margin: 0; font-size: 16px; color: #111;">${title}</h4>
+                        ${category ? `<span style="font-size: 11px; padding: 2px 6px; background: #f3f4f6; color: #4b5563; border-radius: 4px;">${category}</span>` : ''}
                     </div>
-                    <p style="margin: 0 0 ${phone ? '4px' : '12px'} 0; font-size: 13px; color: #666; letter-spacing: -0.5px;">
+                    <p style="margin: 0 0 ${phone ? '4px' : '12px'} 0; font-size: 13px; color: #666;">
                         ${address}
                         ${detailAddress ? `<br/><span style="color:#888;">${detailAddress}</span>` : ''}
                     </p>
                     <div style="margin-top: 12px;">
-                        <a href="https://map.naver.com/index.nhn?elng=${lng}&elat=${lat}&etext=${encodeURIComponent(title)}&menu=route" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 12px 16px; background-color: #03c75a; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600; letter-spacing: -0.5px; box-sizing: border-box;">
+                        <a href="https://map.naver.com/index.nhn?elng=${lng}&elat=${lat}&etext=${encodeURIComponent(title)}&menu=route" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 12px 16px; background-color: #03c75a; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="transform: translateY(-1px);">
                                 <path d="M16.096 11.235L8.71 0H0v24h7.904V12.765L15.29 24H24V0h-7.904v11.235z"/>
                             </svg>

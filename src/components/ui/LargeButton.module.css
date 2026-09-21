@@ -3,7 +3,6 @@
   overflow: hidden;
   z-index: 1;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
-  line-height: var(--line-height-base);
   padding: 14px 28px;
   border-radius: 28px;
   font-size: 18px;

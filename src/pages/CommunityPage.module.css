@@ -32,7 +32,6 @@
     font-size: 40px;
 
     color: var(--color-text-primary);
-    letter-spacing: 0.02em;
     margin-bottom: 48px;
     word-break: keep-all;
 }

@@ -393,8 +393,7 @@ const styles = {
         border: '1px solid #D1D5DB',
         borderRadius: '6px',
         fontSize: '15px',
-        fontFamily: 'inherit',
-        backgroundColor: '#fff',
+ backgroundColor: '#fff',
         boxSizing: 'border-box'
     },
     buttonGroup: {

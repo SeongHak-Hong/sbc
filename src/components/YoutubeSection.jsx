@@ -125,12 +125,9 @@ const YoutubeSection = () => {
     };
 
     const sideTextStyle = {
-        fontFamily: 'var(--font-yuhan)',
-        
-        fontSize: isMobile ? '24px' : '40px',
+ fontSize: isMobile ? '24px' : '40px',
         lineHeight: 1.6,
-        letterSpacing: '0.02em',
-        color: 'var(--color-text-primary)',
+ color: 'var(--color-text-primary)',
         margin: 0,
         whiteSpace: 'nowrap',
         zIndex: 10,
@@ -274,12 +271,9 @@ const YoutubeSection = () => {
             }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: 'var(--max-width)', pointerEvents: 'auto' }}>
                     <h2 style={{
-                        fontFamily: 'var(--font-yuhan)',
-                        
-                        fontSize: isMobile ? '24px' : '40px',
+ fontSize: isMobile ? '24px' : '40px',
                         lineHeight: 1.6,
-                        letterSpacing: '0.02em',
-                        marginBottom: isMobile ? '24px' : '48px',
+ marginBottom: isMobile ? '24px' : '48px',
                         color: 'var(--color-text-primary)',
                         textAlign: 'center',
                         whiteSpace: 'pre-line',

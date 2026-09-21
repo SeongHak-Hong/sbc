@@ -138,12 +138,9 @@ const VerseSection = () => {
     };
 
     const textStyle = {
-        fontFamily: 'var(--font-yuhan)',
-        
-        fontSize: isMobile ? '24px' : '40px',
+ fontSize: isMobile ? '24px' : '40px',
         lineHeight: 1.6,
-        letterSpacing: '0.02em',
-        color: 'var(--color-text-primary)',
+ color: 'var(--color-text-primary)',
         textAlign: 'center',
         whiteSpace: 'pre-line',
         wordBreak: 'keep-all'

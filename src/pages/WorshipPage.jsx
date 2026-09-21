@@ -269,7 +269,7 @@ const WorshipPage = () => {
                                             </div>
                                         )}
                                     </div>
-                                    <button className={`${styles.selectButton} ${styles.secondary}`} onClick={resetToHome}>처음으로</button>
+                                    <button className={styles.selectButton} onClick={resetToHome}>처음으로</button>
                                 </>
                             )}
 
@@ -287,7 +287,7 @@ const WorshipPage = () => {
                                         </svg>
                                         네이버 길찾기
                                     </a>
-                                    <button className={`${styles.selectButton} ${styles.secondary}`} onClick={resetToHome}>처음으로</button>
+                                    <button className={styles.selectButton} onClick={resetToHome}>처음으로</button>
                                 </>
                             )}
 
@@ -321,14 +321,14 @@ const WorshipPage = () => {
                                             </div>
                                         )}
                                     </div>
-                                    <button className={`${styles.selectButton} ${styles.secondary}`} onClick={resetToHome}>처음으로</button>
+                                    <button className={styles.selectButton} onClick={resetToHome}>처음으로</button>
                                 </>
                             )}
 
                             {/* 주차 선택됨 (첫 화면에서 직접 진입) */}
                             {step === 2 && category === 'parking' && subCategory === 'parking' && (
                                 <>
-                                    <button className={`${styles.selectButton} ${styles.secondary}`} onClick={resetToHome}>처음으로</button>
+                                    <button className={styles.selectButton} onClick={resetToHome}>처음으로</button>
                                 </>
                             )}
                         </div>

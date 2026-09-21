@@ -12,7 +12,6 @@
 
     font-size: 40px;
 
-    letter-spacing: 0.02em;
     color: var(--color-text-primary);
     margin: 0;
     white-space: pre-line;
@@ -30,7 +29,6 @@
     font-size: 16px;
     color: var(--color-text-placeholder);
     margin-bottom: 16px;
-    font-family: 'YK Green Forest', var(--font-yuhan), sans-serif;
 }
 
 @media (max-width: 767px) {
@@ -111,7 +109,6 @@
 }
 
 .worshipInfo p {
-    font-family: inherit;
 }
 
 .worshipCategory {
@@ -119,7 +116,6 @@
 
     color: var(--color-text-primary);
     margin-bottom: 12px;
-    letter-spacing: -0.02em;
 }
 
 .timeContainer {
@@ -141,7 +137,6 @@
     font-size: 24px;
 
     color: #37ABEA;
-    letter-spacing: -0.02em;
 }
 
 @media (max-width: 600px) {
@@ -163,7 +158,6 @@
 .locationText {
     font-size: 22px;
     color: var(--color-text-tertiary);
-    letter-spacing: -0.02em;
     white-space: pre-line;
     text-align: center;
 }
@@ -348,8 +342,6 @@
 
     font-size: 14px;
     color: var(--color-gray-50);
-    letter-spacing: -0.02em;
-    line-height: 1.6;
 }
 
 .calendarDate {
@@ -358,17 +350,13 @@
 
     font-size: 16px;
     color: var(--color-text-tertiary);
-    letter-spacing: -0.02em;
-    line-height: 1.6;
 }
 
 .eventTitle {
     font-size: 18px;
 
-    color: var(--color-text-primary);
+    color: var(--color-text-secondary);
     margin: 0;
-    letter-spacing: -0.02em;
-    line-height: 1.6;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

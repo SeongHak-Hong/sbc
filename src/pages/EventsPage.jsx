@@ -168,18 +168,15 @@ const EventsPage = () => {
                             
                             color: 'var(--color-text-placeholder)',
                             marginBottom: '16px',
-                            fontFamily: "'YK Green Forest', var(--font-yuhan), sans-serif" }}>
+ }}>
                             나눔터 - 교회일정
                         </div>
                         <ScrollFadeText
                             text={"은혜의 시간"}
                             as="h1"
                             style={{
-                                fontFamily: 'var(--font-yuhan)',
-                                
-                                fontSize: '40px',
-                                letterSpacing: '0.02em',
-                                color: 'var(--color-text-primary)',
+ fontSize: '40px',
+ color: 'var(--color-text-primary)',
                                 margin: 0,
                                 whiteSpace: 'pre-line',
                                 wordBreak: 'keep-all',

@@ -190,8 +190,7 @@ const WelcomePage = () => {
                                     
                                     color: 'var(--color-text-placeholder)',
                                     marginBottom: '16px',
-                                    fontFamily: "'YK Green Forest', var(--font-yuhan), sans-serif",
-                                    textAlign: 'center'
+ textAlign: 'center'
                                 }}
                             >
                                 공동체 - 새가족

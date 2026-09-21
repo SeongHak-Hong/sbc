@@ -79,8 +79,6 @@
 .yuhanText {
     font-size: 40px;
 
-    line-height: 1.5;
-    letter-spacing: 0.02em;
     color: var(--color-text-primary);
     white-space: pre-line;
     word-break: keep-all;
@@ -102,8 +100,6 @@
     transform: translate(-50%, -50%);
     font-size: 300px;
 
-    line-height: 1.6;
-    letter-spacing: -0.02em;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -158,15 +154,12 @@
     width: 480px;
     box-sizing: border-box;
     justify-content: center;
-    line-height: var(--line-height-loose);
 }
 
 .greetingBody {
     font-size: 18px;
 
     color: var(--color-text-primary);
-    line-height: var(--line-height-loose);
-    letter-spacing: -0.02em;
     margin-top: 80px;
     margin-bottom: 56px;
     word-break: keep-all;
@@ -177,12 +170,9 @@
 
 .greetingBody p {
     margin: 0;
-    font-family: inherit;
     font-size: inherit;
 
     color: inherit;
-    line-height: inherit;
-    letter-spacing: inherit;
 }
 
 .signatureWrap {

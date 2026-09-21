@@ -130,7 +130,6 @@
     border: none;
     text-decoration: none;
     font-size: 18px;
-    letter-spacing: -0.05em;
 }
 
 .menuItem:hover,
@@ -236,7 +235,6 @@
     color: var(--color-text-muted);
     transition: background-color 0.2s, color 0.2s;
     text-decoration: none;
-    letter-spacing: -0.05em;
 }
 
 .subItem:hover {

@@ -307,7 +307,6 @@
 .ctaTitle {
     font-size: 40px;
 
-    letter-spacing: 0.02em;
     color: var(--color-text-primary);
     margin-bottom: 48px;
     white-space: pre-line;
@@ -358,7 +357,6 @@
     border-radius: 12px;
     font-size: 14px;
 
-    letter-spacing: -0.02em;
     color: #282E31;
 }
 
@@ -388,7 +386,6 @@
 
     font-size: 16px;
 
-    letter-spacing: -0.05em;
     color: var(--color-white);
     margin: 0;
     word-break: keep-all;
@@ -534,7 +531,6 @@
 
     font-size: 40px;
 
-    letter-spacing: 0.02em;
     color: var(--color-text-primary);
     margin: 0 0 24px 0;
     white-space: pre-line;
@@ -546,7 +542,6 @@
 
     color: var(--color-text-muted);
 
-    letter-spacing: -0.02em;
     word-break: keep-all;
     margin: 0;
     white-space: pre-line;

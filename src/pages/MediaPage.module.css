@@ -24,7 +24,6 @@
 .pageTitle {
 
     font-size: 40px;
-    letter-spacing: 0.02em;
     color: var(--color-text-primary);
     margin: 0;
     white-space: pre-line;
@@ -98,7 +97,6 @@
 }
 
 .videoInfo p {
-    font-family: inherit;
 }
 
 .date {
@@ -106,7 +104,6 @@
 
     font-size: 14px;
     margin: 0;
-    line-height: var(--line-height-base);
 }
 
 .title {
@@ -114,7 +111,6 @@
 
     font-size: 22px;
     margin: 0;
-    line-height: var(--line-height-base);
 }
 
 .description {
@@ -122,7 +118,6 @@
 
     font-size: 16px;
     margin: 0;
-    line-height: var(--line-height-base);
 }
 
 .badgeWrapper {
@@ -138,7 +133,6 @@
     padding: 4px 12px;
     border-radius: 99px;
     margin: 0;
-    line-height: var(--line-height-base);
 }
 
 /* Loading state */
@@ -259,14 +253,12 @@
 
     color: var(--color-white);
     margin: 0;
-    line-height: var(--line-height-base);
 }
 
 .modalDesc {
     font-size: 15px;
     color: rgba(255, 255, 255, 0.8);
     margin: 0;
-    line-height: var(--line-height-base);
 }
 
 @media (max-width: 768px) {

@@ -36,12 +36,10 @@ const HeroSection = () => {
 
     // Typography Setup
     const englishTitleStyle = {
-        fontFamily: '"Playfair Display", serif',
-        fontSize: isMobile ? '72px' : '160px',
+ fontSize: isMobile ? '72px' : '160px',
         color: '#F4EEE2',
         margin: 0,
-        letterSpacing: '-0.02em',
-        lineHeight: 1.2
+ lineHeight: 1.2
     };
 
     const koreanSubStyle = {
