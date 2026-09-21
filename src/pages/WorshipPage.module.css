@@ -292,6 +292,9 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    aspect-ratio: 602 / 474;
+    width: 100%;
+    max-width: 602px;
 }
 
 .facilitiesMapArea img {
