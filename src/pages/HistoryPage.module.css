@@ -113,7 +113,8 @@
     pointer-events: none;
 }
 
-.year {    font-size: 4rem;
+.year {    font-size: 4rem;
+    font-family: 'YuhanKimberly', sans-serif;
     color: var(--color-text-primary);
     transition: all 0.3s ease;
 }

@@ -1,5 +1,5 @@
 import React, { useRef, useState, useLayoutEffect, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from 'framer-motion';
 
 import styles from './HistoryPage.module.css';
 
@@ -18,12 +18,38 @@ const historyData = Object.entries(imageModules)
         };
     });
 
+const WordFadeText = ({ isActive, text, delayOffset = 0, className, style }) => {
+    const words = text.split(/([ \t\n\r]+)/);
+    return (
+        <div className={className} style={{ ...style, display: 'inline-block' }}>
+            {words.map((word, index) => {
+                if (word.match(/^[ \t\n\r]+$/)) {
+                    if (word === '\n') return <br key={index} />;
+                    return <span key={index} style={{ display: 'inline-block', width: '0.25em' }}></span>;
+                }
+                return (
+                    <motion.span
+                        key={index}
+                        initial={{ opacity: 0, filter: 'blur(10px)' }}
+                        animate={isActive ? { opacity: 1, filter: 'blur(0px)' } : { opacity: 0, filter: 'blur(10px)' }}
+                        transition={{ duration: 0.8, delay: delayOffset + index * 0.05 }}
+                        style={{ display: 'inline-block' }}
+                    >
+                        {word}
+                    </motion.span>
+                );
+            })}
+        </div>
+    );
+};
+
 const HistoryPage = () => {
     const containerRef = useRef(null);
     const galleryRef = useRef(null);
     const scrollerRef = useRef(null);
     const [scrollRange, setScrollRange] = useState(0);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [isCtaActive, setIsCtaActive] = useState(false);
     
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -69,6 +95,10 @@ const HistoryPage = () => {
     const endYear = historyData[historyData.length - 1].year;
     const rawYear = useTransform(smoothProgress, [0, 1], [startYear, endYear]);
     const currentYear = useTransform(rawYear, (latest) => Math.round(latest));
+
+    useMotionValueEvent(smoothProgress, "change", (latest) => {
+        setIsCtaActive(latest > 0.95);
+    });
 
     // Cross-fade animations for ending transition
     const galleryOpacity = useTransform(smoothProgress, [0.85, 0.95], [1, 0]);
@@ -122,10 +152,11 @@ const HistoryPage = () => {
                     style={{ opacity: ctaOpacity, filter: ctaBlur, pointerEvents: ctaPointerEvents }}
                 >
                     <div style={{ textAlign: 'center' }}>
-                        <h2 className={styles.ctaTitleText}>
-                            흑백 사진 속 따뜻한 사랑은 지금도 흐르고 있습니다.<br />
-                            신탄진교회의 다정한 '오늘'을 인스타그램에서 만나보세요.
-                        </h2>
+                        <WordFadeText 
+                            isActive={isCtaActive} 
+                            text={"흑백 사진 속 따뜻한 사랑은 지금도 흐르고 있습니다.\n신탄진교회의 다정한 '오늘'을 인스타그램에서 만나보세요."} 
+                            className={styles.ctaTitleText} 
+                        />
                     </div>
                     <button 
                         className={styles.ctaButton}
