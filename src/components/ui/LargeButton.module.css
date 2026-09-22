@@ -1,8 +1,8 @@
-﻿.animatedButton {
+.animatedButton {
   position: relative;
   overflow: hidden;
   z-index: 1;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
   padding: 14px 28px;
   border-radius: 28px;
   font-size: 18px;
@@ -10,13 +10,11 @@
   background-color: #245672;
   color: var(--color-gray-50);
   border: none;
-  box-shadow: 0px 0px 4px rgba(var(--color-text-primary-rgb), 0.12);
   cursor: pointer;
 }
 
 .animatedButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0px 4px 12px rgba(var(--color-text-primary-rgb), 0.15);
 }
 
 @media (max-width: 767px) {

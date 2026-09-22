@@ -146,7 +146,7 @@ const WorshipPage = () => {
     // Main Text Rendering
     const renderMainText = () => {
         if (step === 1) {
-            return "신탄진침례교회에 오시는 걸음,\n어떤 안내가 필요하신가요?";
+            return "환영합니다.\n어떤 안내가 필요하신가요?";
         }
         
         if (category === 'facilities') {
@@ -162,19 +162,19 @@ const WorshipPage = () => {
         
         if (category === 'directions') {
             if (subCategory === 'location') {
-                return "발걸음하시는 길이\n평안하시기를 기도합니다.";
+                return "반가운 발걸음, 오시는 길";
             }
         }
 
         if (category === 'shuttle') {
             if (!selectedShuttle) {
-                return "편안한 이동을 위해\n어느 예배의 차량을 이용하시겠어요?";
+                return "예배별 우리 동네 셔틀노선을 확인해 보세요.";
             }
-            return "교회로 오시는 길,\n차량 운행 노선을 확인해 보세요.";
+            return "우리 동네 셔틀 노선";
         }
 
         if (category === 'parking') {
-            return "교회 주차장은 언제나 열려 있습니다.\n주일에는 대죽체육관 주차장도\n편하게 이용해 주세요.";
+            return "교회 주차장은 언제나 열려 있습니다.\n주일에는 대죽체육관 주차장도 편하게 이용해 주세요.";
         }
         
         return "";

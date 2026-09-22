@@ -1,6 +1,18 @@
 @import url("https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css");
 
 @font-face {
+  font-family: 'JayeonSans';
+  src: url('https://cdn.jsdelivr.net/gh/Jihwan-Suh/JayeonSans/fonts/web/woff/JayeonSans-Regular.woff') format('woff');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'JayeonSans';
+  src: url('https://cdn.jsdelivr.net/gh/Jihwan-Suh/JayeonSans/fonts/web/woff/JayeonSans-Medium.woff') format('woff');
+  font-weight: 500;
+}
+
+@font-face {
   font-family: 'YuhanKimberly';
   src: url('/fonts/yuhan-kimberly_font_WebFont/유한킴벌리_푸른숲체_Light.woff2') format('woff2');
   font-weight: 300;
@@ -51,11 +63,11 @@
   --grid-margin: 48px;
   --grid-gutter: 24px;
 
-  --font-title: 'YK Green Forest', var(--font-yuhan), sans-serif;
-  --font-body: 'YK Green Forest', var(--font-yuhan), sans-serif;
-  --font-letter: 'YK Green Forest', var(--font-yuhan), sans-serif;
-  --font-btn: 'YK Green Forest', var(--font-yuhan), sans-serif;
-  --font-yuhan: 'YuhanKimberly', sans-serif;
+  --font-title: 'JayeonSans', sans-serif;
+  --font-body: 'JayeonSans', sans-serif;
+  --font-letter: 'JayeonSans', sans-serif;
+  --font-btn: 'JayeonSans', sans-serif;
+  --font-yuhan: 'JayeonSans', sans-serif;
 
   --color-text-white-secondary: rgba(255, 255, 255, 0.8);
 
@@ -117,8 +129,8 @@
   --color-background-beige: #F0EEED;
   --color-text-primary: #243B48;
   --color-text-primary-rgb: 36, 59, 72;
-  --color-text-secondary: #465468;
-  --color-text-secondary-rgb: 70, 84, 104;
+  --color-text-secondary: #334155;
+  --color-text-secondary-rgb: 51, 65, 85;
   --color-text-tertiary: #64748B;
   --color-text-tertiary-rgb: 100, 116, 139;
   --color-text-body: #505050;
@@ -146,6 +158,10 @@
   --subpage-header-padding-top: 160px;
 }
 
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+}
 @media (max-width: 767px) {
   :root {
     --grid-margin: 24px;
@@ -241,7 +257,7 @@ body {
 
 body {
   font-family: var(--font-body);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-regular);
   letter-spacing: -0.02em;
 
   line-height: var(--line-height-base);

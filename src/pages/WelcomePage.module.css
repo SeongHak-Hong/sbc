@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap');
 
 .pageWrapper {
     color: var(--color-text-muted);
@@ -291,8 +291,7 @@
 
     color: var(--color-gray-50);
     cursor: pointer;
-    box-shadow: 0px 0px 4px rgba(var(--color-text-primary-rgb), 0.12);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -301,7 +300,6 @@
 
 .lightButton:hover {
     transform: translateY(-2px);
-    box-shadow: 0px 4px 12px rgba(var(--color-text-primary-rgb), 0.15);
 }
 
 .ctaTitle {
