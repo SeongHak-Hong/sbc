@@ -1,96 +1,20 @@
-.breadcrumb {
-    font-size: 16px;
-
-    color: var(--color-text-placeholder);
-    text-align: center;
-}
-
 .pageWrapper {
     color: var(--color-text-primary);
-    min-height: 100vh !important;
     position: relative;
-    background: linear-gradient(to bottom, #E7F5FD, #FCEBE0);
-    background-attachment: fixed;
     padding: 0 !important;
     max-width: 100% !important;
     margin: 0 !important;
+    background-color: var(--color-white);
 }
 
-.introSectionOverride {
-    padding: 0 !important;
-    max-width: 100% !important;
-    min-height: auto !important;
-}
-
-.mainSectionOverride {
+.heroSection {
     position: relative;
-    padding-top: 100px;
-    border-top: none;
-}
-
-/* ==============================
-   Intro Pinned Section (From WelcomePage)
-   ============================== */
-
-.introPinnedWrapper {
-    height: 250vh;
-    position: relative;
-    z-index: 10;
-}
-
-.introSticky {
-    position: sticky;
-    top: 0;
     width: 100%;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    /* 사이트 전역 서브페이지와 동일한 그라데이션 배경 통일 */
+    background: linear-gradient(to bottom, #E7F5FD, #FCEBE0);
+    background-attachment: fixed;
+    padding-top: calc(var(--subpage-header-padding-top) - 40px);
     overflow: hidden;
-}
-
-.introAbsoluteCenter {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-}
-
-.introAbsoluteCenter.activeLayer {
-    pointer-events: auto;
-}
-
-.fadeInner {
-    max-width: 1152px;
-    width: 100%;
-    padding: 0 24px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 32px;
-}
-
-.yuhanText {
-    font-size: 40px;
-
-    color: var(--color-text-primary);
-    white-space: pre-line;
-    word-break: keep-all;
-}
-
-.fadeBodyText {
-    font-size: 16px;
-    color: var(--color-text-muted);
-}
-
-.spaceSpan {
-    white-space: pre-wrap;
 }
 
 .hallelujahBackground {
@@ -98,81 +22,103 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 300px;
-
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+    font-size: 260px;
+    font-family: var(--font-title);
+    
+    /* 텍스트 그라데이션 (위: 반투명 흰색 -> 아래: 완전 투명) */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    opacity: 0.65;
+    
+    white-space: nowrap;
     z-index: 0;
     pointer-events: none;
 }
 
-.greetingWrapper {
-    max-width: 1152px;
-    margin: 0 auto;
+.contentContainer {
+    max-width: 1200px;
     width: 100%;
-    height: 100vh;
+    margin: 0 auto;
+    padding: 0 24px;
     position: relative;
     z-index: 1;
     display: flex;
+    flex-direction: column;
+}
+
+.headerTextWrap {
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    text-align: center;
+    margin-bottom: 64px;
+}
+
+.breadcrumb {
+    font-size: 16px;
+    color: var(--color-text-tertiary);
+    margin-bottom: 12px;
+}
+
+.mainTitle {
+    font-size: 40px;
+    color: var(--color-text-primary);
+    margin: 0;
 }
 
 .greetingGrid {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     width: 100%;
-    justify-content: flex-end;
-}
-
-@media (max-width: 1023px) {
-    .greetingGrid {
-        justify-content: center;
-    }
+    position: relative;
 }
 
 .photoCol {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 640px;
+    flex: 0 0 640px;
     display: flex;
     align-items: flex-end;
+    justify-content: center;
 }
 
 .profileImage {
-    width: 100%;
+    width: 560px;
+    max-width: 100%;
     height: auto;
     display: block;
-    filter: drop-shadow(20px 50px 80px rgba(var(--color-text-primary-rgb), 0.25));
+    /* 시안처럼 사진이 배경 밑바닥에 딱 붙도록 margin-bottom 0 */
+    margin-bottom: -5px; /* 약간의 여백 오차 방지 */
+    filter: drop-shadow(10px 20px 40px rgba(0, 0, 0, 0.1));
 }
 
 .textCol {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    width: 480px;
-    box-sizing: border-box;
     justify-content: center;
+    align-self: center;
 }
 
 .greetingBody {
     font-size: 18px;
-
-    color: var(--color-text-primary);
-    margin-top: 80px;
-    margin-bottom: 56px;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
     word-break: keep-all;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 24px;
+    margin-bottom: 48px;
 }
 
 .greetingBody p {
     margin: 0;
     font-size: inherit;
-
     color: inherit;
+}
+
+/* 첫 문장(할렐루야!...)을 강조하는 스타일 (시안 기반) */
+.greetingBody p:first-child {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
 }
 
 .signatureWrap {
@@ -183,94 +129,62 @@
 
 .signatureText {
     font-size: 18px;
-
     color: var(--color-text-primary);
     text-align: right;
-    white-space: pre-line;
+    line-height: 1.6;
 }
 
-.fullWidthContainer {
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-}
-
-@media (max-width: 767px) {
-    .yuhanText {
-        font-size: 28px;
+@media (max-width: 1023px) {
+    .hallelujahBackground {
+        font-size: 180px;
     }
-    .spaceSpan {
-        white-space: normal;
-    }
-}
-@media (max-width: 767px) {
-    .greetingWrapper {
-        padding-top: 80px;
-        align-items: flex-start;
-        height: auto;
-    }
-    .greetingGrid {
-        flex-direction: column;
-        padding: 0 16px;
-        box-sizing: border-box;
+    .photoCol {
+        flex: 0 0 450px;
     }
     .textCol {
-        width: 100%;
-        order: 1;
+        padding-left: 32px;
+        padding-bottom: 80px;
     }
     .greetingBody {
         font-size: 16px;
-        margin-top: 0;
-        margin-bottom: 24px;
-        gap: 12px;
+    }
+}
+
+@media (max-width: 767px) {
+    .heroSection {
+        padding-top: 100px;
+    }
+    .hallelujahBackground {
+        font-size: 100px;
+        top: 25%;
+    }
+    .headerTextWrap {
+        margin-bottom: 40px;
+    }
+    .mainTitle {
+        font-size: 32px;
+    }
+    .greetingGrid {
+        flex-direction: column;
+        align-items: center;
+    }
+    .textCol {
+        width: 100%;
+        padding-left: 0;
+        padding-bottom: 48px;
+        order: 1;
     }
     .photoCol {
-        position: relative;
         width: 100%;
-        max-width: 240px;
-        margin: 0 auto;
+        max-width: 280px;
+        flex: none;
         order: 2;
-        bottom: auto;
-        left: auto;
     }
-    .signatureWrap {
-        align-items: flex-end;
+    .greetingBody {
+        gap: 16px;
+        margin-bottom: 32px;
     }
     .signatureText {
         font-size: 16px;
-    }
-}
-@media (max-width: 767px) {
-    /* 筌뤴뫀而??깅퓠??뺣뮉 100vh ?⑥쥙????????癒?염??살쑎????쎄쾿嚥??癒?カ??곗쨮 癰궰野?*/
-    .introPinnedWrapper {
-        height: auto !important;
-    }
-    .introSticky {
-        position: relative !important;
-        height: auto !important;
-        overflow: visible !important;
-        flex-direction: column !important;
-    }
-    .introAbsoluteCenter {
-        position: relative !important;
-        height: auto !important;
-        min-height: 100vh;
-        opacity: 1 !important;
-        filter: blur(0px) !important;
-        pointer-events: auto !important;
-        padding-bottom: 60px;
-    }
-    .introAbsoluteCenter:last-child {
-        padding-bottom: 0;
-    }
-}
-@media (max-width: 767px) {
-    /* Override framer-motion inline styles that might hide content */
-    .breadcrumb,
-    .yuhanText,
-    .fadeBodyText,
-    .fullWidthContainer {
-        opacity: 1 !important;
-        filter: blur(0px) !important;
     }
 }
