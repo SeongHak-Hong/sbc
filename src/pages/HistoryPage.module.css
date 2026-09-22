@@ -46,7 +46,6 @@
     position: relative;
     width: 560px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .photoFrame {
@@ -61,25 +60,46 @@
     object-fit: cover;
 }
 
-.ctaCard {
-    width: 600px;
-    padding: 64px 48px;
-    text-align: center;
+.ctaOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 64px;
-    position: relative;
+    z-index: 100;
+    text-align: center;
 }
 
-.ctaCard p {
+.ctaTitleText {
+    font-size: 40px;
     color: var(--color-text-primary);
-    font-size: var(--text-body-card);    word-break: keep-all;
-    margin-bottom: 0;
+    margin: 0 0 48px 0;
+    white-space: pre-line;
+    word-break: keep-all;
 }
 
+.ctaButton {
+    background-color: var(--color-white);
+    border: none;
+    border-radius: 28px;
+    padding: 14px 28px;
+    font-size: 16px;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
 
+.ctaButton:hover {
+    transform: translateY(-2px);
+}
 
 .timelineIndicator {
     position: fixed;
@@ -150,14 +170,10 @@
     .dash { width: 40px; }
     .imageWrapper { 
         width: 360px; 
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
     
-    .ctaCard {
-        width: 80vw;
-        padding: 40px 24px;
-        gap: 24px;
-        scroll-snap-align: center;
+    .ctaTitleText {
+        font-size: 24px;
     }
     
     .scrollHint {

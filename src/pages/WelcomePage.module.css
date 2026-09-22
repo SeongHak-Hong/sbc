@@ -283,16 +283,15 @@
 }
 
 .lightButton {
-    background-color: var(--color-text-primary);
+    background-color: var(--color-white);
     border: none;
     border-radius: 28px;
     padding: 14px 28px;
-    font-size: 18px;
-
-    color: var(--color-gray-50);
+    font-size: 16px;
+    color: var(--color-text-secondary);
     cursor: pointer;
     transition: transform 0.2s ease;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;

@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import styles from './VisionPage.module.css';
 
 import pastorIDImage from '../assets/vision/shintanjin-baptist-church-pastor-ID-photo.webp';
-import Footer from '../components/Footer';
 
 const VisionPage = () => {
     useEffect(() => {
@@ -85,7 +84,6 @@ const VisionPage = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
         </div>
     );
 };

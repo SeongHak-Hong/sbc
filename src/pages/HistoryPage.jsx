@@ -1,6 +1,5 @@
 import React, { useRef, useState, useLayoutEffect, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import LargeButton from '../components/ui/LargeButton';
 
 import styles from './HistoryPage.module.css';
 
@@ -71,21 +70,27 @@ const HistoryPage = () => {
     const rawYear = useTransform(smoothProgress, [0, 1], [startYear, endYear]);
     const currentYear = useTransform(rawYear, (latest) => Math.round(latest));
 
+    // Cross-fade animations for ending transition
+    const galleryOpacity = useTransform(smoothProgress, [0.85, 0.95], [1, 0]);
+    const galleryBlur = useTransform(smoothProgress, [0.85, 0.95], ['blur(0px)', 'blur(10px)']);
+    const ctaOpacity = useTransform(smoothProgress, [0.9, 1], [0, 1]);
+    const ctaBlur = useTransform(smoothProgress, [0.9, 1], ['blur(10px)', 'blur(0px)']);
+    const ctaPointerEvents = useTransform(smoothProgress, (v) => v > 0.9 ? 'auto' : 'none');
     // Calculate dynamic height to match 1:1 scroll ratio (Desktop only)
     const scrollHeight = (!isMobile && scrollRange > 0) ? `${scrollRange + window.innerHeight}px` : '100vh';
 
     return (
         <div ref={containerRef} style={{ height: scrollHeight, position: 'relative' }}>
             <div className={styles.pageWrapper}>
-
-                <main ref={scrollerRef} className={styles.scroller}>
+                <motion.div style={{ opacity: galleryOpacity, filter: galleryBlur, width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
+                    <main ref={scrollerRef} className={styles.scroller}>
                     <motion.div ref={galleryRef} style={{ x: isMobile ? 0 : x }} className={styles.galleryContainer}>
                         {historyData.map((item, index) => (
                             <motion.article 
                                 key={item.id} 
                                 className={styles.artwork}
-                                initial={{ opacity: 0, y: index % 2 === 0 ? 60 : -60 }}
-                                whileInView={{ opacity: 1, y: index % 2 === 0 ? 60 : -60 }}
+                                initial={{ opacity: 0, y: index % 2 === 0 ? 24 : -24 }}
+                                whileInView={{ opacity: 1, y: index % 2 === 0 ? 24 : -24 }}
                                 viewport={{ once: true, margin: "0px -10% 0px -10%" }}
                                 transition={{ duration: 0.8, ease: "easeOut" }}
                             >
@@ -97,26 +102,8 @@ const HistoryPage = () => {
                             </motion.article>
                         ))}
 
-                        {/* CTA Section */}
-                        <motion.article 
-                            className={styles.ctaCard}
-                            initial={{ opacity: 0, y: 0 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "0px -10% 0px -10%" }}
-                            transition={{ duration: 0.8, ease: "easeOut" }}
-                        >
-                            <p>
-                                흑백 사진 속 따뜻한 사랑은<br />
-                                지금도 흐르고 있습니다.<br />
-                                신탄진교회의 다정한 '오늘'을<br />
-                                인스타그램에서 만나보세요.
-                            </p>
-                            <LargeButton 
-                                onClick={() => window.open('https://www.instagram.com/ds3jhb2026/', '_blank')}
-                            >
-                                인스타그램 놀러 가기
-                            </LargeButton>
-                        </motion.article>
+                        {/* Padding for center alignment at the end */}
+                        <div style={{ width: '50vw', flexShrink: 0 }}></div>
                     </motion.div>
                 </main>
 
@@ -127,6 +114,26 @@ const HistoryPage = () => {
                 </div>
 
                 <div className={styles.scrollHint}>아래로 스크롤하여 넘겨보기</div>
+                </motion.div>
+
+                {/* CTA Overlay section */}
+                <motion.div 
+                    className={styles.ctaOverlay}
+                    style={{ opacity: ctaOpacity, filter: ctaBlur, pointerEvents: ctaPointerEvents }}
+                >
+                    <div style={{ textAlign: 'center' }}>
+                        <h2 className={styles.ctaTitleText}>
+                            흑백 사진 속 따뜻한 사랑은 지금도 흐르고 있습니다.<br />
+                            신탄진교회의 다정한 '오늘'을 인스타그램에서 만나보세요.
+                        </h2>
+                    </div>
+                    <button 
+                        className={styles.ctaButton}
+                        onClick={() => window.open('https://www.instagram.com/ds3jhb2026/', '_blank')}
+                    >
+                        인스타그램 놀러 가기
+                    </button>
+                </motion.div>
             </div>
         </div>
     );
