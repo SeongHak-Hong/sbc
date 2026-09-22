@@ -283,7 +283,7 @@
 }
 
 .lightButton {
-    background-color: var(--color-white);
+    background-color: var(--color-gray-50);
     border: none;
     border-radius: 28px;
     padding: 14px 28px;
