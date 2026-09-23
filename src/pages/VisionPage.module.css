@@ -13,30 +13,29 @@
     /* 사이트 전역 서브페이지와 동일한 그라데이션 배경 통일 */
     background: linear-gradient(to bottom, #E7F5FD, #FCEBE0);
     background-attachment: fixed;
-    padding-top: calc(var(--subpage-header-padding-top) - 40px);
     overflow: hidden;
 }
 
-.hallelujahBackground {
+.shalomBackground {
     position: absolute;
-    top: 50%;
+    top: 50px;
     left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 260px;
+    transform: translateX(-50%);
+    font-size: 140px;
     font-family: var(--font-title);
     
     /* 텍스트 그라데이션 (위: 반투명 흰색 -> 아래: 완전 투명) */
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     
     white-space: nowrap;
-    z-index: 0;
+    z-index: -1;
     pointer-events: none;
+    line-height: 1;
 }
 
 .contentContainer {
-    max-width: 1200px;
     width: 100%;
     margin: 0 auto;
     padding: 0 24px;
@@ -49,9 +48,9 @@
 .headerTextWrap {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin-bottom: 64px;
+    align-items: flex-start;
+    text-align: left;
+    margin-bottom: 40px;
 }
 
 .breadcrumb {
@@ -61,7 +60,7 @@
 }
 
 .mainTitle {
-    font-size: 40px;
+    font-size: 32px;
     color: var(--color-text-primary);
     margin: 0;
 }
@@ -78,6 +77,8 @@
     display: flex;
     align-items: flex-end;
     justify-content: center;
+    position: relative;
+    z-index: 1;
 }
 
 .profileImage {
@@ -99,14 +100,15 @@
 }
 
 .greetingBody {
-    font-size: 18px;
+    font-size: 16px;
     color: var(--color-text-secondary);
     line-height: 1.8;
     word-break: keep-all;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 16px;
     margin-bottom: 48px;
+    max-width: 520px;
 }
 
 .greetingBody p {
@@ -115,27 +117,71 @@
     color: inherit;
 }
 
-/* 첫 문장(할렐루야!...)을 강조하는 스타일 (시안 기반) */
-.greetingBody p:first-child {
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-primary);
-}
 
-.signatureWrap {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
+/* PC 버전 풀페이지 레이아웃 */
+@media (min-width: 1024px) {
+    .heroSection {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .contentContainer {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 0; 
+        width: 100%;
+    }
+    
+    .greetingGrid {
+        justify-content: center;
+        align-items: center;
+        gap: 64px;
+        min-height: 0;
+        width: 100%;
+    }
+    
+    .photoCol {
+        flex: 0 0 auto;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+    }
 
-.signatureText {
-    font-size: 18px;
-    color: var(--color-text-primary);
-    text-align: right;
-    line-height: 1.6;
+    .shalomBackground {
+        font-size: clamp(180px, 22vw, 320px);
+        top: 5vh;
+    }
+    
+    .textCol {
+        flex: 0 0 auto;
+        padding-left: 0;
+        padding-top: 40px;
+    }
+
+    .mainTitle {
+        font-size: 40px;
+    }
+    
+    .greetingBody {
+        margin-bottom: 0;
+    }
+    
+    .profileImage {
+        height: 80vh;
+        width: auto;
+        max-width: 100%;
+        object-fit: contain;
+        object-position: bottom center;
+    }
 }
 
 @media (max-width: 1023px) {
-    .hallelujahBackground {
+    .shalomBackground {
         font-size: 180px;
     }
     .photoCol {
@@ -152,17 +198,22 @@
 
 @media (max-width: 767px) {
     .heroSection {
-        padding-top: 100px;
+        padding-top: 120px;
     }
-    .hallelujahBackground {
-        font-size: 100px;
-        top: 25%;
+    .shalomBackground {
+        font-size: 140px;
+        top: -40px;
     }
     .headerTextWrap {
-        margin-bottom: 40px;
+        margin-bottom: 24px;
+        align-items: flex-start;
+        text-align: left;
     }
     .mainTitle {
-        font-size: 32px;
+        font-size: 28px;
+    }
+    .mobileHiddenBr {
+        display: none;
     }
     .greetingGrid {
         flex-direction: column;
@@ -184,7 +235,5 @@
         gap: 16px;
         margin-bottom: 32px;
     }
-    .signatureText {
-        font-size: 16px;
-    }
+
 }

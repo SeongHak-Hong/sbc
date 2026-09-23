@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import styles from './VisionPage.module.css';
 
@@ -12,23 +12,10 @@ const VisionPage = () => {
     return (
         <div className={styles.pageWrapper}>
             <div className={styles.heroSection}>
-                <div className={styles.hallelujahBackground}>HALLELUJAH</div>
-                
                 <div className={styles.contentContainer}>
-                    {/* Header Text Area */}
-                    <motion.div 
-                        className={styles.headerTextWrap}
-                        initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
-                        animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <span className={styles.breadcrumb}>교회소개 - 인사말 · 비전</span>
-                        <h1 className={styles.mainTitle}>담임목사 인사말</h1>
-                    </motion.div>
-
-                    {/* Main Greeting Content */}
                     <div className={styles.greetingGrid}>
                         <div className={styles.photoCol}>
+                            <div className={styles.shalomBackground}>샬롬</div>
                             <motion.img
                                 src={pastorIDImage}
                                 alt="담임목사 프로필"
@@ -38,15 +25,23 @@ const VisionPage = () => {
                                 transition={{ duration: 0.8, delay: 0.2 }}
                             />
                         </div>
+                        
                         <div className={styles.textCol}>
+                            <motion.div 
+                                className={styles.headerTextWrap}
+                                initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
+                                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                                transition={{ duration: 0.8 }}
+                            >
+                                <span className={styles.breadcrumb}>교회소개 - 인사말 · 비전</span>
+                                <h1 className={styles.mainTitle}>
+                                    할렐루야!<br />
+                                    신탄진침례교회를 찾아주신 여러분께<br className={styles.mobileHiddenBr} />
+                                    하나님의 은총과 평강이 함께하시기를 축복합니다.
+                                </h1>
+                            </motion.div>
+
                             <div className={styles.greetingBody}>
-                                <motion.p
-                                    initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
-                                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                                    transition={{ duration: 0.8, delay: 0.3 }}
-                                >
-                                    할렐루야! 신탄진침례교회를 찾아주신 여러분께 하나님의 은총과 평강이 함께하시기를 축복합니다.
-                                </motion.p>
                                 <motion.p
                                     initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
                                     animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
@@ -68,18 +63,15 @@ const VisionPage = () => {
                                 >
                                     우리 교회를 찾는 모든 분이 예수님을 만나 위로와 치유를 경험하고, 진정한 주님의 제자로 세워지기를 간절히 축원합니다.
                                 </motion.p>
-                            </div>
-                            <motion.div 
-                                className={styles.signatureWrap}
-                                initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
-                                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                                transition={{ duration: 0.8, delay: 0.7 }}
-                            >
-                                <div className={styles.signatureText}>
+                                <motion.p
+                                    initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
+                                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                                    transition={{ duration: 0.8, delay: 0.7 }}
+                                >
                                     주님의 크신 은혜 안에서<br />
                                     담임목사 최영락 올림
-                                </div>
-                            </motion.div>
+                                </motion.p>
+                            </div>
                         </div>
                     </div>
                 </div>
