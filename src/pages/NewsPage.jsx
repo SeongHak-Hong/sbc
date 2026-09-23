@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../firebase';
-import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
 import ScrollFadeText from '../components/ScrollFadeText';
 import SwitchTabs from '../components/SwitchTabs';
@@ -158,45 +157,33 @@ const NewsPage = () => {
 
                     <div className={styles.eventsGrid}>
                         {currentPosts.length === 0 ? (
-                            <div className={`${styles.eventCard} squircle-wrapper`} style={{ cursor: 'default' }}>
-                                <div className={styles.eventInfoLeft}>
-                                    <div className={styles.eventDetailsContainer}>
-                                        <h3 className={styles.eventTitle}>등록된 게시물이 없습니다.</h3>
-                                    </div>
-                                </div>
+                            <div className={styles.eventCard} style={{ cursor: 'default' }}>
+                                <h3 className={styles.eventTitle}>등록된 게시물이 없습니다.</h3>
                             </div>
                         ) : (
                             currentPosts.map((post, idx) => {
-                                let calMonth = '';
-                                let calDays = '';
+                                let displayDate = '';
                                 const dateStr = post.originalDate || post.date || '';
                                 const parts = dateStr.split(/[^\d]+/).filter(Boolean);
                                 if (parts.length >= 3) {
-                                    calMonth = `${parseInt(parts[1], 10)}월`;
-                                    calDays = parseInt(parts[2], 10).toString();
+                                    displayDate = `${parts[0]}.${String(parseInt(parts[1], 10)).padStart(2, '0')}.${String(parseInt(parts[2], 10)).padStart(2, '0')}`;
                                 } else {
-                                    calDays = dateStr;
+                                    displayDate = dateStr;
                                 }
 
                                 return (
                                     <motion.div 
                                         key={post.id}
-                                        style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column' }}
+                                        style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', height: '100%' }}
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        whileHover={{ y: -2, transition: { delay: 0, duration: 0.2 } }}
                                         transition={{ delay: idx * 0.1 }}
                                         onClick={() => handlePostClick(post)}
                                     >
-                                        <div className={`${styles.eventCard} squircle-wrapper`} style={{ width: '100%', height: '100%' }}>
-                                            <div className={styles.eventInfoLeft}>
-                                                <div className={styles.calendarIcon}>
-                                                    <div className={styles.calendarMonth}>{calMonth}</div>
-                                                    <div className={styles.calendarDate}>{calDays}</div>
-                                                </div>
-                                                <div className={styles.eventDetailsContainer}>
-                                                    <h3 className={styles.eventTitle}>{post.title}</h3>
-                                                </div>
+                                        <div className={styles.eventCard}>
+                                            <h3 className={styles.eventTitle}>{post.title}</h3>
+                                            <div className={styles.eventMetaRow}>
+                                                {displayDate}
                                             </div>
                                         </div>
                                     </motion.div>
@@ -216,7 +203,6 @@ const NewsPage = () => {
                         </div>
                     )}
             </SubPageSection>
-            <Footer />
         </div>
     );
 };

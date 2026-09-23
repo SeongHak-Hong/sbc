@@ -8,15 +8,6 @@
     background-attachment: fixed;
 }
 
-.contentWrapper {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .sectionCenter {
     display: flex;
     flex-direction: column;
@@ -25,15 +16,13 @@
 
 .breadcrumb {
     font-size: 16px;
-
     color: var(--color-text-placeholder);
     margin-bottom: 16px;
 }
 
 .pageTitle {
-
     font-size: 40px;
-    color: var(--color-text-primary);
+    color: var(--color-text-secondary);
     margin: 0;
     white-space: pre-line;
     word-break: keep-all;
@@ -50,20 +39,7 @@
     }
 }
 
-/* Switch UI */
-.switchContainer {
-    display: flex;
-    padding: 6px;
-    width: fit-content;
-    background-color: var(--color-white);
-    border-radius: 99px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.04);
-}
-
-@media (max-width: 600px) {
-}
-
-/* Events Grid UI */
+/* Events Grid UI (4 columns) */
 .eventsGrid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -109,6 +85,7 @@
     line-height: 1.4;
     word-break: keep-all;
     
+    /* Multiline ellipsis for up to 2 lines */
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -124,50 +101,5 @@
 .boardFooter {
     display: flex;
     justify-content: center;
+    width: 100%;
 }
-
-/* Pagination Area */
-.pagination {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.pageButton, .pageArrow {
-    background: transparent;
-    border: none;
-    color: var(--color-text-secondary);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease, opacity 0.3s ease;
-    padding: 0;
-}
-
-.pageButton:hover:not(:disabled):not(.active), 
-.pageArrow:hover:not(:disabled) {
-    background-color: rgba(var(--color-text-primary-rgb), 0.05);
-}
-
-.pageButton {
-    font-size: 16px;
-}
-
-.pageArrow {
-    font-size: 28px !important;
-}
-
-.pageButton:disabled, .pageArrow:disabled {
-    opacity: 0.2;
-    cursor: default;
-}
-
-.pageButton.active {
-    background-color: rgba(var(--color-text-primary-rgb), 0.05);
-    cursor: default;
-}
-

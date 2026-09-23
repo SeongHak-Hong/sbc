@@ -61,7 +61,7 @@
 
 .mainTitle {
     font-size: 32px;
-    color: var(--color-text-primary);
+    color: var(--color-text-secondary);
     margin: 0;
 }
 
@@ -97,6 +97,7 @@
     flex-direction: column;
     justify-content: center;
     align-self: center;
+    color: var(--color-text-tertiary);
 }
 
 .greetingBody {

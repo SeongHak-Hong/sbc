@@ -137,17 +137,22 @@
   --color-gray-50: #fafafa;
   --color-black: #1a1a1a;
 
-  /* Text Colors */
+  /* Primitive Tokens (Global) */
+  --color-slate-400: #AEB4B7;
+  --color-slate-600: #626C71;
+  --color-slate-700: #334155;
+
+  /* Text Colors (Semantic) */
   --color-background-beige: #F0EEED;
   --color-text-primary: #243B48;
   --color-text-primary-rgb: 36, 59, 72;
-  --color-text-secondary: #334155;
+  --color-text-secondary: var(--color-slate-700);
   --color-text-secondary-rgb: 51, 65, 85;
-  --color-text-tertiary: #64748B;
-  --color-text-tertiary-rgb: 100, 116, 139;
+  --color-text-tertiary: var(--color-slate-600);
+  --color-text-tertiary-rgb: 98, 108, 113;
   --color-text-body: #505050;
-  --color-text-muted: #969696;
-  --color-text-muted-rgb: 150, 150, 150;
+  --color-text-muted: var(--color-slate-400);
+  --color-text-muted-rgb: 174, 180, 183;
   --color-text-placeholder: #94A3B8;
   --color-text-placeholder-rgb: 148, 163, 184;
   --color-text-warm-primary: #625852;

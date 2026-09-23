@@ -9,9 +9,8 @@
     background: transparent;
     border: none;
     color: var(--color-text-primary);
-
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -28,12 +27,13 @@
 }
 
 .pageButton {
-    font-size: 16px;
-    color: #888;
+    font-size: 18px;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
 }
 
 .pageArrow {
-    font-size: 28px !important;
+    font-size: 24px !important;
 }
 
 .pageButton:disabled, .pageArrow:disabled {
@@ -42,8 +42,8 @@
 }
 
 .pageButton.active {
-    background-color: rgba(var(--color-text-primary-rgb), 0.05);
-    color: var(--color-text-primary);
+    background-color: transparent;
+    color: var(--color-text-tertiary);
     cursor: default;
 }
 

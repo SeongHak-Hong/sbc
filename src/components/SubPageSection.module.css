@@ -1,18 +1,18 @@
 .sectionContainer {
-    padding: var(--section-padding-y, 160px) 0;
+    padding: var(--section-padding-y, 160px) 24px;
     display: flex;
     flex-direction: column;
-    gap: 80px;
+    gap: 64px;
     min-height: 122vh;
     width: 100%;
-    max-width: 1152px;
+    max-width: 1200px;
     margin: 0 auto;
     box-sizing: border-box;
 }
 
 @media (min-width: 768px) {
     .sectionContainer {
-        padding: var(--section-padding-y, 160px) 0;
+        padding: var(--section-padding-y, 160px) 24px;
     }
 }
 
