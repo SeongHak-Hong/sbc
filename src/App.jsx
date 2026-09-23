@@ -5,7 +5,7 @@ import MainPage from './pages/MainPage';
 import WelcomePage from './pages/WelcomePage';
 import HistoryPage from './pages/HistoryPage';
 import VisionPage from './pages/VisionPage';
-import WorshipPage from './pages/WorshipPage';
+import GuidePage from './pages/GuidePage';
 import TeamPage from './pages/TeamPage';
 import NextGenPage from './pages/NextGenPage';
 import CommunityPage from './pages/CommunityPage';
@@ -110,7 +110,7 @@ function AppRoutes() {
         <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/history" element={<HistoryPage />} />
         <Route path="/vision" element={<VisionPage />} />
-        <Route path="/guide" element={<WorshipPage />} />
+        <Route path="/guide" element={<GuidePage />} />
         <Route path="/team" element={<TeamPage />} />
         <Route path="/nextgen" element={<NextGenPage />} />
         <Route path="/community" element={<CommunityPage />} />

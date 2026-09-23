@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import styles from './WorshipPage.module.css';
+import styles from './GuidePage.module.css';
 
 import InteractiveShuttleMap from '../components/ui/InteractiveShuttleMap';
 import { CHURCH_COORDS, shuttleSchedules } from '../data/shuttleData';
@@ -64,7 +64,7 @@ const nextgenSchedule = [
     { name: "청년부", time: "주일 오후 1:30", location: "소예배실" }
 ];
 
-const WorshipPage = () => {
+const GuidePage = () => {
     // State management
     const [step, setStep] = useState(1);
     const [category, setCategory] = useState(null); // 'worship' or 'directions'
@@ -417,4 +417,4 @@ const WorshipPage = () => {
     );
 };
 
-export default WorshipPage;
+export default GuidePage;
