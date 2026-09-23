@@ -90,8 +90,8 @@ const Header = () => {
         left: 0,
         width: '100%',
         zIndex: 100,
-        paddingLeft: 'var(--header-padding-x)',
-        paddingRight: 'var(--header-padding-x)',
+        paddingLeft: 'var(--header-padding-left, var(--header-padding-x))',
+        paddingRight: 'var(--header-padding-right, var(--header-padding-x))',
         boxSizing: 'border-box',
         backgroundColor: 'transparent',
         transform: finalIsVisible ? 'translateY(0)' : 'translateY(-100%)',
@@ -186,10 +186,11 @@ const Header = () => {
                     className={`${styles.toggleBtn} ${isMenuOpen ? styles.open : ''}`}
                     onClick={(e) => { e.stopPropagation(); setIsMenuOpen(!isMenuOpen); }}
                 >
-                    <div className={styles.iconContainer}>
-                        <span className={`material-symbols-outlined ${styles.iconMenu}`} translate="no">menu</span>
+                    {isMenuOpen ? (
                         <span className={`material-symbols-outlined ${styles.iconClose}`} translate="no">close</span>
-                    </div>
+                    ) : (
+                        <img src="/icon-menu.svg" alt="menu" className={styles.iconMenu} />
+                    )}
                     <span className={styles.toggleBtnText}>{isMenuOpen ? '닫기' : '메뉴'}</span>
                 </button>
 

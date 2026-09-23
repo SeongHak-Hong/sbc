@@ -84,7 +84,7 @@ export default function PageTransitionLottie() {
                 width: '100vw',
                 height: '100vh',
                 pointerEvents: 'none',
-                zIndex: 99999,
+                zIndex: 80,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

@@ -8,7 +8,7 @@ import Lenis from 'lenis';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import LargeButton from '../components/ui/LargeButton';
 import styles from './PostDetailPage.module.css';
-import dummyImg from '../assets/news/260628-church-bulletin-01.webp';
+
 import NaverMap from '../components/ui/NaverMap';
 import thumbKindergarten from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb.webp';
 import thumbElementary from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-01.webp';
@@ -385,7 +385,7 @@ const PostDetailPage = () => {
             let parentPath = '/news';
             if (id) {
                 if (id.startsWith('nextgen-')) parentPath = '/nextgen';
-                else if (id.startsWith('network_') || id.startsWith('memberBusiness_')) parentPath = '/network';
+                else if (id.startsWith('network_') || id.startsWith('memberBusiness_')) parentPath = '/news?tab=network';
                 else if (id.startsWith('schedules_')) parentPath = '/events';
                 else if (id.startsWith('missions_')) parentPath = '/missions';
                 else if (id.startsWith('koinonia_')) parentPath = '/news?tab=koinonia';

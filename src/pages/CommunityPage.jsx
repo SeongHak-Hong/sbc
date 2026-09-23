@@ -4,6 +4,8 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import styles from './CommunityPage.module.css';
 
+import Breadcrumb from "../components/ui/Breadcrumb";
+
 // Blur Fade Animation Components
 const fadeVariants = {
     hidden: { opacity: 0, filter: 'blur(10px)', y: 10 },
@@ -152,9 +154,7 @@ const CommunityPage = () => {
                         style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
                     >
                         {/* Breadcrumb */}
-                        <div className={styles.breadcrumb}>
-                            공동체 - 구역 안내
-                        </div>
+                        <Breadcrumb text="공동체 - 구역 안내" />
 
                         {/* Main Text */}
                         <div className={styles.mainText} style={{ whiteSpace: 'pre-line' }}>

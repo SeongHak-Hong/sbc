@@ -6,7 +6,7 @@ import { db } from '../firebase';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
 import ScrollFadeText from '../components/ScrollFadeText';
-import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.webp';
+
 import TabMenu from '../components/TabMenu';
 import styles from './NextGenPage.module.css';
 import thumbKindergarten from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb.webp';
@@ -15,7 +15,7 @@ import thumbYouth from '../assets/nextgen/shintanjin-baptist-church-nextgen-thum
 import thumbYoungAdults from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-03.webp';
 import iconChevronLeft from '../assets/nextgen/chevron_left_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg';
 import iconChevronRight from '../assets/nextgen/chevron_right_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg';
-import SwitchTabs from '../components/SwitchTabs';
+import NextGenSwitchTabs from '../components/NextGenSwitchTabs';
 
 const defaultThumbs = {
     kindergarten: thumbKindergarten,
@@ -168,7 +168,7 @@ const NextGenPage = () => {
                     <div className={styles.clockSection}>
                         <div className={styles.clockContainer}>
                             
-                            <SwitchTabs 
+                            <NextGenSwitchTabs 
                                 tabs={[
                                     { id: 'churchSchool', label: '교회학교' },
                                     { id: 'tteokbokki', label: '떡볶이데이' }

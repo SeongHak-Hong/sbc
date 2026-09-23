@@ -4,19 +4,21 @@ import ScrollFadeText from '../components/ScrollFadeText';
 import Footer from '../components/Footer';
 import styles from './TeamPage.module.css';
 import member01 from '../assets/team/shintanjin-baptist-church-member-01.webp';
-import member01Hover from '../assets/team/shintanjin-baptist-church-member-01-hover.webp';
+
 import member02 from '../assets/team/shintanjin-baptist-church-member-02.webp';
-import member02Hover from '../assets/team/shintanjin-baptist-church-member-02-hover.webp';
+
 import member03 from '../assets/team/shintanjin-baptist-church-member-03.webp';
-import member03Hover from '../assets/team/shintanjin-baptist-church-member-03-hover.webp';
+
 import member04 from '../assets/team/shintanjin-baptist-church-member-04.webp';
-import member04Hover from '../assets/team/shintanjin-baptist-church-member-04-hover.webp';
+
 import member05 from '../assets/team/shintanjin-baptist-church-member-05.webp';
-import member05Hover from '../assets/team/shintanjin-baptist-church-member-05-hover.webp';
+
 import member06 from '../assets/team/shintanjin-baptist-church-member-06.webp';
-import member06Hover from '../assets/team/shintanjin-baptist-church-member-06-hover.webp';
+
 import member07 from '../assets/team/shintanjin-baptist-church-member-07.webp';
-import member07Hover from '../assets/team/shintanjin-baptist-church-member-07-hover.webp';
+
+
+import Breadcrumb from "../components/ui/Breadcrumb";
 
 const TeamPage = () => {
     useEffect(() => {
@@ -74,9 +76,7 @@ const TeamPage = () => {
         <div className={styles.pageWrapper}>
             <SubPageSection hideHeader={true}>
                 <div style={{ textAlign: 'center' }}>
-                    <div className={styles.breadcrumb}>
-                        교회 소개 - 섬기는 사람들
-                    </div>
+                    <Breadcrumb text="교회 소개 - 섬기는 사람들" />
                     <ScrollFadeText
                         text={"따뜻한 마음과 기쁨으로\n교회를 섬기는 분들을 소개해요."}
                         as="h1"

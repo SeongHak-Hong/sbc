@@ -10,6 +10,8 @@ import SwitchTabs from '../components/SwitchTabs';
 import logoSbc from '../assets/shintanjin-baptist-church-logo.svg';
 import styles from './MediaPage.module.css';
 
+import Breadcrumb from "../components/ui/Breadcrumb";
+
 const MediaPage = () => {
     const location = useLocation();
     const [activeTab, setActiveTab] = useState('all');
@@ -316,9 +318,7 @@ const MediaPage = () => {
         <div className={styles.pageWrapper}>
             <SubPageSection hideHeader={true} className={styles.sectionCenter}>
                 <div style={{ textAlign: 'center' }}>
-                    <div className={styles.breadcrumb}>
-                        예배 영상
-                    </div>
+                    <Breadcrumb text="예배 영상" />
                     <ScrollFadeText
                         text="함께 예배해요."
                         as="h1"
@@ -332,7 +332,7 @@ const MediaPage = () => {
                 ) : (
                     <>
                         <BlurFade delay={0.25} inView>
-                            <div style={{ display: 'flex' }}>
+                            <div className={styles.switchWrapper}>
                                 <SwitchTabs 
                                     tabs={[
                                         { id: 'all', label: '전체' },

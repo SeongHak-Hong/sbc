@@ -140,14 +140,14 @@
   /* Primitive Tokens (Global) */
   --color-slate-400: #AEB4B7;
   --color-slate-600: #626C71;
-  --color-slate-700: #3F4853;
+  --color-slate-700: #3B5462;
 
   /* Text Colors (Semantic) */
   --color-background-beige: #F0EEED;
   --color-text-primary: #243B48;
   --color-text-primary-rgb: 36, 59, 72;
   --color-text-secondary: var(--color-slate-700);
-  --color-text-secondary-rgb: 63, 72, 83;
+  --color-text-secondary-rgb: 59, 84, 98;
   --color-text-tertiary: var(--color-slate-600);
   --color-text-tertiary-rgb: 98, 108, 113;
   --color-text-body: #505050;
@@ -195,9 +195,10 @@ body {
     --btn-padding-x: 24px;
     --btn-icon-size: 16px;
 
-    --header-padding-y: 16px;
-    --header-padding-x: 24px;
-    --header-logo-height: 24px;
+    --header-padding-y: 8px;
+    --header-padding-right: 8px;
+    --header-padding-left: 16px;
+    --header-logo-height: 20px;
   }
 
   h1,
@@ -349,9 +350,10 @@ p {
     --btn-padding-x: 24px;
     --btn-icon-size: 16px;
 
-    --header-padding-y: 16px;
-    --header-padding-x: 24px;
-    --header-logo-height: 24px;
+    --header-padding-y: 8px;
+    --header-padding-right: 8px;
+    --header-padding-left: 16px;
+    --header-logo-height: 20px;
   }
 
   h1,

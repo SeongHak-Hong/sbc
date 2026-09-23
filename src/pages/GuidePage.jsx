@@ -12,6 +12,8 @@ import mapSemi3F from '../assets/guide/semi-3F.svg';
 import mapDasom1F from '../assets/guide/dasom-1F.svg';
 import mapDasom2F from '../assets/guide/dasom-2F.svg';
 
+import Breadcrumb from "../components/ui/Breadcrumb";
+
 const facilityTabs = [
     { id: '1F', label: '1층 식당' },
     { id: '2F', label: '2층' },
@@ -206,9 +208,7 @@ const GuidePage = () => {
                         style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
                     >
                         {/* Breadcrumb */}
-                        <div className={styles.breadcrumb}>
-                            교회소개 - 교회 안내
-                        </div>
+                        <Breadcrumb text="교회소개 - 교회 안내" />
 
                         {/* Main Text */}
                         <div className={styles.mainText} style={{ whiteSpace: 'pre-line' }}>

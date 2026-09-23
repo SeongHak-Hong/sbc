@@ -28,11 +28,7 @@
     z-index: 10;
 }
 
-.breadcrumb {
-    font-size: 16px;
-    color: var(--color-text-placeholder);
-    margin-bottom: 16px;
-}
+
 
 .mainText {
     font-size: 40px;
@@ -344,3 +340,5 @@
         scroll-snap-align: center;
     }
 }
+
+

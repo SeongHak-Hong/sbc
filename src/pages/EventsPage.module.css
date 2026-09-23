@@ -16,12 +16,7 @@
     overflow: hidden;
 }
 
-.breadcrumb {
-    font-size: 16px;
 
-    color: var(--color-text-placeholder);
-    margin-bottom: 16px;
-}
 
 .pageTitle {
 
@@ -34,10 +29,7 @@
 }
 
 @media (max-width: 600px) {
-    .breadcrumb {
-        font-size: 14px;
-        margin-bottom: 12px;
-    }
+    
     .pageTitle {
         font-size: 28px;
     }

@@ -10,7 +10,9 @@ import ScrollFadeText from '../components/ScrollFadeText';
 import SubPageSection from '../components/SubPageSection';
 import LargeButton from '../components/ui/LargeButton';
 import styles from './WelcomePage.module.css';
-import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.webp';
+import Breadcrumb from '../components/ui/Breadcrumb';
+
+
 import welcomeImg from '../assets/nurture/shintanjin-baptist-church-welcome.webp';
 import step01 from '../assets/nurture/shintanjin-baptist-church-welcome-step-01.webp';
 import step02 from '../assets/nurture/shintanjin-baptist-church-welcome-step-02.webp';
@@ -181,20 +183,14 @@ const WelcomePage = () => {
                     {/* Section 1 */}
                     <div className={`${styles.introAbsoluteCenter} ${introActiveIndex === 0 ? styles.activeLayer : ''}`}>
                         <div className={styles.fadeInner}>
-                            <motion.div
+                            <Breadcrumb
+                                asMotion
+                                centered
                                 initial={{ opacity: 0, filter: 'blur(10px)' }}
                                 animate={introActiveIndex === 0 ? { opacity: 1, filter: 'blur(0px)' } : { opacity: 0, filter: 'blur(10px)' }}
                                 transition={{ duration: 1 }}
-                                style={{
-                                    fontSize: '16px',
-                                    
-                                    color: 'var(--color-text-placeholder)',
-                                    marginBottom: '16px',
- textAlign: 'center'
-                                }}
-                            >
-                                공동체 - 새가족
-                            </motion.div>
+                                text="공동체 - 새가족"
+                            />
                             <WordFadeText isActive={introActiveIndex === 0} text={"신탄진침례교회에 방문하신\n여러분 환영합니다."} className={styles.yuhanText} />
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                                 <WordFadeText isActive={introActiveIndex === 0} text={"밑으로 계속 스크롤"} className={styles.fadeBodyText} delayOffset={0.2} style={{ whiteSpace: 'nowrap' }} />

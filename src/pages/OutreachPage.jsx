@@ -8,6 +8,8 @@ import SwitchTabs from '../components/SwitchTabs';
 import Footer from '../components/Footer';
 import styles from './OutreachPage.module.css';
 
+import Breadcrumb from "../components/ui/Breadcrumb";
+
 const OutreachPage = () => {
     const [missionData, setMissionData] = useState(null);
     const [activeTab, setActiveTab] = useState('');
@@ -59,9 +61,7 @@ const OutreachPage = () => {
         <div className={styles.pageWrapper}>
             <SubPageSection hideHeader={true}>
                 <div style={{ textAlign: 'center' }}>
-                    <div className={styles.breadcrumb}>
-                        공동체 - 선교전도
-                    </div>
+                    <Breadcrumb text="공동체 - 선교전도" />
                     <ScrollFadeText
                         text={"가까운 이웃부터 땅끝까지\n예수님의 따뜻한 사랑을 전해요."}
                         as="h1"
@@ -70,7 +70,7 @@ const OutreachPage = () => {
                     />
                 </div>
                 <div className={styles.contentWrapper}>
-                    <div style={{ display: 'flex', marginBottom: '24px', justifyContent: 'center' }}>
+                    <div className={styles.switchWrapper}>
                         <SwitchTabs 
                             tabs={switchTabsData}
                             activeTab={activeTab}

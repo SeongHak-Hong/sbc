@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import PageTransitionLottie from './components/ui/PageTransitionLottie';
 import Header from './components/Header';
@@ -138,7 +138,7 @@ function AppRoutes() {
             <Route path="/outreach" element={<OutreachPage />} />
             <Route path="/media" element={<MediaPage />} />
             <Route path="/news" element={<NewsPage />} />
-            <Route path="/network" element={<NetworkPage />} />
+            <Route path="/network" element={<Navigate to="/news?tab=network" replace />} />
             <Route path="/post/:id" element={<PostDetailPage />} />
 
             {/* 관리자 라우트 */}

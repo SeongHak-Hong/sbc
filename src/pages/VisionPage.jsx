@@ -4,6 +4,8 @@ import styles from './VisionPage.module.css';
 
 import pastorIDImage from '../assets/vision/shintanjin-baptist-church-pastor-ID-photo.webp';
 
+import Breadcrumb from "../components/ui/Breadcrumb";
+
 const VisionPage = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -33,7 +35,7 @@ const VisionPage = () => {
                                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                                 transition={{ duration: 0.8 }}
                             >
-                                <span className={styles.breadcrumb}>교회소개 - 인사말 · 비전</span>
+                                <Breadcrumb text="교회소개 - 인사말 · 비전" />
                                 <h1 className={styles.mainTitle}>
                                     할렐루야!<br />
                                     신탄진침례교회를 찾아주신 여러분께<br className={styles.mobileHiddenBr} />

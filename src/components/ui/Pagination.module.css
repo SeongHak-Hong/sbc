@@ -29,7 +29,7 @@
 .pageButton {
     font-size: 18px;
     font-weight: var(--font-weight-medium);
-    color: var(--color-text-muted);
+    color: rgba(var(--color-text-secondary-rgb), 0.4);
 }
 
 .pageArrow {
@@ -43,7 +43,7 @@
 
 .pageButton.active {
     background-color: transparent;
-    color: var(--color-text-tertiary);
+    color: var(--color-text-secondary);
     cursor: default;
 }
 

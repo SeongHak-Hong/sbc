@@ -27,14 +27,14 @@
 ### 3.1. Primitive Tokens (기본 색상)
 - `--color-slate-400`: `#AEB4B7`
 - `--color-slate-600`: `#626C71`
-- `--color-slate-700`: `#3F4853`
+- `--color-slate-700`: `#3B5462`
 - `--color-gray-50`: `#fafafa`
 - `--color-background-beige`: `#F0EEED`
 
 ### 3.2. Semantic Tokens (텍스트 의미론적 색상)
 텍스트의 위계(Hierarchy)에 따라 명도를 나누어 사용합니다.
-- **`--color-text-secondary` (`#3F4853`, Slate 700)**: 
-  - **용도**: 페이지의 최상단 메인 타이틀(`h1`, `.pageTitle`, `.mainText` 등), 시선이 가장 먼저 닿아야 하는 주요 강조 텍스트.
+- **`--color-text-secondary` (`#3B5462`, Slate 700)**: 
+  - **용도**: 페이지의 최상단 메인 타이틀(`h1`, `.pageTitle`, `.mainText` 등), 시선이 가장 먼저 닿아야 하는 주요 강조 텍스트, 활성화된 탭 메뉴 버튼.
 - **`--color-text-tertiary` (`#626C71`, Slate 600)**: 
   - **용도**: 일반 본문(Body) 텍스트, 탭 메뉴 등 일반 버튼의 폰트 컬러, 서브 타이틀.
 - **`--color-text-muted` (`#AEB4B7`, Slate 400)**: 
@@ -54,21 +54,22 @@
 - **그리드 레이아웃**: PC 기준 4단 그리드 (`grid-template-columns: repeat(4, 1fr)`), Gap `16px`.
 - **배경색**: `--color-gray-50`
 - **디멘전 (PC / Mobile)**:
-  - **Padding**: `32px 28px` / `28px 24px`
-  - **Border-radius**: `48px` / `40px` (매우 둥글고 귀여운 곡률)
-  - **Height**: `240px` / `200px`
+  - **Padding**: `32px 28px` / `16px 20px` (모바일)
+  - **Border-radius**: `48px` / `24px` (모바일 - 매우 둥글고 귀여운 곡률)
+  - **Height**: `240px` / `auto` (모바일에서는 내부 콘텐츠 Hug)
+  - **Grid Gap**: `16px` / `8px` (모바일)
 - **인터랙션 (Hover)**: 마우스 오버 시 그림자 없이 위로 살짝 떠오르는 부드러운 애니메이션만 적용 (`transform: translateY(-2px)`, `transition: transform 0.2s ease`). 자바스크립트 기반 애니메이션 대신 순수 CSS로 성능을 확보합니다.
 
 ### 4.3. 탭 및 뱃지 버튼 (Tabs & Buttons)
 화면 내 네비게이션을 돕는 가로형/세로형 탭 메뉴 디자인 가이드입니다.
 
 - **기본 버튼 (Inactive)**:
-  - 배경색: `--color-gray-50` 또는 투명(`transparent`)
-  - 폰트 컬러: `--color-text-tertiary`
+  - 배경색: 투명(`transparent`)
+  - 폰트 컬러: `--color-text-secondary-rgb` 투명도 40%
 - **선택된 버튼 (Active)**:
-  - 배경색: `--color-slate-700` (타이틀 폰트와 동일한 톤의 묵직한 컬러)
-  - 폰트 컬러: `--color-white`
-- 탭을 감싸는 백그라운드 컨테이너(`SwitchTabs` 등) 역시 그림자 없이 플랫하게 배치합니다.
+  - 배경색: 투명(`transparent`)
+  - 폰트 컬러: `--color-text-secondary`
+- 탭 메뉴는 기존 알약(Pill) 형태를 탈피하고, 여백(`gap: 24px`)을 넓게 준 텍스트 위주의 간결하고 미니멀한 UI로 개편하여 사용합니다. 모바일에서는 가운데 정렬되며 패딩 및 폰트 사이즈가 기기에 맞게 축소됩니다.
 
 ---
 

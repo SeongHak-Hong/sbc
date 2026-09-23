@@ -7,12 +7,16 @@ import SubPageSection from '../components/SubPageSection';
 import ScrollFadeText from '../components/ScrollFadeText';
 import SwitchTabs from '../components/SwitchTabs';
 import Pagination from '../components/ui/Pagination';
+import BoardGrid from '../components/ui/BoardGrid';
 import styles from './NewsPage.module.css';
+
+import Breadcrumb from "../components/ui/Breadcrumb";
 
 const TABS = [
     { id: 'koinonia', label: '공지사항' },
-    { id: 'news', label: '교회 소식' },
-    { id: 'bulletin', label: '주보' }
+    { id: 'news', label: '교회소식' },
+    { id: 'bulletin', label: '주보' },
+    { id: 'network', label: '성도사업' }
 ];
 
 const NewsPage = () => {
@@ -32,7 +36,7 @@ const NewsPage = () => {
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
         const tab = queryParams.get('tab');
-        if (tab === 'news' || tab === 'bulletin' || tab === 'koinonia') {
+        if (tab === 'news' || tab === 'bulletin' || tab === 'koinonia' || tab === 'network') {
             setActiveTab(tab);
         }
     }, [location.search]);
@@ -41,7 +45,8 @@ const NewsPage = () => {
         try {
             const q = query(collection(db, 'posts'), orderBy('date', 'desc'));
             const kq = query(collection(db, 'membersNews'), orderBy('createdAt', 'desc'));
-            const [querySnapshot, koinoniaSnapshot] = await Promise.all([getDocs(q), getDocs(kq)]);
+            const nq = query(collection(db, 'memberBusiness'), orderBy('createdAt', 'desc'));
+            const [querySnapshot, koinoniaSnapshot, networkSnapshot] = await Promise.all([getDocs(q), getDocs(kq), getDocs(nq)]);
             
             const data = [];
             querySnapshot.forEach((doc) => {
@@ -55,6 +60,10 @@ const NewsPage = () => {
                     dateStr = `${d.getFullYear()}. ${String(d.getMonth() + 1).padStart(2, '0')}. ${String(d.getDate()).padStart(2, '0')}.`;
                 }
                 data.push({ id: `koinonia_${doc.id}`, ...docData, category: 'koinonia', date: dateStr });
+            });
+            networkSnapshot.forEach((doc) => {
+                const docData = doc.data();
+                data.push({ id: `network_${doc.id}`, ...docData, category: 'network' });
             });
             setPosts(data);
         } catch (error) {
@@ -135,18 +144,16 @@ const NewsPage = () => {
         <div className={styles.pageWrapper}>
             <SubPageSection hideHeader={true} className={styles.sectionCenter}>
                 <div style={{ textAlign: 'center' }}>
-                    <div className={styles.breadcrumb}>
-                        나눔터 - 소식·주보
-                    </div>
+                    <Breadcrumb text="나눔터 - 소식·주보" />
                     <ScrollFadeText
-                        text="소식을 전해요."
+                        text="소식을 전해요"
                         as="h1"
                         className={styles.pageTitle}
                         once={true}
                     />
                 </div>
 
-                    <div style={{ display: 'flex', marginBottom: '24px' }}>
+                    <div className={styles.switchWrapper}>
                         <SwitchTabs 
                             tabs={TABS}
                             activeTab={activeTab}
@@ -155,14 +162,12 @@ const NewsPage = () => {
                         />
                     </div>
 
-                    <div className={styles.eventsGrid}>
-                        {currentPosts.length === 0 ? (
-                            <div className={styles.eventCard} style={{ cursor: 'default' }}>
-                                <h3 className={styles.eventTitle}>등록된 게시물이 없습니다.</h3>
-                            </div>
-                        ) : (
-                            currentPosts.map((post, idx) => {
-                                let displayDate = '';
+                    <BoardGrid 
+                        items={currentPosts.map(post => {
+                            let displayDate = '';
+                            if (post.category === 'network') {
+                                displayDate = post.author === '관리자' ? '정보 확인 필요' : post.author;
+                            } else {
                                 const dateStr = post.originalDate || post.date || '';
                                 const parts = dateStr.split(/[^\d]+/).filter(Boolean);
                                 if (parts.length >= 3) {
@@ -170,27 +175,17 @@ const NewsPage = () => {
                                 } else {
                                     displayDate = dateStr;
                                 }
-
-                                return (
-                                    <motion.div 
-                                        key={post.id}
-                                        style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', height: '100%' }}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: idx * 0.1 }}
-                                        onClick={() => handlePostClick(post)}
-                                    >
-                                        <div className={styles.eventCard}>
-                                            <h3 className={styles.eventTitle}>{post.title}</h3>
-                                            <div className={styles.eventMetaRow}>
-                                                {displayDate}
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                );
-                            })
-                        )}
-                    </div>
+                            }
+                            return {
+                                id: post.id,
+                                title: post.title,
+                                meta: displayDate,
+                                rawData: post
+                            };
+                        })}
+                        onItemClick={handlePostClick}
+                        emptyMessage="등록된 게시물이 없습니다."
+                    />
 
                     {/* Pagination */}
                     {totalPages > 1 && (

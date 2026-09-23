@@ -1,0 +1,45 @@
+.switchContainer {
+    display: flex;
+    padding: 6px;
+    width: fit-content;
+    background-color: var(--color-white);
+    border-radius: 99px;
+}
+
+.switchButton {
+    padding: 12px 32px;
+    border-radius: 99px;
+    border: none;
+    background-color: transparent;
+    color: var(--color-text-tertiary);
+    font-size: 16px;
+
+    position: relative;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.switchText {
+    position: relative;
+    z-index: 1;
+}
+
+.activeBackground {
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-slate-700);
+    border-radius: 99px;
+    z-index: 0;
+}
+
+.switchButton.active {
+    color: var(--color-white);
+}
+
+@media (max-width: 600px) {
+    .switchButton {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
+

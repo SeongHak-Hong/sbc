@@ -53,11 +53,7 @@
     margin-bottom: 40px;
 }
 
-.breadcrumb {
-    font-size: 16px;
-    color: var(--color-text-tertiary);
-    margin-bottom: 12px;
-}
+
 
 .mainTitle {
     font-size: 32px;
@@ -238,3 +234,6 @@
     }
 
 }
+
+
+

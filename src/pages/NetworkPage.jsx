@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
 import SubPageSection from '../components/SubPageSection';
 import ScrollFadeText from '../components/ScrollFadeText';
 import Pagination from '../components/ui/Pagination';
+import BoardGrid from '../components/ui/BoardGrid';
 import styles from './NetworkPage.module.css';
+
+import Breadcrumb from "../components/ui/Breadcrumb";
 
 const NetworkPage = () => {
     const navigate = useNavigate();
@@ -55,9 +58,7 @@ const NetworkPage = () => {
         <div className={styles.pageWrapper}>
             <SubPageSection hideHeader={true} className={styles.sectionCenter}>
                 <div style={{ textAlign: 'center' }}>
-                    <div className={styles.breadcrumb}>
-                        나눔터 - 성도 사업체
-                    </div>
+                    <Breadcrumb text="나눔터 - 성도 사업체" />
                     <ScrollFadeText
                         text={"동네방네 성도 가게"}
                         as="h1"
@@ -66,36 +67,16 @@ const NetworkPage = () => {
                     />
                 </div>
 
-                <div className={styles.eventsGrid}>
-                    {currentPosts.length === 0 ? (
-                        <div className={styles.eventCard} style={{ cursor: 'default' }}>
-                            <h3 className={styles.eventTitle}>등록된 사업체가 없습니다.</h3>
-                        </div>
-                    ) : (
-                        currentPosts.map((post, idx) => {
-                            const authorDisplay = post.author === '관리자' ? '정보 확인 필요' : post.author;
-                            
-                            return (
-                                    <motion.div 
-                                        key={post.id}
-                                        style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', height: '100%' }}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ delay: idx * 0.1 }}
-                                        onClick={() => handleItemClick(post)}
-                                    >
-                                    <div className={styles.eventCard}>
-                                        <h3 className={styles.eventTitle}>{post.title}</h3>
-                                        <div className={styles.eventMetaRow}>
-                                            {authorDisplay}
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            );
-                        })
-                    )}
-                </div>
+                <BoardGrid 
+                    items={currentPosts.map(post => ({
+                        id: post.id,
+                        title: post.title,
+                        meta: post.author === '관리자' ? '정보 확인 필요' : post.author,
+                        rawData: post
+                    }))}
+                    onItemClick={handleItemClick}
+                    emptyMessage="등록된 사업체가 없습니다."
+                />
 
                 {/* Pagination */}
                 {totalPages > 1 && (

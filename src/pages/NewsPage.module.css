@@ -23,12 +23,7 @@
     align-items: center;
 }
 
-.breadcrumb {
-    font-size: 16px;
 
-    color: var(--color-text-placeholder);
-    margin-bottom: 16px;
-}
 
 .pageTitle {
 
@@ -41,27 +36,13 @@
 }
 
 @media (max-width: 600px) {
-    .breadcrumb {
-        font-size: 14px;
-        margin-bottom: 12px;
-    }
+    
     .pageTitle {
         font-size: 28px;
     }
 }
 
-/* Switch UI */
-.switchContainer {
-    display: flex;
-    padding: 6px;
-    width: fit-content;
-    background-color: var(--color-white);
-    border-radius: 99px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.04);
-}
 
-@media (max-width: 600px) {
-}
 
 /* Events Grid UI */
 .eventsGrid {
@@ -176,3 +157,6 @@
     cursor: default;
 }
 
+
+.switchWrapper { display: flex; width: 100%; justify-content: flex-start; }
+@media (max-width: 600px) { .switchWrapper { justify-content: center; } }

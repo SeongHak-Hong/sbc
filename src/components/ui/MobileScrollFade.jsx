@@ -26,9 +26,9 @@ const MobileScrollFade = () => {
         bottom: 0,
         left: 0,
         width: '100%',
-        height: '80px', // 이미지와 비슷하게 넉넉한 페이드 높이
+        height: 'calc(80px + env(safe-area-inset-bottom))',
         pointerEvents: 'none',
-        zIndex: 9999,
+        zIndex: 80,
         background: 'linear-gradient(to top, rgba(252, 235, 224, 1) 0%, rgba(252, 235, 224, 0) 100%)',
         opacity: opacity,
       }}
