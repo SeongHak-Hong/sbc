@@ -18,6 +18,7 @@ import NetworkPage from './pages/NetworkPage';
 import PostDetailPage from './pages/PostDetailPage';
 import MediaPage from './pages/MediaPage';
 import ScrollToTop from './components/ScrollToTop';
+import MobileScrollFade from './components/ui/MobileScrollFade';
 
 // Admin Imports
 import AdminLayout from './components/admin/AdminLayout';
@@ -206,6 +207,7 @@ function App() {
       <GlobalErrorBoundary>
         <SquiCircleFilterStatic />
         <ScrollToTop />
+        <MobileScrollFade />
         <AppRoutes />
       </GlobalErrorBoundary>
     </Router>

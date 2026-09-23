@@ -93,7 +93,7 @@ const Header = () => {
         paddingLeft: 'var(--header-padding-x)',
         paddingRight: 'var(--header-padding-x)',
         boxSizing: 'border-box',
-        backgroundColor: isSolidWhite ? 'var(--color-white)' : 'transparent',
+        backgroundColor: 'transparent',
         transform: finalIsVisible ? 'translateY(0)' : 'translateY(-100%)',
         transition: 'transform 0.3s ease, background-color 0.3s ease',
         boxShadow: 'none'
