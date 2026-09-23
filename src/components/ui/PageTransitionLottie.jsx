@@ -13,6 +13,7 @@ export default function PageTransitionLottie() {
     // 번갈아가며 효과를 주기 위한 토글 ref (초기값은 가로지르는 효과)
     const isCrossScreen = useRef(true);
     const isFirstRender = useRef(true);
+    const prevPathname = useRef(location.pathname);
 
     useEffect(() => {
         const handleResize = () => {
@@ -29,8 +30,17 @@ export default function PageTransitionLottie() {
     }, []);
 
     useEffect(() => {
+        const isPostRoute = location.pathname.startsWith('/post/');
+        const wasPostRoute = prevPathname.current.startsWith('/post/');
+        prevPathname.current = location.pathname;
+
         if (isFirstRender.current) {
             isFirstRender.current = false;
+            return;
+        }
+
+        // 포스트 열고 닫을 때는 애니메이션 재생 안 함
+        if (isPostRoute || wasPostRoute) {
             return;
         }
         
