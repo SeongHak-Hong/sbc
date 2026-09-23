@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import SubPageSection from '../components/SubPageSection';
-import TabMenu from '../components/TabMenu';
+import ScrollFadeText from '../components/ScrollFadeText';
+import SwitchTabs from '../components/SwitchTabs';
 import Footer from '../components/Footer';
-import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.webp';
 import styles from './OutreachPage.module.css';
 
 const OutreachPage = () => {
@@ -50,23 +50,34 @@ const OutreachPage = () => {
         return (order[a.id] || 99) - (order[b.id] || 99);
     });
 
+    const switchTabsData = tabs.map(tab => ({
+        id: tab.id,
+        label: tab.name
+    }));
+
     return (
         <div className={styles.pageWrapper}>
-            <SubPageSection 
-                title="선교전도" 
-                engTitle="Outreach"
-                icon={visionIcon}
-                subtitle={<p className={styles.headerSubtitle}>땅끝까지 이르러 내 증인이 되리라 하신 말씀을 실천합니다.</p>}
-            >
-                <div className={styles.contentWrapper}>
-                    <TabMenu 
-                        tabs={tabs}
-                        activeTab={activeTab}
-                        onTabChange={setActiveTab}
-                        getTabId={(tab) => tab.id}
-                        getTabLabel={(tab) => tab.name}
-                        className={styles.missionsTabs}
+            <SubPageSection hideHeader={true}>
+                <div style={{ textAlign: 'center' }}>
+                    <div className={styles.breadcrumb}>
+                        공동체 - 선교전도
+                    </div>
+                    <ScrollFadeText
+                        text={"가까운 이웃부터 땅끝까지\n예수님의 따뜻한 사랑을 전해요."}
+                        as="h1"
+                        className={styles.pageTitle}
+                        once={true}
                     />
+                </div>
+                <div className={styles.contentWrapper}>
+                    <div style={{ display: 'flex', marginBottom: '24px', justifyContent: 'center' }}>
+                        <SwitchTabs 
+                            tabs={switchTabsData}
+                            activeTab={activeTab}
+                            onTabChange={setActiveTab}
+                            layoutIdPrefix="activeSwitch_Outreach"
+                        />
+                    </div>
 
                     <AnimatePresence mode="wait">
                         <motion.section

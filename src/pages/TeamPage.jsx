@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import SubPageSection from '../components/SubPageSection';
+import ScrollFadeText from '../components/ScrollFadeText';
 import Footer from '../components/Footer';
-import visionIcon from '../assets/vision/shintanjin-baptist-church-vision-icon.webp';
 import styles from './TeamPage.module.css';
 import member01 from '../assets/team/shintanjin-baptist-church-member-01.webp';
 import member01Hover from '../assets/team/shintanjin-baptist-church-member-01-hover.webp';
@@ -72,12 +72,18 @@ const TeamPage = () => {
 
     return (
         <div className={styles.pageWrapper}>
-            <SubPageSection 
-                title="섬기는 사람들" 
-                engTitle="Team"
-                icon={visionIcon}
-                subtitle={<p style={{ color: 'var(--color-text-muted)', fontSize: '18px', textAlign: 'center' }}>신탄진침례교회를 섬기는 분들을 소개합니다.</p>}
-            >
+            <SubPageSection hideHeader={true}>
+                <div style={{ textAlign: 'center' }}>
+                    <div className={styles.breadcrumb}>
+                        교회 소개 - 섬기는 사람들
+                    </div>
+                    <ScrollFadeText
+                        text={"따뜻한 마음과 기쁨으로\n교회를 섬기는 분들을 소개해요."}
+                        as="h1"
+                        className={styles.pageTitle}
+                        once={true}
+                    />
+                </div>
                 <div className={styles.container}>
                     {[
                         { title: '담임목사 및 사모', members: teamMembers.filter(m => m.role === '담임목사' || m.role === '사모') },

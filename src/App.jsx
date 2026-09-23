@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import PageTransitionLottie from './components/ui/PageTransitionLottie';
 import Header from './components/Header';
 import MainPage from './pages/MainPage';
 import WelcomePage from './pages/WelcomePage';
@@ -102,47 +104,66 @@ function AppRoutes() {
   const isAdminRoute = location.pathname.startsWith('/manager-lounge');
   const background = location.state && location.state.background;
 
+  const pageTransitionVariants = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1, transition: { duration: 0.4, delay: 0.2 } },
+    exit: { opacity: 0, transition: { duration: 0.4 } }
+  };
+
   return (
     <>
+      <PageTransitionLottie />
       {!isAdminRoute && <Header />}
-      <Routes location={background || location} key={(background || location).pathname}>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/welcome" element={<WelcomePage />} />
-        <Route path="/history" element={<HistoryPage />} />
-        <Route path="/vision" element={<VisionPage />} />
-        <Route path="/guide" element={<GuidePage />} />
-        <Route path="/team" element={<TeamPage />} />
-        <Route path="/nextgen" element={<NextGenPage />} />
-        <Route path="/community" element={<CommunityPage />} />
-        <Route path="/events" element={<EventsPage />} />
-        <Route path="/outreach" element={<OutreachPage />} />
-        <Route path="/media" element={<MediaPage />} />
-        <Route path="/news" element={<NewsPage />} />
-        <Route path="/network" element={<NetworkPage />} />
-        <Route path="/post/:id" element={<PostDetailPage />} />
-
-        {/* 관리자 라우트 */}
-        <Route path="/manager-lounge/login" element={<LoginPage />} />
-        <Route 
-            path="/manager-lounge" 
-            element={
-                <ProtectedRoute>
-                    <AdminLayout />
-                </ProtectedRoute>
-            }
+      
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={(background || location).pathname}
+          variants={pageTransitionVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          style={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}
         >
-            <Route index element={<AdminDashboard />} />
-            <Route path="posts" element={<AdminPosts />} />
-            <Route path="cellgroups" element={<AdminCellgroups />} />
-            <Route path="nextgen" element={<AdminNextGen />} />
-            <Route path="missions" element={<AdminMissions />} />
-            <Route path="schedule" element={<AdminSchedule />} />
-            <Route path="members-news" element={<AdminMembersNews />} />
-            <Route path="member-business" element={<AdminMemberBusiness />} />
-            <Route path="feedback" element={<AdminFeedback />} />
-            <Route path="migration" element={<Migration />} />
-        </Route>
-      </Routes>
+          <Routes location={background || location}>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/welcome" element={<WelcomePage />} />
+            <Route path="/history" element={<HistoryPage />} />
+            <Route path="/vision" element={<VisionPage />} />
+            <Route path="/guide" element={<GuidePage />} />
+            <Route path="/team" element={<TeamPage />} />
+            <Route path="/nextgen" element={<NextGenPage />} />
+            <Route path="/community" element={<CommunityPage />} />
+            <Route path="/events" element={<EventsPage />} />
+            <Route path="/outreach" element={<OutreachPage />} />
+            <Route path="/media" element={<MediaPage />} />
+            <Route path="/news" element={<NewsPage />} />
+            <Route path="/network" element={<NetworkPage />} />
+            <Route path="/post/:id" element={<PostDetailPage />} />
+
+            {/* 관리자 라우트 */}
+            <Route path="/manager-lounge/login" element={<LoginPage />} />
+            <Route 
+                path="/manager-lounge" 
+                element={
+                    <ProtectedRoute>
+                        <AdminLayout />
+                    </ProtectedRoute>
+                }
+            >
+                <Route index element={<AdminDashboard />} />
+                <Route path="posts" element={<AdminPosts />} />
+                <Route path="cellgroups" element={<AdminCellgroups />} />
+                <Route path="nextgen" element={<AdminNextGen />} />
+                <Route path="missions" element={<AdminMissions />} />
+                <Route path="schedule" element={<AdminSchedule />} />
+                <Route path="members-news" element={<AdminMembersNews />} />
+                <Route path="member-business" element={<AdminMemberBusiness />} />
+                <Route path="feedback" element={<AdminFeedback />} />
+                <Route path="migration" element={<Migration />} />
+            </Route>
+          </Routes>
+        </motion.div>
+      </AnimatePresence>
 
       {background && (
         <Routes>

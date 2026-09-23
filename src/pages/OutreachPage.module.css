@@ -5,9 +5,18 @@
     background-attachment: fixed;
 }
 
-.headerSubtitle {
-    color: var(--color-text-muted);
-    font-size: 18px;
+.breadcrumb {
+    font-size: 16px;
+    color: var(--color-text-placeholder);
+    margin-bottom: 16px;
+}
+
+.pageTitle {
+    font-size: 40px;
+    color: var(--color-text-secondary);
+    margin: 0;
+    white-space: pre-line;
+    word-break: keep-all;
     text-align: center;
 }
 
@@ -132,3 +141,4 @@
     margin-top: 24px;    font-size: 20px;    color: var(--color-text-primary);
     text-align: right;
 }
+@media (max-width: 600px) { .breadcrumb { font-size: 14px; margin-bottom: 12px; } .pageTitle { font-size: 28px; } }

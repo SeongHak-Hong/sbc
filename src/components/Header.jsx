@@ -161,12 +161,12 @@ const Header = () => {
     return (
         <>
             <header style={headerStyle}>
-            <Link to="/" className={styles.logo} style={{ color: (isSubpage || isSolidWhite) ? 'var(--color-text-primary)' : 'var(--color-white)', textDecoration: 'none' }}>
+            <Link to="/" className={styles.logo} style={{ color: (isSubpage || isSolidWhite) ? 'var(--color-slate-700)' : 'var(--color-white)', textDecoration: 'none' }}>
                 <div
                     style={{ 
                         height: 'var(--header-logo-height)', 
                         aspectRatio: '461 / 67',
-                        backgroundColor: (isSubpage || isSolidWhite) ? 'var(--color-text-primary)' : 'var(--color-white)',
+                        backgroundColor: (isSubpage || isSolidWhite) ? 'var(--color-slate-700)' : 'var(--color-white)',
                         WebkitMaskImage: `url("${logoSbc}")`,
                         maskImage: `url("${logoSbc}")`,
                         WebkitMaskSize: 'contain',
