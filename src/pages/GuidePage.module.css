@@ -36,7 +36,7 @@
 
 .mainText {
     font-size: 40px;
-    color: var(--color-text-primary);
+    color: var(--color-text-secondary);
     margin-bottom: 48px;
     word-break: keep-all;
 }
@@ -55,7 +55,7 @@
     border-radius: 28px;
     padding: 14px 28px;
     font-size: 16px;
-    color: var(--color-text-secondary);
+    color: var(--color-text-tertiary);
     cursor: pointer;
     transition: transform 0.2s ease;
     display: flex;
@@ -234,10 +234,9 @@
 .verticalButtonGroup {
     display: flex;
     flex-direction: column;
-    background-color: var(--color-white);
+    background-color: var(--color-gray-50);
     border-radius: 24px;
     padding: 6px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.04);
 }
 
 .verticalSelectButton {
@@ -267,7 +266,7 @@
 .activeBackground {
     position: absolute;
     inset: 0;
-    background-color: var(--color-text-primary);
+    background-color: var(--color-slate-700);
     border-radius: 20px;
     z-index: 0;
 }

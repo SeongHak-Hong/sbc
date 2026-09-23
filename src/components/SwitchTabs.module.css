@@ -4,7 +4,6 @@
     width: fit-content;
     background-color: var(--color-white);
     border-radius: 99px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.04);
 }
 
 .switchButton {
@@ -28,7 +27,7 @@
 .activeBackground {
     position: absolute;
     inset: 0;
-    background-color: var(--color-text-primary);
+    background-color: var(--color-slate-700);
     border-radius: 99px;
     z-index: 0;
 }

@@ -51,7 +51,7 @@
     margin-bottom: 24px;
     position: relative;
     z-index: 10;
-    color: var(--color-text-primary);
+    color: var(--color-text-secondary);
     font-size: var(--text-h1);
 }
 

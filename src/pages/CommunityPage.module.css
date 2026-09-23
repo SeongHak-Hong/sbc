@@ -31,7 +31,7 @@
 .mainText {
     font-size: 40px;
 
-    color: var(--color-text-primary);
+    color: var(--color-text-secondary);
     margin-bottom: 48px;
     word-break: keep-all;
 }
@@ -50,7 +50,7 @@
     border-radius: 28px;
     padding: 14px 28px;
     font-size: 18px;
-    color: var(--color-text-secondary);
+    color: var(--color-text-tertiary);
     cursor: pointer;
     transition: transform 0.2s ease;
     display: flex;

@@ -140,14 +140,14 @@
   /* Primitive Tokens (Global) */
   --color-slate-400: #AEB4B7;
   --color-slate-600: #626C71;
-  --color-slate-700: #334155;
+  --color-slate-700: #3F4853;
 
   /* Text Colors (Semantic) */
   --color-background-beige: #F0EEED;
   --color-text-primary: #243B48;
   --color-text-primary-rgb: 36, 59, 72;
   --color-text-secondary: var(--color-slate-700);
-  --color-text-secondary-rgb: 51, 65, 85;
+  --color-text-secondary-rgb: 63, 72, 83;
   --color-text-tertiary: var(--color-slate-600);
   --color-text-tertiary-rgb: 98, 108, 113;
   --color-text-body: #505050;
