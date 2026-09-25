@@ -82,6 +82,13 @@
   --pc-text-body-card: 24px;
   --pc-text-sub-title: 24px;
 
+
+  /* List Item Tokens */
+  --list-title-size-pc: 20px;
+  --list-title-size-mobile: 17px;
+  --list-meta-size-pc: 16px;
+  --list-meta-size-mobile: 14px;
+
   /* Main Page Title Tokens */
   --page-title-size-pc: 40px;
   --page-title-size-mobile: 24px;
@@ -614,5 +621,32 @@ button span.icon {
 @media (max-width: 767px) {
   .main-page-title {
     font-size: var(--page-title-size-mobile);
+  }
+}
+
+/* Global List Item Styles */
+.list-item-title {
+  font-size: var(--list-title-size-pc);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: var(--line-height-base);
+  word-break: keep-all;
+}
+
+.list-item-meta {
+  font-size: var(--list-meta-size-pc);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: var(--line-height-base);
+}
+
+@media (max-width: 767px) {
+  .list-item-title {
+    font-size: var(--list-title-size-mobile);
+  }
+  .list-item-meta {
+    font-size: var(--list-meta-size-mobile);
   }
 }

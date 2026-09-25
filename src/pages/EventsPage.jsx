@@ -309,7 +309,7 @@ const EventsPage = () => {
                                         <div className={styles.calendarDate}>&nbsp;</div>
                                     </div>
                                     <div className={styles.eventDetailsContainer}>
-                                        <h3 className={styles.eventTitle}>등록된 일정이 없어요.</h3>
+                                        <h3 className={`list-item-title ${styles.eventTitle}`}>등록된 일정이 없어요.</h3>
                                     </div>
                                 </div>
                             </div>
@@ -348,9 +348,9 @@ const EventsPage = () => {
                                                     <div className={styles.calendarDate}>{calDays}</div>
                                                 </div>
                                                 <div className={styles.eventDetailsContainer}>
-                                                    <h3 className={styles.eventTitle}>{event.title}</h3>
+                                                    <h3 className={`list-item-title ${styles.eventTitle}`}>{event.title}</h3>
                                                     {hasMeta && (
-                                                        <div className={styles.eventMetaRow}>
+                                                        <div className={`list-item-meta ${styles.eventMetaRow}`}>
                                                             {timeStr && <span>{timeStr}</span>}
                                                             {timeStr && locStr && <span>·</span>}
                                                             {locStr && <span>{locStr}</span>}

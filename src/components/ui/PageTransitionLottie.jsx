@@ -94,7 +94,7 @@ export default function PageTransitionLottie() {
                 key={`lottie-${key}`}
                 animationData={transitionData} 
                 loop={true}
-                style={{ width: '100%', height: '100%', transform: `scale(${scale})` }}
+                style={{ width: '100%', height: '100%', transform: isCrossScreen.current ? `scaleX(-${scale}) scaleY(${scale})` : `scale(${scale})` }}
             />
         </motion.div>
     );

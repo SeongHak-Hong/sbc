@@ -242,6 +242,13 @@
     box-sizing: border-box;
 }
 
+@media (max-width: 767px) {
+    .eventCard {
+        backdrop-filter: none;
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+}
+
 .eventInfoLeft {
     display: flex;
     align-items: center;
@@ -286,9 +293,9 @@
 }
 
 .eventTitle {
-    font-size: 18px;
+    
 
-    color: var(--color-text-secondary);
+    
     margin: 0;
     white-space: nowrap;
     overflow: hidden;
@@ -297,9 +304,9 @@
 }
 
 .eventMetaRow {
-    font-size: 16px;
+    
 
-    color: var(--color-text-muted);
+    
     margin: 0;
     display: flex;
     align-items: center;
@@ -333,10 +340,10 @@
         gap: 16px;
     }
     .eventTitle {
-        font-size: 18px;
+        
     }
     .eventMetaRow {
-        font-size: 16px;
+        
     }
 }
 

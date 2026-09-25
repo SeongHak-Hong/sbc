@@ -31,6 +31,9 @@ const MobileScrollFade = () => {
         zIndex: 80,
         background: 'linear-gradient(to top, rgba(252, 235, 224, 1) 0%, rgba(252, 235, 224, 0) 100%)',
         opacity: opacity,
+        WebkitTransform: 'translateZ(0)',
+        transform: 'translateZ(0)',
+        willChange: 'opacity',
       }}
     />
   );

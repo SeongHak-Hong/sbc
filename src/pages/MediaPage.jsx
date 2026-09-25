@@ -331,7 +331,7 @@ const MediaPage = () => {
                     <div className={styles.loading}>영상을 불러오는 중입니다...</div>
                 ) : (
                     <>
-                        <BlurFade delay={0.25} inView>
+                        <BlurFade delay={0.25} inView style={{ width: '100%' }}>
                             <div className={styles.switchWrapper}>
                                 <SwitchTabs 
                                     tabs={[
@@ -372,8 +372,8 @@ const MediaPage = () => {
                                                 </div>
                                                 <div className={styles.videoInfo}>
                                                     <p className={styles.date}>{parsedInfo.date}</p>
-                                                    <p className="main-page-title">{parsedInfo.title}</p>
-                                                    <p className={styles.description}>{parsedInfo.info}</p>
+                                                    <p className="list-item-title">{parsedInfo.title}</p>
+                                                    <p className={`list-item-meta ${styles.description}`}>{parsedInfo.info}</p>
                                                     <div className={styles.badgeWrapper}>
                                                         <span className={styles.badge}>{badge}</span>
                                                     </div>

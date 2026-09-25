@@ -53,6 +53,10 @@
     margin-bottom: 40px;
 }
 
+.headerTextWrap h1 {
+    text-align: left;
+}
+
 
 
 .mainTitle {
@@ -202,6 +206,9 @@
     .headerTextWrap {
         margin-bottom: 24px;
         align-items: center;
+        text-align: center;
+    }
+    .headerTextWrap h1 {
         text-align: center;
     }
     .mainTitle {
