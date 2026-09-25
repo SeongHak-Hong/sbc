@@ -191,7 +191,7 @@ const WelcomePage = () => {
                                 transition={{ duration: 1 }}
                                 text="공동체 - 새가족"
                             />
-                            <WordFadeText isActive={introActiveIndex === 0} text={"신탄진침례교회에 방문하신\n여러분 환영합니다."} className={styles.yuhanText} />
+                            <WordFadeText isActive={introActiveIndex === 0} text={"신탄진침례교회에 방문하신\n여러분 환영합니다."} className="main-page-title" />
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                                 <WordFadeText isActive={introActiveIndex === 0} text={"밑으로 계속 스크롤"} className={styles.fadeBodyText} delayOffset={0.2} style={{ whiteSpace: 'nowrap' }} />
                                 <ScrollDownIcon isActive={introActiveIndex === 0} delayOffset={0.3} />
@@ -201,19 +201,19 @@ const WelcomePage = () => {
                     {/* Section 2 */}
                     <div className={`${styles.introAbsoluteCenter} ${introActiveIndex === 1 ? styles.activeLayer : ''}`}>
                         <div className={styles.fadeInner}>
-                            <SimpleFadeText isActive={introActiveIndex === 1} text={"가장 먼저 드리고 싶은 말씀은,\n저희는 교회 등록을 부담스럽게 권하지 않는다는 점입니다."} className={styles.yuhanText} />
+                            <SimpleFadeText isActive={introActiveIndex === 1} text={"가장 먼저 드리고 싶은 말씀은,\n저희는 교회 등록을 부담스럽게 권하지 않는다는 점입니다."} className="main-page-title" />
                         </div>
                     </div>
                     {/* Section 3 */}
                     <div className={`${styles.introAbsoluteCenter} ${introActiveIndex === 2 ? styles.activeLayer : ''}`}>
                         <div className={styles.fadeInner}>
-                            <SimpleFadeText isActive={introActiveIndex === 2} text={"이곳에서 함께 신앙생활을 해나가도 좋을지\n충분히 경험해 보시고, 편안한 마음으로 결정하시기를 바랍니다."} className={styles.yuhanText} />
+                            <SimpleFadeText isActive={introActiveIndex === 2} text={"이곳에서 함께 신앙생활을 해나가도 좋을지\n충분히 경험해 보시고, 편안한 마음으로 결정하시기를 바랍니다."} className="main-page-title" />
                         </div>
                     </div>
                     {/* Section 4 */}
                     <div className={`${styles.introAbsoluteCenter} ${introActiveIndex === 3 ? styles.activeLayer : ''}`}>
                         <div className={styles.fadeInner}>
-                            <SimpleFadeText isActive={introActiveIndex === 3} text={"나중에 마음의 준비가 되셨을 때를 위해,\n새가족이 되는 과정을 가볍게 안내해 드릴게요."} className={styles.yuhanText} />
+                            <SimpleFadeText isActive={introActiveIndex === 3} text={"나중에 마음의 준비가 되셨을 때를 위해,\n새가족이 되는 과정을 가볍게 안내해 드릴게요."} className="main-page-title" />
                         </div>
                     </div>
                 </div>
@@ -238,7 +238,7 @@ const WelcomePage = () => {
             {/* CTA Section */}
             <div className={styles.ctaSection}>
                 <ScrollFadeText
-                    className={styles.yuhanText}
+                    className="main-page-title"
                     text={"더 궁금한 점이 있으신가요?\n문의 주시면 따뜻하고 친절하게 안내해 드리겠습니다."}
                     once={true}
                 />

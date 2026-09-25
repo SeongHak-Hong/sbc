@@ -80,7 +80,7 @@ const TeamPage = () => {
                     <ScrollFadeText
                         text={"따뜻한 마음과 기쁨으로\n교회를 섬기는 분들을 소개해요."}
                         as="h1"
-                        className={styles.pageTitle}
+                        className="main-page-title"
                         once={true}
                     />
                 </div>

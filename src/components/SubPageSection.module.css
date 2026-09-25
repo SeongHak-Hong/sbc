@@ -59,14 +59,7 @@
     word-break: keep-all;
 }
 
-.title {
-    position: relative;
-    display: inline-block;
-    margin-bottom: 0;
-    font-size: 40px;
-    text-align: center;
-    word-break: keep-all;
-}
+
 
 @media (max-width: 767px) {
     .title {
@@ -74,18 +67,8 @@
     }
 }
 
-.yuhanTitle {
 
-    font-size: 40px;
-    color: var(--color-text-primary);
-    margin: 0;
-    white-space: pre-line;
-    word-break: keep-all;
-    text-align: center;
-}
 
 @media (max-width: 767px) {
-    .yuhanTitle {
-        font-size: 28px;
-    }
+    
 }

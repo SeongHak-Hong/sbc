@@ -62,7 +62,7 @@ const NetworkPage = () => {
                     <ScrollFadeText
                         text={"동네방네 성도 가게"}
                         as="h1"
-                        className={styles.pageTitle}
+                        className="main-page-title"
                         once={true}
                     />
                 </div>

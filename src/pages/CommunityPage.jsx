@@ -157,7 +157,7 @@ const CommunityPage = () => {
                         <Breadcrumb text="공동체 - 구역 안내" />
 
                         {/* Main Text */}
-                        <div className={styles.mainText} style={{ whiteSpace: 'pre-line' }}>
+                        <div className="main-page-title" style={{ whiteSpace: 'pre-line', marginBottom: '24px' }}>
                             {renderMainText()}
                         </div>
 

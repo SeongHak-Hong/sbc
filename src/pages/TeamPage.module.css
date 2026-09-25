@@ -8,14 +8,7 @@
 
 
 
-.pageTitle {
-    font-size: 40px;
-    color: var(--color-text-secondary);
-    margin: 0;
-    white-space: pre-line;
-    word-break: keep-all;
-    text-align: center;
-}
+
 
 .container {
     width: 100%;

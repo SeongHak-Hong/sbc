@@ -30,12 +30,7 @@
 
 
 
-.mainText {
-    font-size: 40px;
-    color: var(--color-text-secondary);
-    margin-bottom: 48px;
-    word-break: keep-all;
-}
+
 
 .buttonGroup {
     display: flex;

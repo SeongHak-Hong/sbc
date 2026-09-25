@@ -211,7 +211,7 @@ const GuidePage = () => {
                         <Breadcrumb text="교회소개 - 교회 안내" />
 
                         {/* Main Text */}
-                        <div className={styles.mainText} style={{ whiteSpace: 'pre-line' }}>
+                        <div className="main-page-title" style={{ whiteSpace: 'pre-line', marginBottom: '24px' }}>
                             {renderMainText()}
                         </div>
 

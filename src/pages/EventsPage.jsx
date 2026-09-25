@@ -219,7 +219,7 @@ const EventsPage = () => {
                     <ScrollFadeText
                         text={"은혜의 시간"}
                         as="h1"
-                        className={styles.pageTitle}
+                        className="main-page-title"
                         once={true}
                     />
                 </div>

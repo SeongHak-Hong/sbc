@@ -8,22 +8,7 @@
     background-attachment: fixed;
 }
 
-.headerMainTitle {
 
-    font-size: 40px;
-
-    color: var(--color-text-secondary);
-    margin: 0;
-    white-space: pre-line;
-    word-break: keep-all;
-    text-align: center;
-}
-
-@media (max-width: 767px) {
-    .headerMainTitle {
-        font-size: 24px;
-    }
-}
 
 .subTitle {
     font-size: 16px;

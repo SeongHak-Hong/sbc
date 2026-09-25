@@ -148,7 +148,7 @@ const NewsPage = () => {
                     <ScrollFadeText
                         text="소식을 전해요"
                         as="h1"
-                        className={styles.pageTitle}
+                        className="main-page-title"
                         once={true}
                     />
                 </div>

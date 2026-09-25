@@ -155,7 +155,7 @@ const HistoryPage = () => {
                         <WordFadeText 
                             isActive={isCtaActive} 
                             text={"흑백 사진 속 따뜻한 사랑은 지금도 흐르고 있습니다.\n신탄진교회의 다정한 '오늘'을 인스타그램에서 만나보세요."} 
-                            className={styles.ctaTitleText} 
+                            className="main-page-title" 
                         />
                     </div>
                     <button 

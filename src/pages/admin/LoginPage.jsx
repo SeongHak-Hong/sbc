@@ -106,7 +106,7 @@ const LoginPage = () => {
     return (
         <div className={styles.loginContainer}>
             <div className={styles.loginBox}>
-                <h1 className={styles.title}>SBC Manager Lounge</h1>
+                <h1 className="main-page-title">SBC Manager Lounge</h1>
                 <p className={styles.subtitle}>
                     {isChangingPassword ? '초기 비밀번호를 새 비밀번호로 변경해주세요.' : '접근 권한이 있는 계정으로 로그인해주세요.'}
                 </p>

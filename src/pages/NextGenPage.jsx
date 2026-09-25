@@ -159,7 +159,7 @@ const NextGenPage = () => {
                     <ScrollFadeText
                         text={"하나님의 사랑을 알고,\n올바른 성경의 가치관을 가져요."}
                         as="h1"
-                        className={styles.headerMainTitle}
+                        className="main-page-title"
                         once={true}
                     />
                 </div>

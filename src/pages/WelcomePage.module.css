@@ -272,16 +272,6 @@
     z-index: 10;
 }
 
-.ctaSection .yuhanText {
-    margin-bottom: 48px;
-}
-
-@media (max-width: 767px) {
-    .ctaSection .yuhanText {
-        margin-bottom: 24px;
-    }
-}
-
 .lightButton {
     background-color: var(--color-gray-50);
     border: none;
@@ -301,14 +291,7 @@
     transform: translateY(-2px);
 }
 
-.ctaTitle {
-    font-size: 40px;
 
-    color: var(--color-text-primary);
-    margin-bottom: 48px;
-    white-space: pre-line;
-    word-break: keep-all;
-}
 
 .ctaDesc {
     font-size: 16px;
@@ -524,15 +507,7 @@
     z-index: 5;
 }
 
-.yuhanText {
 
-    font-size: 40px;
-
-    color: var(--color-text-primary);
-    margin: 0 0 24px 0;
-    white-space: pre-line;
-    word-break: keep-all;
-}
 
 .fadeBodyText {
     font-size: 20px;
@@ -545,9 +520,7 @@
 }
 
 @media (max-width: 767px) {
-    .yuhanText {
-        font-size: 24px;
-    }
+    
 
     .fadeBodyText {
         font-size: 16px;

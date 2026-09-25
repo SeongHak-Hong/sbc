@@ -36,7 +36,7 @@ const VisionPage = () => {
                                 transition={{ duration: 0.8 }}
                             >
                                 <Breadcrumb text="교회소개 - 인사말 · 비전" />
-                                <h1 className={styles.mainTitle}>
+                                <h1 className="main-page-title">
                                     할렐루야!<br />
                                     신탄진침례교회를 찾아주신 여러분께<br className={styles.mobileHiddenBr} />
                                     하나님의 은총과 평강이 함께하시기를 축복합니다.

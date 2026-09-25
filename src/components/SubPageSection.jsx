@@ -13,7 +13,7 @@ const SubPageSection = ({ id, title, engTitle, subtitle, icon, children, classNa
                         <ScrollFadeText
                             text={title}
                             as="h1"
-                            className={styles.yuhanTitle}
+                            className="main-page-title"
                             style={{ color: titleColor }}
                             once={true}
                         />

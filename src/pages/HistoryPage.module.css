@@ -74,13 +74,7 @@
     text-align: center;
 }
 
-.ctaTitleText {
-    font-size: 40px;
-    color: var(--color-text-primary);
-    margin: 0 0 48px 0;
-    white-space: pre-line;
-    word-break: keep-all;
-}
+
 
 .ctaButton {
     background-color: var(--color-gray-50);

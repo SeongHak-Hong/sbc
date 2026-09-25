@@ -65,7 +65,7 @@ const OutreachPage = () => {
                     <ScrollFadeText
                         text={"가까운 이웃부터 땅끝까지\n예수님의 따뜻한 사랑을 전해요."}
                         as="h1"
-                        className={styles.pageTitle}
+                        className="main-page-title"
                         once={true}
                     />
                 </div>

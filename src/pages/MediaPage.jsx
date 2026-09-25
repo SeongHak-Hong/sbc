@@ -322,7 +322,7 @@ const MediaPage = () => {
                     <ScrollFadeText
                         text="함께 예배해요."
                         as="h1"
-                        className={styles.pageTitle}
+                        className="main-page-title"
                         once={true}
                     />
                 </div>
@@ -372,7 +372,7 @@ const MediaPage = () => {
                                                 </div>
                                                 <div className={styles.videoInfo}>
                                                     <p className={styles.date}>{parsedInfo.date}</p>
-                                                    <p className={styles.title}>{parsedInfo.title}</p>
+                                                    <p className="main-page-title">{parsedInfo.title}</p>
                                                     <p className={styles.description}>{parsedInfo.info}</p>
                                                     <div className={styles.badgeWrapper}>
                                                         <span className={styles.badge}>{badge}</span>
