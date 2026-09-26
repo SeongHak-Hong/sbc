@@ -86,7 +86,7 @@
   /* List Item Tokens */
   --list-title-size-pc: 20px;
   --list-title-size-mobile: 17px;
-  --list-meta-size-pc: 16px;
+  --list-meta-size-pc: 14px;
   --list-meta-size-mobile: 14px;
 
   /* Main Page Title Tokens */
@@ -180,6 +180,8 @@
 body {
   font-family: var(--font-body);
   font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 @media (max-width: 767px) {
   :root {
@@ -628,10 +630,15 @@ button span.icon {
 .list-item-title {
   font-size: var(--list-title-size-pc);
   font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-  margin: 0;
+  color: var(--color-text-tertiary);
+  margin: 0 0 2px 0;
   line-height: var(--line-height-base);
   word-break: keep-all;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .list-item-meta {

@@ -301,10 +301,16 @@ const MediaPage = () => {
         const infoParts = [preacher];
         if (passage) infoParts.push(passage);
 
+        const now = new Date();
+        const diffTime = Math.abs(now - publishedAt);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+        const isNew = diffDays <= 7;
+
         return {
             title: title || rawTitle,
             date: dateStr,
-            info: infoParts.join(' · ')
+            info: infoParts.join(' · '),
+            isNew
         };
     };
 
@@ -371,11 +377,14 @@ const MediaPage = () => {
                                                     />
                                                 </div>
                                                 <div className={styles.videoInfo}>
-                                                    <p className={styles.date}>{parsedInfo.date}</p>
-                                                    <p className="list-item-title">{parsedInfo.title}</p>
-                                                    <p className={`list-item-meta ${styles.description}`}>{parsedInfo.info}</p>
-                                                    <div className={styles.badgeWrapper}>
+                                                    <div className={styles.badgeWrapper} style={{ marginTop: 0, display: 'flex', flexDirection: 'row', gap: '2px', alignItems: 'center' }}>
+                                                        {parsedInfo.isNew && <span className={styles.badge} style={{ backgroundColor: 'var(--color-slate-700)', color: 'var(--color-gray-50)' }}>NEW</span>}
                                                         <span className={styles.badge}>{badge}</span>
+                                                    </div>
+
+                                                    <div style={{ display: 'flex', flexDirection: 'column', paddingLeft: '4px' }}>
+                                                        <p className="list-item-title">{parsedInfo.title}</p>
+                                                        <p className={`list-item-meta ${styles.description}`}>{parsedInfo.info}</p>
                                                     </div>
                                                 </div>
                                             </a>

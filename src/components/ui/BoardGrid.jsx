@@ -15,7 +15,7 @@ const BoardGrid = ({ items = [], onItemClick, emptyMessage = "등록된 게시�
         return (
             <div className={styles.eventsGrid}>
                 <div className={styles.eventCard} style={{ cursor: 'default' }}>
-                    <h3 className={`list-item-title ${styles.eventTitle}`}>{emptyMessage}</h3>
+                    <h3 className="list-item-title">{emptyMessage}</h3>
                 </div>
             </div>
         );
@@ -33,7 +33,7 @@ const BoardGrid = ({ items = [], onItemClick, emptyMessage = "등록된 게시�
                     onClick={() => onItemClick && onItemClick(item.rawData)}
                 >
                     <div className={styles.eventCard}>
-                        <h3 className={`list-item-title ${styles.eventTitle}`}>{item.title}</h3>
+                        <h3 className="list-item-title">{item.title}</h3>
                         <div className={`list-item-meta ${styles.eventMetaRow}`}>
                             {item.meta}
                         </div>

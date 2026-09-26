@@ -38,16 +38,16 @@
 
 /* Video Grid */
 .videoGrid {
-    display: flex;
-    flex-direction: column;
-    gap: 48px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
     width: 100%;
 }
 
 .videoCard {
     display: flex;
     flex-direction: row;
-    gap: 40px;
+    gap: 16px;
     text-decoration: none;
     cursor: pointer;
     transition: transform 0.2s ease;
@@ -65,7 +65,7 @@
     overflow: hidden;
     background-color: #000;
     position: relative;
-    border-radius: 16px;
+    border-radius: 32px;
 }
 
 .thumbnail {
@@ -77,11 +77,13 @@
 .videoInfo {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
+    margin-top: 4px;
 }
 
 .videoInfo p {
 }
+
 
 .date {
     color: var(--color-text-muted);
@@ -126,16 +128,23 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+    .videoGrid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
     .videoCard {
         flex-direction: column;
-        gap: 16px;
+        gap: 4px;
     }
-    
     .thumbnailContainer {
         width: 100%;
+        margin-left: 0;
+        border-radius: 16px;
     }
-    
-    
+    .badge {
+        padding: 2px 8px;
+        font-size: 13px;
+    }
 }
 
 /* Video Modal */
