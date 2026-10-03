@@ -28,7 +28,7 @@ const NewcomerSection = ({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'var(--color-background-dark)'
+        backgroundColor: 'var(--color-background-deep)'
     };
 
     const titleStyle = {
@@ -61,7 +61,10 @@ const NewcomerSection = ({
                 <h2 style={titleStyle}>{title}</h2>
             </BlurFade>
             <BlurFade delay={0.4} inView>
-                <LargeButton onClick={() => navigate('/guide#visit')}>
+                <LargeButton
+                    onClick={() => navigate('/guide#visit')}
+                    style={{ backgroundColor: 'var(--color-white)', color: 'var(--color-text-primary)' }}
+                >
                     {buttonText}
                 </LargeButton>
             </BlurFade>

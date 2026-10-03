@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="ko" data-hero="b">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>메인 시안 — 따뜻한 스크랩북</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+<!-- 떠 있는 pill 내비게이션 -->
+<header class="nav" id="nav">
+  <a class="nav-logo" href="#top"><span class="icon" aria-hidden="true">church</span>신탄진침례교회</a>
+  <nav class="nav-links" aria-label="주요 메뉴">
+    <a href="#first-visit">처음 오셨나요</a>
+    <a href="#activities">함께하는 모임</a>
+    <a href="#faq">자주 묻는 질문</a>
+    <a href="#links">소식</a>
+  </nav>
+  <a class="btn btn-ink btn-sm" href="#links">예배 시간</a>
+</header>
+
+<main>
+  <!-- ① Hero: 실제 교회 사진 시안 3가지 (?hero=a | b | c, 화면 아래 전환 버튼) -->
+  <section class="hero" id="top">
+
+    <!-- A. 꽉 찬 사진: 건물 사진을 둥근 큰 액자로 화면 가득 -->
+    <div class="hero-a" data-hero="a">
+      <img class="hero-a-photo" src="./img/church.jpg" alt="신탄진침례교회 건물 전경. 붉은 벽돌 예배당과 흰 십자가 탑, 정문 위 신탄진교회 간판">
+      <div class="hero-a-shade" aria-hidden="true"></div>
+      <div class="hero-a-copy">
+        <span class="eyebrow eyebrow-glass">대전 대덕구 석봉로 17</span>
+        <h1>오늘 하루,<br>많이 애쓰셨죠.</h1>
+        <p class="hero-sub">잠시 쉬어가도 괜찮은 곳이 있어요.<br>아무것도 준비하지 않고, 그냥 오셔도 됩니다.</p>
+        <div class="actions">
+          <a class="btn btn-white" href="#mind-rest">천천히 둘러보기</a>
+          <a class="btn btn-glass" href="#links">이번 주 예배 시간 보기</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- B. 사진 카드 + 사람 폴라로이드 (추천) -->
+    <div class="hero-b" data-hero="b">
+      <div class="hero-b-copy">
+        <span class="eyebrow">신탄진침례교회</span>
+        <h1>오늘 하루,<br>많이 <span class="sig">애쓰셨죠.</span></h1>
+        <p class="hero-sub">잠시 쉬어가도 괜찮은 곳이 있어요.<br>아무것도 준비하지 않고, 그냥 오셔도 됩니다.</p>
+        <div class="actions">
+          <a class="btn btn-ink" href="#mind-rest">천천히 둘러보기</a>
+          <a class="btn btn-sig" href="#links">이번 주 예배 시간 보기</a>
+        </div>
+        <p class="hero-b-info"><span class="icon" aria-hidden="true">schedule</span>주일 2부 오전 11:00<span class="dot" aria-hidden="true"></span><span class="icon" aria-hidden="true">location_on</span>석봉로 17</p>
+      </div>
+      <div class="hero-b-visual">
+        <div class="hero-b-card">
+          <img src="./img/church.jpg" alt="신탄진침례교회 건물 전경. 붉은 벽돌 예배당과 흰 십자가 탑, 정문 위 신탄진교회 간판">
+        </div>
+        <figure class="polaroid hero-b-polaroid" style="--r: -6deg">
+          <img src="./photo-01.jpg" alt="새가족팀이 예배당 문 앞에서 두 손을 내밀어 맞이하는 모습">
+          <figcaption>문 앞에서 맞아드려요</figcaption>
+        </figure>
+        <span class="sticker wash-butter hero-b-sticker" style="--r: 5deg">우리 교회예요</span>
+      </div>
+    </div>
+
+    <!-- C. 스크랩북: 가운데 헤드라인, 둘레에 사진 -->
+    <div class="hero-c" data-hero="c">
+      <div class="hero-c-photos" aria-hidden="true">
+        <figure class="polaroid hc1" style="--r: -6deg"><img src="./img/church.jpg" alt=""><figcaption>우리 교회</figcaption></figure>
+        <figure class="polaroid hc2" style="--r: 5deg"><img src="./photo-01.jpg" alt=""><figcaption>새가족팀</figcaption></figure>
+        <figure class="polaroid hc3" style="--r: 7deg"><img src="./img/history-26.jpg" alt=""><figcaption>1965년 겨울</figcaption></figure>
+        <figure class="polaroid hc4" style="--r: -4deg"><img src="./img/history-42.jpg" alt=""><figcaption>여름날, 교회 마당</figcaption></figure>
+      </div>
+      <div class="hero-c-copy">
+        <span class="eyebrow">신탄진침례교회</span>
+        <h1>오늘 하루,<br>많이 <span class="sig">애쓰셨죠.</span></h1>
+        <p class="hero-sub">잠시 쉬어가도 괜찮은 곳이 있어요.<br>아무것도 준비하지 않고, 그냥 오셔도 됩니다.</p>
+        <div class="actions">
+          <a class="btn btn-ink" href="#mind-rest">천천히 둘러보기</a>
+          <a class="btn btn-sig" href="#links">이번 주 예배 시간 보기</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ② 마음 나누기 -->
+  <section class="section" id="mind-rest">
+    <div class="mind-wrap">
+      <figure class="polaroid polaroid-float" style="--r: 6deg">
+        <img src="./img/history-45.jpg" alt="성도들이 서로 손을 잡고 함께 기도하는 모습">
+        <figcaption>함께 기도할게요</figcaption>
+      </figure>
+
+      <div class="mind-card">
+        <span class="chip chip-sky"><span class="icon" aria-hidden="true">favorite</span>마음 나누기</span>
+        <h2>지금, 마음 날씨는 어떤가요?</h2>
+        <p class="note">고르신 날씨는 어디에도 저장되지 않아요.</p>
+
+        <div class="moods" role="group" aria-label="마음 날씨 고르기">
+          <button class="mood" data-mood="cloudy" aria-pressed="false"><span class="icon" aria-hidden="true">cloud</span>흐림</button>
+          <button class="mood" data-mood="rain" aria-pressed="false"><span class="icon" aria-hidden="true">rainy</span>비</button>
+          <button class="mood" data-mood="clearing" aria-pressed="false"><span class="icon" aria-hidden="true">partly_cloudy_day</span>조금 갬</button>
+          <button class="mood" data-mood="sunny" aria-pressed="false"><span class="icon" aria-hidden="true">sunny</span>맑음</button>
+          <button class="mood" data-mood="unsure" aria-pressed="false"><span class="icon" aria-hidden="true">help</span>잘 모르겠어요</button>
+        </div>
+
+        <div class="mind-response" id="mindResponse" aria-live="polite">
+          <p class="mind-empty">날씨를 하나 골라보세요. 지금 마음에 닿는 말씀 한 구절을 드릴게요.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ③ 가치 제안 -->
+  <section class="section" id="values">
+    <div class="section-head">
+      <span class="chip chip-peach">이런 곳이에요</span>
+      <h2>혼자 견디지 않아도 돼요</h2>
+      <p>믿음이 있든 없든, 있는 그대로 오셔도 괜찮아요.</p>
+    </div>
+    <div class="values">
+      <article class="value wash-sky">
+        <span class="value-icon icon" aria-hidden="true">chair</span>
+        <h3>애쓰지 않아도 되는 시간</h3>
+        <p>일주일에 한 번, 아무 역할 없이 앉아 있어도 괜찮은 시간이에요.</p>
+      </article>
+      <article class="value wash-butter">
+        <span class="value-icon icon" aria-hidden="true">anchor</span>
+        <h3>흔들리는 날에도 기댈 자리</h3>
+        <p>매주 같은 자리, 같은 시간. 반복되는 작은 쉼이 마음의 뿌리가 되어줘요.</p>
+      </article>
+      <article class="value wash-mint">
+        <span class="value-icon icon" aria-hidden="true">diversity_3</span>
+        <h3>이름을 기억해주는 사람들</h3>
+        <p>"지난주엔 잘 지냈어요?" 누군가 안부를 물어준다는 건 생각보다 따뜻한 일이에요.</p>
+      </article>
+      <article class="value wash-peach">
+        <span class="value-icon icon" aria-hidden="true">door_open</span>
+        <h3>처음이어도 어색하지 않게</h3>
+        <p>질문이 많든 적든, 처음이든 오랜만이든. 있는 그대로 환영해요.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ④ 활동 소개 -->
+  <section class="section" id="activities">
+    <div class="section-head">
+      <span class="chip chip-mint">함께하는 모임</span>
+      <h2>작은 모임, 따뜻한 식탁</h2>
+      <p>거창한 것보다, 함께 밥 먹고 이야기 나누는 게 먼저예요.</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="모임 종류">
+      <button class="tab" role="tab" id="tab-small" aria-controls="panel-small" aria-selected="true">소그룹</button>
+      <button class="tab" role="tab" id="tab-culture" aria-controls="panel-culture" aria-selected="false" tabindex="-1">문화행사</button>
+      <button class="tab" role="tab" id="tab-next" aria-controls="panel-next" aria-selected="false" tabindex="-1">다음세대</button>
+    </div>
+
+    <div class="panel" role="tabpanel" id="panel-small" aria-labelledby="tab-small">
+      <article class="act">
+        <div class="act-photo"><img src="./img/history-40.jpg" alt="바닥에 둘러앉아 성경을 읽는 소그룹"></div>
+        <div class="act-body">
+          <h3>작은 식탁 <span>구역 모임</span></h3>
+          <p>6~8명이 둘러앉아 한 주의 이야기를 나눠요. 듣기만 해도 괜찮아요.</p>
+          <span class="meta">매주 · 동네별</span>
+        </div>
+      </article>
+      <article class="act">
+        <div class="act-photo act-photo-empty wash-butter"><span class="icon" aria-hidden="true">local_cafe</span><span class="hand">사진을 기다리고 있어요</span></div>
+        <div class="act-body">
+          <h3>책과 차</h3>
+          <p>한 달에 한 권, 에세이부터 교양서까지 함께 읽어요.</p>
+          <span class="meta">월 1회 · 비신자 환영</span>
+        </div>
+      </article>
+    </div>
+
+    <div class="panel" role="tabpanel" id="panel-culture" aria-labelledby="tab-culture" hidden>
+      <article class="act">
+        <div class="act-photo act-photo-empty wash-mint"><span class="icon" aria-hidden="true">park</span><span class="hand">사진을 기다리고 있어요</span></div>
+        <div class="act-body">
+          <h3>계절 피크닉</h3>
+          <p>봄엔 꽃길, 가을엔 금강 산책로. 계절마다 소풍을 가요.</p>
+          <span class="meta">분기 1회 · 가족 환영</span>
+        </div>
+      </article>
+      <article class="act">
+        <div class="act-photo act-photo-empty wash-peach"><span class="icon" aria-hidden="true">ramen_dining</span><span class="hand">사진을 기다리고 있어요</span></div>
+        <div class="act-body">
+          <h3>떡볶이데이</h3>
+          <p>부담 없이 들러 떡볶이 한 접시 나누는 날이에요.</p>
+          <span class="meta">기존 행사 연계</span>
+        </div>
+      </article>
+    </div>
+
+    <div class="panel" role="tabpanel" id="panel-next" aria-labelledby="tab-next" hidden>
+      <article class="act">
+        <div class="act-photo"><img src="./img/history-46.jpg" alt="어린이 제자훈련 개강예배에서 함께 선 교사들"></div>
+        <div class="act-body">
+          <h3>교회학교</h3>
+          <p>예배 시간 동안 아이들은 선생님들과 안전하게 지내요.</p>
+          <span class="meta">영유아~청소년</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ⑤ 첫 방문 가이드 -->
+  <section class="section" id="first-visit">
+    <div class="visit">
+      <div class="visit-photo">
+        <figure class="polaroid polaroid-lg" style="--r: -2.5deg">
+          <img src="./photo-01.jpg" alt="새가족팀이 예배당 문 앞에서 두 손을 내밀어 맞이하는 모습">
+          <figcaption>문 앞에서 맞아드려요</figcaption>
+        </figure>
+        <span class="sticker wash-mint" style="--r: 4deg">새가족팀</span>
+      </div>
+
+      <div class="visit-copy">
+        <span class="chip chip-mint"><span class="icon" aria-hidden="true">check</span>등록하지 않으셔도 됩니다</span>
+        <h2>처음 오시는 날,<br>이렇게 흘러가요</h2>
+        <ol class="steps">
+          <li>
+            <span class="step-num">01</span>
+            <div>
+              <h3>도착해요</h3>
+              <p>주차장은 건물 뒤편에 있어요. 입구에서 안내 봉사자가 반갑게 맞아드려요.</p>
+              <div class="address">
+                <span class="icon" aria-hidden="true">location_on</span>
+                <span id="addr">대전 대덕구 석봉로 17</span>
+                <button class="btn btn-line btn-xs" id="copyAddr">주소 복사</button>
+                <a class="btn btn-line btn-xs" href="https://map.naver.com/p/search/%EB%8C%80%EC%A0%84%20%EB%8C%80%EB%8D%95%EA%B5%AC%20%EC%84%9D%EB%B4%89%EB%A1%9C%2017" target="_blank" rel="noopener">지도 앱 열기</a>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">02</span>
+            <div>
+              <h3>편한 자리에 앉아요</h3>
+              <p>뒷자리, 구석 자리 모두 괜찮아요. 순서를 몰라도 따라오지 않으셔도 돼요.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">03</span>
+            <div>
+              <h3>차 한 잔 할래요?</h3>
+              <p>예배 후 카페에서 따뜻한 차를 드려요. 바로 가셔도 전혀 실례가 아니에요.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">04</span>
+            <div>
+              <h3>다음은, 원하실 때</h3>
+              <p>연락처를 남기지 않아도 돼요. 또 오고 싶을 때 그냥 오세요.</p>
+            </div>
+          </li>
+        </ol>
+        <p class="note">헌금은 참여하지 않으셔도 괜찮아요. 복장도 평소처럼 편하게 오세요.</p>
+        <a class="btn btn-line" href="#faq">혼자 오기 어색하다면, 동행을 요청하세요</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⑥ FAQ -->
+  <section class="section" id="faq">
+    <div class="faq">
+      <div class="faq-head">
+        <span class="chip chip-butter">자주 묻는 질문</span>
+        <h2>궁금한 게<br>있으신가요?</h2>
+        <p>여기 없는 질문도 편하게 물어보세요.</p>
+        <a class="btn btn-line" href="tel:0429328156"><span class="icon" aria-hidden="true">call</span>042-932-8156</a>
+      </div>
+      <div class="accordion" id="accordion"></div>
+    </div>
+  </section>
+
+  <!-- ⑦ Closing: 폴라로이드 벽 -->
+  <section class="closing" id="closing">
+    <div class="wall" aria-hidden="true">
+      <figure class="polaroid polaroid-sm w1" style="--r: -7deg"><img src="./img/history-26.jpg" alt=""><figcaption>1965년 겨울</figcaption></figure>
+      <figure class="polaroid polaroid-sm w2" style="--r: 5deg"><img src="./img/history-36.jpg" alt=""><figcaption>옛 예배당 앞에서</figcaption></figure>
+      <figure class="polaroid polaroid-sm w3" style="--r: -4deg"><img src="./img/history-42.jpg" alt=""><figcaption>여름날, 교회 마당</figcaption></figure>
+      <figure class="polaroid polaroid-sm w4" style="--r: 6deg"><img src="./img/history-30.jpg" alt=""><figcaption>98년 성탄 발표회</figcaption></figure>
+      <figure class="polaroid polaroid-sm w5" style="--r: -3deg"><img src="./photo-01.jpg" alt=""><figcaption>그리고 오늘</figcaption></figure>
+    </div>
+    <div class="closing-copy">
+      <span class="hand hand-lg">1965년에도, 오늘도</span>
+      <h2>문은 늘 열려 있어요.</h2>
+      <p>오늘이 아니어도 괜찮아요.<br>마음이 닿는 날, 기다리고 있을게요.</p>
+      <div class="actions">
+        <a class="btn btn-ink" href="#first-visit">오시는 길 보기</a>
+        <a class="btn btn-sig" href="#links">예배 시간 확인하기</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⑧ 빠른 링크 (기존 성도) -->
+  <section class="section" id="links">
+    <div class="links-wrap">
+      <div class="worship">
+        <h2>이번 주 예배</h2>
+        <ul>
+          <li><span>주일 1부</span><b>오전 7:00</b><em>소예배실</em></li>
+          <li><span>주일 2부</span><b>오전 11:00</b><em>대예배실</em></li>
+          <li><span>주일 오후</span><b>오후 2:00</b><em>대예배실</em></li>
+          <li><span>수요 예배</span><b>오후 7:00</b><em>대예배실</em></li>
+        </ul>
+      </div>
+      <div class="quick">
+        <a class="quick-item" href="#"><span class="icon" aria-hidden="true">schedule</span>예배 안내</a>
+        <a class="quick-item" href="#"><span class="icon" aria-hidden="true">play_circle</span>설교·말씀 영상</a>
+        <a class="quick-item" href="#"><span class="icon" aria-hidden="true">article</span>소식·주보</a>
+        <a class="quick-item" href="#"><span class="icon" aria-hidden="true">map</span>오시는 길</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <p>신탄진침례교회 · 대전 대덕구 석봉로 17 · 042-932-8156</p>
+</footer>
+
+<!-- 시안 전용: Hero 전환 -->
+<div class="switcher" role="group" aria-label="Hero 시안 고르기">
+  <span>Hero 시안</span>
+  <button type="button" data-set-hero="a" aria-pressed="false">A 꽉 찬 사진</button>
+  <button type="button" data-set-hero="b" aria-pressed="false">B 사진 카드</button>
+  <button type="button" data-set-hero="c" aria-pressed="false">C 스크랩북</button>
+</div>
+
+<!-- 모바일 하단 고정 바 -->
+<div class="bottom-bar" id="bottomBar">
+  <a href="#links"><span class="icon" aria-hidden="true">schedule</span>예배 시간</a>
+  <a href="#first-visit"><span class="icon" aria-hidden="true">map</span>오시는 길</a>
+</div>
+
+<script src="./app.js"></script>
+</body>
+</html>

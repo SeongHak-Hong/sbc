@@ -22,12 +22,6 @@ const newFontFaces = `
   font-style: normal;
 }
 
-@font-face {
-  font-family: 'Playfair Display';
-  src: url('/fonts/PlayfairDisplay-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-}
 `;
 
 content = content.replace(/@font-face\s*\{[\s\S]*?\}/g, '');

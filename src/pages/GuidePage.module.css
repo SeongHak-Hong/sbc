@@ -176,8 +176,15 @@
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media (max-width: 768px) {
@@ -290,7 +297,7 @@
         gap: 24px;
         position: static;
     }
-    
+
     .facilitiesSidebarDesktop {
         display: none;
     }
@@ -307,7 +314,7 @@
         padding: 0 16px;
         z-index: 50;
     }
-    
+
     .verticalButtonGroup {
         flex-direction: row;
         flex-wrap: nowrap;
@@ -322,11 +329,11 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
-    
+
     .verticalButtonGroup::-webkit-scrollbar {
         display: none;
     }
-    
+
     .verticalSelectButton {
         width: auto;
         padding: 10px 20px;
@@ -335,5 +342,3 @@
         scroll-snap-align: center;
     }
 }
-
-

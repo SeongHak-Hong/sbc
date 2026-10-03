@@ -88,7 +88,7 @@
     width: 8px;
     height: 8px;
     border-radius: 0;
-    background-color: var(--color-text-muted);
+    background-color: var(--color-slate-400);
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 

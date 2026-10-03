@@ -168,7 +168,7 @@ const EventsPage = () => {
                         <div style={{
                             fontSize: '16px',
                             
-                            color: 'var(--color-text-placeholder)',
+                            color: 'var(--color-text-muted)',
                             marginBottom: '16px',
  }}>
                             나눔터 - 교회일정

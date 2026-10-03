@@ -12,7 +12,7 @@
 
 .subTitle {
     font-size: 16px;
-    color: var(--color-text-placeholder);
+    color: var(--color-text-muted);
     margin-bottom: 16px;
 }
 
@@ -51,7 +51,7 @@
     height: 500px;
     border-radius: 150px;
     background-color: var(--color-gray-50);
-    box-shadow: 0 30px 50px rgba(255, 138, 63, 0.06), inset 0 10px 20px rgba(255, 255, 255, 0.5), inset 0 -10px 20px rgba(96, 197, 255, 0.12);
+    box-shadow: 0 30px 50px rgba(255, 138, 63, 0.06);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -93,8 +93,7 @@
     align-items: center;
 }
 
-.worshipInfo p {
-}
+.worshipInfo p {}
 
 .worshipCategory {
     font-size: 24px;
@@ -130,12 +129,15 @@
         font-size: 18px;
         margin-bottom: 4px;
     }
+
     .timeContainer {
         margin-bottom: 4px;
     }
+
     .timeText {
         font-size: 56px;
     }
+
     .amPmText {
         font-size: 18px;
     }
@@ -163,7 +165,7 @@
     height: 42px;
     border-radius: 50%;
     border: none;
-    background-color: rgba(var(--color-text-muted-rgb), 0.25);
+    background-color: rgba(var(--color-slate-400-rgb), 0.25);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -179,7 +181,7 @@
 }
 
 .navButton:hover {
-    background-color: rgba(var(--color-text-muted-rgb), 0.5);
+    background-color: rgba(var(--color-slate-400-rgb), 0.5);
 }
 
 .navButtonLeft {
@@ -214,23 +216,27 @@
 }
 
 .dot.active {
-    background-color: var(--color-text-muted);
+    background-color: var(--color-slate-400);
 }
 
 @media (max-width: 600px) {
     .paginationContainer {
         gap: 6px;
     }
+
     .dot {
         width: 8px;
         height: 8px;
     }
+
     .navButtonLeft {
         left: 8px;
     }
+
     .navButtonRight {
         right: 8px;
     }
+
     .navButton {
         width: 32px;
         height: 32px;
@@ -348,25 +354,31 @@
     text-overflow: ellipsis;
     min-width: 0;
 }
+
 @media (max-width: 600px) {
     .calendarIcon {
         width: 56px;
         min-width: 56px;
         max-width: 56px;
     }
+
     .calendarMonth {
         font-size: 13px;
     }
+
     .calendarDate {
         padding: 6px;
         font-size: 14px;
     }
+
     .eventInfoLeft {
         gap: 16px;
     }
+
     .eventTitle {
         font-size: 18px;
     }
+
     .eventsHeader {
         margin-bottom: 12px;
     }
@@ -386,4 +398,3 @@
 
     margin: 0;
 }
-

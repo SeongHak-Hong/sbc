@@ -29,7 +29,7 @@
 .pageButton {
     font-size: 18px;
     font-weight: var(--font-weight-medium);
-    color: rgba(var(--color-text-secondary-rgb), 0.4);
+    color: var(--color-text-inactive);
 }
 
 .pageArrow {

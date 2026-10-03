@@ -21,7 +21,7 @@
 
 
 @media (max-width: 600px) {
-    
+
     .pageTitle {
         font-size: 28px;
     }
@@ -40,7 +40,7 @@
     height: 42px;
     border-radius: 50%;
     border: none;
-    background-color: rgba(var(--color-text-muted-rgb), 0.25);
+    background-color: rgba(var(--color-slate-400-rgb), 0.25);
     display: flex;
     flex-shrink: 0;
     align-items: center;
@@ -52,7 +52,7 @@
 }
 
 .navButton:hover:not(:disabled) {
-    background-color: rgba(var(--color-text-muted-rgb), 0.5);
+    background-color: rgba(var(--color-slate-400-rgb), 0.5);
 }
 
 .navButton img {
@@ -122,6 +122,7 @@
         opacity: 0;
         transform: translateX(-50%) translateY(-4px);
     }
+
     to {
         opacity: 1;
         transform: translateX(-50%) translateY(0);
@@ -293,9 +294,9 @@
 }
 
 .eventTitle {
-    
 
-    
+
+
     margin: 0;
     white-space: nowrap;
     overflow: hidden;
@@ -304,9 +305,9 @@
 }
 
 .eventMetaRow {
-    
 
-    
+
+
     margin: 0;
     display: flex;
     align-items: center;
@@ -319,32 +320,36 @@
         min-width: 56px;
         max-width: 56px;
     }
+
     .navButton {
         width: 32px;
         height: 32px;
     }
+
     .monthNav {
         gap: 24px;
     }
+
     .monthNavCenter {
         font-size: 18px;
     }
+
     .calendarMonth {
         font-size: 13px;
     }
+
     .calendarDate {
         padding: 6px;
         font-size: 14px;
     }
+
     .eventInfoLeft {
         gap: 16px;
     }
-    .eventTitle {
-        
-    }
-    .eventMetaRow {
-        
-    }
+
+    .eventTitle {}
+
+    .eventMetaRow {}
 }
 
 @keyframes slideUp {
@@ -352,9 +357,9 @@
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
-

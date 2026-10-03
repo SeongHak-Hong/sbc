@@ -7,7 +7,7 @@ const Footer = () => {
     const isSubpage = location.pathname !== '/';
     
     // Applying modular classes instead of global/inline ones
-    const themeClass = isSubpage ? `${styles.footerDark} ${styles.footerSubpage}` : styles.footerDark;
+    const themeClass = isSubpage ? `${styles.footerDark} ${styles.footerSubpage}` : `${styles.footerDark} ${styles.footerMain}`;
 
     return (
         <footer className={`${styles.footerSection} ${themeClass}`}>

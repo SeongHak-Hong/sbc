@@ -44,7 +44,8 @@ const LightRays = ({
     mouseInfluence = 0.1,
     noiseAmount = 0.0,
     distortion = 0.0,
-    className = ''
+    className = '',
+    paused = false
 }) => {
     const containerRef = useRef(null);
     const uniformsRef = useRef(null);
@@ -79,7 +80,7 @@ const LightRays = ({
     }, []);
 
     useEffect(() => {
-        if (!isVisible || !containerRef.current) return;
+        if (!isVisible || paused || !containerRef.current) return;
 
         if (cleanupFunctionRef.current) {
             cleanupFunctionRef.current();
@@ -94,7 +95,7 @@ const LightRays = ({
             if (!containerRef.current) return;
 
             const renderer = new Renderer({
-                dpr: Math.min(window.devicePixelRatio, 2),
+                dpr: 1, // 부드러운 빛줄기라 고해상도 불필요 (픽셀 수 1/4로 감소)
                 alpha: true
             });
             rendererRef.current = renderer;
@@ -248,7 +249,7 @@ void main() {
             const updatePlacement = () => {
                 if (!containerRef.current || !renderer) return;
 
-                renderer.dpr = Math.min(window.devicePixelRatio, 2);
+                renderer.dpr = 1;
 
                 const { clientWidth: wCSS, clientHeight: hCSS } = containerRef.current;
                 renderer.setSize(wCSS, hCSS);
@@ -333,6 +334,7 @@ void main() {
         };
     }, [
         isVisible,
+        paused,
         raysOrigin,
         raysColor,
         raysSpeed,

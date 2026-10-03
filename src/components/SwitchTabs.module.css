@@ -8,7 +8,7 @@
     padding: 8px 4px;
     border: none;
     background-color: transparent;
-    color: rgba(var(--color-text-secondary-rgb), 0.4);
+    color: var(--color-text-inactive);
     font-size: 20px;
     font-weight: 500; /* Usually tabs look better with a slight weight, but I'll stick to 400 default if not specified */
     position: relative;

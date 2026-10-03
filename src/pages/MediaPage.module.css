@@ -19,7 +19,7 @@
 
 
 @media (max-width: 600px) {
-    
+
     .pageTitle {
         font-size: 28px;
     }
@@ -81,8 +81,7 @@
     margin-top: 4px;
 }
 
-.videoInfo p {
-}
+.videoInfo p {}
 
 
 .date {
@@ -132,15 +131,18 @@
         grid-template-columns: 1fr;
         gap: 24px;
     }
+
     .videoCard {
         flex-direction: column;
         gap: 4px;
     }
+
     .thumbnailContainer {
         width: 100%;
         margin-left: 0;
         border-radius: 16px;
     }
+
     .badge {
         padding: 2px 8px;
         font-size: 13px;
@@ -253,16 +255,28 @@
     .modalHeader {
         padding: 20px 24px;
     }
+
     .modalBody {
         padding: 0 24px 48px;
     }
+
     .modalTitle {
         font-size: 18px;
     }
+
     .modalDesc {
         font-size: 14px;
     }
 }
 
-.switchWrapper { width: 100%; display: flex; justify-content: flex-start; }
-@media (max-width: 767px) { .switchWrapper { justify-content: center; } }
+.switchWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+@media (max-width: 767px) {
+    .switchWrapper {
+        justify-content: center;
+    }
+}

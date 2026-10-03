@@ -1,0 +1,199 @@
+.hero {
+    position: relative;
+    min-height: var(--home-hero-min-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px var(--grid-margin);
+    overflow: hidden;
+    text-align: center;
+    word-break: keep-all;
+}
+
+/* 숨 쉬는 원: 플랫한 #fafafa, 테두리·그림자 없음.
+   데스크톱은 콘텐츠 묶음 중앙, 모바일은 헤드라인 중앙에 맞춤 */
+.circleWrap {
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    width: var(--home-hero-circle-size);
+    aspect-ratio: 1;
+    margin: calc(var(--home-hero-circle-size) / -2) 0 0 calc(var(--home-hero-circle-size) / -2);
+    pointer-events: none;
+}
+
+.circle {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: var(--color-gray-50);
+    animation: breathe 10s ease-in-out infinite;
+}
+
+/* 들이쉬기 4초(0→40%) / 내쉬기 6초(40→100%) */
+@keyframes breathe {
+    0%, 100% { transform: scale(1); }
+    40% { transform: scale(1.05); }
+}
+
+.inner {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    max-width: var(--max-width);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.headline {
+    margin: 0;
+    font-family: var(--font-yuhan);
+    font-size: var(--home-hero-title-size);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-heading);
+    color: var(--color-text-primary);
+}
+
+.line {
+    display: block;
+}
+
+.word {
+    display: inline-block;
+}
+
+.sub {
+    margin: 40px 0 0;
+    font-size: var(--text-sub-title);
+    line-height: var(--line-height-base);
+    color: var(--color-text-tertiary);
+    white-space: pre-line;
+}
+
+.actions {
+    margin-top: 48px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+/* LargeButton 기본값(padding·radius·hover)을 링크에도 동일하게 적용 */
+.cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 28px;
+    border: none;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-btn);
+    font-size: var(--btn-font-size);
+    line-height: var(--line-height-base);
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+
+.cta:hover {
+    transform: translateY(-2px);
+}
+
+.cta:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 3px;
+}
+
+/* LargeButton의 하드코딩 배경(#245672)을 스펙의 Slate 700으로 덮어씀 */
+.cta.ctaPrimary {
+    background-color: var(--color-slate-700);
+    color: var(--color-white);
+}
+
+/* 원 위에 놓일 때도 구분되도록 흰색 */
+.ctaSecondary {
+    background-color: var(--color-white);
+    color: var(--color-text-tertiary);
+}
+
+/* 스크롤 안내: 트랙 안에서 점이 천천히 내려감 */
+.scrollCue {
+    position: absolute;
+    left: 50%;
+    bottom: 40px;
+    transform: translateX(-50%);
+}
+
+.scrollTrack {
+    position: relative;
+    display: block;
+    width: 2px;
+    height: 48px;
+    border-radius: var(--radius-pill);
+    background-color: rgba(var(--color-slate-400-rgb), 0.35);
+    overflow: hidden;
+}
+
+.scrollDot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 16px;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-slate-400);
+    animation: scrollCue 2.4s var(--ease-smooth) infinite;
+}
+
+@keyframes scrollCue {
+    0% { transform: translateY(-16px); }
+    70%, 100% { transform: translateY(48px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .circle,
+    .scrollDot {
+        animation: none;
+    }
+
+    .scrollDot {
+        top: 16px;
+    }
+
+    .cta,
+    .cta:hover {
+        transition: none;
+        transform: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .hero {
+        padding: 96px var(--grid-margin);
+    }
+
+    /* 두 줄 헤드라인의 세로 중앙 = 한 줄 높이 */
+    .circleWrap {
+        top: calc(var(--home-hero-title-size) * var(--line-height-heading));
+    }
+
+    .sub {
+        margin-top: 24px;
+    }
+
+    .actions {
+        width: 100%;
+        margin-top: 40px;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .cta {
+        width: 100%;
+        padding: 10px 24px;
+    }
+
+    .scrollCue {
+        bottom: 24px;
+    }
+}

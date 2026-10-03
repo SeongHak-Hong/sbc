@@ -1,0 +1,266 @@
+/* 시안 전용 스타일. 색·서체는 src/index.css 토큰을 그대로 사용 */
+html, body {
+    margin: 0;
+    background: linear-gradient(to bottom, #E7F5FD, #FCEBE0);
+    background-attachment: fixed;
+}
+
+.journey {
+    position: relative;
+    height: 420svh;
+}
+
+.journey.isStatic {
+    height: 100svh;
+}
+
+.stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+    /* 하늘: 위쪽은 조금 더 짙은 하늘색, 지평선은 거의 흰 하늘색 (장면 안개색과 같음)
+       사이트 배경의 피치색(#FCEBE0)은 넣지 않는다. 구름 사이를 지날 때 아래가 노을처럼 물들어 하늘답지 않았다 */
+    background: linear-gradient(to bottom, #BFDDF3 0%, #D9ECF9 50%, #EDF6FC 100%);
+}
+
+/* 로딩 화면 없이: 하늘과 헤드라인이 먼저 보이고, 구름은 준비되면 천천히 나타남 */
+.canvasWrap {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.canvasWrap.isReady {
+    opacity: 1;
+}
+
+.copy {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--grid-margin, 24px);
+    text-align: center;
+    pointer-events: none;
+    letter-spacing: -0.02em;
+    word-break: keep-all;
+}
+
+.copy[data-step="2"] {
+    justify-content: flex-end;
+    padding-bottom: 14svh;
+    opacity: 0;
+}
+
+.isStatic .copy[data-step="1"] {
+    justify-content: flex-start;
+    padding-top: 16svh;
+}
+
+.isStatic .copy[data-step="2"] {
+    opacity: 1;
+}
+
+.headline {
+    margin: 0;
+    font-family: var(--font-yuhan);
+    font-size: var(--home-hero-title-size);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-heading, 1.3);
+    color: var(--color-text-primary);
+}
+
+.line {
+    display: block;
+    animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.l1 { animation-delay: 0.3s; }
+.l2 { animation-delay: 1.2s; }
+
+@keyframes fadeIn {
+    from { opacity: 0.1; filter: blur(10px); }
+    to { opacity: 1; filter: blur(0); }
+}
+
+.sub {
+    margin: 0;
+    font-size: var(--text-sub-title, 20px);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+}
+
+.actions {
+    margin-top: 32px;
+    display: flex;
+    gap: 12px;
+    pointer-events: auto;
+}
+
+.cta {
+    padding: 14px 28px;
+    border: none;
+    border-radius: var(--radius-pill, 28px);
+    font-family: var(--font-btn);
+    font-size: var(--btn-font-size, 16px);
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.cta:hover { transform: translateY(-2px); }
+
+.ctaPrimary {
+    background-color: var(--color-slate-700);
+    color: var(--color-white);
+}
+
+.ctaSecondary {
+    background-color: var(--color-white);
+    color: var(--color-text-tertiary);
+}
+
+.placeholderNote {
+    margin: 20px 0 0;
+    font-size: 13px;
+    color: var(--color-text-muted);
+}
+
+.scrollCue {
+    position: absolute;
+    left: 50%;
+    bottom: 32px;
+    width: 2px;
+    height: 48px;
+    transform: translateX(-50%);
+    border-radius: 2px;
+    background: rgba(var(--color-text-primary-rgb), 0.15);
+    overflow: hidden;
+}
+
+.scrollCue span {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 16px;
+    background: var(--color-text-tertiary);
+    animation: cue 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes cue {
+    0% { transform: translateY(-16px); }
+    70%, 100% { transform: translateY(48px); }
+}
+
+.nextSection {
+    min-height: 80svh;
+    padding: 180px var(--grid-margin, 24px);
+    text-align: center;
+    color: var(--color-text-tertiary);
+    letter-spacing: -0.02em;
+}
+
+.nextSection h2 {
+    font-weight: var(--font-weight-regular);
+    color: var(--color-text-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .line, .scrollCue span { animation: none; }
+    .canvasWrap { transition: none; }
+}
+
+@media (max-width: 767px) {
+    .actions {
+        width: 100%;
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+/* 시안 전용: 텍스처 비교 토글 */
+.texToggle {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 2;
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    border-radius: var(--radius-pill, 28px);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+}
+
+.texToggle button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: var(--radius-pill, 28px);
+    background: transparent;
+    font-family: var(--font-btn);
+    font-size: 13px;
+    letter-spacing: -0.02em;
+    color: var(--color-text-tertiary);
+    cursor: pointer;
+}
+
+.texToggle button.isActive {
+    background: var(--color-slate-700);
+    color: var(--color-white);
+}
+
+.texToggle button:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
+}
+
+/* 시안 전용: 나란히 비교 (?compare=1) */
+.splitDivider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+    width: 32px;
+    transform: translateX(-50%);
+    cursor: ew-resize;
+    touch-action: none;
+}
+
+.splitDivider span {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.85);
+}
+
+.splitDivider:focus-visible {
+    outline: none;
+}
+
+.splitDivider:focus-visible span {
+    background: var(--color-accent-sky);
+}
+
+.splitLabel {
+    position: absolute;
+    bottom: 24px;
+    z-index: 2;
+    margin: 0;
+    padding: 6px 12px;
+    border-radius: var(--radius-pill, 28px);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+    font-size: 13px;
+    letter-spacing: -0.02em;
+    color: var(--color-text-tertiary);
+    pointer-events: none;
+}
+
+.splitLabelLeft { left: 16px; }
+.splitLabelRight { right: 16px; }

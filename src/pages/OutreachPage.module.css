@@ -50,17 +50,21 @@
     gap: 16px;
 }
 
-.missionName {    font-size: 18px;
+.missionName {
+    font-size: 18px;
     color: var(--color-text-primary);
     margin: 0;
-    word-break: keep-all;}
+    word-break: keep-all;
+}
 
-.missionDetails {    font-size: 18px;
+.missionDetails {
+    font-size: 18px;
     color: var(--color-text-muted);
     margin: 0;
     text-align: right;
     word-break: keep-all;
-    flex-shrink: 0;}
+    flex-shrink: 0;
+}
 
 @media (max-width: 480px) {
     .missionItem {
@@ -82,13 +86,17 @@
     gap: 24px;
 }
 
-.blockTitle {    font-size: 20px;    color: var(--color-text-primary);
+.blockTitle {
+    font-size: 20px;
+    color: var(--color-text-primary);
     margin-bottom: 8px;
     padding-bottom: 16px;
     border-bottom: 1px solid rgba(var(--color-text-primary-rgb), 0.2);
 }
 
-.evangelismDesc {    font-size: 18px;    color: var(--color-text-muted);
+.evangelismDesc {
+    font-size: 18px;
+    color: var(--color-text-muted);
 }
 
 .teamList {
@@ -99,10 +107,13 @@
     list-style: none;
 }
 
-.teamItem {    font-size: 18px;    color: var(--color-text-muted);
+.teamItem {
+    font-size: 18px;
+    color: var(--color-text-muted);
 }
 
-.teamName {    color: var(--color-text-primary);
+.teamName {
+    color: var(--color-text-primary);
 }
 
 .scheduleList {
@@ -114,10 +125,14 @@
 .scheduleItem {
     display: grid;
     grid-template-columns: 160px 1fr;
-    gap: 16px;    font-size: 18px;    color: var(--color-text-muted);}
+    gap: 16px;
+    font-size: 18px;
+    color: var(--color-text-muted);
+}
 
 .scheduleTime {
-    color: var(--color-text-primary);}
+    color: var(--color-text-primary);
+}
 
 @media (max-width: 600px) {
     .scheduleItem {
@@ -127,10 +142,27 @@
 }
 
 .contactInfo {
-    margin-top: 24px;    font-size: 20px;    color: var(--color-text-primary);
+    margin-top: 24px;
+    font-size: 20px;
+    color: var(--color-text-primary);
     text-align: right;
 }
-@media (max-width: 600px) {  .pageTitle { font-size: 28px; } }
 
-.switchWrapper { display: flex; width: 100%; justify-content: flex-start; margin-bottom: 24px; }
-@media (max-width: 600px) { .switchWrapper { justify-content: center; } }
+@media (max-width: 600px) {
+    .pageTitle {
+        font-size: 28px;
+    }
+}
+
+.switchWrapper {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 600px) {
+    .switchWrapper {
+        justify-content: center;
+    }
+}

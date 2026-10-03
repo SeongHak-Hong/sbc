@@ -52,11 +52,7 @@
   font-style: normal;
 }
 
-@font-face {
-  font-family: 'Playfair Display';
-  src: url('/fonts/PlayfairDisplay-Regular.ttf') format('truetype');
-  font-style: normal;
-}
+
 
 
 
@@ -70,7 +66,7 @@
   --font-body: 'JayeonSans', sans-serif;
   --font-letter: 'JayeonSans', sans-serif;
   --font-btn: 'JayeonSans', sans-serif;
-  --font-yuhan: 'JayeonSans', sans-serif;
+  --font-yuhan: 'YuhanKimberly', 'JayeonSans', sans-serif;
 
   --color-text-white-secondary: rgba(255, 255, 255, 0.8);
 
@@ -141,11 +137,15 @@
 
   /* Primitive Tokens (Global) */
   --color-slate-400: #AEB4B7;
+  --color-slate-400-rgb: 174, 180, 183;
+  --color-slate-500: #80898D;
   --color-slate-600: #626C71;
   --color-slate-700: #3B5462;
 
   /* Text Colors (Semantic) */
   --color-background-beige: #F0EEED;
+  --color-background-deep: #243B48;
+  --color-background-deeper: #1A2C36;
   --color-text-primary: #243B48;
   --color-text-primary-rgb: 36, 59, 72;
   --color-text-secondary: var(--color-slate-700);
@@ -153,8 +153,9 @@
   --color-text-tertiary: var(--color-slate-600);
   --color-text-tertiary-rgb: 98, 108, 113;
   --color-text-body: #505050;
-  --color-text-muted: var(--color-slate-400);
-  --color-text-muted-rgb: 174, 180, 183;
+  --color-text-muted: var(--color-slate-500);
+  --color-text-muted-rgb: 128, 137, 141;
+  --color-text-inactive: rgba(var(--color-text-secondary-rgb), 0.65);
   --color-text-placeholder: #94A3B8;
   --color-text-placeholder-rgb: 148, 163, 184;
   --color-text-warm-primary: #625852;
@@ -175,6 +176,26 @@
   --header-padding-x: var(--grid-margin);
   --header-logo-height: 30px;
   --subpage-header-padding-top: 160px;
+}
+
+/* Main Page Extension Tokens (docs/home_spec.md §4) */
+:root {
+  --color-accent-sky: #37ABEA;
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --home-hero-min-height: 100svh;
+  --home-hero-title-size: clamp(44px, 7.5vw, 112px);
+  --home-hero-circle-size: min(78svh, 92vw);
+  --home-section-gap: 64px;
+  --radius-card: 48px;
+  --radius-pill: 28px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --home-section-gap: 40px;
+    --home-hero-circle-size: min(58svh, 96vw);
+    --radius-card: 24px;
+  }
 }
 
 body {
@@ -559,6 +580,50 @@ button span.icon {
 .toastui-editor-contents *,
 .ProseMirror * {
   margin: 0 !important;
+}
+
+/* 게시물 표: 관리자가 색을 고르지 않아도 항상 읽히도록 사이트가 스타일을 정함.
+   (기본값 #555 배경 + 흰 글씨는 위의 p 색상 !important에 덮여 안 보였음)
+   게시물 뷰어와 관리자 에디터에 동일하게 적용 */
+html .toastui-editor-contents table {
+  margin: 16px 0 !important;
+  border-collapse: collapse;
+  border: none;
+}
+
+html .toastui-editor-contents table th,
+html .toastui-editor-contents table td {
+  padding: 8px 14px;
+  border: 1px solid rgba(var(--color-text-muted-rgb), 0.3);
+  word-break: keep-all;
+  vertical-align: middle;
+}
+
+html .toastui-editor-contents table th {
+  background-color: var(--color-background-beige);
+  font-weight: 500;
+}
+
+/* 글씨색은 본문과 동일하게 두고(위 p 규칙의 --color-text-body), 굵기로만 구분 */
+html .toastui-editor-contents table th p,
+html .toastui-editor-contents table th span {
+  font-weight: 500;
+}
+
+/* 모바일: 칸 너비를 유지하고 표만 가로로 밀어서 보기 */
+@media (max-width: 767px) {
+  html .toastui-editor-contents table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  html .toastui-editor-contents table th,
+  html .toastui-editor-contents table td {
+    min-width: 72px;
+    padding: 8px 10px;
+  }
 }
 
 .toastui-editor-contents h1,

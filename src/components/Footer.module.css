@@ -8,6 +8,17 @@
     background-color: var(--color-background-dark);
 }
 
+/* 메인: 마지막 섹션(Deep Teal)보다 한 단계 어둡게 이어서 마무리 */
+.footerMain {
+    background-color: var(--color-background-deeper);
+}
+
+.footerMain .links,
+.footerMain .infoWrapper,
+.footerMain .infoWrapper p {
+    color: var(--color-text-white-secondary);
+}
+
 .footerDark {
     color: var(--color-white);
 }

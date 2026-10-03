@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 import LightRays from './LightRays';
 import { BlurFade } from './ui/BlurFade';
 import heroVideo from '../assets/main/shintanjin-baptist-church-hero-bg.mp4';
@@ -10,6 +10,22 @@ const HeroSection = () => {
 
     // Parallax effects for the text (moves upwards)
     const textY = useTransform(scrollY, [0, 1000], [0, -200]);
+
+    // sticky라 아래 섹션에 완전히 덮여도 계속 렌더링됨 → 덮이면 영상·빛줄기 정지
+    const videoRef = useRef(null);
+    const [isCovered, setIsCovered] = useState(false);
+
+    useMotionValueEvent(scrollY, 'change', (y) => {
+        const covered = y > window.innerHeight;
+        if (covered !== isCovered) setIsCovered(covered);
+    });
+
+    useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+        if (isCovered) video.pause();
+        else video.play().catch(() => {});
+    }, [isCovered]);
 
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth <= 767);
@@ -63,9 +79,10 @@ const HeroSection = () => {
     };
 
     return (
-        <section style={sectionStyle}>
+        <section style={{ ...sectionStyle, visibility: isCovered ? 'hidden' : 'visible' }}>
             {/* Background Video */}
             <video
+                ref={videoRef}
                 autoPlay
                 loop
                 muted
@@ -109,6 +126,7 @@ const HeroSection = () => {
                     noiseAmount={0.1}
                     distortion={0.05}
                     className="custom-rays"
+                    paused={isCovered}
                 />
             </div>
 

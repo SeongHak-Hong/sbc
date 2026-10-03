@@ -19,7 +19,7 @@
 
 
 @media (max-width: 600px) {
-    
+
     .pageTitle {
         font-size: 28px;
     }
@@ -60,7 +60,7 @@
     margin: 0 0 2px 0;
     line-height: 1.4;
     word-break: keep-all;
-    
+
     /* Multiline ellipsis for up to 2 lines */
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -90,6 +90,7 @@
     .eventsGrid {
         grid-template-columns: 1fr;
     }
+
     .eventCard {
         padding: 28px 24px;
         border-radius: 40px;
