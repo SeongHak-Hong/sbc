@@ -518,8 +518,9 @@ const PostDetailPage = () => {
                 const data = docSnap.data();
                 setPost({ id: docSnap.id, ...data });
 
-                await updateDoc(docRef, {
-                    views: increment(1)
+                // 조회수 증가는 게시물 로딩과 분리 (실패해도 로딩 에러로 취급하지 않음)
+                updateDoc(docRef, { views: increment(1) }).catch((error) => {
+                    console.warn('조회수 증가 실패:', error);
                 });
             } else {
                 alert('존재하지 않는 게시물입니다.');
