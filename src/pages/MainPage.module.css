@@ -470,11 +470,6 @@
   text-decoration: none;
   -webkit-user-select: none;
   user-select: none;
-  transition: transform 200ms var(--ease-out);
-}
-
-.phone:active {
-  transform: scale(0.98);
 }
 
 .phoneScreen {
@@ -498,34 +493,113 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.88;
-  transition: transform 300ms var(--ease-out);
+  opacity: 1;
 }
 
-.phoneIcon {
-  position: relative;
+.shortsContent {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 7.75rem 2.5rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.25rem;
+  text-align: center;
+  font-family: var(--font-title);
+  letter-spacing: -0.03em;
   z-index: 1;
-  width: 4.5rem;
-  height: auto;
-  transition: transform 200ms var(--ease-out);
+}
+
+.shortsLabel {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 136, 0.5);
+  letter-spacing: -0.03em;
+  font-weight: 400;
+  margin: 0;
+}
+
+.shortsTitle {
+  font-size: 1.75rem;
+  line-height: 1.4;
+  color: rgb(255, 255, 136);
+  letter-spacing: -0.03em;
+  font-weight: var(--font-weight-medium, 500);
+  word-break: keep-all;
+  margin: 0;
+}
+
+.shortsPlayBtn {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  min-width: 3.5rem;
+  min-height: 3.5rem;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  background: rgba(12, 14, 18, 0.6);
+  color: #fff;
+  line-height: 1;
+  gap: 0;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  z-index: 2;
+  transition: transform 140ms var(--ease-out), background-color 140ms ease;
+}
+
+.shortsPlayBtn svg {
+  width: 28px;
+  height: 28px;
+  display: block;
+  flex-shrink: 0;
+  margin-left: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .shortsPlayBtn:hover {
+    background: rgba(12, 14, 18, 0.8);
+  }
+}
+
+.shortsPlayBtn:active {
+  transform: translate(-50%, -50%) scale(0.94);
+}
+
+.shortsPlayBtn:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+.shortsIframe {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  border: 0;
+  border-radius: inherit;
+  z-index: 2;
 }
 
 .phoneFrame {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   width: 100%;
   height: auto;
   pointer-events: none;
   display: block;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .phone:hover .phoneThumb {
-    transform: scale(1.03);
-  }
-  .phone:hover .phoneIcon {
-    transform: scale(1.06);
-  }
 }
 
 /* ---------- ⑤ 자주 묻는 것 ---------- */
@@ -726,8 +800,29 @@
     width: min(240px, 65vw);
   }
 
-  .phoneIcon {
-    width: 3.75rem;
+  .shortsContent {
+    padding: calc(7.75rem * 240 / 360) calc(2.5rem * 240 / 360);
+    gap: calc(0.25rem * 240 / 360);
+  }
+
+  .shortsLabel {
+    font-size: calc(0.875rem * 240 / 360);
+  }
+
+  .shortsTitle {
+    font-size: calc(1.75rem * 240 / 360);
+  }
+
+  .shortsPlayBtn {
+    width: 2.75rem;
+    height: 2.75rem;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+
+  .shortsPlayBtn svg {
+    width: 20px;
+    height: 20px;
   }
 
   .fqItem summary {

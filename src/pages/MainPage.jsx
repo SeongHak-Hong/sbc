@@ -12,7 +12,7 @@ import smallGroupPhoto from '../assets/main/shintanjin-baptist-church-small-grou
 import outreachPhoto from '../assets/main/shintanjin-baptist-church-neighbor-outreach.webp';
 import bgmAudio from '../assets/main/My-peace-I-give-unto-you.mp3';
 import phoneFrame from '../assets/main/iPhone-14-Pro.webp';
-import shortsIcon from '../assets/main/Youtube-shorts-icon.webp';
+import shortsThumbBg from '../assets/main/shorts-thumbnail.webp';
 
 const CHANNEL_ID = 'UCj3wg1t2u2eiMQxWIgT2OeQ';
 const FALLBACK_SHORTS = [{ id: 'bQ8ybnIaKDY', title: '신탄진침례교회 말씀 쇼츠' }];
@@ -20,10 +20,15 @@ const CACHE_KEY = 'sbc_proto_shorts_v2';
 const NOT_SERMON = /유치부|초등부|중고등부|청년부|예배대장|광고|공지/;
 const CACHE_MS = 6 * 60 * 60 * 1000;
 
+function cleanShortsTitle(s) {
+  if (!s) return '';
+  return s.replace(/#\S+/g, '').replace(/\s{2,}/g, ' ').trim();
+}
+
 function decodeEntities(s) {
   const t = document.createElement('textarea');
   t.innerHTML = s;
-  return t.value.replace(/#\S+/g, '').replace(/\s{2,}/g, ' ').trim();
+  return cleanShortsTitle(t.value);
 }
 
 const MainPage = () => {
@@ -40,7 +45,122 @@ const MainPage = () => {
 
   // 3) 설교 쇼츠 상태
   const [shortVideo, setShortVideo] = useState(FALLBACK_SHORTS[0]);
-  const [shortThumbLoaded, setShortThumbLoaded] = useState(false);
+  const [isShortPlaying, setIsShortPlaying] = useState(false);
+  const shortsIframeRef = useRef(null);
+  const shortsPlayerRef = useRef(null);
+
+  // YouTube IFrame API 스크립트 로드
+  useEffect(() => {
+    if (!window.YT && !document.getElementById('youtube-iframe-api')) {
+      const tag = document.createElement('script');
+      tag.id = 'youtube-iframe-api';
+      tag.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(tag);
+    }
+  }, []);
+
+  // 쇼츠 재생 중일 때 기존 <iframe>에 플레이어 이벤트 바인딩 및 종료 감지
+  useEffect(() => {
+    if (!isShortPlaying) {
+      shortsPlayerRef.current = null;
+      return;
+    }
+
+    let isMounted = true;
+    let pollTimer = null;
+    let lastTime = 0;
+
+    const stopAndReset = () => {
+      if (isMounted) {
+        if (pollTimer) clearInterval(pollTimer);
+        setIsShortPlaying(false);
+      }
+    };
+
+    const startPolling = (player) => {
+      if (pollTimer) clearInterval(pollTimer);
+      pollTimer = setInterval(() => {
+        if (!isMounted || !player) return;
+        try {
+          if (typeof player.getCurrentTime === 'function' && typeof player.getDuration === 'function') {
+            const current = player.getCurrentTime();
+            const duration = player.getDuration();
+
+            if (duration > 0) {
+              // 1) 영상 끝 0.4초 이내에 도달했거나 넘어간 경우 (중간 스킵 후 끝 도달 포함)
+              if (duration - current <= 0.4) {
+                stopAndReset();
+                return;
+              }
+              // 2) 유튜브 쇼츠 자체 루프로 인해 끝에서 0초 부근으로 다시 튀는 경우
+              if (lastTime > Math.max(0, duration - 1.5) && current < 1.0) {
+                stopAndReset();
+                return;
+              }
+            }
+            lastTime = current;
+          }
+        } catch {}
+      }, 150);
+    };
+
+    const bindPlayer = () => {
+      if (!isMounted || !shortsIframeRef.current) return;
+      if (!window.YT || !window.YT.Player) return;
+
+      try {
+        shortsPlayerRef.current = new window.YT.Player(shortsIframeRef.current, {
+          events: {
+            onReady: (event) => {
+              if (isMounted) {
+                startPolling(event.target);
+              }
+            },
+            onStateChange: (event) => {
+              // 0: YT.PlayerState.ENDED (영상 재생 종료)
+              if (event.data === 0) {
+                stopAndReset();
+              } else if (event.target) {
+                startPolling(event.target);
+              }
+            },
+          },
+        });
+      } catch (err) {
+        console.warn('YouTube Player binding:', err);
+      }
+    };
+
+    if (window.YT && window.YT.Player) {
+      bindPlayer();
+    } else {
+      const prev = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        if (prev) prev();
+        bindPlayer();
+      };
+    }
+
+    // postMessage 백업 감지 (enablejsapi=1)
+    const handleMessage = (e) => {
+      try {
+        const data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
+        if (data && (data.event === 'onStateChange' || data.info === 0)) {
+          if (data.info === 0) {
+            stopAndReset();
+          }
+        }
+      } catch {}
+    };
+    window.addEventListener('message', handleMessage);
+
+    return () => {
+      isMounted = false;
+      if (pollTimer) clearInterval(pollTimer);
+      window.removeEventListener('message', handleMessage);
+      shortsPlayerRef.current = null;
+    };
+  }, [isShortPlaying, shortVideo.id]);
 
   // 4) 카드 트랙 가로 스크롤
   const trackRef = useRef(null);
@@ -416,25 +536,43 @@ const MainPage = () => {
                 전체 영상 보러 가기
               </a>
             </div>
-            <a
-              className={styles.phone}
-              href={`https://www.youtube.com/shorts/${shortVideo.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="최신 1분 말씀 영상 유튜브에서 보기"
-            >
-              <span className={styles.phoneScreen}>
-                <img
-                  className={styles.phoneThumb}
-                  src={`https://i.ytimg.com/vi/${shortVideo.id}/oar2.jpg`}
-                  alt=""
-                  onLoad={() => setShortThumbLoaded(true)}
-                  style={{ display: shortThumbLoaded ? 'block' : 'none' }}
-                />
-                <img className={styles.phoneIcon} src={shortsIcon} alt="" width="72" height="72" />
-              </span>
+            <div className={styles.phone}>
+              <div className={styles.phoneScreen}>
+                {isShortPlaying ? (
+                  <iframe
+                    ref={shortsIframeRef}
+                    className={styles.shortsIframe}
+                    src={`https://www.youtube.com/embed/${shortVideo.id}?enablejsapi=1&autoplay=1&rel=0&playsinline=1&loop=0`}
+                    title={cleanShortsTitle(shortVideo.title) || "주일설교 쇼츠"}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                ) : (
+                  <>
+                    <img
+                      className={styles.phoneThumb}
+                      src={shortsThumbBg}
+                      alt=""
+                    />
+                    <div className={styles.shortsContent}>
+                      <span className={styles.shortsLabel}>주일설교 쇼츠</span>
+                      <strong className={styles.shortsTitle}>{cleanShortsTitle(shortVideo.title)}</strong>
+                    </div>
+                    <button
+                      className={styles.shortsPlayBtn}
+                      type="button"
+                      onClick={() => setIsShortPlaying(true)}
+                      aria-label="쇼츠 영상 재생"
+                    >
+                      <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+                        <path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" />
+                      </svg>
+                    </button>
+                  </>
+                )}
+              </div>
               <img className={styles.phoneFrame} src={phoneFrame} alt="" loading="lazy" />
-            </a>
+            </div>
           </div>
         </section>
 
