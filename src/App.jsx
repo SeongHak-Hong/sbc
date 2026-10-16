@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import PageTransitionLottie from './components/ui/PageTransitionLottie';
 import Header from './components/Header';
 import MainPage from './pages/MainPage';
 import WelcomePage from './pages/WelcomePage';
@@ -18,7 +17,6 @@ import NetworkPage from './pages/NetworkPage';
 import PostDetailPage from './pages/PostDetailPage';
 import MediaPage from './pages/MediaPage';
 import ScrollToTop from './components/ScrollToTop';
-import MobileScrollFade from './components/ui/MobileScrollFade';
 
 // Admin Imports
 import AdminLayout from './components/admin/AdminLayout';
@@ -113,7 +111,6 @@ function AppRoutes() {
 
   return (
     <>
-      <PageTransitionLottie />
       {!isAdminRoute && <Header />}
       
       <AnimatePresence mode="wait">
@@ -207,7 +204,6 @@ function App() {
       <GlobalErrorBoundary>
         <SquiCircleFilterStatic />
         <ScrollToTop />
-        <MobileScrollFade />
         <AppRoutes />
       </GlobalErrorBoundary>
     </Router>

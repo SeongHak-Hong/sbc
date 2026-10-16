@@ -1,31 +1,82 @@
 import React, { useState, useEffect, useRef } from 'react';
-import logoSbc from '../assets/shintanjin-baptist-church-logo.svg';
-import '../index.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import LargeButton from './ui/LargeButton';
-import styles from './MenuDropdown.module.css';
+import logoSbc from '../assets/shintanjin-baptist-church-logo.svg';
+import styles from './Header.module.css';
+
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [activeSubmenu, setActiveSubmenu] = useState(null);
-    
-    // SCROLL STATES
+    const [isDrilled, setIsDrilled] = useState(false);
+    const [activeDrillId, setActiveDrillId] = useState(null);
+    const [activeFlyoutId, setActiveFlyoutId] = useState(null);
+
+    // 스크롤 상태: 아래로 스크롤 시 숨김, 위로 올릴 때만 헤더 노출
     const [isVisible, setIsVisible] = useState(true);
     const [isScrolled, setIsScrolled] = useState(false);
     const lastScrollY = useRef(0);
+    const closeTimer = useRef(null);
+    const openTimer = useRef(null);
+    const navRef = useRef(null);
+    const flyoutInnerRef = useRef(null);
+    const flyoutGroupRefs = useRef({});
 
     const location = useLocation();
     const navigate = useNavigate();
-    const isSubpage = location.pathname !== '/';
-    const menuRef = useRef(null);
-    const toggleBtnRef = useRef(null);
+    const isHistoryPage = location.pathname === '/history';
 
-    // Scroll listener
+    // 1depth 메뉴 및 2depth 서브메뉴 데이터
+    const menuItems = [
+        {
+            id: "about",
+            title: "교회소개",
+            subLabel: "교회소개 살펴보기",
+            links: [
+                { text: "인사말 · 비전", path: "/vision" },
+                { text: "교회 안내", path: "/guide" },
+                { text: "추억 갤러리", path: "/history" },
+                { text: "섬기는 사람들", path: "/team" },
+            ]
+        },
+        {
+            id: "media",
+            title: "예배영상",
+            path: "/media"
+        },
+        {
+            id: "community",
+            title: "공동체",
+            subLabel: "공동체 살펴보기",
+            links: [
+                { text: "새가족", path: "/welcome" },
+                { text: "구역 안내", path: "/community" }
+            ]
+        },
+        {
+            id: "nextgen",
+            title: "다음세대",
+            path: "/nextgen"
+        },
+        {
+            id: "outreach",
+            title: "선교전도",
+            path: "/outreach"
+        },
+        {
+            id: "news",
+            title: "나눔터",
+            subLabel: "나눔터 살펴보기",
+            links: [
+                { text: "소식 · 주보", path: "/news?tab=koinonia" },
+                { text: "교회 일정", path: "/events" },
+                { text: "성도 사업체", path: "/network" }
+            ]
+        }
+    ];
+
+    // 스크롤 리스너: '위로 올릴 때만' 헤더 노출 규칙 적용
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
-            
-            setIsScrolled(currentScrollY > 50);
+            setIsScrolled(currentScrollY > 40);
 
             if (currentScrollY <= 0) {
                 setIsVisible(true);
@@ -35,7 +86,9 @@ const Header = () => {
                     setIsVisible(true);
                 } else if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
                     // Scrolling down
-                    setIsVisible(false);
+                    if (!isMenuOpen && !activeFlyoutId) {
+                        setIsVisible(false);
+                    }
                 }
             }
             lastScrollY.current = currentScrollY;
@@ -43,241 +96,315 @@ const Header = () => {
 
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    }, [isMenuOpen, activeFlyoutId]);
 
-    // Prevent background scrolling when menu is open
+    // 라우트 변경 시 메뉴 및 시트 닫기
     useEffect(() => {
-        if (isMenuOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-            // Close submenus after delay when menu closes
-            setTimeout(() => setActiveSubmenu(null), 300);
-        }
+        closeAll();
+    }, [location.pathname]);
+
+    // 모바일 메뉴 열렸을 때 body 스크롤 방지
+    useEffect(() => {
+        if (!isMenuOpen) return;
+        // 메뉴가 열린 동안 뒤 페이지 Lenis 스크롤도 멈춤 (메뉴 안만 스크롤)
+        document.body.style.overflow = 'hidden';
+        window.lenis?.stop();
         return () => {
             document.body.style.overflow = '';
+            window.lenis?.start();
         };
     }, [isMenuOpen]);
 
-    // Close menu when clicking outside
+    // ESC 키로 닫기
     useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (isMenuOpen && 
-                menuRef.current && !menuRef.current.contains(e.target) &&
-                toggleBtnRef.current && !toggleBtnRef.current.contains(e.target)) {
-                setIsMenuOpen(false);
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') {
+                closeAll();
             }
         };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [isMenuOpen]);
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
 
-    const isHistoryPage = location.pathname === '/history';
-    const forceVisible = isHistoryPage || isMenuOpen;
-    const finalIsVisible = isVisible || forceVisible;
-
-    const isSolidWhite = isScrolled && finalIsVisible && !isMenuOpen && !isHistoryPage;
-
-    const headerStyle = {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingTop: 'var(--header-padding-y)',
-        paddingBottom: 'var(--header-padding-y)',
-        color: isSolidWhite ? 'var(--color-text-primary)' : 'var(--color-white)',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        zIndex: 100,
-        paddingLeft: 'var(--header-padding-left, var(--header-padding-x))',
-        paddingRight: 'var(--header-padding-right, var(--header-padding-x))',
-        boxSizing: 'border-box',
-        backgroundColor: 'transparent',
-        transform: finalIsVisible ? 'translateY(0)' : 'translateY(-100%)',
-        transition: 'transform 0.3s ease, background-color 0.3s ease',
-        boxShadow: 'none'
-    };
-
-    const handleLinkClick = (e, path) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (path.startsWith('http')) {
-            window.open(path, '_blank', 'noopener,noreferrer');
-        } else {
-            navigate(path);
-        }
+    const closeAll = () => {
+        clearTimeout(closeTimer.current);
+        clearTimeout(openTimer.current);
+        setActiveFlyoutId(null);
         setIsMenuOpen(false);
+        setIsDrilled(false);
+        setActiveDrillId(null);
     };
 
-    const toggleSubmenu = (id, e) => {
-        e.stopPropagation();
-        if (activeSubmenu === id) {
-            setActiveSubmenu(null);
+    // PC 호버 드롭다운 핸들러
+    // 배경 판(.nav::before)이 늘어날 높이 = 활성 그룹 높이 + 시트 위아래 여백. 그룹마다 달라서 전환 때 부드럽게 늘고 줄어듦
+    const setFlyoutHeight = (id) => {
+        const group = flyoutGroupRefs.current[id];
+        const inner = flyoutInnerRef.current;
+        if (!group || !inner || !navRef.current) return;
+        const cs = getComputedStyle(inner);
+        const h = group.offsetHeight + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+        navRef.current.style.setProperty('--flyout-h', `${h}px`);
+    };
+
+    const handleFlyoutOpen = (id) => {
+        clearTimeout(closeTimer.current);
+        clearTimeout(openTimer.current);
+        setFlyoutHeight(id);
+        setActiveFlyoutId(id);
+    };
+
+    // 이미 열려 있으면 바로 교체, 닫혀 있으면 잠깐 머물렀을 때만 열기 (스쳐 지나갈 때 깜빡이지 않게)
+    const handleFlyoutHover = (id) => {
+        clearTimeout(openTimer.current);
+        if (activeFlyoutId) handleFlyoutOpen(id);
+        else openTimer.current = setTimeout(() => handleFlyoutOpen(id), 120);
+    };
+
+    const handleFlyoutScheduleClose = (delay = 140) => {
+        clearTimeout(closeTimer.current);
+        clearTimeout(openTimer.current);
+        closeTimer.current = setTimeout(() => {
+            setActiveFlyoutId(null);
+        }, delay);
+    };
+
+    const handleNavLinkClick = (e, item) => {
+        if (item.path) {
+            navigate(item.path);
+            closeAll();
+        } else if (item.links) {
+            e.preventDefault();
+            if (activeFlyoutId === item.id) {
+                setActiveFlyoutId(null);
+            } else {
+                handleFlyoutOpen(item.id);
+            }
+        }
+    };
+
+    const handleSubLinkClick = (e, path) => {
+        e.preventDefault();
+        navigate(path);
+        closeAll();
+    };
+
+    // 모바일 메뉴 토글
+    const handleMobileToggle = () => {
+        if (isMenuOpen) {
+            closeAll();
         } else {
-            setActiveSubmenu(id);
+            clearTimeout(closeTimer.current);
+            setActiveFlyoutId(null);
+            setIsMenuOpen(true);
+            setIsDrilled(false);
+            setActiveDrillId(null);
         }
     };
 
-    const menuData = [
-        {
-            id: "step-1", title: "교회소개", icon: "church", iconColor: styles.iconBlue,
-            links: [
-                { text: "인사말 · 비전", path: "/vision" },
-                { text: "교회 안내", path: "/guide" },
-                { text: "추억 갤러리", path: "/history" },
-                { text: "섬기는 사람들", path: "/team" },
-            ]
-        },
-        {
-            id: "step-2", title: "예배 영상", icon: "music_note", iconColor: styles.iconBlue,
-            singlePagePath: "/media"
-        },
-        {
-            id: "step-3", title: "공동체", icon: "local_library", iconColor: styles.iconBlue,
-            links: [
-                { text: "새가족", path: "/welcome" },
-                { text: "구역 안내", path: "/community" }
-            ]
-        },
-        {
-            id: "step-4", title: "다음세대", icon: "child_care", iconColor: styles.iconBlue,
-            singlePagePath: "/nextgen"
-        },
-        {
-            id: "step-5", title: "선교전도", icon: "public", iconColor: styles.iconBlue,
-            singlePagePath: "/outreach"
-        },
-        {
-            id: "step-6", title: "나눔터", icon: "forum", iconColor: styles.iconBlue,
-            links: [
-                { text: "소식 · 주보", path: "/news?tab=koinonia" },
-                { text: "교회 일정", path: "/events" },
-                { text: "성도 사업체", path: "/network" }
-            ]
-        }
-    ];
+    const handleDrillInto = (id) => {
+        setActiveDrillId(id);
+        setIsDrilled(true);
+    };
+
+    const handleDrillBack = () => {
+        setIsDrilled(false);
+    };
+
+    const isHeaderActuallyVisible = isVisible || isHistoryPage || isMenuOpen || !!activeFlyoutId;
 
     return (
         <>
-            <header style={headerStyle}>
-            <Link to="/" className={styles.logo} style={{ color: (isSubpage || isSolidWhite) ? 'var(--color-slate-700)' : 'var(--color-white)', textDecoration: 'none' }}>
-                <div
-                    style={{ 
-                        height: 'var(--header-logo-height)', 
-                        aspectRatio: '461 / 67',
-                        backgroundColor: (isSubpage || isSolidWhite) ? 'var(--color-slate-700)' : 'var(--color-white)',
-                        WebkitMaskImage: `url("${logoSbc}")`,
-                        maskImage: `url("${logoSbc}")`,
-                        WebkitMaskSize: 'contain',
-                        maskSize: 'contain',
-                        WebkitMaskRepeat: 'no-repeat',
-                        maskRepeat: 'no-repeat',
-                        transition: 'height 0.3s ease, background-color 0.3s ease' 
-                    }}
-                    role="img"
-                    aria-label="신탄진교회"
-                />
-            </Link>
-            
-            <div className={styles.toggleContainer}>
-                <button 
-                    ref={toggleBtnRef}
-                    className={`${styles.toggleBtn} ${isMenuOpen ? styles.open : ''}`}
-                    onClick={(e) => { e.stopPropagation(); setIsMenuOpen(!isMenuOpen); }}
-                >
-                    {isMenuOpen ? (
-                        <span className={`material-symbols-outlined ${styles.iconClose}`} translate="no">close</span>
-                    ) : (
-                        <img src="/icon-menu.svg" alt="menu" className={styles.iconMenu} />
-                    )}
-                    <span className={styles.toggleBtnText}>{isMenuOpen ? '닫기' : '메뉴'}</span>
-                </button>
+            <header
+                ref={navRef}
+                className={`
+                    ${styles.nav}
+                    ${isHeaderActuallyVisible ? styles.navVisible : styles.navHidden}
+                    ${isScrolled ? styles.navScrolled : ''}
+                    ${activeFlyoutId ? styles.navFlyoutOpen : ''}
+                    ${isMenuOpen ? styles.navOpen : ''}
+                    ${isDrilled ? styles.navDrilled : ''}
+                `}
+                onPointerEnter={() => clearTimeout(closeTimer.current)}
+                onPointerLeave={() => {
+                    if (activeFlyoutId) handleFlyoutScheduleClose(140);
+                }}
+            >
+                <div className={styles.navInner}>
+                    {/* 모바일 2depth: 헤더 좌측 상단(로고 자리)의 '< 전체 메뉴' 버튼 */}
+                    <button
+                        type="button"
+                        className={styles.navMobileBack}
+                        onClick={handleDrillBack}
+                        aria-label="전체 메뉴로 돌아가기"
+                        tabIndex={isDrilled ? 0 : -1}
+                    >
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <path d="M15 18l-6-6 6-6" />
+                        </svg>
+                        <span>전체 메뉴</span>
+                    </button>
 
-                <div className={`${styles.backdrop} ${isMenuOpen ? styles.open : ''}`} onClick={(e) => { e.stopPropagation(); setIsMenuOpen(false); }}></div>
+                    <Link to="/" className={styles.logo} onClick={closeAll}>
+                        <img
+                            src={logoSbc}
+                            alt="신탄진침례교회"
+                            width="165"
+                            height="24"
+                            className={styles.logoImg}
+                        />
+                    </Link>
 
-                <nav 
-                    ref={menuRef}
-                    className={`${styles.menuPanel} ${isMenuOpen ? styles.open : ''}`}
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    <div className={styles.menuList}>
-                        {menuData.map((item, index) => {
-                            const isSinglePage = !!item.singlePagePath;
-                            const isExpanded = activeSubmenu === item.id;
+                    {/* 모바일 2줄 햄버거 ↔ X 모핑 버튼 */}
+                    <button
+                        type="button"
+                        className={styles.navToggle}
+                        onClick={handleMobileToggle}
+                        aria-label={isMenuOpen ? "메뉴 닫기" : "메뉴"}
+                        aria-expanded={isMenuOpen}
+                    >
+                        <svg className={styles.navToggleSvg} viewBox="0 0 18 18" width="18" height="18" aria-hidden="true">
+                            <polyline className={`${styles.navLine} ${styles.navLineTop}`} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" points="2 5, 16 5" />
+                            <polyline className={`${styles.navLine} ${styles.navLineBottom}`} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" points="2 13, 16 13" />
+                        </svg>
+                    </button>
 
+                    {/* PC 헤더 메뉴 (13px 기준 0.8125rem) */}
+                    <nav className={styles.navLinks} aria-label="주요 메뉴">
+                        {menuItems.map((item) => {
+                            const hasSub = !!item.links;
+                            const isActive = activeFlyoutId === item.id;
                             return (
-                                <React.Fragment key={item.id}>
-                                    <li>
-                                        {isSinglePage ? (
-                                            <a 
-                                                href={item.singlePagePath} 
-                                                className={styles.menuItem}
-                                                onClick={(e) => handleLinkClick(e, item.singlePagePath)}
-                                            >
-                                                <div className={styles.itemLeft}>
-                                                    {item.title}
-                                                </div>
-                                            </a>
-                                        ) : (
-                                            <>
-                                                <button 
-                                                    className={`${styles.menuItem} ${isExpanded ? styles.expanded : ''}`}
-                                                    onClick={(e) => toggleSubmenu(item.id, e)}
-                                                >
-                                                    <div className={styles.itemLeft}>
-                                                        {item.title}
-                                                    </div>
-                                                    <span className={`material-symbols-outlined ${styles.chevron}`} translate="no">expand_more</span>
-                                                </button>
-                                                
-                                                <div className={`${styles.submenuGrid} ${isExpanded ? styles.open : ''}`}>
-                                                    <div className={styles.submenuInner}>
-                                                        <ul className={styles.subList}>
-                                                            {item.links.map((link, idx) => (
-                                                                <li key={idx}>
-                                                                    <a 
-                                                                        href={link.path}
-                                                                        className={styles.subItem}
-                                                                        onClick={(e) => handleLinkClick(e, link.path)}
-                                                                    >
-                                                                        {link.text}
-                                                                    </a>
-                                                                </li>
-                                                            ))}
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </>
-                                        )}
-                                    </li>
-                                </React.Fragment>
+                                <button
+                                    key={item.id}
+                                    type="button"
+                                    className={`${styles.navLink} ${isActive ? styles.activeLink : ''}`}
+                                    onClick={(e) => handleNavLinkClick(e, item)}
+                                    onPointerEnter={(e) => {
+                                        if (e.pointerType === 'touch') return;
+                                        if (hasSub) handleFlyoutHover(item.id);
+                                        else handleFlyoutScheduleClose(90);
+                                    }}
+                                    onPointerLeave={() => clearTimeout(openTimer.current)}
+                                    onFocus={() => {
+                                        if (hasSub) handleFlyoutOpen(item.id);
+                                        else setActiveFlyoutId(null);
+                                    }}
+                                    aria-expanded={hasSub ? isActive : undefined}
+                                >
+                                    {item.title}
+                                </button>
                             );
                         })}
+                    </nav>
+                </div>
 
+                {/* PC: Apple Globalnav 스타일 호버 드롭다운 시트 */}
+                <div
+                    className={styles.navFlyout}
+                    aria-hidden={!activeFlyoutId}
+                >
+                    <div className={styles.navFlyoutInner} ref={flyoutInnerRef}>
+                        {menuItems.filter(item => !!item.links).map((item) => {
+                            const isCurrentGroup = activeFlyoutId === item.id;
+                            return (
+                                <div
+                                    key={item.id}
+                                    ref={(el) => { flyoutGroupRefs.current[item.id] = el; }}
+                                    className={`${styles.navFlyoutGroup} ${isCurrentGroup ? styles.activeGroup : ''}`}
+                                >
+                                    <p className={styles.navFlyoutLabel}>{item.subLabel}</p>
+                                    <ul className={styles.navFlyoutList}>
+                                        {item.links.map((link, idx) => (
+                                            <li key={link.path} style={{ '--stagger': idx }}>
+                                                <a
+                                                    href={link.path}
+                                                    onClick={(e) => handleSubLinkClick(e, link.path)}
+                                                >
+                                                    {link.text}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            );
+                        })}
                     </div>
+                </div>
 
-                    <div className={styles.socialLinks}>
-                        <a href="https://www.instagram.com/ds3jhb2026/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-                            </svg>
-                        </a>
-                        <a href="https://www.youtube.com/@sbc6312" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.016 3.016 0 0 0-2.122 2.136C0 8.084 0 12 0 12s0 3.916.501 5.814a3.016 3.016 0 0 0 2.122 2.136c1.872.55 9.377.55 9.377.55s7.505 0 9.377-.55a3.016 3.016 0 0 0 2.122-2.136C24 15.916 24 12 24 12s0-3.916-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                            </svg>
-                        </a>
-                        <a href="https://bible.ctm.kr/" target="_blank" rel="noopener noreferrer" aria-label="성경 타자 통독" title="성경 타자 통독" style={{ width: 'auto', padding: '0 18px', gap: '8px' }}>
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zM21 18.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/>
-                            </svg>
-                            <span style={{ fontSize: '16px',  whiteSpace: 'nowrap', transform: 'translateY(1px)' }}>성경 타자</span>
-                        </a>
+                {/* Mobile: Apple 스타일 풀스크린 커튼 + 좌우 슬라이드 드릴다운 */}
+                <div className={styles.navMobile} aria-hidden={!isMenuOpen} data-lenis-prevent>
+                    <div className={styles.navMobileStage}>
+                        {/* 1depth 메인 목록 */}
+                        <div className={`${styles.navMobilePane} ${styles.navMobileRoot}`}>
+                            <ul className={styles.navMobileList}>
+                                {menuItems.map((item, idx) => {
+                                    const hasSub = !!item.links;
+                                    return (
+                                        <li key={item.id} style={{ '--m-i': idx }}>
+                                            {hasSub ? (
+                                                <button
+                                                    type="button"
+                                                    className={styles.navMobileItem}
+                                                    onClick={() => handleDrillInto(item.id)}
+                                                >
+                                                    <span>{item.title}</span>
+                                                    <svg className={styles.navMobileChevron} viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                                        <path d="M9 6l6 6-6 6" />
+                                                    </svg>
+                                                </button>
+                                            ) : (
+                                                <a
+                                                    href={item.path}
+                                                    className={styles.navMobileItem}
+                                                    onClick={(e) => handleSubLinkClick(e, item.path)}
+                                                >
+                                                    <span>{item.title}</span>
+                                                </a>
+                                            )}
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+
+                        {/* 2depth 서브 패널 */}
+                        <div className={`${styles.navMobilePane} ${styles.navMobileSub}`}>
+                            {menuItems.filter(item => !!item.links).map((item) => {
+                                const isCurrentSub = activeDrillId === item.id;
+                                return (
+                                    <div
+                                        key={item.id}
+                                        className={`${styles.navMobileSubGroup} ${isCurrentSub ? styles.activeSubGroup : ''}`}
+                                    >
+                                        <p className={styles.navMobileLabel}>{item.title}</p>
+                                        <ul className={styles.navMobileList}>
+                                            {item.links.map((link) => (
+                                                <li key={link.path}>
+                                                    <a
+                                                        href={link.path}
+                                                        className={styles.navMobileSubitem}
+                                                        onClick={(e) => handleSubLinkClick(e, link.path)}
+                                                    >
+                                                        {link.text}
+                                                    </a>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
-                </nav>
-            </div>
-        </header>
+                </div>
+            </header>
+
+            {/* Apple 페이지 배경 딤드 + 블러 (Scrim) */}
+            <div
+                className={`${styles.navScrim} ${activeFlyoutId ? styles.scrimActive : ''}`}
+                aria-hidden={!activeFlyoutId}
+                onPointerEnter={() => handleFlyoutScheduleClose(80)}
+                onClick={closeAll}
+            />
         </>
     );
 };

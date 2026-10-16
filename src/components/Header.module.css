@@ -1,0 +1,569 @@
+/* Apple Globalnav 스타일 호버 시트 + 블러 딤드 + 모바일 풀스크린 드릴다운 헤더 모듈 */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 999;
+  padding-top: env(safe-area-inset-top, 0px);
+  background: transparent;
+  transition: transform 340ms var(--ease-smooth, cubic-bezier(0.16, 1, 0.3, 1));
+  box-sizing: border-box;
+}
+
+/* 헤더와 드롭다운 시트가 배경 한 장을 같이 씀: 열리면 이 판이 아래로 늘어나서 둘 사이 경계선이 생기지 않음 */
+.nav::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 0;
+  height: 100%;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.84);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  opacity: 0;
+  transition: opacity 320ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 320ms cubic-bezier(0.16, 1, 0.3, 1),
+              height 420ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.navHidden {
+  transform: translateY(-100%);
+}
+
+.navVisible {
+  transform: translateY(0);
+}
+
+.navScrolled::before {
+  opacity: 1;
+}
+
+.navOpen::before {
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.96);
+}
+
+.navFlyoutOpen::before {
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.96);
+  height: calc(100% + var(--flyout-h, 0px));
+  transition: opacity 240ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
+              height 520ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.navInner {
+  position: relative;
+  z-index: 2;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 3rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  box-sizing: border-box;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  text-decoration: none;
+  transition: opacity 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.logoImg {
+  display: block;
+  height: 24px;
+  width: auto;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navLink {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 0.625rem;
+  text-decoration: none;
+  font-size: 0.8125rem; /* 13px 기준 rem */
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--color-text-secondary, #3B5462);
+  border-radius: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 200ms ease, opacity 200ms ease;
+}
+
+/* Apple 특유의 호버 포커스: 시트 열렸을 때 활성 메뉴만 선명, 나머지는 톤다운 */
+.navFlyoutOpen .navLink {
+  color: #6E6E73;
+}
+
+.navFlyoutOpen .navLink.activeLink {
+  color: #0E1A28;
+  font-weight: 500;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .navLink:hover {
+    color: #0E1A28;
+  }
+}
+
+/* Apple 2줄 햄버거 ↔ X 모핑 버튼 */
+.navToggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #0E1A28;
+  cursor: pointer;
+}
+
+.navToggleSvg {
+  width: 1.125rem;
+  height: 1.125rem;
+  display: block;
+  overflow: visible;
+}
+
+.navLine {
+  transform-origin: 9px 9px;
+  transition: transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* 먼저 가운데(y=9)로 모은 뒤 중심 기준으로 회전해야 반듯한 X가 됨 (CSS는 오른쪽 함수부터 적용) */
+.navOpen .navLineTop {
+  transform: rotate(45deg) translateY(4px);
+}
+
+.navOpen .navLineBottom {
+  transform: rotate(-45deg) translateY(-4px);
+}
+
+.navMobileBack {
+  display: none;
+}
+
+/* PC 호버 드롭다운 시트 (Apple Globalnav Flyout)
+   시트 자체엔 배경이 없음 (.nav::before가 늘어나며 깔림). 글자는 배경이 먼저 내려온 뒤 조용히 떠오름 */
+.navFlyout {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  z-index: 1;
+  visibility: hidden;
+  pointer-events: none;
+  transition: visibility 0s linear 420ms;
+}
+
+.navFlyoutOpen .navFlyout {
+  visibility: visible;
+  pointer-events: auto;
+  transition: visibility 0s;
+}
+
+/* 그룹을 한 칸에 겹쳐 두고 서로 교차 페이드 (display 전환으로 툭 바뀌지 않게) */
+.navFlyoutInner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 2rem 3rem 3.25rem;
+  display: grid;
+  justify-items: end; /* 메뉴 우측 배치 */
+  align-items: start;
+  box-sizing: border-box;
+}
+
+.navFlyoutGroup {
+  grid-area: 1 / 1;
+  text-align: right;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 160ms ease, visibility 0s linear 160ms;
+}
+
+.navFlyoutOpen .navFlyoutGroup.activeGroup {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 360ms cubic-bezier(0.16, 1, 0.3, 1) 90ms, visibility 0s;
+}
+
+.navFlyoutLabel {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #6E6E73;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.875rem;
+}
+
+.navFlyoutList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* 우측 정렬 */
+  gap: 0.375rem;
+}
+
+/* 4px만, 짧은 간격으로 — 떨어지는 느낌 없이 살짝 내려앉음 */
+.navFlyoutLabel,
+.navFlyoutList li {
+  transform: translateY(-4px);
+  transition: transform 0s linear 160ms;
+}
+
+.navFlyoutOpen .navFlyoutGroup.activeGroup .navFlyoutLabel,
+.navFlyoutOpen .navFlyoutGroup.activeGroup .navFlyoutList li {
+  transform: translateY(0);
+  transition: transform 560ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--stagger, 0) * 24ms + 90ms);
+}
+
+.navFlyoutList a {
+  display: inline-block;
+  padding: 0.25rem 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.03em;
+  color: #0E1A28;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .navFlyoutList a:hover {
+    color: #3691FF;
+  }
+}
+
+/* Apple 페이지 배경 딤드 + 블러 (Scrim) */
+.navScrim {
+  position: fixed;
+  inset: 0;
+  z-index: 990;
+  background: rgba(14, 26, 40, 0.28);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  will-change: opacity;
+  transition: opacity 320ms cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0s linear 320ms;
+}
+
+.navScrim.scrimActive {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 480ms cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0s;
+}
+
+/* 모바일 풀스크린 커튼 메뉴 */
+.navMobile {
+  display: none;
+}
+
+@media (max-width: 1079px) {
+  .navInner {
+    padding: 0 1.5rem;
+    height: 4rem;
+  }
+  .navToggle {
+    display: inline-flex;
+  }
+  .navLinks,
+  .navFlyout {
+    display: none !important;
+  }
+
+  /* 모바일 메뉴가 열리면 로고를 부드럽게 숨김 (상단엔 뒤로가기/X만 남김) */
+  .navOpen .logo {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 240ms cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 240ms;
+  }
+
+  .navMobile {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 100dvh;
+    z-index: 1;
+    padding-top: calc(4rem + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(2.5rem + env(safe-area-inset-bottom, 0px));
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: saturate(180%) blur(24px);
+    -webkit-backdrop-filter: saturate(180%) blur(24px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 440ms cubic-bezier(0.32, 0.72, 0, 1),
+                opacity 300ms cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0s linear 440ms;
+    box-sizing: border-box;
+  }
+
+  .navOpen .navMobile {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    clip-path: inset(0 0 0 0);
+    transition: clip-path 480ms cubic-bezier(0.32, 0.72, 0, 1),
+                opacity 260ms cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0s;
+  }
+
+  .navMobileStage {
+    position: relative;
+    width: 100%;
+    min-height: 100%;
+  }
+
+  .navMobilePane {
+    width: 100%;
+    padding: 1.5rem 2.25rem 3rem;
+    box-sizing: border-box;
+    transition: transform 420ms cubic-bezier(0.32, 0.72, 0, 1),
+                opacity 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .navMobileRoot {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .navDrilled .navMobileRoot {
+    transform: translateX(-28%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .navMobileSub {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .navDrilled .navMobileSub {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .navMobileList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .navMobileRoot .navMobileList li {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 300ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--m-i, 0) * 40ms + 80ms),
+                transform 360ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--m-i, 0) * 40ms + 80ms);
+  }
+
+  .navOpen .navMobileRoot .navMobileList li {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .navMobileItem {
+    width: 100%;
+    min-height: 3.25rem;
+    padding: 0.5rem 0;
+    border: 0;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font: inherit;
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.03em;
+    color: #0E1A28;
+    text-decoration: none;
+    text-align: left;
+    cursor: pointer;
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .navMobileChevron {
+    color: #6E6E73;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 200ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .navOpen .navMobileChevron {
+    opacity: 0.7;
+    transform: translateX(0);
+  }
+
+  .navMobileItem:active .navMobileChevron {
+    opacity: 1;
+    transform: translateX(4px);
+  }
+
+  /* 2depth 서브 패널: 헤더 좌측 상단(로고 자리)의 '< 전체 메뉴' 버튼 */
+  .navMobileBack {
+    position: absolute;
+    top: 50%;
+    left: calc(1.5rem - 0.5rem);
+    z-index: 3;
+    min-height: 2.75rem;
+    padding: 0 0.5rem;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: #6E6E73;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font: inherit;
+    font-size: 0.9375rem;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate(8px, -50%);
+    transition: color 180ms ease,
+                opacity 240ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0s linear 320ms;
+  }
+
+  .navOpen.navDrilled .navMobileBack {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate(0, -50%);
+    transition: color 180ms ease,
+                opacity 240ms cubic-bezier(0.16, 1, 0.3, 1) 80ms,
+                transform 320ms cubic-bezier(0.16, 1, 0.3, 1) 80ms,
+                visibility 0s;
+  }
+
+  .navMobileBack:active {
+    color: #0E1A28;
+  }
+
+  .navMobileSubGroup {
+    display: none;
+  }
+
+  .navMobileSubGroup.activeSubGroup {
+    display: block;
+  }
+
+  .navMobileLabel {
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #6E6E73;
+    letter-spacing: -0.02em;
+    margin: 0 0 1rem;
+  }
+
+  .navMobileSubitem {
+    display: block;
+    padding: 0.5rem 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.03em;
+    color: #0E1A28;
+    text-decoration: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .navInner {
+    padding: 0 1.125rem;
+  }
+  .navMobileBack {
+    left: calc(1.125rem - 0.5rem);
+  }
+  .navMobilePane {
+    padding: 1.25rem 1.75rem 3rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navLine,
+  .navMobilePane,
+  .navFlyoutList li,
+  .navFlyoutLabel,
+  .navMobileRoot .navMobileList li {
+    transition: none !important;
+    transform: none !important;
+  }
+  .nav::before {
+    transition: opacity 200ms ease !important;
+  }
+  .navFlyout,
+  .navMobile {
+    transition: opacity 200ms ease, visibility 0s !important;
+    clip-path: none !important;
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .navScrolled::before,
+  .navOpen::before,
+  .navFlyoutOpen::before,
+  .navMobile {
+    background: #fff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  .navScrim {
+    background: rgba(14, 26, 40, 0.5) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}

@@ -1,0 +1,751 @@
+/* 당근 시안 메인 페이지 모듈 스타일 */
+
+.mainWrap {
+  --canvas: #FFFFFF;
+  --band: #F5F5F7;
+  --dark: #1A1C20;
+  --ink: #0E1A28;
+  --ink-body: #243B48;
+  --ink-2: #3B5462;
+  --meta: #6E6E73;
+  --muted: #80898D;
+  --line: #E5E7EB;
+  --primary: #1A1C20;
+  --primary-press: #243B48;
+  --accent: #37ABEA;
+  --accent-on-dark: #3691FF;
+  --meta-on-dark: #AEB4B7;
+  --focus: #37ABEA;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --t-display: clamp(2.25rem, 4.5vw, 4rem);
+  --t-strong: 3rem;
+  --t-mid: 1.75rem;
+  --t-card: 1.25rem;
+  --t-light: 1.125rem;
+  --t-body: 1rem;
+  --t-statement: 2rem;
+
+  --pad-sec: 8rem;
+  --space-head: 3rem;
+
+  --r-card: 20px;
+  --r-photo: 20px;
+  --r-media: 28px;
+  --wrap: 1200px;
+
+  position: relative;
+  background-color: var(--canvas);
+  background-image: url('../assets/main/main-bg-gradient.svg');
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 100% auto;
+  color: var(--ink-body);
+  font-family: 'JayeonSans', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', system-ui, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+  word-break: keep-all;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  box-sizing: border-box;
+}
+
+.icon {
+  font-size: 1.375rem;
+  width: 1em;
+  height: 1em;
+  flex: 0 0 auto;
+  display: inline-block;
+  vertical-align: -0.15em;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- ① Hero ---------- */
+.hero {
+  padding-top: clamp(5rem, 8.5vw, 7.5rem);
+  padding-bottom: clamp(3rem, 10vw, 9rem);
+  text-align: center;
+}
+
+.heroHead {
+  padding-bottom: var(--space-head);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: var(--t-display);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.heroVerse {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.heroVerse cite {
+  font-style: normal;
+}
+
+.heroMedia {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  border-radius: var(--r-media);
+  background: var(--dark);
+}
+
+.heroBgm {
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--meta);
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+
+.heroVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  opacity: 1;
+}
+
+.heroCtrls {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  display: flex;
+  gap: 0.75rem;
+  z-index: 5;
+}
+
+.heroPlay {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  min-width: 3rem;
+  min-height: 3rem;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  background: rgba(12, 14, 18, 0.6);
+  color: #fff;
+  line-height: 1;
+  gap: 0;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  transition: transform 140ms var(--ease-out), background-color 140ms ease;
+}
+
+.heroPlay svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+  flex-shrink: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .heroPlay:hover {
+    background: rgba(12, 14, 18, 0.75);
+  }
+}
+
+.heroPlay:active {
+  transform: scale(0.94);
+}
+
+.heroPlay:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+/* ---------- ② 이번 주 예배 ---------- */
+.wk {
+  padding: var(--pad-sec) 0;
+}
+
+.wkGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 3rem;
+  align-items: start;
+}
+
+.wkBig {
+  font-size: var(--t-strong);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin: 0 0 1.5rem;
+}
+
+.wkBig span {
+  display: block;
+}
+
+.wkLeft {
+  margin: 0;
+  font-size: var(--t-card);
+  color: var(--meta);
+  letter-spacing: -0.02em;
+}
+
+.wkList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.375rem;
+}
+
+.wkList li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0 1rem;
+  min-height: 4rem;
+  padding: 1rem 1.25rem;
+  background: var(--band);
+  border-radius: var(--r-card);
+  transition: background-color 400ms var(--ease-out) 150ms, color 400ms var(--ease-out) 150ms;
+}
+
+.wkList .wkN {
+  font-size: var(--t-light);
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.wkList .wkT {
+  font-size: var(--t-light);
+  font-weight: 500;
+  color: var(--ink);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.wkList .wkP {
+  grid-column: 1 / -1;
+  font-size: var(--t-body);
+  color: var(--meta);
+}
+
+.wkList li.isNext {
+  background: var(--dark);
+  color: #fff;
+}
+
+.wkList li.isNext .wkN,
+.wkList li.isNext .wkT {
+  color: #fff;
+}
+
+.wkList li.isNext .wkP {
+  color: var(--meta-on-dark);
+}
+
+.wkList li.isNext .wkN::before {
+  content: '다음 예배';
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--accent-on-dark);
+  margin-bottom: 0.125rem;
+}
+
+/* ---------- ③ 교회가 하는 일 ---------- */
+.ma {
+  padding: var(--pad-sec) 0;
+}
+
+.maHead {
+  margin-bottom: var(--space-head);
+}
+
+.maHead h2 {
+  margin: 0;
+  font-size: var(--t-strong);
+  font-weight: 500;
+  line-height: 1.32;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.maTrack {
+  --ma-pad: max(1.5rem, calc((100% - var(--wrap)) / 2 + 1.5rem));
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: var(--ma-pad);
+  padding: 0 var(--ma-pad);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.maTrack::-webkit-scrollbar {
+  display: none;
+}
+
+.maCard {
+  flex: 0 0 696px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  color: inherit;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.maMedia {
+  overflow: hidden;
+  border-radius: var(--r-photo);
+  aspect-ratio: 696 / 452;
+  background: var(--band);
+}
+
+.maPhoto {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 300ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .maCard:hover .maPhoto {
+    transform: scale(1.02);
+  }
+}
+
+.maCap {
+  margin: 0;
+  padding: 1.75rem 1rem;
+  font-size: var(--t-body);
+  line-height: 1.6;
+  color: var(--meta);
+  letter-spacing: -0.02em;
+}
+
+.maCap strong {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.maNavWrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+.maNav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.maBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--band);
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 140ms var(--ease-out), background-color 140ms ease;
+}
+
+.maBtn:active {
+  transform: scale(0.95);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .maBtn:hover {
+    background: #E9EBEF;
+  }
+}
+
+/* ---------- ④ 1분 말씀 ---------- */
+.shortsSec {
+  text-align: center;
+  background: var(--band);
+  padding: var(--pad-sec) 0;
+}
+
+.shortsInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.shortsHead {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: var(--space-head);
+}
+
+.shortsHead h1 {
+  margin: 0;
+  font-size: var(--t-display);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.shortsMore {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .shortsMore:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+
+.phone {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 360px;
+  height: auto;
+  aspect-ratio: 434 / 883;
+  text-decoration: none;
+  -webkit-user-select: none;
+  user-select: none;
+  transition: transform 200ms var(--ease-out);
+}
+
+.phone:active {
+  transform: scale(0.98);
+}
+
+.phoneScreen {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 96%;
+  height: 97.5%;
+  border-radius: 17.8% / 8.2%;
+  overflow: hidden;
+  background: var(--dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phoneThumb {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.88;
+  transition: transform 300ms var(--ease-out);
+}
+
+.phoneIcon {
+  position: relative;
+  z-index: 1;
+  width: 4.5rem;
+  height: auto;
+  transition: transform 200ms var(--ease-out);
+}
+
+.phoneFrame {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  display: block;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .phone:hover .phoneThumb {
+    transform: scale(1.03);
+  }
+  .phone:hover .phoneIcon {
+    transform: scale(1.06);
+  }
+}
+
+/* ---------- ⑤ 자주 묻는 것 ---------- */
+.fq {
+  padding: var(--pad-sec) 0;
+}
+
+.fqHead {
+  margin-bottom: var(--space-head);
+}
+
+.fqHead h2 {
+  margin: 0;
+  font-size: var(--t-strong);
+  line-height: 1.32;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.fqList {
+  display: flex;
+  flex-direction: column;
+}
+
+.fqItem {
+  border-bottom: 1px solid var(--line);
+}
+
+.fqItem summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 4rem;
+  padding: 1.75rem 0;
+  font-size: var(--t-mid);
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  list-style: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.fqItem summary::-webkit-details-marker {
+  display: none;
+}
+
+.fqIcon {
+  width: 1.75rem;
+  height: 1.75rem;
+  flex: 0 0 auto;
+  color: var(--meta);
+  stroke-width: 2.25;
+  transition: transform 300ms var(--ease-out);
+}
+
+.fqItem[open] .fqIcon {
+  transform: rotate(180deg);
+}
+
+.fqItem p {
+  margin: 0;
+  padding: 0 0 2.375rem;
+  font-size: var(--t-body);
+  color: var(--ink);
+  max-width: 42em;
+}
+
+/* ---------- ⑦ 푸터 ---------- */
+.footer {
+  background: var(--band);
+  color: rgba(0, 0, 0, 0.72);
+  padding: 3rem 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+}
+
+.fLinks {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  color: rgba(0, 0, 0, 0.88);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.fLinks a {
+  color: rgba(0, 0, 0, 0.88);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.footer p {
+  margin: 0.125rem 0 0;
+  color: rgba(0, 0, 0, 0.72);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+}
+
+.footer p a {
+  color: inherit;
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.fCopy {
+  margin-top: 0.875rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+}
+
+.footer a {
+  text-decoration: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+
+/* ---------- 미디어쿼리: 태블릿 & 모바일 ---------- */
+@media (max-width: 1079px) {
+  .mainWrap {
+    --t-strong: 2.25rem;
+    background-size: 150% auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .mainWrap {
+    --pad-sec: 4.5rem;
+    --space-head: 2rem;
+    --t-display: 2.25rem;
+    --t-strong: 1.75rem;
+    --t-mid: 1.25rem;
+    --t-card: 1.125rem;
+    background-size: 220% auto;
+  }
+
+  .wrap {
+    padding: 0 1.125rem;
+  }
+
+  .hero {
+    padding-top: calc(5.75rem + env(safe-area-inset-top, 0px));
+  }
+
+  .heroMedia {
+    aspect-ratio: 4 / 5;
+    border-radius: 20px;
+  }
+
+  .heroVideo {
+    object-position: 50% 50%;
+  }
+
+  .heroVideo.isLastCut {
+    object-position: 70% 50%;
+  }
+
+  .heroCtrls {
+    right: 1rem;
+    bottom: 1rem;
+  }
+
+  .wkGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .maNavWrap {
+    display: none;
+  }
+
+  .maTrack {
+    --ma-pad: 1.125rem;
+  }
+
+  .maCard {
+    flex: 0 0 82vw;
+  }
+
+  .maCap {
+    padding: 1.25rem 0.5rem;
+  }
+
+  .phone {
+    width: min(240px, 65vw);
+  }
+
+  .phoneIcon {
+    width: 3.75rem;
+  }
+
+  .fqItem summary {
+    min-height: 3.5rem;
+    padding: 1.25rem 0;
+  }
+
+  .fqIcon {
+    width: 1.375rem;
+    height: 1.375rem;
+    stroke-width: 2.2;
+  }
+
+  .fqItem p {
+    padding: 0 0 1.75rem;
+  }
+
+  .footer {
+    padding: 3rem 0;
+  }
+}
