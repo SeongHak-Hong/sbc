@@ -15,10 +15,20 @@ import phoneFrame from '../assets/main/iPhone-14-Pro.webp';
 import shortsThumbBg from '../assets/main/shorts-thumbnail.webp';
 
 const CHANNEL_ID = 'UCj3wg1t2u2eiMQxWIgT2OeQ';
-const FALLBACK_SHORTS = [{ id: 'bQ8ybnIaKDY', title: '신탄진침례교회 말씀 쇼츠' }];
-const CACHE_KEY = 'sbc_proto_shorts_v2';
-const NOT_SERMON = /유치부|초등부|중고등부|청년부|예배대장|광고|공지/;
+const FALLBACK_SHORTS = [{ id: 'MW1TfRYMA4w', title: '나의 누나에게 장애가 있다면?' }];
+const CACHE_KEY = 'sbc_proto_shorts_v3';
+const NOT_SERMON = /유치부|초등부|중고등부|청년부|예배대장|광고|공지|예배|기도회|성가대|찬양대/;
 const CACHE_MS = 6 * 60 * 60 * 1000;
+
+function parseDuration(pt) {
+  if (!pt) return 0;
+  const match = pt.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  if (!match) return 0;
+  const hours = parseInt(match[1] || 0, 10);
+  const minutes = parseInt(match[2] || 0, 10);
+  const seconds = parseInt(match[3] || 0, 10);
+  return hours * 3600 + minutes * 60 + seconds;
+}
 
 function cleanShortsTitle(s) {
   if (!s) return '';
@@ -305,7 +315,7 @@ const MainPage = () => {
     }
   }, []);
 
-  // 유튜브 쇼츠 불러오기
+  // 유튜브 쇼츠 불러오기 (3분 이하 세로 쇼츠 전용 정밀 선별)
   useEffect(() => {
     async function loadShorts() {
       try {
@@ -318,18 +328,47 @@ const MainPage = () => {
 
       const key = import.meta.env?.VITE_YOUTUBE_API_KEY;
       if (!key) return;
-      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&maxResults=12&order=date&type=video&videoDuration=short&key=${key}`;
+
       try {
-        const res = await fetch(url);
-        const data = await res.json();
-        const all = (data.items || []).map((it) => ({ id: it.id.videoId, title: decodeEntities(it.snippet.title) }));
-        const sermons = all.filter((it) => !NOT_SERMON.test(it.title));
-        const items = (sermons.length >= 4 ? sermons : all).slice(0, 4);
-        if (items.length) {
-          setShortVideo(items[0]);
-          try { localStorage.setItem(CACHE_KEY, JSON.stringify({ time: Date.now(), items })); } catch {}
+        // 1. 채널 최신 비디오 목록 조회
+        const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&maxResults=15&order=date&type=video&key=${key}`;
+        const searchRes = await fetch(searchUrl);
+        const searchData = await searchRes.json();
+        const videoIds = (searchData.items || []).map((it) => it.id?.videoId).filter(Boolean);
+
+        if (!videoIds.length) return;
+
+        // 2. 비디오 상세 정보(재생시간, 라이브 여부) 조회 (videos API)
+        const videosUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,liveStreamingDetails&id=${videoIds.join(',')}&key=${key}`;
+        const videosRes = await fetch(videosUrl);
+        const videosData = await videosRes.json();
+
+        // 3. 실제 쇼츠(Shorts)만 정밀 선별:
+        // - 라이브 스트리밍/예배 제외 (!liveStreamingDetails)
+        // - 영상 길이가 3분(180초) 이하
+        // - 예배/부서/공지 영상 제목 제외
+        const shorts = (videosData.items || [])
+          .filter((it) => {
+            const isLive = !!it.liveStreamingDetails;
+            const duration = parseDuration(it.contentDetails?.duration);
+            const title = it.snippet?.title || '';
+            const isExcluded = NOT_SERMON.test(title);
+            return !isLive && duration > 0 && duration <= 180 && !isExcluded;
+          })
+          .map((it) => ({
+            id: it.id,
+            title: decodeEntities(it.snippet?.title || ''),
+          }));
+
+        if (shorts.length) {
+          setShortVideo(shorts[0]);
+          try {
+            localStorage.setItem(CACHE_KEY, JSON.stringify({ time: Date.now(), items: shorts }));
+          } catch {}
         }
-      } catch {}
+      } catch (err) {
+        console.warn('Failed to load YouTube shorts:', err);
+      }
     }
     loadShorts();
   }, []);
