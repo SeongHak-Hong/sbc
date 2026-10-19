@@ -1,128 +1,184 @@
+/* 섬기는 사람들 — 메인 페이지(MainPage.module.css .mainWrap)와 같은 글자·여백·사진 규칙
+   흰 바탕 + 상단 하늘빛 그라데이션 / 진한 글자 #0E1A28, 보조 #6E6E73 / 본문 18px / 사진 모서리 20px */
 .pageWrapper {
+    --ink: #0E1A28;
+    --meta: #6E6E73;
+    --band: #F5F5F7;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --t-title: clamp(2rem, 3.4vw, 3rem);     /* 메인 섹션 제목 단계 (48 → 모바일 28) */
+    --t-group: 1.75rem;                      /* 그룹 제목 28 */
+    --r-photo: 20px;
+    --group-gap: 7.5rem;
+
     width: 100%;
     min-height: 100vh;
-    padding-bottom: 120px;
-    background: linear-gradient(to bottom, #E7F5FD, #FCEBE0);
-    background-attachment: fixed;
+    background-color: #FFFFFF;
+    background-image: url('../assets/main/main-bg-gradient.svg');
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 100% auto;
+    color: var(--ink);
+    font-size: 1.125rem;
+    line-height: 1.6;
+    letter-spacing: -0.02em;
+    word-break: keep-all;
 }
 
-
-
-
-
-.container {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 60px 24px;
-    box-sizing: border-box;
-}
-
-@media (min-width: 1024px) {
-    .container {
-        max-width: 1152px;
-    }
-}
-
-.teamGrid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-}
-
-@media (min-width: 768px) {
-    .teamGrid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 40px;
-    }
-}
-
-@media (min-width: 1024px) {
-    .teamGrid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-.memberCard {
+/* ---------- 머리 ---------- */
+.head {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 6rem;
 }
 
-.imageWrapper {
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    background-color: #E1EBEA;
-    /* Placeholder color before image loads */
+.title {
+    margin: 0;
+    font-size: var(--t-title);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    white-space: pre-line;
+    text-wrap: balance;
+}
+
+/* ---------- 그룹 ---------- */
+.group + .group {
+    margin-top: var(--group-gap);
+}
+
+.groupTitle {
+    margin: 0 0 2rem;
+    font-size: var(--t-group);
+    font-weight: 500;
+    line-height: 1.32;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+}
+
+/* 4칸 (담임목사·사모는 3칸으로 조금 크게) */
+.grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 3rem 1.5rem;
+}
+
+.gridLead {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* ---------- 카드 ---------- */
+.card {
+    display: flex;
+    flex-direction: column;
+}
+
+.photoWrap {
     overflow: hidden;
-    margin-bottom: 12px;
-    position: relative;
+    aspect-ratio: 3 / 4;
+    border-radius: var(--r-photo);
+    background: var(--band);
 }
 
-@media (min-width: 768px) {
-    .imageWrapper {
-        margin-bottom: 24px;
-    }
-}
-
-.baseImage {
-    position: absolute;
-    top: 0;
-    left: 0;
+.photo {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center top;
-    display: block;
+    transition: transform 300ms var(--ease-out);
 }
 
-.infoWrapper {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-.memberName {
-    font-size: 16px;
-    color: var(--color-text-primary);
-    margin-bottom: 4px;
-    transition: color 0.2s ease;
-}
-
-.memberDesc {
-    font-size: 14px;
-    color: var(--color-text-muted);
-    margin-bottom: 0;
-}
-
-@media (min-width: 768px) {
-    .memberName {
-        font-size: 20px;
-        margin-bottom: 8px;
-    }
-
-    .memberDesc {
-        font-size: 16px;
+@media (hover: hover) and (pointer: fine) {
+    .card:hover .photo {
+        transform: scale(1.02);
     }
 }
 
-.categorySection {
-    margin-bottom: 80px;
+.caption {
+    padding: 1.25rem 0.25rem 0;
 }
 
-.categorySection:last-child {
-    margin-bottom: 0;
+.name {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    color: var(--ink);
 }
 
-.categoryTitle {
-    font-size: 28px;
-    color: var(--color-text-primary);
-    margin-bottom: 40px;
+.desc {
+    margin: 0.25rem 0 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--meta);
 }
 
-@media (max-width: 600px) {
-    .pageTitle {
-        font-size: 28px;
+@media (prefers-reduced-motion: reduce) {
+    .photo {
+        transition: none;
+    }
+
+    .card:hover .photo {
+        transform: none;
+    }
+}
+
+/* ---------- 태블릿 ---------- */
+@media (max-width: 1079px) {
+    .pageWrapper {
+        background-size: 150% auto;
+        --group-gap: 6rem;
+    }
+
+    .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .gridLead {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* ---------- 모바일 ---------- */
+@media (max-width: 767px) {
+    .pageWrapper {
+        background-size: 220% auto;
+        --t-title: 1.5rem;    /* "교회를 섬기는 분들을 소개해요." 한 줄에 들어가게 (2줄 유지) */
+        --t-group: 1.375rem;
+        --group-gap: 4.5rem;
+        font-size: 1.0625rem;
+    }
+
+    .head {
+        margin-bottom: 4rem;
+    }
+
+    .groupTitle {
+        margin-bottom: 1.25rem;
+    }
+
+    .grid,
+    .gridLead {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2rem 0.75rem;
+    }
+
+    .caption {
+        padding-top: 0.875rem;
+    }
+
+    .name {
+        font-size: 1.125rem;
+    }
+
+    .desc {
+        font-size: 0.9375rem;
     }
 }
