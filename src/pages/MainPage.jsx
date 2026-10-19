@@ -7,6 +7,7 @@ import heroFilm1080 from '../assets/main/shintanjin-hero-film-1080.mp4';
 import heroFilm720 from '../assets/main/shintanjin-hero-film-720.mp4';
 import heroFilm1080Av1 from '../assets/main/shintanjin-hero-film-1080-av1.mp4';
 import heroFilm720Av1 from '../assets/main/shintanjin-hero-film-720-av1.mp4';
+import heroPoster from '../assets/main/shintanjin-hero-poster.webp';
 import worshipPhoto from '../assets/main/shintanjin-baptist-church-sunday-worship.webp';
 import nextgenPhoto from '../assets/main/shintanjin-baptist-church-nextgen-children.webp';
 import smallGroupPhoto from '../assets/main/shintanjin-baptist-church-small-group.webp';
@@ -193,12 +194,8 @@ const MainPage = () => {
     try { localStorage.setItem('sbc-text-size', next ? 'large' : 'normal'); } catch {}
   };
 
-  // 영상 소스 세팅
+  // 영상 소스 세팅 (절전/데이터 절약 모드에서도 영상 태그와 재생 버튼이 사라지지 않도록 항상 세팅)
   useEffect(() => {
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const saveData = navigator.connection?.saveData === true;
-    if (reduceMotion || saveData) return;
-
     const mobile = window.matchMedia('(max-width: 767px)').matches;
     const tempVideo = document.createElement('video');
     const av1 = tempVideo.canPlayType('video/mp4; codecs="av01.0.08M.08"') === 'probably';
@@ -206,7 +203,16 @@ const MainPage = () => {
     setVideoSrc(src);
   }, []);
 
-  // 비디오 재생 시작
+  // AV1 디코딩 실패 시 일반 H.264 MP4로 자동 폴백
+  const handleVideoError = () => {
+    if (videoSrc === heroFilm720Av1) {
+      setVideoSrc(heroFilm720);
+    } else if (videoSrc === heroFilm1080Av1) {
+      setVideoSrc(heroFilm1080);
+    }
+  };
+
+  // 비디오 이벤트 바인딩 및 자동 재생 시작
   useEffect(() => {
     if (!videoSrc || !videoRef.current) return;
     const v = videoRef.current;
@@ -221,18 +227,25 @@ const MainPage = () => {
 
     // 모바일 4:5 세로 크롭 시 마지막 컷(18.04초~) 위치 조정
     const mobile = window.matchMedia('(max-width: 767px)').matches;
-    if (mobile) {
-      const LAST_CUT = 18.04;
-      const sync = (t) => v.classList.toggle(styles.isLastCut, t >= LAST_CUT);
-      v.addEventListener('timeupdate', () => sync(v.currentTime));
-    }
+    const LAST_CUT = 18.04;
+    const handleTimeUpdate = () => {
+      if (mobile) {
+        v.classList.toggle(styles.isLastCut, v.currentTime >= LAST_CUT);
+      }
+    };
+    v.addEventListener('timeupdate', handleTimeUpdate);
 
-    v.play().catch(() => {});
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const saveData = navigator.connection?.saveData === true;
+    if (!reduceMotion && !saveData) {
+      v.play().catch(() => {});
+    }
 
     return () => {
       v.removeEventListener('playing', handlePlaying);
       v.removeEventListener('pause', handlePause);
       v.removeEventListener('ended', handleEnded);
+      v.removeEventListener('timeupdate', handleTimeUpdate);
     };
   }, [videoSrc]);
 
@@ -242,10 +255,10 @@ const MainPage = () => {
     const v = videoRef.current;
     if (v.ended) {
       v.currentTime = 0;
-      v.play();
+      v.play().catch(() => {});
       setIsEnded(false);
     } else if (v.paused) {
-      v.play();
+      v.play().catch(() => {});
     } else {
       v.pause();
     }
@@ -401,37 +414,35 @@ const MainPage = () => {
                 처음 교회에 온 엄마와 딸이 인사를 받고, 함께 예배드리고, 국수를 먹고, 웃으며 집으로 돌아가는 하루를 담은 영상이에요.
               </p>
 
-              {videoSrc && (
-                <video
-                  ref={videoRef}
-                  className={styles.heroVideo}
-                  src={videoSrc}
-                  muted
-                  playsInline
-                  preload="auto"
-                  aria-hidden="true"
-                />
-              )}
+              <video
+                ref={videoRef}
+                className={styles.heroVideo}
+                src={videoSrc || undefined}
+                poster={heroPoster}
+                muted
+                playsInline
+                preload="auto"
+                onError={handleVideoError}
+                aria-hidden="true"
+              />
 
               <div className={styles.heroCtrls}>
-                {videoSrc && (
-                  <button
-                    className={styles.heroPlay}
-                    type="button"
-                    onClick={toggleVideo}
-                    aria-label={isEnded ? "영상 다시 보기" : isPlaying ? "영상 일시정지" : "영상 재생"}
-                  >
-                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
-                      {isEnded ? (
-                        <path d="M4 12a8 8 0 1 0 2.3-5.6M4 4v4h4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      ) : isPlaying ? (
-                        <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
-                      ) : (
-                        <path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" />
-                      )}
-                    </svg>
-                  </button>
-                )}
+                <button
+                  className={styles.heroPlay}
+                  type="button"
+                  onClick={toggleVideo}
+                  aria-label={isEnded ? "영상 다시 보기" : isPlaying ? "영상 일시정지" : "영상 재생"}
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+                    {isEnded ? (
+                      <path d="M4 12a8 8 0 1 0 2.3-5.6M4 4v4h4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    ) : isPlaying ? (
+                      <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                    ) : (
+                      <path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" />
+                    )}
+                  </svg>
+                </button>
 
                 <button
                   className={styles.heroPlay}
