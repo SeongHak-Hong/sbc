@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Footer from '../components/Footer';
 import styles from './MainPage.module.css';
 
 // 비디오 & 오디오 애셋
@@ -673,17 +674,7 @@ const MainPage = () => {
       </main>
 
       {/* ⑥ 푸터 */}
-      <footer className={styles.footer}>
-        <div className={styles.wrap}>
-          <div className={styles.fLinks}>
-            <a href="#">개인정보처리방침</a>
-            <a href="#">이용약관</a>
-          </div>
-          <p>대전 대덕구 석봉로 17 신탄진침례교회</p>
-          <p>T. <a href="tel:0429328156">042-932-8156</a></p>
-          <p className={styles.fCopy}>© {new Date().getFullYear()} SHINTANJIN BAPTIST CHURCH. ALL RIGHTS RESERVED.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

@@ -7,6 +7,7 @@ import SubPageSection from '../components/SubPageSection';
 import ScrollFadeText from '../components/ScrollFadeText';
 import Pagination from '../components/ui/Pagination';
 import BoardGrid from '../components/ui/BoardGrid';
+import Footer from '../components/Footer';
 import styles from './NetworkPage.module.css';
 
 import Breadcrumb from "../components/ui/Breadcrumb";
@@ -89,6 +90,7 @@ const NetworkPage = () => {
                     </div>
                 )}
             </SubPageSection>
+            <Footer />
         </div>
     );
 };

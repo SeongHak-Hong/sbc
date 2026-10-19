@@ -1,98 +1,84 @@
-.footerSection {
-    position: relative;
+.footer {
     width: 100%;
-    text-align: center;
-    z-index: 10;
+    background: var(--color-surface-band, #F5F5F7);
+    color: rgba(0, 0, 0, 0.72);
+    padding: 3rem 0;
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-regular, 400);
+    font-size: 0.875rem;
+    line-height: var(--line-height-base, 1.6);
+    letter-spacing: var(--letter-spacing-base, -0.02em);
+    word-break: keep-all;
     box-sizing: border-box;
-    overflow: visible;
-    background-color: var(--color-background-dark);
+    text-align: left;
 }
 
-/* 메인: 마지막 섹션(Deep Teal)보다 한 단계 어둡게 이어서 마무리 */
-.footerMain {
-    background-color: var(--color-background-deeper);
-}
-
-.footerMain .links,
-.footerMain .infoWrapper,
-.footerMain .infoWrapper p {
-    color: var(--color-text-white-secondary);
-}
-
-.footerDark {
-    color: var(--color-white);
-}
-
-.footerDark p,
-.footerDark span {
-}
-
-.footerSubpage p, 
-.footerSubpage span {}
-
-.content {
+.wrap {
     width: 100%;
-    max-width: 1500px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 48px 48px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    padding: 0 1.5rem;
     box-sizing: border-box;
-    position: relative;
-    z-index: 10;
 }
 
-.links {
+.fLinks {
     display: flex;
-    justify-content: center;
-    gap: 24px;
-    margin-bottom: 24px;
-    font-size: 16px;
-    color: var(--color-text-warm-primary);
-}
-
-.link {
-    cursor: pointer;
-}
-
-.infoWrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
     align-items: center;
-    color: var(--color-text-warm-secondary);
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    color: rgba(0, 0, 0, 0.88);
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-medium, 500);
+    line-height: var(--line-height-base, 1.6);
+    letter-spacing: var(--letter-spacing-base, -0.02em);
 }
 
-.infoWrapper p {
-    color: var(--color-text-warm-secondary);
+.fLinks a {
+    color: rgba(0, 0, 0, 0.88);
+    font-size: 0.875rem;
+    text-decoration: none;
 }
 
-.addressBox {
-    text-align: center;
-    opacity: 0.8;
+.footer p {
+    margin: 0.125rem 0 0;
+    color: rgba(0, 0, 0, 0.72);
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-regular, 400);
+    line-height: var(--line-height-base, 1.6);
+    letter-spacing: var(--letter-spacing-base, -0.02em);
 }
 
-.address {
-    margin: 0;
-    font-size: 14px;
-    word-break: keep-all;    
+.footer p a {
+    color: inherit;
+    font-size: 0.875rem;
+    text-decoration: none;
 }
 
-.copyright {
-    margin: 0;
-    font-size: 14px;
-    opacity: 0.6;
-    text-align: center;    
+.footer .fCopy {
+    margin-top: 0.875rem;
+    font-size: 0.875rem;
+    line-height: var(--line-height-base, 1.6);
+    letter-spacing: var(--letter-spacing-base, -0.02em);
 }
 
-@media (max-width: 768px) {
-    .content {
-        padding: 24px 24px;
+.footer a {
+    text-decoration: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .footer a:hover {
+        color: var(--color-text-strong, #0E1A28);
+        text-decoration: underline;
+        text-underline-offset: 4px;
     }
-    .links {
-        margin-bottom: 16px;
-        font-size: 16px;
+}
+
+@media (max-width: 767px) {
+    .wrap {
+        padding: 0 1.125rem;
+    }
+
+    .footer {
+        padding: 3rem 0;
     }
 }

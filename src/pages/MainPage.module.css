@@ -670,66 +670,6 @@
   max-width: 42em;
 }
 
-/* ---------- ⑦ 푸터 ---------- */
-.footer {
-  background: var(--band);
-  color: rgba(0, 0, 0, 0.72);
-  padding: 3rem 0;
-  font-size: 0.875rem;
-  line-height: 1.6;
-  letter-spacing: -0.02em;
-}
-
-.fLinks {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-  color: rgba(0, 0, 0, 0.88);
-  font-size: 0.875rem;
-  font-weight: 500;
-  line-height: 1.6;
-}
-
-.fLinks a {
-  color: rgba(0, 0, 0, 0.88);
-  font-size: 0.875rem;
-  text-decoration: none;
-}
-
-.footer p {
-  margin: 0.125rem 0 0;
-  color: rgba(0, 0, 0, 0.72);
-  font-size: 0.875rem;
-  line-height: 1.6;
-  letter-spacing: -0.02em;
-}
-
-.footer p a {
-  color: inherit;
-  font-size: 0.875rem;
-  text-decoration: none;
-}
-
-.fCopy {
-  margin-top: 0.875rem;
-  font-size: 0.875rem;
-  line-height: 1.6;
-  letter-spacing: -0.02em;
-}
-
-.footer a {
-  text-decoration: none;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .footer a:hover {
-    color: var(--ink);
-    text-decoration: underline;
-    text-underline-offset: 4px;
-  }
-}
-
 /* ---------- 미디어쿼리: 태블릿 & 모바일 ---------- */
 @media (max-width: 1079px) {
   .mainWrap {
@@ -838,9 +778,5 @@
 
   .fqItem p {
     padding: 0 0 1.75rem;
-  }
-
-  .footer {
-    padding: 3rem 0;
   }
 }

@@ -1,29 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React from 'react';
 import styles from './Footer.module.css';
 
 const Footer = () => {
-    const location = useLocation();
-    const isSubpage = location.pathname !== '/';
-    
-    // Applying modular classes instead of global/inline ones
-    const themeClass = isSubpage ? `${styles.footerDark} ${styles.footerSubpage}` : `${styles.footerDark} ${styles.footerMain}`;
-
     return (
-        <footer className={`${styles.footerSection} ${themeClass}`}>
-            <div className={styles.content}>
-                <div className={styles.links}>
-                    <span className={styles.link}>이용약관</span>
-                    <span className={styles.link}>개인정보처리방침</span>
+        <footer className={styles.footer}>
+            <div className={styles.wrap}>
+                <div className={styles.fLinks}>
+                    <a href="#">개인정보처리방침</a>
+                    <a href="#">이용약관</a>
                 </div>
-                <div className={styles.infoWrapper}>
-                    <div className={styles.addressBox}>
-                        <p className={styles.address}>
-                            대전 대덕구 석봉로 17 신탄진침례교회<br />T. 042-932-8156
-                        </p>
-                    </div>
-                    <p className={styles.copyright}>&copy; {new Date().getFullYear()} SHINTANJIN BAPTIST CHURCH. ALL RIGHTS RESERVED.</p>
-                </div>
+                <p>대전 대덕구 석봉로 17 신탄진침례교회</p>
+                <p>T. <a href="tel:0429328156">042-932-8156</a></p>
+                <p className={styles.fCopy}>© {new Date().getFullYear()} SHINTANJIN BAPTIST CHURCH. ALL RIGHTS RESERVED.</p>
             </div>
         </footer>
     );

@@ -8,6 +8,7 @@ import ScrollFadeText from '../components/ScrollFadeText';
 import SwitchTabs from '../components/SwitchTabs';
 import Pagination from '../components/ui/Pagination';
 import BoardGrid from '../components/ui/BoardGrid';
+import Footer from '../components/Footer';
 import styles from './NewsPage.module.css';
 
 import Breadcrumb from "../components/ui/Breadcrumb";
@@ -198,6 +199,7 @@ const NewsPage = () => {
                         </div>
                     )}
             </SubPageSection>
+            <Footer />
         </div>
     );
 };
