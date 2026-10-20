@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useSearchParams } from 'react-router-dom';
 import styles from './GuidePage.module.css';
@@ -54,32 +54,77 @@ const fadeVariants = {
 };
 
 // 예배시간 목록. 오른쪽에 time을 크게, 아랫줄에 "day · location"
+// 다음 예배 계산용: days(0=일요일), at(24시간), say(문장에 넣는 이름). skipNext는 '다음 예배'로 고르지 않음 (메인과 같이 새벽 기도회 제외)
 const worshipGroups = [
     {
         id: 'adult',
         label: '어른 예배',
         items: [
-            { id: 'sun1', name: '주일 1부 예배', day: '주일', time: '오전 7:00', location: '소예배실' },
-            { id: 'sun2', name: '주일 2부 예배', day: '주일', time: '오전 11:00', location: '대예배실' },
-            { id: 'sunpm', name: '주일 오후 예배', day: '주일', time: '오후 2:00', location: '대예배실' },
-            { id: 'dawn', name: '새벽 기도회', day: '월~금', time: '새벽 5:00', location: '소예배실' },
-            { id: 'intercession', name: '중보 기도회', day: '화요일', time: '오전 10:30', location: '소예배실' },
-            { id: 'wed', name: '수요 예배', day: '수요일', time: '오후 7:00', location: '대예배실' },
-            { id: 'fri', name: '금요 기도회', day: '금요일', time: '오후 9:00', location: '소예배실' },
+            { id: 'sun1', name: '주일 1부 예배', day: '주일', time: '오전 7:00', location: '소예배실', days: [0], at: '07:00' },
+            { id: 'sun2', name: '주일 2부 예배', day: '주일', time: '오전 11:00', location: '대예배실', days: [0], at: '11:00' },
+            { id: 'sunpm', name: '주일 오후 예배', day: '주일', time: '오후 2:00', location: '대예배실', days: [0], at: '14:00' },
+            { id: 'dawn', name: '새벽 기도회', day: '월~금', time: '새벽 5:00', location: '소예배실', days: [1, 2, 3, 4, 5], at: '05:00', skipNext: true },
+            { id: 'intercession', name: '중보 기도회', day: '화요일', time: '오전 10:30', location: '소예배실', days: [2], at: '10:30' },
+            { id: 'wed', name: '수요 예배', day: '수요일', time: '오후 7:00', location: '대예배실', days: [3], at: '19:00' },
+            { id: 'fri', name: '금요 기도회', day: '금요일', time: '오후 9:00', location: '소예배실', days: [5], at: '21:00' },
         ],
     },
     {
         id: 'next',
         label: '다음세대',
         items: [
-            { id: 'kinder', name: '유치부 (7세 이하)', day: '주일', time: '오전 9:00', location: '유치부실' },
-            { id: 'kids', name: '초등부 주일예배', day: '주일', time: '오전 9:00', location: '러브키즈예배실' },
-            { id: 'youth', name: '중고등부 주일예배', day: '주일', time: '오전 9:00', location: '소예배실' },
-            { id: 'young', name: '청년부', day: '주일', time: '오후 1:30', location: '소예배실' },
-            { id: 'tteok', name: '떡볶이 데이', day: '목요일', time: '오후 1~4시', location: '식당' },
+            { id: 'kinder', name: '유치부 (7세 이하)', day: '주일', time: '오전 9:00', location: '유치부실', days: [0], at: '09:00', say: '유치부 예배' },
+            { id: 'kids', name: '초등부 주일예배', day: '주일', time: '오전 9:00', location: '러브키즈예배실', days: [0], at: '09:00', say: '초등부 예배' },
+            { id: 'youth', name: '중고등부 주일예배', day: '주일', time: '오전 9:00', location: '소예배실', days: [0], at: '09:00', say: '중고등부 예배' },
+            { id: 'young', name: '청년부', day: '주일', time: '오후 1:30', location: '소예배실', days: [0], at: '13:30', say: '청년부 예배' },
+            { id: 'tteok', name: '떡볶이 데이', day: '목요일', time: '오후 1~4시', location: '식당', days: [4], at: '13:00', len: 180, event: true },
         ],
     },
 ];
+
+// 메인 페이지 '이번 주 예배'와 같은 계산: 끝나기 전(기본 75분)까지는 그 예배가 '다음 예배'
+const WORSHIP_LEN = 75;
+const DAY_NAMES = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+
+const findNextWorship = (items, now) => {
+    let best = null;
+    items.forEach((item) => {
+        if (item.skipNext) return;
+        const [h, m] = item.at.split(':').map(Number);
+        for (let k = 0; k < 8; k++) {
+            const d = new Date(now);
+            d.setDate(d.getDate() + k);
+            d.setHours(h, m, 0, 0);
+            if (!item.days.includes(d.getDay()) || d.getTime() + (item.len ?? WORSHIP_LEN) * 60000 <= now.getTime()) continue;
+            if (!best || d < best.at) best = { at: d, items: [item] };
+            else if (d.getTime() === best.at.getTime()) best.items.push(item); // 같은 시각(다음세대 주일 9시)은 함께
+            break;
+        }
+    });
+    if (!best) return null;
+
+    const { at, items: hits } = best;
+    const h = at.getHours();
+    const m = at.getMinutes();
+    const part = h < 6 ? '새벽' : h < 12 ? '오전' : h < 18 ? '오후' : h < 21 ? '저녁' : '밤';
+    const clock = `${part} ${h > 12 ? h - 12 : h}시${m ? ` ${m}분` : ''}`;
+    const dayDiff = Math.round((new Date(at).setHours(0, 0, 0, 0) - new Date(now).setHours(0, 0, 0, 0)) / 86400000);
+    const dayWord = dayDiff === 0 ? '오늘' : dayDiff === 1 ? '내일' : DAY_NAMES[at.getDay()];
+    // 같은 시각에 여럿(다음세대 주일 9시)이면 제목이 2줄을 넘지 않게 '교회학교 예배'로 묶는다
+    const name = hits.length > 1 ? '교회학교 예배' : (hits[0].say ?? hits[0].name);
+    const place = hits.length > 1 ? '각 예배실' : hits[0].location;
+    // 예배는 '드려요', 떡볶이 데이 같은 모임은 '열려요'
+    const isEvent = hits.length === 1 && hits[0].event;
+    const doing = isEvent ? '지금 열리고 있어요' : '지금 드리고 있어요';
+    const will = isEvent ? '열려요' : '드려요';
+    const diff = Math.round((at - now) / 60000);
+    const left = diff <= 0 ? `${place}에서 ${doing}`
+        : diff < 60 ? `${diff}분 뒤, ${place}에서 ${will}`
+        : diff < 1440 ? `${Math.floor(diff / 60)}시간${diff % 60 ? ` ${diff % 60}분` : ''} 뒤, ${place}에서 ${will}`
+        : `${dayDiff}일 뒤, ${place}에서 ${will}`;
+
+    return { when: `${dayWord} ${clock},`, name: `${name}가 있어요.`, left, ids: hits.map((it) => it.id) };
+};
 
 // 한 페이지에 이어진 섹션. 위 이동 버튼 줄의 순서와 같다
 const sections = [
@@ -122,6 +167,13 @@ const GuidePage = () => {
     const floor = mapImages[floorParam] ? floorParam : facilityTabs[0].id;
 
     const reduceMotion = useReducedMotion();
+    // 지금 시각. 메인 페이지처럼 ?now=2026-10-25T10:00 으로 시각을 바꿔 확인할 수 있다
+    const [now] = useState(() => {
+        const q = new URLSearchParams(window.location.search).get('now');
+        const d = q ? new Date(q) : new Date();
+        return Number.isNaN(d.getTime()) ? new Date() : d;
+    });
+    const nextWorship = useMemo(() => findNextWorship(worshipGroup.items, now), [worshipGroup, now]);
     const [current, setCurrent] = useState(sectionIds.includes(tabParam) ? tabParam : sectionIds[0]);
     const [headerHidden, setHeaderHidden] = useState(false);
     const [tabsStuck, setTabsStuck] = useState(false);
@@ -318,8 +370,17 @@ const GuidePage = () => {
             {/* ③ 예배시간: 왼쪽 제목 / 오른쪽 표 */}
             <section id="worship" className={`${styles.sec} ${styles.two}`} aria-labelledby="worship-title">
                 <div className={`${styles.wrap} ${styles.secGrid}`}>
-                    <div className={styles.secHead}>
-                        <h2 id="worship-title" className={styles.secTitle}>편한 시간에 함께 예배드려요.</h2>
+                    {/* 메인 '이번 주 예배'처럼 왼쪽에 다음 예배를 큰 문장으로 */}
+                    <div className={styles.secHead} aria-live="polite">
+                        <h2 id="worship-title" className={`${styles.secTitle} ${styles.nextTitle}`}>
+                            {nextWorship ? (
+                                <>
+                                    <span>{nextWorship.when}</span>
+                                    <span>{nextWorship.name}</span>
+                                </>
+                            ) : '편한 시간에 함께 예배드려요.'}
+                        </h2>
+                        {nextWorship && <p className={styles.nextLeft}>{nextWorship.left}</p>}
                     </div>
                     <div>
                         <div className={styles.pillGroup} role="group" aria-label="예배 나눠 보기">
@@ -351,7 +412,10 @@ const GuidePage = () => {
                                     {...listMotion}
                                 >
                                     {worshipGroup.items.map((item) => (
-                                        <li key={item.id} className={styles.infoItem}>
+                                        <li
+                                            key={item.id}
+                                            className={`${styles.infoItem} ${nextWorship?.ids.includes(item.id) ? styles.isNext : ''}`}
+                                        >
                                             <span className={styles.infoName}>{item.name}</span>
                                             <span className={styles.infoTime}>{item.time}</span>
                                             <span className={styles.infoMeta}>{item.day} · {item.location}</span>

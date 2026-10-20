@@ -272,6 +272,50 @@
     font-variant-numeric: tabular-nums;
 }
 
+/* 다음 예배 줄: 메인 '이번 주 예배'(.wkList li.isNext)와 같은 짙은 칸 + '다음 예배' 표시 */
+.infoItem {
+    transition: background-color 400ms var(--ease-smooth) 150ms, color 400ms var(--ease-smooth) 150ms;
+}
+
+.infoItem.isNext {
+    background-color: var(--color-surface-dark);
+}
+
+.infoItem.isNext .infoName,
+.infoItem.isNext .infoTime {
+    color: var(--color-white);
+}
+
+.infoItem.isNext .infoMeta {
+    color: var(--color-slate-400);
+}
+
+.infoItem.isNext .infoName::before {
+    content: '다음 예배';
+    display: block;
+    margin-bottom: 0.125rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--color-accent-on-dark);
+}
+
+/* 예배시간 왼쪽: 다음 예배 큰 문장 + 남은 시간 (메인 .wkBig · .wkLeft) */
+.nextTitle {
+    margin-bottom: 1.5rem;
+}
+
+.nextTitle span {
+    display: block;
+}
+
+.nextLeft {
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--color-text-meta);
+}
+
 /* ---------- ④ 오시는 길: 넓은 지도 + 글자 3단 ---------- */
 .bigMap > div {
     aspect-ratio: 16 / 7;
@@ -605,7 +649,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .tabs {
+    .tabs,
+    .infoItem {
         transition: none;
     }
 
