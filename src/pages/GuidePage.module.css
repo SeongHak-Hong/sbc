@@ -138,6 +138,11 @@
     margin-bottom: var(--space-head);
 }
 
+/* 1단 섹션(오시는 길·시설 안내)은 제목 가운데. 2단은 왼쪽 그대로 */
+.sec:not(.two) .secHead {
+    text-align: center;
+}
+
 .secTitle {
     margin: 0;
     font-size: var(--t-strong);
