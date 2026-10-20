@@ -164,8 +164,6 @@
 }
 
 .two .secHead {
-    position: sticky;
-    top: calc(var(--header-h) + 64px + 2rem);
     margin-bottom: 0;
 }
 
@@ -617,7 +615,6 @@
     }
 
     .two .secHead {
-        position: static;
         margin-bottom: var(--space-head);
     }
 
