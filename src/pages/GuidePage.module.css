@@ -173,11 +173,12 @@
 }
 
 /* ---------- 고르기 버튼: 칸 없이 글자만, 고른 것 뒤로 짙은 표시가 미끄러진다 ---------- */
+/* 섹션 제목 아래에 둔다 (오른쪽 표는 탭 없이 바로 시작) */
 .pillGroup {
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
-    margin-bottom: 24px;
+    margin-top: 2rem;
 }
 
 .pill {

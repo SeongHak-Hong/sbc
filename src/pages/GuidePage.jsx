@@ -367,22 +367,22 @@ const GuidePage = () => {
                 </div>
             </nav>
 
-            {/* ③ 예배시간: 왼쪽 제목 / 오른쪽 표 */}
+            {/* ③ 예배시간: 왼쪽 다음 예배 + 어른/다음세대 고르기 / 오른쪽 표 */}
             <section id="worship" className={`${styles.sec} ${styles.two}`} aria-labelledby="worship-title">
                 <div className={`${styles.wrap} ${styles.secGrid}`}>
                     {/* 메인 '이번 주 예배'처럼 왼쪽에 다음 예배를 큰 문장으로 */}
-                    <div className={styles.secHead} aria-live="polite">
-                        <h2 id="worship-title" className={`${styles.secTitle} ${styles.nextTitle}`}>
-                            {nextWorship ? (
-                                <>
-                                    <span>{nextWorship.when}</span>
-                                    <span>{nextWorship.name}</span>
-                                </>
-                            ) : '편한 시간에 함께 예배드려요.'}
-                        </h2>
-                        {nextWorship && <p className={styles.nextLeft}>{nextWorship.left}</p>}
-                    </div>
-                    <div>
+                    <div className={styles.secHead}>
+                        <div aria-live="polite">
+                            <h2 id="worship-title" className={`${styles.secTitle} ${styles.nextTitle}`}>
+                                {nextWorship ? (
+                                    <>
+                                        <span>{nextWorship.when}</span>
+                                        <span>{nextWorship.name}</span>
+                                    </>
+                                ) : '편한 시간에 함께 예배드려요.'}
+                            </h2>
+                            {nextWorship && <p className={styles.nextLeft}>{nextWorship.left}</p>}
+                        </div>
                         <div className={styles.pillGroup} role="group" aria-label="예배 나눠 보기">
                             {worshipGroups.map((group) => (
                                 <button
@@ -403,6 +403,8 @@ const GuidePage = () => {
                                 </button>
                             ))}
                         </div>
+                    </div>
+                    <div>
                         <div aria-live="polite">
                             <AnimatePresence mode="wait" initial={false}>
                                 <motion.ul
@@ -502,14 +504,12 @@ const GuidePage = () => {
                 </div>
             </section>
 
-            {/* ⑤ 차량운행: 왼쪽 제목 / 오른쪽 예배 고르기 + 동네별 노선 표 (지도는 필요할 때만 펼침) */}
+            {/* ⑤ 차량운행: 왼쪽 제목 + 예배 고르기 / 오른쪽 동네별 노선 표 */}
             <section id="shuttle" className={`${styles.sec} ${styles.two}`} aria-labelledby="shuttle-title">
                 <div className={`${styles.wrap} ${styles.secGrid}`}>
                     <div className={styles.secHead}>
                         <h2 id="shuttle-title" className={styles.secTitle}>동네까지 교회 차가<br />모시러 가요.</h2>
                         <p className={styles.lead}>예배를 고르시면 동네별 셔틀 시간을 알려 드려요.</p>
-                    </div>
-                    <div>
                         <div className={styles.pillGroup} role="group" aria-label="예배 고르기">
                             {shuttleSchedules.map((schedule) => (
                                 <button
@@ -530,6 +530,8 @@ const GuidePage = () => {
                                 </button>
                             ))}
                         </div>
+                    </div>
+                    <div>
                         <div aria-live="polite">
                             <AnimatePresence mode="wait" initial={false}>
                                 <motion.ul
