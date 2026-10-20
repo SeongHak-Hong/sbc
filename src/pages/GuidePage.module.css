@@ -1,9 +1,12 @@
 .pageWrapper {
-    color: var(--color-text-muted);
+    color: var(--color-text-primary);
     min-height: 100vh;
     position: relative;
-    background: linear-gradient(to bottom, #E7F5FD, #FCEBE0);
-    background-attachment: fixed;
+    background-color: var(--color-white);
+    background-image: url('../assets/main/main-bg-gradient.svg');
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 100% auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,6 +20,12 @@
     min-height: 48px;
 }
 
+/* 선택에 따라 내용 길이가 바뀌는 화면은 위쪽에 고정해 버튼이 손가락 아래에서 움직이지 않게 */
+.pageWrapperTop::before {
+    flex-grow: 0;
+    min-height: 120px;
+}
+
 .centerContainer {
     width: 100%;
     max-width: 1152px;
@@ -28,9 +37,16 @@
     z-index: 10;
 }
 
-
-
-
+.pageTitle {
+    font-size: var(--page-title-size-pc, 40px);
+    font-weight: 500;
+    color: var(--color-text-strong);
+    letter-spacing: -0.03em;
+    line-height: 1.3;
+    white-space: pre-line;
+    margin-bottom: 24px;
+    word-break: keep-all;
+}
 
 .buttonGroup {
     display: flex;
@@ -41,138 +57,215 @@
 }
 
 .selectButton {
-    background-color: var(--color-gray-50);
+    background-color: var(--color-white);
     border: none;
     border-radius: 28px;
     padding: 14px 28px;
     font-size: 16px;
-    color: var(--color-text-tertiary);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--color-text-strong);
     cursor: pointer;
-    transition: transform 0.2s ease;
+    box-shadow: 0 0 10px rgba(233, 238, 255, 0.75);
+    transition: background-color 0.2s ease, transform 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-}
-
-.dropdownOpenButton {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    transform: translateY(0) !important;
-    z-index: 51;
-}
-
-.dropdownOpenButtonUp {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-left-radius: 28px;
-    border-bottom-right-radius: 28px;
-    transform: translateY(0) !important;
-    z-index: 51;
 }
 
 .selectButton:hover {
+    background-color: var(--color-surface-band-hover);
     transform: translateY(-2px);
 }
 
-/* Dropdown Container */
-.dropdownContainer {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdownMenu {
-    position: absolute;
-    top: 100%;
-    left: 0;
+/* 오시는 길 지도: 아래 큰 줄들과 같은 너비 */
+.mapSection {
     width: 100%;
-    margin-top: 0;
-    background-color: var(--color-gray-50);
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    z-index: 50;
+    max-width: 560px;
+    margin-bottom: 12px;
 }
 
-.dropdownMenuUp {
-    top: auto;
-    bottom: 100%;
-    margin-top: auto;
-    margin-bottom: 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+.actionRows {
+    display: grid;
+    gap: 8px;
 }
 
-.scrollArea {
-    max-height: 160px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 0 12px 12px 12px;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    background-color: var(--color-gray-50);
-}
-
-.scrollAreaUp {
-    padding: 12px 12px 0 12px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    box-shadow: none;
-}
-
-.scrollArea::-webkit-scrollbar {
-    width: 6px;
-}
-
-.scrollArea::-webkit-scrollbar-thumb {
-    background-color: var(--color-text-placeholder);
-    border-radius: 10px;
-}
-
-.dropdownItem {
-    padding: 12px 16px;
-    font-size: 16px;
-    color: var(--color-text-secondary);
+.actionRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    min-height: 64px;
+    padding: 16px 24px;
+    border: none;
+    border-radius: 20px;
+    background-color: var(--color-white);
+    box-shadow: 0 0 10px rgba(233, 238, 255, 0.75);
+    color: var(--color-text-strong);
+    font: inherit;
+    text-align: left;
+    text-decoration: none;
     cursor: pointer;
-    border-radius: 12px;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: transform 0.2s ease;
+}
+
+.actionRow:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .actionRow:hover {
+        transform: translateY(-2px);
+    }
+}
+
+.actionMain {
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+}
+
+.actionRowAddress .actionMain {
+    font-size: 21px;
+}
+
+.actionHint {
+    font-size: 15px;
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+}
+
+.listLabel {
+    margin: 24px 4px 8px;
+    font-size: 15px;
+    color: var(--color-text-tertiary);
     text-align: left;
 }
 
-.dropdownItem:hover {
-    background-color: #F1F5F9;
-    color: var(--color-text-primary);
+/* 예배시간·차량운행: 고르기 버튼 + 글자 목록 */
+.pageSub {
+    margin: -12px 0 28px;
+    font-size: 17px;
+    color: var(--color-text-tertiary);
+    letter-spacing: -0.02em;
+    line-height: 1.6;
+    word-break: keep-all;
 }
 
-/* Map specific container */
-.mapSection {
-    width: 100%;
-    max-width: 800px;
-    margin-bottom: 48px;
-}
-
-/* Naver 길찾기 버튼 */
-.naverButton {
-    background-color: var(--color-gray-50);
-    border: none;
-    border-radius: 28px;
-    padding: 14px 28px;
-    font-size: 16px;
-    color: var(--color-text-secondary);
-    cursor: pointer;
-    transition: transform 0.2s ease;
+.pillGroup {
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 8px;
-    text-decoration: none;
+    max-width: 560px;
+    margin-bottom: 24px;
 }
 
-.naverButton:hover {
-    transform: translateY(-2px);
+.pill {
+    min-height: 44px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-white);
+    color: var(--color-text-primary);
+    font: inherit;
+    font-size: 16px;
+    letter-spacing: -0.02em;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(233, 238, 255, 0.75);
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.pill[aria-pressed="true"] {
+    background-color: var(--btn-bg);
+    color: var(--color-white);
+}
+
+.pill:focus-visible,
+.selectButton:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .pill[aria-pressed="false"]:hover {
+        transform: translateY(-2px);
+    }
+}
+
+.listArea {
+    width: 100%;
+    max-width: 560px;
+}
+
+.infoList {
+    list-style: none;
+    margin: 0 0 24px;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+    text-align: left;
+}
+
+.infoItem {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 2px 12px;
+    padding: 18px 24px;
+    border-radius: 20px;
+    background-color: var(--color-white);
+    box-shadow: 0 0 10px rgba(233, 238, 255, 0.75); /* 이 페이지 버튼과 같은 결 */
+}
+
+.infoName,
+.infoTime {
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--color-text-strong);
+    letter-spacing: -0.02em;
+}
+
+.infoTime {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.infoMeta {
+    grid-column: 1 / -1;
+    font-size: 15px;
+    color: var(--color-text-tertiary);
+    font-variant-numeric: tabular-nums;
+}
+
+/* 지도 펼치기: 높이를 grid 행으로 열어 레이아웃이 튀지 않게 */
+.mapReveal {
+    display: grid;
+    grid-template-rows: 0fr;
+    width: 100%;
+    max-width: 560px;
+    transition: grid-template-rows 0.5s var(--ease-smooth);
+}
+
+.mapReveal > div {
+    overflow: hidden;
+}
+
+.mapRevealOpen {
+    grid-template-rows: 1fr;
+}
+
+.shuttleMap {
+    padding-top: 16px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mapReveal {
+        transition: none;
+    }
 }
 
 @keyframes fadeIn {
@@ -188,17 +281,17 @@
 }
 
 @media (max-width: 768px) {
+    .pageTitle,
     .mainText {
-        font-size: 24px;
-        margin-bottom: 32px;
+        font-size: 28px;
+        margin-bottom: 24px;
     }
 
     .buttonGroup {
         gap: 12px;
     }
 
-    .selectButton,
-    .naverButton {
+    .selectButton {
         padding: 10px 24px;
         font-size: 16px;
     }
@@ -232,9 +325,10 @@
 .verticalButtonGroup {
     display: flex;
     flex-direction: column;
-    background-color: var(--color-gray-50);
+    background-color: var(--color-white);
     border-radius: 24px;
     padding: 6px;
+    box-shadow: 0 0 10px rgba(233, 238, 255, 0.75);
 }
 
 .verticalSelectButton {
@@ -243,9 +337,11 @@
     padding: 12px 0;
     margin: 0;
     font-size: 16px;
-    color: var(--color-text-tertiary);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--color-text-meta);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease;
     border-radius: 20px;
     display: flex;
     justify-content: center;
@@ -264,7 +360,7 @@
 .activeBackground {
     position: absolute;
     inset: 0;
-    background-color: var(--color-slate-700);
+    background-color: var(--btn-bg);
     border-radius: 20px;
     z-index: 0;
 }
@@ -340,5 +436,17 @@
         flex-grow: 0;
         flex-shrink: 0;
         scroll-snap-align: center;
+    }
+}
+
+@media (max-width: 1079px) {
+    .pageWrapper {
+        background-size: 150% auto;
+    }
+}
+
+@media (max-width: 767px) {
+    .pageWrapper {
+        background-size: 220% auto;
     }
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './InteractiveShuttleMap.module.css';
-import { CHURCH_COORDS, shuttleSchedules } from '../../data/shuttleData';
+import { CHURCH_COORDS, CHURCH_ADDRESS, CHURCH_PHONE, TRANSIT_STOPS, shuttleSchedules } from '../../data/shuttleData';
 
 const InteractiveShuttleMap = ({ mode = 'church', scheduleId = null }) => {
     const mapElement = useRef(null);
@@ -48,11 +48,11 @@ const InteractiveShuttleMap = ({ mode = 'church', scheduleId = null }) => {
                         신탄진침례교회
                     </div>
                     <div class="${styles.churchMarkerAddress}">
-                        대전 대덕구 석봉로 17
+                        ${CHURCH_ADDRESS}
                     </div>
                     <div class="${styles.churchMarkerContact}">
                         도움이 필요하시면 언제든 연락해 주세요<br/>
-                        <a href="tel:042-932-8156">📞 042-932-8156</a>
+                        <a href="tel:${CHURCH_PHONE}">📞 ${CHURCH_PHONE}</a>
                     </div>
                 </div>
             `;
@@ -83,12 +83,6 @@ const InteractiveShuttleMap = ({ mode = 'church', scheduleId = null }) => {
             markersRef.current.push(churchMarker);
 
             // 대중교통 마커
-            const TRANSIT_STOPS = [
-                { name: '신탄진시장 정류장', time: '도보 3분', type: 'bus', lat: 36.4455, lng: 127.4265 },
-                { name: '석봉네거리 정류장', time: '도보 3분', type: 'bus', lat: 36.4470, lng: 127.4205 },
-                { name: '신탄진역', time: '도보 5분', type: 'train', lat: 36.4491, lng: 127.4285 }
-            ];
-
             const bounds = new naver.maps.LatLngBounds();
             bounds.extend(churchLocation);
 

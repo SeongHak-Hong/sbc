@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { useSearchParams } from 'react-router-dom';
 import styles from './GuidePage.module.css';
 
 import InteractiveShuttleMap from '../components/ui/InteractiveShuttleMap';
-import { CHURCH_COORDS, shuttleSchedules } from '../data/shuttleData';
+import { CHURCH_COORDS, CHURCH_ADDRESS, CHURCH_PHONE, TRANSIT_STOPS, shuttleSchedules } from '../data/shuttleData';
 
 import map1F from '../assets/guide/1F.svg';
 import map2F from '../assets/guide/2F.svg';
@@ -14,14 +15,20 @@ import mapDasom2F from '../assets/guide/dasom-2F.svg';
 
 import Breadcrumb from "../components/ui/Breadcrumb";
 
+// rooms는 평면도 이미지의 대체 텍스트로 읽힘 (평면도 글자가 도형이라 화면 낭독기가 못 읽음)
 const facilityTabs = [
-    { id: '1F', label: '1층 식당' },
-    { id: '2F', label: '2층' },
-    { id: '3F', label: '3층' },
-    { id: 'semi3F', label: '준3층' },
-    { id: 'dasom1F', label: '다솜관 1층' },
-    { id: 'dasom2F', label: '다솜관 2층' },
+    { id: '1F', label: '1층 식당', name: '본관 1층', rooms: ['식당', '안쪽식당', '초등부실', '주방', '주방 창고', '화장실'] },
+    { id: '2F', label: '2층', name: '본관 2층', rooms: ['소예배실', '유치부실', '찬양연습실', '새가족실', '목양실', '교역자실', '행정실', '휴게실', '청소년실', '엘리베이터', '다솜관 연결 통로'] },
+    { id: '3F', label: '3층', name: '본관 3층', rooms: ['대예배실', '강대상', '찬양대석', '헌금함', '자모실', '엘리베이터'] },
+    { id: 'semi3F', label: '준3층', name: '본관 준3층', rooms: ['3층 대예배실이 내려다보이는 예배석', '방송실'] },
+    { id: 'dasom1F', label: '다솜관 1층', name: '다솜관 1층', rooms: ['행복쉼터', '차·커피 진열대', '본관 2층 연결 통로'] },
+    { id: 'dasom2F', label: '다솜관 2층', name: '다솜관 2층', rooms: ['예배 및 교제방', '쉼터', '회의실', '기도방'] },
 ];
+
+const facilityAlt = (id) => {
+    const floor = facilityTabs.find((tab) => tab.id === id);
+    return floor ? `${floor.name} 평면도: ${floor.rooms.join(', ')}` : '시설 평면도';
+};
 
 const mapImages = {
     '1F': map1F,
@@ -32,117 +39,146 @@ const mapImages = {
     'dasom2F': mapDasom2F
 };
 
+const ease = [0.16, 1, 0.3, 1];
+
+// 화면 전환: opacity + translateY(8px). custom으로 움직임 줄이기 여부를 받아 그때는 바로 바꾼다
 const fadeVariants = {
-    hidden: { opacity: 0, filter: 'blur(10px)', y: 10 },
-    show: { 
-        opacity: 1, 
-        filter: 'blur(0px)', 
-        y: 0,
-        transition: { duration: 0.6, ease: "easeOut" }
-    },
-    exit: { 
-        opacity: 0, 
-        filter: 'blur(10px)', 
-        y: -10,
-        transition: { duration: 0.4, ease: "easeIn" }
-    }
+    hidden: (reduce) => (reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }),
+    show: { opacity: 1, y: 0, transition: { duration: 0.4, ease } },
+    exit: (reduce) => (reduce
+        ? { opacity: 0, transition: { duration: 0 } }
+        : { opacity: 0, y: -8, transition: { duration: 0.2, ease } }),
 };
 
-const adultSchedule = [
-    { name: "주일 1부 예배", time: "주일 오전 07:00", location: "소예배실" },
-    { name: "주일 2부 예배", time: "주일 오전 11:00", location: "대예배실" },
-    { name: "주일 오후 예배", time: "주일 오후 02:00", location: "대예배실" },
-    { name: "새벽 기도회", time: "월~금 새벽 05:00", location: "소예배실" },
-    { name: "중보 기도회", time: "매주 화요일 오전 10:30", location: "소예배실" },
-    { name: "수요 예배", time: "수요일 오후 7:00", location: "대예배실" },
-    { name: "금요 기도회", time: "금요일 오후 9:00", location: "소예배실" }
+// 예배시간 목록. 오른쪽에 time을 크게, 아랫줄에 "day · location"
+const worshipGroups = [
+    {
+        id: 'adult',
+        label: '어른 예배',
+        items: [
+            { id: 'sun1', name: '주일 1부 예배', day: '주일', time: '오전 7:00', location: '소예배실' },
+            { id: 'sun2', name: '주일 2부 예배', day: '주일', time: '오전 11:00', location: '대예배실' },
+            { id: 'sunpm', name: '주일 오후 예배', day: '주일', time: '오후 2:00', location: '대예배실' },
+            { id: 'dawn', name: '새벽 기도회', day: '월~금', time: '새벽 5:00', location: '소예배실' },
+            { id: 'intercession', name: '중보 기도회', day: '화요일', time: '오전 10:30', location: '소예배실' },
+            { id: 'wed', name: '수요 예배', day: '수요일', time: '오후 7:00', location: '대예배실' },
+            { id: 'fri', name: '금요 기도회', day: '금요일', time: '오후 9:00', location: '소예배실' },
+        ],
+    },
+    {
+        id: 'next',
+        label: '다음세대',
+        items: [
+            { id: 'kinder', name: '유치부 (7세 이하)', day: '주일', time: '오전 9:00', location: '유치부실' },
+            { id: 'kids', name: '초등부 주일예배', day: '주일', time: '오전 9:00', location: '러브키즈예배실' },
+            { id: 'youth', name: '중고등부 주일예배', day: '주일', time: '오전 9:00', location: '소예배실' },
+            { id: 'young', name: '청년부', day: '주일', time: '오후 1:30', location: '소예배실' },
+            { id: 'tteok', name: '떡볶이 데이', day: '목요일', time: '오후 1~4시', location: '식당' },
+        ],
+    },
 ];
 
-const nextgenSchedule = [
-    { name: "유치부(7세 이하)", time: "주일 오전 09:00", location: "유치부실" },
-    { name: "초등부 주일예배", time: "주일 오전 09:00", location: "러브키즈예배실" },
-    { name: "떡볶이 데이", time: "매주 목요일 오후 1~4시", location: "식당" },
-    { name: "중고등부 주일예배", time: "주일 오전 09:00", location: "소예배실" },
-    { name: "청년부", time: "주일 오후 1:30", location: "소예배실" }
-];
+// URL 쿼리 tab 값 → 화면. 순서대로 첫 화면 버튼에 쓰임
+const categoryTabs = ['worship', 'directions', 'shuttle', 'parking', 'facilities'];
+// 차량운행 예배 버튼에 쓰는 짧은 이름 (shuttleData의 id 기준)
+const shuttleLabels = {
+    dawn: '새벽예배',
+    sunday2: '주일 2부',
+    sundayAfternoon: '주일 오후',
+    nextgen: '교회학교',
+    wednesday: '수요예배',
+};
+
+const naverRouteUrl = `https://map.naver.com/index.nhn?elng=${CHURCH_COORDS.lng}&elat=${CHURCH_COORDS.lat}&etext=${encodeURIComponent('신탄진침례교회')}&menu=route`;
+const kakaoRouteUrl = `https://map.kakao.com/link/to/${encodeURIComponent('신탄진침례교회')},${CHURCH_COORDS.lat},${CHURCH_COORDS.lng}`;
+const stopKind = { bus: '버스', train: '기차' };
+
+const subCategoryOf = { worship: 'all', directions: 'location', shuttle: 'shuttle', parking: 'parking' };
 
 const GuidePage = () => {
-    // State management
-    const [step, setStep] = useState(1);
-    const [category, setCategory] = useState(null); // 'worship' or 'directions'
-    const [subCategory, setSubCategory] = useState(null); // 'adult', 'nextgen', 'location', 'shuttle', 'transit', 'parking'
-    const [selectedWorship, setSelectedWorship] = useState(null);
-    const [selectedShuttle, setSelectedShuttle] = useState(null); // shuttle schedule object
-    
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-    const dropdownRef = useRef(null);
+    // 선택 상태는 URL 쿼리에 둔다 → 뒤로가기·새로고침·링크 공유가 그대로 동작
+    // 예: /guide?tab=worship&g=next, /guide?tab=shuttle&s=sunday2, /guide?tab=facilities&floor=3F
+    const [searchParams, setSearchParams] = useSearchParams();
+    const tabParam = searchParams.get('tab');
+    const category = categoryTabs.includes(tabParam) ? tabParam : null;
+    const step = category ? 2 : 1;
+    const floorParam = searchParams.get('floor');
+    const subCategory = category === 'facilities'
+        ? (mapImages[floorParam] ? floorParam : facilityTabs[0].id)
+        : subCategoryOf[category] ?? null;
+    const worshipGroup = worshipGroups.find((g) => g.id === searchParams.get('g')) ?? worshipGroups[0];
+    const selectedShuttle = category === 'shuttle'
+        ? shuttleSchedules.find((s) => s.id === searchParams.get('s')) ?? null
+        : null;
+
+    const [shuttleMapOpen, setShuttleMapOpen] = useState(false);
+    const reduceMotion = useReducedMotion();
+    const [addressCopied, setAddressCopied] = useState(false);
+    const copyTimer = useRef(null);
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setDropdownOpen(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
-    const resetToHome = () => {
-        setStep(1);
-        setCategory(null);
-        setSubCategory(null);
-        setSelectedWorship(null);
-        setSelectedShuttle(null);
-        setDropdownOpen(false);
+    // 단계를 넘어갈 때는 기록을 쌓고(뒤로가기 = 이전 단계),
+    // 같은 단계 안에서 고른 것만 바꿀 때는 덮어써서 뒤로가기가 선택을 하나씩 되감지 않게 한다
+    const go = (params, { replace = false } = {}) => {
+        setSearchParams(params, { replace });
     };
 
-    const handleCategorySelect = (cat) => {
-        setCategory(cat);
-        setStep(2);
-        setSubCategory(null);
-        setSelectedWorship(null);
-        setSelectedShuttle(null);
-        setDropdownOpen(false);
-    };
+    const resetToHome = () => go({});
 
-    const handleBackToWorshipCategory = () => {
-        setStep(2);
-        setSubCategory(null);
-        setSelectedWorship(null);
-        setDropdownOpen(false);
-    };
+    const handleCategorySelect = (cat) => go({ tab: cat });
 
-    const handleBackToDirections = () => {
-        setSubCategory(null);
-        setSelectedShuttle(null);
-        setDropdownOpen(false);
-    };
-
-    const handleSubCategorySelect = (subCat) => {
-        setSubCategory(subCat);
-        setSelectedShuttle(null);
-        setDropdownOpen(false);
-        if (category === 'worship') {
-            setStep(3);
-        }
-    };
-
-    const handleWorshipSelect = (worship) => {
-        setSelectedWorship(worship);
-        setDropdownOpen(false);
+    const handleWorshipGroupSelect = (groupId) => {
+        go({ tab: 'worship', g: groupId }, { replace: true });
     };
 
     const handleShuttleSelect = (schedule) => {
-        setSelectedShuttle(schedule);
-        setDropdownOpen(false);
+        go({ tab: 'shuttle', s: schedule.id }, { replace: selectedShuttle !== null });
     };
 
-    const toggleDropdown = () => {
-        setDropdownOpen(!dropdownOpen);
+    // 지도는 목록 아래에서 열리므로, 펼칠 때 화면을 지도 쪽으로 내려 열린 걸 보여 준다
+    const toggleShuttleMap = () => {
+        const opening = !shuttleMapOpen;
+        setShuttleMapOpen(opening);
+        if (!opening) return;
+        setTimeout(() => {
+            const target = document.getElementById('shuttle-map');
+            if (!target) return;
+            if (window.lenis) {
+                window.lenis.resize?.(); // 펼친 만큼 늘어난 페이지 길이를 Lenis에 반영
+                window.lenis.scrollTo(target, { offset: -120, immediate: reduceMotion });
+            } else {
+                target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+            }
+        }, reduceMotion ? 50 : 520); // 펼침(0.5s)이 끝난 뒤
+    };
+
+    const copyAddress = async () => {
+        try {
+            await navigator.clipboard.writeText(CHURCH_ADDRESS);
+        } catch {
+            // clipboard API가 막힌 환경(오래된 브라우저, http)용
+            const field = document.createElement('textarea');
+            field.value = CHURCH_ADDRESS;
+            field.setAttribute('readonly', '');
+            field.style.position = 'fixed';
+            field.style.opacity = '0';
+            document.body.appendChild(field);
+            field.select();
+            document.execCommand('copy');
+            field.remove();
+        }
+        setAddressCopied(true);
+        clearTimeout(copyTimer.current);
+        copyTimer.current = setTimeout(() => setAddressCopied(false), 2000);
+    };
+
+    useEffect(() => () => clearTimeout(copyTimer.current), []);
+
+    const handleFloorSelect = (floorId) => {
+        go({ tab: 'facilities', floor: floorId }, { replace: true });
     };
 
     // Main Text Rendering
@@ -156,10 +192,7 @@ const GuidePage = () => {
         }
         
         if (category === 'worship') {
-            if (!selectedWorship) {
-                return "어느 예배의 자리를 찾으시나요?";
-            }
-            return `${selectedWorship.name}\n${selectedWorship.time}, ${selectedWorship.location}에서 함께합니다.`;
+            return "어느 예배에 오시나요?";
         }
         
         if (category === 'directions') {
@@ -169,10 +202,7 @@ const GuidePage = () => {
         }
 
         if (category === 'shuttle') {
-            if (!selectedShuttle) {
-                return "예배별 우리 동네 셔틀노선을 확인해 보세요.";
-            }
-            return "우리 동네 셔틀 노선";
+            return "어느 예배에 오시나요?";
         }
 
         if (category === 'parking') {
@@ -182,47 +212,159 @@ const GuidePage = () => {
         return "";
     };
 
-    const getWorshipOptions = () => {
-        if (subCategory === 'adult') return adultSchedule;
-        if (subCategory === 'nextgen') return nextgenSchedule;
-        if (subCategory === 'all') return [...adultSchedule, ...nextgenSchedule];
-        return [];
-    };
-
-    // 지도 표시 여부 및 모드
-    const showMap = (category === 'directions' && subCategory === 'location') || (category === 'shuttle' && selectedShuttle !== null);
-    const mapMode = category === 'shuttle' ? 'shuttle' : 'church';
-    const mapScheduleId = selectedShuttle?.id || null;
+    // 오시는 길 지도. 차량운행 지도는 노선 목록 아래에서 펼칠 때만 불러온다
+    const showMap = category === 'directions' && subCategory === 'location';
 
     return (
-        <div className={styles.pageWrapper}>
+        <div className={`${styles.pageWrapper} ${category === 'worship' || category === 'shuttle' || category === 'directions' ? styles.pageWrapperTop : ''}`}>
             <div className={styles.centerContainer}>
                 
-                <AnimatePresence mode="wait">
+                <Breadcrumb text="교회소개 - 교회 안내" />
+
+                {/* 고른 화면만 바뀐다. 처음 열 때는 애니메이션 없이 바로 보이게 */}
+                <AnimatePresence mode="wait" initial={false} custom={reduceMotion}>
                     <motion.div
-                        key={`${step}-${category}-${category === 'facilities' ? 'fixed' : subCategory}-${selectedWorship?.name}-${selectedShuttle?.id}`}
+                        key={`${step}-${category}-${category === 'facilities' ? 'fixed' : subCategory}`}
+                        custom={reduceMotion}
                         variants={fadeVariants}
                         initial="hidden"
                         animate="show"
                         exit="exit"
                         style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
                     >
-                        {/* Breadcrumb */}
-                        <Breadcrumb text="교회소개 - 교회 안내" />
-
                         {/* Main Text */}
-                        <div className="main-page-title" style={{ whiteSpace: 'pre-line', marginBottom: '24px' }}>
+                        <h1 className={`main-page-title ${styles.pageTitle}`}>
                             {renderMainText()}
-                        </div>
+                        </h1>
 
                         {/* Map (마커만 표시, 플로팅 패널 없음) */}
                         {showMap && (
                             <div className={styles.mapSection}>
-                                <InteractiveShuttleMap 
-                                    mode={mapMode}
-                                    scheduleId={mapScheduleId}
-                                />
+                                <InteractiveShuttleMap mode="church" />
                             </div>
+                        )}
+
+                        {/* 오시는 길: 할 일을 큰 줄로 + 가까운 정류장 (지도가 안 떠도 글자로) */}
+                        {showMap && (
+                            <div className={styles.listArea}>
+                                <div className={styles.actionRows}>
+                                    <button
+                                        type="button"
+                                        className={`${styles.actionRow} ${styles.actionRowAddress}`}
+                                        onClick={copyAddress}
+                                    >
+                                        <span className={styles.actionMain}>{CHURCH_ADDRESS}</span>
+                                        <span className={styles.actionHint} aria-live="polite">
+                                            {addressCopied ? '복사했어요' : '눌러서 복사'}
+                                        </span>
+                                    </button>
+                                    <a className={styles.actionRow} href={naverRouteUrl} target="_blank" rel="noopener noreferrer">
+                                        <span className={styles.actionMain}>네이버 지도로 길찾기</span>
+                                        <span className={styles.actionHint}>열기</span>
+                                    </a>
+                                    <a className={styles.actionRow} href={kakaoRouteUrl} target="_blank" rel="noopener noreferrer">
+                                        <span className={styles.actionMain}>카카오맵으로 길찾기</span>
+                                        <span className={styles.actionHint}>열기</span>
+                                    </a>
+                                    <a className={styles.actionRow} href={`tel:${CHURCH_PHONE}`}>
+                                        <span className={styles.actionMain}>{CHURCH_PHONE}</span>
+                                        <span className={styles.actionHint}>전화 걸기</span>
+                                    </a>
+                                </div>
+                                <p className={styles.listLabel}>가까운 정류장</p>
+                                <ul className={styles.infoList}>
+                                    {TRANSIT_STOPS.map((stop) => (
+                                        <li key={stop.name} className={styles.infoItem}>
+                                            <span className={styles.infoName}>{stop.name}</span>
+                                            <span className={styles.infoTime}>{stop.time}</span>
+                                            <span className={styles.infoMeta}>{stopKind[stop.type]}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
+                        {/* 예배시간: 어른 / 다음세대 → 예배 목록을 한 번에 */}
+                        {category === 'worship' && (
+                            <>
+                                <div className={styles.pillGroup} role="group" aria-label="예배 나눠 보기">
+                                    {worshipGroups.map((group) => (
+                                        <button
+                                            key={group.id}
+                                            type="button"
+                                            className={styles.pill}
+                                            aria-pressed={worshipGroup.id === group.id}
+                                            onClick={() => handleWorshipGroupSelect(group.id)}
+                                        >
+                                            {group.label}
+                                        </button>
+                                    ))}
+                                </div>
+                                <div className={styles.listArea} aria-live="polite">
+                                    <AnimatePresence mode="wait" initial={false}>
+                                        <motion.ul
+                                            key={worshipGroup.id}
+                                            className={styles.infoList}
+                                            aria-label={`${worshipGroup.label} 시간`}
+                                            initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={reduceMotion ? { opacity: 0, transition: { duration: 0 } } : { opacity: 0, y: -8 }}
+                                            transition={{ duration: 0.4, ease }}
+                                        >
+                                            {worshipGroup.items.map((item) => (
+                                                <li key={item.id} className={styles.infoItem}>
+                                                    <span className={styles.infoName}>{item.name}</span>
+                                                    <span className={styles.infoTime}>{item.time}</span>
+                                                    <span className={styles.infoMeta}>{item.day} · {item.location}</span>
+                                                </li>
+                                            ))}
+                                        </motion.ul>
+                                    </AnimatePresence>
+                                </div>
+                            </>
+                        )}
+
+                        {/* 차량운행: 예배 버튼 → 동네별 노선 글자 목록 (지도 없이도 답이 보이게) */}
+                        {category === 'shuttle' && (
+                            <>
+                                <p className={styles.pageSub}>예배를 고르시면 동네별 셔틀 시간을 알려 드려요.</p>
+                                <div className={styles.pillGroup} role="group" aria-label="예배 고르기">
+                                    {shuttleSchedules.map((schedule) => (
+                                        <button
+                                            key={schedule.id}
+                                            type="button"
+                                            className={styles.pill}
+                                            aria-pressed={selectedShuttle?.id === schedule.id}
+                                            onClick={() => handleShuttleSelect(schedule)}
+                                        >
+                                            {shuttleLabels[schedule.id] ?? schedule.name}
+                                        </button>
+                                    ))}
+                                </div>
+                                <div className={styles.listArea} aria-live="polite">
+                                    <AnimatePresence mode="wait" initial={false}>
+                                        {selectedShuttle && (
+                                            <motion.ul
+                                                key={selectedShuttle.id}
+                                                className={styles.infoList}
+                                                aria-label={`${selectedShuttle.name} 셔틀 노선`}
+                                                initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={reduceMotion ? { opacity: 0, transition: { duration: 0 } } : { opacity: 0, y: -8 }}
+                                                transition={{ duration: 0.4, ease }}
+                                            >
+                                                {selectedShuttle.routes.map((route) => (
+                                                    <li key={route.id} className={styles.infoItem}>
+                                                        <span className={styles.infoName}>{route.area}</span>
+                                                        <span className={styles.infoTime}>{route.time}</span>
+                                                        <span className={styles.infoMeta}>차량 {route.carNum}</span>
+                                                    </li>
+                                                ))}
+                                            </motion.ul>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+                            </>
                         )}
 
                         {/* Buttons Area */}
@@ -231,96 +373,39 @@ const GuidePage = () => {
                             {/* Step 1: 메인 선택 */}
                             {step === 1 && (
                                 <>
-                                    <button className={styles.selectButton} onClick={() => { setCategory('worship'); setSubCategory('all'); setStep(2); }}>예배시간</button>
-                                    <button className={styles.selectButton} onClick={() => { setCategory('directions'); setSubCategory('location'); setStep(2); }}>오시는 길</button>
-                                    <button className={styles.selectButton} onClick={() => { setCategory('shuttle'); setSubCategory('shuttle'); setStep(2); }}>차량운행</button>
-                                    <button className={styles.selectButton} onClick={() => { setCategory('parking'); setSubCategory('parking'); setStep(2); }}>주차</button>
-                                    <button className={styles.selectButton} onClick={() => { setCategory('facilities'); setSubCategory('1F'); setStep(2); }}>시설 안내</button>
+                                    <button className={styles.selectButton} onClick={() => handleCategorySelect('worship')}>예배시간</button>
+                                    <button className={styles.selectButton} onClick={() => handleCategorySelect('directions')}>오시는 길</button>
+                                    <button className={styles.selectButton} onClick={() => handleCategorySelect('shuttle')}>차량운행</button>
+                                    <button className={styles.selectButton} onClick={() => handleCategorySelect('parking')}>주차</button>
+                                    <button className={styles.selectButton} onClick={() => handleCategorySelect('facilities')}>시설 안내</button>
                                 </>
                             )}
 
-                            {/* 예배시간 선택됨 (드롭다운) */}
                             {step === 2 && category === 'worship' && (
-                                <>
-                                    <div className={styles.dropdownContainer} ref={dropdownRef}>
-                                        <button 
-                                            className={`${styles.selectButton} ${dropdownOpen ? styles.dropdownOpenButton : ''}`} 
-                                            onClick={toggleDropdown}
-                                        >
-                                            예배 선택
-                                            <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
-                                                {dropdownOpen ? 'expand_less' : 'expand_more'}
-                                            </span>
-                                        </button>
-                                        
-                                        {dropdownOpen && (
-                                            <div className={styles.dropdownMenu}>
-                                                <div className={styles.scrollArea} data-lenis-prevent>
-                                                    {getWorshipOptions().map((worship, idx) => (
-                                                        <div 
-                                                            key={idx} 
-                                                            className={styles.dropdownItem}
-                                                            onClick={() => handleWorshipSelect(worship)}
-                                                        >
-                                                            {worship.name}
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                    <button className={styles.selectButton} onClick={resetToHome}>처음으로</button>
-                                </>
+                                <button className={styles.selectButton} onClick={resetToHome}>처음으로</button>
                             )}
 
-                            {/* 교회 위치 및 대중교통 선택됨 (지도 화면) */}
-                            {step === 2 && category === 'directions' && subCategory === 'location' && (
-                                <>
-                                    <a 
-                                        href={`https://map.naver.com/index.nhn?elng=${CHURCH_COORDS.lng}&elat=${CHURCH_COORDS.lat}&etext=${encodeURIComponent('신탄진침례교회')}&menu=route`} 
-                                        target="_blank" 
-                                        rel="noopener noreferrer"
-                                        className={styles.naverButton}
-                                    >
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#03C75A" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M16.096 11.235L8.71 0H0v24h7.904V12.765L15.29 24H24V0h-7.904v11.235z"/>
-                                        </svg>
-                                        네이버 길찾기
-                                    </a>
-                                    <button className={styles.selectButton} onClick={resetToHome}>처음으로</button>
-                                </>
+                            {step === 2 && category === 'directions' && (
+                                <button className={styles.selectButton} onClick={resetToHome}>처음으로</button>
                             )}
 
-                            {/* 차량운행 - 셔틀 예배 선택 드롭다운 */}
-                            {step === 2 && category === 'shuttle' && subCategory === 'shuttle' && (
+                            {/* 차량운행: 지도는 필요할 때만 펼침 */}
+                            {step === 2 && category === 'shuttle' && (
                                 <>
-                                    <div className={styles.dropdownContainer} ref={dropdownRef}>
-                                        <button 
-                                            className={`${styles.selectButton} ${dropdownOpen ? (selectedShuttle ? styles.dropdownOpenButtonUp : styles.dropdownOpenButton) : ''}`} 
-                                            onClick={toggleDropdown}
+                                    {selectedShuttle && (
+                                        <button
+                                            type="button"
+                                            className={styles.selectButton}
+                                            aria-expanded={shuttleMapOpen}
+                                            aria-controls="shuttle-map"
+                                            onClick={toggleShuttleMap}
                                         >
-                                            예배 선택
-                                            <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
-                                                {dropdownOpen ? 'expand_less' : 'expand_more'}
+                                            {shuttleMapOpen ? '지도 접기' : '지도로 보기'}
+                                            <span className="material-symbols-outlined" style={{ fontSize: '20px' }} aria-hidden="true">
+                                                {shuttleMapOpen ? 'expand_less' : 'expand_more'}
                                             </span>
                                         </button>
-                                        
-                                        {dropdownOpen && (
-                                            <div className={`${styles.dropdownMenu} ${selectedShuttle ? styles.dropdownMenuUp : ''}`}>
-                                                <div className={`${styles.scrollArea} ${selectedShuttle ? styles.scrollAreaUp : ''}`} data-lenis-prevent>
-                                                    {shuttleSchedules.map((schedule) => (
-                                                        <div 
-                                                            key={schedule.id} 
-                                                            className={styles.dropdownItem}
-                                                            onClick={() => handleShuttleSelect(schedule)}
-                                                        >
-                                                            {schedule.name}
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
+                                    )}
                                     <button className={styles.selectButton} onClick={resetToHome}>처음으로</button>
                                 </>
                             )}
@@ -334,6 +419,21 @@ const GuidePage = () => {
                         </div>
                         )}
 
+                        {category === 'shuttle' && selectedShuttle && (
+                            <div
+                                id="shuttle-map"
+                                className={`${styles.mapReveal} ${shuttleMapOpen ? styles.mapRevealOpen : ''}`}
+                            >
+                                <div>
+                                    {shuttleMapOpen && (
+                                        <div className={styles.shuttleMap}>
+                                            <InteractiveShuttleMap mode="shuttle" scheduleId={selectedShuttle.id} />
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
                         {/* 시설 안내 레이아웃 */}
                         {step === 2 && category === 'facilities' && (
                             <div className={styles.facilitiesContainer}>
@@ -343,12 +443,13 @@ const GuidePage = () => {
                                             <button 
                                                 key={tab.id}
                                                 className={`${styles.verticalSelectButton} ${subCategory === tab.id ? styles.active : ''}`}
-                                                onClick={() => setSubCategory(tab.id)}
+                                                aria-pressed={subCategory === tab.id}
+                                                onClick={() => handleFloorSelect(tab.id)}
                                             >
                                                 {subCategory === tab.id && (
                                                     <motion.div
                                                         layoutId="facilityActiveTabDesktop"
-                                                        transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
+                                                        transition={reduceMotion ? { duration: 0 } : { type: "spring", bounce: 0.3, duration: 0.6 }}
                                                         className={styles.activeBackground}
                                                     />
                                                 )}
@@ -359,11 +460,12 @@ const GuidePage = () => {
                                     <button className={styles.selectButton} onClick={resetToHome} style={{ width: '100%', marginTop: '12px' }}>처음으로</button>
                                 </div>
                                 <div className={styles.facilitiesMapArea}>
-                                    <AnimatePresence mode="wait">
-                                        <motion.img 
+                                    <AnimatePresence mode="wait" initial={false} custom={reduceMotion}>
+                                        <motion.img
+                                            custom={reduceMotion}
                                             key={subCategory}
                                             src={mapImages[subCategory]} 
-                                            alt="시설 안내 지도" 
+                                            alt={facilityAlt(subCategory)}
                                             variants={fadeVariants}
                                             initial="hidden"
                                             animate="show"
@@ -378,10 +480,11 @@ const GuidePage = () => {
             </div>
             
             {/* 시설 안내 레이아웃 (모바일 사이드바) */}
-            <AnimatePresence>
+            <AnimatePresence initial={false} custom={reduceMotion}>
                 {step === 2 && category === 'facilities' && (
                     <motion.div 
                         className={styles.facilitiesSidebarMobile}
+                        custom={reduceMotion}
                         variants={fadeVariants}
                         initial="hidden"
                         animate="show"
@@ -392,15 +495,16 @@ const GuidePage = () => {
                                 <button 
                                     key={tab.id}
                                     className={`${styles.verticalSelectButton} ${subCategory === tab.id ? styles.active : ''}`}
+                                    aria-pressed={subCategory === tab.id}
                                     onClick={(e) => {
-                                        setSubCategory(tab.id);
+                                        handleFloorSelect(tab.id);
                                         e.currentTarget.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
                                     }}
                                 >
                                     {subCategory === tab.id && (
                                         <motion.div
                                             layoutId="facilityActiveTabMobile"
-                                            transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
+                                            transition={reduceMotion ? { duration: 0 } : { type: "spring", bounce: 0.3, duration: 0.6 }}
                                             className={styles.activeBackground}
                                         />
                                     )}
