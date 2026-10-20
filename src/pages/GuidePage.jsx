@@ -41,6 +41,8 @@ const mapImages = {
 };
 
 const ease = [0.16, 1, 0.3, 1];
+// 시설 안내 층 알약이 펼쳐지고 접힐 때: 넘침 없는 스프링 (도중에 다른 층을 눌러도 지금 모양에서 이어 감)
+const viewerSpring = { type: 'spring', bounce: 0, duration: 0.45 };
 
 // 바뀌는 부분만 opacity + translateY(8px). custom으로 움직임 줄이기 여부를 받아 그때는 바로 바꾼다
 const fadeVariants = {
@@ -178,6 +180,9 @@ const GuidePage = () => {
     const [addressCopied, setAddressCopied] = useState(false);
 
     const tabsRef = useRef(null);
+    // 층 알약을 누르면 그 버튼이 펼친 칸으로 바뀌므로, 키보드 위치를 펼친 칸으로 옮긴다
+    const floorPanelRef = useRef(null);
+    const floorPicked = useRef(false);
     const tabListRef = useRef(null);
     const jumpingRef = useRef(false);
     const jumpTimer = useRef(null);
@@ -294,6 +299,17 @@ const GuidePage = () => {
         clearTimeout(copyTimer.current);
         clearTimeout(jumpTimer.current);
     }, []);
+
+    const pickFloor = (id) => {
+        floorPicked.current = true;
+        updateParams({ floor: id });
+    };
+
+    useEffect(() => {
+        if (!floorPicked.current) return;
+        floorPicked.current = false;
+        floorPanelRef.current?.focus({ preventScroll: true });
+    }, [floor]);
 
     const listMotion = {
         initial: reduceMotion ? false : { opacity: 0, y: 8 },
@@ -515,27 +531,77 @@ const GuidePage = () => {
                 </div>
             </section>
 
-            {/* ⑦ 시설 안내: 가운데 제목 → 층 고르기(다른 섹션과 같은 알약) → 회색 28px 카드 안 평면도 */}
+            {/* ⑦ 시설 안내: 애플 product viewer처럼 왼쪽 층 알약(고른 층은 그 자리에서 펼쳐짐) / 오른쪽 흰 무대 위 평면도 */}
             <section id="facilities" className={styles.sec} aria-labelledby="facilities-title">
                 <div className={styles.wrap}>
                     <div className={styles.secHead}>
                         <h2 id="facilities-title" className={styles.secTitle}>교회 곳곳을 둘러보세요.</h2>
-                        <div className={`${styles.pillGroup} ${styles.pillGroupCenter}`} role="group" aria-label="층 고르기">
-                            {facilityTabs.map((tab) => (
-                                <button
-                                    key={tab.id}
-                                    type="button"
-                                    className={styles.pill}
-                                    aria-pressed={floor === tab.id}
-                                    onClick={() => updateParams({ floor: tab.id })}
-                                >
-                                    {tab.label}
-                                </button>
-                            ))}
-                        </div>
                     </div>
-                    <figure className={styles.planCard}>
-                        <div className={styles.planImage}>
+                    <div className={styles.viewer}>
+                        <ul className={styles.viewerControls} aria-label="층 고르기">
+                            {facilityTabs.map((tab, index) => {
+                                const open = floor === tab.id;
+                                const prev = facilityTabs[index - 1];
+                                const next = facilityTabs[index + 1];
+                                return (
+                                    <motion.li
+                                        key={tab.id}
+                                        layout={!reduceMotion}
+                                        transition={viewerSpring}
+                                        className={`${styles.viewerItem} ${open ? styles.viewerItemOpen : ''}`}
+                                    >
+                                        {open ? (
+                                            <motion.div
+                                                ref={floorPanelRef}
+                                                tabIndex={-1}
+                                                layout={!reduceMotion ? 'position' : false}
+                                                className={styles.viewerPanel}
+                                                aria-live="polite"
+                                            >
+                                                <p className={styles.viewerText}>
+                                                    <strong>{tab.name}.</strong> {tab.rooms.join(' · ')}
+                                                </p>
+                                                <div className={styles.viewerNav}>
+                                                    <button
+                                                        type="button"
+                                                        className={styles.viewerNavBtn}
+                                                        aria-label={prev ? `이전 층: ${prev.label}` : '이전 층 없음'}
+                                                        disabled={!prev}
+                                                        onClick={() => prev && pickFloor(prev.id)}
+                                                    >
+                                                        <span className="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        className={styles.viewerNavBtn}
+                                                        aria-label={next ? `다음 층: ${next.label}` : '다음 층 없음'}
+                                                        disabled={!next}
+                                                        onClick={() => next && pickFloor(next.id)}
+                                                    >
+                                                        <span className="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+                                                    </button>
+                                                </div>
+                                            </motion.div>
+                                        ) : (
+                                            <motion.button
+                                                layout={!reduceMotion ? 'position' : false}
+                                                type="button"
+                                                className={styles.viewerOpen}
+                                                aria-controls="facility-plan"
+                                                onClick={() => pickFloor(tab.id)}
+                                            >
+                                                <svg className={styles.viewerPlus} viewBox="0 0 24 24" aria-hidden="true">
+                                                    <circle cx="12" cy="12" r="11.25" />
+                                                    <path d="M12 7.5v9M7.5 12h9" />
+                                                </svg>
+                                                {tab.label}
+                                            </motion.button>
+                                        )}
+                                    </motion.li>
+                                );
+                            })}
+                        </ul>
+                        <div id="facility-plan" className={styles.viewerStage}>
                             <AnimatePresence mode="wait" initial={false} custom={reduceMotion}>
                                 <motion.img
                                     custom={reduceMotion}
@@ -549,10 +615,7 @@ const GuidePage = () => {
                                 />
                             </AnimatePresence>
                         </div>
-                        <figcaption className={styles.planCaption} aria-live="polite">
-                            {facilityTabs.find((tab) => tab.id === floor)?.name}
-                        </figcaption>
-                    </figure>
+                    </div>
                 </div>
             </section>
 

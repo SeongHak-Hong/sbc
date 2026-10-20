@@ -458,39 +458,152 @@
     color: var(--color-text-primary);
 }
 
-/* ---------- ⑦ 시설 안내: 애플 Feature Media Card처럼 회색 28px 카드, 그림자 없음 ---------- */
-.pillGroupCenter {
-    justify-content: center;
+/* ---------- ⑦ 시설 안내: 애플 product viewer 방식 ---------- */
+/* 왼쪽 회색 알약(⊕ + 층 이름). 고른 층은 그 자리에서 넓은 칸으로 펼쳐져 방 목록과 이전/다음 버튼을 보여 준다 */
+.viewer {
+    --viewer-pill: #e8e8ed; /* Apple product viewer 알약 색 */
+    display: grid;
+    grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
+    gap: 40px;
+    align-items: center;
+    min-height: 560px;
 }
 
-.planCard {
+.viewerControls {
+    list-style: none;
     margin: 0;
-    padding: 52px;
-    border-radius: var(--r-card);
-    background-color: var(--color-surface-band);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
 }
 
-.planImage {
+.viewerItem {
+    border-radius: 28px;
+    background-color: var(--viewer-pill);
+    overflow: hidden;
+}
+
+.viewerItemOpen {
+    width: 100%;
+}
+
+.viewerOpen {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 56px;
+    padding: 0 28px 0 16px;
+    border: none;
+    background: none;
+    color: var(--color-text-strong);
+    font: inherit;
+    font-size: var(--t-body);
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: opacity 0.15s ease;
+}
+
+.viewerOpen:active {
+    opacity: 0.6;
+}
+
+.viewerOpen:focus-visible,
+.viewerNavBtn:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
+}
+
+.viewerPlus {
+    width: 24px;
+    height: 24px;
+    flex: 0 0 auto;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+}
+
+.viewerPanel {
+    padding: 28px;
+}
+
+.viewerPanel:focus {
+    outline: none;
+}
+
+.viewerPanel:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: -2px;
+    border-radius: 28px;
+}
+
+.viewerText {
+    margin: 0;
+    font-size: var(--t-body);
+    line-height: 1.47;
+    color: var(--color-text-primary);
+}
+
+.viewerText strong {
+    font-weight: 500;
+    color: var(--color-text-strong);
+}
+
+.viewerNav {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.viewerNavBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: var(--color-white);
+    color: var(--color-text-strong);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity 0.15s ease, transform 0.12s ease-out;
+}
+
+.viewerNavBtn:active {
+    transform: scale(0.94);
+}
+
+.viewerNavBtn:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.viewerNavBtn :global(.material-symbols-outlined) {
+    font-size: 24px;
+}
+
+/* 오른쪽 흰 무대: 카드 없이 평면도만 */
+.viewerStage {
     display: flex;
     justify-content: center;
     align-items: center;
     aspect-ratio: 602 / 474;
-    max-width: 760px;
-    max-height: 60vh;
-    margin: 0 auto;
+    width: 100%;
+    max-height: 70vh;
 }
 
-.planImage img {
+.viewerStage img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-}
-
-.planCaption {
-    margin-top: 1.25rem;
-    font-size: 14px;
-    text-align: center;
-    color: var(--color-text-meta);
 }
 
 /* ---------- 태블릿 · 모바일 ---------- */
@@ -501,6 +614,11 @@
 
     .summary {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .viewer {
+        grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+        gap: 28px;
     }
 }
 
@@ -536,8 +654,15 @@
         gap: 40px;
     }
 
-    .planCard {
-        padding: 28px;
+    /* 휴대폰: 평면도 먼저, 아래에 층 알약 */
+    .viewer {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        min-height: 0;
+    }
+
+    .viewerStage {
+        order: -1;
     }
 }
 
