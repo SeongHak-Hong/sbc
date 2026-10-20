@@ -383,73 +383,6 @@
     color: var(--color-text-meta);
 }
 
-/* ---------- ⑤ 차량운행: 지도 펼치기 ---------- */
-.mapToggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    min-height: 48px;
-    margin-top: 16px;
-    padding: 8px 18px 8px 20px;
-    border: none;
-    border-radius: var(--radius-pill);
-    background-color: var(--color-surface-band);
-    color: var(--color-text-strong);
-    font: inherit;
-    font-size: 17px;
-    font-weight: 500;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-user-select: none;
-    user-select: none;
-    transition: background-color 0.2s ease, transform 0.12s ease-out;
-}
-
-.mapToggle:active {
-    transform: scale(0.96);
-    background-color: var(--color-surface-band-hover);
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .mapToggle:hover {
-        background-color: var(--color-surface-band-hover);
-    }
-}
-
-.mapToggle:focus-visible {
-    outline: 2px solid var(--color-accent-sky);
-    outline-offset: 2px;
-}
-
-.mapToggleIcon {
-    font-size: 20px;
-    transition: transform 0.4s var(--ease-smooth);
-}
-
-.mapToggle[aria-expanded="true"] .mapToggleIcon {
-    transform: rotate(180deg);
-}
-
-/* 지도 펼치기: 높이를 grid 행으로 열어 레이아웃이 튀지 않게 */
-.mapReveal {
-    display: grid;
-    grid-template-rows: 0fr;
-    width: 100%;
-    transition: grid-template-rows 0.5s var(--ease-smooth);
-}
-
-.mapReveal > div {
-    overflow: hidden;
-}
-
-.mapRevealOpen {
-    grid-template-rows: 1fr;
-}
-
-.shuttleMap {
-    padding-top: 16px;
-}
-
 /* ---------- ⑥ 주차: 회색 띠 위 가운데 큰 문장 ---------- */
 .band {
     padding: var(--pad-sec) 0;
@@ -667,15 +600,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .tabs,
-    .mapReveal,
-    .mapToggleIcon {
+    .tabs {
         transition: none;
     }
 
     .tab:active,
-    .pill:active,
-    .mapToggle:active {
+    .pill:active {
         transform: none;
     }
 }

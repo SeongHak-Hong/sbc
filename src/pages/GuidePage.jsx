@@ -125,7 +125,6 @@ const GuidePage = () => {
     const [current, setCurrent] = useState(sectionIds.includes(tabParam) ? tabParam : sectionIds[0]);
     const [headerHidden, setHeaderHidden] = useState(false);
     const [tabsStuck, setTabsStuck] = useState(false);
-    const [shuttleMapOpen, setShuttleMapOpen] = useState(false);
     const [addressCopied, setAddressCopied] = useState(false);
 
     const tabsRef = useRef(null);
@@ -219,23 +218,6 @@ const GuidePage = () => {
     const handleTabClick = (id) => {
         scrollToSection(id);
         updateParams({ tab: id });
-    };
-
-    // 지도는 목록 아래에서 열리므로, 펼칠 때 화면을 지도 쪽으로 내려 열린 걸 보여 준다
-    const toggleShuttleMap = () => {
-        const opening = !shuttleMapOpen;
-        setShuttleMapOpen(opening);
-        if (!opening) return;
-        setTimeout(() => {
-            const target = document.getElementById('shuttle-map');
-            if (!target) return;
-            if (window.lenis) {
-                window.lenis.resize?.(); // 펼친 만큼 늘어난 페이지 길이를 Lenis에 반영
-                window.lenis.scrollTo(target, { offset: -120, immediate: reduceMotion });
-            } else {
-                target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
-            }
-        }, reduceMotion ? 50 : 520); // 펼침(0.5s)이 끝난 뒤
     };
 
     const copyAddress = async () => {
@@ -501,28 +483,6 @@ const GuidePage = () => {
                                     ))}
                                 </motion.ul>
                             </AnimatePresence>
-                        </div>
-                        <button
-                            type="button"
-                            className={styles.mapToggle}
-                            aria-expanded={shuttleMapOpen}
-                            aria-controls="shuttle-map"
-                            onClick={toggleShuttleMap}
-                        >
-                            {shuttleMapOpen ? '지도 접기' : '지도로 보기'}
-                            <span className={`material-symbols-outlined ${styles.mapToggleIcon}`} aria-hidden="true">expand_more</span>
-                        </button>
-                        <div
-                            id="shuttle-map"
-                            className={`${styles.mapReveal} ${shuttleMapOpen ? styles.mapRevealOpen : ''}`}
-                        >
-                            <div>
-                                {shuttleMapOpen && (
-                                    <div className={styles.shuttleMap}>
-                                        <InteractiveShuttleMap mode="shuttle" scheduleId={selectedShuttle.id} />
-                                    </div>
-                                )}
-                            </div>
                         </div>
                     </div>
                 </div>
