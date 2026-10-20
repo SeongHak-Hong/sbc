@@ -1,24 +1,19 @@
+/* 섹션 여백은 메인 페이지(MainPage.module.css --pad-sec · --space-head)와 같은 값 */
 .sectionContainer {
-    padding: var(--section-padding-y, 160px) 24px;
+    padding: 8rem 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 64px;
+    gap: 3rem;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
-    .sectionContainer {
-        padding: var(--section-padding-y, 160px) 24px;
-    }
-}
-
 @media (max-width: 767px) {
     .sectionContainer {
-        padding: 120px 16px;
-        gap: 40px;
+        padding: 4.5rem 1.125rem;
+        gap: 2rem;
     }
 }
 
