@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import styles from './GuidePage.module.css';
 
 import InteractiveShuttleMap from '../components/ui/InteractiveShuttleMap';
-import { CHURCH_COORDS, CHURCH_ADDRESS, CHURCH_PHONE, shuttleSchedules } from '../data/shuttleData';
+import { CHURCH_COORDS, CHURCH_ADDRESS, shuttleSchedules } from '../data/shuttleData';
 
 import map1F from '../assets/guide/1F.svg';
 import map2F from '../assets/guide/2F.svg';
@@ -130,11 +130,11 @@ const findNextWorship = (items, now) => {
 const sections = [
     { id: 'directions', label: '오시는 길' },
     { id: 'worship', label: '예배시간' },
-    { id: 'shuttle', label: '차량운행' },
-    { id: 'parking', label: '주차' },
     { id: 'facilities', label: '시설 안내' },
 ];
 const sectionIds = sections.map((s) => s.id);
+// 차량운행·주차는 오시는 길 안으로 들어감. 예전 링크(?tab=shuttle, ?tab=parking)도 오시는 길로 연다
+const tabAliases = { shuttle: 'directions', parking: 'directions' };
 
 // 차량운행 예배 버튼에 쓰는 짧은 이름 (shuttleData의 id 기준)
 const shuttleLabels = {
@@ -156,7 +156,7 @@ const GuidePage = () => {
     // 예: /guide?tab=worship&g=next, /guide?tab=shuttle&s=sunday2, /guide?tab=facilities&floor=3F
     // tab은 처음 열 때 내려갈 섹션
     const [searchParams, setSearchParams] = useSearchParams();
-    const tabParam = searchParams.get('tab');
+    const tabParam = tabAliases[searchParams.get('tab')] ?? searchParams.get('tab');
     const worshipGroup = worshipGroups.find((g) => g.id === searchParams.get('g')) ?? worshipGroups[0];
     const selectedShuttle = shuttleSchedules.find((s) => s.id === searchParams.get('s'))
         ?? shuttleSchedules.find((s) => s.id === defaultShuttleId)
@@ -243,7 +243,7 @@ const GuidePage = () => {
         // 위로 올라가면 Header가 다시 나오므로 그만큼 더 띄운다. 섹션 위 여백은 절반만 남긴다
         const goingUp = el.getBoundingClientRect().top < 0;
         const stickyH = (tabsRef.current?.offsetHeight ?? 64) + (goingUp ? HEADER_H : 0);
-        const padTop = el.dataset.band ? 0 : parseFloat(getComputedStyle(el).paddingTop) / 2;
+        const padTop = parseFloat(getComputedStyle(el).paddingTop) / 2;
         const offset = padTop - stickyH;
         const immediate = instant || reduceMotion;
         if (window.lenis) {
@@ -315,7 +315,7 @@ const GuidePage = () => {
                 </div>
             </nav>
 
-            {/* ③ 오시는 길: 제목 없이 넓은 지도 → 글자 2단 (주소 / 도움이 필요할 땐) */}
+            {/* ③ 오시는 길: 제목 없이 넓은 지도 → 3단 (주소 / 교회 차 시간 / 주차 안내) */}
             <section id="directions" className={styles.sec} aria-label="오시는 길">
                 <div className={styles.wrap}>
                     <div className={styles.bigMap}>
@@ -332,31 +332,51 @@ const GuidePage = () => {
                                 </a>
                             </div>
                         </div>
-                        <div>
-                            <h3 className={styles.summaryTitle}>도움이 필요할 땐</h3>
-                            <p className={styles.summaryText}>도움이 필요하시면 언제든 연락해 주세요.</p>
-                            <div className={styles.links}>
-                                <a className={styles.textLink} href={`tel:${CHURCH_PHONE}`}>
-                                    <span className={styles.textLinkLabel}>{CHURCH_PHONE} 전화 걸기</span>
-                                    <span className={`material-symbols-outlined ${styles.textLinkIcon}`} aria-hidden="true">call</span>
-                                </a>
-                                <a
-                                    className={styles.textLink}
-                                    href="?tab=shuttle"
-                                    onClick={(e) => { e.preventDefault(); handleTabClick('shuttle'); }}
-                                >
-                                    <span className={styles.textLinkLabel}>교회 차 시간 보기</span>
-                                    <span className={`material-symbols-outlined ${styles.textLinkIcon}`} aria-hidden="true">chevron_right</span>
-                                </a>
-                                <a
-                                    className={styles.textLink}
-                                    href="?tab=parking"
-                                    onClick={(e) => { e.preventDefault(); handleTabClick('parking'); }}
-                                >
-                                    <span className={styles.textLinkLabel}>주차 안내 보기</span>
-                                    <span className={`material-symbols-outlined ${styles.textLinkIcon}`} aria-hidden="true">chevron_right</span>
-                                </a>
+                        <div className={styles.summaryShuttle}>
+                            <h3 className={styles.summaryTitle}>교회 차 시간</h3>
+                            <p className={styles.summaryText}>예배를 고르시면 동네별 셔틀 시간을 알려 드려요.</p>
+                            <div className={`${styles.pillGroup} ${styles.colPills}`} role="group" aria-label="예배 고르기">
+                                {shuttleSchedules.map((schedule) => (
+                                    <button
+                                        key={schedule.id}
+                                        type="button"
+                                        className={styles.pill}
+                                        aria-pressed={selectedShuttle.id === schedule.id}
+                                        onClick={() => updateParams({ s: schedule.id })}
+                                    >
+                                        {selectedShuttle.id === schedule.id && (
+                                            <motion.span
+                                                layoutId="shuttlePillThumb"
+                                                className={styles.pillThumb}
+                                                transition={reduceMotion ? { duration: 0 } : thumbSpring}
+                                            />
+                                        )}
+                                        <span className={styles.pillText}>{shuttleLabels[schedule.id] ?? schedule.name}</span>
+                                    </button>
+                                ))}
                             </div>
+                            <div aria-live="polite">
+                                <AnimatePresence mode="wait" initial={false}>
+                                    <motion.ul
+                                        key={selectedShuttle.id}
+                                        className={styles.infoList}
+                                        aria-label={`${selectedShuttle.name} 셔틀 노선`}
+                                        {...listMotion}
+                                    >
+                                        {selectedShuttle.routes.map((route) => (
+                                            <li key={route.id} className={styles.infoItem}>
+                                                <span className={styles.infoName}>{route.area}</span>
+                                                <span className={styles.infoTime}>{route.time}</span>
+                                                <span className={styles.infoMeta}>차량 {route.carNum}</span>
+                                            </li>
+                                        ))}
+                                    </motion.ul>
+                                </AnimatePresence>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 className={styles.summaryTitle}>주차 안내</h3>
+                            <p className={styles.summaryText}>교회 주차장은 언제나 열려 있어요.<br />주일에는 대죽체육관 주차장도 편하게 이용해 주세요.</p>
                         </div>
                     </div>
                 </div>
@@ -425,65 +445,7 @@ const GuidePage = () => {
                 </div>
             </section>
 
-            {/* ⑤ 차량운행: 왼쪽 제목 + 예배 고르기 / 오른쪽 동네별 노선 표 */}
-            <section id="shuttle" className={`${styles.sec} ${styles.two}`} aria-labelledby="shuttle-title">
-                <div className={`${styles.wrap} ${styles.secGrid}`}>
-                    <div className={styles.secHead}>
-                        <h2 id="shuttle-title" className={styles.secTitle}>동네까지 교회 차가<br />모시러 가요.</h2>
-                        <p className={styles.lead}>예배를 고르시면 동네별 셔틀 시간을 알려 드려요.</p>
-                        <div className={styles.pillGroup} role="group" aria-label="예배 고르기">
-                            {shuttleSchedules.map((schedule) => (
-                                <button
-                                    key={schedule.id}
-                                    type="button"
-                                    className={styles.pill}
-                                    aria-pressed={selectedShuttle.id === schedule.id}
-                                    onClick={() => updateParams({ s: schedule.id })}
-                                >
-                                    {selectedShuttle.id === schedule.id && (
-                                        <motion.span
-                                            layoutId="shuttlePillThumb"
-                                            className={styles.pillThumb}
-                                            transition={reduceMotion ? { duration: 0 } : thumbSpring}
-                                        />
-                                    )}
-                                    <span className={styles.pillText}>{shuttleLabels[schedule.id] ?? schedule.name}</span>
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                    <div>
-                        <div aria-live="polite">
-                            <AnimatePresence mode="wait" initial={false}>
-                                <motion.ul
-                                    key={selectedShuttle.id}
-                                    className={styles.infoList}
-                                    aria-label={`${selectedShuttle.name} 셔틀 노선`}
-                                    {...listMotion}
-                                >
-                                    {selectedShuttle.routes.map((route) => (
-                                        <li key={route.id} className={styles.infoItem}>
-                                            <span className={styles.infoName}>{route.area}</span>
-                                            <span className={styles.infoTime}>{route.time}</span>
-                                            <span className={styles.infoMeta}>차량 {route.carNum}</span>
-                                        </li>
-                                    ))}
-                                </motion.ul>
-                            </AnimatePresence>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ⑥ 주차: 회색 띠 위 가운데 큰 문장 (쉬어 가는 자리) */}
-            <section id="parking" data-band="true" className={`${styles.sec} ${styles.band}`} aria-labelledby="parking-title">
-                <div className={styles.wrap}>
-                    <h2 id="parking-title" className={styles.bandTitle}>교회 주차장은<br />언제나 열려 있어요.</h2>
-                    <p className={styles.bandText}>주일에는 대죽체육관 주차장도 편하게 이용해 주세요.</p>
-                </div>
-            </section>
-
-            {/* ⑦ 시설 안내: 가운데 제목 → 층 고르기(예배시간 탭과 같은 방식) → 회색 칸 안 평면도 + 층 이름 */}
+            {/* ⑤ 시설 안내: 가운데 제목 → 층 고르기(예배시간 탭과 같은 방식) → 회색 칸 안 평면도 + 층 이름 */}
             <section id="facilities" className={styles.sec} aria-labelledby="facilities-title">
                 <div className={styles.wrap}>
                     <div className={styles.secHead}>

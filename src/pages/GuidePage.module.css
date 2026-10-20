@@ -153,13 +153,6 @@
     text-wrap: balance;
 }
 
-.lead {
-    margin: 1rem 0 0;
-    font-size: 1.25rem;
-    line-height: 1.6;
-    color: var(--color-text-tertiary);
-}
-
 /* 표가 필요한 섹션(예배시간·차량운행): 메인 '이번 주 예배'처럼 왼쪽 제목 / 오른쪽 표 */
 .two .secGrid {
     display: grid;
@@ -325,7 +318,7 @@
 
 .summary {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 2.5rem 3rem;
     margin-top: 3.5rem;
     align-items: start;
@@ -405,31 +398,12 @@
     color: var(--color-text-tertiary);
 }
 
-/* ---------- ⑥ 주차: 회색 띠 위 가운데 큰 문장 ---------- */
-.band {
-    padding: var(--pad-sec) 0;
-    background-color: var(--color-surface-band);
-    text-align: center;
+/* 교회 차 시간 단: 고르기 버튼과 노선 표가 문장 바로 아래 */
+.colPills {
+    margin: 1rem 0;
 }
 
-.bandTitle {
-    margin: 0;
-    font-size: var(--t-display);
-    font-weight: 500;
-    line-height: 1.25;
-    letter-spacing: -0.03em;
-    color: var(--color-text-strong);
-    text-wrap: balance;
-}
-
-.bandText {
-    margin: 1.25rem 0 0;
-    font-size: 1.25rem;
-    line-height: 1.6;
-    color: var(--color-text-primary);
-}
-
-/* ---------- ⑦ 시설 안내: 메인 사진 칸처럼 회색 바탕 둥근 칸 안에 평면도 ---------- */
+/* ---------- ⑤ 시설 안내: 메인 사진 칸처럼 회색 바탕 둥근 칸 안에 평면도 ---------- */
 .pillGroupCenter {
     justify-content: center;
 }
@@ -477,6 +451,15 @@
         --t-strong: 2.25rem;
         background-size: 150% auto;
     }
+
+    .summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .summaryShuttle {
+        grid-column: 1 / -1;
+        order: 3;
+    }
 }
 
 @media (max-width: 767px) {
@@ -505,6 +488,10 @@
     .bigMap > div {
         aspect-ratio: 4 / 3;
         border-radius: var(--r-card);
+    }
+
+    .summaryShuttle {
+        order: 0;
     }
 
     .summary {
