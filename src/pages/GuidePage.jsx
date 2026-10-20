@@ -343,12 +343,9 @@ const GuidePage = () => {
                 </div>
             </nav>
 
-            {/* ③ 오시는 길: 넓은 지도 아래 글자 3단 (주소 / 가까운 정류장 / 도움이 필요할 땐) */}
-            <section id="directions" className={styles.sec} aria-labelledby="directions-title">
+            {/* ③ 오시는 길: 제목 없이 넓은 지도 → 글자 3단 (주소 / 가까운 정류장 / 도움이 필요할 땐) */}
+            <section id="directions" className={styles.sec} aria-label="오시는 길">
                 <div className={styles.wrap}>
-                    <div className={styles.secHead}>
-                        <h2 id="directions-title" className={styles.secTitle}>이렇게 오시면 돼요.</h2>
-                    </div>
                     <div className={styles.bigMap}>
                         <InteractiveShuttleMap mode="church" />
                     </div>
