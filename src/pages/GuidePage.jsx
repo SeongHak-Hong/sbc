@@ -40,6 +40,8 @@ const mapImages = {
 };
 
 const ease = [0.16, 1, 0.3, 1];
+// 고르기 표시 이동: 넘침 없는 스프링 (도중에 다시 눌러도 지금 자리에서 이어 감)
+const thumbSpring = { type: 'spring', bounce: 0, duration: 0.4 };
 
 // 화면 전환: opacity + translateY(8px). custom으로 움직임 줄이기 여부를 받아 그때는 바로 바꾼다
 const fadeVariants = {
@@ -260,15 +262,15 @@ const GuidePage = () => {
                                     </button>
                                     <a className={styles.actionRow} href={naverRouteUrl} target="_blank" rel="noopener noreferrer">
                                         <span className={styles.actionMain}>네이버 지도로 길찾기</span>
-                                        <span className={styles.actionHint}>열기</span>
+                                        <span className={styles.actionHint}>열기<span className={`material-symbols-outlined ${styles.actionChevron}`} aria-hidden="true">chevron_right</span></span>
                                     </a>
                                     <a className={styles.actionRow} href={kakaoRouteUrl} target="_blank" rel="noopener noreferrer">
                                         <span className={styles.actionMain}>카카오맵으로 길찾기</span>
-                                        <span className={styles.actionHint}>열기</span>
+                                        <span className={styles.actionHint}>열기<span className={`material-symbols-outlined ${styles.actionChevron}`} aria-hidden="true">chevron_right</span></span>
                                     </a>
                                     <a className={styles.actionRow} href={`tel:${CHURCH_PHONE}`}>
                                         <span className={styles.actionMain}>{CHURCH_PHONE}</span>
-                                        <span className={styles.actionHint}>전화 걸기</span>
+                                        <span className={styles.actionHint}>전화 걸기<span className={`material-symbols-outlined ${styles.actionChevron}`} aria-hidden="true">chevron_right</span></span>
                                     </a>
                                 </div>
                                 <p className={styles.listLabel}>가까운 정류장</p>
@@ -296,7 +298,14 @@ const GuidePage = () => {
                                             aria-pressed={worshipGroup.id === group.id}
                                             onClick={() => handleWorshipGroupSelect(group.id)}
                                         >
-                                            {group.label}
+                                            {worshipGroup.id === group.id && (
+                                                <motion.span
+                                                    layoutId="worshipPillThumb"
+                                                    className={styles.pillThumb}
+                                                    transition={reduceMotion ? { duration: 0 } : thumbSpring}
+                                                />
+                                            )}
+                                            <span className={styles.pillText}>{group.label}</span>
                                         </button>
                                     ))}
                                 </div>
@@ -337,7 +346,14 @@ const GuidePage = () => {
                                             aria-pressed={selectedShuttle?.id === schedule.id}
                                             onClick={() => handleShuttleSelect(schedule)}
                                         >
-                                            {shuttleLabels[schedule.id] ?? schedule.name}
+                                            {selectedShuttle?.id === schedule.id && (
+                                                <motion.span
+                                                    layoutId="shuttlePillThumb"
+                                                    className={styles.pillThumb}
+                                                    transition={reduceMotion ? { duration: 0 } : thumbSpring}
+                                                />
+                                            )}
+                                            <span className={styles.pillText}>{shuttleLabels[schedule.id] ?? schedule.name}</span>
                                         </button>
                                     ))}
                                 </div>

@@ -86,9 +86,10 @@
     margin-bottom: 12px;
 }
 
+/* 큰 줄·글자 목록: 칸 없이 얇은 선으로만 나눈다 (메인 '자주 묻는 것'과 같은 결). 맨 윗줄엔 선 없음 */
 .actionRows {
     display: grid;
-    gap: 8px;
+    border-bottom: 1px solid var(--color-line);
 }
 
 .actionRow {
@@ -97,18 +98,29 @@
     justify-content: space-between;
     gap: 12px;
     width: 100%;
-    min-height: 64px;
-    padding: 16px 24px;
+    min-height: 72px;
+    padding: 18px 4px;
     border: none;
-    border-radius: 20px;
-    background-color: var(--color-white);
-    box-shadow: 0 0 10px rgba(233, 238, 255, 0.75);
+    border-radius: 0;
+    background-color: transparent;
     color: var(--color-text-strong);
     font: inherit;
     text-align: left;
     text-decoration: none;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: background-color 0.2s ease;
+}
+
+.actionRow + .actionRow {
+    border-top: 1px solid var(--color-line);
+}
+
+/* 누르는 순간 옅은 회색이 비친다 (손을 떼기 전에 반응) */
+.actionRow:active {
+    background-color: var(--color-surface-band);
 }
 
 .actionRow:focus-visible {
@@ -116,32 +128,44 @@
     outline-offset: 2px;
 }
 
-@media (hover: hover) and (pointer: fine) {
-    .actionRow:hover {
-        transform: translateY(-2px);
-    }
-}
-
 .actionMain {
     font-size: 19px;
     font-weight: 500;
+    line-height: 1.4;
     letter-spacing: -0.02em;
 }
 
 .actionRowAddress .actionMain {
     font-size: 21px;
+    letter-spacing: -0.025em;
 }
 
 .actionHint {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
     font-size: 15px;
     color: var(--color-text-tertiary);
+    letter-spacing: -0.01em;
     white-space: nowrap;
 }
 
+.actionChevron {
+    font-size: 20px;
+    transition: transform 0.2s var(--ease-smooth);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .actionRow:hover .actionChevron {
+        transform: translateX(2px);
+    }
+}
+
 .listLabel {
-    margin: 24px 4px 8px;
+    margin: 40px 4px 4px;
     font-size: 15px;
     color: var(--color-text-tertiary);
+    letter-spacing: -0.01em;
     text-align: left;
 }
 
@@ -155,45 +179,66 @@
     word-break: keep-all;
 }
 
+/* 고르기 버튼: 칸 없이 글자만, 고른 것 뒤로 짙은 표시가 미끄러져 옮겨 간다 */
 .pillGroup {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 8px;
+    gap: 4px;
     max-width: 560px;
-    margin-bottom: 24px;
+    margin-bottom: 32px;
 }
 
 .pill {
+    position: relative;
     min-height: 44px;
     padding: 10px 20px;
     border: none;
     border-radius: var(--radius-pill);
-    background-color: var(--color-white);
-    color: var(--color-text-primary);
+    background-color: transparent;
+    color: var(--color-text-tertiary);
     font: inherit;
     font-size: 16px;
     letter-spacing: -0.02em;
     cursor: pointer;
-    box-shadow: 0 0 10px rgba(233, 238, 255, 0.75);
-    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: color 0.3s var(--ease-smooth), transform 0.12s ease-out;
 }
 
 .pill[aria-pressed="true"] {
-    background-color: var(--btn-bg);
     color: var(--color-white);
+}
+
+/* 누르는 순간 살짝 눌림 */
+.pill:active {
+    transform: scale(0.96);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .pill[aria-pressed="false"]:hover {
+        color: var(--color-text-strong);
+    }
+}
+
+.pillThumb {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-pill);
+    background-color: var(--btn-bg);
+    z-index: 0;
+}
+
+.pillText {
+    position: relative;
+    z-index: 1;
 }
 
 .pill:focus-visible,
 .selectButton:focus-visible {
     outline: 2px solid var(--color-accent-sky);
     outline-offset: 2px;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .pill[aria-pressed="false"]:hover {
-        transform: translateY(-2px);
-    }
 }
 
 .listArea {
@@ -203,11 +248,11 @@
 
 .infoList {
     list-style: none;
-    margin: 0 0 24px;
+    margin: 0 0 32px;
     padding: 0;
     display: grid;
-    gap: 8px;
     text-align: left;
+    border-bottom: 1px solid var(--color-line);
 }
 
 .infoItem {
@@ -215,16 +260,19 @@
     grid-template-columns: 1fr auto;
     align-items: baseline;
     gap: 2px 12px;
-    padding: 18px 24px;
-    border-radius: 20px;
-    background-color: var(--color-white);
-    box-shadow: 0 0 10px rgba(233, 238, 255, 0.75); /* 이 페이지 버튼과 같은 결 */
+    min-height: 72px;
+    padding: 18px 4px;
+}
+
+.infoItem + .infoItem {
+    border-top: 1px solid var(--color-line);
 }
 
 .infoName,
 .infoTime {
     font-size: 19px;
     font-weight: 500;
+    line-height: 1.4;
     color: var(--color-text-strong);
     letter-spacing: -0.02em;
 }
@@ -237,7 +285,9 @@
 .infoMeta {
     grid-column: 1 / -1;
     font-size: 15px;
+    line-height: 1.5;
     color: var(--color-text-tertiary);
+    letter-spacing: -0.01em;
     font-variant-numeric: tabular-nums;
 }
 
@@ -264,6 +314,14 @@
 
 @media (prefers-reduced-motion: reduce) {
     .mapReveal {
+        transition: none;
+    }
+
+    .pill:active {
+        transform: none;
+    }
+
+    .actionChevron {
         transition: none;
     }
 }
