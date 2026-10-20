@@ -128,12 +128,12 @@ const CommunityPage = () => {
 
     // Render Text Based on Step
     const renderMainText = () => {
-        if (step === 1) return "구역 정보를 확인하기 위해\n먼저 교구를 선택하세요.";
+        if (step === 1) return "구역 정보를 보시려면\n먼저 교구를 골라 주세요.";
         if (step === 2) return "확인하실 구역을 선택해 주세요.";
         if (step === 3) {
-            let text = `${activeZone.id} 구역의 구역장은 ${activeZone.leader} 입니다.`;
+            let text = `${activeZone.id} 구역의 구역장은 ${activeZone.leader} 님이에요.`;
             if (activeZone.teacher) {
-                text = `${activeZone.id} 구역의 구역장은 ${activeZone.leader},\n구역교사는 ${activeZone.teacher} 입니다.`;
+                text = `${activeZone.id} 구역의 구역장은 ${activeZone.leader} 님,\n구역교사는 ${activeZone.teacher} 님이에요.`;
             }
             return text;
         }

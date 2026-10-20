@@ -61,7 +61,7 @@ const NetworkPage = () => {
                 <div style={{ textAlign: 'center' }}>
                     <Breadcrumb text="나눔터 - 성도 사업체" />
                     <ScrollFadeText
-                        text={"동네방네 성도 가게"}
+                        text={"동네방네 성도 가게를 소개해요."}
                         as="h1"
                         className="main-page-title"
                         once={true}

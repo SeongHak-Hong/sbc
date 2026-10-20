@@ -147,7 +147,7 @@ const NewsPage = () => {
                 <div style={{ textAlign: 'center' }}>
                     <Breadcrumb text="나눔터 - 소식·주보" />
                     <ScrollFadeText
-                        text="소식을 전해요"
+                        text="소식을 전해요."
                         as="h1"
                         className="main-page-title"
                         once={true}

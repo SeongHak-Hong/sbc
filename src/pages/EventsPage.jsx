@@ -174,7 +174,7 @@ const EventsPage = () => {
                             나눔터 - 교회일정
                         </div>
                         <ScrollFadeText
-                            text={"은혜의 시간"}
+                            text={"은혜의 시간을 함께해요."}
                             as="h1"
                             style={{
  fontSize: '40px',
@@ -217,7 +217,7 @@ const EventsPage = () => {
                 <div style={{ textAlign: 'center' }}>
                     <Breadcrumb text="나눔터 - 교회일정" />
                     <ScrollFadeText
-                        text={"은혜의 시간"}
+                        text={"은혜의 시간을 함께해요."}
                         as="h1"
                         className="main-page-title"
                         once={true}

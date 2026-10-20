@@ -104,7 +104,7 @@ const OutreachPage = () => {
                             {activeData.type === 'evangelism' && (
                                 <>
                                     <div className={styles.infoBlock}>
-                                        <h2 className={styles.blockTitle}>목요전도팀 안내</h2>
+                                        <h2 className={styles.blockTitle}>목요전도팀을 소개해요.</h2>
                                         <p className={styles.evangelismDesc}>목요전도팀은 다음과 같이 4개의 팀으로 구성됩니다.</p>
                                         <ul className={styles.teamList}>
                                             {activeData.teams.map((team, idx) => (
@@ -115,7 +115,7 @@ const OutreachPage = () => {
                                         </ul>
                                     </div>
                                     <div className={styles.infoBlock}>
-                                        <h2 className={styles.blockTitle}>목요 전도팀 운영 시간표</h2>
+                                        <h2 className={styles.blockTitle}>목요전도팀은 이렇게 모여요.</h2>
                                         <p className={styles.evangelismDesc}>- 일 시 : 매주 목요일 오전 10~오후 5시</p>
                                         <div className={styles.scheduleList}>
                                             {activeData.schedule.map((item, idx) => (
