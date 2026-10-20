@@ -1,41 +1,31 @@
 /* 교회 안내: 한 페이지에 섹션을 이어 붙이고, 위 버튼 줄로 섹션을 오간다.
-   크기·여백은 메인 페이지(MainPage.module.css)와 같은 값,
-   색·모서리·버튼은 Apple-DESIGN.md 기준 (서체·포인트 색은 우리 것) */
+   크기·여백은 메인 페이지(MainPage.module.css)와 같은 값 */
 .page {
-    /* 글자 크기: Apple-DESIGN.md 크기표 */
-    --t-display: clamp(2.5rem, 5.6vw, 5rem); /* 80 · 첫 화면 제목 (휴대폰 40) */
-    --t-band: 3rem;        /* 48 · 주차 띠 큰 문장 */
-    --t-strong: 2.5rem;    /* 40 · 섹션 제목 (feature heading) */
-    --t-lead: 1.3125rem;   /* 21 · 제목 아래 한 줄, 3단 제목 (kicker) */
-    --t-row: 1.1875rem;    /* 19 · 표 이름·시간 */
-    --t-body: 1.0625rem;   /* 17 · 본문 */
-    --t-small: 0.875rem;   /* 14 · 보조 줄 (body-small) */
+    --t-display: clamp(2.25rem, 4.5vw, 4rem);
+    --t-strong: 3rem;
+    --t-row: 1.1875rem;
+    --t-body: 1.125rem;
+    --t-small: 1rem;
     --pad-sec: 8rem;
     --space-head: 3rem;
     --wrap: 1200px;
     --gutter: 1.5rem;
-    --r-card: 28px;
+    --r-card: 20px;
     --r-media: 28px;
     --header-h: calc(4rem + env(safe-area-inset-top, 0px));
-    --control-line: #86868b; /* Apple-DESIGN.md Steel: 테두리 알약 */
 
     position: relative;
     min-height: 100vh;
     color: var(--color-text-primary);
     background-color: var(--color-white);
+    background-image: url('../assets/main/main-bg-gradient.svg');
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 100% auto;
     font-size: var(--t-body);
-    line-height: 1.47;
-    letter-spacing: -0.022em;
+    line-height: 1.6;
+    letter-spacing: -0.02em;
     word-break: keep-all;
-}
-
-.page > section,
-.page > nav {
-    --color-text-strong: #1d1d1f;   /* Apple Ink */
-    --color-text-primary: #1d1d1f;
-    --color-text-tertiary: #707070; /* Apple Slate */
-    --color-text-meta: #707070;
-    color: var(--color-text-primary);
 }
 
 .wrap {
@@ -55,8 +45,8 @@
     margin: 0;
     font-size: var(--t-display);
     font-weight: 500;
-    line-height: 1.1;
-    letter-spacing: -0.025em;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
     color: var(--color-text-strong);
     text-wrap: balance;
 }
@@ -98,17 +88,18 @@
 }
 
 .tab {
+    position: relative;
     flex: 0 0 auto;
     min-height: 44px;
-    padding: 0 14px;
+    padding: 0 18px;
     border: none;
     border-radius: var(--radius-pill);
     background-color: transparent;
-    color: var(--color-text-meta);
+    color: var(--color-text-tertiary);
     font: inherit;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
     white-space: nowrap;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
@@ -118,7 +109,7 @@
 }
 
 .tab[aria-current="true"] {
-    color: var(--color-text-strong);
+    color: var(--color-white);
 }
 
 .tab:active {
@@ -156,16 +147,16 @@
     margin: 0;
     font-size: var(--t-strong);
     font-weight: 500;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
+    line-height: 1.3;
+    letter-spacing: -0.03em;
     color: var(--color-text-strong);
     text-wrap: balance;
 }
 
 .lead {
     margin: 1rem 0 0;
-    font-size: var(--t-lead);
-    line-height: 1.38;
+    font-size: 1.25rem;
+    line-height: 1.6;
     color: var(--color-text-tertiary);
 }
 
@@ -173,7 +164,7 @@
 .two .secGrid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 40px;
+    gap: 3rem;
     align-items: start;
 }
 
@@ -186,32 +177,29 @@
 .pillGroup {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 20px;
+    gap: 4px;
+    margin-top: 2rem;
 }
 
 .pill {
+    position: relative;
     min-height: 44px;
-    padding: 0 20px;
+    padding: 10px 20px;
     border: none;
     border-radius: var(--radius-pill);
     background-color: transparent;
-    box-shadow: inset 0 0 0 1px var(--control-line);
-    color: var(--color-text-strong);
+    color: var(--color-text-tertiary);
     font: inherit;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: -0.01em;
+    font-size: 16px;
+    letter-spacing: -0.02em;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     -webkit-user-select: none;
     user-select: none;
-    transition: background-color 0.25s var(--ease-smooth), color 0.25s var(--ease-smooth), box-shadow 0.25s var(--ease-smooth), transform 0.12s ease-out;
+    transition: color 0.3s var(--ease-smooth), transform 0.12s ease-out;
 }
 
 .pill[aria-pressed="true"] {
-    background-color: var(--btn-bg);
-    box-shadow: inset 0 0 0 1px var(--btn-bg);
     color: var(--color-white);
 }
 
@@ -222,7 +210,7 @@
 
 @media (hover: hover) and (pointer: fine) {
     .pill[aria-pressed="false"]:hover {
-        box-shadow: inset 0 0 0 1px var(--color-text-strong);
+        color: var(--color-text-strong);
     }
 }
 
@@ -231,13 +219,26 @@
     outline-offset: 2px;
 }
 
+.pillThumb {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-pill);
+    background-color: var(--btn-bg);
+    z-index: 0;
+}
+
+.pillText {
+    position: relative;
+    z-index: 1;
+}
+
 /* ---------- 표: 메인 '이번 주 예배'(.wkList)와 같은 회색 칸 ---------- */
 .infoList {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 8px;
+    gap: 0.375rem;
 }
 
 .infoItem {
@@ -246,7 +247,7 @@
     align-items: center;
     gap: 0 1rem;
     min-height: 4rem;
-    padding: 20px 28px;
+    padding: 1rem 1.25rem;
     border-radius: var(--r-card);
     background-color: var(--color-surface-band);
 }
@@ -255,7 +256,7 @@
 .infoTime {
     font-size: var(--t-row);
     font-weight: 500;
-    line-height: 1.3;
+    line-height: 1.4;
     color: var(--color-text-strong);
 }
 
@@ -270,7 +271,6 @@
     font-size: var(--t-small);
     color: var(--color-text-meta);
     font-variant-numeric: tabular-nums;
-    line-height: 1.43;
 }
 
 /* 다음 예배 줄: 메인 '이번 주 예배'(.wkList li.isNext)와 같은 짙은 칸 + '다음 예배' 표시 */
@@ -295,7 +295,7 @@
     content: '다음 예배';
     display: block;
     margin-bottom: 0.125rem;
-    font-size: var(--t-small);
+    font-size: 0.875rem;
     font-weight: 500;
     line-height: 1.4;
     color: var(--color-accent-on-dark);
@@ -303,7 +303,7 @@
 
 /* 예배시간 왼쪽: 다음 예배 큰 문장 + 남은 시간 (메인 .wkBig · .wkLeft) */
 .nextTitle {
-    margin-bottom: 12px;
+    margin-bottom: 1.5rem;
 }
 
 .nextTitle span {
@@ -312,8 +312,8 @@
 
 .nextLeft {
     margin: 0;
-    font-size: var(--t-lead);
-    line-height: 1.38;
+    font-size: 1.25rem;
+    line-height: 1.6;
     color: var(--color-text-meta);
 }
 
@@ -326,31 +326,31 @@
 .summary {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 40px;
-    margin-top: 40px;
+    gap: 2.5rem 3rem;
+    margin-top: 3.5rem;
     align-items: start;
 }
 
 .summaryTitle {
     margin: 0 0 0.75rem;
-    font-size: var(--t-lead);
+    font-size: 1.375rem;
     font-weight: 500;
-    line-height: 1.3;
-    letter-spacing: -0.02em;
+    line-height: 1.35;
+    letter-spacing: -0.025em;
     color: var(--color-text-strong);
 }
 
 .address {
     font-style: normal;
-    font-size: var(--t-body);
-    line-height: 1.47;
+    font-size: var(--t-row);
+    line-height: 1.5;
     color: var(--color-text-primary);
 }
 
 .summaryText {
     margin: 0;
     font-size: var(--t-body);
-    line-height: 1.47;
+    line-height: 1.6;
     color: var(--color-text-primary);
 }
 
@@ -370,9 +370,9 @@
     padding: 0;
     border: none;
     background: none;
-    color: var(--color-accent-on-dark);
+    color: var(--color-text-strong);
     font: inherit;
-    font-size: 14px;
+    font-size: var(--t-body);
     font-weight: 500;
     text-align: left;
     text-decoration: none;
@@ -401,8 +401,8 @@
 }
 
 .textLinkIcon {
-    font-size: 18px;
-    color: inherit;
+    font-size: 20px;
+    color: var(--color-text-tertiary);
 }
 
 .stops {
@@ -418,7 +418,7 @@
     grid-template-columns: 1fr auto;
     gap: 0 1rem;
     font-size: var(--t-body);
-    line-height: 1.47;
+    line-height: 1.5;
     color: var(--color-text-primary);
 }
 
@@ -431,7 +431,6 @@
     grid-column: 1 / -1;
     font-size: var(--t-small);
     color: var(--color-text-meta);
-    line-height: 1.43;
 }
 
 /* ---------- ⑥ 주차: 회색 띠 위 가운데 큰 문장 ---------- */
@@ -443,164 +442,115 @@
 
 .bandTitle {
     margin: 0;
-    font-size: var(--t-band);
+    font-size: var(--t-display);
     font-weight: 500;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
     color: var(--color-text-strong);
     text-wrap: balance;
 }
 
 .bandText {
     margin: 1.25rem 0 0;
-    font-size: var(--t-lead);
-    line-height: 1.38;
+    font-size: 1.25rem;
+    line-height: 1.6;
     color: var(--color-text-primary);
 }
 
-/* ---------- ⑦ 시설 안내: 애플 product viewer 방식 ---------- */
-/* 왼쪽 회색 알약(⊕ + 층 이름). 고른 층은 그 자리에서 넓은 칸으로 펼쳐져 방 목록과 이전/다음 버튼을 보여 준다 */
-.viewer {
-    --viewer-pill: #e8e8ed; /* Apple product viewer 알약 색 */
-    display: grid;
-    grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
-    gap: 40px;
-    align-items: center;
-    min-height: 560px;
+/* ---------- ⑦ 시설 안내 (화면 구조는 이전과 같음) ---------- */
+.facilitiesContainer {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    position: relative;
 }
 
-.viewerControls {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+.facilitiesSidebarDesktop {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+    gap: 16px;
+    width: 140px;
+    flex-shrink: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    z-index: 1;
 }
 
-.viewerItem {
-    border-radius: 28px;
-    background-color: var(--viewer-pill);
-    overflow: hidden;
+.facilitiesSidebarMobile {
+    display: none;
 }
 
-.viewerItemOpen {
-    width: 100%;
-}
-
-.viewerOpen {
+.verticalButtonGroup {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    min-height: 56px;
-    padding: 0 28px 0 16px;
+    flex-direction: column;
+    background-color: var(--color-white);
+    border-radius: 24px;
+    padding: 6px;
+    box-shadow: 0 0 10px rgba(233, 238, 255, 0.75);
+}
+
+.verticalSelectButton {
+    background: transparent;
     border: none;
-    background: none;
-    color: var(--color-text-strong);
+    min-height: 44px;
+    padding: 12px 0;
+    margin: 0;
     font: inherit;
-    font-size: var(--t-body);
+    font-size: 16px;
     font-weight: 500;
-    white-space: nowrap;
+    letter-spacing: -0.02em;
+    color: var(--color-text-meta);
     cursor: pointer;
+    transition: color 0.2s ease;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
     -webkit-tap-highlight-color: transparent;
-    -webkit-user-select: none;
-    user-select: none;
-    transition: opacity 0.15s ease;
 }
 
-.viewerOpen:active {
-    opacity: 0.6;
+.verticalSelectButton:hover {
+    color: var(--color-text-primary);
 }
 
-.viewerOpen:focus-visible,
-.viewerNavBtn:focus-visible {
+.verticalSelectButton.active {
+    color: var(--color-white);
+}
+
+.verticalSelectButton:focus-visible {
     outline: 2px solid var(--color-accent-sky);
     outline-offset: 2px;
 }
 
-.viewerPlus {
-    width: 24px;
-    height: 24px;
-    flex: 0 0 auto;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.5;
-    stroke-linecap: round;
+.activeBackground {
+    position: absolute;
+    inset: 0;
+    background-color: var(--btn-bg);
+    border-radius: 20px;
+    z-index: 0;
 }
 
-.viewerPanel {
-    padding: 28px;
+.switchText {
+    position: relative;
+    z-index: 1;
 }
 
-.viewerPanel:focus {
-    outline: none;
-}
-
-.viewerPanel:focus-visible {
-    outline: 2px solid var(--color-accent-sky);
-    outline-offset: -2px;
-    border-radius: 28px;
-}
-
-.viewerText {
-    margin: 0;
-    font-size: var(--t-body);
-    line-height: 1.47;
-    color: var(--color-text-primary);
-}
-
-.viewerText strong {
-    font-weight: 500;
-    color: var(--color-text-strong);
-}
-
-.viewerNav {
-    display: flex;
-    gap: 8px;
-    margin-top: 20px;
-}
-
-.viewerNavBtn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    border: none;
-    border-radius: 50%;
-    background-color: var(--color-white);
-    color: var(--color-text-strong);
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    transition: opacity 0.15s ease, transform 0.12s ease-out;
-}
-
-.viewerNavBtn:active {
-    transform: scale(0.94);
-}
-
-.viewerNavBtn:disabled {
-    opacity: 0.4;
-    cursor: default;
-}
-
-.viewerNavBtn :global(.material-symbols-outlined) {
-    font-size: 24px;
-}
-
-/* 오른쪽 흰 무대: 카드 없이 평면도만 */
-.viewerStage {
+.facilitiesMapArea {
+    flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     aspect-ratio: 602 / 474;
     width: 100%;
-    max-height: 70vh;
+    max-height: 60vh;
 }
 
-.viewerStage img {
+.facilitiesMapArea img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
@@ -609,16 +559,22 @@
 /* ---------- 태블릿 · 모바일 ---------- */
 @media (max-width: 1079px) {
     .page {
-        --t-strong: 2rem;
+        --t-strong: 2.25rem;
+        background-size: 150% auto;
     }
 
     .summary {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .viewer {
-        grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
-        gap: 28px;
+    /* 층 버튼이 평면도를 가리지 않게 위로 */
+    .facilitiesSidebarDesktop {
+        display: none;
+    }
+
+    .facilitiesSidebarMobile {
+        display: block;
+        margin-bottom: 20px;
     }
 }
 
@@ -626,10 +582,10 @@
     .page {
         --pad-sec: 4.5rem;
         --space-head: 2rem;
+        --t-display: 2.25rem;
         --t-strong: 1.75rem;
-        --t-band: 2rem;
-        --t-lead: 1.1875rem;
         --gutter: 1.125rem;
+        background-size: 220% auto;
     }
 
     .tabList {
@@ -647,22 +603,49 @@
 
     .bigMap > div {
         aspect-ratio: 4 / 3;
+        border-radius: var(--r-card);
     }
 
     .summary {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 2.5rem;
+        margin-top: 2.5rem;
     }
 
-    /* 휴대폰: 평면도 먼저, 아래에 층 알약 */
-    .viewer {
-        grid-template-columns: 1fr;
-        gap: 28px;
-        min-height: 0;
+    .facilitiesContainer {
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+    }
+}
+
+@media (max-width: 1079px) {
+    .facilitiesSidebarMobile .verticalButtonGroup {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        padding: 6px;
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 99px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
     }
 
-    .viewerStage {
-        order: -1;
+    .facilitiesSidebarMobile .verticalButtonGroup::-webkit-scrollbar {
+        display: none;
+    }
+
+    .facilitiesSidebarMobile .verticalSelectButton {
+        width: auto;
+        padding: 10px 20px;
+        flex-grow: 0;
+        flex-shrink: 0;
+        scroll-snap-align: center;
     }
 }
 
