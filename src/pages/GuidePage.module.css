@@ -325,7 +325,7 @@
 
 .summary {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2.5rem 3rem;
     margin-top: 3.5rem;
     align-items: start;
@@ -405,34 +405,6 @@
     color: var(--color-text-tertiary);
 }
 
-.stops {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 0.625rem;
-}
-
-.stops li {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 0 1rem;
-    font-size: var(--t-body);
-    line-height: 1.5;
-    color: var(--color-text-primary);
-}
-
-.stopWalk {
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-}
-
-.stopKind {
-    grid-column: 1 / -1;
-    font-size: var(--t-small);
-    color: var(--color-text-meta);
-}
-
 /* ---------- ⑥ 주차: 회색 띠 위 가운데 큰 문장 ---------- */
 .band {
     padding: var(--pad-sec) 0;
@@ -504,10 +476,6 @@
     .page {
         --t-strong: 2.25rem;
         background-size: 150% auto;
-    }
-
-    .summary {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 

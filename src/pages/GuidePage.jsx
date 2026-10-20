@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import styles from './GuidePage.module.css';
 
 import InteractiveShuttleMap from '../components/ui/InteractiveShuttleMap';
-import { CHURCH_COORDS, CHURCH_ADDRESS, CHURCH_PHONE, TRANSIT_STOPS, shuttleSchedules } from '../data/shuttleData';
+import { CHURCH_COORDS, CHURCH_ADDRESS, CHURCH_PHONE, shuttleSchedules } from '../data/shuttleData';
 
 import map1F from '../assets/guide/1F.svg';
 import map2F from '../assets/guide/2F.svg';
@@ -147,7 +147,6 @@ const shuttleLabels = {
 const defaultShuttleId = 'sunday2';
 
 const naverRouteUrl = `https://map.naver.com/index.nhn?elng=${CHURCH_COORDS.lng}&elat=${CHURCH_COORDS.lat}&etext=${encodeURIComponent('신탄진침례교회')}&menu=route`;
-const stopKind = { bus: '버스', train: '기차' };
 
 // 공통 Header 높이(4rem). Header는 내릴 때 숨고 올릴 때 나온다
 const HEADER_H = 64;
@@ -316,7 +315,7 @@ const GuidePage = () => {
                 </div>
             </nav>
 
-            {/* ③ 오시는 길: 제목 없이 넓은 지도 → 글자 3단 (주소 / 가까운 정류장 / 도움이 필요할 땐) */}
+            {/* ③ 오시는 길: 제목 없이 넓은 지도 → 글자 2단 (주소 / 도움이 필요할 땐) */}
             <section id="directions" className={styles.sec} aria-label="오시는 길">
                 <div className={styles.wrap}>
                     <div className={styles.bigMap}>
@@ -332,18 +331,6 @@ const GuidePage = () => {
                                     <span className={`material-symbols-outlined ${styles.textLinkIcon}`} aria-hidden="true">arrow_outward</span>
                                 </a>
                             </div>
-                        </div>
-                        <div>
-                            <h3 className={styles.summaryTitle}>가까운 정류장</h3>
-                            <ul className={styles.stops}>
-                                {TRANSIT_STOPS.map((stop) => (
-                                    <li key={stop.name}>
-                                        <span>{stop.name}</span>
-                                        <span className={styles.stopWalk}>{stop.time}</span>
-                                        <span className={styles.stopKind}>{stopKind[stop.type]}</span>
-                                    </li>
-                                ))}
-                            </ul>
                         </div>
                         <div>
                             <h3 className={styles.summaryTitle}>도움이 필요할 땐</h3>
