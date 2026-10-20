@@ -1,5 +1,6 @@
 /* 교회 안내: 한 페이지에 섹션을 이어 붙이고, 위 버튼 줄로 섹션을 오간다.
-   크기·여백은 메인 페이지(MainPage.module.css)와 같은 값 */
+   크기·여백은 메인 페이지(MainPage.module.css)와 같은 값,
+   색·모서리·버튼은 Apple-DESIGN.md 기준 (서체·포인트 색은 우리 것) */
 .page {
     --t-display: clamp(2.25rem, 4.5vw, 4rem);
     --t-strong: 3rem;
@@ -10,7 +11,7 @@
     --space-head: 3rem;
     --wrap: 1200px;
     --gutter: 1.5rem;
-    --r-card: 20px;
+    --r-card: 28px;
     --r-media: 28px;
     --header-h: calc(4rem + env(safe-area-inset-top, 0px));
     --control-line: #86868b; /* Apple-DESIGN.md Steel: 테두리 알약 */
@@ -19,14 +20,19 @@
     min-height: 100vh;
     color: var(--color-text-primary);
     background-color: var(--color-white);
-    background-image: url('../assets/main/main-bg-gradient.svg');
-    background-repeat: no-repeat;
-    background-position: top center;
-    background-size: 100% auto;
     font-size: var(--t-body);
     line-height: 1.6;
     letter-spacing: -0.02em;
     word-break: keep-all;
+}
+
+.page > section,
+.page > nav {
+    --color-text-strong: #1d1d1f;   /* Apple Ink */
+    --color-text-primary: #1d1d1f;
+    --color-text-tertiary: #707070; /* Apple Slate */
+    --color-text-meta: #707070;
+    color: var(--color-text-primary);
 }
 
 .wrap {
@@ -447,124 +453,49 @@
     color: var(--color-text-primary);
 }
 
-/* ---------- ⑦ 시설 안내 (화면 구조는 이전과 같음) ---------- */
-.facilitiesContainer {
-    display: flex;
-    gap: 32px;
-    align-items: flex-start;
+/* ---------- ⑦ 시설 안내: 애플 Feature Media Card처럼 회색 28px 카드, 그림자 없음 ---------- */
+.pillGroupCenter {
     justify-content: center;
-    width: 100%;
-    position: relative;
 }
 
-.facilitiesSidebarDesktop {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    width: 140px;
-    flex-shrink: 0;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 0;
-    z-index: 1;
-}
-
-.facilitiesSidebarMobile {
-    display: none;
-}
-
-.verticalButtonGroup {
-    display: flex;
-    flex-direction: column;
-    background-color: var(--color-white);
-    border-radius: 24px;
-    padding: 6px;
-    box-shadow: 0 0 10px rgba(233, 238, 255, 0.75);
-}
-
-.verticalSelectButton {
-    background: transparent;
-    border: none;
-    min-height: 44px;
-    padding: 12px 0;
+.planCard {
     margin: 0;
-    font: inherit;
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    color: var(--color-text-meta);
-    cursor: pointer;
-    transition: color 0.2s ease;
-    border-radius: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    -webkit-tap-highlight-color: transparent;
+    padding: clamp(1.5rem, 4vw, 3.5rem);
+    border-radius: var(--r-card);
+    background-color: var(--color-surface-band);
 }
 
-.verticalSelectButton:hover {
-    color: var(--color-text-primary);
-}
-
-.verticalSelectButton.active {
-    color: var(--color-white);
-}
-
-.verticalSelectButton:focus-visible {
-    outline: 2px solid var(--color-accent-sky);
-    outline-offset: 2px;
-}
-
-.activeBackground {
-    position: absolute;
-    inset: 0;
-    background-color: var(--btn-bg);
-    border-radius: 20px;
-    z-index: 0;
-}
-
-.switchText {
-    position: relative;
-    z-index: 1;
-}
-
-.facilitiesMapArea {
-    flex-grow: 1;
+.planImage {
     display: flex;
     justify-content: center;
     align-items: center;
     aspect-ratio: 602 / 474;
-    width: 100%;
+    max-width: 760px;
     max-height: 60vh;
+    margin: 0 auto;
 }
 
-.facilitiesMapArea img {
+.planImage img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
+}
+
+.planCaption {
+    margin-top: 1.25rem;
+    font-size: 14px;
+    text-align: center;
+    color: var(--color-text-meta);
 }
 
 /* ---------- 태블릿 · 모바일 ---------- */
 @media (max-width: 1079px) {
     .page {
         --t-strong: 2.25rem;
-        background-size: 150% auto;
     }
 
     .summary {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    /* 층 버튼이 평면도를 가리지 않게 위로 */
-    .facilitiesSidebarDesktop {
-        display: none;
-    }
-
-    .facilitiesSidebarMobile {
-        display: block;
-        margin-bottom: 20px;
     }
 }
 
@@ -575,7 +506,6 @@
         --t-display: 2.25rem;
         --t-strong: 1.75rem;
         --gutter: 1.125rem;
-        background-size: 220% auto;
     }
 
     .tabList {
@@ -593,49 +523,12 @@
 
     .bigMap > div {
         aspect-ratio: 4 / 3;
-        border-radius: var(--r-card);
     }
 
     .summary {
         grid-template-columns: 1fr;
         gap: 2.5rem;
         margin-top: 2.5rem;
-    }
-
-    .facilitiesContainer {
-        flex-direction: column;
-        align-items: center;
-        gap: 24px;
-    }
-}
-
-@media (max-width: 1079px) {
-    .facilitiesSidebarMobile .verticalButtonGroup {
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-        padding: 6px;
-        width: 100%;
-        box-sizing: border-box;
-        border-radius: 99px;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        scroll-behavior: smooth;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-
-    .facilitiesSidebarMobile .verticalButtonGroup::-webkit-scrollbar {
-        display: none;
-    }
-
-    .facilitiesSidebarMobile .verticalSelectButton {
-        width: auto;
-        padding: 10px 20px;
-        flex-grow: 0;
-        flex-shrink: 0;
-        scroll-snap-align: center;
     }
 }
 
