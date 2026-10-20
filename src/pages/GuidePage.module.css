@@ -464,15 +464,15 @@
 
 .plan {
     margin: 0;
+    padding: clamp(1.5rem, 4vw, 3.5rem);
+    border-radius: var(--r-media);
+    background-color: var(--color-surface-band);
 }
 
 .planMedia {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: clamp(1.5rem, 4vw, 3.5rem);
-    border-radius: var(--r-media);
-    background-color: var(--color-surface-band);
 }
 
 .planMedia img {
@@ -483,11 +483,11 @@
     object-fit: contain;
 }
 
-/* 층 이름 + 방 목록: 메인 사진 설명(.maCap)과 같은 결 */
+/* 층 이름 + 방 목록: 같은 회색 칸 안, 평면도 바로 아래 */
 .planCaption {
     max-width: 42em;
     margin: 0 auto;
-    padding: 1.75rem 1rem 0;
+    padding-top: 1.5rem;
     font-size: var(--t-small);
     line-height: 1.6;
     text-align: center;
