@@ -128,17 +128,10 @@
 }
 
 /* ---------- 섹션 공통 ---------- */
+/* 메인 페이지 섹션과 같이 위아래 모두 --pad-sec */
 .sec {
-    padding: var(--pad-sec) 0 0;
+    padding: var(--pad-sec) 0;
     scroll-margin-top: 0;
-}
-
-.tabs + .sec {
-    padding-top: calc(var(--pad-sec) * 0.6);
-}
-
-.sec:last-child {
-    padding-bottom: var(--pad-sec);
 }
 
 .secHead {
@@ -461,7 +454,6 @@
 
 /* ---------- ⑥ 주차: 회색 띠 위 가운데 큰 문장 ---------- */
 .band {
-    margin-top: var(--pad-sec);
     padding: var(--pad-sec) 0;
     background-color: var(--color-surface-band);
     text-align: center;
