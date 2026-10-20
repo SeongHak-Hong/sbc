@@ -128,8 +128,8 @@ const findNextWorship = (items, now) => {
 
 // 한 페이지에 이어진 섹션. 위 이동 버튼 줄의 순서와 같다
 const sections = [
-    { id: 'worship', label: '예배시간' },
     { id: 'directions', label: '오시는 길' },
+    { id: 'worship', label: '예배시간' },
     { id: 'shuttle', label: '차량운행' },
     { id: 'parking', label: '주차' },
     { id: 'facilities', label: '시설 안내' },
@@ -343,70 +343,7 @@ const GuidePage = () => {
                 </div>
             </nav>
 
-            {/* ③ 예배시간: 왼쪽 다음 예배 + 어른/다음세대 고르기 / 오른쪽 표 */}
-            <section id="worship" className={`${styles.sec} ${styles.two}`} aria-labelledby="worship-title">
-                <div className={`${styles.wrap} ${styles.secGrid}`}>
-                    {/* 메인 '이번 주 예배'처럼 왼쪽에 다음 예배를 큰 문장으로 */}
-                    <div className={styles.secHead}>
-                        <div aria-live="polite">
-                            <h2 id="worship-title" className={`${styles.secTitle} ${styles.nextTitle}`}>
-                                {nextWorship ? (
-                                    <>
-                                        <span>{nextWorship.when}</span>
-                                        <span>{nextWorship.name}</span>
-                                    </>
-                                ) : '편한 시간에 함께 예배드려요.'}
-                            </h2>
-                            {nextWorship && <p className={styles.nextLeft}>{nextWorship.left}</p>}
-                        </div>
-                        <div className={styles.pillGroup} role="group" aria-label="예배 나눠 보기">
-                            {worshipGroups.map((group) => (
-                                <button
-                                    key={group.id}
-                                    type="button"
-                                    className={styles.pill}
-                                    aria-pressed={worshipGroup.id === group.id}
-                                    onClick={() => updateParams({ g: group.id })}
-                                >
-                                    {worshipGroup.id === group.id && (
-                                        <motion.span
-                                            layoutId="worshipPillThumb"
-                                            className={styles.pillThumb}
-                                            transition={reduceMotion ? { duration: 0 } : thumbSpring}
-                                        />
-                                    )}
-                                    <span className={styles.pillText}>{group.label}</span>
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                    <div>
-                        <div aria-live="polite">
-                            <AnimatePresence mode="wait" initial={false}>
-                                <motion.ul
-                                    key={worshipGroup.id}
-                                    className={styles.infoList}
-                                    aria-label={`${worshipGroup.label} 시간`}
-                                    {...listMotion}
-                                >
-                                    {worshipGroup.items.map((item) => (
-                                        <li
-                                            key={item.id}
-                                            className={`${styles.infoItem} ${nextWorship?.ids.includes(item.id) ? styles.isNext : ''}`}
-                                        >
-                                            <span className={styles.infoName}>{item.name}</span>
-                                            <span className={styles.infoTime}>{item.time}</span>
-                                            <span className={styles.infoMeta}>{item.day} · {item.location}</span>
-                                        </li>
-                                    ))}
-                                </motion.ul>
-                            </AnimatePresence>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ④ 오시는 길: 넓은 지도 아래 글자 3단 (주소 / 가까운 정류장 / 도움이 필요할 땐) */}
+            {/* ③ 오시는 길: 넓은 지도 아래 글자 3단 (주소 / 가까운 정류장 / 도움이 필요할 땐) */}
             <section id="directions" className={styles.sec} aria-labelledby="directions-title">
                 <div className={styles.wrap}>
                     <div className={styles.secHead}>
@@ -475,6 +412,69 @@ const GuidePage = () => {
                                     <span className={`material-symbols-outlined ${styles.textLinkIcon}`} aria-hidden="true">chevron_right</span>
                                 </a>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ④ 예배시간: 왼쪽 다음 예배 + 어른/다음세대 고르기 / 오른쪽 표 */}
+            <section id="worship" className={`${styles.sec} ${styles.two}`} aria-labelledby="worship-title">
+                <div className={`${styles.wrap} ${styles.secGrid}`}>
+                    {/* 메인 '이번 주 예배'처럼 왼쪽에 다음 예배를 큰 문장으로 */}
+                    <div className={styles.secHead}>
+                        <div aria-live="polite">
+                            <h2 id="worship-title" className={`${styles.secTitle} ${styles.nextTitle}`}>
+                                {nextWorship ? (
+                                    <>
+                                        <span>{nextWorship.when}</span>
+                                        <span>{nextWorship.name}</span>
+                                    </>
+                                ) : '편한 시간에 함께 예배드려요.'}
+                            </h2>
+                            {nextWorship && <p className={styles.nextLeft}>{nextWorship.left}</p>}
+                        </div>
+                        <div className={styles.pillGroup} role="group" aria-label="예배 나눠 보기">
+                            {worshipGroups.map((group) => (
+                                <button
+                                    key={group.id}
+                                    type="button"
+                                    className={styles.pill}
+                                    aria-pressed={worshipGroup.id === group.id}
+                                    onClick={() => updateParams({ g: group.id })}
+                                >
+                                    {worshipGroup.id === group.id && (
+                                        <motion.span
+                                            layoutId="worshipPillThumb"
+                                            className={styles.pillThumb}
+                                            transition={reduceMotion ? { duration: 0 } : thumbSpring}
+                                        />
+                                    )}
+                                    <span className={styles.pillText}>{group.label}</span>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                    <div>
+                        <div aria-live="polite">
+                            <AnimatePresence mode="wait" initial={false}>
+                                <motion.ul
+                                    key={worshipGroup.id}
+                                    className={styles.infoList}
+                                    aria-label={`${worshipGroup.label} 시간`}
+                                    {...listMotion}
+                                >
+                                    {worshipGroup.items.map((item) => (
+                                        <li
+                                            key={item.id}
+                                            className={`${styles.infoItem} ${nextWorship?.ids.includes(item.id) ? styles.isNext : ''}`}
+                                        >
+                                            <span className={styles.infoName}>{item.name}</span>
+                                            <span className={styles.infoTime}>{item.time}</span>
+                                            <span className={styles.infoMeta}>{item.day} · {item.location}</span>
+                                        </li>
+                                    ))}
+                                </motion.ul>
+                            </AnimatePresence>
                         </div>
                     </div>
                 </div>
