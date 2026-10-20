@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import styles from './GuidePage.module.css';
 
 import InteractiveShuttleMap from '../components/ui/InteractiveShuttleMap';
-import { CHURCH_COORDS, CHURCH_ADDRESS, shuttleSchedules } from '../data/shuttleData';
+import { CHURCH_COORDS, CHURCH_ADDRESS, CHURCH_PHONE, TRANSIT_STOPS, shuttleSchedules } from '../data/shuttleData';
 
 import map1F from '../assets/guide/1F.svg';
 import map2F from '../assets/guide/2F.svg';
@@ -41,8 +41,8 @@ const mapImages = {
 };
 
 const ease = [0.16, 1, 0.3, 1];
-// 선택 표시 이동: 넘침 없는 스프링 (도중에 다시 눌러도 지금 자리에서 이어 감)
-const thumbSpring = { type: 'spring', bounce: 0, duration: 0.4 };
+// 시설 안내 층 알약이 펼쳐지고 접힐 때: 넘침 없는 스프링 (도중에 다른 층을 눌러도 지금 모양에서 이어 감)
+const viewerSpring = { type: 'spring', bounce: 0, duration: 0.45 };
 
 // 바뀌는 부분만 opacity + translateY(8px). custom으로 움직임 줄이기 여부를 받아 그때는 바로 바꾼다
 const fadeVariants = {
@@ -128,13 +128,13 @@ const findNextWorship = (items, now) => {
 
 // 한 페이지에 이어진 섹션. 위 이동 버튼 줄의 순서와 같다
 const sections = [
-    { id: 'directions', label: '오시는 길' },
     { id: 'worship', label: '예배시간' },
+    { id: 'directions', label: '오시는 길' },
+    { id: 'shuttle', label: '차량운행' },
+    { id: 'parking', label: '주차' },
     { id: 'facilities', label: '시설 안내' },
 ];
 const sectionIds = sections.map((s) => s.id);
-// 차량운행·주차는 오시는 길 안으로 들어감. 예전 링크(?tab=shuttle, ?tab=parking)도 오시는 길로 연다
-const tabAliases = { shuttle: 'directions', parking: 'directions' };
 
 // 차량운행 예배 버튼에 쓰는 짧은 이름 (shuttleData의 id 기준)
 const shuttleLabels = {
@@ -147,6 +147,8 @@ const shuttleLabels = {
 const defaultShuttleId = 'sunday2';
 
 const naverRouteUrl = `https://map.naver.com/index.nhn?elng=${CHURCH_COORDS.lng}&elat=${CHURCH_COORDS.lat}&etext=${encodeURIComponent('신탄진침례교회')}&menu=route`;
+const kakaoRouteUrl = `https://map.kakao.com/link/to/${encodeURIComponent('신탄진침례교회')},${CHURCH_COORDS.lat},${CHURCH_COORDS.lng}`;
+const stopKind = { bus: '버스', train: '기차' };
 
 // 공통 Header 높이(4rem). Header는 내릴 때 숨고 올릴 때 나온다
 const HEADER_H = 64;
@@ -156,7 +158,7 @@ const GuidePage = () => {
     // 예: /guide?tab=worship&g=next, /guide?tab=shuttle&s=sunday2, /guide?tab=facilities&floor=3F
     // tab은 처음 열 때 내려갈 섹션
     const [searchParams, setSearchParams] = useSearchParams();
-    const tabParam = tabAliases[searchParams.get('tab')] ?? searchParams.get('tab');
+    const tabParam = searchParams.get('tab');
     const worshipGroup = worshipGroups.find((g) => g.id === searchParams.get('g')) ?? worshipGroups[0];
     const selectedShuttle = shuttleSchedules.find((s) => s.id === searchParams.get('s'))
         ?? shuttleSchedules.find((s) => s.id === defaultShuttleId)
@@ -175,10 +177,16 @@ const GuidePage = () => {
     const [current, setCurrent] = useState(sectionIds.includes(tabParam) ? tabParam : sectionIds[0]);
     const [headerHidden, setHeaderHidden] = useState(false);
     const [tabsStuck, setTabsStuck] = useState(false);
+    const [addressCopied, setAddressCopied] = useState(false);
+
     const tabsRef = useRef(null);
+    // 층 알약을 누르면 그 버튼이 펼친 칸으로 바뀌므로, 키보드 위치를 펼친 칸으로 옮긴다
+    const floorPanelRef = useRef(null);
+    const floorPicked = useRef(false);
     const tabListRef = useRef(null);
     const jumpingRef = useRef(false);
     const jumpTimer = useRef(null);
+    const copyTimer = useRef(null);
 
     // 같은 섹션 안에서 고른 것만 바꾸므로 기록은 덮어쓴다 (뒤로가기가 선택을 하나씩 되감지 않게)
     const updateParams = (patch) => {
@@ -243,7 +251,7 @@ const GuidePage = () => {
         // 위로 올라가면 Header가 다시 나오므로 그만큼 더 띄운다. 섹션 위 여백은 절반만 남긴다
         const goingUp = el.getBoundingClientRect().top < 0;
         const stickyH = (tabsRef.current?.offsetHeight ?? 64) + (goingUp ? HEADER_H : 0);
-        const padTop = parseFloat(getComputedStyle(el).paddingTop) / 2;
+        const padTop = el.dataset.band ? 0 : parseFloat(getComputedStyle(el).paddingTop) / 2;
         const offset = padTop - stickyH;
         const immediate = instant || reduceMotion;
         if (window.lenis) {
@@ -267,7 +275,41 @@ const GuidePage = () => {
         updateParams({ tab: id });
     };
 
-    useEffect(() => () => clearTimeout(jumpTimer.current), []);
+    const copyAddress = async () => {
+        try {
+            await navigator.clipboard.writeText(CHURCH_ADDRESS);
+        } catch {
+            // clipboard API가 막힌 환경(오래된 브라우저, http)용
+            const field = document.createElement('textarea');
+            field.value = CHURCH_ADDRESS;
+            field.setAttribute('readonly', '');
+            field.style.position = 'fixed';
+            field.style.opacity = '0';
+            document.body.appendChild(field);
+            field.select();
+            document.execCommand('copy');
+            field.remove();
+        }
+        setAddressCopied(true);
+        clearTimeout(copyTimer.current);
+        copyTimer.current = setTimeout(() => setAddressCopied(false), 2000);
+    };
+
+    useEffect(() => () => {
+        clearTimeout(copyTimer.current);
+        clearTimeout(jumpTimer.current);
+    }, []);
+
+    const pickFloor = (id) => {
+        floorPicked.current = true;
+        updateParams({ floor: id });
+    };
+
+    useEffect(() => {
+        if (!floorPicked.current) return;
+        floorPicked.current = false;
+        floorPanelRef.current?.focus({ preventScroll: true });
+    }, [floor]);
 
     const listMotion = {
         initial: reduceMotion ? false : { opacity: 0, y: 8 },
@@ -302,87 +344,13 @@ const GuidePage = () => {
                             aria-current={current === section.id ? 'true' : undefined}
                             onClick={() => handleTabClick(section.id)}
                         >
-                            {current === section.id && (
-                                <motion.span
-                                    layoutId="guideSectionThumb"
-                                    className={styles.pillThumb}
-                                    transition={reduceMotion ? { duration: 0 } : thumbSpring}
-                                />
-                            )}
-                            <span className={styles.pillText}>{section.label}</span>
+                            {section.label}
                         </button>
                     ))}
                 </div>
             </nav>
 
-            {/* ③ 오시는 길: 제목 없이 넓은 지도 → 3단 (주소 / 교회 차 시간 / 주차 안내) */}
-            <section id="directions" className={styles.sec} aria-label="오시는 길">
-                <div className={styles.wrap}>
-                    <div className={styles.bigMap}>
-                        <InteractiveShuttleMap mode="church" />
-                    </div>
-                    <div className={styles.summary}>
-                        <div>
-                            <h3 className={styles.summaryTitle}>주소</h3>
-                            <address className={styles.address}>{CHURCH_ADDRESS}<br />신탄진침례교회</address>
-                            <div className={styles.links}>
-                                <a className={styles.textLink} href={naverRouteUrl} target="_blank" rel="noopener noreferrer">
-                                    <span className={styles.textLinkLabel}>네이버 지도로 길찾기</span>
-                                    <span className={`material-symbols-outlined ${styles.textLinkIcon}`} aria-hidden="true">arrow_outward</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div className={styles.summaryShuttle}>
-                            <h3 className={styles.summaryTitle}>교회 차 시간</h3>
-                            <p className={styles.summaryText}>예배를 고르시면 동네별 셔틀 시간을 알려 드려요.</p>
-                            <div className={`${styles.pillGroup} ${styles.colPills}`} role="group" aria-label="예배 고르기">
-                                {shuttleSchedules.map((schedule) => (
-                                    <button
-                                        key={schedule.id}
-                                        type="button"
-                                        className={styles.pill}
-                                        aria-pressed={selectedShuttle.id === schedule.id}
-                                        onClick={() => updateParams({ s: schedule.id })}
-                                    >
-                                        {selectedShuttle.id === schedule.id && (
-                                            <motion.span
-                                                layoutId="shuttlePillThumb"
-                                                className={styles.pillThumb}
-                                                transition={reduceMotion ? { duration: 0 } : thumbSpring}
-                                            />
-                                        )}
-                                        <span className={styles.pillText}>{shuttleLabels[schedule.id] ?? schedule.name}</span>
-                                    </button>
-                                ))}
-                            </div>
-                            <div aria-live="polite">
-                                <AnimatePresence mode="wait" initial={false}>
-                                    <motion.ul
-                                        key={selectedShuttle.id}
-                                        className={styles.infoList}
-                                        aria-label={`${selectedShuttle.name} 셔틀 노선`}
-                                        {...listMotion}
-                                    >
-                                        {selectedShuttle.routes.map((route) => (
-                                            <li key={route.id} className={styles.infoItem}>
-                                                <span className={styles.infoName}>{route.area}</span>
-                                                <span className={styles.infoTime}>{route.time}</span>
-                                                <span className={styles.infoMeta}>차량 {route.carNum}</span>
-                                            </li>
-                                        ))}
-                                    </motion.ul>
-                                </AnimatePresence>
-                            </div>
-                        </div>
-                        <div>
-                            <h3 className={styles.summaryTitle}>주차 안내</h3>
-                            <p className={styles.summaryText}>교회 주차장은 언제나 열려 있어요.<br />주일에는 대죽체육관 주차장도 편하게 이용해 주세요.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ④ 예배시간: 왼쪽 다음 예배 + 어른/다음세대 고르기 / 오른쪽 표 */}
+            {/* ③ 예배시간: 왼쪽 다음 예배 + 어른/다음세대 고르기 / 오른쪽 표 */}
             <section id="worship" className={`${styles.sec} ${styles.two}`} aria-labelledby="worship-title">
                 <div className={`${styles.wrap} ${styles.secGrid}`}>
                     {/* 메인 '이번 주 예배'처럼 왼쪽에 다음 예배를 큰 문장으로 */}
@@ -407,14 +375,7 @@ const GuidePage = () => {
                                     aria-pressed={worshipGroup.id === group.id}
                                     onClick={() => updateParams({ g: group.id })}
                                 >
-                                    {worshipGroup.id === group.id && (
-                                        <motion.span
-                                            layoutId="worshipPillThumb"
-                                            className={styles.pillThumb}
-                                            transition={reduceMotion ? { duration: 0 } : thumbSpring}
-                                        />
-                                    )}
-                                    <span className={styles.pillText}>{group.label}</span>
+                                    {group.label}
                                 </button>
                             ))}
                         </div>
@@ -445,34 +406,202 @@ const GuidePage = () => {
                 </div>
             </section>
 
-            {/* ⑤ 시설 안내: 가운데 제목 → 층 고르기(예배시간 탭과 같은 방식) → 회색 칸 안 평면도 + 층 이름 */}
-            <section id="facilities" className={styles.sec} aria-labelledby="facilities-title">
+            {/* ④ 오시는 길: 넓은 지도 아래 글자 3단 (주소 / 가까운 정류장 / 도움이 필요할 땐) */}
+            <section id="directions" className={styles.sec} aria-labelledby="directions-title">
                 <div className={styles.wrap}>
                     <div className={styles.secHead}>
-                        <h2 id="facilities-title" className={styles.secTitle}>교회 곳곳을 둘러보세요.</h2>
-                        <div className={`${styles.pillGroup} ${styles.pillGroupCenter}`} role="group" aria-label="층 고르기">
-                            {facilityTabs.map((tab) => (
+                        <h2 id="directions-title" className={styles.secTitle}>이렇게 오시면 돼요.</h2>
+                    </div>
+                    <div className={styles.bigMap}>
+                        <InteractiveShuttleMap mode="church" />
+                    </div>
+                    <div className={styles.summary}>
+                        <div>
+                            <h3 className={styles.summaryTitle}>주소</h3>
+                            <address className={styles.address}>{CHURCH_ADDRESS}<br />신탄진침례교회</address>
+                            <div className={styles.links}>
+                                <button type="button" className={styles.textLink} onClick={copyAddress}>
+                                    <span className={styles.textLinkLabel} aria-live="polite">
+                                        {addressCopied ? '복사했어요' : '주소 복사하기'}
+                                    </span>
+                                    <span className={`material-symbols-outlined ${styles.textLinkIcon}`} aria-hidden="true">
+                                        {addressCopied ? 'check' : 'content_copy'}
+                                    </span>
+                                </button>
+                                <a className={styles.textLink} href={naverRouteUrl} target="_blank" rel="noopener noreferrer">
+                                    <span className={styles.textLinkLabel}>네이버 지도로 길찾기</span>
+                                    <span className={`material-symbols-outlined ${styles.textLinkIcon}`} aria-hidden="true">arrow_outward</span>
+                                </a>
+                                <a className={styles.textLink} href={kakaoRouteUrl} target="_blank" rel="noopener noreferrer">
+                                    <span className={styles.textLinkLabel}>카카오맵으로 길찾기</span>
+                                    <span className={`material-symbols-outlined ${styles.textLinkIcon}`} aria-hidden="true">arrow_outward</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 className={styles.summaryTitle}>가까운 정류장</h3>
+                            <ul className={styles.stops}>
+                                {TRANSIT_STOPS.map((stop) => (
+                                    <li key={stop.name}>
+                                        <span>{stop.name}</span>
+                                        <span className={styles.stopWalk}>{stop.time}</span>
+                                        <span className={styles.stopKind}>{stopKind[stop.type]}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 className={styles.summaryTitle}>도움이 필요할 땐</h3>
+                            <p className={styles.summaryText}>도움이 필요하시면 언제든 연락해 주세요.</p>
+                            <div className={styles.links}>
+                                <a className={styles.textLink} href={`tel:${CHURCH_PHONE}`}>
+                                    <span className={styles.textLinkLabel}>{CHURCH_PHONE} 전화 걸기</span>
+                                    <span className={`material-symbols-outlined ${styles.textLinkIcon}`} aria-hidden="true">call</span>
+                                </a>
+                                <a
+                                    className={styles.textLink}
+                                    href="?tab=shuttle"
+                                    onClick={(e) => { e.preventDefault(); handleTabClick('shuttle'); }}
+                                >
+                                    <span className={styles.textLinkLabel}>교회 차 시간 보기</span>
+                                    <span className={`material-symbols-outlined ${styles.textLinkIcon}`} aria-hidden="true">chevron_right</span>
+                                </a>
+                                <a
+                                    className={styles.textLink}
+                                    href="?tab=parking"
+                                    onClick={(e) => { e.preventDefault(); handleTabClick('parking'); }}
+                                >
+                                    <span className={styles.textLinkLabel}>주차 안내 보기</span>
+                                    <span className={`material-symbols-outlined ${styles.textLinkIcon}`} aria-hidden="true">chevron_right</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ⑤ 차량운행: 왼쪽 제목 + 예배 고르기 / 오른쪽 동네별 노선 표 */}
+            <section id="shuttle" className={`${styles.sec} ${styles.two}`} aria-labelledby="shuttle-title">
+                <div className={`${styles.wrap} ${styles.secGrid}`}>
+                    <div className={styles.secHead}>
+                        <h2 id="shuttle-title" className={styles.secTitle}>동네까지 교회 차가<br />모시러 가요.</h2>
+                        <p className={styles.lead}>예배를 고르시면 동네별 셔틀 시간을 알려 드려요.</p>
+                        <div className={styles.pillGroup} role="group" aria-label="예배 고르기">
+                            {shuttleSchedules.map((schedule) => (
                                 <button
-                                    key={tab.id}
+                                    key={schedule.id}
                                     type="button"
                                     className={styles.pill}
-                                    aria-pressed={floor === tab.id}
-                                    onClick={() => updateParams({ floor: tab.id })}
+                                    aria-pressed={selectedShuttle.id === schedule.id}
+                                    onClick={() => updateParams({ s: schedule.id })}
                                 >
-                                    {floor === tab.id && (
-                                        <motion.span
-                                            layoutId="floorPillThumb"
-                                            className={styles.pillThumb}
-                                            transition={reduceMotion ? { duration: 0 } : thumbSpring}
-                                        />
-                                    )}
-                                    <span className={styles.pillText}>{tab.label}</span>
+                                    {shuttleLabels[schedule.id] ?? schedule.name}
                                 </button>
                             ))}
                         </div>
                     </div>
-                    <figure className={styles.plan}>
-                        <div className={styles.planMedia}>
+                    <div>
+                        <div aria-live="polite">
+                            <AnimatePresence mode="wait" initial={false}>
+                                <motion.ul
+                                    key={selectedShuttle.id}
+                                    className={styles.infoList}
+                                    aria-label={`${selectedShuttle.name} 셔틀 노선`}
+                                    {...listMotion}
+                                >
+                                    {selectedShuttle.routes.map((route) => (
+                                        <li key={route.id} className={styles.infoItem}>
+                                            <span className={styles.infoName}>{route.area}</span>
+                                            <span className={styles.infoTime}>{route.time}</span>
+                                            <span className={styles.infoMeta}>차량 {route.carNum}</span>
+                                        </li>
+                                    ))}
+                                </motion.ul>
+                            </AnimatePresence>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ⑥ 주차: 회색 띠 위 가운데 큰 문장 (쉬어 가는 자리) */}
+            <section id="parking" data-band="true" className={`${styles.sec} ${styles.band}`} aria-labelledby="parking-title">
+                <div className={styles.wrap}>
+                    <h2 id="parking-title" className={styles.bandTitle}>교회 주차장은<br />언제나 열려 있어요.</h2>
+                    <p className={styles.bandText}>주일에는 대죽체육관 주차장도 편하게 이용해 주세요.</p>
+                </div>
+            </section>
+
+            {/* ⑦ 시설 안내: 애플 product viewer처럼 왼쪽 층 알약(고른 층은 그 자리에서 펼쳐짐) / 오른쪽 흰 무대 위 평면도 */}
+            <section id="facilities" className={styles.sec} aria-labelledby="facilities-title">
+                <div className={styles.wrap}>
+                    <div className={styles.secHead}>
+                        <h2 id="facilities-title" className={styles.secTitle}>교회 곳곳을 둘러보세요.</h2>
+                    </div>
+                    <div className={styles.viewer}>
+                        <ul className={styles.viewerControls} aria-label="층 고르기">
+                            {facilityTabs.map((tab, index) => {
+                                const open = floor === tab.id;
+                                const prev = facilityTabs[index - 1];
+                                const next = facilityTabs[index + 1];
+                                return (
+                                    <motion.li
+                                        key={tab.id}
+                                        layout={!reduceMotion}
+                                        transition={viewerSpring}
+                                        className={`${styles.viewerItem} ${open ? styles.viewerItemOpen : ''}`}
+                                    >
+                                        {open ? (
+                                            <motion.div
+                                                ref={floorPanelRef}
+                                                tabIndex={-1}
+                                                layout={!reduceMotion ? 'position' : false}
+                                                className={styles.viewerPanel}
+                                                aria-live="polite"
+                                            >
+                                                <p className={styles.viewerText}>
+                                                    <strong>{tab.name}.</strong> {tab.rooms.join(' · ')}
+                                                </p>
+                                                <div className={styles.viewerNav}>
+                                                    <button
+                                                        type="button"
+                                                        className={styles.viewerNavBtn}
+                                                        aria-label={prev ? `이전 층: ${prev.label}` : '이전 층 없음'}
+                                                        disabled={!prev}
+                                                        onClick={() => prev && pickFloor(prev.id)}
+                                                    >
+                                                        <span className="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        className={styles.viewerNavBtn}
+                                                        aria-label={next ? `다음 층: ${next.label}` : '다음 층 없음'}
+                                                        disabled={!next}
+                                                        onClick={() => next && pickFloor(next.id)}
+                                                    >
+                                                        <span className="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+                                                    </button>
+                                                </div>
+                                            </motion.div>
+                                        ) : (
+                                            <motion.button
+                                                layout={!reduceMotion ? 'position' : false}
+                                                type="button"
+                                                className={styles.viewerOpen}
+                                                aria-controls="facility-plan"
+                                                onClick={() => pickFloor(tab.id)}
+                                            >
+                                                <svg className={styles.viewerPlus} viewBox="0 0 24 24" aria-hidden="true">
+                                                    <circle cx="12" cy="12" r="11.25" />
+                                                    <path d="M12 7.5v9M7.5 12h9" />
+                                                </svg>
+                                                {tab.label}
+                                            </motion.button>
+                                        )}
+                                    </motion.li>
+                                );
+                            })}
+                        </ul>
+                        <div id="facility-plan" className={styles.viewerStage}>
                             <AnimatePresence mode="wait" initial={false} custom={reduceMotion}>
                                 <motion.img
                                     custom={reduceMotion}
@@ -486,12 +615,7 @@ const GuidePage = () => {
                                 />
                             </AnimatePresence>
                         </div>
-                        <figcaption className={styles.planCaption} aria-live="polite">
-                            <strong>{facilityTabs.find((tab) => tab.id === floor)?.name}</strong>
-                            {' · '}
-                            {facilityTabs.find((tab) => tab.id === floor)?.rooms.join(', ')}
-                        </figcaption>
-                    </figure>
+                    </div>
                 </div>
             </section>
 
