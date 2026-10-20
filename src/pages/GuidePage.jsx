@@ -14,6 +14,7 @@ import mapDasom1F from '../assets/guide/dasom-1F.svg';
 import mapDasom2F from '../assets/guide/dasom-2F.svg';
 
 import Breadcrumb from "../components/ui/Breadcrumb";
+import Footer from '../components/Footer';
 
 // rooms는 평면도 이미지의 대체 텍스트로 읽힘 (평면도 글자가 도형이라 화면 낭독기가 못 읽음)
 const facilityTabs = [
@@ -569,6 +570,8 @@ const GuidePage = () => {
                     </div>
                 </div>
             </section>
+
+            <Footer />
         </div>
     );
 };
