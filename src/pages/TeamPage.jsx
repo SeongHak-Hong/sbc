@@ -22,7 +22,7 @@ import seniorElder08 from '../assets/team/shintanjin-baptist-church-member-senio
 
 // 그룹별 섬기는 사람들. lead: 담임목사·사모는 한 줄 3칸으로 조금 크게
 // 원로장로 사진 번호는 가나다순: 01 고석천 02 김중호 03 김태식 04 박찬옥 05 서용태 06 안억균 07 오철세 08 임종천 09 황규현
-// 03·09는 사진이 오면 senior-elder-03/09.webp를 import해서 아래 자리에 추가
+// 03·09는 사진이 오면 senior-elder-03/09.webp를 import해서 아래 표시해 둔 자리에 추가
 const groups = [
     {
         title: '담임목사 및 사모',
@@ -47,12 +47,6 @@ const groups = [
         ],
     },
     {
-        title: '직원',
-        members: [
-            { name: '김태인', role: '행정간사', image: member07, description: '행정지원' },
-        ],
-    },
-    {
         title: '시무장로',
         members: [
             { name: '윤광식', role: '시무장로', image: activeElder },
@@ -61,15 +55,22 @@ const groups = [
     {
         title: '원로장로',
         members: [
-            { name: '고석천', role: '원로장로', image: seniorElder01 },
+            // 표시 순서는 교회가 정한 순서 (사진 번호와 무관)
             { name: '김중호', role: '원로장로', image: seniorElder02 },
-            // 03 김태식 (사진 추가 예정)
             { name: '박찬옥', role: '원로장로', image: seniorElder04 },
+            { name: '임종천', role: '원로장로', image: seniorElder08 },
+            // 황규현 (사진 추가 예정, senior-elder-09)
             { name: '서용태', role: '원로장로', image: seniorElder05 },
             { name: '안억균', role: '원로장로', image: seniorElder06 },
+            { name: '고석천', role: '원로장로', image: seniorElder01 },
             { name: '오철세', role: '원로장로', image: seniorElder07 },
-            { name: '임종천', role: '원로장로', image: seniorElder08 },
-            // 09 황규현 (사진 추가 예정)
+            // 김태식 (사진 추가 예정, senior-elder-03)
+        ],
+    },
+    {
+        title: '직원',
+        members: [
+            { name: '김태인', role: '행정간사', image: member07, description: '행정지원' },
         ],
     },
 ];
