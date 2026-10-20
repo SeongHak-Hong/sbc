@@ -41,6 +41,8 @@ const mapImages = {
 };
 
 const ease = [0.16, 1, 0.3, 1];
+// 선택 표시 이동: 넘침 없는 스프링 (도중에 다시 눌러도 지금 자리에서 이어 감)
+const thumbSpring = { type: 'spring', bounce: 0, duration: 0.4 };
 // 시설 안내 층 알약이 펼쳐지고 접힐 때: 넘침 없는 스프링 (도중에 다른 층을 눌러도 지금 모양에서 이어 감)
 const viewerSpring = { type: 'spring', bounce: 0, duration: 0.45 };
 
@@ -344,7 +346,14 @@ const GuidePage = () => {
                             aria-current={current === section.id ? 'true' : undefined}
                             onClick={() => handleTabClick(section.id)}
                         >
-                            {section.label}
+                            {current === section.id && (
+                                <motion.span
+                                    layoutId="guideSectionThumb"
+                                    className={styles.pillThumb}
+                                    transition={reduceMotion ? { duration: 0 } : thumbSpring}
+                                />
+                            )}
+                            <span className={styles.pillText}>{section.label}</span>
                         </button>
                     ))}
                 </div>
@@ -375,7 +384,14 @@ const GuidePage = () => {
                                     aria-pressed={worshipGroup.id === group.id}
                                     onClick={() => updateParams({ g: group.id })}
                                 >
-                                    {group.label}
+                                    {worshipGroup.id === group.id && (
+                                        <motion.span
+                                            layoutId="worshipPillThumb"
+                                            className={styles.pillThumb}
+                                            transition={reduceMotion ? { duration: 0 } : thumbSpring}
+                                        />
+                                    )}
+                                    <span className={styles.pillText}>{group.label}</span>
                                 </button>
                             ))}
                         </div>
@@ -495,7 +511,14 @@ const GuidePage = () => {
                                     aria-pressed={selectedShuttle.id === schedule.id}
                                     onClick={() => updateParams({ s: schedule.id })}
                                 >
-                                    {shuttleLabels[schedule.id] ?? schedule.name}
+                                    {selectedShuttle.id === schedule.id && (
+                                        <motion.span
+                                            layoutId="shuttlePillThumb"
+                                            className={styles.pillThumb}
+                                            transition={reduceMotion ? { duration: 0 } : thumbSpring}
+                                        />
+                                    )}
+                                    <span className={styles.pillText}>{shuttleLabels[schedule.id] ?? schedule.name}</span>
                                 </button>
                             ))}
                         </div>
