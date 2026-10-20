@@ -147,7 +147,6 @@ const shuttleLabels = {
 const defaultShuttleId = 'sunday2';
 
 const naverRouteUrl = `https://map.naver.com/index.nhn?elng=${CHURCH_COORDS.lng}&elat=${CHURCH_COORDS.lat}&etext=${encodeURIComponent('신탄진침례교회')}&menu=route`;
-const kakaoRouteUrl = `https://map.kakao.com/link/to/${encodeURIComponent('신탄진침례교회')},${CHURCH_COORDS.lat},${CHURCH_COORDS.lng}`;
 const stopKind = { bus: '버스', train: '기차' };
 
 // 공통 Header 높이(4rem). Header는 내릴 때 숨고 올릴 때 나온다
@@ -177,13 +176,10 @@ const GuidePage = () => {
     const [current, setCurrent] = useState(sectionIds.includes(tabParam) ? tabParam : sectionIds[0]);
     const [headerHidden, setHeaderHidden] = useState(false);
     const [tabsStuck, setTabsStuck] = useState(false);
-    const [addressCopied, setAddressCopied] = useState(false);
-
     const tabsRef = useRef(null);
     const tabListRef = useRef(null);
     const jumpingRef = useRef(false);
     const jumpTimer = useRef(null);
-    const copyTimer = useRef(null);
 
     // 같은 섹션 안에서 고른 것만 바꾸므로 기록은 덮어쓴다 (뒤로가기가 선택을 하나씩 되감지 않게)
     const updateParams = (patch) => {
@@ -272,30 +268,7 @@ const GuidePage = () => {
         updateParams({ tab: id });
     };
 
-    const copyAddress = async () => {
-        try {
-            await navigator.clipboard.writeText(CHURCH_ADDRESS);
-        } catch {
-            // clipboard API가 막힌 환경(오래된 브라우저, http)용
-            const field = document.createElement('textarea');
-            field.value = CHURCH_ADDRESS;
-            field.setAttribute('readonly', '');
-            field.style.position = 'fixed';
-            field.style.opacity = '0';
-            document.body.appendChild(field);
-            field.select();
-            document.execCommand('copy');
-            field.remove();
-        }
-        setAddressCopied(true);
-        clearTimeout(copyTimer.current);
-        copyTimer.current = setTimeout(() => setAddressCopied(false), 2000);
-    };
-
-    useEffect(() => () => {
-        clearTimeout(copyTimer.current);
-        clearTimeout(jumpTimer.current);
-    }, []);
+    useEffect(() => () => clearTimeout(jumpTimer.current), []);
 
     const listMotion = {
         initial: reduceMotion ? false : { opacity: 0, y: 8 },
@@ -354,20 +327,8 @@ const GuidePage = () => {
                             <h3 className={styles.summaryTitle}>주소</h3>
                             <address className={styles.address}>{CHURCH_ADDRESS}<br />신탄진침례교회</address>
                             <div className={styles.links}>
-                                <button type="button" className={styles.textLink} onClick={copyAddress}>
-                                    <span className={styles.textLinkLabel} aria-live="polite">
-                                        {addressCopied ? '복사했어요' : '주소 복사하기'}
-                                    </span>
-                                    <span className={`material-symbols-outlined ${styles.textLinkIcon}`} aria-hidden="true">
-                                        {addressCopied ? 'check' : 'content_copy'}
-                                    </span>
-                                </button>
                                 <a className={styles.textLink} href={naverRouteUrl} target="_blank" rel="noopener noreferrer">
                                     <span className={styles.textLinkLabel}>네이버 지도로 길찾기</span>
-                                    <span className={`material-symbols-outlined ${styles.textLinkIcon}`} aria-hidden="true">arrow_outward</span>
-                                </a>
-                                <a className={styles.textLink} href={kakaoRouteUrl} target="_blank" rel="noopener noreferrer">
-                                    <span className={styles.textLinkLabel}>카카오맵으로 길찾기</span>
                                     <span className={`material-symbols-outlined ${styles.textLinkIcon}`} aria-hidden="true">arrow_outward</span>
                                 </a>
                             </div>
