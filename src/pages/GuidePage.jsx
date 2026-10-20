@@ -297,30 +297,6 @@ const GuidePage = () => {
         clearTimeout(jumpTimer.current);
     }, []);
 
-    const floorButtons = (layoutId) => facilityTabs.map((tab) => (
-        <button
-            key={tab.id}
-            type="button"
-            className={`${styles.verticalSelectButton} ${floor === tab.id ? styles.active : ''}`}
-            aria-pressed={floor === tab.id}
-            onClick={(e) => {
-                updateParams({ floor: tab.id });
-                if (layoutId.endsWith('Mobile')) {
-                    e.currentTarget.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', inline: 'center', block: 'nearest' });
-                }
-            }}
-        >
-            {floor === tab.id && (
-                <motion.div
-                    layoutId={layoutId}
-                    transition={reduceMotion ? { duration: 0 } : { type: "spring", bounce: 0.3, duration: 0.6 }}
-                    className={styles.activeBackground}
-                />
-            )}
-            <span className={styles.switchText}>{tab.label}</span>
-        </button>
-    ));
-
     const listMotion = {
         initial: reduceMotion ? false : { opacity: 0, y: 8 },
         animate: { opacity: 1, y: 0 },
@@ -562,24 +538,34 @@ const GuidePage = () => {
                 </div>
             </section>
 
-            {/* ⑦ 시설 안내: 층 버튼 + 평면도 (화면 구조는 이전과 같음) */}
+            {/* ⑦ 시설 안내: 가운데 제목 → 층 고르기(예배시간 탭과 같은 방식) → 회색 칸 안 평면도 + 층 이름 */}
             <section id="facilities" className={styles.sec} aria-labelledby="facilities-title">
                 <div className={styles.wrap}>
                     <div className={styles.secHead}>
                         <h2 id="facilities-title" className={styles.secTitle}>교회 곳곳을 둘러보세요.</h2>
-                    </div>
-                    <div className={styles.facilitiesSidebarMobile}>
-                        <div className={styles.verticalButtonGroup} role="group" aria-label="층 고르기">
-                            {floorButtons('facilityActiveTabMobile')}
+                        <div className={`${styles.pillGroup} ${styles.pillGroupCenter}`} role="group" aria-label="층 고르기">
+                            {facilityTabs.map((tab) => (
+                                <button
+                                    key={tab.id}
+                                    type="button"
+                                    className={styles.pill}
+                                    aria-pressed={floor === tab.id}
+                                    onClick={() => updateParams({ floor: tab.id })}
+                                >
+                                    {floor === tab.id && (
+                                        <motion.span
+                                            layoutId="floorPillThumb"
+                                            className={styles.pillThumb}
+                                            transition={reduceMotion ? { duration: 0 } : thumbSpring}
+                                        />
+                                    )}
+                                    <span className={styles.pillText}>{tab.label}</span>
+                                </button>
+                            ))}
                         </div>
                     </div>
-                    <div className={styles.facilitiesContainer}>
-                        <div className={styles.facilitiesSidebarDesktop}>
-                            <div className={styles.verticalButtonGroup} role="group" aria-label="층 고르기">
-                                {floorButtons('facilityActiveTabDesktop')}
-                            </div>
-                        </div>
-                        <div className={styles.facilitiesMapArea}>
+                    <figure className={styles.plan}>
+                        <div className={styles.planMedia}>
                             <AnimatePresence mode="wait" initial={false} custom={reduceMotion}>
                                 <motion.img
                                     custom={reduceMotion}
@@ -593,7 +579,12 @@ const GuidePage = () => {
                                 />
                             </AnimatePresence>
                         </div>
-                    </div>
+                        <figcaption className={styles.planCaption} aria-live="polite">
+                            <strong>{facilityTabs.find((tab) => tab.id === floor)?.name}</strong>
+                            {' · '}
+                            {facilityTabs.find((tab) => tab.id === floor)?.rooms.join(', ')}
+                        </figcaption>
+                    </figure>
                 </div>
             </section>
 

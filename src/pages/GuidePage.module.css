@@ -457,103 +457,46 @@
     color: var(--color-text-primary);
 }
 
-/* ---------- ⑦ 시설 안내 (화면 구조는 이전과 같음) ---------- */
-.facilitiesContainer {
-    display: flex;
-    gap: 32px;
-    align-items: flex-start;
+/* ---------- ⑦ 시설 안내: 메인 사진 칸처럼 회색 바탕 둥근 칸 안에 평면도 ---------- */
+.pillGroupCenter {
     justify-content: center;
-    width: 100%;
-    position: relative;
 }
 
-.facilitiesSidebarDesktop {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    width: 140px;
-    flex-shrink: 0;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 0;
-    z-index: 1;
-}
-
-.facilitiesSidebarMobile {
-    display: none;
-}
-
-.verticalButtonGroup {
-    display: flex;
-    flex-direction: column;
-    background-color: var(--color-white);
-    border-radius: 24px;
-    padding: 6px;
-    box-shadow: 0 0 10px rgba(233, 238, 255, 0.75);
-}
-
-.verticalSelectButton {
-    background: transparent;
-    border: none;
-    min-height: 44px;
-    padding: 12px 0;
+.plan {
     margin: 0;
-    font: inherit;
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    color: var(--color-text-meta);
-    cursor: pointer;
-    transition: color 0.2s ease;
-    border-radius: 20px;
+}
+
+.planMedia {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
-    -webkit-tap-highlight-color: transparent;
+    padding: clamp(1.5rem, 4vw, 3.5rem);
+    border-radius: var(--r-media);
+    background-color: var(--color-surface-band);
 }
 
-.verticalSelectButton:hover {
-    color: var(--color-text-primary);
-}
-
-.verticalSelectButton.active {
-    color: var(--color-white);
-}
-
-.verticalSelectButton:focus-visible {
-    outline: 2px solid var(--color-accent-sky);
-    outline-offset: 2px;
-}
-
-.activeBackground {
-    position: absolute;
-    inset: 0;
-    background-color: var(--btn-bg);
-    border-radius: 20px;
-    z-index: 0;
-}
-
-.switchText {
-    position: relative;
-    z-index: 1;
-}
-
-.facilitiesMapArea {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    aspect-ratio: 602 / 474;
+.planMedia img {
+    display: block;
     width: 100%;
+    max-width: 760px;
     max-height: 60vh;
+    object-fit: contain;
 }
 
-.facilitiesMapArea img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+/* 층 이름 + 방 목록: 메인 사진 설명(.maCap)과 같은 결 */
+.planCaption {
+    max-width: 42em;
+    margin: 0 auto;
+    padding: 1.75rem 1rem 0;
+    font-size: var(--t-small);
+    line-height: 1.6;
+    text-align: center;
+    color: var(--color-text-meta);
+}
+
+.planCaption strong {
+    font-weight: 500;
+    color: var(--color-text-strong);
 }
 
 /* ---------- 태블릿 · 모바일 ---------- */
@@ -565,16 +508,6 @@
 
     .summary {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    /* 층 버튼이 평면도를 가리지 않게 위로 */
-    .facilitiesSidebarDesktop {
-        display: none;
-    }
-
-    .facilitiesSidebarMobile {
-        display: block;
-        margin-bottom: 20px;
     }
 }
 
@@ -610,42 +543,6 @@
         grid-template-columns: 1fr;
         gap: 2.5rem;
         margin-top: 2.5rem;
-    }
-
-    .facilitiesContainer {
-        flex-direction: column;
-        align-items: center;
-        gap: 24px;
-    }
-}
-
-@media (max-width: 1079px) {
-    .facilitiesSidebarMobile .verticalButtonGroup {
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-        padding: 6px;
-        width: 100%;
-        box-sizing: border-box;
-        border-radius: 99px;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        scroll-behavior: smooth;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-
-    .facilitiesSidebarMobile .verticalButtonGroup::-webkit-scrollbar {
-        display: none;
-    }
-
-    .facilitiesSidebarMobile .verticalSelectButton {
-        width: auto;
-        padding: 10px 20px;
-        flex-grow: 0;
-        flex-shrink: 0;
-        scroll-snap-align: center;
     }
 }
 
