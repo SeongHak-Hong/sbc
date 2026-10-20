@@ -282,7 +282,7 @@ const GuidePage = () => {
             <section className={styles.hero}>
                 <div className={styles.wrap}>
                     <Breadcrumb text="교회소개 - 교회 안내" centered />
-                    <h1 className={styles.heroTitle}>환영합니다.<br />어떤 안내가 필요하신가요?</h1>
+                    <h1 className={styles.heroTitle}>환영해요.<br />안내를 골라 보세요.</h1>
                 </div>
             </section>
 
@@ -319,7 +319,7 @@ const GuidePage = () => {
             <section id="worship" className={`${styles.sec} ${styles.two}`} aria-labelledby="worship-title">
                 <div className={`${styles.wrap} ${styles.secGrid}`}>
                     <div className={styles.secHead}>
-                        <h2 id="worship-title" className={styles.secTitle}>어느 예배에 오시나요?</h2>
+                        <h2 id="worship-title" className={styles.secTitle}>편한 시간에 함께 예배드려요.</h2>
                     </div>
                     <div>
                         <div className={styles.pillGroup} role="group" aria-label="예배 나눠 보기">
@@ -368,7 +368,7 @@ const GuidePage = () => {
             <section id="directions" className={styles.sec} aria-labelledby="directions-title">
                 <div className={styles.wrap}>
                     <div className={styles.secHead}>
-                        <h2 id="directions-title" className={styles.secTitle}>반가운 발걸음, 오시는 길</h2>
+                        <h2 id="directions-title" className={styles.secTitle}>이렇게 오시면 돼요.</h2>
                     </div>
                     <div className={styles.bigMap}>
                         <InteractiveShuttleMap mode="church" />
@@ -442,7 +442,7 @@ const GuidePage = () => {
             <section id="shuttle" className={`${styles.sec} ${styles.two}`} aria-labelledby="shuttle-title">
                 <div className={`${styles.wrap} ${styles.secGrid}`}>
                     <div className={styles.secHead}>
-                        <h2 id="shuttle-title" className={styles.secTitle}>동네까지 교회 차가<br />모시러 가요</h2>
+                        <h2 id="shuttle-title" className={styles.secTitle}>동네까지 교회 차가<br />모시러 가요.</h2>
                         <p className={styles.lead}>예배를 고르시면 동네별 셔틀 시간을 알려 드려요.</p>
                     </div>
                     <div>
@@ -491,7 +491,7 @@ const GuidePage = () => {
             {/* ⑥ 주차: 회색 띠 위 가운데 큰 문장 (쉬어 가는 자리) */}
             <section id="parking" data-band="true" className={`${styles.sec} ${styles.band}`} aria-labelledby="parking-title">
                 <div className={styles.wrap}>
-                    <h2 id="parking-title" className={styles.bandTitle}>교회 주차장은<br />언제나 열려 있어요</h2>
+                    <h2 id="parking-title" className={styles.bandTitle}>교회 주차장은<br />언제나 열려 있어요.</h2>
                     <p className={styles.bandText}>주일에는 대죽체육관 주차장도 편하게 이용해 주세요.</p>
                 </div>
             </section>
@@ -500,7 +500,7 @@ const GuidePage = () => {
             <section id="facilities" className={styles.sec} aria-labelledby="facilities-title">
                 <div className={styles.wrap}>
                     <div className={styles.secHead}>
-                        <h2 id="facilities-title" className={styles.secTitle}>구석구석 교회탐방</h2>
+                        <h2 id="facilities-title" className={styles.secTitle}>교회 곳곳을 둘러보세요.</h2>
                     </div>
                     <div className={styles.facilitiesSidebarMobile}>
                         <div className={styles.verticalButtonGroup} role="group" aria-label="층 고르기">
