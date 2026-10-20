@@ -1,192 +1,187 @@
-.pageWrapper {
-    color: var(--color-text-primary);
-    min-height: 100vh;
+/* 교회 안내: 한 페이지에 섹션을 이어 붙이고, 위 버튼 줄로 섹션을 오간다.
+   크기·여백은 메인 페이지(MainPage.module.css)와 같은 값 */
+.page {
+    --t-display: clamp(2.25rem, 4.5vw, 4rem);
+    --t-strong: 3rem;
+    --t-row: 1.1875rem;
+    --t-body: 1.125rem;
+    --t-small: 1rem;
+    --pad-sec: 8rem;
+    --space-head: 3rem;
+    --wrap: 1200px;
+    --gutter: 1.5rem;
+    --r-card: 20px;
+    --r-media: 28px;
+    --header-h: calc(4rem + env(safe-area-inset-top, 0px));
+
     position: relative;
+    min-height: 100vh;
+    color: var(--color-text-primary);
     background-color: var(--color-white);
     background-image: url('../assets/main/main-bg-gradient.svg');
     background-repeat: no-repeat;
     background-position: top center;
     background-size: 100% auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.pageWrapper::before,
-.pageWrapper::after {
-    content: "";
-    flex-grow: 1;
-    flex-shrink: 0;
-    min-height: 48px;
-}
-
-/* 선택에 따라 내용 길이가 바뀌는 화면은 위쪽에 고정해 버튼이 손가락 아래에서 움직이지 않게 */
-.pageWrapperTop::before {
-    flex-grow: 0;
-    min-height: 120px;
-}
-
-.centerContainer {
-    width: 100%;
-    max-width: 1152px;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    z-index: 10;
-}
-
-.pageTitle {
-    font-size: var(--page-title-size-pc, 40px);
-    font-weight: 500;
-    color: var(--color-text-strong);
-    letter-spacing: -0.03em;
-    line-height: 1.3;
-    white-space: pre-line;
-    margin-bottom: 24px;
+    font-size: var(--t-body);
+    line-height: 1.6;
+    letter-spacing: -0.02em;
     word-break: keep-all;
 }
 
-.buttonGroup {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    flex-wrap: wrap;
+.wrap {
+    max-width: calc(var(--wrap) + var(--gutter) * 2);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    box-sizing: border-box;
 }
 
-.selectButton {
-    background-color: var(--color-white);
+/* ---------- ① 첫 화면 ---------- */
+.hero {
+    padding: calc(var(--header-h) + clamp(3rem, 6vw, 5rem)) 0 clamp(1.5rem, 3vw, 2.5rem);
+    text-align: center;
+}
+
+.heroTitle {
+    margin: 0;
+    font-size: var(--t-display);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: var(--color-text-strong);
+    text-wrap: balance;
+}
+
+/* ---------- ② 섹션 이동 버튼 줄 ---------- */
+/* Header 바로 아래에 붙어 따라오고, Header가 숨으면 맨 위로 올라간다 */
+.tabs {
+    position: sticky;
+    top: var(--header-h);
+    z-index: 900;
+    transition: top 340ms var(--ease-smooth), background-color 240ms ease;
+}
+
+.headerHidden .tabs {
+    top: 0;
+}
+
+/* 위에 붙으면 Header와 같은 반투명 바 */
+.tabsStuck {
+    background-color: rgba(255, 255, 255, 0.84);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+
+.tabList {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    max-width: calc(var(--wrap) + var(--gutter) * 2);
+    margin: 0 auto;
+    padding: 10px var(--gutter);
+    box-sizing: border-box;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.tabList::-webkit-scrollbar {
+    display: none;
+}
+
+.tab {
+    position: relative;
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0 18px;
     border: none;
-    border-radius: 28px;
-    padding: 14px 28px;
+    border-radius: var(--radius-pill);
+    background-color: transparent;
+    color: var(--color-text-tertiary);
+    font: inherit;
     font-size: 16px;
     font-weight: 500;
     letter-spacing: -0.02em;
-    color: var(--color-text-strong);
-    cursor: pointer;
-    box-shadow: 0 0 10px rgba(233, 238, 255, 0.75);
-    transition: background-color 0.2s ease, transform 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.selectButton:hover {
-    background-color: var(--color-surface-band-hover);
-    transform: translateY(-2px);
-}
-
-/* 오시는 길 지도: 아래 큰 줄들과 같은 너비 */
-.mapSection {
-    width: 100%;
-    max-width: 560px;
-    margin-bottom: 12px;
-}
-
-/* 큰 줄·글자 목록: 칸 없이 얇은 선으로만 나눈다 (메인 '자주 묻는 것'과 같은 결). 맨 윗줄엔 선 없음 */
-.actionRows {
-    display: grid;
-    border-bottom: 1px solid var(--color-line);
-}
-
-.actionRow {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    width: 100%;
-    min-height: 72px;
-    padding: 18px 4px;
-    border: none;
-    border-radius: 0;
-    background-color: transparent;
-    color: var(--color-text-strong);
-    font: inherit;
-    text-align: left;
-    text-decoration: none;
+    white-space: nowrap;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     -webkit-user-select: none;
     user-select: none;
-    transition: background-color 0.2s ease;
+    transition: color 0.3s var(--ease-smooth), transform 0.12s ease-out;
 }
 
-.actionRow + .actionRow {
-    border-top: 1px solid var(--color-line);
+.tab[aria-current="true"] {
+    color: var(--color-white);
 }
 
-/* 누르는 순간 옅은 회색이 비친다 (손을 떼기 전에 반응) */
-.actionRow:active {
-    background-color: var(--color-surface-band);
+.tab:active {
+    transform: scale(0.96);
 }
 
-.actionRow:focus-visible {
+@media (hover: hover) and (pointer: fine) {
+    .tab:not([aria-current="true"]):hover {
+        color: var(--color-text-strong);
+    }
+}
+
+.tab:focus-visible {
     outline: 2px solid var(--color-accent-sky);
     outline-offset: 2px;
 }
 
-.actionMain {
-    font-size: 19px;
+/* ---------- 섹션 공통 ---------- */
+.sec {
+    padding: var(--pad-sec) 0 0;
+    scroll-margin-top: 0;
+}
+
+.tabs + .sec {
+    padding-top: calc(var(--pad-sec) * 0.6);
+}
+
+.sec:last-child {
+    padding-bottom: var(--pad-sec);
+}
+
+.secHead {
+    margin-bottom: var(--space-head);
+}
+
+.secTitle {
+    margin: 0;
+    font-size: var(--t-strong);
     font-weight: 500;
-    line-height: 1.4;
-    letter-spacing: -0.02em;
+    line-height: 1.3;
+    letter-spacing: -0.03em;
+    color: var(--color-text-strong);
+    text-wrap: balance;
 }
 
-.actionRowAddress .actionMain {
-    font-size: 21px;
-    letter-spacing: -0.025em;
-}
-
-.actionHint {
-    display: inline-flex;
-    align-items: center;
-    gap: 2px;
-    font-size: 15px;
-    color: var(--color-text-tertiary);
-    letter-spacing: -0.01em;
-    white-space: nowrap;
-}
-
-.actionChevron {
-    font-size: 20px;
-    transition: transform 0.2s var(--ease-smooth);
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .actionRow:hover .actionChevron {
-        transform: translateX(2px);
-    }
-}
-
-.listLabel {
-    margin: 40px 4px 4px;
-    font-size: 15px;
-    color: var(--color-text-tertiary);
-    letter-spacing: -0.01em;
-    text-align: left;
-}
-
-/* 예배시간·차량운행: 고르기 버튼 + 글자 목록 */
-.pageSub {
-    margin: -12px 0 28px;
-    font-size: 17px;
-    color: var(--color-text-tertiary);
-    letter-spacing: -0.02em;
+.lead {
+    margin: 1rem 0 0;
+    font-size: 1.25rem;
     line-height: 1.6;
-    word-break: keep-all;
+    color: var(--color-text-tertiary);
 }
 
-/* 고르기 버튼: 칸 없이 글자만, 고른 것 뒤로 짙은 표시가 미끄러져 옮겨 간다 */
+/* 표가 필요한 섹션(예배시간·차량운행): 메인 '이번 주 예배'처럼 왼쪽 제목 / 오른쪽 표 */
+.two .secGrid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 3rem;
+    align-items: start;
+}
+
+.two .secHead {
+    position: sticky;
+    top: calc(var(--header-h) + 64px + 2rem);
+    margin-bottom: 0;
+}
+
+/* ---------- 고르기 버튼: 칸 없이 글자만, 고른 것 뒤로 짙은 표시가 미끄러진다 ---------- */
 .pillGroup {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 4px;
-    max-width: 560px;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
 }
 
 .pill {
@@ -222,6 +217,11 @@
     }
 }
 
+.pill:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
+}
+
 .pillThumb {
     position: absolute;
     inset: 0;
@@ -235,60 +235,208 @@
     z-index: 1;
 }
 
-.pill:focus-visible,
-.selectButton:focus-visible {
-    outline: 2px solid var(--color-accent-sky);
-    outline-offset: 2px;
-}
-
-.listArea {
-    width: 100%;
-    max-width: 560px;
-}
-
+/* ---------- 표: 메인 '이번 주 예배'(.wkList)와 같은 회색 칸 ---------- */
 .infoList {
     list-style: none;
-    margin: 0 0 32px;
+    margin: 0;
     padding: 0;
     display: grid;
-    text-align: left;
-    border-bottom: 1px solid var(--color-line);
+    gap: 0.375rem;
 }
 
 .infoItem {
     display: grid;
     grid-template-columns: 1fr auto;
-    align-items: baseline;
-    gap: 2px 12px;
-    min-height: 72px;
-    padding: 18px 4px;
-}
-
-.infoItem + .infoItem {
-    border-top: 1px solid var(--color-line);
+    align-items: center;
+    gap: 0 1rem;
+    min-height: 4rem;
+    padding: 1rem 1.25rem;
+    border-radius: var(--r-card);
+    background-color: var(--color-surface-band);
 }
 
 .infoName,
 .infoTime {
-    font-size: 19px;
+    font-size: var(--t-row);
     font-weight: 500;
     line-height: 1.4;
     color: var(--color-text-strong);
-    letter-spacing: -0.02em;
 }
 
 .infoTime {
+    text-align: right;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
 }
 
 .infoMeta {
     grid-column: 1 / -1;
-    font-size: 15px;
-    line-height: 1.5;
-    color: var(--color-text-tertiary);
-    letter-spacing: -0.01em;
+    font-size: var(--t-small);
+    color: var(--color-text-meta);
     font-variant-numeric: tabular-nums;
+}
+
+/* ---------- ④ 오시는 길: 넓은 지도 + 글자 3단 ---------- */
+.bigMap > div {
+    aspect-ratio: 16 / 7;
+    border-radius: var(--r-media);
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2.5rem 3rem;
+    margin-top: 3.5rem;
+    align-items: start;
+}
+
+.summaryTitle {
+    margin: 0 0 0.75rem;
+    font-size: 1.375rem;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.025em;
+    color: var(--color-text-strong);
+}
+
+.address {
+    font-style: normal;
+    font-size: var(--t-row);
+    line-height: 1.5;
+    color: var(--color-text-primary);
+}
+
+.summaryText {
+    margin: 0;
+    font-size: var(--t-body);
+    line-height: 1.6;
+    color: var(--color-text-primary);
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 0.5rem;
+}
+
+/* 글자 링크: 보이는 건 글자 한 줄, 누르는 영역은 44px */
+.textLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    min-height: 44px;
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--color-text-strong);
+    font: inherit;
+    font-size: var(--t-body);
+    font-weight: 500;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: opacity 0.15s ease;
+}
+
+.textLink:active {
+    opacity: 0.55;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .textLink:hover .textLinkLabel {
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 4px;
+    }
+}
+
+.textLink:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
+}
+
+.textLinkIcon {
+    font-size: 20px;
+    color: var(--color-text-tertiary);
+}
+
+.stops {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.625rem;
+}
+
+.stops li {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0 1rem;
+    font-size: var(--t-body);
+    line-height: 1.5;
+    color: var(--color-text-primary);
+}
+
+.stopWalk {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.stopKind {
+    grid-column: 1 / -1;
+    font-size: var(--t-small);
+    color: var(--color-text-meta);
+}
+
+/* ---------- ⑤ 차량운행: 지도 펼치기 ---------- */
+.mapToggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 48px;
+    margin-top: 16px;
+    padding: 8px 18px 8px 20px;
+    border: none;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-surface-band);
+    color: var(--color-text-strong);
+    font: inherit;
+    font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: background-color 0.2s ease, transform 0.12s ease-out;
+}
+
+.mapToggle:active {
+    transform: scale(0.96);
+    background-color: var(--color-surface-band-hover);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .mapToggle:hover {
+        background-color: var(--color-surface-band-hover);
+    }
+}
+
+.mapToggle:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
+}
+
+.mapToggleIcon {
+    font-size: 20px;
+    transition: transform 0.4s var(--ease-smooth);
+}
+
+.mapToggle[aria-expanded="true"] .mapToggleIcon {
+    transform: rotate(180deg);
 }
 
 /* 지도 펼치기: 높이를 grid 행으로 열어 레이아웃이 튀지 않게 */
@@ -296,7 +444,6 @@
     display: grid;
     grid-template-rows: 0fr;
     width: 100%;
-    max-width: 560px;
     transition: grid-template-rows 0.5s var(--ease-smooth);
 }
 
@@ -312,49 +459,32 @@
     padding-top: 16px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .mapReveal {
-        transition: none;
-    }
-
-    .pill:active {
-        transform: none;
-    }
-
-    .actionChevron {
-        transition: none;
-    }
+/* ---------- ⑥ 주차: 회색 띠 위 가운데 큰 문장 ---------- */
+.band {
+    margin-top: var(--pad-sec);
+    padding: var(--pad-sec) 0;
+    background-color: var(--color-surface-band);
+    text-align: center;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.bandTitle {
+    margin: 0;
+    font-size: var(--t-display);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: var(--color-text-strong);
+    text-wrap: balance;
 }
 
-@media (max-width: 768px) {
-    .pageTitle,
-    .mainText {
-        font-size: 28px;
-        margin-bottom: 24px;
-    }
-
-    .buttonGroup {
-        gap: 12px;
-    }
-
-    .selectButton {
-        padding: 10px 24px;
-        font-size: 16px;
-    }
+.bandText {
+    margin: 1.25rem 0 0;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--color-text-primary);
 }
 
+/* ---------- ⑦ 시설 안내 (화면 구조는 이전과 같음) ---------- */
 .facilitiesContainer {
     display: flex;
     gap: 32px;
@@ -374,6 +504,7 @@
     top: 50%;
     transform: translateY(-50%);
     left: 0;
+    z-index: 1;
 }
 
 .facilitiesSidebarMobile {
@@ -392,8 +523,10 @@
 .verticalSelectButton {
     background: transparent;
     border: none;
+    min-height: 44px;
     padding: 12px 0;
     margin: 0;
+    font: inherit;
     font-size: 16px;
     font-weight: 500;
     letter-spacing: -0.02em;
@@ -405,6 +538,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .verticalSelectButton:hover {
@@ -413,6 +547,11 @@
 
 .verticalSelectButton.active {
     color: var(--color-white);
+}
+
+.verticalSelectButton:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
 }
 
 .activeBackground {
@@ -444,37 +583,78 @@
     object-fit: contain;
 }
 
-@media (max-width: 768px) {
-    .facilitiesContainer {
-        flex-direction: column;
-        align-items: center;
-        gap: 24px;
-        position: static;
+/* ---------- 태블릿 · 모바일 ---------- */
+@media (max-width: 1079px) {
+    .page {
+        --t-strong: 2.25rem;
+        background-size: 150% auto;
     }
 
+    .summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* 층 버튼이 평면도를 가리지 않게 위로 */
     .facilitiesSidebarDesktop {
         display: none;
     }
 
     .facilitiesSidebarMobile {
-        display: flex;
-        width: 100%;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        position: fixed;
-        bottom: 16px;
-        left: 0;
-        padding: 0 16px;
-        z-index: 50;
+        display: block;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    .page {
+        --pad-sec: 4.5rem;
+        --space-head: 2rem;
+        --t-display: 2.25rem;
+        --t-strong: 1.75rem;
+        --gutter: 1.125rem;
+        background-size: 220% auto;
     }
 
-    .verticalButtonGroup {
+    .tabList {
+        justify-content: flex-start;
+    }
+
+    .two .secGrid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .two .secHead {
+        position: static;
+        margin-bottom: var(--space-head);
+    }
+
+    .bigMap > div {
+        aspect-ratio: 4 / 3;
+        border-radius: var(--r-card);
+    }
+
+    .summary {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        margin-top: 2.5rem;
+    }
+
+    .facilitiesContainer {
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+    }
+}
+
+@media (max-width: 1079px) {
+    .facilitiesSidebarMobile .verticalButtonGroup {
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: flex-start;
         padding: 6px;
         width: 100%;
+        box-sizing: border-box;
         border-radius: 99px;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
@@ -484,11 +664,11 @@
         scrollbar-width: none;
     }
 
-    .verticalButtonGroup::-webkit-scrollbar {
+    .facilitiesSidebarMobile .verticalButtonGroup::-webkit-scrollbar {
         display: none;
     }
 
-    .verticalSelectButton {
+    .facilitiesSidebarMobile .verticalSelectButton {
         width: auto;
         padding: 10px 20px;
         flex-grow: 0;
@@ -497,14 +677,16 @@
     }
 }
 
-@media (max-width: 1079px) {
-    .pageWrapper {
-        background-size: 150% auto;
+@media (prefers-reduced-motion: reduce) {
+    .tabs,
+    .mapReveal,
+    .mapToggleIcon {
+        transition: none;
     }
-}
 
-@media (max-width: 767px) {
-    .pageWrapper {
-        background-size: 220% auto;
+    .tab:active,
+    .pill:active,
+    .mapToggle:active {
+        transform: none;
     }
 }
