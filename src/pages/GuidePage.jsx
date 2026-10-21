@@ -163,6 +163,39 @@ const formatRange = (time) => {
 
 const naverRouteUrl = `https://map.naver.com/index.nhn?elng=${CHURCH_COORDS.lng}&elat=${CHURCH_COORDS.lat}&etext=${encodeURIComponent('신탄진침례교회')}&menu=route`;
 
+// 오시는 길 카드 위 선 아이콘 (선 굵기 1.5, 시설 안내 ⊕와 같은 그리기)
+const wayIcons = {
+    // 옆에서 본 교회 승합차
+    van: (
+        <>
+            <path d="M4 17H3.5A1.5 1.5 0 0 1 2 15.5V8a2 2 0 0 1 2-2h10.6a2 2 0 0 1 1.6.8l3.4 4.4a2 2 0 0 1 .4 1.2v3.1a1.5 1.5 0 0 1-1.5 1.5H20" />
+            <path d="M10 17h4M2 11h17.5M8.5 6v5M14 6v5" />
+            <circle cx="7" cy="17" r="2" />
+            <circle cx="17" cy="17" r="2" />
+        </>
+    ),
+    // 주차 표지
+    parking: (
+        <>
+            <rect x="3" y="3" width="18" height="18" rx="5" />
+            <path d="M10 17V7h3.5a3 3 0 0 1 0 6H10" />
+        </>
+    ),
+    // 앞에서 본 버스
+    bus: (
+        <>
+            <rect x="5" y="3" width="14" height="15" rx="3" />
+            <path d="M5 11h14M9.5 6h5M8 18v2.5M16 18v2.5" />
+            <circle cx="8.5" cy="14.5" r="0.75" />
+            <circle cx="15.5" cy="14.5" r="0.75" />
+        </>
+    ),
+};
+
+const WayIcon = ({ name }) => (
+    <svg className={styles.wayIcon} viewBox="0 0 24 24" aria-hidden="true">{wayIcons[name]}</svg>
+);
+
 // 메인 페이지 '자주 묻는 것'과 같은 문구 (주차 질문은 위 오시는 길 카드에 있어 뺐다)
 const faqs = [
     { q: '아무것도 모르고 가도 되나요?', a: '네, 그대로 오시면 돼요. 성경책이나 찬송가가 없어도 괜찮아요. 예배 순서와 가사는 앞 화면에 나와요.' },
@@ -556,6 +589,7 @@ const GuidePage = () => {
                     </div>
                     <div className={styles.wayCards}>
                         <div className={styles.wayCard}>
+                            <WayIcon name="van" />
                             <h3 className={styles.wayTitle}>동네까지<br />모시러 가요.</h3>
                             <p className={styles.wayText}>지금은 중리동·송강동·갈마동과 교회 주변을 돌아요. 타시는 분에 따라 도는 길이 바뀌기도 하고, 예배마다 시간이 달라요.</p>
                             <button type="button" className={styles.wayLink} aria-haspopup="dialog" onClick={() => setShuttleOpen(true)}>
@@ -564,10 +598,12 @@ const GuidePage = () => {
                         </div>
                         {/* '주차장 보기' 팝업은 주차장 사진이 준비되면 붙인다 */}
                         <div className={styles.wayCard}>
+                            <WayIcon name="parking" />
                             <h3 className={styles.wayTitle}>주차도<br />걱정 없어요.</h3>
                             <p className={styles.wayText}>교회 오른쪽 주차장은 언제든 쓰실 수 있어요. 주일에는 대죽체육관 주차장도 편하게 쓰세요.</p>
                         </div>
                         <div className={styles.wayCard}>
+                            <WayIcon name="bus" />
                             <h3 className={styles.wayTitle}>버스나 기차로도<br />오기 편해요.</h3>
                             <p className={styles.wayText}>계신 곳에서 가장 편한 길은 네이버 지도 길찾기로 바로 알아보실 수 있어요.</p>
                             <a className={styles.wayLink} href={naverRouteUrl} target="_blank" rel="noopener noreferrer">
