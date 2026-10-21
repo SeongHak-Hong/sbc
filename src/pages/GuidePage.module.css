@@ -1239,6 +1239,19 @@
         padding-top: 8.75rem;
     }
 
+    /* 휴대폰: 좁고 긴 칸이라 가운데로 깊게 내려오는 모양이 처져 보임.
+       하늘색을 가로 전체에 깔고 위에서 아래로 고르게 옅어지게, 크림빛도 넓고 얇게 */
+    .hero::before {
+        background:
+            radial-gradient(90% 22% at 50% 76%, rgba(250, 252, 240, 0.8) 0%, rgba(250, 252, 240, 0) 100%),
+            linear-gradient(to bottom,
+                #E8F1FE 0%,
+                #E8F1FE 34%,
+                rgba(236, 244, 252, 0.85) 58%,
+                rgba(246, 250, 246, 0.5) 80%,
+                rgba(255, 255, 255, 0) 100%);
+    }
+
     .tabList {
         justify-content: flex-start;
     }
