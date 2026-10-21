@@ -153,9 +153,6 @@ const NextGenPage = () => {
         <div className={styles.pageWrapper}>
             <SubPageSection hideHeader={true}>
                 <div style={{ textAlign: 'center' }}>
-                    <div className={styles.subTitle}>
-                        다음세대
-                    </div>
                     <ScrollFadeText
                         text={"하나님의 사랑을 알고,\n올바른 성경의 가치관을 가져요."}
                         as="h1"
