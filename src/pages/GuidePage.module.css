@@ -20,7 +20,10 @@
     min-height: 100vh;
     color: var(--color-text-primary);
     background-color: var(--color-white);
-    /* 그라디언트(.hero::before)가 흰 바탕 위·콘텐츠 아래에 깔리도록 쌓임 맥락을 만든다 */
+    /* 첫 화면 오로라 두 색: 메인 페이지 배경 그라디언트(main-bg-gradient.svg)의 하늘빛 파랑·연한 크림 */
+    --aurora-sky: #E7F2FE;
+    --aurora-cream: #FFFEEE;
+    /* 오로라(.hero::before·::after)가 흰 바탕 위·콘텐츠 아래에 깔리도록 쌓임 맥락을 만든다 */
     isolation: isolate;
     font-size: var(--t-body);
     line-height: 1.6;
@@ -52,9 +55,11 @@
     text-align: center;
 }
 
-/* 하늘빛 그라디언트: 첫 화면부터 바로가기 탭 줄(위 8 + 탭 44 + 아래 24 = 76px)이 끝난 뒤 40px까지만.
-   끝 지점에서 완전히 흰색이 되게 그린다 */
-.hero::before {
+/* 평안한 오로라: 메인 페이지 배경 그라디언트의 두 색(하늘빛 파랑 #E7F2FE · 연한 크림 #FFFEEE)만 쓴다.
+   첫 화면부터 바로가기 탭 줄(위 8 + 탭 44 + 아래 24 = 76px)이 끝난 뒤 40px까지,
+   위에서 하늘빛 커튼이 내려와 아래로 크림빛을 지나 흰색으로 사라진다 */
+.hero::before,
+.hero::after {
     content: '';
     position: absolute;
     top: 0;
@@ -62,20 +67,45 @@
     right: 0;
     bottom: calc(-1 * (76px + 40px));
     z-index: -1;
-    /* 시안 색: 위는 하늘색이 가로 전체에 고르게, 가운데로 갈수록 깊게 내려오다 연한 크림빛을 지나 흰색으로
-       (양옆은 가운데보다 일찍 옅어짐) */
-    background:
-        radial-gradient(60% 40% at 50% 72%, rgba(250, 252, 240, 0.9) 0%, rgba(250, 252, 240, 0) 100%),
-        radial-gradient(75% 100% at 50% 0%,
-            #E8F1FE 0%,
-            #E8F1FE 48%,
-            rgba(236, 244, 252, 0.85) 62%,
-            rgba(246, 250, 246, 0.6) 82%,
-            rgba(255, 255, 255, 0) 100%);
-    /* 맨 아래 20%는 서서히 사라지게 (경계선 없이) */
-    -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
     pointer-events: none;
+}
+
+/* 바탕: 위 하늘빛 → 아래 크림 → 흰색 */
+.hero::before {
+    background: linear-gradient(to bottom,
+        var(--aurora-sky) 0%,
+        var(--aurora-sky) 38%,
+        var(--aurora-cream) 80%,
+        rgba(255, 254, 238, 0) 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+}
+
+/* 빛의 커튼: 하늘빛 파랑(#E9EEFF 계열) 세로 결을 크게 흐리게 겹치고, 아주 천천히(48초) 좌우로 흘러간다 */
+.hero::after {
+    background: repeating-linear-gradient(100deg,
+        rgba(220, 229, 255, 0) 0 3%,
+        rgba(220, 229, 255, 0.95) 6%,
+        rgba(255, 255, 255, 0.7) 9%,
+        rgba(220, 229, 255, 0.85) 12%,
+        rgba(220, 229, 255, 0) 16% 20%);
+    background-size: 160% 100%;
+    filter: blur(28px);
+    opacity: 0.9;
+    -webkit-mask-image: radial-gradient(70% 95% at 50% 0%, #000 25%, transparent 78%);
+    mask-image: radial-gradient(70% 95% at 50% 0%, #000 25%, transparent 78%);
+    animation: auroraDrift 48s ease-in-out infinite alternate;
+}
+
+@keyframes auroraDrift {
+    from { background-position: 0% 0; }
+    to { background-position: 100% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero::after {
+        animation: none;
+    }
 }
 
 .heroTitle {
