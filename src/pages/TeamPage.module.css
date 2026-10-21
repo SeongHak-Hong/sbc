@@ -34,9 +34,9 @@
     white-space: nowrap;
 }
 
-/* 첫 그룹이 페이지 시작: 교회 안내 첫 화면 제목 자리(Header 아래 clamp(3rem, 6vw, 5rem))에서 시작하도록 섹션 위 여백 8rem을 뺀 만큼 더 내림 */
+/* 첫 그룹이 페이지 시작: Header(4rem) 아래 --page-start-gap에서 시작하도록 섹션 위 여백 8rem을 뺀 만큼 더 내림 */
 .group:first-of-type {
-    margin-top: calc(4rem + clamp(3rem, 6vw, 5rem) - 8rem);
+    margin-top: calc(4rem + var(--page-start-gap) - 8rem);
 }
 
 /* ---------- 그룹 ---------- */
@@ -151,7 +151,7 @@
     }
 
     .group:first-of-type {
-        margin-top: 2.5rem;   /* Header 4rem + 3rem − 섹션 위 여백 4.5rem */
+        margin-top: calc(4rem + var(--page-start-gap) - 4.5rem);   /* 섹션 위 여백이 4.5rem */
     }
 
     .groupTitle {

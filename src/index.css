@@ -163,6 +163,8 @@
 
   --section-padding-y: 180px;
   --section-padding-x: 48px;
+  /* 화면 제목 없이 콘텐츠로 시작하는 페이지: Header 아래 첫 콘텐츠까지 (데스크톱 160 · 휴대폰 88) */
+  --page-start-gap: clamp(5.5rem, 11vw, 10rem);
   --btn-padding-y: 8px;
   --btn-padding-x: 32px;
   --btn-gap: 8px;
