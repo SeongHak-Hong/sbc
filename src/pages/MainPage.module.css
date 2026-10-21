@@ -36,11 +36,9 @@
   --wrap: 1200px;
 
   position: relative;
+  /* 첫 화면 오로라(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 */
+  isolation: isolate;
   background-color: var(--canvas);
-  background-image: url('../assets/main/main-bg-gradient.svg');
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: 100% auto;
   color: var(--ink-body);
   font-family: 'JayeonSans', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', system-ui, sans-serif;
   font-size: 1.125rem;
@@ -674,7 +672,6 @@
 @media (max-width: 1079px) {
   .mainWrap {
     --t-strong: 2.25rem;
-    background-size: 150% auto;
   }
 }
 
@@ -686,7 +683,6 @@
     --t-strong: 1.75rem;
     --t-mid: 1.25rem;
     --t-card: 1.125rem;
-    background-size: 220% auto;
   }
 
   .wrap {

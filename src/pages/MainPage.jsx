@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Footer from '../components/Footer';
+import PageTopGradient from '../components/PageTopGradient';
 import styles from './MainPage.module.css';
 
 // 비디오 & 오디오 애셋
@@ -397,6 +398,7 @@ const MainPage = () => {
 
   return (
     <div className={styles.mainWrap}>
+      <PageTopGradient />
       <main id="main">
         {/* ① Hero: 가운데 정렬 헤드라인 + 말씀 + 본문 폭 영상 + BGM 캡션 */}
         <section className={styles.hero} id="top">
