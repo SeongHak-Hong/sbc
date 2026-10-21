@@ -205,9 +205,8 @@ const faqs = [
     { q: '헌금을 꼭 해야 하나요?', a: '아니요. 처음 오신 분께 헌금을 바라지 않아요. 편하게 예배만 드리고 가셔도 돼요.' },
 ];
 
-// 교회 차 시간표 팝업: 딤드 + 배경 흐림. Esc·바깥 누르기로 닫고, 닫으면 연 버튼으로 초점을 돌려준다
-const ShuttleDialog = ({ open, onClose, selected, onSelect, reduceMotion }) => {
-    const panelRef = useRef(null);
+// 팝업 공통: 뒤 페이지 스크롤을 멈추고, Esc로 닫고, 초점은 팝업 안에서만 돌다가 닫으면 연 버튼으로 돌려준다
+const useModal = (open, onClose, panelRef) => {
     const returnFocus = useRef(null);
 
     useEffect(() => {
@@ -244,7 +243,22 @@ const ShuttleDialog = ({ open, onClose, selected, onSelect, reduceMotion }) => {
             window.lenis?.start();
             returnFocus.current?.focus?.({ preventScroll: true });
         };
-    }, [open, onClose]);
+    }, [open, onClose, panelRef]);
+};
+
+// 애플 팝업과 같은 닫기 버튼 그림 (36px 짙은 원 + 흰 X)
+const CloseIcon = () => (
+    <span className={styles.dialogCloseIcon}>
+        <svg viewBox="0 0 36 36" aria-hidden="true">
+            <path d="M13 13l10 10M23 13L13 23" />
+        </svg>
+    </span>
+);
+
+// 교회 차 시간표 팝업: 딤드 + 배경 흐림. Esc·바깥 누르기로 닫는다
+const ShuttleDialog = ({ open, onClose, selected, onSelect, reduceMotion }) => {
+    const panelRef = useRef(null);
+    useModal(open, onClose, panelRef);
 
     const fade = reduceMotion ? { duration: 0 } : { duration: 0.3, ease };
     return createPortal(
@@ -273,11 +287,7 @@ const ShuttleDialog = ({ open, onClose, selected, onSelect, reduceMotion }) => {
                     >
                         <div className={styles.dialogCloseWrap}>
                             <button type="button" className={styles.dialogClose} aria-label="교회 차 시간표 닫기" onClick={onClose}>
-                                <span className={styles.dialogCloseIcon}>
-                                    <svg viewBox="0 0 36 36" aria-hidden="true">
-                                        <path d="M13 13l10 10M23 13L13 23" />
-                                    </svg>
-                                </span>
+                                <CloseIcon />
                             </button>
                         </div>
                         <div className={styles.dialogBody}>
@@ -334,6 +344,214 @@ const ShuttleDialog = ({ open, onClose, selected, onSelect, reduceMotion }) => {
     );
 };
 
+// 평면도 키우고 옮기기: 두 손가락 벌리기 · 한 손가락 끌기(키운 뒤) · 두 번 누르기 · 마우스 휠 · +/− 버튼
+const ZOOM_MAX = 4;
+const ZOOM_STEP = 1.6;
+
+const useZoomPan = (portRef, contentRef, active) => {
+    const view = useRef({ s: 1, x: 0, y: 0 });
+
+    // 평면도가 칸 밖으로 나가지 않게 막고 그린다. anim은 버튼·두 번 누르기처럼 한 번에 바뀔 때만
+    const draw = useCallback((anim) => {
+        const port = portRef.current;
+        const content = contentRef.current;
+        if (!port || !content) return;
+        const v = view.current;
+        const w = port.clientWidth;
+        const h = port.clientHeight;
+        v.s = Math.min(ZOOM_MAX, Math.max(1, v.s));
+        v.x = Math.min(0, Math.max(w - w * v.s, v.x));
+        v.y = Math.min(0, Math.max(h - h * v.s, v.y));
+        content.dataset.anim = anim ? 'true' : 'false';
+        content.style.transform = `translate(${v.x}px, ${v.y}px) scale(${v.s})`;
+    }, [portRef, contentRef]);
+
+    const zoomAt = useCallback((next, cx, cy, anim) => {
+        const v = view.current;
+        const s = Math.min(ZOOM_MAX, Math.max(1, next));
+        v.x = cx - (cx - v.x) * (s / v.s);
+        v.y = cy - (cy - v.y) * (s / v.s);
+        v.s = s;
+        draw(anim);
+    }, [draw]);
+
+    const zoomCenter = useCallback((factor) => {
+        const port = portRef.current;
+        if (!port) return;
+        zoomAt(view.current.s * factor, port.clientWidth / 2, port.clientHeight / 2, true);
+    }, [portRef, zoomAt]);
+
+    const reset = useCallback((anim = false) => {
+        view.current = { s: 1, x: 0, y: 0 };
+        draw(anim);
+    }, [draw]);
+
+    useEffect(() => {
+        const port = portRef.current;
+        if (!active || !port) return undefined;
+        const points = new Map();
+        let last = null;
+        let moved = 0;
+        let lastTap = 0;
+
+        const local = (e) => {
+            const r = port.getBoundingClientRect();
+            return { x: e.clientX - r.left, y: e.clientY - r.top };
+        };
+        const gesture = () => {
+            const [a, b] = [...points.values()];
+            return b
+                ? { mid: { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }, dist: Math.hypot(a.x - b.x, a.y - b.y) }
+                : { mid: a, dist: 0 };
+        };
+
+        const onDown = (e) => {
+            if (e.target.closest('button')) return;
+            port.setPointerCapture(e.pointerId);
+            points.set(e.pointerId, local(e));
+            last = gesture();
+            moved = 0;
+        };
+        const onMove = (e) => {
+            if (!points.has(e.pointerId)) return;
+            points.set(e.pointerId, local(e));
+            const g = gesture();
+            const v = view.current;
+            if (points.size === 2 && last.dist) {
+                v.x += g.mid.x - last.mid.x;
+                v.y += g.mid.y - last.mid.y;
+                zoomAt(v.s * (g.dist / last.dist), g.mid.x, g.mid.y);
+            } else if (points.size === 1 && v.s > 1) {
+                v.x += g.mid.x - last.mid.x;
+                v.y += g.mid.y - last.mid.y;
+                draw();
+            }
+            moved += Math.abs(g.mid.x - last.mid.x) + Math.abs(g.mid.y - last.mid.y);
+            last = g;
+        };
+        const onUp = (e) => {
+            const p = points.get(e.pointerId);
+            points.delete(e.pointerId);
+            if (points.size) {
+                last = gesture();
+                return;
+            }
+            // 거의 안 움직인 두 번 누르기: 그 자리를 2.5배로, 키운 상태면 처음 크기로
+            if (p && moved < 6) {
+                const now = Date.now();
+                if (now - lastTap < 300) {
+                    zoomAt(view.current.s > 1.2 ? 1 : 2.5, p.x, p.y, true);
+                    lastTap = 0;
+                } else {
+                    lastTap = now;
+                }
+            }
+        };
+        const onWheel = (e) => {
+            e.preventDefault();
+            const p = local(e);
+            zoomAt(view.current.s * Math.exp(-e.deltaY * 0.002), p.x, p.y);
+        };
+        const onResize = () => draw();
+
+        port.addEventListener('pointerdown', onDown);
+        port.addEventListener('pointermove', onMove);
+        port.addEventListener('pointerup', onUp);
+        port.addEventListener('pointercancel', onUp);
+        port.addEventListener('wheel', onWheel, { passive: false });
+        window.addEventListener('resize', onResize);
+        return () => {
+            port.removeEventListener('pointerdown', onDown);
+            port.removeEventListener('pointermove', onMove);
+            port.removeEventListener('pointerup', onUp);
+            port.removeEventListener('pointercancel', onUp);
+            port.removeEventListener('wheel', onWheel);
+            window.removeEventListener('resize', onResize);
+        };
+    }, [active, portRef, draw, zoomAt]);
+
+    return { zoomIn: () => zoomCenter(ZOOM_STEP), zoomOut: () => zoomCenter(1 / ZOOM_STEP), reset };
+};
+
+// 평면도 크게 보기: 사진 앱처럼 흰 화면 전체. 아래 층 버튼으로 바로 다른 층으로 넘어간다
+const FloorPlanViewer = ({ open, onClose, floor, onPick, reduceMotion }) => {
+    const panelRef = useRef(null);
+    const portRef = useRef(null);
+    const contentRef = useRef(null);
+    const chipsRef = useRef(null);
+    useModal(open, onClose, panelRef);
+    const { zoomIn, zoomOut, reset } = useZoomPan(portRef, contentRef, open);
+    const tab = facilityTabs.find((t) => t.id === floor) ?? facilityTabs[0];
+
+    // 층이 바뀌면 처음 크기로, 고른 층 버튼이 보이게 옆으로 민다
+    useEffect(() => {
+        if (!open) return;
+        reset();
+        const chip = chipsRef.current?.querySelector('[aria-pressed="true"]');
+        chip?.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'auto' });
+    }, [open, floor, reset]);
+
+    return createPortal(
+        <AnimatePresence>
+            {open && (
+                <motion.div
+                    ref={panelRef}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="plan-view-title"
+                    tabIndex={-1}
+                    data-lenis-prevent
+                    className={styles.planView}
+                    initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={reduceMotion ? { duration: 0 } : { duration: 0.35, ease }}
+                >
+                    <div className={styles.planHead}>
+                        <h2 id="plan-view-title" className={styles.planTitle}>{tab.name}</h2>
+                        <button type="button" className={styles.planClose} aria-label="평면도 닫기" onClick={onClose}>
+                            <CloseIcon />
+                        </button>
+                    </div>
+                    <div ref={portRef} className={styles.planPort}>
+                        <div ref={contentRef} className={styles.planContent}>
+                            <img src={mapImages[floor]} alt={facilityAlt(floor)} draggable="false" />
+                        </div>
+                        <div className={styles.planZoomBtns}>
+                            <button type="button" className={styles.planZoomBtn} aria-label="크게 보기" onClick={zoomIn}>
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12" /></svg>
+                            </button>
+                            <button type="button" className={styles.planZoomBtn} aria-label="작게 보기" onClick={zoomOut}>
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12" /></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div className={styles.planFoot}>
+                        <div ref={chipsRef} className={styles.planChips} role="group" aria-label="층 고르기">
+                            {facilityTabs.map((t) => (
+                                <button
+                                    key={t.id}
+                                    type="button"
+                                    className={styles.planChip}
+                                    aria-pressed={t.id === floor}
+                                    onClick={() => onPick(t.id)}
+                                >
+                                    {t.label}
+                                </button>
+                            ))}
+                        </div>
+                        <p className={styles.planHint}>
+                            <span className={styles.planHintTouch}>두 손가락으로 벌리거나 두 번 눌러 크게 보세요</span>
+                            <span className={styles.planHintMouse}>마우스 휠을 굴리거나 두 번 눌러 크게 보세요</span>
+                        </p>
+                    </div>
+                </motion.div>
+            )}
+        </AnimatePresence>,
+        document.body,
+    );
+};
+
 // 공통 Header 높이(4rem). Header는 내릴 때 숨고 올릴 때 나온다
 const HEADER_H = 64;
 
@@ -364,6 +582,8 @@ const GuidePage = () => {
     const [tabsStuck, setTabsStuck] = useState(false);
     const [shuttleOpen, setShuttleOpen] = useState(tabParam === 'shuttle');
     const closeShuttle = useCallback(() => setShuttleOpen(false), []);
+    const [planOpen, setPlanOpen] = useState(false);
+    const closePlan = useCallback(() => setPlanOpen(false), []);
 
     const tabsRef = useRef(null);
     // 층 알약을 누르면 그 버튼이 펼친 칸으로 바뀌므로, 키보드 위치를 펼친 칸으로 옮긴다
@@ -685,20 +905,34 @@ const GuidePage = () => {
                                 );
                             })}
                         </ul>
-                        <div id="facility-plan" className={styles.viewerStage}>
-                            <AnimatePresence mode="wait" initial={false} custom={reduceMotion}>
-                                <motion.img
-                                    custom={reduceMotion}
-                                    key={floor}
-                                    src={mapImages[floor]}
-                                    alt={facilityAlt(floor)}
-                                    variants={fadeVariants}
-                                    initial="hidden"
-                                    animate="show"
-                                    exit="exit"
-                                />
-                            </AnimatePresence>
-                        </div>
+                        {/* 평면도를 누르면 전체 화면으로 크게 본다 */}
+                        <button
+                            type="button"
+                            id="facility-plan"
+                            className={styles.viewerStage}
+                            aria-haspopup="dialog"
+                            aria-label={`${facilityTabs.find((t) => t.id === floor)?.name} 평면도 크게 보기`}
+                            onClick={() => setPlanOpen(true)}
+                        >
+                            <span className={styles.stageImg}>
+                                <AnimatePresence mode="wait" initial={false} custom={reduceMotion}>
+                                    <motion.img
+                                        custom={reduceMotion}
+                                        key={floor}
+                                        src={mapImages[floor]}
+                                        alt=""
+                                        variants={fadeVariants}
+                                        initial="hidden"
+                                        animate="show"
+                                        exit="exit"
+                                    />
+                                </AnimatePresence>
+                            </span>
+                            <span className={styles.stageHint} aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" /><path d="M15.5 15.5 20 20M10.5 8v5M8 10.5h5" /></svg>
+                                크게 보기
+                            </span>
+                        </button>
                     </div>
                 </div>
             </section>
@@ -730,6 +964,14 @@ const GuidePage = () => {
                 onClose={closeShuttle}
                 selected={selectedShuttle}
                 onSelect={(id) => updateParams({ s: id })}
+                reduceMotion={reduceMotion}
+            />
+
+            <FloorPlanViewer
+                open={planOpen}
+                onClose={closePlan}
+                floor={floor}
+                onPick={(id) => updateParams({ floor: id })}
                 reduceMotion={reduceMotion}
             />
 

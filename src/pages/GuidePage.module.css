@@ -551,19 +551,296 @@
 }
 
 /* 오른쪽 흰 무대: 카드 없이 평면도만 */
+/* 평면도 + 그 아래 오른쪽 '크게 보기' 표시 (평면도를 가리지 않게) */
 .viewerStage {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0;
+    border: none;
+    border-radius: 20px;
+    background: none;
+    font: inherit;
+    cursor: zoom-in;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.viewerStage:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 4px;
+}
+
+.stageImg {
     display: flex;
     justify-content: center;
     align-items: center;
+    align-self: stretch;
     aspect-ratio: 602 / 474;
-    width: 100%;
     max-height: 70vh;
 }
 
 .viewerStage img {
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
+}
+
+/* 누를 수 있다는 표시: 평면도 아래 오른쪽 짙은 알약 */
+.stageHint {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 32px;
+    padding: 0 12px 0 10px;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-text-strong);
+    color: var(--color-white);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: transform 0.2s ease;
+}
+
+.stageHint svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .viewerStage:hover .stageHint {
+        transform: translateY(-2px);
+    }
+}
+
+/* ---------- 평면도 크게 보기: 흰 화면 전체 ---------- */
+.planView {
+    --color-text-strong: #1d1d1f;
+    --viewer-pill: #e8e8ed;
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-white);
+    color: var(--color-text-strong);
+    letter-spacing: -0.02em;
+    word-break: keep-all;
+}
+
+.planView:focus {
+    outline: none;
+}
+
+.planHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: calc(1rem + env(safe-area-inset-top, 0px)) 0.75rem 1rem 1.5rem;
+}
+
+.planTitle {
+    margin: 0;
+    font-size: 1.375rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.03em;
+}
+
+.planClose {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .planClose:hover .dialogCloseIcon {
+        background-color: #272729;
+    }
+}
+
+.planClose:active .dialogCloseIcon {
+    background-color: #18181a;
+}
+
+.planClose:focus-visible {
+    outline: none;
+}
+
+.planClose:focus-visible .dialogCloseIcon {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 3px;
+}
+
+/* 키우고 끄는 칸: 브라우저 확대·스크롤 대신 이 안에서만 움직인다 */
+.planPort {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    background-color: var(--color-surface-band);
+    touch-action: none;
+    cursor: grab;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.planPort:active {
+    cursor: grabbing;
+}
+
+.planContent {
+    position: absolute;
+    inset: 1.5rem;
+    transform-origin: 0 0;
+    will-change: transform;
+}
+
+.planContent[data-anim="true"] {
+    transition: transform 0.35s var(--ease-smooth);
+}
+
+.planContent img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    -webkit-user-drag: none;
+}
+
+/* +/− 버튼: 손가락 동작이 서툰 분도 키울 수 있게 */
+.planZoomBtns {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.planZoomBtn {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.9);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+    color: var(--color-text-strong);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.12s ease-out;
+}
+
+.planZoomBtn:active {
+    transform: scale(0.94);
+}
+
+.planZoomBtn svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+}
+
+.planZoomBtn:focus-visible,
+.planChip:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
+}
+
+.planFoot {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1rem 0 calc(1.25rem + env(safe-area-inset-bottom, 0px));
+}
+
+/* 층 버튼: 넘치면 옆으로 민다 */
+.planChips {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0 1.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.planChips::-webkit-scrollbar {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .planChips {
+        justify-content: center;
+    }
+}
+
+.planChip {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0 18px;
+    border: none;
+    border-radius: var(--radius-pill);
+    background-color: var(--viewer-pill);
+    color: var(--color-text-strong);
+    font: inherit;
+    font-size: 1rem;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.planChip[aria-pressed="true"] {
+    background-color: var(--btn-bg);
+    color: var(--color-white);
+}
+
+.planHint {
+    margin: 0;
+    padding: 0 1.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #707070;
+    text-align: center;
+}
+
+.planHintMouse {
+    display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .planHintTouch {
+        display: none;
+    }
+
+    .planHintMouse {
+        display: inline;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .planContent[data-anim="true"],
+    .stageHint {
+        transition: none;
+    }
 }
 
 /* ---------- ⑥ 자주 하는 질문: 메인 페이지 .fq와 같은 값 ---------- */
