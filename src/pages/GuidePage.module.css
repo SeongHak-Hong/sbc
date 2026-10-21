@@ -20,11 +20,8 @@
     min-height: 100vh;
     color: var(--color-text-primary);
     background-color: var(--color-white);
-    /* 섬기는 사람들·메인과 같은 위쪽 하늘빛 그라디언트 */
-    background-image: url('../assets/main/main-bg-gradient.svg');
-    background-repeat: no-repeat;
-    background-position: top center;
-    background-size: 100% auto;
+    /* 그라디언트(.hero::before)가 흰 바탕 위·콘텐츠 아래에 깔리도록 쌓임 맥락을 만든다 */
+    isolation: isolate;
     font-size: var(--t-body);
     line-height: 1.6;
     letter-spacing: -0.02em;
@@ -50,8 +47,23 @@
 
 /* ---------- ① 첫 화면 ---------- */
 .hero {
+    position: relative;
     padding: calc(var(--header-h) + clamp(3rem, 6vw, 5rem)) 0 clamp(1.5rem, 3vw, 2.5rem);
     text-align: center;
+}
+
+/* 하늘빛 그라디언트: 첫 화면부터 바로가기 탭 줄(위 8 + 탭 44 + 아래 24 = 76px)이 끝난 뒤 40px까지만.
+   그림을 이 높이에 맞춰 늘려서 끝 지점에서 완전히 옅어지게 한다 */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: calc(-1 * (76px + 40px));
+    z-index: -1;
+    background: url('../assets/main/main-bg-gradient.svg') no-repeat center top / 100% 100%;
+    pointer-events: none;
 }
 
 .heroTitle {
@@ -1186,7 +1198,6 @@
 @media (max-width: 1079px) {
     .page {
         --t-strong: 2.25rem;
-        background-size: 150% auto;
     }
 
     .wayCards {
@@ -1207,7 +1218,6 @@
         --t-strong: 1.75rem;
         --t-mid: 1.25rem;
         --gutter: 1.125rem;
-        background-size: 220% auto;
     }
 
     .tabList {
