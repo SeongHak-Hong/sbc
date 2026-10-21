@@ -101,13 +101,11 @@ const TeamPage = () => {
                                             height="1280"
                                         />
                                     </div>
-                                    {/* 직분은 그룹 제목에 있어 이름 옆에선 생략. 담임목사·사모만 담당 업무 앞에 직분을 붙임 */}
+                                    {/* 직분은 그룹 제목에 있어 이름 옆에선 생략하고 담당 업무만 쓴다 */}
                                     <div className={styles.caption}>
                                         <h3 className={styles.name}>{member.name || member.role}</h3>
                                         {member.description && (
-                                            <p className={styles.desc}>
-                                                {group.lead ? `${member.role} / ${member.description}` : member.description}
-                                            </p>
+                                            <p className={styles.desc}>{member.description}</p>
                                         )}
                                     </div>
                                 </li>
