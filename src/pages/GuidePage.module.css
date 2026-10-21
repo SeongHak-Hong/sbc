@@ -48,7 +48,7 @@
 /* ---------- ① 첫 화면 ---------- */
 .hero {
     position: relative;
-    padding: calc(var(--header-h) + clamp(3rem, 6vw, 5rem)) 0 clamp(1.5rem, 3vw, 2.5rem);
+    padding: 11.25rem 0 clamp(1.5rem, 3vw, 2.5rem); /* 제목 위 180px (휴대폰 140px) */
     text-align: center;
 }
 
@@ -1230,6 +1230,10 @@
         --t-strong: 1.75rem;
         --t-mid: 1.25rem;
         --gutter: 1.125rem;
+    }
+
+    .hero {
+        padding-top: 8.75rem;
     }
 
     .tabList {
