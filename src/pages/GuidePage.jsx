@@ -217,6 +217,7 @@ const ShuttleDialog = ({ open, onClose, selected, onSelect, reduceMotion }) => {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={fade}
+                    data-lenis-prevent
                     onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
                 >
                     <motion.div
@@ -225,59 +226,66 @@ const ShuttleDialog = ({ open, onClose, selected, onSelect, reduceMotion }) => {
                         aria-modal="true"
                         aria-labelledby="shuttle-dialog-title"
                         tabIndex={-1}
-                        data-lenis-prevent
                         className={styles.dialog}
                         initial={reduceMotion ? false : { opacity: 0, y: 24 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
                         transition={reduceMotion ? { duration: 0 } : { duration: 0.45, ease }}
                     >
-                        <button type="button" className={styles.dialogClose} aria-label="닫기" onClick={onClose}>
-                            <span className="material-symbols-outlined" aria-hidden="true">close</span>
-                        </button>
-                        <h2 id="shuttle-dialog-title" className={styles.dialogTitle}>차량 운행</h2>
-                        <p className={styles.dialogLead}>아래에서 예배를 고르시면 동네별 셔틀 시간을 알려 드려요.</p>
-                        <div className={styles.lineTabs} role="group" aria-label="예배 고르기">
-                            {shuttleSchedules.map((schedule) => (
-                                <button
-                                    key={schedule.id}
-                                    type="button"
-                                    className={styles.lineTab}
-                                    aria-pressed={selected.id === schedule.id}
-                                    onClick={() => onSelect(schedule.id)}
-                                >
-                                    {shuttleLabels[schedule.id] ?? schedule.name}
-                                    {selected.id === schedule.id && (
-                                        <motion.span
-                                            layoutId="shuttleLine"
-                                            className={styles.lineTabBar}
-                                            transition={reduceMotion ? { duration: 0 } : thumbSpring}
-                                        />
-                                    )}
-                                </button>
-                            ))}
+                        <div className={styles.dialogCloseWrap}>
+                            <button type="button" className={styles.dialogClose} aria-label="차량 운행 닫기" onClick={onClose}>
+                                <span className={styles.dialogCloseIcon}>
+                                    <svg viewBox="0 0 36 36" aria-hidden="true">
+                                        <path d="M13 13l10 10M23 13L13 23" />
+                                    </svg>
+                                </span>
+                            </button>
                         </div>
-                        <div aria-live="polite">
-                            <AnimatePresence mode="wait" initial={false} custom={reduceMotion}>
-                                <motion.ul
-                                    key={selected.id}
-                                    className={styles.routeList}
-                                    aria-label={`${selected.name} 셔틀 노선`}
-                                    custom={reduceMotion}
-                                    variants={fadeVariants}
-                                    initial="hidden"
-                                    animate="show"
-                                    exit="exit"
-                                >
-                                    {selected.routes.map((route) => (
-                                        <li key={route.id} className={styles.routeItem}>
-                                            <span className={styles.routeArea}>{route.area}</span>
-                                            <span className={styles.routeMeta}>{formatRange(route.time)}</span>
-                                            <span className={styles.routeMeta}>차량 {route.carNum}</span>
-                                        </li>
-                                    ))}
-                                </motion.ul>
-                            </AnimatePresence>
+                        <div className={styles.dialogBody}>
+                            <h2 id="shuttle-dialog-title" className={styles.dialogTitle}>차량 운행</h2>
+                            <p className={styles.dialogLead}>아래에서 예배를 고르시면 동네별 셔틀 시간을 알려 드려요.</p>
+                            <div className={styles.lineTabs} role="group" aria-label="예배 고르기">
+                                {shuttleSchedules.map((schedule) => (
+                                    <button
+                                        key={schedule.id}
+                                        type="button"
+                                        className={styles.lineTab}
+                                        aria-pressed={selected.id === schedule.id}
+                                        onClick={() => onSelect(schedule.id)}
+                                    >
+                                        {shuttleLabels[schedule.id] ?? schedule.name}
+                                        {selected.id === schedule.id && (
+                                            <motion.span
+                                                layoutId="shuttleLine"
+                                                className={styles.lineTabBar}
+                                                transition={reduceMotion ? { duration: 0 } : thumbSpring}
+                                            />
+                                        )}
+                                    </button>
+                                ))}
+                            </div>
+                            <div aria-live="polite">
+                                <AnimatePresence mode="wait" initial={false} custom={reduceMotion}>
+                                    <motion.ul
+                                        key={selected.id}
+                                        className={styles.routeList}
+                                        aria-label={`${selected.name} 셔틀 노선`}
+                                        custom={reduceMotion}
+                                        variants={fadeVariants}
+                                        initial="hidden"
+                                        animate="show"
+                                        exit="exit"
+                                    >
+                                        {selected.routes.map((route) => (
+                                            <li key={route.id} className={styles.routeItem}>
+                                                <span className={styles.routeArea}>{route.area}</span>
+                                                <span className={styles.routeMeta}>{formatRange(route.time)}</span>
+                                                <span className={styles.routeMeta}>차량 {route.carNum}</span>
+                                            </li>
+                                        ))}
+                                    </motion.ul>
+                                </AnimatePresence>
+                            </div>
                         </div>
                     </motion.div>
                 </motion.div>

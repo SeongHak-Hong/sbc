@@ -610,14 +610,16 @@
 }
 
 /* ---------- 차량 운행 팝업: 딤드 + 배경 흐림 20px ---------- */
+/* apple.com/kr/business 팝업처럼 딤드 전체가 스크롤되고, 팝업은 높이 제한 없이 내용만큼 늘어난다 */
 .dialogDim {
     position: fixed;
     inset: 0;
     z-index: 2000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem 1.5rem;
+    display: grid;
+    place-items: center;
+    padding: 0 1.5rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
     background-color: rgba(var(--color-surface-dark-rgb), 0.4);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -635,12 +637,11 @@
     --r-card: 28px;
     --gutter: 1.5rem;
     position: relative;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     max-width: 1200px;
-    max-height: 100%;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    padding: 4.75rem 6.5rem; /* 위아래 76px, 좌우 104px */
+    margin: 2.5rem 0;
     box-sizing: border-box;
     border-radius: var(--r-card);
     background-color: var(--color-white);
@@ -655,43 +656,77 @@
     outline: none;
 }
 
-.dialogClose {
-    position: absolute;
-    top: 1.25rem;
-    right: 1.25rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    border: none;
-    border-radius: 50%;
-    background: none;
-    color: var(--color-text-strong);
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    transition: background-color 0.15s ease, transform 0.12s ease-out;
+.dialogBody {
+    padding: 4.75rem 6.5rem; /* 위아래 76px, 좌우 104px */
 }
 
-.dialogClose:active {
-    transform: scale(0.94);
+/* 닫기 버튼: 높이 0인 칸을 팝업 위에 붙여(sticky) 내려도 화면 위에 남는다 */
+.dialogCloseWrap {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    align-self: flex-end;
+    height: 0;
+}
+
+/* 누르는 영역 44px, 보이는 원 36px (Apple 팝업 닫기 버튼과 같은 크기·색) */
+.dialogClose {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 44px;
+    height: 44px;
+    margin: 20px 12px 0 0;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.dialogCloseIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #1d1d1f;
+    color: var(--color-white);
+    transition: background-color 0.1s linear;
+}
+
+.dialogCloseIcon svg {
+    width: 36px;
+    height: 36px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3;
+    stroke-linecap: round;
 }
 
 @media (hover: hover) and (pointer: fine) {
-    .dialogClose:hover {
-        background-color: var(--color-surface-band);
+    .dialogClose:hover .dialogCloseIcon {
+        background-color: #272729;
     }
 }
 
-.dialogClose:focus-visible,
+.dialogClose:active .dialogCloseIcon {
+    background-color: #18181a;
+}
+
+.dialogClose:focus-visible {
+    outline: none;
+}
+
+.dialogClose:focus-visible .dialogCloseIcon {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 3px;
+}
+
 .lineTab:focus-visible {
     outline: 2px solid var(--color-accent-sky);
     outline-offset: 2px;
-}
-
-.dialogClose :global(.material-symbols-outlined) {
-    font-size: 24px;
 }
 
 .dialogTitle {
@@ -856,19 +891,22 @@
 
     /* 휴대폰: 팝업은 아래에서 올라오는 시트 */
     .dialogDim {
-        align-items: flex-end;
-        padding: 3rem 0 0;
+        align-items: end;
+        padding: 0;
     }
 
     .dialog {
         --t-strong: 1.75rem;
-        padding: 3rem var(--gutter) calc(2rem + env(safe-area-inset-bottom, 0px));
+        margin: 3rem 0 0;
         border-radius: var(--r-card) var(--r-card) 0 0;
     }
 
+    .dialogBody {
+        padding: 3rem var(--gutter) calc(2rem + env(safe-area-inset-bottom, 0px));
+    }
+
     .dialogClose {
-        top: 0.75rem;
-        right: 0.75rem;
+        margin: 12px 4px 0 0;
     }
 
     /* 휴대폰: 평면도 먼저, 아래에 층 알약 */
