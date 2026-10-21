@@ -792,6 +792,11 @@
     font-variant-numeric: tabular-nums;
 }
 
+/* 시간 줄 아래로 8px 띄우고 차량 번호 */
+.routeMeta:nth-of-type(2) {
+    margin-bottom: 0.5rem;
+}
+
 /* ---------- 태블릿 · 모바일 ---------- */
 @media (max-width: 1079px) {
     .page {
