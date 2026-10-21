@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import SubPageSection from '../components/SubPageSection';
-import ScrollFadeText from '../components/ScrollFadeText';
 import Footer from '../components/Footer';
 import styles from './TeamPage.module.css';
 import member01 from '../assets/team/shintanjin-baptist-church-member-01.webp';
@@ -82,14 +81,8 @@ const TeamPage = () => {
     return (
         <div className={styles.pageWrapper}>
             <SubPageSection hideHeader={true}>
-                <div className={styles.head}>
-                    <ScrollFadeText
-                        text={"기쁨으로 교회를\n섬기는 분들이에요."}
-                        as="h1"
-                        className={styles.title}
-                        once={true}
-                    />
-                </div>
+                {/* 사진 명단이 스스로 설명하므로 화면 제목은 없이, 화면 낭독기·검색용 h1만 둔다 */}
+                <h1 className={styles.srOnly}>섬기는 사람들</h1>
 
                 {groups.map((group) => (
                     <section key={group.title} className={styles.group} aria-labelledby={`team-${group.title}`}>

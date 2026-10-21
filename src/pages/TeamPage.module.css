@@ -5,7 +5,6 @@
     --meta: #6E6E73;
     --band: #F5F5F7;
     --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-    --t-title: clamp(2.25rem, 4.5vw, 4rem);  /* 교회 안내·메인 첫 화면 제목과 같은 단계 (64 → 모바일 36) */
     --t-group: 1.75rem;                      /* 그룹 제목 28 */
     --r-photo: 20px;
     --group-gap: 7.5rem;
@@ -24,26 +23,20 @@
     word-break: keep-all;
 }
 
-/* ---------- 머리 ---------- */
-/* 첫 화면 제목 자리: 교회 안내 .hero처럼 Header 아래 clamp(3rem, 6vw, 5rem) (섹션 위 여백 8rem을 뺀 만큼 더 내림) */
-.head {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin-top: calc(4rem + clamp(3rem, 6vw, 5rem) - 8rem);
-    margin-bottom: 6rem;
+/* ---------- 머리: 화면 제목 없이 화면 낭독기용 h1만 ---------- */
+.srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
 }
 
-.title {
-    margin: 0;
-    font-size: var(--t-title);
-    font-weight: 500;
-    line-height: 1.25;
-    letter-spacing: -0.03em;
-    color: var(--ink);
-    white-space: pre-line;
-    text-wrap: balance;
+/* 첫 그룹이 페이지 시작: 교회 안내 첫 화면 제목 자리(Header 아래 clamp(3rem, 6vw, 5rem))에서 시작하도록 섹션 위 여백 8rem을 뺀 만큼 더 내림 */
+.group:first-of-type {
+    margin-top: calc(4rem + clamp(3rem, 6vw, 5rem) - 8rem);
 }
 
 /* ---------- 그룹 ---------- */
@@ -152,15 +145,13 @@
 @media (max-width: 767px) {
     .pageWrapper {
         background-size: 220% auto;
-        --t-title: 2.25rem;   /* 교회 안내 첫 화면 제목과 같은 36px */
         --t-group: 1.375rem;
         --group-gap: 4.5rem;
         font-size: 1.0625rem;
     }
 
-    .head {
+    .group:first-of-type {
         margin-top: 2.5rem;   /* Header 4rem + 3rem − 섹션 위 여백 4.5rem */
-        margin-bottom: 4rem;
     }
 
     .groupTitle {
