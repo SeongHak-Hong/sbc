@@ -1,0 +1,42 @@
+/* 서브페이지 첫 화면의 하늘빛 그라디언트 (시안 색: 하늘색 → 연한 크림빛 → 흰색).
+   부모(페이지 감싸개)는 position: relative + isolation: isolate 여야 콘텐츠 아래·흰 바탕 위에 깔린다.
+   높이는 교회 안내 첫 화면(제목 위 180px + 제목 + 바로가기 탭 + 40px)과 같은 길이 */
+.gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 31rem;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(40% 30% at 50% 72%, rgba(250, 252, 240, 0.9) 0%, rgba(250, 252, 240, 0) 100%),
+        /* 위쪽 가장자리까지 하늘색이 고르게 깔리는 띠 */
+        linear-gradient(to bottom, #E8F1FE 0%, rgba(232, 241, 254, 0) 32%),
+        /* 가운데로 깊게 내려오는 하늘색: 가로 반지름을 좁혀(58%) 양옆이 일찍 옅어지게 해 퍼져 보이지 않게 */
+        radial-gradient(58% 100% at 50% 0%,
+            #E8F1FE 0%,
+            #E8F1FE 48%,
+            rgba(236, 244, 252, 0.85) 62%,
+            rgba(246, 250, 246, 0.6) 82%,
+            rgba(255, 255, 255, 0) 100%);
+    /* 맨 아래 20%는 서서히 사라지게 (경계선 없이) */
+    -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
+}
+
+/* 휴대폰: 좁고 긴 칸이라 가운데로 깊게 내려오는 모양이 처져 보임.
+   하늘색을 가로 전체에 깔고 위에서 아래로 고르게 옅어지게, 크림빛도 넓고 얇게 */
+@media (max-width: 767px) {
+    .gradient {
+        height: 23rem;
+        background:
+            radial-gradient(90% 22% at 50% 76%, rgba(250, 252, 240, 0.8) 0%, rgba(250, 252, 240, 0) 100%),
+            linear-gradient(to bottom,
+                #E8F1FE 0%,
+                #E8F1FE 34%,
+                rgba(236, 244, 252, 0.85) 58%,
+                rgba(246, 250, 246, 0.5) 80%,
+                rgba(255, 255, 255, 0) 100%);
+    }
+}

@@ -4,6 +4,7 @@ import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { motion } from 'framer-motion';
 import { db } from '../firebase';
 import styles from './EventsPage.module.css';
+import PageTopGradient from '../components/PageTopGradient';
 import Footer from '../components/Footer';
 import SubPageSection from '../components/SubPageSection';
 import ScrollFadeText from '../components/ScrollFadeText';
@@ -162,6 +163,7 @@ const EventsPage = () => {
     if (availableYears.length === 0) {
         return (
             <div className={styles.pageWrapper}>
+                <PageTopGradient />
                 <SubPageSection hideHeader={true}>
                     <div style={{ textAlign: 'center' }}>
                         <div style={{
@@ -212,6 +214,7 @@ const EventsPage = () => {
 
     return (
         <div className={styles.pageWrapper}>
+            <PageTopGradient />
             <SubPageSection hideHeader={true}>
                 <div style={{ textAlign: 'center' }}>
                     <ScrollFadeText

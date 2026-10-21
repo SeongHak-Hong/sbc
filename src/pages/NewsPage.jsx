@@ -10,6 +10,7 @@ import Pagination from '../components/ui/Pagination';
 import BoardGrid from '../components/ui/BoardGrid';
 import Footer from '../components/Footer';
 import styles from './NewsPage.module.css';
+import PageTopGradient from '../components/PageTopGradient';
 
 
 const TABS = [
@@ -142,6 +143,7 @@ const NewsPage = () => {
 
     return (
         <div className={styles.pageWrapper}>
+            <PageTopGradient />
             <SubPageSection hideHeader={true} className={styles.sectionCenter}>
                 <div style={{ textAlign: 'center' }}>
                     <ScrollFadeText

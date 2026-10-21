@@ -14,6 +14,7 @@ import mapDasom1F from '../assets/guide/dasom-1F.svg';
 import mapDasom2F from '../assets/guide/dasom-2F.svg';
 
 import Footer from '../components/Footer';
+import PageTopGradient from '../components/PageTopGradient';
 
 // rooms는 평면도 이미지의 대체 텍스트로 읽힘 (평면도 글자가 도형이라 화면 낭독기가 못 읽음)
 const facilityTabs = [
@@ -711,6 +712,7 @@ const GuidePage = () => {
         <div className={`${styles.page} ${headerHidden ? styles.headerHidden : ''}`}>
             {/* ① 첫 화면 */}
             <section className={styles.hero}>
+                <PageTopGradient className={styles.heroGradient} />
                 <div className={styles.wrap}>
                     <h1 className={styles.heroTitle}>환영해요.<br />안내를 골라 보세요.</h1>
                 </div>

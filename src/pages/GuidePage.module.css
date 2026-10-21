@@ -20,7 +20,7 @@
     min-height: 100vh;
     color: var(--color-text-primary);
     background-color: var(--color-white);
-    /* 그라디언트(.hero::before)가 흰 바탕 위·콘텐츠 아래에 깔리도록 쌓임 맥락을 만든다 */
+    /* 첫 화면 그라디언트(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 쌓임 맥락을 만든다 */
     isolation: isolate;
     font-size: var(--t-body);
     line-height: 1.6;
@@ -52,33 +52,10 @@
     text-align: center;
 }
 
-/* 하늘빛 그라디언트: 첫 화면부터 바로가기 탭 줄(위 8 + 탭 44 + 아래 24 = 76px)이 끝난 뒤 40px까지만.
-   끝 지점에서 완전히 흰색이 되게 그린다 */
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+/* 첫 화면 그라디언트(PageTopGradient): 첫 화면부터 바로가기 탭 줄(위 8 + 탭 44 + 아래 24 = 76px)이 끝난 뒤 40px까지 */
+.hero .heroGradient {
+    height: auto;
     bottom: calc(-1 * (76px + 40px));
-    z-index: -1;
-    /* 시안 색: 위는 하늘색이 가로 전체에 고르게, 가운데로 갈수록 깊게 내려오다 연한 크림빛을 지나 흰색으로
-       (양옆은 가운데보다 일찍 옅어짐) */
-    background:
-        radial-gradient(40% 30% at 50% 72%, rgba(250, 252, 240, 0.9) 0%, rgba(250, 252, 240, 0) 100%),
-        /* 위쪽 가장자리까지 하늘색이 고르게 깔리는 띠 */
-        linear-gradient(to bottom, #E8F1FE 0%, rgba(232, 241, 254, 0) 32%),
-        /* 가운데로 깊게 내려오는 하늘색: 가로 반지름을 좁혀(58%) 양옆이 일찍 옅어지게 해 퍼져 보이지 않게 */
-        radial-gradient(58% 100% at 50% 0%,
-            #E8F1FE 0%,
-            #E8F1FE 48%,
-            rgba(236, 244, 252, 0.85) 62%,
-            rgba(246, 250, 246, 0.6) 82%,
-            rgba(255, 255, 255, 0) 100%);
-    /* 맨 아래 20%는 서서히 사라지게 (경계선 없이) */
-    -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
-    pointer-events: none;
 }
 
 .heroTitle {
@@ -1237,19 +1214,6 @@
 
     .hero {
         padding-top: 8.75rem;
-    }
-
-    /* 휴대폰: 좁고 긴 칸이라 가운데로 깊게 내려오는 모양이 처져 보임.
-       하늘색을 가로 전체에 깔고 위에서 아래로 고르게 옅어지게, 크림빛도 넓고 얇게 */
-    .hero::before {
-        background:
-            radial-gradient(90% 22% at 50% 76%, rgba(250, 252, 240, 0.8) 0%, rgba(250, 252, 240, 0) 100%),
-            linear-gradient(to bottom,
-                #E8F1FE 0%,
-                #E8F1FE 34%,
-                rgba(236, 244, 252, 0.85) 58%,
-                rgba(246, 250, 246, 0.5) 80%,
-                rgba(255, 255, 255, 0) 100%);
     }
 
     .tabList {

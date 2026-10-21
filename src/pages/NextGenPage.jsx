@@ -9,6 +9,7 @@ import ScrollFadeText from '../components/ScrollFadeText';
 
 import TabMenu from '../components/TabMenu';
 import styles from './NextGenPage.module.css';
+import PageTopGradient from '../components/PageTopGradient';
 import thumbKindergarten from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb.webp';
 import thumbElementary from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-01.webp';
 import thumbYouth from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-02.webp';
@@ -151,6 +152,7 @@ const NextGenPage = () => {
 
     return (
         <div className={styles.pageWrapper}>
+            <PageTopGradient />
             <SubPageSection hideHeader={true}>
                 <div style={{ textAlign: 'center' }}>
                     <ScrollFadeText

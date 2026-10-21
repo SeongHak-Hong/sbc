@@ -6,6 +6,8 @@
     overflow-x: hidden;
     background: linear-gradient(to bottom, #E7F5FD, #FCEBE0);
     background-attachment: fixed;
+    /* 첫 화면 그라디언트(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 */
+    isolation: isolate;
 }
 
 .sectionCenter {

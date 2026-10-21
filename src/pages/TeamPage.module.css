@@ -12,15 +12,14 @@
     width: 100%;
     min-height: 100vh;
     background-color: #FFFFFF;
-    background-image: url('../assets/main/main-bg-gradient.svg');
-    background-repeat: no-repeat;
-    background-position: top center;
-    background-size: 100% auto;
     color: var(--ink);
     font-size: 1.125rem;
     line-height: 1.6;
     letter-spacing: -0.02em;
     word-break: keep-all;
+    position: relative;
+    /* 첫 화면 그라디언트(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 */
+    isolation: isolate;
 }
 
 /* ---------- 머리: 화면 제목 없이 화면 낭독기용 h1만 ---------- */
@@ -129,7 +128,6 @@
 /* ---------- 태블릿 ---------- */
 @media (max-width: 1079px) {
     .pageWrapper {
-        background-size: 150% auto;
         --group-gap: 6rem;
     }
 
@@ -145,7 +143,6 @@
 /* ---------- 모바일 ---------- */
 @media (max-width: 767px) {
     .pageWrapper {
-        background-size: 220% auto;
         --t-group: 1.375rem;
         --group-gap: 4.5rem;
         font-size: 1.0625rem;

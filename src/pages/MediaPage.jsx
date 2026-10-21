@@ -9,6 +9,7 @@ import ScrollFadeText from '../components/ScrollFadeText';
 import SwitchTabs from '../components/SwitchTabs';
 import logoSbc from '../assets/shintanjin-baptist-church-logo.svg';
 import styles from './MediaPage.module.css';
+import PageTopGradient from '../components/PageTopGradient';
 
 
 const MediaPage = () => {
@@ -321,6 +322,7 @@ const MediaPage = () => {
 
     return (
         <div className={styles.pageWrapper}>
+            <PageTopGradient />
             <SubPageSection hideHeader={true} className={styles.sectionCenter}>
                 <div style={{ textAlign: 'center' }}>
                     <ScrollFadeText

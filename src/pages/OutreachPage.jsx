@@ -7,6 +7,7 @@ import ScrollFadeText from '../components/ScrollFadeText';
 import SwitchTabs from '../components/SwitchTabs';
 import Footer from '../components/Footer';
 import styles from './OutreachPage.module.css';
+import PageTopGradient from '../components/PageTopGradient';
 
 
 const OutreachPage = () => {
@@ -58,6 +59,7 @@ const OutreachPage = () => {
 
     return (
         <div className={styles.pageWrapper}>
+            <PageTopGradient />
             <SubPageSection hideHeader={true}>
                 <div style={{ textAlign: 'center' }}>
                     <ScrollFadeText

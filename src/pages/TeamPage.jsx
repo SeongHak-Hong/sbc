@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import SubPageSection from '../components/SubPageSection';
 import Footer from '../components/Footer';
 import styles from './TeamPage.module.css';
+import PageTopGradient from '../components/PageTopGradient';
 import member01 from '../assets/team/shintanjin-baptist-church-member-01.webp';
 import member02 from '../assets/team/shintanjin-baptist-church-member-02.webp';
 import member03 from '../assets/team/shintanjin-baptist-church-member-03.webp';
@@ -80,6 +81,7 @@ const TeamPage = () => {
 
     return (
         <div className={styles.pageWrapper}>
+            <PageTopGradient />
             <SubPageSection hideHeader={true} className={styles.section}>
                 {/* 사진 명단이 스스로 설명하므로 화면 제목은 없이, 화면 낭독기·검색용 h1만 둔다 */}
                 <h1 className={styles.srOnly}>섬기는 사람들</h1>
