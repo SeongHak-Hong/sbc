@@ -579,7 +579,6 @@ const GuidePage = () => {
     const startSection = tabAlias[tabParam] ?? (sectionIds.includes(tabParam) ? tabParam : null);
     const [current, setCurrent] = useState(startSection ?? sectionIds[0]);
     const [headerHidden, setHeaderHidden] = useState(false);
-    const [tabsStuck, setTabsStuck] = useState(false);
     const [shuttleOpen, setShuttleOpen] = useState(tabParam === 'shuttle');
     const closeShuttle = useCallback(() => setShuttleOpen(false), []);
     const [planOpen, setPlanOpen] = useState(false);
@@ -611,11 +610,6 @@ const GuidePage = () => {
             if (y <= 0 || y < lastY) setHeaderHidden(false);
             else if (y > 50 && y > lastY) setHeaderHidden(true);
             lastY = y;
-            const tabs = tabsRef.current;
-            if (tabs) {
-                const stickyTop = parseFloat(getComputedStyle(tabs).top) || 0;
-                setTabsStuck(tabs.getBoundingClientRect().top <= stickyTop + 1);
-            }
         };
         onScroll();
         window.addEventListener('scroll', onScroll, { passive: true });
@@ -642,7 +636,8 @@ const GuidePage = () => {
         const list = tabListRef.current;
         const button = list?.querySelector(`[data-section="${current}"]`);
         if (!list || !button || list.scrollWidth <= list.clientWidth) return;
-        list.scrollTo({ left: button.offsetLeft - 16, behavior: reduceMotion ? 'auto' : 'smooth' });
+        const left = list.scrollLeft + button.getBoundingClientRect().left - list.getBoundingClientRect().left - 16;
+        list.scrollTo({ left, behavior: reduceMotion ? 'auto' : 'smooth' });
     }, [current, reduceMotion]);
 
     const scrollToSection = useCallback((id, { instant = false } = {}) => {
@@ -713,29 +708,32 @@ const GuidePage = () => {
             {/* ② 섹션 이동 버튼 줄 */}
             <nav
                 ref={tabsRef}
-                className={`${styles.tabs} ${tabsStuck ? styles.tabsStuck : ''}`}
+                className={styles.tabs}
                 aria-label="교회 안내 바로가기"
             >
+                {/* 애플 linenav처럼 글자만 있는 탭 + 아래 옅은 기준선, 고른 탭 아래로 짙은 선이 미끄러진다 */}
                 <div ref={tabListRef} className={styles.tabList}>
-                    {sections.map((section) => (
-                        <button
-                            key={section.id}
-                            type="button"
-                            data-section={section.id}
-                            className={styles.tab}
-                            aria-current={current === section.id ? 'true' : undefined}
-                            onClick={() => handleTabClick(section.id)}
-                        >
-                            {current === section.id && (
-                                <motion.span
-                                    layoutId="guideSectionThumb"
-                                    className={styles.pillThumb}
-                                    transition={reduceMotion ? { duration: 0 } : thumbSpring}
-                                />
-                            )}
-                            <span className={styles.pillText}>{section.label}</span>
-                        </button>
-                    ))}
+                    <div className={styles.tabTrack}>
+                        {sections.map((section) => (
+                            <button
+                                key={section.id}
+                                type="button"
+                                data-section={section.id}
+                                className={styles.tab}
+                                aria-current={current === section.id ? 'true' : undefined}
+                                onClick={() => handleTabClick(section.id)}
+                            >
+                                {section.label}
+                                {current === section.id && (
+                                    <motion.span
+                                        layoutId="guideSectionLine"
+                                        className={styles.tabLine}
+                                        transition={reduceMotion ? { duration: 0 } : { duration: 0.32, ease: 'easeOut' }}
+                                    />
+                                )}
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </nav>
 

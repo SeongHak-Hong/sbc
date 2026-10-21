@@ -61,31 +61,25 @@
 
 /* ---------- ② 섹션 이동 버튼 줄 ---------- */
 /* Header 바로 아래에 붙어 따라오고, Header가 숨으면 맨 위로 올라간다 */
+/* 모양은 apple.com/kr/education/k12 linenav: 흰 바 위 글자 탭 + 1px 기준선 */
 .tabs {
     position: sticky;
     top: var(--header-h);
     z-index: 900;
-    transition: top 340ms var(--ease-smooth), background-color 240ms ease;
+    padding: 8px 0 24px;
+    background-color: var(--color-white);
+    transition: top 340ms var(--ease-smooth);
 }
 
 .headerHidden .tabs {
     top: 0;
 }
 
-/* 위에 붙으면 Header와 같은 반투명 바 */
-.tabsStuck {
-    background-color: rgba(255, 255, 255, 0.84);
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
-}
-
 .tabList {
     display: flex;
-    justify-content: center;
-    gap: 4px;
     max-width: var(--wrap);
     margin: 0 auto;
-    padding: 10px var(--gutter);
+    padding: 0 var(--gutter);
     box-sizing: border-box;
     overflow-x: auto;
     scrollbar-width: none;
@@ -95,44 +89,72 @@
     display: none;
 }
 
+/* 탭 묶음 폭만큼 옅은 기준선 */
+.tabTrack {
+    position: relative;
+    display: flex;
+    gap: 32px;
+    margin: 0 auto;
+}
+
+.tabTrack::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    border-radius: 999px;
+    background-color: rgba(210, 210, 215, 0.64);
+}
+
 .tab {
     position: relative;
     flex: 0 0 auto;
     min-height: 44px;
-    padding: 0 18px;
+    padding: 8px 0 10px;
     border: none;
-    border-radius: var(--radius-pill);
-    background-color: transparent;
-    color: var(--color-text-tertiary);
+    background: none;
+    color: rgba(0, 0, 0, 0.8);
     font: inherit;
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.43;
     letter-spacing: -0.02em;
     white-space: nowrap;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     -webkit-user-select: none;
     user-select: none;
-    transition: color 0.3s var(--ease-smooth), transform 0.12s ease-out;
+    transition: color 120ms ease-out;
 }
 
 .tab[aria-current="true"] {
-    color: var(--color-white);
-}
-
-.tab:active {
-    transform: scale(0.96);
+    color: #000;
+    transition: color 160ms ease-in;
 }
 
 @media (hover: hover) and (pointer: fine) {
-    .tab:not([aria-current="true"]):hover {
-        color: var(--color-text-strong);
+    .tab:hover {
+        color: #000;
     }
 }
 
 .tab:focus-visible {
     outline: 2px solid var(--color-accent-sky);
     outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* 고른 탭 아래 짙은 선 (글자 폭만큼) */
+.tabLine {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    height: 1px;
+    border-radius: 999px;
+    background-color: #000;
 }
 
 /* ---------- 섹션 공통 ---------- */
