@@ -328,7 +328,7 @@ const MediaPage = () => {
                     <ScrollFadeText
                         text="함께 예배해요."
                         as="h1"
-                        className="main-page-title"
+                        className={`main-page-title ${styles.pageTitle}`}
                         once={true}
                     />
                 </div>
@@ -378,7 +378,7 @@ const MediaPage = () => {
                                                 </div>
                                                 <div className={styles.videoInfo}>
                                                     <div className={styles.badgeWrapper} style={{ marginTop: 0, display: 'flex', flexDirection: 'row', gap: '2px', alignItems: 'center' }}>
-                                                        {parsedInfo.isNew && <span className={styles.badge} style={{ backgroundColor: 'var(--color-slate-700)', color: 'var(--color-gray-50)' }}>NEW</span>}
+                                                        {parsedInfo.isNew && <span className={styles.badge} style={{ backgroundColor: 'var(--btn-bg)', color: 'var(--color-white)' }}>NEW</span>}
                                                         <span className={styles.badge}>{badge}</span>
                                                     </div>
 

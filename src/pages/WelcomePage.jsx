@@ -90,7 +90,7 @@ const ScrollDownIcon = ({ isActive, delayOffset = 0 }) => (
         <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            style={{ color: 'var(--color-text-muted)', display: 'flex' }}
+            style={{ color: 'var(--color-text-meta)', display: 'flex' }}
         >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 5v14M19 12l-7 7-7-7" />
@@ -184,7 +184,7 @@ const WelcomePage = () => {
                     {/* Section 1 */}
                     <div className={`${styles.introAbsoluteCenter} ${introActiveIndex === 0 ? styles.activeLayer : ''}`}>
                         <div className={styles.fadeInner}>
-                            <WordFadeText isActive={introActiveIndex === 0} text={"신탄진침례교회에 오신\n여러분을 환영해요."} className="main-page-title" />
+                            <WordFadeText isActive={introActiveIndex === 0} text={"신탄진침례교회에 오신\n여러분을 환영해요."} className={`main-page-title ${styles.pageTitle}`} />
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                                 <WordFadeText isActive={introActiveIndex === 0} text={"밑으로 계속 스크롤"} className={styles.fadeBodyText} delayOffset={0.2} style={{ whiteSpace: 'nowrap' }} />
                                 <ScrollDownIcon isActive={introActiveIndex === 0} delayOffset={0.3} />
@@ -194,19 +194,19 @@ const WelcomePage = () => {
                     {/* Section 2 */}
                     <div className={`${styles.introAbsoluteCenter} ${introActiveIndex === 1 ? styles.activeLayer : ''}`}>
                         <div className={styles.fadeInner}>
-                            <SimpleFadeText isActive={introActiveIndex === 1} text={"가장 먼저 드리고 싶은 말이 있어요.\n교회 등록은 부담 갖지 않으셔도 돼요."} className="main-page-title" />
+                            <SimpleFadeText isActive={introActiveIndex === 1} text={"가장 먼저 드리고 싶은 말이 있어요.\n교회 등록은 부담 갖지 않으셔도 돼요."} className={`main-page-title ${styles.pageTitle}`} />
                         </div>
                     </div>
                     {/* Section 3 */}
                     <div className={`${styles.introAbsoluteCenter} ${introActiveIndex === 2 ? styles.activeLayer : ''}`}>
                         <div className={styles.fadeInner}>
-                            <SimpleFadeText isActive={introActiveIndex === 2} text={"이곳에서 함께 신앙생활을 해도 좋을지\n충분히 경험해 보시고 편하게 정하세요."} className="main-page-title" />
+                            <SimpleFadeText isActive={introActiveIndex === 2} text={"이곳에서 함께 신앙생활을 해도 좋을지\n충분히 경험해 보시고 편하게 정하세요."} className={`main-page-title ${styles.pageTitle}`} />
                         </div>
                     </div>
                     {/* Section 4 */}
                     <div className={`${styles.introAbsoluteCenter} ${introActiveIndex === 3 ? styles.activeLayer : ''}`}>
                         <div className={styles.fadeInner}>
-                            <SimpleFadeText isActive={introActiveIndex === 3} text={"나중에 마음의 준비가 되셨을 때를 위해,\n새가족이 되는 과정을 가볍게 안내해 드릴게요."} className="main-page-title" />
+                            <SimpleFadeText isActive={introActiveIndex === 3} text={"나중에 마음의 준비가 되셨을 때를 위해,\n새가족이 되는 과정을 가볍게 안내해 드릴게요."} className={`main-page-title ${styles.pageTitle}`} />
                         </div>
                     </div>
                 </div>
@@ -231,7 +231,7 @@ const WelcomePage = () => {
             {/* CTA Section */}
             <div className={styles.ctaSection}>
                 <ScrollFadeText
-                    className="main-page-title"
+                    className={`main-page-title ${styles.pageTitle}`}
                     text={"더 궁금한 점이 있으세요?\n문의 주시면 친절하게 안내해 드려요."}
                     once={true}
                 />

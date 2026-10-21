@@ -1,8 +1,7 @@
 .pageWrapper {
     width: 100%;
     min-height: 100vh;
-    background: linear-gradient(to bottom, #E7F5FD, #FCEBE0);
-    background-attachment: fixed;
+    background-color: #FFFFFF;
     position: relative;
     /* 첫 화면 그라디언트(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 */
     isolation: isolate;
@@ -162,6 +161,12 @@
     width: 100%;
     justify-content: flex-start;
     margin-bottom: 24px;
+}
+
+@media (max-width: 1079px) {
+}
+
+@media (max-width: 767px) {
 }
 
 @media (max-width: 600px) {

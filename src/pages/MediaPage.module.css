@@ -4,8 +4,7 @@
     color: var(--color-text-primary);
     position: relative;
     overflow-x: hidden;
-    background: linear-gradient(to bottom, #E7F5FD, #FCEBE0);
-    background-attachment: fixed;
+    background-color: var(--color-white);
     /* 첫 화면 그라디언트(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 */
     isolation: isolate;
 }
@@ -16,12 +15,17 @@
     align-items: center;
 }
 
+.pageTitle {
+    font-size: var(--page-title-size-pc, 40px);
+    font-weight: 500;
+    color: var(--color-text-strong);
+    letter-spacing: -0.03em;
+    line-height: 1.3;
+    margin: 0;
+    word-break: keep-all;
+}
 
-
-
-
-@media (max-width: 600px) {
-
+@media (max-width: 767px) {
     .pageTitle {
         font-size: 28px;
     }
@@ -87,13 +91,12 @@
 
 
 .date {
-    color: var(--color-text-muted);
-
+    color: var(--color-text-meta);
     font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
     margin: 0;
 }
-
-
 
 .description {
     margin: 0;
@@ -110,10 +113,11 @@
 
 .badge {
     display: inline-block;
-    color: var(--color-text-tertiary);
-    background-color: var(--color-gray-50);
-
+    color: var(--color-text-meta);
+    background-color: var(--color-surface-band);
     font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
     padding: 4px 12px;
     border-radius: 99px;
     margin: 0;
@@ -124,7 +128,9 @@
     text-align: center;
     padding: 80px 0;
     font-size: 18px;
-    color: var(--color-text-muted);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--color-text-meta);
 }
 
 /* Responsive */
@@ -275,6 +281,9 @@
     width: 100%;
     display: flex;
     justify-content: flex-start;
+}
+
+@media (max-width: 1079px) {
 }
 
 @media (max-width: 767px) {

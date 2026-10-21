@@ -4,8 +4,7 @@
     color: var(--color-text-primary);
     position: relative;
     overflow-x: hidden;
-    background: linear-gradient(to bottom, #E7F5FD, #FCEBE0);
-    background-attachment: fixed;
+    background-color: #FFFFFF;
     /* 첫 화면 그라디언트(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 */
     isolation: isolate;
 }
@@ -51,8 +50,9 @@
     display: flex;
     flex-direction: column;
     padding: 32px 28px;
-    background-color: var(--color-gray-50);
+    background-color: var(--color-white);
     border-radius: 48px;
+    box-shadow: 0 0 10px rgba(233, 238, 255, 0.75);
     box-sizing: border-box;
     width: 100%;
     height: 240px;
@@ -156,6 +156,12 @@
     display: flex;
     width: 100%;
     justify-content: flex-start;
+}
+
+@media (max-width: 1079px) {
+}
+
+@media (max-width: 767px) {
 }
 
 @media (max-width: 600px) {

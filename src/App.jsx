@@ -25,6 +25,7 @@ import LoginPage from './pages/admin/LoginPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminCellgroups from './pages/admin/AdminCellgroups';
 import AdminNextGen from './pages/admin/AdminNextGen';
+import AdminNextGenGallery from './pages/admin/AdminNextGenGallery';
 import AdminMissions from './pages/admin/AdminMissions';
 import AdminPosts from './pages/admin/AdminPosts';
 import AdminSchedule from './pages/admin/AdminSchedule';
@@ -152,6 +153,7 @@ function AppRoutes() {
                 <Route path="posts" element={<AdminPosts />} />
                 <Route path="cellgroups" element={<AdminCellgroups />} />
                 <Route path="nextgen" element={<AdminNextGen />} />
+                <Route path="nextgen-gallery" element={<AdminNextGenGallery />} />
                 <Route path="missions" element={<AdminMissions />} />
                 <Route path="schedule" element={<AdminSchedule />} />
                 <Route path="members-news" element={<AdminMembersNews />} />

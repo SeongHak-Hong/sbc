@@ -54,6 +54,13 @@ const AdminLayout = () => {
                         <span className="material-symbols-outlined" translate="no">child_care</span>
                         다음세대 관리
                     </NavLink>
+                    <NavLink
+                        to="/manager-lounge/nextgen-gallery"
+                        className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}
+                    >
+                        <span className="material-symbols-outlined" translate="no">photo_library</span>
+                        다음세대 갤러리
+                    </NavLink>
                     <NavLink 
                         to="/manager-lounge/cellgroups"
                         className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}

@@ -156,9 +156,9 @@ const CommunityPage = () => {
                     >
 
                         {/* Main Text */}
-                        <div className="main-page-title" style={{ whiteSpace: 'pre-line', marginBottom: '24px' }}>
+                        <h1 className={`main-page-title ${styles.pageTitle}`}>
                             {renderMainText()}
-                        </div>
+                        </h1>
 
                         {/* Buttons Area */}
                         <div className={styles.buttonGroup}>

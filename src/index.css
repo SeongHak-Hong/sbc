@@ -330,7 +330,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   background-color: var(--color-white);
-  color: var(--color-text-tertiary);
+  color: var(--color-text-primary);
   padding-bottom: 0;
   min-height: 100vh;
 }
@@ -345,6 +345,27 @@ h6 {
   font-weight: inherit;
   line-height: var(--line-height-heading);
   margin-bottom: 0.5em;
+}
+
+/* 메인 기준 제목: 짙은 색 + 500 + 좁은 자간·줄간격 */
+h1,
+h2,
+h3,
+h4 {
+  color: var(--color-text-strong);
+  font-weight: var(--font-weight-medium);
+}
+
+h1,
+h2,
+h3 {
+  line-height: var(--line-height-title);
+  letter-spacing: var(--letter-spacing-title);
+}
+
+h4 {
+  line-height: var(--line-height-subtitle);
+  letter-spacing: var(--letter-spacing-base);
 }
 
 h1 {
@@ -482,7 +503,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   background-color: var(--color-white);
-  color: var(--color-text-tertiary);
+  color: var(--color-text-primary);
   padding-bottom: 0;
   min-height: 100vh;
 }
@@ -492,9 +513,16 @@ h2,
 h3,
 h4 {
   font-family: var(--font-title);
-
-  line-height: var(--line-height-heading);
+  color: var(--color-text-strong);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-title);
+  letter-spacing: var(--letter-spacing-title);
   margin-bottom: 0.5em;
+}
+
+h4 {
+  line-height: var(--line-height-subtitle);
+  letter-spacing: var(--letter-spacing-base);
 }
 
 h1 {
@@ -515,7 +543,7 @@ h4 {
 
 p {
   font-family: var(--font-body);
-  color: var(--color-text-tertiary);
+  color: var(--color-text-primary);
   font-size: var(--text-body);
   margin-bottom: 1em;
 }
@@ -719,7 +747,7 @@ html .toastui-editor-contents table th span {
 .list-item-title {
   font-size: var(--list-title-size-pc);
   font-weight: var(--font-weight-medium);
-  color: var(--color-text-tertiary);
+  color: var(--color-text-strong);
   margin: 0 0 2px 0;
   line-height: var(--line-height-base);
   word-break: keep-all;
@@ -733,7 +761,7 @@ html .toastui-editor-contents table th span {
 .list-item-meta {
   font-size: var(--list-meta-size-pc);
   font-weight: var(--font-weight-regular);
-  color: var(--color-text-muted);
+  color: var(--color-text-meta);
   margin: 0;
   line-height: var(--line-height-base);
 }

@@ -27,7 +27,7 @@
 .activeBackground {
     position: absolute;
     inset: 0;
-    background-color: var(--color-slate-700);
+    background-color: var(--btn-bg);
     border-radius: 99px;
     z-index: 0;
 }
