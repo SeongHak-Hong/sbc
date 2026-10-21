@@ -2,9 +2,10 @@ import React from 'react';
 import Aurora from './Aurora';
 import styles from './PageTopGradient.module.css';
 
-// 첫 화면 오로라: 하늘빛·크림빛이 하얗게 빛나며 천천히 일렁인다 (빛을 더하는 방식이라 lightMode는 끈다)
-const AURORA = {
-    colorStops: ['#A8CFFF', '#FFF6D8', '#A8CFFF'],
+// 첫 화면 오로라: 하늘빛·크림빛이 하얗게 빛나며 천천히 일렁이고, 양끝에 라벤더가 살짝 묻어난다
+// (빛을 더하는 방식이라 lightMode는 끈다)
+export const AURORA = {
+    colorStops: ['#D6CFFF', '#A8CFFF', '#FFF6D8', '#A8CFFF', '#D6CFFF'],
     lightMode: false,
     mouseInteraction: false,
     amplitude: 1.1,
