@@ -2,6 +2,7 @@ import React, { useRef, useState, useLayoutEffect, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from 'framer-motion';
 
 import styles from './HistoryPage.module.css';
+import PageTopGradient from '../components/PageTopGradient';
 
 // Dynamically import all images from the history folder
 const imageModules = import.meta.glob('../assets/history/shintanjin-baptist-church-history-*.webp', { eager: true, import: 'default' });
@@ -112,6 +113,7 @@ const HistoryPage = () => {
     return (
         <div ref={containerRef} style={{ height: scrollHeight, position: 'relative' }}>
             <div className={styles.pageWrapper}>
+                <PageTopGradient />
                 <motion.div style={{ opacity: galleryOpacity, filter: galleryBlur, width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
                     <main ref={scrollerRef} className={styles.scroller}>
                     <motion.div ref={galleryRef} style={{ x: isMobile ? 0 : x }} className={styles.galleryContainer}>

@@ -9,10 +9,8 @@
     flex-direction: column;
     color: var(--color-text-primary);
     background-color: #FFFFFF;
-    background-image: url('../assets/main/main-bg-gradient.svg');
-    background-repeat: no-repeat;
-    background-position: top center;
-    background-size: 100% auto;
+    /* 첫 화면 오로라(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 */
+    isolation: isolate;
 }
 
 .scroller {
@@ -194,14 +192,3 @@
     }
 }
 
-@media (max-width: 1079px) {
-    .pageWrapper {
-        background-size: 150% auto;
-    }
-}
-
-@media (max-width: 767px) {
-    .pageWrapper {
-        background-size: 220% auto;
-    }
-}

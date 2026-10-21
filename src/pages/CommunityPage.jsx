@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import styles from './CommunityPage.module.css';
+import PageTopGradient from '../components/PageTopGradient';
 
 
 // Blur Fade Animation Components
@@ -141,6 +142,7 @@ const CommunityPage = () => {
 
     return (
         <div className={styles.pageWrapper}>
+            <PageTopGradient />
             <div className={styles.centerContainer}>
                 
                 <AnimatePresence mode="wait">

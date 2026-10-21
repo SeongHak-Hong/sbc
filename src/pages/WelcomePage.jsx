@@ -10,6 +10,7 @@ import ScrollFadeText from '../components/ScrollFadeText';
 import SubPageSection from '../components/SubPageSection';
 import LargeButton from '../components/ui/LargeButton';
 import styles from './WelcomePage.module.css';
+import PageTopGradient from '../components/PageTopGradient';
 
 
 import welcomeImg from '../assets/nurture/shintanjin-baptist-church-welcome.webp';
@@ -174,6 +175,7 @@ const WelcomePage = () => {
 
     return (
         <div className={styles.pageWrapper}>
+            <PageTopGradient />
 
             {/* Pinned Intro Sections */}
             <div ref={introScrollRef} className={styles.introPinnedWrapper}>

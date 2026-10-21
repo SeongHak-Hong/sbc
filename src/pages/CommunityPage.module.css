@@ -8,6 +8,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    /* 첫 화면 오로라(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 */
+    isolation: isolate;
 }
 
 .centerContainer {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import styles from './VisionPage.module.css';
+import PageTopGradient from '../components/PageTopGradient';
 
 import pastorIDImage from '../assets/vision/shintanjin-baptist-church-pastor-ID-photo.webp';
 
@@ -13,6 +14,7 @@ const VisionPage = () => {
     return (
         <div className={styles.pageWrapper}>
             <div className={styles.heroSection}>
+                <PageTopGradient />
                 <div className={styles.contentContainer}>
                     <div className={styles.greetingGrid}>
                         <div className={styles.photoCol}>

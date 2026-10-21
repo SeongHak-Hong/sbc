@@ -11,11 +11,9 @@
     position: relative;
     width: 100%;
     background-color: var(--color-white);
-    background-image: url('../assets/main/main-bg-gradient.svg');
-    background-repeat: no-repeat;
-    background-position: top center;
-    background-size: 100% auto;
     overflow: hidden;
+    /* 첫 화면 오로라(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 */
+    isolation: isolate;
 }
 
 .shalomBackground {
@@ -262,14 +260,3 @@
     }
 }
 
-@media (max-width: 1079px) {
-    .heroSection {
-        background-size: 150% auto;
-    }
-}
-
-@media (max-width: 767px) {
-    .heroSection {
-        background-size: 220% auto;
-    }
-}
