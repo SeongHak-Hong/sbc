@@ -84,7 +84,7 @@ const TeamPage = () => {
             <SubPageSection hideHeader={true}>
                 <div className={styles.head}>
                     <ScrollFadeText
-                        text={"따뜻한 마음과 기쁨으로\n교회를 섬기는 분들을 소개해요."}
+                        text={"기쁨으로 섬기는\n분들을 소개해요."}
                         as="h1"
                         className={styles.title}
                         once={true}
