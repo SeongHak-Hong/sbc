@@ -628,10 +628,10 @@
     --color-text-strong: #1d1d1f;
     --color-text-primary: #1d1d1f;
     --color-text-tertiary: #707070;
-    --t-strong: 3rem;
-    --t-row: 1.1875rem;
-    --t-body: 1.125rem;
-    --t-small: 1rem;
+    --t-strong: 3.5rem;   /* 제목 56px */
+    --t-row: 1.375rem;    /* 동네 이름 22px */
+    --t-body: 1.25rem;    /* 안내 문장 20px */
+    --t-small: 0.875rem;  /* 예배 탭·시간·차량 14px */
     --r-card: 28px;
     --gutter: 1.5rem;
     position: relative;
