@@ -796,10 +796,38 @@
     background-color: var(--color-text-strong);
 }
 
+/* 예배별 목록을 같은 칸(1/1)에 겹친다 */
+.routeStack {
+    display: grid;
+    margin-top: 2.5rem;
+}
+
+/* 바뀌는 목록만 opacity + translateY(8px). 사라지는 쪽은 빨리, 나타나는 쪽은 살짝 늦게 */
 .routeList {
+    grid-area: 1 / 1;
+    align-self: start;
     list-style: none;
-    margin: 2.5rem 0 0;
+    margin: 0;
     padding: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 0.2s var(--ease-smooth), transform 0.2s var(--ease-smooth), visibility 0s linear 0.2s;
+}
+
+.routeListActive {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: opacity 0.4s var(--ease-smooth) 0.1s, transform 0.4s var(--ease-smooth) 0.1s, visibility 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .routeList,
+    .routeListActive {
+        transform: none;
+        transition: none;
+    }
 }
 
 .routeItem {

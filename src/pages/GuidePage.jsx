@@ -269,27 +269,27 @@ const ShuttleDialog = ({ open, onClose, selected, onSelect, reduceMotion }) => {
                                     </button>
                                 ))}
                             </div>
-                            <div aria-live="polite">
-                                <AnimatePresence mode="wait" initial={false} custom={reduceMotion}>
-                                    <motion.ul
-                                        key={selected.id}
-                                        className={styles.routeList}
-                                        aria-label={`${selected.name} 교회 차 시간`}
-                                        custom={reduceMotion}
-                                        variants={fadeVariants}
-                                        initial="hidden"
-                                        animate="show"
-                                        exit="exit"
-                                    >
-                                        {selected.routes.map((route) => (
-                                            <li key={route.id} className={styles.routeItem}>
-                                                <span className={styles.routeArea}>{route.area}</span>
-                                                <span className={styles.routeMeta}>{formatRange(route.time)}</span>
-                                                <span className={styles.routeMeta}>차 번호 {route.carNum}</span>
-                                            </li>
-                                        ))}
-                                    </motion.ul>
-                                </AnimatePresence>
+                            {/* 모든 예배 목록을 한 칸에 겹쳐 두고 고른 것만 보인다 → 높이가 가장 긴 목록에 고정돼 탭을 바꿔도 팝업이 덜컹이지 않는다 */}
+                            <div className={styles.routeStack} aria-live="polite">
+                                {shuttleSchedules.map((schedule) => {
+                                    const active = selected.id === schedule.id;
+                                    return (
+                                        <ul
+                                            key={schedule.id}
+                                            className={`${styles.routeList} ${active ? styles.routeListActive : ''}`}
+                                            aria-label={`${schedule.name} 교회 차 시간`}
+                                            aria-hidden={!active}
+                                        >
+                                            {schedule.routes.map((route) => (
+                                                <li key={route.id} className={styles.routeItem}>
+                                                    <span className={styles.routeArea}>{route.area}</span>
+                                                    <span className={styles.routeMeta}>{formatRange(route.time)}</span>
+                                                    <span className={styles.routeMeta}>차 번호 {route.carNum}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    );
+                                })}
                             </div>
                         </div>
                     </motion.div>
