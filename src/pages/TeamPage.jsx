@@ -80,7 +80,7 @@ const TeamPage = () => {
 
     return (
         <div className={styles.pageWrapper}>
-            <SubPageSection hideHeader={true}>
+            <SubPageSection hideHeader={true} className={styles.section}>
                 {/* 사진 명단이 스스로 설명하므로 화면 제목은 없이, 화면 낭독기·검색용 h1만 둔다 */}
                 <h1 className={styles.srOnly}>섬기는 사람들</h1>
 
