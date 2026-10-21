@@ -21,6 +21,11 @@ const VisionPage = () => {
                                 src={pastorIDImage}
                                 alt="담임목사 프로필"
                                 className={styles.profileImage}
+                                // 첫 화면 사진: 먼저 받고(fetchPriority), 크기를 미리 알려 자리를 잡아 둔다 (파일 1120×1224)
+                                width="1120"
+                                height="1224"
+                                fetchPriority="high"
+                                decoding="async"
                                 initial={{ opacity: 0, y: 50, filter: 'blur(10px)' }}
                                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                                 transition={{ duration: 0.8, delay: 0.2 }}
