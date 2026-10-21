@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import SubPageSection from '../components/SubPageSection';
 import ScrollFadeText from '../components/ScrollFadeText';
 import Footer from '../components/Footer';
-import Breadcrumb from '../components/ui/Breadcrumb';
 import styles from './TeamPage.module.css';
 import member01 from '../assets/team/shintanjin-baptist-church-member-01.webp';
 import member02 from '../assets/team/shintanjin-baptist-church-member-02.webp';
@@ -84,7 +83,6 @@ const TeamPage = () => {
         <div className={styles.pageWrapper}>
             <SubPageSection hideHeader={true}>
                 <div className={styles.head}>
-                    <Breadcrumb text="교회 소개 - 섬기는 사람들" />
                     <ScrollFadeText
                         text={"따뜻한 마음과 기쁨으로\n교회를 섬기는 분들을 소개해요."}
                         as="h1"

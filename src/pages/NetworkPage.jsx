@@ -10,7 +10,6 @@ import BoardGrid from '../components/ui/BoardGrid';
 import Footer from '../components/Footer';
 import styles from './NetworkPage.module.css';
 
-import Breadcrumb from "../components/ui/Breadcrumb";
 
 const NetworkPage = () => {
     const navigate = useNavigate();
@@ -59,7 +58,6 @@ const NetworkPage = () => {
         <div className={styles.pageWrapper}>
             <SubPageSection hideHeader={true} className={styles.sectionCenter}>
                 <div style={{ textAlign: 'center' }}>
-                    <Breadcrumb text="나눔터 - 성도 사업체" />
                     <ScrollFadeText
                         text={"동네방네 성도 가게를 소개해요."}
                         as="h1"

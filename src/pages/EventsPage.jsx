@@ -11,7 +11,6 @@ import ScrollFadeText from '../components/ScrollFadeText';
 import iconChevronLeft from '../assets/nextgen/chevron_left_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg';
 import iconChevronRight from '../assets/nextgen/chevron_right_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg';
 
-import Breadcrumb from "../components/ui/Breadcrumb";
 
 const EventsPage = () => {
     const navigate = useNavigate();
@@ -215,7 +214,6 @@ const EventsPage = () => {
         <div className={styles.pageWrapper}>
             <SubPageSection hideHeader={true}>
                 <div style={{ textAlign: 'center' }}>
-                    <Breadcrumb text="나눔터 - 교회일정" />
                     <ScrollFadeText
                         text={"은혜의 시간을 함께해요."}
                         as="h1"

@@ -11,7 +11,6 @@ import BoardGrid from '../components/ui/BoardGrid';
 import Footer from '../components/Footer';
 import styles from './NewsPage.module.css';
 
-import Breadcrumb from "../components/ui/Breadcrumb";
 
 const TABS = [
     { id: 'koinonia', label: '공지사항' },
@@ -145,7 +144,6 @@ const NewsPage = () => {
         <div className={styles.pageWrapper}>
             <SubPageSection hideHeader={true} className={styles.sectionCenter}>
                 <div style={{ textAlign: 'center' }}>
-                    <Breadcrumb text="나눔터 - 소식·주보" />
                     <ScrollFadeText
                         text="소식을 전해요."
                         as="h1"

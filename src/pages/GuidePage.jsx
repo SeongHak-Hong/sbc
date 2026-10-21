@@ -13,7 +13,6 @@ import mapSemi3F from '../assets/guide/semi-3F.svg';
 import mapDasom1F from '../assets/guide/dasom-1F.svg';
 import mapDasom2F from '../assets/guide/dasom-2F.svg';
 
-import Breadcrumb from "../components/ui/Breadcrumb";
 import Footer from '../components/Footer';
 
 // rooms는 평면도 이미지의 대체 텍스트로 읽힘 (평면도 글자가 도형이라 화면 낭독기가 못 읽음)
@@ -700,7 +699,6 @@ const GuidePage = () => {
             {/* ① 첫 화면 */}
             <section className={styles.hero}>
                 <div className={styles.wrap}>
-                    <Breadcrumb text="교회소개 - 교회 안내" centered />
                     <h1 className={styles.heroTitle}>환영해요.<br />안내를 골라 보세요.</h1>
                 </div>
             </section>

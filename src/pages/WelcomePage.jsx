@@ -10,7 +10,6 @@ import ScrollFadeText from '../components/ScrollFadeText';
 import SubPageSection from '../components/SubPageSection';
 import LargeButton from '../components/ui/LargeButton';
 import styles from './WelcomePage.module.css';
-import Breadcrumb from '../components/ui/Breadcrumb';
 
 
 import welcomeImg from '../assets/nurture/shintanjin-baptist-church-welcome.webp';
@@ -183,14 +182,6 @@ const WelcomePage = () => {
                     {/* Section 1 */}
                     <div className={`${styles.introAbsoluteCenter} ${introActiveIndex === 0 ? styles.activeLayer : ''}`}>
                         <div className={styles.fadeInner}>
-                            <Breadcrumb
-                                asMotion
-                                centered
-                                initial={{ opacity: 0, filter: 'blur(10px)' }}
-                                animate={introActiveIndex === 0 ? { opacity: 1, filter: 'blur(0px)' } : { opacity: 0, filter: 'blur(10px)' }}
-                                transition={{ duration: 1 }}
-                                text="공동체 - 새가족"
-                            />
                             <WordFadeText isActive={introActiveIndex === 0} text={"신탄진침례교회에 오신\n여러분을 환영해요."} className="main-page-title" />
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                                 <WordFadeText isActive={introActiveIndex === 0} text={"밑으로 계속 스크롤"} className={styles.fadeBodyText} delayOffset={0.2} style={{ whiteSpace: 'nowrap' }} />
