@@ -18,7 +18,7 @@ import Footer from '../components/Footer';
 
 // rooms는 평면도 이미지의 대체 텍스트로 읽힘 (평면도 글자가 도형이라 화면 낭독기가 못 읽음)
 const facilityTabs = [
-    { id: '1F', label: '1층 식당', name: '본관 1층', rooms: ['식당', '안쪽식당', '초등부실', '주방', '주방 창고', '화장실'] },
+    { id: '1F', label: '1층', name: '본관 1층', rooms: ['식당', '안쪽식당', '초등부실', '주방', '주방 창고', '화장실'] },
     { id: '2F', label: '2층', name: '본관 2층', rooms: ['소예배실', '유치부실', '찬양연습실', '새가족실', '목양실', '교역자실', '행정실', '휴게실', '청소년실', '엘리베이터', '다솜관 연결 통로'] },
     { id: '3F', label: '3층', name: '본관 3층', rooms: ['대예배실', '강대상', '찬양대석', '헌금함', '자모실', '엘리베이터'] },
     { id: 'semi3F', label: '준3층', name: '본관 준3층', rooms: ['3층 대예배실이 내려다보이는 예배석', '방송실'] },
@@ -131,12 +131,12 @@ const findNextWorship = (items, now) => {
 // 한 페이지에 이어진 섹션. 위 이동 버튼 줄의 순서와 같다
 const sections = [
     { id: 'worship', label: '예배시간' },
-    { id: 'directions', label: '오시는 길 및 주차' },
-    { id: 'facilities', label: '시설안내' },
-    { id: 'faq', label: '자주하는 질문' },
+    { id: 'directions', label: '오시는 길·주차' },
+    { id: 'facilities', label: '시설 안내' },
+    { id: 'faq', label: '자주 묻는 질문' },
 ];
 const sectionIds = sections.map((s) => s.id);
-// 예전 링크(?tab=shuttle, ?tab=parking)는 오시는 길로 보낸다. shuttle은 차량 운행 팝업까지 연다
+// 예전 링크(?tab=shuttle, ?tab=parking)는 오시는 길로 보낸다. shuttle은 교회 차 시간표 팝업까지 연다
 const tabAlias = { shuttle: 'directions', parking: 'directions' };
 
 // 차량운행 예배 버튼에 쓰는 짧은 이름 (shuttleData의 id 기준)
@@ -149,12 +149,17 @@ const shuttleLabels = {
 };
 const defaultShuttleId = 'dawn';
 
-// '04:00~05:00' → '오전 4:00 – 오전 5:00' (예배시간 표와 같은 쓰기)
+// '09:20~09:40' → '오전 9:20~9:40 사이에 동네를 돌아요' (그 시간 동안 교회 차가 동네를 돈다)
+// 오전·오후가 같으면 뒤쪽은 숫자만 쓴다
 const toClock = (t) => {
     const [h, m] = t.split(':').map(Number);
-    return `${h < 12 ? '오전' : '오후'} ${h > 12 ? h - 12 : h}:${String(m).padStart(2, '0')}`;
+    return { part: h < 12 ? '오전' : '오후', clock: `${h > 12 ? h - 12 : h}:${String(m).padStart(2, '0')}` };
 };
-const formatRange = (time) => time.split('~').map(toClock).join(' – ');
+const formatRange = (time) => {
+    const [from, to] = time.split('~').map(toClock);
+    const end = from.part === to.part ? to.clock : `${to.part} ${to.clock}`;
+    return `${from.part} ${from.clock}~${end} 사이에 동네를 돌아요`;
+};
 
 const naverRouteUrl = `https://map.naver.com/index.nhn?elng=${CHURCH_COORDS.lng}&elat=${CHURCH_COORDS.lat}&etext=${encodeURIComponent('신탄진침례교회')}&menu=route`;
 
@@ -166,7 +171,7 @@ const faqs = [
     { q: '헌금을 꼭 해야 하나요?', a: '아니요. 처음 오신 분께 헌금을 바라지 않아요. 편하게 예배만 드리고 가셔도 돼요.' },
 ];
 
-// 차량 운행 팝업: 딤드 + 배경 흐림. Esc·바깥 누르기로 닫고, 닫으면 연 버튼으로 초점을 돌려준다
+// 교회 차 시간표 팝업: 딤드 + 배경 흐림. Esc·바깥 누르기로 닫고, 닫으면 연 버튼으로 초점을 돌려준다
 const ShuttleDialog = ({ open, onClose, selected, onSelect, reduceMotion }) => {
     const panelRef = useRef(null);
     const returnFocus = useRef(null);
@@ -233,7 +238,7 @@ const ShuttleDialog = ({ open, onClose, selected, onSelect, reduceMotion }) => {
                         transition={reduceMotion ? { duration: 0 } : { duration: 0.45, ease }}
                     >
                         <div className={styles.dialogCloseWrap}>
-                            <button type="button" className={styles.dialogClose} aria-label="차량 운행 닫기" onClick={onClose}>
+                            <button type="button" className={styles.dialogClose} aria-label="교회 차 시간표 닫기" onClick={onClose}>
                                 <span className={styles.dialogCloseIcon}>
                                     <svg viewBox="0 0 36 36" aria-hidden="true">
                                         <path d="M13 13l10 10M23 13L13 23" />
@@ -242,8 +247,8 @@ const ShuttleDialog = ({ open, onClose, selected, onSelect, reduceMotion }) => {
                             </button>
                         </div>
                         <div className={styles.dialogBody}>
-                            <h2 id="shuttle-dialog-title" className={styles.dialogTitle}>차량 운행</h2>
-                            <p className={styles.dialogLead}>아래에서 예배를 고르시면 동네별 셔틀 시간을 알려 드려요.</p>
+                            <h2 id="shuttle-dialog-title" className={styles.dialogTitle}>교회 차 시간표</h2>
+                            <p className={styles.dialogLead}>예배를 고르시면 동네별로 교회 차가 오는 시간을 알려 드려요.</p>
                             <div className={styles.lineTabs} role="group" aria-label="예배 고르기">
                                 {shuttleSchedules.map((schedule) => (
                                     <button
@@ -269,7 +274,7 @@ const ShuttleDialog = ({ open, onClose, selected, onSelect, reduceMotion }) => {
                                     <motion.ul
                                         key={selected.id}
                                         className={styles.routeList}
-                                        aria-label={`${selected.name} 셔틀 노선`}
+                                        aria-label={`${selected.name} 교회 차 시간`}
                                         custom={reduceMotion}
                                         variants={fadeVariants}
                                         initial="hidden"
@@ -280,7 +285,7 @@ const ShuttleDialog = ({ open, onClose, selected, onSelect, reduceMotion }) => {
                                             <li key={route.id} className={styles.routeItem}>
                                                 <span className={styles.routeArea}>{route.area}</span>
                                                 <span className={styles.routeMeta}>{formatRange(route.time)}</span>
-                                                <span className={styles.routeMeta}>차량 {route.carNum}</span>
+                                                <span className={styles.routeMeta}>차 번호 {route.carNum}</span>
                                             </li>
                                         ))}
                                     </motion.ul>
@@ -543,28 +548,28 @@ const GuidePage = () => {
                 </div>
             </section>
 
-            {/* ④ 오시는 길 및 주차: 회색 띠 위 흰 카드 3개 (교회 차 / 주차 / 대중교통) */}
+            {/* ④ 오시는 길·주차: 회색 띠 위 흰 카드 3개 (교회 차 / 주차 / 대중교통) */}
             <section id="directions" className={`${styles.sec} ${styles.band} ${styles.bandTop}`} aria-labelledby="directions-title">
                 <div className={styles.wrap}>
                     <div className={styles.secHead}>
-                        <h2 id="directions-title" className={styles.secTitle}>어떻게 갈 지<br />걱정하지 마세요.</h2>
+                        <h2 id="directions-title" className={styles.secTitle}>어떻게 갈지<br />걱정하지 마세요.</h2>
                     </div>
                     <div className={styles.wayCards}>
                         <div className={styles.wayCard}>
                             <h3 className={styles.wayTitle}>동네까지<br />모시러 가요.</h3>
-                            <p className={styles.wayText}>현재 목상동, 중리동, 송강동, 갈마동, 교회 주변을 운행 중이에요. 자세한 내용은 아래 차량 운행 표를 참고해 주세요.</p>
+                            <p className={styles.wayText}>지금은 중리동·송강동·갈마동과 교회 주변을 돌아요. 타시는 분에 따라 도는 길이 바뀌기도 하고, 예배마다 시간이 달라요.</p>
                             <button type="button" className={styles.wayLink} aria-haspopup="dialog" onClick={() => setShuttleOpen(true)}>
-                                차량 운행 표 보기
+                                교회 차 시간표 보기
                             </button>
                         </div>
                         {/* '주차장 보기' 팝업은 주차장 사진이 준비되면 붙인다 */}
                         <div className={styles.wayCard}>
                             <h3 className={styles.wayTitle}>주차도<br />걱정 없어요.</h3>
-                            <p className={styles.wayText}>평일에는 교회 우측 주차장이 언제나 열려 있어요. 주일에는 대죽체육관 주차장도 편하게 이용해 주세요.</p>
+                            <p className={styles.wayText}>교회 오른쪽 주차장은 언제든 쓰실 수 있어요. 주일에는 대죽체육관 주차장도 편하게 쓰세요.</p>
                         </div>
                         <div className={styles.wayCard}>
-                            <h3 className={styles.wayTitle}>대중교통은<br />뭘 타야 편하게 올 수 있지?</h3>
-                            <p className={styles.wayText}>대중교통을 이용하시려면 아래 네이버 지도의 길찾기를 이용하시면 쉽게 찾을 수 있어요.</p>
+                            <h3 className={styles.wayTitle}>버스나 기차로도<br />오기 편해요.</h3>
+                            <p className={styles.wayText}>계신 곳에서 가장 편한 길은 네이버 지도 길찾기로 바로 알아보실 수 있어요.</p>
                             <a className={styles.wayLink} href={naverRouteUrl} target="_blank" rel="noopener noreferrer">
                                 네이버 길찾기
                             </a>
