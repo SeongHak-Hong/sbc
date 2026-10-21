@@ -20,6 +20,11 @@
     min-height: 100vh;
     color: var(--color-text-primary);
     background-color: var(--color-white);
+    /* 섬기는 사람들·메인과 같은 위쪽 하늘빛 그라디언트 */
+    background-image: url('../assets/main/main-bg-gradient.svg');
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 100% auto;
     font-size: var(--t-body);
     line-height: 1.6;
     letter-spacing: -0.02em;
@@ -67,8 +72,13 @@
     top: var(--header-h);
     z-index: 900;
     padding: 8px 0 24px;
+    background-color: transparent;
+    transition: top 340ms var(--ease-smooth), background-color 200ms ease;
+}
+
+/* 제자리에선 그라디언트가 비치게 투명, 위에 붙으면 흰 바 */
+.tabsStuck {
     background-color: var(--color-white);
-    transition: top 340ms var(--ease-smooth);
 }
 
 .headerHidden .tabs {
@@ -1176,6 +1186,7 @@
 @media (max-width: 1079px) {
     .page {
         --t-strong: 2.25rem;
+        background-size: 150% auto;
     }
 
     .wayCards {
@@ -1196,6 +1207,7 @@
         --t-strong: 1.75rem;
         --t-mid: 1.25rem;
         --gutter: 1.125rem;
+        background-size: 220% auto;
     }
 
     .tabList {

@@ -578,6 +578,7 @@ const GuidePage = () => {
     const startSection = tabAlias[tabParam] ?? (sectionIds.includes(tabParam) ? tabParam : null);
     const [current, setCurrent] = useState(startSection ?? sectionIds[0]);
     const [headerHidden, setHeaderHidden] = useState(false);
+    const [tabsStuck, setTabsStuck] = useState(false);
     const [shuttleOpen, setShuttleOpen] = useState(tabParam === 'shuttle');
     const closeShuttle = useCallback(() => setShuttleOpen(false), []);
     const [planOpen, setPlanOpen] = useState(false);
@@ -609,10 +610,22 @@ const GuidePage = () => {
             if (y <= 0 || y < lastY) setHeaderHidden(false);
             else if (y > 50 && y > lastY) setHeaderHidden(true);
             lastY = y;
+            // 버튼 줄이 위에 붙었는지 (붙으면 흰 바, 아니면 그라디언트가 비치게)
+            const tabs = tabsRef.current;
+            if (tabs) {
+                const stickyTop = parseFloat(getComputedStyle(tabs).top) || 0;
+                setTabsStuck(tabs.getBoundingClientRect().top <= stickyTop + 1);
+            }
         };
         onScroll();
         window.addEventListener('scroll', onScroll, { passive: true });
-        return () => window.removeEventListener('scroll', onScroll);
+        // Header가 숨으며 버튼 줄 top이 바뀌는 전환이 끝난 뒤에도 다시 판정 (한 번에 멀리 건너뛴 경우)
+        const tabs = tabsRef.current;
+        tabs?.addEventListener('transitionend', onScroll);
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+            tabs?.removeEventListener('transitionend', onScroll);
+        };
     }, []);
 
     // 지금 보는 섹션 = 화면 위쪽 1/3 선을 지나는 섹션
@@ -706,7 +719,7 @@ const GuidePage = () => {
             {/* ② 섹션 이동 버튼 줄 */}
             <nav
                 ref={tabsRef}
-                className={styles.tabs}
+                className={`${styles.tabs} ${tabsStuck ? styles.tabsStuck : ''}`}
                 aria-label="교회 안내 바로가기"
             >
                 {/* 애플 linenav처럼 글자만 있는 탭 + 아래 옅은 기준선, 고른 탭 아래로 짙은 선이 미끄러진다 */}
