@@ -640,7 +640,7 @@
     max-height: 100%;
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: 5rem 6.5rem 4rem;
+    padding: 4.75rem 6.5rem; /* 위아래 76px, 좌우 104px */
     box-sizing: border-box;
     border-radius: var(--r-card);
     background-color: var(--color-white);
@@ -800,10 +800,6 @@
 
     .wayCards {
         gap: 1rem;
-    }
-
-    .dialog {
-        padding: 4rem 3rem 3rem;
     }
 
     .viewer {
