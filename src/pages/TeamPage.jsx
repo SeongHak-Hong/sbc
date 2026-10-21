@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import SubPageSection from '../components/SubPageSection';
-import ScrollFadeText from '../components/ScrollFadeText';
 import Footer from '../components/Footer';
-import Breadcrumb from '../components/ui/Breadcrumb';
 import styles from './TeamPage.module.css';
 import member01 from '../assets/team/shintanjin-baptist-church-member-01.webp';
 import member02 from '../assets/team/shintanjin-baptist-church-member-02.webp';
@@ -82,16 +80,9 @@ const TeamPage = () => {
 
     return (
         <div className={styles.pageWrapper}>
-            <SubPageSection hideHeader={true}>
-                <div className={styles.head}>
-                    <Breadcrumb text="교회 소개 - 섬기는 사람들" />
-                    <ScrollFadeText
-                        text={"따뜻한 마음과 기쁨으로\n교회를 섬기는 분들을 소개해요."}
-                        as="h1"
-                        className={styles.title}
-                        once={true}
-                    />
-                </div>
+            <SubPageSection hideHeader={true} className={styles.section}>
+                {/* 사진 명단이 스스로 설명하므로 화면 제목은 없이, 화면 낭독기·검색용 h1만 둔다 */}
+                <h1 className={styles.srOnly}>섬기는 사람들</h1>
 
                 {groups.map((group) => (
                     <section key={group.title} className={styles.group} aria-labelledby={`team-${group.title}`}>
@@ -110,13 +101,11 @@ const TeamPage = () => {
                                             height="1280"
                                         />
                                     </div>
-                                    {/* 직분은 그룹 제목에 있어 이름 옆에선 생략. 담임목사·사모만 담당 업무 앞에 직분을 붙임 */}
+                                    {/* 직분은 그룹 제목에 있어 이름 옆에선 생략하고 담당 업무만 쓴다 */}
                                     <div className={styles.caption}>
                                         <h3 className={styles.name}>{member.name || member.role}</h3>
                                         {member.description && (
-                                            <p className={styles.desc}>
-                                                {group.lead ? `${member.role} / ${member.description}` : member.description}
-                                            </p>
+                                            <p className={styles.desc}>{member.description}</p>
                                         )}
                                     </div>
                                 </li>

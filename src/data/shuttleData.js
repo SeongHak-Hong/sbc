@@ -1,4 +1,13 @@
 export const CHURCH_COORDS = { lat: 36.4475294, lng: 127.4236487 };
+export const CHURCH_ADDRESS = '대전 대덕구 석봉로 17';
+export const CHURCH_PHONE = '042-932-8156';
+
+// 교회 가까운 대중교통 (오시는 길 지도 마커와 글자 목록에 함께 쓰임)
+export const TRANSIT_STOPS = [
+    { name: '신탄진시장 정류장', time: '도보 3분', type: 'bus', lat: 36.4455, lng: 127.4265 },
+    { name: '석봉네거리 정류장', time: '도보 3분', type: 'bus', lat: 36.4470, lng: 127.4205 },
+    { name: '신탄진역', time: '도보 5분', type: 'train', lat: 36.4491, lng: 127.4285 }
+];
 
 const AREA_COORDS = {
     '중리동 방향': { lat: 36.3635, lng: 127.4294 },
