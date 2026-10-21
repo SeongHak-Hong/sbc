@@ -53,7 +53,7 @@
 }
 
 /* 하늘빛 그라디언트: 첫 화면부터 바로가기 탭 줄(위 8 + 탭 44 + 아래 24 = 76px)이 끝난 뒤 40px까지만.
-   그림을 이 높이에 맞춰 늘려서 끝 지점에서 완전히 옅어지게 한다 */
+   끝 지점에서 완전히 흰색이 되게 그린다 */
 .hero::before {
     content: '';
     position: absolute;
@@ -62,7 +62,19 @@
     right: 0;
     bottom: calc(-1 * (76px + 40px));
     z-index: -1;
-    background: url('../assets/main/main-bg-gradient.svg') no-repeat center top / 100% 100%;
+    /* 시안 색: 위는 하늘색이 가로 전체에 고르게, 가운데로 갈수록 깊게 내려오다 연한 크림빛을 지나 흰색으로
+       (양옆은 가운데보다 일찍 옅어짐) */
+    background:
+        radial-gradient(60% 40% at 50% 72%, rgba(250, 252, 240, 0.9) 0%, rgba(250, 252, 240, 0) 100%),
+        radial-gradient(75% 100% at 50% 0%,
+            #E8F1FE 0%,
+            #E8F1FE 48%,
+            rgba(236, 244, 252, 0.85) 62%,
+            rgba(246, 250, 246, 0.6) 82%,
+            rgba(255, 255, 255, 0) 100%);
+    /* 맨 아래 20%는 서서히 사라지게 (경계선 없이) */
+    -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
     pointer-events: none;
 }
 
