@@ -101,7 +101,7 @@
   font-size: 0.8125rem; /* 13px 기준 rem */
   font-weight: 400;
   letter-spacing: -0.02em;
-  color: var(--color-text-secondary, #3B5462);
+  color: rgba(0, 0, 0, 0.8); /* 교회 안내 바로가기 탭(고르지 않은 것)과 같은 색 */
   border-radius: 10px;
   background: transparent;
   border: none;
