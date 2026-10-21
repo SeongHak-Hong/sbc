@@ -123,6 +123,12 @@
   --line-height-loose: 1.75;
   --line-height-heading: 1.6;
 
+  /* 메인 페이지 기준 제목 글자 모양 (2-3) */
+  --line-height-title: 1.3;
+  --line-height-subtitle: 1.35;
+  --letter-spacing-title: -0.03em;
+  --letter-spacing-base: -0.02em;
+
   --text-h1: var(--pc-text-h1);
   --text-h2: var(--pc-text-h2);
   --text-h3: var(--pc-text-h3);
@@ -161,6 +167,21 @@
   --color-text-warm-primary: #625852;
   --color-text-warm-secondary: #BDB4AF;
 
+  /* 메인 페이지 기준 텍스트 색 (docs/handoff/subpage-color-type-antigravity.md 2-1) */
+  --color-text-strong: #0E1A28;
+  --color-text-strong-rgb: 14, 26, 40;
+  --color-text-meta: #6E6E73;
+  --color-text-meta-rgb: 110, 110, 115;
+
+  /* 메인 페이지 기준 요소 색 (2-2) */
+  --color-surface-band: #F5F5F7;
+  --color-surface-band-rgb: 245, 245, 247;
+  --color-surface-band-hover: #E6E8EC;
+  --color-surface-dark: #1A1C20;
+  --color-surface-dark-rgb: 26, 28, 32;
+  --color-accent-on-dark: #3691FF;
+  --color-line: #E5E7EB;
+
   --section-padding-y: 180px;
   --section-padding-x: 48px;
   /* 화면 제목 없이 콘텐츠로 시작하는 페이지: Header 아래 첫 콘텐츠까지 (데스크톱 160 · 휴대폰 88) */
@@ -171,7 +192,8 @@
   --btn-font-size: 18px;
   --btn-radius: 0;
   --btn-icon-size: 18px;
-  --btn-bg: #1A202C;
+  --btn-bg: #1A1C20;
+  --btn-bg-press: #243B48;
   --color-btn-add: #3B82F6;
 
   --header-padding-y: 20px;
@@ -350,7 +372,7 @@ p {
   --btn-font-size: 18px;
   --btn-radius: 0;
   --btn-icon-size: 18px;
-  --btn-bg: #1A202C;
+  --btn-bg: #1A1C20;
   --color-btn-add: #3B82F6;
 
   --header-padding-y: 20px;
