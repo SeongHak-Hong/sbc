@@ -55,16 +55,16 @@ const fadeVariants = {
         : { opacity: 0, y: -8, transition: { duration: 0.2, ease } }),
 };
 
-// 예배시간 목록. 오른쪽에 time을 크게, 아랫줄에 "day · location"
+// 예배시간 목록. 오른쪽에 time을 크게, 아랫줄에 "day, location" (메인 '이번 주 예배'와 같은 쓰기)
 // 다음 예배 계산용: days(0=일요일), at(24시간), say(문장에 넣는 이름). skipNext는 '다음 예배'로 고르지 않음 (메인과 같이 새벽 기도회 제외)
 const worshipGroups = [
     {
         id: 'adult',
         label: '어른 예배',
         items: [
-            { id: 'sun1', name: '주일 1부 예배', day: '주일', time: '오전 7:00', location: '소예배실', days: [0], at: '07:00' },
-            { id: 'sun2', name: '주일 2부 예배', day: '주일', time: '오전 11:00', location: '대예배실', days: [0], at: '11:00' },
-            { id: 'sunpm', name: '주일 오후 예배', day: '주일', time: '오후 2:00', location: '대예배실', days: [0], at: '14:00' },
+            { id: 'sun1', name: '주일 1부 예배', day: '일요일', time: '오전 7:00', location: '소예배실', days: [0], at: '07:00' },
+            { id: 'sun2', name: '주일 2부 예배', day: '일요일', time: '오전 11:00', location: '대예배실', days: [0], at: '11:00' },
+            { id: 'sunpm', name: '주일 오후 예배', day: '일요일', time: '오후 2:00', location: '대예배실', days: [0], at: '14:00' },
             { id: 'dawn', name: '새벽 기도회', day: '월~금', time: '새벽 5:00', location: '소예배실', days: [1, 2, 3, 4, 5], at: '05:00', skipNext: true },
             { id: 'intercession', name: '중보 기도회', day: '화요일', time: '오전 10:30', location: '소예배실', days: [2], at: '10:30' },
             { id: 'wed', name: '수요 예배', day: '수요일', time: '오후 7:00', location: '대예배실', days: [3], at: '19:00' },
@@ -75,10 +75,10 @@ const worshipGroups = [
         id: 'next',
         label: '다음세대',
         items: [
-            { id: 'kinder', name: '유치부 (7세 이하)', day: '주일', time: '오전 9:00', location: '유치부실', days: [0], at: '09:00', say: '유치부 예배' },
-            { id: 'kids', name: '초등부 주일예배', day: '주일', time: '오전 9:00', location: '러브키즈예배실', days: [0], at: '09:00', say: '초등부 예배' },
-            { id: 'youth', name: '중고등부 주일예배', day: '주일', time: '오전 9:00', location: '소예배실', days: [0], at: '09:00', say: '중고등부 예배' },
-            { id: 'young', name: '청년부', day: '주일', time: '오후 1:30', location: '소예배실', days: [0], at: '13:30', say: '청년부 예배' },
+            { id: 'kinder', name: '유치부 (7세 이하)', day: '일요일', time: '오전 9:00', location: '유치부실', days: [0], at: '09:00', say: '유치부 예배' },
+            { id: 'kids', name: '초등부 주일예배', day: '일요일', time: '오전 9:00', location: '러브키즈예배실', days: [0], at: '09:00', say: '초등부 예배' },
+            { id: 'youth', name: '중고등부 주일예배', day: '일요일', time: '오전 9:00', location: '소예배실', days: [0], at: '09:00', say: '중고등부 예배' },
+            { id: 'young', name: '청년부', day: '일요일', time: '오후 1:30', location: '소예배실', days: [0], at: '13:30', say: '청년부 예배' },
             { id: 'tteok', name: '떡볶이 데이', day: '목요일', time: '오후 1~4시', location: '식당', days: [4], at: '13:00', len: 180, event: true },
         ],
     },
@@ -525,7 +525,7 @@ const GuidePage = () => {
                                         >
                                             <span className={styles.infoName}>{item.name}</span>
                                             <span className={styles.infoTime}>{item.time}</span>
-                                            <span className={styles.infoMeta}>{item.day} · {item.location}</span>
+                                            <span className={styles.infoMeta}>{item.day}, {item.location}</span>
                                         </li>
                                     ))}
                                 </motion.ul>

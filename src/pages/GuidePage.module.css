@@ -236,7 +236,10 @@
 }
 
 /* ---------- 표: 메인 '이번 주 예배'(.wkList)와 같은 회색 칸 ---------- */
+/* 섹션의 애플 글자색 대신 메인 .wkList 색(--ink, --meta)으로 되돌린다 */
 .infoList {
+    --color-text-strong: #0E1A28;
+    --color-text-meta: #6E6E73;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -251,15 +254,14 @@
     gap: 0 1rem;
     min-height: 4rem;
     padding: 1rem 1.25rem;
-    border-radius: var(--r-card);
+    border-radius: 20px; /* 메인 --r-card */
     background-color: var(--color-surface-band);
 }
 
 .infoName,
 .infoTime {
-    font-size: var(--t-row);
+    font-size: 1.125rem; /* 메인 --t-light */
     font-weight: 500;
-    line-height: 1.4;
     color: var(--color-text-strong);
 }
 
