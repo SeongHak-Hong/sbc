@@ -72,6 +72,15 @@ const Header = () => {
         }
     ];
 
+    // 지금 페이지가 속한 메뉴 (브레드크럼 대신 메뉴 이름을 진하게 표시). 쿼리는 떼고, 하위 주소(/news/글)도 같은 메뉴로 본다
+    const isHere = (path) => {
+        const base = path.split('?')[0];
+        return location.pathname === base || location.pathname.startsWith(`${base}/`);
+    };
+    const currentMenuId = menuItems.find((item) => (
+        item.path ? isHere(item.path) : item.links.some((link) => isHere(link.path))
+    ))?.id;
+
     // 스크롤 리스너: '위로 올릴 때만' 헤더 노출 규칙 적용
     useEffect(() => {
         const handleScroll = () => {
@@ -277,7 +286,8 @@ const Header = () => {
                                 <button
                                     key={item.id}
                                     type="button"
-                                    className={`${styles.navLink} ${isActive ? styles.activeLink : ''}`}
+                                    className={`${styles.navLink} ${isActive ? styles.activeLink : ''} ${currentMenuId === item.id ? styles.currentLink : ''}`}
+                                    aria-current={currentMenuId === item.id ? 'true' : undefined}
                                     onClick={(e) => handleNavLinkClick(e, item)}
                                     onPointerEnter={(e) => {
                                         if (e.pointerType === 'touch') return;
@@ -318,6 +328,7 @@ const Header = () => {
                                             <li key={link.path} style={{ '--stagger': idx }}>
                                                 <a
                                                     href={link.path}
+                                                    aria-current={isHere(link.path) ? 'page' : undefined}
                                                     onClick={(e) => handleSubLinkClick(e, link.path)}
                                                 >
                                                     {link.text}
@@ -345,6 +356,7 @@ const Header = () => {
                                                 <button
                                                     type="button"
                                                     className={styles.navMobileItem}
+                                                    aria-current={currentMenuId === item.id ? 'true' : undefined}
                                                     onClick={() => handleDrillInto(item.id)}
                                                 >
                                                     <span>{item.title}</span>
@@ -356,6 +368,7 @@ const Header = () => {
                                                 <a
                                                     href={item.path}
                                                     className={styles.navMobileItem}
+                                                    aria-current={currentMenuId === item.id ? 'page' : undefined}
                                                     onClick={(e) => handleSubLinkClick(e, item.path)}
                                                 >
                                                     <span>{item.title}</span>
@@ -383,6 +396,7 @@ const Header = () => {
                                                     <a
                                                         href={link.path}
                                                         className={styles.navMobileSubitem}
+                                                        aria-current={isHere(link.path) ? 'page' : undefined}
                                                         onClick={(e) => handleSubLinkClick(e, link.path)}
                                                     >
                                                         {link.text}

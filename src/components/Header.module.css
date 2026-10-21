@@ -101,7 +101,7 @@
   font-size: 0.8125rem; /* 13px 기준 rem */
   font-weight: 400;
   letter-spacing: -0.02em;
-  color: var(--color-text-secondary, #3B5462);
+  color: rgba(0, 0, 0, 0.8); /* 교회 안내 바로가기 탭(고르지 않은 것)과 같은 색 */
   border-radius: 10px;
   background: transparent;
   border: none;
@@ -124,6 +124,31 @@
   .navLink:hover {
     color: #0E1A28;
   }
+}
+
+/* 지금 페이지가 속한 메뉴: 진한 글자 (서브페이지 브레드크럼 대신) */
+.navLink.currentLink {
+  color: #0E1A28;
+  font-weight: 500;
+}
+
+/* 다른 메뉴를 펼쳤을 때는 그 메뉴만 선명하게 (지금 메뉴도 같이 톤다운) */
+.navFlyoutOpen .navLink.currentLink:not(.activeLink) {
+  color: #6E6E73;
+}
+
+/* 펼친 메뉴 안의 지금 페이지: 글자 뒤 작은 점 */
+.navFlyoutList a[aria-current="page"]::after,
+.navMobileItem[aria-current] > span::after,
+.navMobileSubitem[aria-current="page"]::after {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 10px;
+  border-radius: 50%;
+  background-color: currentColor;
+  vertical-align: middle;
 }
 
 /* Apple 2줄 햄버거 ↔ X 모핑 버튼 */
