@@ -7,6 +7,7 @@
     --t-row: 1.1875rem;
     --t-body: 1.125rem;
     --t-small: 1rem;
+    --t-mid: 1.75rem;
     --pad-sec: 8rem;
     --space-head: 3rem;
     --wrap: 1200px;
@@ -34,8 +35,9 @@
     color: var(--color-text-primary);
 }
 
+/* 메인 페이지 .wrap과 같이 안쪽 여백 포함 --wrap */
 .wrap {
-    max-width: calc(var(--wrap) + var(--gutter) * 2);
+    max-width: var(--wrap);
     margin: 0 auto;
     padding: 0 var(--gutter);
     box-sizing: border-box;
@@ -81,7 +83,7 @@
     display: flex;
     justify-content: center;
     gap: 4px;
-    max-width: calc(var(--wrap) + var(--gutter) * 2);
+    max-width: var(--wrap);
     margin: 0 auto;
     padding: 10px var(--gutter);
     box-sizing: border-box;
@@ -142,11 +144,6 @@
 
 .secHead {
     margin-bottom: var(--space-head);
-}
-
-/* 1단 섹션(오시는 길·시설 안내)은 제목 가운데. 2단은 왼쪽 그대로 */
-.sec:not(.two) .secHead {
-    text-align: center;
 }
 
 .secTitle {
@@ -323,155 +320,98 @@
     color: var(--color-text-meta);
 }
 
-/* ---------- ④ 오시는 길: 넓은 지도 + 글자 3단 ---------- */
-.bigMap > div {
-    aspect-ratio: 16 / 7;
-    border-radius: var(--r-media);
+/* ---------- ④⑤ 회색 띠: 오시는 길 및 주차 + 시설 안내가 한 띠로 이어진다 ---------- */
+.band {
+    background-color: var(--color-surface-band);
 }
 
-.summary {
+/* 카드 3개 아래에서 다음 제목까지는 아래 섹션의 위 여백 한 번만 */
+.bandTop {
+    padding-bottom: 0;
+}
+
+.wayCards {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 2.5rem 3rem;
-    margin-top: 3.5rem;
-    align-items: start;
+    gap: 1.25rem;
 }
 
-.summaryTitle {
-    margin: 0 0 0.75rem;
-    font-size: 1.375rem;
+.wayCard {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2rem 1.75rem 1.5rem;
+    border-radius: var(--r-card);
+    background-color: var(--color-white);
+}
+
+.wayTitle {
+    margin: 0 0 1rem;
+    font-size: var(--t-mid);
     font-weight: 500;
-    line-height: 1.35;
-    letter-spacing: -0.025em;
+    line-height: 1.32;
+    letter-spacing: -0.03em;
     color: var(--color-text-strong);
 }
 
-.address {
-    font-style: normal;
-    font-size: var(--t-row);
-    line-height: 1.5;
-    color: var(--color-text-primary);
-}
-
-.summaryText {
+.wayText {
     margin: 0;
-    font-size: var(--t-body);
+    font-size: var(--t-small);
     line-height: 1.6;
     color: var(--color-text-primary);
 }
 
-.links {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 0.5rem;
-}
-
-/* 글자 링크: 보이는 건 글자 한 줄, 누르는 영역은 44px */
-.textLink {
+/* 글자 링크: 보이는 건 파란 글자 한 줄, 누르는 영역은 44px */
+.wayLink {
     display: inline-flex;
     align-items: center;
-    gap: 2px;
     min-height: 44px;
+    margin-top: 0.5rem;
     padding: 0;
     border: none;
     background: none;
-    color: var(--color-text-strong);
+    color: var(--color-accent-sky);
     font: inherit;
-    font-size: var(--t-body);
+    font-size: var(--t-small);
     font-weight: 500;
-    text-align: left;
     text-decoration: none;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
-    -webkit-user-select: none;
-    user-select: none;
     transition: opacity 0.15s ease;
 }
 
-.textLink:active {
+.wayLink:active {
     opacity: 0.55;
 }
 
 @media (hover: hover) and (pointer: fine) {
-    .textLink:hover .textLinkLabel {
+    .wayLink:hover {
         text-decoration: underline;
         text-decoration-thickness: 1px;
         text-underline-offset: 4px;
     }
 }
 
-.textLink:focus-visible {
+.wayLink:focus-visible {
     outline: 2px solid var(--color-accent-sky);
     outline-offset: 2px;
 }
 
-.textLinkIcon {
-    font-size: 20px;
-    color: var(--color-text-tertiary);
-}
-
-.stops {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 0.625rem;
-}
-
-.stops li {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 0 1rem;
-    font-size: var(--t-body);
-    line-height: 1.5;
-    color: var(--color-text-primary);
-}
-
-.stopWalk {
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-}
-
-.stopKind {
-    grid-column: 1 / -1;
-    font-size: var(--t-small);
-    color: var(--color-text-meta);
-}
-
-/* ---------- ⑥ 주차: 회색 띠 위 가운데 큰 문장 ---------- */
-.band {
-    padding: var(--pad-sec) 0;
-    background-color: var(--color-surface-band);
-    text-align: center;
-}
-
-.bandTitle {
-    margin: 0;
-    font-size: var(--t-display);
-    font-weight: 500;
-    line-height: 1.25;
-    letter-spacing: -0.03em;
-    color: var(--color-text-strong);
-    text-wrap: balance;
-}
-
-.bandText {
-    margin: 1.25rem 0 0;
-    font-size: 1.25rem;
-    line-height: 1.6;
-    color: var(--color-text-primary);
-}
-
 /* ---------- ⑦ 시설 안내: 애플 product viewer 방식 ---------- */
 /* 왼쪽 회색 알약(⊕ + 층 이름). 고른 층은 그 자리에서 넓은 칸으로 펼쳐져 방 목록과 이전/다음 버튼을 보여 준다 */
+/* 흰 카드는 본문 선보다 좌우로 최대 100px 넓고, 안쪽 내용은 본문 선에 맞춘다 */
 .viewer {
     --viewer-pill: #e8e8ed; /* Apple product viewer 알약 색 */
+    --card-out: clamp(0px, (100vw - var(--wrap)) / 2, 100px);
     display: grid;
     grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
     gap: 40px;
     align-items: center;
     min-height: 560px;
+    margin: 0 calc(var(--card-out) * -1);
+    padding: 100px max(var(--card-out), 2.5rem);
+    border-radius: var(--r-card);
+    background-color: var(--color-white);
 }
 
 .viewerControls {
@@ -611,14 +551,261 @@
     object-fit: contain;
 }
 
+/* ---------- ⑥ 자주 하는 질문: 메인 페이지 .fq와 같은 값 ---------- */
+.fqList {
+    display: flex;
+    flex-direction: column;
+}
+
+.fqItem {
+    border-bottom: 1px solid var(--color-line);
+}
+
+.fqItem summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 4rem;
+    padding: 1.75rem 0;
+    font-size: var(--t-mid);
+    font-weight: 500;
+    color: var(--color-text-strong);
+    cursor: pointer;
+    list-style: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.fqItem summary::-webkit-details-marker {
+    display: none;
+}
+
+.fqItem summary:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
+}
+
+.fqIcon {
+    width: 1.75rem;
+    height: 1.75rem;
+    flex: 0 0 auto;
+    color: var(--color-text-tertiary);
+    stroke-width: 2.25;
+    transition: transform 300ms var(--ease-smooth);
+}
+
+.fqItem[open] .fqIcon {
+    transform: rotate(180deg);
+}
+
+.fqItem p {
+    margin: 0;
+    padding: 0 0 2.375rem;
+    font-size: var(--t-small);
+    color: var(--color-text-primary);
+    max-width: 42em;
+}
+
+/* ---------- 차량 운행 팝업: 딤드 + 배경 흐림 20px ---------- */
+.dialogDim {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    background-color: rgba(var(--color-surface-dark-rgb), 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+/* body로 옮겨 그리므로 .page 토큰을 여기서 다시 둔다 */
+.dialog {
+    --color-text-strong: #1d1d1f;
+    --color-text-primary: #1d1d1f;
+    --color-text-tertiary: #707070;
+    --t-strong: 3rem;
+    --t-row: 1.1875rem;
+    --t-body: 1.125rem;
+    --t-small: 1rem;
+    --r-card: 28px;
+    --gutter: 1.5rem;
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    max-height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 5rem 6.5rem 4rem;
+    box-sizing: border-box;
+    border-radius: var(--r-card);
+    background-color: var(--color-white);
+    color: var(--color-text-primary);
+    font-size: var(--t-body);
+    line-height: 1.6;
+    letter-spacing: -0.02em;
+    word-break: keep-all;
+}
+
+.dialog:focus {
+    outline: none;
+}
+
+.dialogClose {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: none;
+    color: var(--color-text-strong);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.15s ease, transform 0.12s ease-out;
+}
+
+.dialogClose:active {
+    transform: scale(0.94);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .dialogClose:hover {
+        background-color: var(--color-surface-band);
+    }
+}
+
+.dialogClose:focus-visible,
+.lineTab:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
+}
+
+.dialogClose :global(.material-symbols-outlined) {
+    font-size: 24px;
+}
+
+.dialogTitle {
+    margin: 0;
+    font-size: var(--t-strong);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.03em;
+    color: var(--color-text-strong);
+}
+
+.dialogLead {
+    margin: 1.5rem 0 0;
+    font-size: var(--t-body);
+    line-height: 1.6;
+}
+
+/* 밑줄 탭: 고른 예배 아래로 짙은 선이 미끄러진다 */
+.lineTabs {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.lineTabs::-webkit-scrollbar {
+    display: none;
+}
+
+.lineTab {
+    position: relative;
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--color-text-tertiary);
+    font: inherit;
+    font-size: var(--t-small);
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: color 0.3s var(--ease-smooth);
+}
+
+.lineTab[aria-pressed="true"] {
+    color: var(--color-text-strong);
+    font-weight: 500;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .lineTab[aria-pressed="false"]:hover {
+        color: var(--color-text-strong);
+    }
+}
+
+.lineTabBar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    border-radius: 1px;
+    background-color: var(--color-text-strong);
+}
+
+.routeList {
+    list-style: none;
+    margin: 2.5rem 0 0;
+    padding: 0;
+}
+
+.routeItem {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem 0;
+    border-bottom: 1px solid var(--color-line);
+}
+
+.routeItem:first-child {
+    padding-top: 0;
+}
+
+.routeArea {
+    margin-bottom: 0.5rem;
+    font-size: var(--t-row);
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--color-text-strong);
+}
+
+.routeMeta {
+    font-size: var(--t-small);
+    line-height: 1.6;
+    font-variant-numeric: tabular-nums;
+}
+
 /* ---------- 태블릿 · 모바일 ---------- */
 @media (max-width: 1079px) {
     .page {
         --t-strong: 2.25rem;
     }
 
-    .summary {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    .wayCards {
+        gap: 1rem;
+    }
+
+    .wayCard {
+        padding: 1.75rem 1.5rem 1.25rem;
+    }
+
+    .dialog {
+        padding: 4rem 3rem 3rem;
     }
 
     .viewer {
@@ -633,6 +820,7 @@
         --space-head: 2rem;
         --t-display: 2.25rem;
         --t-strong: 1.75rem;
+        --t-mid: 1.25rem;
         --gutter: 1.125rem;
     }
 
@@ -649,14 +837,39 @@
         margin-bottom: var(--space-head);
     }
 
-    .bigMap > div {
-        aspect-ratio: 4 / 3;
+    .wayCards {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
     }
 
-    .summary {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-        margin-top: 2.5rem;
+    .fqItem summary {
+        padding: 1.25rem 0;
+    }
+
+    .fqIcon {
+        width: 1.375rem;
+        height: 1.375rem;
+    }
+
+    .fqItem p {
+        padding-bottom: 1.75rem;
+    }
+
+    /* 휴대폰: 팝업은 아래에서 올라오는 시트 */
+    .dialogDim {
+        align-items: flex-end;
+        padding: 3rem 0 0;
+    }
+
+    .dialog {
+        --t-strong: 1.75rem;
+        padding: 3rem var(--gutter) calc(2rem + env(safe-area-inset-bottom, 0px));
+        border-radius: var(--r-card) var(--r-card) 0 0;
+    }
+
+    .dialogClose {
+        top: 0.75rem;
+        right: 0.75rem;
     }
 
     /* 휴대폰: 평면도 먼저, 아래에 층 알약 */
@@ -664,6 +877,7 @@
         grid-template-columns: 1fr;
         gap: 28px;
         min-height: 0;
+        padding: 1.5rem;
     }
 
     .viewerStage {
