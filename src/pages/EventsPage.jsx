@@ -161,7 +161,7 @@ const EventsPage = () => {
         triggerRef.current?.focus();
     };
 
-    // 세부정보 팝업(ScheduleSheet)은 날짜 문장 · 시간 · 장소 · 본문 · 사진을 따로 받아 그린다
+    // 세부정보 팝업(PostSheet)은 날짜 문장 · 시간 · 장소 · 본문 · 사진을 따로 받아 그린다
     const handleEventClick = (event) => {
         navigate(`/post/schedules_${event.id}`, {
             state: {

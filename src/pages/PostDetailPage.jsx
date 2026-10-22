@@ -10,7 +10,7 @@ import LargeButton from '../components/ui/LargeButton';
 import styles from './PostDetailPage.module.css';
 
 import NaverMap from '../components/ui/NaverMap';
-import ScheduleSheet from '../components/ScheduleSheet';
+import PostSheet from '../components/PostSheet';
 import thumbKindergarten from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb.webp';
 import thumbElementary from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-01.webp';
 import thumbYouth from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-02.webp';
@@ -26,6 +26,21 @@ const defaultThumbs = {
     elementary: thumbElementary,
     youth: thumbYouth,
     youngadults: thumbYoungAdults
+};
+
+// 새 게시물 팝업(PostSheet)을 쓰는 곳: 교회 일정 + 소식 페이지 4개 탭(공지사항 · 교회소식 · 주보 · 성도사업).
+// 다음세대 · 선교 게시물은 아직 아래의 예전 팝업을 쓴다
+const isNetworkId = (id = '') => id.startsWith('network_') || id.startsWith('memberBusiness_');
+const usesPostSheet = (id = '', post) =>
+    id.startsWith('schedules_') || id.startsWith('koinonia_') || isNetworkId(id) ||
+    ['schedule', 'news', 'bulletin'].includes(post?.category);
+const usesPostSheetWhileLoading = (id = '') => !id.startsWith('nextgen-') && !id.startsWith('missions_');
+
+// '2026. 10. 18.' · '2026-10-18' → '2026년 10월 18일'
+const formatKoreanDate = (value) => {
+    const parts = String(value || '').split(/[^\d]+/).filter(Boolean);
+    if (parts.length < 3) return value || '';
+    return `${parts[0]}년 ${parseInt(parts[1], 10)}월 ${parseInt(parts[2], 10)}일`;
 };
 
 const PinchZoomContainer = ({ children, onSwipeLeft, onSwipeRight }) => {
@@ -536,7 +551,26 @@ const PostDetailPage = () => {
         }
     };
 
+    const handleGoBack = () => {
+        // 앱 내에서 정상적으로 타고 들어온 경우(히스토리가 있는 경우) 단순히 뒤로가기 수행
+        if (window.history.state && window.history.state.idx > 0) {
+            navigate(-1);
+            return;
+        }
+
+        // 다이렉트 URL로 접속해서 히스토리가 없는 경우(뒤로가기 불가), 원래 게시판 목록으로 리다이렉트
+        if (location.state && location.state.background) {
+            const bgPath = location.state.background.pathname + (location.state.background.search || '');
+            navigate(bgPath, { replace: true });
+        } else {
+            navigate('/');
+        }
+    };
+
     if (loading) {
+        if (usesPostSheetWhileLoading(id)) {
+            return <PostSheet loading onClose={handleGoBack} />;
+        }
         return (
             <div className={styles.overlay}>
                 <div className={styles.drawer}>
@@ -571,25 +605,56 @@ const PostDetailPage = () => {
         viewerImages = post.images;
     }
 
-    const handleGoBack = () => {
-        // 앱 내에서 정상적으로 타고 들어온 경우(히스토리가 있는 경우) 단순히 뒤로가기 수행
-        if (window.history.state && window.history.state.idx > 0) {
-            navigate(-1);
-            return;
+    // 교회 일정 · 소식 페이지 게시물은 Apple 뉴스룸 모양의 시트로 (사진 비율 대응 · 여러 장 · 주보 6면 · 크게 보기)
+    if (usesPostSheet(id, post)) {
+        if (post.category === 'schedule') {
+            const facts = [
+                post.time && { label: '시간', value: post.time },
+                post.location && { label: '장소', value: post.location },
+            ].filter(Boolean);
+            return (
+                <PostSheet
+                    meta={post.dateText}
+                    title={post.title}
+                    facts={facts}
+                    images={viewerImages}
+                    description={post.description}
+                    onClose={handleGoBack}
+                />
+            );
         }
 
-        // 다이렉트 URL로 접속해서 히스토리가 없는 경우(뒤로가기 불가), 원래 게시판 목록으로 리다이렉트
-        if (location.state && location.state.background) {
-            const bgPath = location.state.background.pathname + (location.state.background.search || '');
-            navigate(bgPath, { replace: true });
-        } else {
-            navigate('/');
-        }
-    };
+        const network = isNetworkId(id);
+        const dateText = formatKoreanDate(post.date) || (post.createdAt?.toDate ? formatKoreanDate(post.createdAt.toDate().toISOString().slice(0, 10)) : '');
+        const meta = [dateText, authorText].filter(Boolean).join(' · ');
+        const address = [post.address, post.detailAddress].filter(Boolean).join(' ');
+        const facts = network ? [
+            post.businessCategory && { label: '업종', value: post.businessCategory },
+            post.phone && { label: '전화', value: post.phone, href: `tel:${post.phone.replace(/[^\d+]/g, '')}` },
+            address && { label: '주소', value: address },
+        ].filter(Boolean) : [];
+        const isBulletin = post.category === 'bulletin';
 
-    // 교회 일정은 Apple 뉴스룸 모양의 시트로 (사진 비율 대응 · 크게 보기)
-    if (post.category === 'schedule') {
-        return <ScheduleSheet post={post} images={viewerImages} onClose={handleGoBack} />;
+        return (
+            <PostSheet
+                meta={meta}
+                title={post.title}
+                facts={facts}
+                images={isBulletin ? [] : viewerImages}
+                bulletin={isBulletin ? viewerImages : []}
+                description={post.content}
+                extra={post.address ? (
+                    <NaverMap
+                        address={post.address}
+                        detailAddress={post.detailAddress}
+                        title={post.title}
+                        category={post.businessCategory}
+                        phone={post.phone}
+                    />
+                ) : null}
+                onClose={handleGoBack}
+            />
+        );
     }
 
     return (
