@@ -186,6 +186,7 @@ const EventsPage = () => {
             <PageTopGradient />
             <section className={styles.hero}>
                 <div className={styles.wrap}>
+                    <p className={styles.eyebrow}>일정</p>
                     <div className={styles.pickerAnchor} ref={pickerRef}>
                         <h1 className={styles.title}>
                             <button

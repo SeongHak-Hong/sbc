@@ -45,6 +45,14 @@
     padding-top: var(--sub-title-top);
 }
 
+/* 제목 위 '일정' (예배 영상의 '미디어룸'과 같은 모양) */
+.eyebrow {
+    margin: 0 0 0.5rem;
+    font-size: var(--t-row);
+    font-weight: 500;
+    color: var(--color-text-strong);
+}
+
 .pickerAnchor {
     position: relative;
     display: inline-block;
