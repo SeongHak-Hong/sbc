@@ -14,6 +14,15 @@ const FILTERS = [
     { id: 'nextgen', label: '다음세대' },
 ];
 
+// 다음세대 부서 → 담당 교역자. 섬기는 사람들(/team, TeamPage.jsx)의 담당 부서와 맞춘다 — 담당이 바뀌면 함께 고칠 것
+// '유초등부'가 '초등부'를 품으므로 같은 담당자로 묶었다
+const NEXTGEN_LEADERS = [
+    { keywords: ['유치부'], leader: '이지은 교육전도사' },
+    { keywords: ['유초등부', '초등부'], leader: '김정현 부목사' },
+    { keywords: ['중고등부'], leader: '김윤섭 부목사' },
+    { keywords: ['청년부'], leader: '강현수 전도사' },
+];
+
 // 고르기 창: 감쇠 1.0 스프링(튕김 없음)
 const pickerSpring = { type: 'spring', bounce: 0, duration: 0.3 };
 
@@ -308,8 +317,10 @@ const MediaPage = () => {
         };
         let preacher = findPreacher(rawTitle) || findPreacher(desc) || '최영락 담임목사';
         
-        if (rawTitle.toLowerCase().includes('유치부')) {
-            preacher = '-';
+        // 다음세대 부서 영상은 그 부서 담당 교역자 (섬기는 사람들 /team 페이지의 역할 기준)
+        const department = NEXTGEN_LEADERS.find(({ keywords }) => keywords.some((k) => rawTitle.includes(k)));
+        if (department) {
+            preacher = department.leader;
         }
 
         // 3. Date Extraction (YYYY.MM.DD format)
@@ -363,7 +374,7 @@ const MediaPage = () => {
             title: title || rawTitle,
             date: dateStr,
             info: infoParts.join(' · '),
-            preacher: preacher === '-' ? '' : preacher,
+            preacher,
             passage,
             isNew
         };
