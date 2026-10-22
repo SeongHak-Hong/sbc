@@ -365,9 +365,9 @@
 }
 
 /* ---------- ⑤ 함께하기 ---------- */
-/* 까만 띠, 왼쪽 글 · 오른쪽 사진 */
+/* 따뜻한 미색 띠, 왼쪽 글 · 오른쪽 사진 */
 .join {
-    background-color: var(--color-pure-black);
+    background-color: var(--color-surface-warm);
 }
 
 .joinGrid {
@@ -377,21 +377,16 @@
     align-items: center;
 }
 
-.join .secTitle {
-    color: var(--color-white);
-}
-
 .joinWho {
     margin: 1rem 0 0;
     font-size: var(--sub-t-lead);
-    color: var(--color-slate-400);
+    color: var(--color-text-meta);
 }
 
 .joinMedia {
     aspect-ratio: 3 / 2;
 }
 
-/* 짙은 배경 위라 버튼은 흰 바탕 + 짙은 글씨 */
 .joinBtn {
     display: inline-flex;
     align-items: center;
@@ -400,8 +395,8 @@
     margin-top: 2rem;
     padding: 0 1.75rem;
     border-radius: var(--radius-pill);
-    background-color: var(--color-white);
-    color: var(--color-text-strong);
+    background-color: var(--color-surface-dark);
+    color: var(--color-white);
     font-size: var(--sub-t-lead);
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
@@ -414,7 +409,7 @@
 }
 
 .joinBtn:focus-visible {
-    outline: 2px solid var(--color-white);
+    outline: 2px solid var(--color-accent-sky);
     outline-offset: 3px;
 }
 
