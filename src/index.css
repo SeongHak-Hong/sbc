@@ -140,6 +140,7 @@
   --color-white: #ffffff;
   --color-gray-50: #fafafa;
   --color-black: #1a1a1a;
+  --color-pure-black: #000000; /* 사진·영상을 받치는 까만 띠 (선교전도 '함께하기' 등) */
 
   /* Primitive Tokens (Global) */
   --color-slate-400: #AEB4B7;

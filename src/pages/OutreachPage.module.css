@@ -365,9 +365,9 @@
 }
 
 /* ---------- ⑤ 함께하기 ---------- */
-/* 짙은 띠(순수 검정 대신 --color-surface-dark), 왼쪽 글 · 오른쪽 사진 */
+/* 까만 띠, 왼쪽 글 · 오른쪽 사진 */
 .join {
-    background-color: var(--color-surface-dark);
+    background-color: var(--color-pure-black);
 }
 
 .joinGrid {
