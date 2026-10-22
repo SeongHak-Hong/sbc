@@ -43,72 +43,85 @@ const MediaPage = () => {
     }, [location]);
 
     useEffect(() => {
-        const fetchVideos = async () => {
-            setLoading(true);
-            try {
-                // 1. 캐시 확인 (6시간 유지)
-                const cacheKey = 'sbc_youtube_videos_v2';
-                const cachedDataStr = localStorage.getItem(cacheKey);
-                if (cachedDataStr) {
-                    const cachedData = JSON.parse(cachedDataStr);
-                    const now = new Date().getTime();
-                    // 6시간 = 6 * 60 * 60 * 1000 = 21600000ms
-                    if (now - cachedData.timestamp < 21600000) {
-                        setVideos(cachedData.videos);
-                        setLoading(false);
-                        return; // API 호출 없이 종료
-                    }
-                }
+        let cancelled = false;
+        const cacheKey = 'sbc_youtube_videos_v2';
 
-                // 2. 캐시가 없거나 만료되었을 경우 API 호출
-                const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
-                if (!apiKey) {
-                    console.warn("YouTube API Key is missing in .env (VITE_YOUTUBE_API_KEY).");
-                    setLoading(false);
-                    return;
-                }
+        const readCache = () => {
+            try {
+                const str = localStorage.getItem(cacheKey) || localStorage.getItem('sbc_youtube_videos');
+                return str ? JSON.parse(str) : null;
+            } catch {
+                return null;
+            }
+        };
+
+        const fetchJson = async (url) => {
+            const response = await fetch(url);
+            const data = await response.json();
+            // 할당량 초과·키 제한 등은 200이 아니어도 throw되지 않으므로 직접 확인
+            if (!response.ok || data.error) {
+                throw new Error(data.error?.message || `HTTP ${response.status}`);
+            }
+            return data;
+        };
+
+        const fetchVideos = async () => {
+            // 1. 캐시가 있으면 (만료됐더라도) 바로 보여 주고, 만료된 경우에만 뒤에서 새로 받아옴
+            const cachedData = readCache();
+            if (cachedData?.videos?.length) {
+                setVideos(cachedData.videos);
+                setLoading(false);
+                // 6시간 = 6 * 60 * 60 * 1000 = 21600000ms
+                if (Date.now() - cachedData.timestamp < 21600000) return; // API 호출 없이 종료
+            }
+
+            // 2. 캐시가 없거나 만료되었을 경우 API 호출
+            const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
+            if (!apiKey) {
+                console.warn("YouTube API Key is missing in .env (VITE_YOUTUBE_API_KEY).");
+                setLoading(false);
+                return;
+            }
+            try {
                 const channelId = 'UCj3wg1t2u2eiMQxWIgT2OeQ';
                 const uploadsPlaylistId = channelId.replace(/^UC/, 'UU');
-                
-                let allItems = [];
-                let nextPageToken = '';
-                
-                // 최대 2페이지(100개)를 조회하여 과거 영상까지 충분히 가져옴
-                for (let i = 0; i < 2; i++) {
-                    const playlistUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsPlaylistId}&maxResults=50&key=${apiKey}${nextPageToken ? `&pageToken=${nextPageToken}` : ''}`;
-                    const response = await fetch(playlistUrl);
-                    const data = await response.json();
-                    
-                    if (data.items) {
-                        allItems = [...allItems, ...data.items];
-                    }
-                    if (data.nextPageToken) {
-                        nextPageToken = data.nextPageToken;
-                    } else {
-                        break;
-                    }
-                }
 
-                // 추가로 '유치부' 키워드로 채널 내 영상 검색 (최대 50개)
-                try {
-                    const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&maxResults=50&q=${encodeURIComponent('유치부')}&type=video&key=${apiKey}`;
-                    const searchResponse = await fetch(searchUrl);
-                    const searchData = await searchResponse.json();
-                    
-                    if (searchData.items) {
+                // 최대 2페이지(100개)를 조회하여 과거 영상까지 충분히 가져옴
+                const fetchPlaylist = async () => {
+                    let items = [];
+                    let nextPageToken = '';
+                    for (let i = 0; i < 2; i++) {
+                        const playlistUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsPlaylistId}&maxResults=50&key=${apiKey}${nextPageToken ? `&pageToken=${nextPageToken}` : ''}`;
+                        const data = await fetchJson(playlistUrl);
+                        if (data.items) items = [...items, ...data.items];
+                        if (!data.nextPageToken) break;
+                        nextPageToken = data.nextPageToken;
+                    }
+                    return items;
+                };
+
+                // 추가로 '유치부' 키워드로 채널 내 영상 검색 (최대 50개) — 실패해도 목록은 보여 줌
+                const fetchNextGen = async () => {
+                    try {
+                        const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&maxResults=50&q=${encodeURIComponent('유치부')}&type=video&key=${apiKey}`;
+                        const searchData = await fetchJson(searchUrl);
                         // search API의 응답은 item.id.videoId 형태이므로 호환성을 위해 변환
-                        const searchItems = searchData.items.map(item => ({
+                        return (searchData.items || []).map(item => ({
                             ...item,
                             snippet: {
                                 ...item.snippet,
                                 resourceId: { videoId: item.id.videoId }
                             }
                         }));
-                        allItems = [...allItems, ...searchItems];
+                    } catch (searchError) {
+                        console.error("Failed to fetch search results for NextGen:", searchError);
+                        return [];
                     }
-                } catch (searchError) {
-                    console.error("Failed to fetch search results for NextGen:", searchError);
-                }
+                };
+
+                // 재생목록과 검색을 동시에 요청
+                const [playlistItems, searchItems] = await Promise.all([fetchPlaylist(), fetchNextGen()]);
+                let allItems = [...playlistItems, ...searchItems];
 
                 // 중복 제거 (videoId 기준)
                 const uniqueItemsMap = new Map();
@@ -127,18 +140,17 @@ const MediaPage = () => {
                     const chunkArray = (arr, size) => Array.from({ length: Math.ceil(arr.length / size) }, (v, i) => arr.slice(i * size, i * size + size));
                     const idChunks = chunkArray(validItems.map(item => item.snippet.resourceId.videoId), 50);
                     
+                    // 묶음들을 동시에 요청 (실패한 묶음은 길이를 모르는 것으로 처리)
+                    const durationResults = await Promise.all(idChunks.map(chunk =>
+                        fetchJson(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${chunk.join(',')}&key=${apiKey}`)
+                            .catch(() => ({ items: [] }))
+                    ));
                     let durationMap = {};
-                    for (const chunk of idChunks) {
-                        const videosUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${chunk.join(',')}&key=${apiKey}`;
-                        const videosResponse = await fetch(videosUrl);
-                        const videosData = await videosResponse.json();
-                        
-                        if (videosData.items) {
-                            videosData.items.forEach(v => {
-                                durationMap[v.id] = v.contentDetails.duration;
-                            });
-                        }
-                    }
+                    durationResults.forEach(videosData => {
+                        (videosData.items || []).forEach(v => {
+                            durationMap[v.id] = v.contentDetails.duration;
+                        });
+                    });
 
                     // ISO 8601 길이 파싱
                     const parseDuration = (duration) => {
@@ -170,30 +182,25 @@ const MediaPage = () => {
                     }));
 
                     // 새로운 데이터를 캐시에 저장
-                    localStorage.setItem('sbc_youtube_videos_v2', JSON.stringify({
-                        timestamp: new Date().getTime(),
-                        videos: formattedVideos
-                    }));
+                    try {
+                        localStorage.setItem(cacheKey, JSON.stringify({
+                            timestamp: Date.now(),
+                            videos: formattedVideos
+                        }));
+                    } catch { /* 저장 공간 부족 등은 무시 */ }
 
-                    setVideos(formattedVideos);
-                } else {
-                    setVideos([]);
+                    if (!cancelled) setVideos(formattedVideos);
                 }
             } catch (error) {
+                // 할당량 초과(Quota Exceeded) 등 에러 발생 시, 이미 보여 준 캐시(만료됐더라도)를 그대로 둠 (빈 화면 방지)
                 console.error("Failed to fetch YouTube videos:", error);
-                
-                // 할당량 초과(Quota Exceeded) 등 에러 발생 시, 만료된 캐시라도 있다면 보여줌 (빈 화면 방지)
-                const cachedDataStr = localStorage.getItem('sbc_youtube_videos_v2') || localStorage.getItem('sbc_youtube_videos');
-                if (cachedDataStr) {
-                    const cachedData = JSON.parse(cachedDataStr);
-                    setVideos(cachedData.videos);
-                }
             } finally {
-                setLoading(false);
+                if (!cancelled) setLoading(false);
             }
         };
 
         fetchVideos();
+        return () => { cancelled = true; };
     }, []);
 
     // Filter recent videos locally based on keyword
@@ -333,10 +340,6 @@ const MediaPage = () => {
                     />
                 </div>
 
-                {loading ? (
-                    <div className={styles.loading}>영상을 불러오는 중입니다...</div>
-                ) : (
-                    <>
                         <BlurFade delay={0.25} inView style={{ width: '100%' }}>
                             <div className={styles.switchWrapper}>
                                 <SwitchTabs 
@@ -353,6 +356,22 @@ const MediaPage = () => {
                             </div>
                         </BlurFade>
 
+                        {loading ? (
+                            // 불러오는 동안 실제 카드와 같은 크기의 자리를 잡아 두어 화면이 비거나 푸터가 올라오지 않게 함
+                            <div className={styles.videoGrid} role="status" aria-label="영상을 불러오는 중입니다">
+                                {Array.from({ length: 6 }, (_, i) => (
+                                    <div key={i} className={`${styles.videoCard} ${styles.skeletonCard}`} aria-hidden="true">
+                                        <div className={`${styles.thumbnailContainer} ${styles.skeleton}`} />
+                                        <div className={styles.skeletonInfo}>
+                                            <span className={`${styles.skeleton} ${styles.skeletonBadge}`} />
+                                            <span className={`${styles.skeleton} ${styles.skeletonLine}`} />
+                                            <span className={`${styles.skeleton} ${styles.skeletonLineShort}`} />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <>
                                 <div className={styles.videoGrid}>
                                     {currentVideos.map((video, index) => {
                                         const badge = getBadge(video.snippet.title);
@@ -370,10 +389,11 @@ const MediaPage = () => {
                                                     }}
                                                 >
                                                 <div className={styles.thumbnailContainer}>
-                                                    <img 
-                                                        src={video.snippet.thumbnails.high?.url || video.snippet.thumbnails.medium?.url} 
-                                                        alt={parsedInfo.title} 
+                                                    <img
+                                                        src={video.snippet.thumbnails.high?.url || video.snippet.thumbnails.medium?.url}
+                                                        alt={parsedInfo.title}
                                                         className={styles.thumbnail}
+                                                        decoding="async"
                                                     />
                                                 </div>
                                                 <div className={styles.videoInfo}>

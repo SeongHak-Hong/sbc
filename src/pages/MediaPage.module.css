@@ -7,12 +7,16 @@
     background-color: var(--color-white);
     /* 첫 화면 그라디언트(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 */
     isolation: isolate;
+    /* 내용이 짧아도 푸터가 화면 맨 아래에 붙도록 */
+    display: flex;
+    flex-direction: column;
 }
 
 .sectionCenter {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex: 1 0 auto;
 }
 
 .pageTitle {
@@ -123,6 +127,62 @@
     margin: 0;
 }
 
+/* Loading skeleton — 실제 카드와 같은 크기의 자리 */
+.skeletonCard {
+    cursor: default;
+}
+
+.skeletonCard:hover {
+    transform: none;
+}
+
+.skeleton {
+    background-color: var(--color-surface-band);
+    animation: skeletonPulse 1.6s ease-in-out infinite;
+}
+
+.skeletonInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+    flex: 1;
+    min-width: 0;
+}
+
+.skeletonBadge,
+.skeletonLine,
+.skeletonLineShort {
+    display: block;
+    border-radius: 99px;
+}
+
+.skeletonBadge {
+    width: 72px;
+    height: 26px;
+}
+
+.skeletonLine {
+    width: 90%;
+    height: 18px;
+}
+
+.skeletonLineShort {
+    width: 55%;
+    height: 16px;
+}
+
+@keyframes skeletonPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skeleton {
+        animation: none;
+    }
+}
+
 /* Loading state */
 .loading {
     text-align: center;
@@ -149,6 +209,11 @@
         width: 100%;
         margin-left: 0;
         border-radius: 16px;
+    }
+
+    .skeletonInfo {
+        width: 100%;
+        margin-top: 8px;
     }
 
     .badge {
