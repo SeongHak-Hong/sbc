@@ -243,9 +243,11 @@ const EventsPage = () => {
                             {currentEvents.length === 0 ? (
                                 <li className={styles.empty}>이 달에는 등록된 일정이 없어요.</li>
                             ) : (
-                                currentEvents.map((event, idx) => (
-                                    <li key={event.id || `${currentKey}-${idx}`} className={styles.eventItem}>
-                                        <span className={styles.eventDay}>{dayLabel(event)}</span>
+                                currentEvents.map((event, idx) => {
+                                    const day = dayLabel(event);
+                                    return (
+                                    <li key={event.id || `${currentKey}-${idx}`} className={`${styles.eventItem} ${day.length > 2 ? styles.eventItemRange : ''}`}>
+                                        <span className={styles.eventDay}>{day}</span>
                                         <div className={styles.eventBody}>
                                             <h2 className={styles.eventTitle}>{event.title}</h2>
                                             {(event.time || event.location) && (
@@ -264,7 +266,8 @@ const EventsPage = () => {
                                             </button>
                                         </div>
                                     </li>
-                                ))
+                                    );
+                                })
                             )}
                         </ul>
                     )}

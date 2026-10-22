@@ -7,7 +7,6 @@
     --wrap: 1200px;
     --gutter: 1.5rem;
     --indent: 5rem;   /* 날짜·제목 줄을 제목보다 안쪽으로 */
-    --day-w: 3.5rem;  /* 날짜 칸 */
 
     position: relative;
     min-height: 100vh;
@@ -48,7 +47,7 @@
 
 .title {
     margin: 0;
-    font-size: var(--t-strong);
+    font-size: 2.5rem; /* 40px (휴대폰은 --sub-t-title) */
     font-weight: 500;
     line-height: 1.25;
     letter-spacing: -0.03em;
@@ -251,10 +250,17 @@
 
 .eventItem {
     display: grid;
-    grid-template-columns: var(--day-w) minmax(0, 1fr);
+    /* 날짜 칸은 두 자리 숫자 너비만 (글자 크기 기준 1.25em) → 줄마다 제목이 같은 자리에서 시작 */
+    grid-template-columns: 1.25em minmax(0, 1fr);
+    font-size: var(--t-row);
     column-gap: 0.75rem;
     padding: 2.5rem 0 2.5rem var(--indent);
     border-bottom: 1px solid var(--color-line);
+}
+
+/* 여러 날 일정(25–27)은 날짜 칸을 글자만큼 넓힌다 */
+.eventItemRange {
+    grid-template-columns: max-content minmax(0, 1fr);
 }
 
 .eventItem:first-child {
@@ -265,7 +271,6 @@
     font-size: var(--t-row);
     line-height: 1.4;
     color: var(--color-text-strong);
-    text-align: right;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
 }
@@ -334,7 +339,10 @@
     .page {
         --gutter: 1.125rem;
         --indent: 0px;
-        --day-w: 2.5rem;
+    }
+
+    .title {
+        font-size: var(--t-strong);
     }
 
     .titleChevron {
@@ -344,10 +352,6 @@
 
     .eventItem {
         padding: 1.5rem 0;
-    }
-
-    .eventDay {
-        text-align: left;
     }
 
     .eventTitle {
