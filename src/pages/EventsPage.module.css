@@ -439,6 +439,7 @@
     .page {
         --gutter: 1.125rem;
         --indent: 0px;
+        --t-list-meta: 1rem; /* 휴대폰은 16px 아래로 내리지 않는다 */
     }
 
     .title {
