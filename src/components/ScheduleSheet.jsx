@@ -19,8 +19,6 @@ const CloseIcon = () => (
 const ScheduleSheet = ({ post, images = [], onClose }) => {
     const reduceMotion = useReducedMotion();
     const [zoomIndex, setZoomIndex] = useState(null);
-    // 시트 윗변이 화면 위로 올라가면 닫기 뒤 흰 띠를 켠다
-    const [scrolled, setScrolled] = useState(false);
     const sheetRef = useRef(null);
     const zoomCloseRef = useRef(null);
 
@@ -53,7 +51,6 @@ const ScheduleSheet = ({ post, images = [], onClose }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            onScroll={(e) => setScrolled(e.currentTarget.scrollTop > (sheetRef.current?.offsetTop ?? 0))}
             data-lenis-prevent
         >
             <motion.article
@@ -62,7 +59,7 @@ const ScheduleSheet = ({ post, images = [], onClose }) => {
                 aria-modal="true"
                 aria-labelledby="schedule-sheet-title"
                 tabIndex={-1}
-                className={`${styles.sheet} ${scrolled ? styles.scrolled : ''}`}
+                className={styles.sheet}
                 onClick={(e) => e.stopPropagation()}
                 initial={enter}
                 animate={{ opacity: 1, y: 0 }}

@@ -30,7 +30,7 @@
     display: flex;
     flex-direction: column;
     width: calc(100% - 3rem);
-    max-width: 692px;
+    max-width: 800px;
     margin: 3rem auto;
     box-sizing: border-box;
     border-radius: 28px;
@@ -54,32 +54,12 @@
     height: 0;
 }
 
-/* 닫기 뒤 흰 띠 (Apple 스크롤 가장자리 처리): 내렸을 때만 나타나, 내용이 닫기 버튼에 붙지 않고
-   버튼 아래 24px쯤에서 스며 사라진다. 맨 위에서는 숨겨 처음 화면의 날짜를 가리지 않는다 */
-.closeWrap::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 7rem;
-    background: linear-gradient(to bottom, var(--color-white) 70%, rgba(255, 255, 255, 0));
-    opacity: 0;
-    transition: opacity 0.2s linear;
-    pointer-events: none;
-}
-
-.scrolled .closeWrap::before {
-    opacity: 1;
-}
-
 .close {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 44px;
     height: 44px;
-    position: relative; /* 흰 띠 위로 */
     margin: 1.5rem 0 0 1.5rem; /* 보이는 원이 시트 모서리에서 28px (Apple과 같음) */
     padding: 0;
     border: none;
@@ -130,7 +110,9 @@
 
 /* ---------- 내용 ---------- */
 .body {
-    padding: 5rem 3.625rem 3.75rem; /* Apple과 같은 위 80 · 좌우 58 · 아래 60 (본문 폭 576) */
+    /* 위 80 · 좌우 96 · 아래 60 (본문 폭 608). 좌우를 닫기 원(모서리에서 28~64px)보다 넓게 둬서
+       내려도 닫기 버튼이 본문 옆 여백에 머물고 내용과 겹치지 않는다 */
+    padding: 5rem 6rem 3.75rem;
 }
 
 .date {
@@ -304,10 +286,6 @@
 
     .close {
         margin: 1rem 0 0 1rem;
-    }
-
-    .closeWrap::before {
-        height: 6.25rem;
     }
 
     .body {
