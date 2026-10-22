@@ -10,6 +10,11 @@
 
     position: relative;
     min-height: 100vh;
+    min-height: 100svh; /* 주소창이 보일 때 높이 기준 → 처음 화면에서 푸터가 잘리지 않는다 */
+    /* 일정이 적은 달에도 푸터가 화면 맨 아래에 붙도록 (미디어 페이지와 같은 방식):
+       남는 높이는 목록 칸이 채운다 */
+    display: flex;
+    flex-direction: column;
     color: var(--color-text-primary);
     background-color: var(--color-white);
     /* 첫 화면 그라디언트(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 */
@@ -256,6 +261,7 @@
 /* ---------- 일정 목록 (교회 차 시간표 routeItem과 같은 줄) ---------- */
 .listSection {
     position: relative;
+    flex: 1 0 auto;
     padding: calc(var(--sub-space-head) * 2) 0 var(--sub-pad-sec);
 }
 
