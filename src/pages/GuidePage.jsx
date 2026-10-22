@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo, useId } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { useSearchParams } from 'react-router-dom';
@@ -6,12 +6,12 @@ import styles from './GuidePage.module.css';
 
 import { CHURCH_COORDS, shuttleSchedules } from '../data/shuttleData';
 
-import map1F from '../assets/guide/1F.svg';
-import map2F from '../assets/guide/2F.svg';
-import map3F from '../assets/guide/3F.svg';
-import mapSemi3F from '../assets/guide/semi-3F.svg';
-import mapDasom1F from '../assets/guide/dasom-1F.svg';
-import mapDasom2F from '../assets/guide/dasom-2F.svg';
+import map1F from '../assets/guide/1F.svg?raw';
+import map2F from '../assets/guide/2F.svg?raw';
+import map3F from '../assets/guide/3F.svg?raw';
+import mapSemi3F from '../assets/guide/semi-3F.svg?raw';
+import mapDasom1F from '../assets/guide/dasom-1F.svg?raw';
+import mapDasom2F from '../assets/guide/dasom-2F.svg?raw';
 
 import Footer from '../components/Footer';
 import PageTopGradient from '../components/PageTopGradient';
@@ -38,6 +38,22 @@ const mapImages = {
     'semi3F': mapSemi3F,
     'dasom1F': mapDasom1F,
     'dasom2F': mapDasom2F
+};
+
+// 평면도는 <img> 대신 문서 안에 직접 그린다: 방 이름이 사이트 글꼴의 진짜 글자로 그려져 작게도, 확대해도 또렷하다.
+// 같은 평면도가 페이지와 크게 보기 창에 함께 있을 수 있어 SVG 안 마스크 id 앞에 이 자리만의 이름을 붙인다
+const FloorPlan = ({ id, label }) => {
+    const uid = useId().replace(/[^a-zA-Z0-9]/g, '');
+    const html = useMemo(() => mapImages[id].replace(/stroke(\d+)_/g, `${uid}stroke$1_`), [id, uid]);
+    return (
+        <span
+            className={styles.floorPlan}
+            role={label ? 'img' : undefined}
+            aria-label={label}
+            aria-hidden={label ? undefined : true}
+            dangerouslySetInnerHTML={{ __html: html }}
+        />
+    );
 };
 
 const ease = [0.16, 1, 0.3, 1];
@@ -517,7 +533,7 @@ const FloorPlanViewer = ({ open, onClose, floor, onPick, reduceMotion }) => {
                     </div>
                     <div ref={portRef} className={styles.planPort}>
                         <div ref={contentRef} className={styles.planContent}>
-                            <img src={mapImages[floor]} alt={facilityAlt(floor)} draggable="false" />
+                            <FloorPlan id={floor} label={facilityAlt(floor)} />
                         </div>
                         <div className={styles.planZoomBtns}>
                             <button type="button" className={styles.planZoomBtn} aria-label="크게 보기" onClick={zoomIn}>
@@ -929,16 +945,17 @@ const GuidePage = () => {
                         >
                             <span className={styles.stageImg}>
                                 <AnimatePresence mode="wait" initial={false} custom={reduceMotion}>
-                                    <motion.img
+                                    <motion.span
+                                        className={styles.stagePlan}
                                         custom={reduceMotion}
                                         key={floor}
-                                        src={mapImages[floor]}
-                                        alt=""
                                         variants={fadeVariants}
                                         initial="hidden"
                                         animate="show"
                                         exit="exit"
-                                    />
+                                    >
+                                        <FloorPlan id={floor} />
+                                    </motion.span>
                                 </AnimatePresence>
                             </span>
                             <span className={styles.stageHint} aria-hidden="true">
