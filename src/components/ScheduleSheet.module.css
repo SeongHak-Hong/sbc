@@ -54,13 +54,33 @@
     height: 0;
 }
 
+/* 닫기 뒤 흰 띠 (Apple 스크롤 가장자리 처리): 내렸을 때만 나타나, 내용이 닫기 버튼에 붙지 않고
+   버튼 아래 24px쯤에서 스며 사라진다. 맨 위에서는 숨겨 처음 화면의 날짜를 가리지 않는다 */
+.closeWrap::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 7rem;
+    background: linear-gradient(to bottom, var(--color-white) 70%, rgba(255, 255, 255, 0));
+    opacity: 0;
+    transition: opacity 0.2s linear;
+    pointer-events: none;
+}
+
+.scrolled .closeWrap::before {
+    opacity: 1;
+}
+
 .close {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 44px;
     height: 44px;
-    margin: 1.25rem 0 0 1.25rem;
+    position: relative; /* 흰 띠 위로 */
+    margin: 1.5rem 0 0 1.5rem; /* 보이는 원이 시트 모서리에서 28px (Apple과 같음) */
     padding: 0;
     border: none;
     background: none;
@@ -110,7 +130,7 @@
 
 /* ---------- 내용 ---------- */
 .body {
-    padding: 5rem 4rem 3.75rem; /* 위 80 · 좌우 64 · 아래 60 */
+    padding: 5rem 3.625rem 3.75rem; /* Apple과 같은 위 80 · 좌우 58 · 아래 60 (본문 폭 576) */
 }
 
 .date {
@@ -283,11 +303,15 @@
     }
 
     .close {
-        margin: 0.75rem 0 0 0.75rem;
+        margin: 1rem 0 0 1rem;
+    }
+
+    .closeWrap::before {
+        height: 6.25rem;
     }
 
     .body {
-        padding: 4.25rem 1.125rem calc(2.5rem + env(safe-area-inset-bottom, 0px));
+        padding: 5rem 1.125rem calc(2.5rem + env(safe-area-inset-bottom, 0px)); /* 위 80: 닫기 버튼과 날짜 사이 24px */
     }
 
     .title {
