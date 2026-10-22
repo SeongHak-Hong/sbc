@@ -266,15 +266,23 @@
     gap: 1.25rem;
 }
 
+/* 카드는 '사진만 보이는 칸 + 글 칸' 두 줄. subgrid로 두 카드의 글 칸 높이를 같게 해
+   글 줄 수가 달라도 '해외선교'·'국내선교' 제목 높이가 맞는다 */
 .missionCard {
     position: relative;
     isolation: isolate;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    row-gap: 0;
     overflow: hidden;
-    aspect-ratio: 1 / 1.05;
     border-radius: var(--r-card);
+}
+
+/* 사진만 보이는 칸: 폭에 맞춰 높이를 정한다 (글 칸과 합쳐 거의 정사각형) */
+.missionCard::before {
+    content: '';
+    aspect-ratio: 1 / 0.62;
 }
 
 .missionMedia {
@@ -282,6 +290,18 @@
     inset: 0;
     z-index: -2;
     border-radius: 0;
+}
+
+/* 글이 놓이는 아래쪽만 살짝 흐리게 (위로 갈수록 또렷하게) */
+.missionBlur {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 22%, transparent 48%);
+    mask-image: linear-gradient(to top, #000 0%, #000 22%, transparent 48%);
 }
 
 /* 글이 놓이는 아래쪽만 어둡게 (위로 갈수록 사진 그대로) */
@@ -442,8 +462,8 @@
         gap: 0.75rem;
     }
 
-    .missionCard {
-        aspect-ratio: 4 / 5;
+    .missionCard::before {
+        aspect-ratio: 1 / 0.8;
     }
 
     /* 휴대폰은 글이 사진 절반 가까이 내려오므로 어두운 부분도 더 길게 */

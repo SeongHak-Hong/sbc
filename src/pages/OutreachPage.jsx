@@ -6,6 +6,12 @@ import Footer from '../components/Footer';
 import PageTopGradient from '../components/PageTopGradient';
 import { DEFAULT_PRAYERS } from '../content/outreach';
 import neighborPhoto from '../assets/main/shintanjin-baptist-church-neighbor-outreach.webp';
+import welcomePhoto from '../assets/outreach/shintanjin-baptist-church-outreach-team-welcome.webp';
+import tteokbokkiPhoto from '../assets/outreach/shintanjin-baptist-church-outreach-tteokbokki.webp';
+import friendsPhoto from '../assets/outreach/shintanjin-baptist-church-outreach-children-friends.webp';
+import prayerPhoto from '../assets/outreach/shintanjin-baptist-church-intercessory-prayer.webp';
+import overseasPhoto from '../assets/outreach/shintanjin-baptist-church-overseas-mission-care-box.webp';
+import domesticPhoto from '../assets/outreach/shintanjin-baptist-church-domestic-mission.webp';
 import styles from './OutreachPage.module.css';
 
 const ease = [0.16, 1, 0.3, 1];
@@ -14,11 +20,15 @@ const ease = [0.16, 1, 0.3, 1];
 const ACTIVITIES = [
     {
         lead: '떡볶이 한 그릇으로 아이들을 맞아요.',
+        photo: tteokbokkiPhoto,
+        alt: '신탄진침례교회 식당에서 집사님이 종이컵에 떡볶이를 담아 아이에게 건네는 모습',
         text: '학교 마칠 시간에 맞춰 떡볶이와 음료를 준비하고, 아이들이 안전하게 먹고 갈 수 있게 곁을 지켜요.',
         tone: 'sand',
     },
     {
         lead: '아이들의 이름을 기억하고 친구가 돼요.',
+        photo: friendsPhoto,
+        alt: '떡볶이를 든 아이와 눈을 맞추며 이야기를 나누는 목요전도팀 성도',
         text: '떡볶이를 먹으러 온 아이들과 이야기를 나누고, 예수님의 사랑을 전해요.',
         tone: 'sky',
     },
@@ -30,6 +40,8 @@ const ACTIVITIES = [
     },
     {
         lead: '교회 안에서 기도로 함께해요.',
+        photo: prayerPhoto,
+        alt: '신탄진침례교회 중보 기도팀 성도들이 서로 어깨에 손을 얹고 함께 기도하는 모습',
         text: '나가는 사람들 뒤에서, 만나는 한 사람 한 사람을 위해 중보 기도팀이 기도해요.',
         tone: 'dusk',
     },
@@ -125,8 +137,8 @@ const OutreachPage = () => {
         items: (saved.items?.length ? saved.items : DEFAULT_PRAYERS.items).filter((item) => item.title?.trim() || item.text?.trim()),
     };
     const missionCards = [
-        { id: 'overseas', title: '해외선교', tone: 'sky' },
-        { id: 'domestic', title: '국내선교', tone: 'sand' },
+        { id: 'overseas', title: '해외선교', tone: 'sky', photo: overseasPhoto, alt: '해외 선교사님께 보낼 성경과 편지, 간식을 선교 상자에 담는 성도들의 손' },
+        { id: 'domestic', title: '국내선교', tone: 'sand', photo: domesticPhoto, alt: '시골 교회 목사님께 쌀과 생필품 상자를 전하는 성도들' },
     ]
         .map((card) => ({ ...card, title: missionData?.[card.id]?.name || card.title, groups: groupMissionaries(missionData?.[card.id]?.list) }))
         .filter((card) => card.groups.length > 0);
@@ -148,7 +160,7 @@ const OutreachPage = () => {
                         </p>
                     </motion.div>
                     <motion.div {...reveal}>
-                        <Media tone="warm" className={styles.heroMedia} />
+                        <Media photo={welcomePhoto} alt="신탄진침례교회 마당에서 목요전도팀 두 분이 손을 흔들고 손가락 하트로 반갑게 맞이하는 모습" tone="warm" className={styles.heroMedia} />
                     </motion.div>
                 </div>
             </section>
@@ -218,7 +230,8 @@ const OutreachPage = () => {
                         <div className={styles.missionGrid}>
                             {missionCards.map((card) => (
                                 <motion.article key={card.id} className={styles.missionCard} {...reveal}>
-                                    <Media tone={card.tone} className={styles.missionMedia} />
+                                    <Media photo={card.photo} alt={card.alt} tone={card.tone} className={styles.missionMedia} />
+                                    <div className={styles.missionBlur} aria-hidden="true" />
                                     <div className={styles.missionBody}>
                                         <h3 className={styles.missionTitle}>{card.title}</h3>
                                         {card.groups.map((group) => (
