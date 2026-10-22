@@ -13,13 +13,28 @@ const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const pad2 = (n) => String(n).padStart(2, '0');
 
-// 여러 날 일정은 시작일–끝날, 하루 일정은 그날 (두 자리)
+const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
+
+// 'YYYY-MM-DD' → Date (시간대 영향 없이 그 날짜 그대로)
+const parseYmd = (s) => {
+    const [y, m, d] = (s || '').split('-').map((n) => parseInt(n, 10));
+    return y && m && d ? new Date(y, m - 1, d) : null;
+};
+
+// 여러 날 일정이면 "10월 1일(목) – 3일(토)", 달이 바뀌면 "10월 31일(토) – 11월 2일(월)". 하루 일정은 null
+const rangeLabel = (event) => {
+    const start = parseYmd(event.startDate);
+    const end = parseYmd(event.endDate);
+    if (!start || !end || start.getTime() === end.getTime()) return null;
+    const startText = `${start.getMonth() + 1}월 ${start.getDate()}일(${weekdays[start.getDay()]})`;
+    const endMonth = end.getMonth() !== start.getMonth() ? `${end.getMonth() + 1}월 ` : '';
+    return `${startText} – ${endMonth}${end.getDate()}일(${weekdays[end.getDay()]})`;
+};
+
+// 날짜 칸은 늘 두 자리 하루만 (여러 날 일정은 시작일) → 모든 줄의 제목이 같은 자리에서 시작
 const dayLabel = (event) => {
-    if (event.startDate && event.endDate) {
-        const start = parseInt(event.startDate.split('-')[2], 10);
-        const end = parseInt(event.endDate.split('-')[2], 10);
-        if (start && end) return start === end ? pad2(start) : `${pad2(start)}–${pad2(end)}`;
-    }
+    const start = parseYmd(event.startDate);
+    if (start) return pad2(start.getDate());
     const d = parseInt(event.date, 10);
     return Number.isNaN(d) ? (event.date || '') : pad2(d);
 };
@@ -128,7 +143,8 @@ const EventsPage = () => {
     };
 
     const handleEventClick = (event) => {
-        const displayDate = `${event.month} ${event.date}일 (${event.day?.[0] ?? ''})`;
+        // 여러 날 일정은 목록과 같은 기간 문장으로
+        const displayDate = rangeLabel(event) ?? `${event.month} ${event.date}일 (${event.day?.[0] ?? ''})`;
         const eventDateStr = `📅 날짜: ${displayDate}`;
         const timeStr = event.time ? `🕒 시간: ${event.time}` : '';
         const locStr = event.location ? `🚩 장소: ${event.location}` : '';
@@ -245,14 +261,15 @@ const EventsPage = () => {
                                 <li className={styles.empty}>이 달에는 등록된 일정이 없어요.</li>
                             ) : (
                                 currentEvents.map((event, idx) => {
-                                    const day = dayLabel(event);
+                                    const range = rangeLabel(event);
                                     return (
-                                    <li key={event.id || `${currentKey}-${idx}`} className={`${styles.eventItem} ${day.length > 2 ? styles.eventItemRange : ''}`}>
-                                        <span className={styles.eventDay}>{day}</span>
+                                    <li key={event.id || `${currentKey}-${idx}`} className={styles.eventItem}>
+                                        <span className={styles.eventDay}>{dayLabel(event)}</span>
                                         <div className={styles.eventBody}>
                                             <h2 className={styles.eventTitle}>{event.title}</h2>
-                                            {(event.time || event.location) && (
+                                            {(range || event.time || event.location) && (
                                                 <div className={styles.eventMetas}>
+                                                    {range && <span className={styles.eventMeta}>{range}</span>}
                                                     {event.time && <span className={styles.eventMeta}>{event.time}</span>}
                                                     {event.location && <span className={styles.eventMeta}>{event.location}</span>}
                                                 </div>

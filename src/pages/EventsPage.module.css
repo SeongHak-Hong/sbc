@@ -301,11 +301,6 @@
     border-bottom: 1px solid var(--color-line);
 }
 
-/* 여러 날 일정(25–27)은 날짜 칸을 글자만큼 넓힌다 */
-.eventItemRange {
-    grid-template-columns: max-content minmax(0, 1fr);
-}
-
 .eventItem:first-child {
     padding-top: 0;
 }
