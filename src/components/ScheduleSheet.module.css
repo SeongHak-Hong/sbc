@@ -1,5 +1,5 @@
 /* 교회 일정 세부정보 팝업 (Apple 뉴스룸 '빠르게 보기'와 같은 구성).
-   글자 크기는 index.css --sub-* 토큰. 휴대폰은 아래에서 올라오는 시트 */
+   글자 크기는 index.css --sub-* 토큰. 휴대폰은 화면 전체를 덮는 흰 화면 */
 
 /* 뒤 화면: 옅은 회색 + 흐림 (Apple: #F5F5F7 30% · blur 24px). 이 칸이 스크롤된다 */
 .dim {
@@ -275,13 +275,21 @@
     color: var(--color-white);
 }
 
-/* ---------- 휴대폰: 아래에서 올라오는 시트 ---------- */
+/* ---------- 휴대폰: 화면 전체 ---------- */
 @media (max-width: 767px) {
+    /* 휴대폰: Apple처럼 화면 전체가 흰 시트 (뒤 화면·흐림 없이). 닫기 버튼은 계속 위에 붙어 있다 */
+    .dim {
+        background-color: var(--color-white);
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+
     .sheet {
         width: 100%;
-        min-height: calc(100% - 3rem);
-        margin: 3rem 0 0;
-        border-radius: 24px 24px 0 0;
+        min-height: 100%;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
     }
 
     .close {
