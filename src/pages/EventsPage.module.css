@@ -351,7 +351,7 @@
     font: inherit;
     font-size: var(--t-small);
     letter-spacing: -0.02em;
-    color: var(--color-accent-sky);
+    color: var(--color-link-on-light);
     cursor: pointer;
     transition: opacity 0.12s ease-out;
 }

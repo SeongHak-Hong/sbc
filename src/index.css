@@ -237,6 +237,10 @@
 /* Main Page Extension Tokens (docs/home_spec.md §4) */
 :root {
   --color-accent-sky: #37ABEA;
+  /* 글자 링크(세부정보 등) 색: 바탕 밝기에 따라 나눈다 (대비 4.5:1 이상)
+     밝은 바탕(흰색·오로라 하늘색) 5.3:1 · 4.7:1 / 어두운 바탕(#1A1C20) 6.6:1 */
+  --color-link-on-light: #0870AD;
+  --color-link-on-dark: #37ABEA;
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
   --home-hero-min-height: 100svh;
   --home-hero-title-size: clamp(44px, 7.5vw, 112px);
