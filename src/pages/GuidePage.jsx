@@ -307,7 +307,7 @@ const ShuttleDialog = ({ open, onClose, selected, onSelect, reduceMotion }) => {
                                             <motion.span
                                                 layoutId="shuttleLine"
                                                 className={styles.lineTabBar}
-                                                transition={reduceMotion ? { duration: 0 } : thumbSpring}
+                                                transition={reduceMotion ? { duration: 0 } : { duration: 0.32, ease: 'easeOut' }}
                                             />
                                         )}
                                     </button>

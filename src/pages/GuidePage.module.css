@@ -967,6 +967,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    min-width: 0; /* 탭 줄이 길어도 팝업이 화면보다 넓어지지 않고 탭만 옆으로 민다 */
     max-width: 1200px;
     margin: 2.5rem 0;
     box-sizing: border-box;
@@ -1071,13 +1072,18 @@
     line-height: 1.6;
 }
 
-/* 밑줄 탭: 고른 예배 아래로 짙은 선이 미끄러진다 */
+/* 예배 탭: 교회 안내 바로가기 탭 줄(.tabTrack · .tab · .tabLine)과 같은 모양.
+   글자 탭 + 탭 묶음 폭만큼 1px 옅은 기준선, 고른 탭 아래 1px 검은 선이 미끄러진다 */
 .lineTabs {
     display: flex;
-    gap: 1.5rem;
+    gap: 32px;
+    width: fit-content;
+    max-width: 100%;
     margin-top: 1.5rem;
     overflow-x: auto;
     scrollbar-width: none;
+    /* 기준선: 옆으로 밀리는 탭까지 따라가도록 배경을 내용과 함께 스크롤(local) */
+    background: linear-gradient(rgba(210, 210, 215, 0.64), rgba(210, 210, 215, 0.64)) left bottom / 100% 1px no-repeat local;
 }
 
 .lineTabs::-webkit-scrollbar {
@@ -1088,28 +1094,30 @@
     position: relative;
     flex: 0 0 auto;
     min-height: 44px;
-    padding: 0;
+    padding: 8px 0 10px;
     border: none;
     background: none;
-    color: var(--color-text-tertiary);
+    color: rgba(0, 0, 0, 0.8);
     font: inherit;
-    font-size: var(--t-small);
+    font-size: 0.875rem;
+    line-height: 1.43;
+    letter-spacing: -0.02em;
     white-space: nowrap;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     -webkit-user-select: none;
     user-select: none;
-    transition: color 0.3s var(--ease-smooth);
+    transition: color 120ms ease-out;
 }
 
 .lineTab[aria-pressed="true"] {
-    color: var(--color-text-strong);
-    font-weight: 500;
+    color: #000;
+    transition: color 160ms ease-in;
 }
 
 @media (hover: hover) and (pointer: fine) {
-    .lineTab[aria-pressed="false"]:hover {
-        color: var(--color-text-strong);
+    .lineTab:hover {
+        color: #000;
     }
 }
 
@@ -1118,9 +1126,10 @@
     left: 0;
     right: 0;
     bottom: 0;
-    height: 2px;
-    border-radius: 1px;
-    background-color: var(--color-text-strong);
+    z-index: 1;
+    height: 1px;
+    border-radius: 999px;
+    background-color: #000;
 }
 
 /* 예배별 목록을 같은 칸(1/1)에 겹친다 */
@@ -1160,7 +1169,7 @@
 .routeItem {
     display: flex;
     flex-direction: column;
-    padding: 1.75rem 0;
+    padding: 1.75rem 5rem;
     border-bottom: 1px solid var(--color-line);
 }
 
@@ -1290,6 +1299,21 @@
 
     .dialogClose {
         margin: 12px 4px 0 0;
+    }
+
+    /* 휴대폰 팝업: 탭은 바깥 바로가기 탭과 같은 16px · 간격 20px (넘치면 옆으로 민다).
+       노선 줄은 좌우 여백 없이 시트 안쪽 여백(24px)에 글자를 맞춘다 (80px면 글 폭이 반 가까이 준다) */
+    .lineTabs {
+        gap: 20px;
+    }
+
+    .lineTab {
+        font-size: 1rem;
+    }
+
+    .routeItem {
+        padding-left: 0;
+        padding-right: 0;
     }
 
     /* 휴대폰: 평면도 먼저, 아래에 층 알약 */
