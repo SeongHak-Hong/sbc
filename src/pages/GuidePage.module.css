@@ -1203,12 +1203,16 @@
 }
 
 @media (max-width: 767px) {
+    /* 휴대폰 글자 단계: 역할마다 한 크기, 다섯 단계
+       34 첫 제목 · 26 섹션 제목 · 20 카드 제목·FAQ 질문 · 17 목록 줄 · 16 본문·보조·탭·버튼 */
     .page {
-        --pad-sec: 4.5rem;
-        --space-head: 2rem;
-        --t-display: 2.25rem;
-        --t-strong: 1.75rem;
+        --pad-sec: 4rem;
+        --space-head: 1.5rem;
+        --t-display: 2.125rem;
+        --t-strong: 1.625rem;
         --t-mid: 1.25rem;
+        --t-row: 1.0625rem;
+        --t-body: 1rem;
         --gutter: 1.125rem;
     }
 
@@ -1218,6 +1222,28 @@
 
     .tabList {
         justify-content: flex-start;
+    }
+
+    /* 탭은 본문과 같은 16px. 넘치면 옆으로 밀린다 */
+    .tabTrack {
+        gap: 20px;
+    }
+
+    .tab {
+        font-size: 1rem;
+    }
+
+    /* 다음 예배: 남은 시간은 보조 문장이라 목록 줄보다 작게 */
+    .nextTitle {
+        margin-bottom: 0.75rem;
+    }
+
+    .nextLeft {
+        font-size: var(--t-small);
+    }
+
+    .pillGroup {
+        margin-top: var(--space-head);
     }
 
     .two .secGrid {
@@ -1234,8 +1260,22 @@
         gap: 0.75rem;
     }
 
+    .wayCard {
+        padding: 1.75rem 1.5rem 1.25rem;
+    }
+
+    .wayIcon {
+        width: 2rem;
+        height: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .wayTitle {
+        margin-bottom: 0.5rem;
+    }
+
     .fqItem summary {
-        padding: 1.25rem 0;
+        padding: 1.125rem 0;
     }
 
     .fqIcon {
@@ -1244,7 +1284,7 @@
     }
 
     .fqItem p {
-        padding-bottom: 1.75rem;
+        padding-bottom: 1.25rem;
     }
 
     /* 휴대폰: 팝업은 아래에서 올라오는 시트 */
@@ -1277,6 +1317,24 @@
 
     .viewerStage {
         order: -1;
+    }
+
+    /* 예배 이름·시간도 목록 줄 크기 */
+    .infoName,
+    .infoTime {
+        font-size: var(--t-row);
+        line-height: 1.45;
+    }
+
+    /* 층 설명은 목록 줄과 같은 크기 */
+    .viewerText {
+        font-size: var(--t-row);
+        line-height: 1.55;
+    }
+
+    .stageHint {
+        min-height: 36px;
+        font-size: 0.9375rem;
     }
 }
 
