@@ -1,3 +1,4 @@
+import { DEFAULT_PRAYERS } from '../content/outreach';
 import { collection, doc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
@@ -121,13 +122,13 @@ const missionData = {
         name: '해외선교',
         type: 'table',
         list: [
-            { name: '김용대', organization: 'FMB', region: '인도' },
-            { name: '송장헌', organization: 'FMB', region: '카자흐스탄' },
-            { name: '허미라', organization: 'FMB', region: '필리핀' },
-            { name: '이천우', organization: 'FMB', region: '멕시코' },
-            { name: '홍현기', organization: 'FMB', region: '잠비아' },
-            { name: '정영섭', organization: '우즈벡인 교회 / FMB', region: '김해' },
-            { name: '송창근', organization: '중국인 교회 / FMB', region: '대전' }
+            { name: '김용대', organization: 'FMB', region: '인도', group: '침례교 해외선교회(FMB)' },
+            { name: '송장헌', organization: 'FMB', region: '카자흐스탄', group: '침례교 해외선교회(FMB)' },
+            { name: '허미라', organization: 'FMB', region: '필리핀', group: '침례교 해외선교회(FMB)' },
+            { name: '이천우', organization: 'FMB', region: '멕시코', group: '침례교 해외선교회(FMB)' },
+            { name: '홍현기', organization: 'FMB', region: '잠비아', group: '침례교 해외선교회(FMB)' },
+            { name: '정영섭', organization: '우즈벡인 교회 / FMB', region: '김해', group: '국내 이주민 교회' },
+            { name: '송창근', organization: '중국인 교회 / FMB', region: '대전', group: '국내 이주민 교회' }
         ]
     },
     domestic: {
@@ -135,11 +136,11 @@ const missionData = {
         name: '국내선교',
         type: 'table',
         list: [
-            { name: '오관영', organization: '한 빛', region: '구리' },
-            { name: '배완호', organization: '금란', region: '공주' },
-            { name: '김갑선', organization: '임천제일', region: '부여' },
-            { name: '이병리', organization: '늘사랑', region: '진도' },
-            { name: '임동순', organization: 'DFC', region: '대전' }
+            { name: '오관영', organization: '한 빛', region: '구리', group: '함께 세워 가는 교회와 단체' },
+            { name: '배완호', organization: '금란', region: '공주', group: '함께 세워 가는 교회와 단체' },
+            { name: '김갑선', organization: '임천제일', region: '부여', group: '함께 세워 가는 교회와 단체' },
+            { name: '이병리', organization: '늘사랑', region: '진도', group: '함께 세워 가는 교회와 단체' },
+            { name: '임동순', organization: 'DFC', region: '대전', group: '함께 세워 가는 교회와 단체' }
         ]
     },
     evangelism: {
@@ -159,7 +160,8 @@ const missionData = {
             { time: '13:30 ~ 14:00', task: '전도팀 예배 및 기도회' },
             { time: '14:00 ~', task: '전도 시작(떡볶이 나눔, 어린이 전도, 지역 전도)' }
         ],
-        contact: '김정현 목사 010-3358-3579'
+        contact: '김정현 목사 010-3358-3579',
+        prayers: DEFAULT_PRAYERS
     }
 };
 

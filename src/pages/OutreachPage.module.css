@@ -1,200 +1,429 @@
-.pageWrapper {
-    width: 100%;
+/* 선교전도: 목요전도팀 중심 한 페이지 (첫 화면 → 하는 일 → 기도 제목 → 선교사님 → 함께하기)
+   글자·여백은 서브페이지 공통 토큰(index.css --sub-*), 하는 일 카드는 메인 '교회가 하는 일'(.ma)과 같은 구조 */
+.page {
+    --wrap: 1080px;
+    --gutter: 1.5rem;
+    --r-card: 28px;
+
+    position: relative;
     min-height: 100vh;
     color: var(--color-text-primary);
     background-color: var(--color-white);
-    position: relative;
-    /* 첫 화면 그라디언트(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 */
+    /* 첫 화면 오로라(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 */
     isolation: isolate;
-}
-
-.pageTitle {
-    font-size: var(--page-title-size-pc, 40px);
-    font-weight: 500;
-    color: var(--color-text-strong);
-    letter-spacing: -0.03em;
-    line-height: 1.3;
-    white-space: pre-line;
+    overflow-x: clip;
+    font-size: var(--sub-t-body);
+    line-height: 1.6;
+    letter-spacing: -0.02em;
     word-break: keep-all;
 }
 
-@media (max-width: 767px) {
-    .pageTitle {
-        font-size: 28px;
-    }
-}
-
-.contentWrapper {
-    width: 100%;
-    max-width: 800px;
+.wrap {
+    max-width: var(--wrap);
     margin: 0 auto;
+    padding: 0 var(--gutter);
     box-sizing: border-box;
+}
+
+.sec {
+    padding: var(--sub-pad-sec) 0;
+}
+
+.band {
+    background-color: var(--color-surface-band);
+}
+
+.secHead {
+    margin-bottom: var(--sub-space-head);
+}
+
+.secTitle {
+    margin: 0;
+    font-size: var(--sub-t-title);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: var(--color-text-strong);
+}
+
+.secLead {
+    margin: 1rem 0 0;
+    font-size: var(--sub-t-lead);
+    color: var(--color-text-primary);
+}
+
+/* 사진 자리: 사진이 없으면 옅은 색 면만 보인다 */
+.media {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--r-card);
+    background: linear-gradient(160deg, #EDE6DD 0%, #E4DAD0 55%, #D9CFC6 100%);
+}
+
+.sand { background: linear-gradient(160deg, #F0E8DC 0%, #E6DBCB 60%, #DCCFBD 100%); }
+.sky { background: linear-gradient(160deg, #E6EEF6 0%, #DCE5EE 60%, #D2DCE6 100%); }
+.dusk { background: linear-gradient(160deg, #E3E2EA 0%, #D8D6E0 60%, #CDCBD6 100%); }
+
+.photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 300ms var(--ease-smooth);
+}
+
+/* ---------- ① 첫 화면 ---------- */
+.hero {
+    padding: var(--sub-title-top) 0 var(--sub-pad-sec);
+}
+
+.heroGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.heroTitle {
+    margin: 0;
+    font-size: var(--sub-t-display);
+    font-weight: 500;
+    line-height: 1.18;
+    letter-spacing: -0.035em;
+    color: var(--color-text-strong);
+}
+
+.heroLead {
+    margin: 1.5rem 0 0;
+    font-size: 1.3125rem;
+    color: var(--color-text-primary);
+}
+
+.heroMedia {
+    aspect-ratio: 4 / 5;
+}
+
+/* ---------- ② 하는 일 (메인 .ma와 같은 크기) ---------- */
+.ma {
+    padding: 0 0 var(--sub-pad-sec);
+}
+
+.maTrack {
+    --ma-pad: max(var(--gutter), calc((100% - var(--wrap)) / 2 + var(--gutter)));
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: var(--ma-pad);
+    padding: 0 var(--ma-pad);
+    scrollbar-width: none;
+}
+
+.maTrack::-webkit-scrollbar {
+    display: none;
+}
+
+.maTrack:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 4px;
+}
+
+.maCard {
+    flex: 0 0 696px;
+    scroll-snap-align: start;
     display: flex;
     flex-direction: column;
-    gap: 64px;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
-.missionsTabs {
-    margin-top: 40px;
-    margin-bottom: 20px;
+.maMedia {
+    aspect-ratio: 696 / 452;
+    border-radius: 20px;
 }
 
-.contentSection {
-    display: flex;
-    flex-direction: column;
-    gap: 48px;
-}
-
-@media (max-width: 768px) {
-    .contentWrapper {
-        gap: 40px;
+@media (hover: hover) and (pointer: fine) {
+    .maCard:hover .photo {
+        transform: scale(1.02);
     }
 }
 
-/* List styles for missions */
-.missionList {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
+.maCap {
+    margin: 0;
+    padding: 1.75rem 1rem;
+    font-size: var(--sub-t-body);
+    color: var(--color-text-meta);
 }
 
-.missionItem {
+.maCap strong {
+    font-weight: 500;
+    color: var(--color-text-strong);
+}
+
+.maNavWrap {
     display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 16px;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+}
+
+.maNav {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.maBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--color-surface-band);
+    color: var(--color-text-strong);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 140ms var(--ease-smooth), background-color 140ms ease;
+}
+
+.maBtn svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.maBtn:active {
+    transform: scale(0.95);
+}
+
+.maBtn:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .maBtn:hover {
+        background: var(--color-surface-band-hover);
+    }
+}
+
+/* ---------- ③ 기도 제목 ---------- */
+.prayerGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+.prayerCard {
+    padding: 2.5rem 2rem;
+    border-radius: var(--r-card);
+    background-color: var(--color-white);
+}
+
+.prayerTitle {
+    margin: 0;
+    font-size: var(--sub-t-sub);
+    font-weight: 500;
+    line-height: 1.32;
+    letter-spacing: -0.03em;
+    color: var(--color-text-strong);
+}
+
+.prayerText {
+    margin: 0.75rem 0 0;
+    font-size: var(--sub-t-lead);
+    color: var(--color-text-primary);
+}
+
+/* 이번 달 기도 제목: 한 줄을 다 쓰는 짙은 카드, 왼쪽 제목 · 오른쪽 큰 문장 */
+.prayerMonth {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    align-items: start;
+    padding: 3rem;
+    background-color: var(--color-surface-dark);
+}
+
+.prayerMonth .prayerTitle {
+    color: var(--color-white);
+}
+
+.prayerMonth .prayerText {
+    margin: 0;
+    font-size: var(--sub-t-sub);
+    line-height: 1.45;
+    letter-spacing: -0.03em;
+    color: var(--color-white);
+}
+
+/* ---------- ④ 선교사님 ---------- */
+.missionGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+.missionCard {
+    overflow: hidden;
+    border-radius: var(--r-card);
+    background-color: var(--color-surface-band);
+}
+
+/* 사진이 카드 위쪽을 가득 채운다 (따로 둥글게 감싸지 않음) */
+.missionMedia {
+    aspect-ratio: 3 / 2;
+    border-radius: 0;
+}
+
+.missionBody {
+    padding: 2.5rem 2.5rem 3rem;
+}
+
+.missionTitle {
+    margin: 0 0 1.25rem;
+    font-size: var(--sub-t-sub);
+    font-weight: 500;
+    line-height: 1.32;
+    letter-spacing: -0.03em;
+    color: var(--color-text-strong);
+}
+
+/* "묶음. 지역 단체 이름 · …" 한 문단: 지역·단체는 회색, 묶음과 이름은 진하게 */
+.missionFlow {
+    margin: 0;
+    font-size: var(--sub-t-row);
+    line-height: 1.75;
+    color: var(--color-text-tertiary);
+}
+
+.missionFlow + .missionFlow {
+    margin-top: 1rem;
+}
+
+.missionFlow strong {
+    font-weight: 500;
+    color: var(--color-text-strong);
+}
+
+/* 한 분의 지역·단체·이름이 줄 중간에서 끊기지 않게 */
+.missionItem {
+    white-space: nowrap;
 }
 
 .missionName {
-    font-size: 18px;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    line-height: 1.5;
     color: var(--color-text-strong);
-    margin: 0;
-    word-break: keep-all;
 }
 
-.missionDetails {
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 1.5;
-    color: var(--color-text-meta);
-    margin: 0;
-    text-align: right;
-    word-break: keep-all;
-    flex-shrink: 0;
+.sep {
+    padding: 0 0.15em;
+    color: var(--color-slate-400);
 }
 
-@media (max-width: 480px) {
-    .missionItem {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
-    }
-
-    .missionDetails {
-        text-align: left;
-        font-size: 14px;
-    }
+/* ---------- ⑤ 함께하기 ---------- */
+.join {
+    text-align: center;
 }
 
-/* Evangelism Team Styles */
-.infoBlock {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-.blockTitle {
-    font-size: 20px;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    line-height: 1.4;
-    color: var(--color-text-strong);
-    margin-bottom: 8px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--color-line);
-}
-
-.evangelismDesc {
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 1.6;
-    color: var(--color-text-primary);
-}
-
-.teamList {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding-left: 0;
-    list-style: none;
-}
-
-.teamItem {
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 1.6;
+.joinWho {
+    margin: 1rem 0 0;
     color: var(--color-text-meta);
 }
 
-.teamName {
-    color: var(--color-text-strong);
-    font-weight: 500;
+.joinBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 52px;
+    margin-top: 2rem;
+    padding: 0 1.75rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-surface-dark);
+    color: var(--color-white);
+    font-size: var(--sub-t-lead);
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.2s ease;
 }
 
-.scheduleList {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+.joinBtn svg {
+    width: 18px;
+    height: 18px;
 }
 
-.scheduleItem {
-    display: grid;
-    grid-template-columns: 160px 1fr;
-    gap: 16px;
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 1.6;
-    color: var(--color-text-primary);
+.joinBtn:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 3px;
 }
 
-.scheduleTime {
-    color: var(--color-text-strong);
-    font-weight: 500;
+@media (hover: hover) and (pointer: fine) {
+    .joinBtn:hover {
+        transform: translateY(-2px);
+    }
 }
 
-@media (max-width: 600px) {
-    .scheduleItem {
+/* ---------- 휴대폰 ---------- */
+@media (max-width: 767px) {
+    .page {
+        --gutter: 1rem;
+        --r-card: 24px;
+    }
+
+    .heroGrid {
         grid-template-columns: 1fr;
-        gap: 4px;
+        gap: 2.5rem;
     }
-}
 
-.contactInfo {
-    margin-top: 24px;
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 1.6;
-    color: var(--color-text-meta);
-    text-align: right;
-}
+    .heroLead {
+        margin-top: 1rem;
+        font-size: var(--sub-t-lead);
+    }
 
-.switchWrapper {
-    display: flex;
-    width: 100%;
-    justify-content: flex-start;
-    margin-bottom: 24px;
-}
+    .heroMedia {
+        aspect-ratio: 4 / 4.4;
+    }
 
-@media (max-width: 600px) {
-    .switchWrapper {
-        justify-content: center;
+    .maNavWrap {
+        display: none;
+    }
+
+    .maTrack {
+        gap: 0.75rem;
+    }
+
+    .maCard {
+        flex: 0 0 82vw;
+    }
+
+    .maCap {
+        padding: 1.25rem 0.5rem;
+    }
+
+    .prayerGrid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .prayerCard {
+        padding: 1.75rem 1.5rem;
+    }
+
+    .prayerMonth {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .missionGrid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .missionBody {
+        padding: 1.75rem 1.5rem 2rem;
+    }
+
+    .missionTitle {
+        margin-bottom: 1rem;
     }
 }

@@ -1,140 +1,264 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
-import SubPageSection from '../components/SubPageSection';
-import ScrollFadeText from '../components/ScrollFadeText';
-import SwitchTabs from '../components/SwitchTabs';
 import Footer from '../components/Footer';
-import styles from './OutreachPage.module.css';
 import PageTopGradient from '../components/PageTopGradient';
+import { DEFAULT_PRAYERS } from '../content/outreach';
+import neighborPhoto from '../assets/main/shintanjin-baptist-church-neighbor-outreach.webp';
+import styles from './OutreachPage.module.css';
 
+const ease = [0.16, 1, 0.3, 1];
+
+// ② 목요전도팀이 하는 일 (메인 '교회가 하는 일'과 같은 카드). 사진이 없는 칸은 옅은 색 면으로 둔다
+const ACTIVITIES = [
+    {
+        lead: '떡볶이 한 그릇으로 아이들을 맞아요.',
+        text: '학교 마칠 시간에 맞춰 떡볶이와 음료를 준비하고, 아이들이 안전하게 먹고 갈 수 있게 곁을 지켜요.',
+        tone: 'sand',
+    },
+    {
+        lead: '아이들의 이름을 기억하고 친구가 돼요.',
+        text: '떡볶이를 먹으러 온 아이들과 이야기를 나누고, 예수님의 사랑을 전해요.',
+        tone: 'sky',
+    },
+    {
+        lead: '동네 이웃께 먼저 인사드려요.',
+        text: '신탄진 골목을 다니며 이웃을 만나고, 교회를 소개해요.',
+        photo: neighborPhoto,
+        alt: '목요전도팀이 동네 골목에서 이웃 어르신께 선물을 건네는 모습',
+    },
+    {
+        lead: '교회 안에서 기도로 함께해요.',
+        text: '나가는 사람들 뒤에서, 만나는 한 사람 한 사람을 위해 중보 기도팀이 기도해요.',
+        tone: 'dusk',
+    },
+];
+
+// ④ 선교사님 목록을 '묶음' 별로 나눈다. 묶음이 없는 분은 이름 없는 한 묶음으로 모은다
+// 한 묶음 안에서 모든 분의 소속이 같으면(예: 모두 FMB) 소속은 묶음 이름에 맡기고 줄마다 쓰지 않는다
+// 소속이 '우즈벡인 교회 / FMB'처럼 둘이면 앞의 것만 쓴다 (한 줄을 지역 · 단체 · 이름 세 마디로)
+const firstOrg = (organization = '') => organization.split('/')[0].trim();
+
+const groupMissionaries = (list = []) => {
+    const groups = [];
+    list.filter((item) => item.name?.trim()).forEach((item) => {
+        const label = item.group?.trim() || '';
+        let group = groups.find((g) => g.label === label);
+        if (!group) {
+            group = { label, items: [] };
+            groups.push(group);
+        }
+        group.items.push(item);
+    });
+    return groups.map((group) => {
+        const orgs = new Set(group.items.map((item) => firstOrg(item.organization)));
+        const sameOrg = group.label && orgs.size === 1;
+        return {
+            label: group.label,
+            items: group.items.map((item) => ({
+                where: [item.region?.trim(), sameOrg ? '' : firstOrg(item.organization)].filter(Boolean).join(' '),
+                name: item.name.trim(),
+            })),
+        };
+    });
+};
+
+// '김정현 목사 010-3358-3579' → 'tel:01033583579'
+const telHref = (contact = '') => {
+    const match = contact.match(/0\d{1,2}[-\s]?\d{3,4}[-\s]?\d{4}/);
+    return match ? `tel:${match[0].replace(/\D/g, '')}` : null;
+};
+
+const Media = ({ photo, alt, tone, className = '' }) => (
+    <div className={`${styles.media} ${tone ? styles[tone] : ''} ${className}`.trim()}>
+        {photo && <img className={styles.photo} src={photo} alt={alt} loading="lazy" />}
+    </div>
+);
 
 const OutreachPage = () => {
     const [missionData, setMissionData] = useState(null);
-    const [activeTab, setActiveTab] = useState('');
-    const [loading, setLoading] = useState(true);
+    const trackRef = useRef(null);
+    const reduceMotion = useReducedMotion();
 
     useEffect(() => {
         window.scrollTo(0, 0);
+        const fetchData = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'missions'));
+                const data = {};
+                querySnapshot.forEach((doc) => {
+                    data[doc.id] = doc.data();
+                });
+                setMissionData(data);
+            } catch (error) {
+                console.error('선교 데이터 불러오기 오류:', error);
+                setMissionData({});
+            }
+        };
         fetchData();
     }, []);
 
-    const fetchData = async () => {
-        try {
-            const querySnapshot = await getDocs(collection(db, 'missions'));
-            const data = {};
-            querySnapshot.forEach((doc) => {
-                data[doc.id] = doc.data();
-            });
-            setMissionData(data);
-            if (data['overseas']) setActiveTab('overseas');
-            else if (Object.keys(data).length > 0) setActiveTab(Object.keys(data)[0]);
-        } catch (error) {
-            console.error("선교 데이터 불러오기 오류:", error);
-        } finally {
-            setLoading(false);
-        }
+    const scrollTrack = (direction) => {
+        if (!trackRef.current) return;
+        const card = trackRef.current.querySelector(`.${styles.maCard}`);
+        const step = card ? card.getBoundingClientRect().width + 16 : 536;
+        trackRef.current.scrollBy({ left: direction * step, behavior: reduceMotion ? 'auto' : 'smooth' });
     };
 
-    if (loading) {
-        return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-text-meta)' }}>로딩 중...</div>;
-    }
+    // 화면에 들어올 때 아래에서 살짝 올라오며 나타남 (움직임 줄이기 설정이면 바로 보임)
+    const reveal = reduceMotion
+        ? {}
+        : {
+            initial: { opacity: 0, y: 16 },
+            whileInView: { opacity: 1, y: 0 },
+            viewport: { once: true, margin: '0px 0px -10% 0px' },
+            transition: { duration: 0.8, ease },
+        };
 
-    if (!missionData || Object.keys(missionData).length === 0) {
-        return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-text-meta)' }}>데이터가 없습니다.</div>;
-    }
-
-    const activeData = missionData[activeTab];
-    // 정렬: overseas -> domestic -> evangelism 순서 유도
-    const tabs = Object.values(missionData).sort((a, b) => {
-        const order = { 'overseas': 1, 'domestic': 2, 'evangelism': 3 };
-        return (order[a.id] || 99) - (order[b.id] || 99);
-    });
-
-    const switchTabsData = tabs.map(tab => ({
-        id: tab.id,
-        label: tab.name
-    }));
+    const loaded = missionData !== null;
+    const evangelism = missionData?.evangelism || {};
+    const saved = evangelism.prayers || {};
+    const prayers = {
+        monthLabel: saved.monthLabel?.trim() || DEFAULT_PRAYERS.monthLabel,
+        month: saved.month?.trim() || DEFAULT_PRAYERS.month,
+        items: (saved.items?.length ? saved.items : DEFAULT_PRAYERS.items).filter((item) => item.title?.trim() || item.text?.trim()),
+    };
+    const missionCards = [
+        { id: 'overseas', title: '해외선교', tone: 'sky' },
+        { id: 'domestic', title: '국내선교', tone: 'sand' },
+    ]
+        .map((card) => ({ ...card, title: missionData?.[card.id]?.name || card.title, groups: groupMissionaries(missionData?.[card.id]?.list) }))
+        .filter((card) => card.groups.length > 0);
+    const contact = evangelism.contact || '';
+    const tel = telHref(contact);
 
     return (
-        <div className={styles.pageWrapper}>
+        <div className={styles.page}>
             <PageTopGradient />
-            <SubPageSection hideHeader={true}>
-                <div style={{ textAlign: 'center' }}>
-                    <ScrollFadeText
-                        text={"가까운 이웃부터 땅끝까지\n예수님의 따뜻한 사랑을 전해요."}
-                        as="h1"
-                        className={`main-page-title ${styles.pageTitle}`}
-                        once={true}
-                    />
+
+            {/* ① 첫 화면: 왼쪽 제목 · 오른쪽 세로 사진 (휴대폰은 위아래) */}
+            <section className={styles.hero}>
+                <div className={`${styles.wrap} ${styles.heroGrid}`}>
+                    <motion.div {...reveal}>
+                        <h1 className={styles.heroTitle}>떡볶이 한 그릇에<br />담아 전하는 사랑</h1>
+                        <p className={styles.heroLead}>
+                            목요일마다 동네 아이들과 이웃을 만나요.<br />
+                            가까운 곳부터 땅끝까지, 예수님의 사랑을 전해요.
+                        </p>
+                    </motion.div>
+                    <motion.div {...reveal}>
+                        <Media tone="warm" className={styles.heroMedia} />
+                    </motion.div>
                 </div>
-                <div className={styles.contentWrapper}>
-                    <div className={styles.switchWrapper}>
-                        <SwitchTabs 
-                            tabs={switchTabsData}
-                            activeTab={activeTab}
-                            onTabChange={setActiveTab}
-                            layoutIdPrefix="activeSwitch_Outreach"
-                        />
+            </section>
+
+            {/* ② 하는 일: 메인 페이지 '교회가 하는 일'과 같은 구조 (가로로 넘기는 사진 카드 + 이전·다음) */}
+            <section className={styles.ma} aria-labelledby="outreach-work">
+                <div className={`${styles.wrap} ${styles.secHead}`}>
+                    <h2 id="outreach-work" className={styles.secTitle}>목요일 오후,<br />네 갈래로 나가요.</h2>
+                </div>
+                <div ref={trackRef} className={styles.maTrack} tabIndex={0} role="region" aria-label="목요전도팀이 하는 일">
+                    {ACTIVITIES.map((item) => (
+                        <article key={item.lead} className={styles.maCard}>
+                            <Media photo={item.photo} alt={item.alt} tone={item.tone || 'warm'} className={styles.maMedia} />
+                            <p className={styles.maCap}>
+                                <strong>{item.lead}</strong> {item.text}
+                            </p>
+                        </article>
+                    ))}
+                </div>
+                <div className={`${styles.wrap} ${styles.maNavWrap}`}>
+                    <div className={styles.maNav} aria-label="카드 이동">
+                        <button className={styles.maBtn} type="button" onClick={() => scrollTrack(-1)} aria-label="이전">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M15 18l-6-6 6-6" />
+                            </svg>
+                        </button>
+                        <button className={styles.maBtn} type="button" onClick={() => scrollTrack(1)} aria-label="다음">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M9 6l6 6-6 6" />
+                            </svg>
+                        </button>
                     </div>
-
-                    <AnimatePresence mode="wait">
-                        <motion.section
-                            key={activeTab}
-                            className={styles.contentSection}
-                            initial={{ opacity: 0, y: 15 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -15 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            {activeData.type === 'table' && (
-                                <div className={styles.missionList}>
-                                    {activeData.list.map((item, idx) => (
-                                        <div key={idx} className={styles.missionItem}>
-                                            <p className={styles.missionName}>{item.name}</p>
-                                            <p className={styles.missionDetails}>
-                                                {item.organization} / {item.region}
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-
-                            {activeData.type === 'evangelism' && (
-                                <>
-                                    <div className={styles.infoBlock}>
-                                        <h2 className={styles.blockTitle}>목요전도팀을 소개해요.</h2>
-                                        <p className={styles.evangelismDesc}>목요전도팀은 다음과 같이 4개의 팀으로 구성됩니다.</p>
-                                        <ul className={styles.teamList}>
-                                            {activeData.teams.map((team, idx) => (
-                                                <li key={idx} className={styles.teamItem}>
-                                                    {idx + 1}) <span className={styles.teamName}>{team.name}</span> ({team.desc})
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                    <div className={styles.infoBlock}>
-                                        <h2 className={styles.blockTitle}>목요전도팀은 이렇게 모여요.</h2>
-                                        <p className={styles.evangelismDesc}>- 일 시 : 매주 목요일 오전 10~오후 5시</p>
-                                        <div className={styles.scheduleList}>
-                                            {activeData.schedule.map((item, idx) => (
-                                                <div key={idx} className={styles.scheduleItem}>
-                                                    <span className={styles.scheduleTime}>{item.time}</span>
-                                                    <span>{item.task}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    <div className={styles.contactInfo}>
-                                        문의: {activeData.contact}
-                                    </div>
-                                </>
-                            )}
-                        </motion.section>
-                    </AnimatePresence>
                 </div>
-            </SubPageSection>
+            </section>
+
+            {/* ③ 기도 제목: 짙은 '이번 달' 카드 한 장 + 흰 카드 (관리자에서 바꿈) */}
+            <section className={`${styles.sec} ${styles.band}`} aria-labelledby="outreach-prayer">
+                <div className={styles.wrap}>
+                    <div className={styles.secHead}>
+                        <h2 id="outreach-prayer" className={styles.secTitle}>함께 기도해 주세요.</h2>
+                    </div>
+                    {loaded && (
+                        <div className={styles.prayerGrid}>
+                            <motion.div className={`${styles.prayerCard} ${styles.prayerMonth}`} {...reveal}>
+                                <h3 className={styles.prayerTitle}>{prayers.monthLabel} 기도 제목</h3>
+                                <p className={styles.prayerText}>{prayers.month}</p>
+                            </motion.div>
+                            {prayers.items.map((item, index) => (
+                                <motion.div key={index} className={styles.prayerCard} {...reveal}>
+                                    <h3 className={styles.prayerTitle}>{item.title}</h3>
+                                    <p className={styles.prayerText}>{item.text}</p>
+                                </motion.div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </section>
+
+            {/* ④ 선교사님: 사진이 위를 채운 카드 두 장, 아래에 '묶음. 지역 단체 이름 · …' 한 문단 */}
+            {missionCards.length > 0 && (
+                <section className={styles.sec} aria-labelledby="outreach-missions">
+                    <div className={styles.wrap}>
+                        <div className={styles.secHead}>
+                            <h2 id="outreach-missions" className={styles.secTitle}>가까운 이웃부터 땅끝까지</h2>
+                            <p className={styles.secLead}>교회가 함께 기도하고 후원하는 선교사님들이에요.</p>
+                        </div>
+                        <div className={styles.missionGrid}>
+                            {missionCards.map((card) => (
+                                <motion.article key={card.id} className={styles.missionCard} {...reveal}>
+                                    <Media tone={card.tone} className={styles.missionMedia} />
+                                    <div className={styles.missionBody}>
+                                        <h3 className={styles.missionTitle}>{card.title}</h3>
+                                        {card.groups.map((group) => (
+                                            <p key={group.label || 'all'} className={styles.missionFlow}>
+                                                {group.label && <><strong>{group.label}.</strong>{' '}</>}
+                                                {group.items.map((item, index) => (
+                                                    <React.Fragment key={`${item.name}-${index}`}>
+                                                        {index > 0 && <> <span className={styles.sep} aria-hidden="true">·</span> </>}
+                                                        <span className={styles.missionItem}>
+                                                            {item.where && <>{item.where} </>}
+                                                            <span className={styles.missionName}>{item.name}</span>
+                                                        </span>
+                                                    </React.Fragment>
+                                                ))}
+                                            </p>
+                                        ))}
+                                    </div>
+                                </motion.article>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* ⑤ 함께하기 */}
+            <section className={`${styles.sec} ${styles.band} ${styles.join}`} aria-labelledby="outreach-join">
+                <div className={styles.wrap}>
+                    <h2 id="outreach-join" className={styles.secTitle}>목요일에 함께해 주세요.</h2>
+                    {contact && <p className={styles.joinWho}>{contact.replace(/\s+(0\d)/, ' · $1')}</p>}
+                    {tel && (
+                        <a className={styles.joinBtn} href={tel}>
+                            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z" />
+                            </svg>
+                            전화로 문의하기
+                        </a>
+                    )}
+                </div>
+            </section>
+
             <Footer />
         </div>
     );

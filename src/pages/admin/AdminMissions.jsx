@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs, doc, setDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { DEFAULT_PRAYERS } from '../../content/outreach';
 
 const AdminMissions = () => {
     const [missions, setMissions] = useState({});
@@ -41,7 +42,7 @@ const AdminMissions = () => {
     const handleAddListItem = (missionId) => {
         const newMissions = { ...missions };
         if (!newMissions[missionId].list) newMissions[missionId].list = [];
-        newMissions[missionId].list.push({ name: '', organization: '', region: '' });
+        newMissions[missionId].list.push({ name: '', organization: '', region: '', group: '' });
         setMissions(newMissions);
     };
 
@@ -50,6 +51,32 @@ const AdminMissions = () => {
         const newMissions = { ...missions };
         newMissions[missionId].list.splice(index, 1);
         setMissions(newMissions);
+    };
+
+    // 목요전도팀 기도 제목: 저장된 값이 없으면 페이지에 보이는 기본 문구로 채워 둔다
+    const getPrayers = () => {
+        const saved = missions['evangelism']?.prayers || {};
+        return {
+            monthLabel: saved.monthLabel ?? DEFAULT_PRAYERS.monthLabel,
+            month: saved.month ?? DEFAULT_PRAYERS.month,
+            items: saved.items ?? DEFAULT_PRAYERS.items.map((item) => ({ ...item })),
+        };
+    };
+
+    const updatePrayers = (changes) => {
+        const newMissions = { ...missions };
+        newMissions['evangelism'] = { ...newMissions['evangelism'], prayers: { ...getPrayers(), ...changes } };
+        setMissions(newMissions);
+    };
+
+    const handlePrayerItemChange = (index, field, value) => {
+        const items = getPrayers().items.map((item, i) => (i === index ? { ...item, [field]: value } : item));
+        updatePrayers({ items });
+    };
+
+    const handleDeletePrayerItem = (index) => {
+        if (!window.confirm('삭제하시겠습니까?')) return;
+        updatePrayers({ items: getPrayers().items.filter((_, i) => i !== index) });
     };
 
     const handleSave = async (missionId) => {
@@ -85,6 +112,7 @@ const AdminMissions = () => {
                             <th style={{ padding: '12px', borderBottom: '1px solid #E5E7EB' }}>이름/교회명</th>
                             <th style={{ padding: '12px', borderBottom: '1px solid #E5E7EB' }}>소속기관</th>
                             <th style={{ padding: '12px', borderBottom: '1px solid #E5E7EB' }}>파송/사역지역</th>
+                            <th style={{ padding: '12px', borderBottom: '1px solid #E5E7EB' }}>묶음</th>
                             <th style={{ padding: '12px', borderBottom: '1px solid #E5E7EB' }}>관리</th>
                         </tr>
                     </thead>
@@ -116,6 +144,15 @@ const AdminMissions = () => {
                                     />
                                 </td>
                                 <td style={{ padding: '8px', borderBottom: '1px solid #E5E7EB' }}>
+                                    <input
+                                        type="text"
+                                        value={item.group || ''}
+                                        placeholder="예: 침례교 해외선교회(FMB)"
+                                        onChange={(e) => handleListChange(missionId, index, 'group', e.target.value)}
+                                        style={{ width: '100%', padding: '6px', border: '1px solid #ddd', borderRadius: '4px' }}
+                                    />
+                                </td>
+                                <td style={{ padding: '8px', borderBottom: '1px solid #E5E7EB' }}>
                                     <button 
                                         onClick={() => handleDeleteListItem(missionId, index)}
                                         style={{ backgroundColor: '#EF4444', color: '#fff', border: 'none', padding: '6px 10px', borderRadius: '4px', cursor: 'pointer' }}
@@ -127,6 +164,9 @@ const AdminMissions = () => {
                         ))}
                     </tbody>
                 </table>
+                <p style={{ color: '#6B7280', fontSize: '14px', marginTop: '12px' }}>
+                    * 묶음이 같은 분들은 홈페이지에서 '묶음 이름. 지역 이름 · 지역 이름'처럼 한 문단으로 이어져요. 한 묶음 안의 소속기관이 모두 같으면 소속기관은 줄마다 쓰지 않아요.
+                </p>
 
                 <div style={{ display: 'flex', gap: '8px', marginTop: '16px', justifyContent: 'flex-end' }}>
                     <button 
@@ -197,8 +237,67 @@ const AdminMissions = () => {
                             style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
                         />
                     </div>
-                    <p style={{ color: '#6B7280', fontSize: '14px' }}>* 전도팀 상세 안내 사항 및 스케줄은 현재 고정 텍스트로 표시됩니다. 향후 상세 편집 기능이 추가될 수 있습니다.</p>
-                    
+
+                    <h3 style={{ fontSize: '18px', margin: '32px 0 8px' }}>기도 제목</h3>
+                    <p style={{ color: '#6B7280', fontSize: '14px', marginBottom: '16px' }}>* 홈페이지 '함께 기도해 주세요.'에 나와요. 맨 위 짙은 카드가 이달의 기도 제목이에요.</p>
+                    <div style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: '8px', marginBottom: '16px' }}>
+                        <div>
+                            <label style={{ display: 'block', marginBottom: '8px'}}>제목 앞말</label>
+                            <input
+                                type="text"
+                                value={getPrayers().monthLabel}
+                                placeholder="예: 10월"
+                                onChange={(e) => updatePrayers({ monthLabel: e.target.value })}
+                                style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+                            />
+                            <span style={{ display: 'block', marginTop: '4px', color: '#6B7280', fontSize: '13px' }}>'{getPrayers().monthLabel || '이번 달'} 기도 제목'</span>
+                        </div>
+                        <div>
+                            <label style={{ display: 'block', marginBottom: '8px'}}>이달의 기도 제목</label>
+                            <textarea
+                                value={getPrayers().month}
+                                onChange={(e) => updatePrayers({ month: e.target.value })}
+                                rows={3}
+                                style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px', resize: 'vertical', font: 'inherit' }}
+                            />
+                        </div>
+                    </div>
+                    {getPrayers().items.map((item, index) => (
+                        <div key={index} style={{ display: 'grid', gridTemplateColumns: '160px 1fr auto', gap: '8px', marginBottom: '8px', alignItems: 'start' }}>
+                            <input
+                                type="text"
+                                value={item.title}
+                                placeholder="제목 (예: 아이들)"
+                                aria-label={`기도 제목 ${index + 1} 제목`}
+                                onChange={(e) => handlePrayerItemChange(index, 'title', e.target.value)}
+                                style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+                            />
+                            <input
+                                type="text"
+                                value={item.text}
+                                placeholder="내용"
+                                aria-label={`기도 제목 ${index + 1} 내용`}
+                                onChange={(e) => handlePrayerItemChange(index, 'text', e.target.value)}
+                                style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+                            />
+                            <button
+                                onClick={() => handleDeletePrayerItem(index)}
+                                style={{ backgroundColor: '#EF4444', color: '#fff', border: 'none', padding: '8px 10px', borderRadius: '4px', cursor: 'pointer' }}
+                            >
+                                삭제
+                            </button>
+                        </div>
+                    ))}
+
+                    <div style={{ display: 'flex', gap: '8px', marginTop: '16px', justifyContent: 'flex-end' }}>
+                        <button
+                            onClick={() => updatePrayers({ items: [...getPrayers().items, { title: '', text: '' }] })}
+                            style={{ backgroundColor: 'var(--color-btn-add)', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer'}}
+                        >
+                            + 기도 제목 추가
+                        </button>
+                    </div>
+
                     <div style={{ display: 'flex', gap: '8px', marginTop: '16px', justifyContent: 'flex-end' }}>
                         <button 
                             onClick={() => handleSave('evangelism')}
