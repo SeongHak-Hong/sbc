@@ -76,6 +76,7 @@ const PostSheet = ({
     extra,
     loading = false,
     onClose,
+    children,
 }) => {
     const reduceMotion = useReducedMotion();
     const sheetRef = useRef(null);
@@ -278,6 +279,9 @@ const PostSheet = ({
                             )}
 
                             {extra && <div className={styles.extra}>{extra}</div>}
+
+                            {/* 직접 그리는 본문 (개인정보처리방침·이용약관처럼 편집기 글이 아닌 것) */}
+                            {children}
                         </>
                     )}
                 </div>

@@ -33,10 +33,31 @@
     letter-spacing: var(--letter-spacing-base, -0.02em);
 }
 
-.fLinks a {
+/* 개인정보처리방침 · 이용약관: 누르면 팝업이 열리는 버튼 (글자 링크처럼 보이게) */
+.fLinks button {
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    letter-spacing: inherit;
     color: rgba(0, 0, 0, 0.88);
     font-size: 0.875rem;
-    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.fLinks button:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .fLinks button:hover {
+        color: var(--color-text-strong, #0E1A28);
+        text-decoration: underline;
+        text-underline-offset: 4px;
+    }
 }
 
 .footer p {

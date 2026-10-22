@@ -1,0 +1,70 @@
+/* 개인정보처리방침 · 이용약관 본문 (PostSheet 안). 글자는 --sub-* 토큰:
+   조 제목은 목록 줄 크기, 본문은 큰 본문 크기. 조 사이를 넉넉히 띄워 읽는 자리를 잃지 않게 */
+.doc {
+    margin-top: 2.5rem;
+    font-size: var(--sub-t-lead);
+    line-height: 1.75;
+    color: var(--color-text-primary);
+}
+
+.doc h2 {
+    margin: 2.5rem 0 0.75rem;
+    font-size: var(--sub-t-row);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    color: var(--color-text-strong);
+}
+
+.doc h2:first-child {
+    margin-top: 0;
+}
+
+/* 전역 p·li 글자 크기를 이기고 본문 크기로 */
+.doc p,
+.doc li {
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+}
+
+.doc p {
+    margin: 0 0 0.75rem;
+}
+
+.doc ol,
+.doc ul {
+    margin: 0 0 0.75rem;
+    padding-left: 1.5rem;
+}
+
+.doc ol {
+    list-style: decimal;
+}
+
+.doc ul {
+    list-style: disc;
+}
+
+.doc li {
+    padding-left: 0.25rem;
+}
+
+.doc li + li {
+    margin-top: 0.25rem;
+}
+
+.doc li::marker {
+    color: var(--color-text-meta);
+    font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 767px) {
+    .doc {
+        margin-top: 1.75rem;
+    }
+
+    .doc h2 {
+        margin-top: 2rem;
+    }
+}
