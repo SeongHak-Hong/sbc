@@ -12,12 +12,13 @@ import friendsPhoto from '../assets/outreach/shintanjin-baptist-church-outreach-
 import prayerPhoto from '../assets/outreach/shintanjin-baptist-church-intercessory-prayer.webp';
 import overseasPhoto from '../assets/outreach/shintanjin-baptist-church-overseas-mission-care-box.webp';
 import domesticPhoto from '../assets/outreach/shintanjin-baptist-church-domestic-mission.webp';
+import newVolunteerPhoto from '../assets/outreach/shintanjin-baptist-church-outreach-new-volunteer.webp';
 import styles from './OutreachPage.module.css';
 
 const ease = [0.16, 1, 0.3, 1];
 
-// ⑤ 함께하기 오른쪽 사진 (반갑게 손 흔들며 맞이하는 목요전도팀)
-const JOIN_PHOTO = welcomePhoto;
+// ⑤ 함께하기 오른쪽 사진 (처음 온 성도에게 앞치마를 매어 주는 목요전도팀)
+const JOIN_PHOTO = newVolunteerPhoto;
 
 // ② 목요전도팀이 하는 일 (메인 '교회가 하는 일'과 같은 카드). 사진이 없는 칸은 옅은 색 면으로 둔다
 const ACTIVITIES = [
@@ -275,7 +276,7 @@ const OutreachPage = () => {
                         )}
                     </div>
                     <motion.div {...reveal}>
-                        <Media photo={JOIN_PHOTO} alt="신탄진침례교회 마당에서 목요전도팀 두 분이 손을 흔들며 반갑게 맞이하는 모습" tone="warm" className={styles.joinMedia} />
+                        <Media photo={JOIN_PHOTO} alt="목요전도팀 권사님이 처음 온 성도에게 앞치마를 매어 주며 함께 웃는 모습" tone="warm" className={styles.joinMedia} />
                     </motion.div>
                 </div>
             </section>
