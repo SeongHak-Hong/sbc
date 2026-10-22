@@ -247,7 +247,7 @@
 }
 
 .prayerMonth .prayerTitle {
-    color: var(--color-white);
+    color: var(--color-link-on-dark);
 }
 
 .prayerMonth .prayerText {
