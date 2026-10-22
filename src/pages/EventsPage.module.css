@@ -117,7 +117,7 @@
     transition: transform 0.12s ease-out;
 }
 
-/* Apple 갤러리 넘김 버튼(paddlenav)과 같은 모양: 36px 원 테두리 2px + 꺾쇠 2px, 회색(Apple #86868b ≈ slate-500).
+/* Apple 갤러리 넘김 버튼(paddlenav)에서 테두리를 뺀 모양: 36px 칸에 꺾쇠 2px, 회색(Apple #86868b ≈ slate-500).
    마우스를 올리거나 누르면 원이 회색으로 차고 꺾쇠가 흰색이 된다 (100ms linear) */
 .titleChevron svg {
     width: 100%;
@@ -127,7 +127,7 @@
 
 .titleChevron circle {
     fill: transparent;
-    stroke: var(--color-slate-500);
+    stroke: none; /* 평소엔 원 테두리 없이 꺾쇠만 */
     transition: fill 100ms linear;
 }
 
