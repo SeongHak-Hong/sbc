@@ -42,6 +42,12 @@ const fullDateLabel = (event) => {
     return `${event.month || ''} ${event.date || ''}일${event.day ? `(${event.day[0]})` : ''}`.trim();
 };
 
+// 목록에 이미 보이는 날짜·제목·시간·장소 말고 팝업에서 더 볼 것(본문 글 또는 사진)이 있을 때만 '세부정보'를 단다
+const hasDetail = (event) => {
+    const text = (event.content || '').replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim();
+    return text.length > 0 || (event.imageUrls || []).length > 0 || Boolean(event.imageUrl);
+};
+
 // 날짜 칸은 늘 두 자리 하루만 (여러 날 일정은 시작일) → 모든 줄의 제목이 같은 자리에서 시작
 const dayLabel = (event) => {
     const start = parseYmd(event.startDate);
@@ -279,14 +285,16 @@ const EventsPage = () => {
                                                     {event.location && <span className={styles.eventMeta}>{event.location}</span>}
                                                 </div>
                                             )}
-                                            <button
-                                                type="button"
-                                                className={styles.detailLink}
-                                                aria-label={`${event.title} 세부정보`}
-                                                onClick={() => handleEventClick(event)}
-                                            >
-                                                세부정보
-                                            </button>
+                                            {hasDetail(event) && (
+                                                <button
+                                                    type="button"
+                                                    className={styles.detailLink}
+                                                    aria-label={`${event.title} 세부정보`}
+                                                    onClick={() => handleEventClick(event)}
+                                                >
+                                                    세부정보
+                                                </button>
+                                            )}
                                         </div>
                                     </li>
                                     );
