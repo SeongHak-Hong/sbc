@@ -31,6 +31,17 @@ const rangeLabel = (event) => {
     return `${startText} – ${endMonth}${end.getDate()}일(${weekdays[end.getDay()]})`;
 };
 
+// 팝업 맨 위 날짜: "2026년 10월 1일(목)", 여러 날이면 "2026년 10월 1일(목) – 3일(토)"
+const fullDateLabel = (event) => {
+    const start = parseYmd(event.startDate);
+    const range = rangeLabel(event);
+    if (start) {
+        const year = `${start.getFullYear()}년 `;
+        return year + (range ?? `${start.getMonth() + 1}월 ${start.getDate()}일(${weekdays[start.getDay()]})`);
+    }
+    return `${event.month || ''} ${event.date || ''}일${event.day ? `(${event.day[0]})` : ''}`.trim();
+};
+
 // 날짜 칸은 늘 두 자리 하루만 (여러 날 일정은 시작일) → 모든 줄의 제목이 같은 자리에서 시작
 const dayLabel = (event) => {
     const start = parseYmd(event.startDate);
@@ -144,23 +155,15 @@ const EventsPage = () => {
         triggerRef.current?.focus();
     };
 
+    // 세부정보 팝업(ScheduleSheet)은 날짜 문장 · 시간 · 장소 · 본문 · 사진을 따로 받아 그린다
     const handleEventClick = (event) => {
-        // 여러 날 일정은 목록과 같은 기간 문장으로
-        const displayDate = rangeLabel(event) ?? `${event.month} ${event.date}일 (${event.day?.[0] ?? ''})`;
-        const eventDateStr = `📅 날짜: ${displayDate}`;
-        const timeStr = event.time ? `🕒 시간: ${event.time}` : '';
-        const locStr = event.location ? `🚩 장소: ${event.location}` : '';
-        const contentStr = event.content ? `\n\n${event.content}` : '';
-
-        const contentBody = [eventDateStr, timeStr, locStr, contentStr].filter(Boolean).join('\n\n');
-
         navigate(`/post/schedules_${event.id}`, {
             state: {
                 ...event,
                 id: event.id,
                 category: 'schedule',
-                date: displayDate,
-                content: contentBody,
+                dateText: fullDateLabel(event),
+                description: event.content || '',
                 background: location,
             },
         });

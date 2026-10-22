@@ -10,6 +10,7 @@ import LargeButton from '../components/ui/LargeButton';
 import styles from './PostDetailPage.module.css';
 
 import NaverMap from '../components/ui/NaverMap';
+import ScheduleSheet from '../components/ScheduleSheet';
 import thumbKindergarten from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb.webp';
 import thumbElementary from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-01.webp';
 import thumbYouth from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-02.webp';
@@ -497,9 +498,12 @@ const PostDetailPage = () => {
                         const contentBody = [eventDateStr, timeStr, locStr, contentStr].filter(Boolean).join('\n\n');
 
                         setPost({
+                            ...foundEvent,
                             title: foundEvent.title,
                             author: '신탄진침례교회',
                             date: displayDate,
+                            dateText: displayDate,
+                            description: foundEvent.content || '',
                             content: contentBody,
                             category: 'schedule'
                         });
@@ -582,6 +586,11 @@ const PostDetailPage = () => {
             navigate('/');
         }
     };
+
+    // 교회 일정은 Apple 뉴스룸 모양의 시트로 (사진 비율 대응 · 크게 보기)
+    if (post.category === 'schedule') {
+        return <ScheduleSheet post={post} images={viewerImages} onClose={handleGoBack} />;
+    }
 
     return (
         <div className={styles.overlay} onClick={handleGoBack}>

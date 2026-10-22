@@ -1,0 +1,309 @@
+/* 교회 일정 세부정보 팝업 (Apple 뉴스룸 '빠르게 보기'와 같은 구성).
+   글자 크기는 index.css --sub-* 토큰. 휴대폰은 아래에서 올라오는 시트 */
+
+/* 뒤 화면: 옅은 회색 + 흐림 (Apple: #F5F5F7 30% · blur 24px). 이 칸이 스크롤된다 */
+.dim {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background-color: rgba(var(--color-surface-band-rgb), 0.3);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+    -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+    .dim {
+        background-color: rgba(var(--color-surface-band-rgb), 0.92);
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+}
+
+.sheet {
+    --color-text-strong: #1d1d1f;   /* Apple Ink (교회 안내와 같음) */
+    --color-text-primary: #1d1d1f;
+    --color-text-meta: #707070;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 3rem);
+    max-width: 692px;
+    margin: 3rem auto;
+    box-sizing: border-box;
+    border-radius: 28px;
+    background-color: var(--color-white);
+    box-shadow: 0 30px 50px rgba(var(--color-text-strong-rgb), 0.08);
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    letter-spacing: -0.02em;
+    word-break: keep-all;
+}
+
+.sheet:focus {
+    outline: none;
+}
+
+/* ---------- 닫기: 왼쪽 위 연회색 원 (누르는 영역 44px · 보이는 원 36px) ---------- */
+.closeWrap {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    height: 0;
+}
+
+.close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin: 1.25rem 0 0 1.25rem;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.closeIcon {
+    display: flex;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--color-surface-band-hover);
+    color: var(--color-text-strong);
+    transition: background-color 0.1s linear, transform 0.12s ease-out;
+}
+
+.closeIcon svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .close:hover .closeIcon {
+        background-color: rgba(var(--color-slate-400-rgb), 0.45);
+    }
+}
+
+.close:active .closeIcon {
+    transform: scale(0.95);
+    background-color: rgba(var(--color-slate-400-rgb), 0.45);
+}
+
+.close:focus-visible {
+    outline: none;
+}
+
+.close:focus-visible .closeIcon {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 3px;
+}
+
+/* ---------- 내용 ---------- */
+.body {
+    padding: 5rem 4rem 3.75rem; /* 위 80 · 좌우 64 · 아래 60 */
+}
+
+.date {
+    margin: 0 0 0.75rem;
+    font-size: var(--sub-t-body);
+    color: var(--color-text-meta);
+    font-variant-numeric: tabular-nums;
+}
+
+.title {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: var(--color-text-strong);
+    text-wrap: balance;
+}
+
+/* 시간 · 장소: 이름(회색)과 값을 한 줄에 */
+.facts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    margin: 1.75rem 0 0;
+}
+
+.fact {
+    display: flex;
+    gap: 1rem;
+    font-size: var(--sub-t-lead);
+}
+
+.fact dt {
+    flex-shrink: 0;
+    color: var(--color-text-meta);
+}
+
+.fact dd {
+    margin: 0;
+    color: var(--color-text-strong);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 사진: 자르지 않음 ----------
+   폭은 늘 꽉 채우고, 높이는 폭의 1.25배(4:5)까지만. 그보다 긴 세로 사진은
+   object-fit: contain으로 통째로 보이고 남는 양옆은 연한 회색(#F5F5F7) */
+.photos {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    container-type: inline-size;
+}
+
+.photo {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    border-radius: 12px;
+    background: none;
+    cursor: zoom-in;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    transition: transform 0.12s ease-out;
+}
+
+.photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 70vh;   /* 컨테이너 단위를 못 쓰는 브라우저 */
+    max-height: 125cqi; /* 폭 × 1.25 = 4:5 */
+    object-fit: contain;
+    border-radius: 12px;
+    background-color: var(--color-surface-band);
+}
+
+.photo:active {
+    transform: scale(0.99);
+}
+
+.photo:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 3px;
+}
+
+/* ---------- 내용 글 (관리자가 쓴 본문) ---------- */
+.text {
+    margin-top: 2.5rem;
+    font-size: var(--sub-t-lead);
+}
+
+.text :global(.toastui-editor-contents) {
+    font-size: var(--sub-t-lead);
+    color: var(--color-text-primary);
+}
+
+.text :global(.toastui-editor-contents) * {
+    font-family: var(--font-body) !important;
+    line-height: 1.7 !important;
+}
+
+.text :global(.toastui-editor-contents) p {
+    margin: 0 0 1rem;
+    font-size: inherit;
+    color: inherit;
+}
+
+.text :global(.toastui-editor-contents) strong,
+.text :global(.toastui-editor-contents) b {
+    font-weight: 500 !important;
+}
+
+.text :global(.toastui-editor-contents) h1,
+.text :global(.toastui-editor-contents) h2,
+.text :global(.toastui-editor-contents) h3,
+.text :global(.toastui-editor-contents) h4 {
+    margin: 1.5rem 0 0.75rem;
+    padding: 0;
+    border: none;
+    font-size: var(--sub-t-row) !important;
+    font-weight: 500 !important;
+    color: var(--color-text-strong) !important;
+}
+
+/* ---------- 사진 크게 보기 ---------- */
+.zoom {
+    position: fixed;
+    inset: 0;
+    z-index: 2001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(4.5rem + env(safe-area-inset-top, 0px)) 1rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
+    box-sizing: border-box;
+    background-color: rgba(var(--color-surface-dark-rgb), 0.96);
+    cursor: zoom-out;
+}
+
+.zoomImg {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.zoomClose {
+    position: absolute;
+    top: env(safe-area-inset-top, 0px);
+    left: 0;
+    margin: 1rem;
+}
+
+.zoomClose .closeIcon {
+    background-color: rgba(255, 255, 255, 0.16);
+    color: var(--color-white);
+}
+
+/* ---------- 휴대폰: 아래에서 올라오는 시트 ---------- */
+@media (max-width: 767px) {
+    .sheet {
+        width: 100%;
+        min-height: calc(100% - 3rem);
+        margin: 3rem 0 0;
+        border-radius: 24px 24px 0 0;
+    }
+
+    .close {
+        margin: 0.75rem 0 0 0.75rem;
+    }
+
+    .body {
+        padding: 4.25rem 1.125rem calc(2.5rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    .title {
+        font-size: var(--sub-t-title);
+    }
+
+    .facts {
+        margin-top: 1.25rem;
+    }
+
+    .photos {
+        margin-top: 1.75rem;
+        gap: 0.75rem;
+    }
+
+    .text {
+        margin-top: 1.75rem;
+    }
+}
