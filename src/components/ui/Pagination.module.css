@@ -1,80 +1,87 @@
+/* Apple 뉴스룸 아카이브 페이지네이션: 회색 원 화살표 + 쪽 번호 입력 칸 / 전체 */
 .pagination {
     display: flex;
     align-items: center;
-    gap: 8px;
     justify-content: center;
-}
-
-.pageButton, .pageArrow {
-    background: transparent;
-    border: none;
-    color: var(--color-text-primary);
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease, opacity 0.3s ease;
-    padding: 0;
-    flex-shrink: 0;
-}
-
-.pageButton:hover:not(:disabled):not(.active), 
-.pageArrow:hover:not(:disabled) {
-    background-color: rgba(var(--color-text-primary-rgb), 0.05);
-}
-
-.pageButton {
-    font-size: 18px;
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-inactive);
+    gap: 24px;
+    letter-spacing: -0.02em;
 }
 
 .pageArrow {
-    font-size: 24px !important;
-}
-
-.pageButton:disabled, .pageArrow:disabled {
-    opacity: 0.2;
-    cursor: default;
-}
-
-.pageButton.active {
-    background-color: transparent;
-    color: var(--color-text-secondary);
-    cursor: default;
-}
-
-.ellipsis {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
+    background-color: var(--color-surface-band);
+    color: var(--color-text-meta);
+    font-size: 28px !important;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* 모바일 화면 대응 */
-@media (max-width: 768px) {
-    .pagination {
-        gap: 4px;
+@media (hover: hover) {
+    .pageArrow:hover:not(:disabled) {
+        background-color: var(--color-surface-band-hover);
+        color: var(--color-text-primary);
     }
 }
 
-.ellipsis {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
+.pageArrow:disabled {
+    opacity: 0.42;
+    cursor: default;
 }
 
-/* 모바일 화면 대응 */
+.pageArrow:focus-visible,
+.input:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    font-size: var(--sub-t-row);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    line-height: 1.35;
+}
+
+.input {
+    height: 40px;
+    min-width: 32px;
+    margin-right: 8px;
+    padding: 0 4px;
+    box-sizing: border-box;
+    border: 1px solid var(--color-text-meta);
+    border-radius: 8px;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+.input:focus {
+    border-color: var(--color-accent-sky);
+}
+
+.total {
+    font-variant-numeric: tabular-nums;
+}
+
+.slash {
+    margin-right: 4px;
+}
+
 @media (max-width: 768px) {
     .pagination {
-        gap: 4px;
+        gap: 16px;
     }
 }

@@ -1,56 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Pagination.module.css';
 
+// Apple 뉴스룸 아카이브 방식: [‹] [현재 쪽 입력] / 전체 [›]
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-    const [isMobile, setIsMobile] = useState(false);
+    const [draft, setDraft] = useState(String(currentPage));
 
     useEffect(() => {
-        const checkMobile = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
-        
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
-    }, []);
-
-    const getPageNumbers = () => {
-        const pages = [];
-        const maxPagesToShow = isMobile ? 3 : 5;
-        const halfWindow = Math.floor(maxPagesToShow / 2);
-
-        if (totalPages <= maxPagesToShow + 2) {
-            for (let i = 1; i <= totalPages; i++) {
-                pages.push(i);
-            }
-        } else {
-            let startPage = Math.max(1, currentPage - halfWindow);
-            let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
-
-            if (endPage - startPage < maxPagesToShow - 1) {
-                startPage = Math.max(1, endPage - (maxPagesToShow - 1));
-            }
-
-            if (startPage > 1) {
-                pages.push(1);
-                if (startPage > 2) {
-                    pages.push('ellipsis-start');
-                }
-            }
-
-            for (let i = startPage; i <= endPage; i++) {
-                pages.push(i);
-            }
-
-            if (endPage < totalPages) {
-                if (endPage < totalPages - 1) {
-                    pages.push('ellipsis-end');
-                }
-                pages.push(totalPages);
-            }
-        }
-        return pages;
-    };
+        setDraft(String(currentPage));
+    }, [currentPage]);
 
     const handlePageChange = (page) => {
         onPageChange(page);
@@ -63,44 +20,57 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         }, 50);
     };
 
+    // 입력한 쪽 번호로 이동 (범위 밖이면 가장 가까운 쪽, 숫자가 아니면 되돌림)
+    const commitDraft = () => {
+        const n = parseInt(draft, 10);
+        if (Number.isNaN(n)) {
+            setDraft(String(currentPage));
+            return;
+        }
+        const page = Math.min(Math.max(n, 1), totalPages);
+        setDraft(String(page));
+        if (page !== currentPage) handlePageChange(page);
+    };
+
     return (
-        <div className={styles.pagination}>
-            <button 
+        <nav className={styles.pagination} aria-label="쪽 이동">
+            <button
+                type="button"
                 className={`${styles.pageArrow} material-symbols-outlined`}
                 disabled={currentPage === 1}
                 onClick={() => handlePageChange(currentPage - 1)}
+                aria-label="이전 쪽"
             >chevron_left</button>
-            
-            {getPageNumbers().map((page, index) => {
-                if (typeof page === 'string' && page.startsWith('ellipsis')) {
-                    return (
-                        <span key={`ellipsis-${index}`} className={styles.ellipsis}>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="6" cy="12" r="1.5" fill="#888" />
-                                <circle cx="12" cy="12" r="1.5" fill="#888" />
-                                <circle cx="18" cy="12" r="1.5" fill="#888" />
-                            </svg>
-                        </span>
-                    );
-                }
-                
-                return (
-                    <button 
-                        key={page}
-                        className={`${styles.pageButton} ${currentPage === page ? styles.active : ''}`}
-                        onClick={() => handlePageChange(page)}
-                    >
-                        {page}
-                    </button>
-                );
-            })}
-            
-            <button 
+
+            <div className={styles.info}>
+                <input
+                    className={styles.input}
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    value={draft}
+                    onChange={(e) => setDraft(e.target.value.replace(/\D/g, ''))}
+                    onBlur={commitDraft}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') e.currentTarget.blur();
+                    }}
+                    onFocus={(e) => e.currentTarget.select()}
+                    style={{ width: `${Math.max(String(totalPages).length, draft.length, 1) + 1.4}ch` }}
+                    aria-label={`쪽 번호 (전체 ${totalPages}쪽)`}
+                />
+                <span className={styles.total} aria-hidden="true">
+                    <span className={styles.slash}>/</span>{totalPages}
+                </span>
+            </div>
+
+            <button
+                type="button"
                 className={`${styles.pageArrow} material-symbols-outlined`}
                 disabled={currentPage === totalPages}
                 onClick={() => handlePageChange(currentPage + 1)}
+                aria-label="다음 쪽"
             >chevron_right</button>
-        </div>
+        </nav>
     );
 };
 
