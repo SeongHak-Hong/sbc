@@ -16,6 +16,9 @@ import styles from './OutreachPage.module.css';
 
 const ease = [0.16, 1, 0.3, 1];
 
+// ⑤ 함께하기 배경 사진 (반갑게 손 흔들며 맞이하는 목요전도팀)
+const JOIN_BG = welcomePhoto;
+
 // ② 목요전도팀이 하는 일 (메인 '교회가 하는 일'과 같은 카드). 사진이 없는 칸은 옅은 색 면으로 둔다
 const ACTIVITIES = [
     {
@@ -256,8 +259,9 @@ const OutreachPage = () => {
                 </section>
             )}
 
-            {/* ⑤ 함께하기 */}
-            <section className={`${styles.sec} ${styles.band} ${styles.join}`} aria-labelledby="outreach-join">
+            {/* ⑤ 함께하기: 사진을 배경에 깔고 짙은 막을 얹어 흰 글씨가 보이게 */}
+            <section className={`${styles.sec} ${styles.join}`} aria-labelledby="outreach-join">
+                <img className={styles.joinBg} src={JOIN_BG} alt="" aria-hidden="true" loading="lazy" />
                 <div className={styles.wrap}>
                     <h2 id="outreach-join" className={styles.secTitle}>목요일에 함께해 주세요.</h2>
                     {contact && <p className={styles.joinWho}>{contact.replace(/\s+(0\d)/, ' · $1')}</p>}
