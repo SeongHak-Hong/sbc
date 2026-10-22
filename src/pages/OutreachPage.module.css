@@ -293,7 +293,7 @@
 /* "묶음. 지역 단체 이름 · …" 한 문단: 지역·단체는 회색, 묶음과 이름은 진하게 */
 .missionFlow {
     margin: 0;
-    font-size: var(--sub-t-row);
+    font-size: var(--sub-t-body); /* 16px (1rem) */
     line-height: 1.75;
     color: var(--color-text-tertiary);
 }
