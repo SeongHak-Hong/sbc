@@ -57,11 +57,13 @@
     outline: none;
 }
 
-/* ---------- 닫기: 왼쪽 위 연회색 원 (누르는 영역 44px · 보이는 원 36px) ---------- */
+/* ---------- 닫기: 오른쪽 위 검은 원 (교회 안내 '교회 차 시간표' 팝업과 같은 버튼)
+   누르는 영역 44px · 보이는 원 36px ---------- */
 .closeWrap {
     position: sticky;
     top: 0;
     z-index: 1;
+    align-self: flex-end;
     height: 0;
 }
 
@@ -71,7 +73,7 @@
     justify-content: center;
     width: 44px;
     height: 44px;
-    margin: 1.5rem 0 0 1.5rem; /* 보이는 원이 시트 모서리에서 28px (Apple과 같음) */
+    margin: 1.5rem 1.5rem 0 0; /* 보이는 원이 시트 모서리에서 28px */
     padding: 0;
     border: none;
     background: none;
@@ -85,8 +87,8 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background-color: var(--color-surface-band-hover);
-    color: var(--color-text-strong);
+    background-color: #1d1d1f; /* 교회 차 시간표 팝업 닫기와 같은 색 */
+    color: var(--color-white);
     transition: background-color 0.1s linear, transform 0.12s ease-out;
 }
 
@@ -95,19 +97,19 @@
     height: 100%;
     fill: none;
     stroke: currentColor;
-    stroke-width: 2;
+    stroke-width: 3;
     stroke-linecap: round;
 }
 
 @media (hover: hover) and (pointer: fine) {
     .close:hover .closeIcon {
-        background-color: rgba(var(--color-slate-400-rgb), 0.45);
+        background-color: #272729;
     }
 }
 
 .close:active .closeIcon {
     transform: scale(0.95);
-    background-color: rgba(var(--color-slate-400-rgb), 0.45);
+    background-color: #18181a;
 }
 
 .close:focus-visible {
@@ -277,7 +279,7 @@
 .zoomClose {
     position: absolute;
     top: env(safe-area-inset-top, 0px);
-    left: 0;
+    right: 0;
     margin: 1rem;
 }
 
@@ -309,7 +311,7 @@
     }
 
     .close {
-        margin: 1rem 0 0 1rem;
+        margin: 1rem 1rem 0 0;
     }
 
     .body {
