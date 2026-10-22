@@ -264,7 +264,7 @@ const OutreachPage = () => {
             <section className={`${styles.sec} ${styles.join}`} aria-labelledby="outreach-join">
                 <div className={`${styles.wrap} ${styles.joinGrid}`}>
                     <div>
-                        <h2 id="outreach-join" className={styles.secTitle}>목요일에<br />함께해 주세요.</h2>
+                        <h2 id="outreach-join" className={styles.secTitle}>목요일에 함께<br />사랑을 전해요.</h2>
                         {contact && <p className={styles.joinWho}>{contact.replace(/\s+(0\d)/, ' · $1')}</p>}
                         {tel && (
                             <a className={styles.joinBtn} href={tel}>
