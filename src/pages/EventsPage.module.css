@@ -1,371 +1,360 @@
-.pageWrapper {
-    width: 100%;
+/* 교회 일정: 첫 화면 오로라(PageTopGradient) 위에 "26년 10월" 제목 + 연월 고르기, 아래 일정 목록.
+   목록은 교회 안내 '교회 차 시간표'(routeStack) 줄 모양을 따른다. 글자·여백은 --sub-* 토큰 */
+.page {
+    --t-strong: var(--sub-t-title);
+    --t-row: var(--sub-t-row);
+    --t-small: var(--sub-t-body);
+    --wrap: 1200px;
+    --gutter: 1.5rem;
+    --indent: 5rem;   /* 날짜·제목 줄을 제목보다 안쪽으로 */
+    --day-w: 3.5rem;  /* 날짜 칸 */
+
+    position: relative;
     min-height: 100vh;
     color: var(--color-text-primary);
-    position: relative;
-    overflow-x: hidden;
-    background-color: #FFFFFF;
+    background-color: var(--color-white);
     /* 첫 화면 그라디언트(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 */
     isolation: isolate;
+    line-height: 1.6;
+    letter-spacing: -0.02em;
+    word-break: keep-all;
 }
 
-.contentWrapper {
-    max-width: 1440px;
+.page > section {
+    --color-text-strong: #1d1d1f;   /* Apple Ink (교회 안내와 같음) */
+    --color-text-primary: #1d1d1f;
+    --color-text-meta: #707070;
+    color: var(--color-text-primary);
+}
+
+.wrap {
+    max-width: var(--wrap);
     margin: 0 auto;
-    width: 100%;
-    overflow: hidden;
+    padding: 0 var(--gutter);
+    box-sizing: border-box;
 }
 
-
-
-
-
-@media (max-width: 600px) {
-
-    .pageTitle {
-        font-size: 28px;
-    }
-}
-
-/* --- Month Navigation Bar --- */
-.monthNav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 80px;
-}
-
-.navButton {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    border: none;
-    background-color: rgba(var(--color-slate-400-rgb), 0.25);
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.2s ease, opacity 0.3s ease;
-    color: #1F1F1F;
-    padding: 0;
-}
-
-.navButton:hover:not(:disabled) {
-    background-color: rgba(var(--color-slate-400-rgb), 0.5);
-}
-
-.navButton img {
-    width: 24px;
-    height: 24px;
-}
-
-/* --- Center: Year + Month text --- */
-.monthNavCenter {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+/* ---------- 첫 화면: 연월 제목 ---------- */
+.hero {
     position: relative;
-
-    font-size: 28px;
-    color: var(--color-text-secondary);
+    z-index: 2; /* 고르기 창이 목록 위로 */
+    padding-top: var(--sub-title-top);
 }
 
-.yearPart {
-    cursor: default;
+.pickerAnchor {
+    position: relative;
+    display: inline-block;
 }
 
-.monthPart {
-    cursor: pointer;
+.title {
+    margin: 0;
+    font-size: var(--t-strong);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: var(--color-text-strong);
+}
+
+/* 제목 글자와 화살표가 한 버튼: 어디를 눌러도 고르기 창이 열린다 */
+.titleButton {
     display: inline-flex;
     align-items: center;
-    gap: 2px;
-    border-radius: 8px;
-    padding: 4px 8px;
-    margin: -4px -8px;
+    gap: 0.5rem;
+    margin: -0.25rem -0.5rem;
+    padding: 0.25rem 0.5rem;
+    border: none;
+    border-radius: 16px;
+    background: none;
+    font: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    font-variant-numeric: tabular-nums;
+}
+
+.titleButton:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
+}
+
+.titleChevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    background-color: rgba(var(--color-slate-400-rgb), 0.2);
+    color: var(--color-text-strong);
     transition: background-color 0.2s ease;
 }
 
-.monthPart:hover {
-    background-color: rgba(var(--color-text-primary-rgb), 0.05);
+.titleChevron svg {
+    transition: transform 0.3s var(--ease-smooth);
 }
 
-.dropIcon {
-    font-size: 22px !important;
-    transition: transform 0.2s ease;
-    color: rgba(var(--color-text-primary-rgb), 0.4);
-}
-
-.dropIconOpen {
+.titleChevronOpen svg {
     transform: rotate(180deg);
 }
 
-/* --- Month Grid Popover --- */
-.monthGridPopover {
+@media (hover: hover) {
+    .titleButton:hover .titleChevron {
+        background-color: rgba(var(--color-slate-400-rgb), 0.35);
+    }
+}
+
+/* ---------- 연월 고르기 창 ---------- */
+.picker {
     position: absolute;
-    top: calc(100% + 12px);
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.04);
-    border: none;
-    border-radius: 16px;
-    padding: 20px;
-    z-index: 100;
-    width: 280px;
-    animation: popoverIn 0.15s ease-out;
+    top: calc(100% + 0.75rem);
+    left: 0;
+    width: 20rem;
+    max-width: calc(100vw - 2 * var(--gutter));
+    padding: 1.25rem;
+    box-sizing: border-box;
+    border-radius: 24px;
+    background-color: rgba(255, 255, 255, 0.92);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 30px 50px rgba(255, 138, 63, 0.06), 0 8px 24px rgba(var(--color-text-strong-rgb), 0.08);
+    transform-origin: top left;
 }
 
-@keyframes popoverIn {
-    from {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-4px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
-}
-
-/* Year row inside popover */
-.popoverYearRow {
+.pickerYearRow {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid rgba(var(--color-text-primary-rgb), 0.08);
+    margin-bottom: 0.75rem;
 }
 
-.popoverYearText {
-    font-size: 18px;
-    color: var(--color-text-primary);
+.pickerYear {
+    font-size: var(--t-row);
+    font-weight: 500;
+    color: var(--color-text-strong);
+    font-variant-numeric: tabular-nums;
 }
 
-.popoverYearBtn {
-    background: transparent;
-    border: none;
-    color: var(--color-text-primary);
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+.pickerYearBtn {
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+    width: 44px;
+    height: 44px;
     padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: none;
+    color: var(--color-text-strong);
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
 }
 
-.popoverYearBtn:hover:not(:disabled) {
-    background-color: rgba(var(--color-text-primary-rgb), 0.05);
+.pickerYearBtn:disabled {
+    opacity: 0.2;
+    cursor: default;
 }
 
-.popoverYearBtn span {
-    font-size: 22px !important;
+@media (hover: hover) {
+    .pickerYearBtn:hover:not(:disabled) {
+        background-color: rgba(var(--color-slate-400-rgb), 0.2);
+    }
 }
 
-/* 3횞4 Month Grid */
 .monthGrid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
+    gap: 0.375rem;
 }
 
-.monthGridItem {
+.monthBtn {
     position: relative;
+    min-height: 48px;
+    padding: 0;
     border: none;
-    background: transparent;
-    padding: 10px 0;
-    border-radius: 10px;
-    font-size: 15px;
-    color: var(--color-text-muted);
-    cursor: pointer;
-    transition: all 0.15s ease;
-    text-align: center;
-}
-
-.monthGridItem:hover {
-    background-color: rgba(var(--color-text-primary-rgb), 0.05);
+    border-radius: 14px;
+    background: none;
+    font: inherit;
+    font-size: var(--t-small);
+    letter-spacing: -0.02em;
     color: var(--color-text-primary);
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.monthGridItemActive {
-    background-color: var(--color-text-primary);
+@media (hover: hover) {
+    .monthBtn:hover {
+        background-color: rgba(var(--color-slate-400-rgb), 0.2);
+    }
+}
+
+.monthBtn[aria-pressed='true'] {
+    background-color: var(--btn-bg);
     color: var(--color-white);
 }
 
-.monthGridItemActive:hover {
-    background-color: var(--color-text-primary);
-    color: var(--color-white);
+.monthBtn:focus-visible,
+.pickerYearBtn:focus-visible,
+.detailLink:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
 }
 
-.eventDot {
+/* 일정이 있는 달: 글자 아래 작은 점 */
+.monthDot {
     position: absolute;
-    bottom: 3px;
+    bottom: 6px;
     left: 50%;
-    transform: translateX(-50%);
     width: 4px;
     height: 4px;
+    margin-left: -2px;
     border-radius: 50%;
-    background-color: rgba(var(--color-text-primary-rgb), 0.25);
+    background-color: var(--color-accent-sky);
 }
 
-/* =========================================
-   Events Grid Section
-   ========================================= */
-.eventsGrid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px;
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
+.monthBtn[aria-pressed='true'] .monthDot {
+    background-color: var(--color-white);
 }
 
-.eventCard {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 12px 16px;
-    border-radius: 16px;
-    background-color: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(10px);
-    cursor: pointer;
+/* ---------- 일정 목록 (교회 차 시간표 routeItem과 같은 줄) ---------- */
+.listSection {
     position: relative;
-    overflow: hidden;
-    min-width: 0;
-    width: 100%;
-    box-sizing: border-box;
+    padding: calc(var(--sub-space-head) * 2) 0 var(--sub-pad-sec);
 }
 
-@media (max-width: 767px) {
-    .eventCard {
-        backdrop-filter: none;
-        background-color: rgba(255, 255, 255, 0.9);
-    }
-}
-
-.eventInfoLeft {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    width: 100%;
-    min-width: 0;
-}
-
-.calendarIcon {
-    display: flex;
-    flex-direction: column;
-    border-radius: 8px;
-    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.12);
-    overflow: hidden;
-    text-align: center;
-    min-width: 68px;
-    width: 68px;
-    flex-shrink: 0;
-}
-
-.calendarMonth {
-    background-color: #37ABEA;
-
-    font-size: 14px;
-    color: var(--color-gray-50);
-}
-
-.calendarDate {
-    background-color: var(--color-gray-50);
-    padding: 8px;
-
-    font-size: 16px;
-    color: var(--color-text-tertiary);
-}
-
-.eventDetailsContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: 0;
-    overflow: hidden;
-}
-
-.eventTitle {
-
-
-
+/* 달을 바꾸면 목록만 opacity + translateY(8px) */
+.eventList {
+    list-style: none;
     margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    min-width: 0;
+    padding: 0;
+    animation: listIn 0.4s var(--ease-smooth) both;
 }
 
-.eventMetaRow {
-
-
-
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-@media (max-width: 600px) {
-    .calendarIcon {
-        width: 56px;
-        min-width: 56px;
-        max-width: 56px;
-    }
-
-    .navButton {
-        width: 32px;
-        height: 32px;
-    }
-
-    .monthNav {
-        gap: 24px;
-    }
-
-    .monthNavCenter {
-        font-size: 18px;
-    }
-
-    .calendarMonth {
-        font-size: 13px;
-    }
-
-    .calendarDate {
-        padding: 6px;
-        font-size: 14px;
-    }
-
-    .eventInfoLeft {
-        gap: 16px;
-    }
-
-    .eventTitle {}
-
-    .eventMetaRow {}
-}
-
-@keyframes slideUp {
+@keyframes listIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(8px);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: none;
     }
 }
 
-@media (max-width: 1079px) {
+@media (prefers-reduced-motion: reduce) {
+    .eventList {
+        animation: none;
+    }
 }
 
+.eventItem {
+    display: grid;
+    grid-template-columns: var(--day-w) minmax(0, 1fr);
+    column-gap: 0.75rem;
+    padding: 2.5rem 0 2.5rem var(--indent);
+    border-bottom: 1px solid var(--color-line);
+}
+
+.eventItem:first-child {
+    padding-top: 0;
+}
+
+.eventDay {
+    font-size: var(--t-row);
+    line-height: 1.4;
+    color: var(--color-text-strong);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.eventBody {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+}
+
+.eventTitle {
+    margin: 0 0 1rem;
+    font-size: var(--t-row);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    color: var(--color-text-strong);
+}
+
+/* 시간 · 장소를 한 묶음으로, 줄 사이 4px */
+.eventMetas {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.eventMeta {
+    font-size: var(--t-small);
+    line-height: 1.6;
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+}
+
+.detailLink {
+    margin-top: 1rem;
+    padding: 0.5rem 0;
+    margin-bottom: -0.5rem;
+    border: none;
+    background: none;
+    font: inherit;
+    font-size: var(--t-small);
+    letter-spacing: -0.02em;
+    color: var(--color-accent-sky);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+    .detailLink:hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+    }
+}
+
+.empty {
+    margin: 0;
+    padding: 0 0 2.5rem var(--indent);
+    border-bottom: 1px solid var(--color-line);
+    font-size: var(--t-small);
+    color: var(--color-text-meta);
+}
+
+/* ---------- 휴대폰 ---------- */
 @media (max-width: 767px) {
+    .page {
+        --gutter: 1.125rem;
+        --indent: 0px;
+        --day-w: 2.5rem;
+    }
+
+    .titleChevron {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .eventItem {
+        padding: 1.5rem 0;
+    }
+
+    .eventDay {
+        text-align: left;
+    }
+
+    .eventTitle {
+        margin-bottom: 0.75rem;
+    }
+
+    .listSection {
+        padding-top: calc(var(--sub-space-head) * 2);
+    }
 }
