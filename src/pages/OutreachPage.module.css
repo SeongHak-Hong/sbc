@@ -259,6 +259,7 @@
 }
 
 /* ---------- ④ 선교사님 ---------- */
+/* 애플 교육 '초등학생부터 대학원생까지'처럼 사진이 카드 전체를 채우고, 글은 사진 위쪽에 얹는다 */
 .missionGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -266,45 +267,63 @@
 }
 
 .missionCard {
+    position: relative;
+    isolation: isolate;
     overflow: hidden;
+    aspect-ratio: 1 / 1.05;
     border-radius: var(--r-card);
-    background-color: var(--color-surface-band);
 }
 
-/* 사진이 카드 위쪽을 가득 채운다 (따로 둥글게 감싸지 않음) */
 .missionMedia {
-    aspect-ratio: 3 / 2;
+    position: absolute;
+    inset: 0;
+    z-index: -2;
     border-radius: 0;
 }
 
+/* 글이 놓이는 위쪽만 어둡게 (아래로 갈수록 사진 그대로) */
+.missionCard::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+        to bottom,
+        rgba(var(--color-text-strong-rgb), 0.72) 0%,
+        rgba(var(--color-text-strong-rgb), 0.45) 32%,
+        rgba(var(--color-text-strong-rgb), 0) 62%
+    );
+}
+
 .missionBody {
-    padding: 2.5rem 2.5rem 3rem;
+    padding: 2.5rem 2.5rem 0;
 }
 
 .missionTitle {
-    margin: 0 0 1.25rem;
+    margin: 0 0 1rem;
     font-size: var(--sub-t-sub);
     font-weight: 500;
     line-height: 1.32;
     letter-spacing: -0.03em;
-    color: var(--color-text-strong);
+    color: var(--color-white);
 }
 
-/* "묶음. 지역 단체 이름 · …" 한 문단: 지역·단체는 회색, 묶음과 이름은 진하게 */
+/* "묶음. 지역 단체 이름 · …" 한 문단: 지역·단체는 옅은 흰색, 묶음과 이름은 흰색 */
 .missionFlow {
     margin: 0;
     font-size: var(--sub-t-body); /* 16px (1rem) */
     line-height: 1.75;
-    color: var(--color-text-tertiary);
+    color: rgba(255, 255, 255, 0.78);
 }
 
 .missionFlow + .missionFlow {
-    margin-top: 1rem;
+    margin-top: 0.75rem;
 }
 
 .missionFlow strong {
     font-weight: 500;
-    color: var(--color-text-strong);
+    color: var(--color-white);
 }
 
 /* 한 분의 지역·단체·이름이 줄 중간에서 끊기지 않게 */
@@ -313,12 +332,13 @@
 }
 
 .missionName {
-    color: var(--color-text-strong);
+    font-weight: 500;
+    color: var(--color-white);
 }
 
 .sep {
     padding: 0 0.15em;
-    color: var(--color-slate-400);
+    color: rgba(255, 255, 255, 0.5);
 }
 
 /* ---------- ⑤ 함께하기 ---------- */
@@ -419,11 +439,25 @@
         gap: 0.75rem;
     }
 
+    .missionCard {
+        aspect-ratio: 4 / 5;
+    }
+
+    /* 휴대폰은 글이 사진 절반 가까이 내려오므로 어두운 부분도 더 길게 */
+    .missionCard::after {
+        background: linear-gradient(
+            to bottom,
+            rgba(var(--color-text-strong-rgb), 0.75) 0%,
+            rgba(var(--color-text-strong-rgb), 0.55) 42%,
+            rgba(var(--color-text-strong-rgb), 0) 72%
+        );
+    }
+
     .missionBody {
-        padding: 1.75rem 1.5rem 2rem;
+        padding: 1.75rem 1.5rem 0;
     }
 
     .missionTitle {
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
     }
 }
