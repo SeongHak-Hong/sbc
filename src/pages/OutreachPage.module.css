@@ -370,7 +370,7 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    padding: calc(var(--sub-pad-sec) * 1.5) 0;
+    padding: calc(var(--sub-pad-sec) * 2.25) 0; /* PC 위아래 288px (휴대폰은 아래에서 1.5배) */
     text-align: center;
 }
 
@@ -389,7 +389,7 @@
     position: absolute;
     inset: 0;
     z-index: -1;
-    background-color: rgba(var(--color-text-strong-rgb), 0.58);
+    background-color: rgba(var(--color-text-strong-rgb), 0.74);
 }
 
 .join .secTitle {
@@ -492,6 +492,10 @@
 
     .missionCard::before {
         aspect-ratio: 1 / 0.8;
+    }
+
+    .join {
+        padding: calc(var(--sub-pad-sec) * 1.5) 0;
     }
 
     /* 휴대폰은 글이 사진 절반 가까이 내려오므로 어두운 부분도 더 길게 */
