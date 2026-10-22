@@ -38,11 +38,11 @@ const OutreachPage = () => {
     };
 
     if (loading) {
-        return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>로딩 중...</div>;
+        return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-text-meta)' }}>로딩 중...</div>;
     }
 
     if (!missionData || Object.keys(missionData).length === 0) {
-        return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>데이터가 없습니다.</div>;
+        return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-text-meta)' }}>데이터가 없습니다.</div>;
     }
 
     const activeData = missionData[activeTab];
@@ -65,7 +65,7 @@ const OutreachPage = () => {
                     <ScrollFadeText
                         text={"가까운 이웃부터 땅끝까지\n예수님의 따뜻한 사랑을 전해요."}
                         as="h1"
-                        className="main-page-title"
+                        className={`main-page-title ${styles.pageTitle}`}
                         once={true}
                     />
                 </div>

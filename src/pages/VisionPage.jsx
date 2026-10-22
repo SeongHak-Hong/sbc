@@ -18,7 +18,6 @@ const VisionPage = () => {
                 <div className={styles.contentContainer}>
                     <div className={styles.greetingGrid}>
                         <div className={styles.photoCol}>
-                            <div className={styles.shalomBackground}>샬롬</div>
                             <motion.img
                                 src={pastorIDImage}
                                 alt="담임목사 프로필"
