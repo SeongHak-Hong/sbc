@@ -365,9 +365,9 @@
 }
 
 /* ---------- ⑤ 함께하기 ---------- */
-/* 따뜻한 미색 띠, 왼쪽 글 · 오른쪽 사진 */
+/* 아주 옅은 회색 띠, 왼쪽 글 · 오른쪽 사진 */
 .join {
-    background-color: var(--color-surface-warm);
+    background-color: var(--color-surface-soft);
 }
 
 .joinGrid {

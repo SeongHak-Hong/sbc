@@ -178,7 +178,7 @@
   --color-surface-band: #F5F5F7;
   --color-surface-band-rgb: 245, 245, 247;
   --color-surface-band-hover: #E6E8EC;
-  --color-surface-warm: #FAF8F6; /* 따뜻한 미색 띠 (선교전도 '함께하기' 등) */
+  --color-surface-soft: #FAFAFC; /* 아주 옅은 회색 띠 rgb(250,250,252) (선교전도 '함께하기' 등) */
   --color-surface-dark: #1A1C20;
   --color-surface-dark-rgb: 26, 28, 32;
   --color-accent-on-dark: #3691FF;
