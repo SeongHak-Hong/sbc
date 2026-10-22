@@ -1,15 +1,16 @@
 /* 교회 안내: 한 페이지에 섹션을 이어 붙이고, 위 버튼 줄로 섹션을 오간다.
    크기·여백은 메인 페이지(MainPage.module.css)와 같은 값,
-   색·모서리·버튼은 Apple-DESIGN.md 기준 (서체·포인트 색은 우리 것) */
+   색·모서리·버튼은 Apple-DESIGN.md 기준 (서체·포인트 색은 우리 것).
+   글자·여백은 서브페이지 공통 토큰(index.css --sub-*)을 쓴다. 이 페이지가 서브페이지 기준 페이지 */
 .page {
-    --t-display: clamp(2.25rem, 4.5vw, 4rem);
-    --t-strong: 3rem;
-    --t-row: 1.1875rem;
-    --t-body: 1.125rem;
-    --t-small: 1rem;
-    --t-mid: 1.75rem;
-    --pad-sec: 8rem;
-    --space-head: 3rem;
+    --t-display: var(--sub-t-display);
+    --t-strong: var(--sub-t-title);
+    --t-mid: var(--sub-t-sub);
+    --t-row: var(--sub-t-row);
+    --t-body: var(--sub-t-lead);
+    --t-small: var(--sub-t-body);
+    --pad-sec: var(--sub-pad-sec);
+    --space-head: var(--sub-space-head);
     --wrap: 1200px;
     --gutter: 1.5rem;
     --r-card: 28px;
@@ -48,7 +49,7 @@
 /* ---------- ① 첫 화면 ---------- */
 .hero {
     position: relative;
-    padding: 11.25rem 0 clamp(1.5rem, 3vw, 2.5rem); /* 제목 위 180px (휴대폰 140px) */
+    padding: var(--sub-title-top) 0 clamp(1.5rem, 3vw, 2.5rem); /* 제목 위 180px (휴대폰 140px) */
     text-align: center;
 }
 
@@ -1188,10 +1189,6 @@
 
 /* ---------- 태블릿 · 모바일 ---------- */
 @media (max-width: 1079px) {
-    .page {
-        --t-strong: 2.25rem;
-    }
-
     .wayCards {
         gap: 1rem;
     }
@@ -1203,21 +1200,9 @@
 }
 
 @media (max-width: 767px) {
-    /* 휴대폰 글자 단계: 역할마다 한 크기, 다섯 단계
-       34 첫 제목 · 26 섹션 제목 · 20 카드 제목·FAQ 질문 · 17 목록 줄 · 16 본문·보조·탭·버튼 */
+    /* 휴대폰 글자 단계(34 · 26 · 20 · 17 · 16)와 여백은 index.css --sub-* 토큰이 바뀌며 따라온다 */
     .page {
-        --pad-sec: 4rem;
-        --space-head: 1.5rem;
-        --t-display: 2.125rem;
-        --t-strong: 1.625rem;
-        --t-mid: 1.25rem;
-        --t-row: 1.0625rem;
-        --t-body: 1rem;
         --gutter: 1.125rem;
-    }
-
-    .hero {
-        padding-top: 8.75rem;
     }
 
     .tabList {

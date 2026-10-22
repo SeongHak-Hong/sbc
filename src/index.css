@@ -186,6 +186,18 @@
   --section-padding-x: 48px;
   /* 화면 제목 없이 콘텐츠로 시작하는 페이지: Header 아래 첫 콘텐츠까지 (데스크톱 160 · 휴대폰 88) */
   --page-start-gap: clamp(5.5rem, 11vw, 10rem);
+
+  /* 서브페이지 글자·여백 기준 (교회 안내 /guide가 기준 페이지, design.md '서브페이지 기준' 참고)
+     역할마다 한 크기: 첫 제목 · 섹션 제목 · 카드 제목/FAQ 질문 · 목록 줄 · 큰 본문 · 본문/보조/탭/버튼 */
+  --sub-t-display: clamp(2.25rem, 4.5vw, 4rem); /* 첫 제목 64 → 휴대폰 34 */
+  --sub-t-title: 3rem;                          /* 섹션 제목 48 → 태블릿 36 → 휴대폰 26 */
+  --sub-t-sub: 1.75rem;                         /* 카드 제목·FAQ 질문 28 → 휴대폰 20 */
+  --sub-t-row: 1.1875rem;                       /* 목록 줄(이름·시간) 19 → 휴대폰 17 */
+  --sub-t-lead: 1.125rem;                       /* 큰 본문·층 설명·고르기 버튼 18 → 휴대폰 16 */
+  --sub-t-body: 1rem;                           /* 본문·보조·FAQ 답 16 */
+  --sub-title-top: 11.25rem;                    /* 제목 위 여백 180 → 휴대폰 140 */
+  --sub-pad-sec: 8rem;                          /* 섹션 위아래 128 → 휴대폰 64 */
+  --sub-space-head: 3rem;                       /* 섹션 제목 → 내용 48 → 휴대폰 24 */
   --btn-padding-y: 8px;
   --btn-padding-x: 32px;
   --btn-gap: 8px;
@@ -200,6 +212,26 @@
   --header-padding-x: var(--grid-margin);
   --header-logo-height: 30px;
   --subpage-header-padding-top: 160px;
+}
+
+/* 서브페이지 글자·여백 기준: 태블릿 · 휴대폰 */
+@media (max-width: 1079px) {
+  :root {
+    --sub-t-title: 2.25rem;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --sub-t-display: 2.125rem;
+    --sub-t-title: 1.625rem;
+    --sub-t-sub: 1.25rem;
+    --sub-t-row: 1.0625rem;
+    --sub-t-lead: 1rem;
+    --sub-title-top: 8.75rem;
+    --sub-pad-sec: 4rem;
+    --sub-space-head: 1.5rem;
+  }
 }
 
 /* Main Page Extension Tokens (docs/home_spec.md §4) */
