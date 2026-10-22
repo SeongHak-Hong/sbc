@@ -1169,7 +1169,7 @@
 .routeItem {
     display: flex;
     flex-direction: column;
-    padding: 1.75rem 5rem;
+    padding: 1.75rem 0;
     border-bottom: 1px solid var(--color-line);
 }
 
@@ -1178,22 +1178,24 @@
 }
 
 .routeArea {
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
     font-size: var(--t-row);
     font-weight: 500;
     line-height: 1.4;
     color: var(--color-text-strong);
 }
 
+/* 시간 · 차 번호를 한 묶음으로, 줄 사이 4px */
+.routeMetas {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
 .routeMeta {
     font-size: var(--t-small);
     line-height: 1.6;
     font-variant-numeric: tabular-nums;
-}
-
-/* 시간 줄 아래로 8px 띄우고 차량 번호 */
-.routeMeta:nth-of-type(2) {
-    margin-bottom: 0.5rem;
 }
 
 /* ---------- 태블릿 · 모바일 ---------- */
@@ -1302,7 +1304,7 @@
     }
 
     /* 휴대폰 팝업: 탭은 바깥 바로가기 탭과 같은 16px · 간격 20px (넘치면 옆으로 민다).
-       노선 줄은 좌우 여백 없이 시트 안쪽 여백(24px)에 글자를 맞춘다 (80px면 글 폭이 반 가까이 준다) */
+       노선 줄은 휴대폰 글자 단계에 맞춘다: 동네 이름 20, 시간·차 번호 16(최소 크기), 이름 아래 12px */
     .lineTabs {
         gap: 20px;
     }
@@ -1312,8 +1314,16 @@
     }
 
     .routeItem {
-        padding-left: 0;
-        padding-right: 0;
+        padding: 1.5rem 0;
+    }
+
+    .routeArea {
+        margin-bottom: 0.75rem;
+        font-size: var(--sub-t-sub);
+    }
+
+    .routeMeta {
+        font-size: var(--sub-t-body);
     }
 
     /* 휴대폰: 평면도 먼저, 아래에 층 알약 */

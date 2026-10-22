@@ -327,8 +327,10 @@ const ShuttleDialog = ({ open, onClose, selected, onSelect, reduceMotion }) => {
                                             {schedule.routes.map((route) => (
                                                 <li key={route.id} className={styles.routeItem}>
                                                     <span className={styles.routeArea}>{route.area}</span>
-                                                    <span className={styles.routeMeta}>{formatRange(route.time)}</span>
-                                                    <span className={styles.routeMeta}>차 번호 {route.carNum}</span>
+                                                    <div className={styles.routeMetas}>
+                                                        <span className={styles.routeMeta}>{formatRange(route.time)}</span>
+                                                        <span className={styles.routeMeta}>차 번호 {route.carNum}</span>
+                                                    </div>
                                                 </li>
                                             ))}
                                         </ul>
