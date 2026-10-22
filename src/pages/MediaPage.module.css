@@ -4,6 +4,8 @@
 .page {
     --t-row: var(--sub-t-row);
     --t-small: var(--sub-t-body);
+    --t-list-title: 1.375rem; /* 목록 제목 22px (교회 일정 목록과 같음) */
+    --t-list-meta: 0.875rem;  /* 목록 종류·설교자·본문 14px */
     --wrap: 1200px;
     --gutter: 1.5rem;
 
@@ -314,13 +316,13 @@
 
 .category {
     margin-bottom: 0.75rem;
-    font-size: var(--t-small);
+    font-size: var(--t-list-meta);
     color: var(--color-text-meta);
 }
 
 .videoTitle {
     margin-bottom: 1rem;
-    font-size: var(--t-row);
+    font-size: var(--t-list-title);
     font-weight: 500;
     line-height: 1.4;
     color: var(--color-text-strong);
@@ -334,7 +336,7 @@
 }
 
 .meta {
-    font-size: var(--t-small);
+    font-size: var(--t-list-meta);
     line-height: 1.6;
     color: var(--color-text-primary);
     font-variant-numeric: tabular-nums;
