@@ -16,8 +16,8 @@ import styles from './OutreachPage.module.css';
 
 const ease = [0.16, 1, 0.3, 1];
 
-// ⑤ 함께하기 배경 사진 (반갑게 손 흔들며 맞이하는 목요전도팀)
-const JOIN_BG = welcomePhoto;
+// ⑤ 함께하기 오른쪽 사진 (반갑게 손 흔들며 맞이하는 목요전도팀)
+const JOIN_PHOTO = welcomePhoto;
 
 // ② 목요전도팀이 하는 일 (메인 '교회가 하는 일'과 같은 카드). 사진이 없는 칸은 옅은 색 면으로 둔다
 const ACTIVITIES = [
@@ -259,20 +259,24 @@ const OutreachPage = () => {
                 </section>
             )}
 
-            {/* ⑤ 함께하기: 사진을 배경에 깔고 짙은 막을 얹어 흰 글씨가 보이게 */}
+            {/* ⑤ 함께하기: 짙은 띠, 왼쪽 글 · 오른쪽 사진 (애플 교육 '구입 방법'처럼) */}
             <section className={`${styles.sec} ${styles.join}`} aria-labelledby="outreach-join">
-                <img className={styles.joinBg} src={JOIN_BG} alt="" aria-hidden="true" loading="lazy" />
-                <div className={styles.wrap}>
-                    <h2 id="outreach-join" className={styles.secTitle}>목요일에 함께해 주세요.</h2>
-                    {contact && <p className={styles.joinWho}>{contact.replace(/\s+(0\d)/, ' · $1')}</p>}
-                    {tel && (
-                        <a className={styles.joinBtn} href={tel}>
-                            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z" />
-                            </svg>
-                            전화로 문의하기
-                        </a>
-                    )}
+                <div className={`${styles.wrap} ${styles.joinGrid}`}>
+                    <div>
+                        <h2 id="outreach-join" className={styles.secTitle}>목요일에<br />함께해 주세요.</h2>
+                        {contact && <p className={styles.joinWho}>{contact.replace(/\s+(0\d)/, ' · $1')}</p>}
+                        {tel && (
+                            <a className={styles.joinBtn} href={tel}>
+                                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z" />
+                                </svg>
+                                전화로 문의하기
+                            </a>
+                        )}
+                    </div>
+                    <motion.div {...reveal}>
+                        <Media photo={JOIN_PHOTO} alt="신탄진침례교회 마당에서 목요전도팀 두 분이 손을 흔들며 반갑게 맞이하는 모습" tone="warm" className={styles.joinMedia} />
+                    </motion.div>
                 </div>
             </section>
 
