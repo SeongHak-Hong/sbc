@@ -27,6 +27,11 @@
 - 모든 텍스트 `letter-spacing: -0.02em`, `word-break: keep-all`, line-height 1.6
 - 순수 검정 금지, 그라데이션은 페이지 배경에만, 느낌표·설교 톤 금지
 
+### 서브페이지 기준
+- 리뉴얼하는 서브페이지는 design.md '서브페이지 기준' 절을 따른다. 기준 페이지는 교회 안내(`/guide`).
+- 글자·여백은 `src/index.css`의 `--sub-*` 토큰을 쓴다 (숫자 직접 쓰지 않기). 휴대폰 글자 5단계 34·26·20·17·16, 16px 아래 금지.
+- 첫 화면은 `<PageTopGradient />`(오로라), 브레드크럼 쓰지 않음. 바꾸기 전에 휴대폰·데스크톱 시안을 지금 화면과 나란히 먼저 보여 준다.
+
 ### 메인 페이지 확장 규칙
 - **무드는 다음세대 서브페이지(`src/pages/NextGenPage`, 게시물 리스트 제외)와 통일.** Taste Skill은 "기존 브랜드" 모드로만 사용: 색·글꼴·재질은 design.md와 다음세대 페이지에서, 구성과 검사만 Taste Skill에서 가져옴 (`draw.mjs --keep palette,type`)
   - 무드 요소라 허용하는 것 (검사 시 `inspect.mjs --allow gradient,shadow,glass`): 하늘→살구 그라데이션 페이지 배경, 큰 둥근 카드(`#fafafa`)의 살구빛 옅은 그림자(`0 30px 50px rgba(255,138,63,0.06)`), 상단·하단 고정 바의 반투명
