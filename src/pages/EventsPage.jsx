@@ -39,9 +39,11 @@ const dayLabel = (event) => {
     return Number.isNaN(d) ? (event.date || '') : pad2(d);
 };
 
+// 원 테두리 안 아래 꺾쇠 (Apple paddlenav의 svg-chevron-circle을 아래로 돌린 모양). 색은 CSS에서
 const ChevronDown = () => (
-    <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
-        <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    <svg viewBox="0 0 36 36" aria-hidden="true">
+        <circle cx="18" cy="18" r="17" strokeWidth="2" />
+        <polyline points="11.9,15.4 18,21.5 24.1,15.4" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
 
