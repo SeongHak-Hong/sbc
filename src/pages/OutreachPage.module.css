@@ -231,7 +231,7 @@
 
 .prayerText {
     margin: 0.75rem 0 0;
-    font-size: var(--sub-t-lead);
+    font-size: var(--sub-t-body); /* 16px (1rem) */
     color: var(--color-text-primary);
 }
 
