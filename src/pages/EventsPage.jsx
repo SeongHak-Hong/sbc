@@ -7,7 +7,8 @@ import styles from './EventsPage.module.css';
 import PageTopGradient from '../components/PageTopGradient';
 import Footer from '../components/Footer';
 
-const ease = [0.16, 1, 0.3, 1];
+// 고르기 창: 감쇠 1.0 스프링(튕김 없음). 눌러서 다시 닫아도 지금 위치에서 이어서 움직인다
+const pickerSpring = { type: 'spring', bounce: 0, duration: 0.3 };
 const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const pad2 = (n) => String(n).padStart(2, '0');
@@ -185,7 +186,7 @@ const EventsPage = () => {
                                     initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -6, scale: 0.97 }}
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                     exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -4, scale: 0.98 }}
-                                    transition={{ duration: reduceMotion ? 0 : 0.24, ease }}
+                                    transition={reduceMotion ? { duration: 0.15 } : pickerSpring}
                                 >
                                     <div className={styles.pickerYearRow}>
                                         <button
