@@ -215,38 +215,44 @@ const EventsPage = () => {
                                     exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -4, scale: 0.98 }}
                                     transition={reduceMotion ? { duration: 0.15 } : pickerSpring}
                                 >
+                                    {/* macOS 캘린더처럼: 왼쪽 굵은 연도, 오른쪽에 이전·다음 해 */}
                                     <div className={styles.pickerYearRow}>
-                                        <button
-                                            type="button"
-                                            className={styles.pickerYearBtn}
-                                            aria-label="이전 해"
-                                            disabled={isFirstYear}
-                                            onClick={() => setPickerYear(availableYears[yearIdx - 1])}
-                                        >
-                                            <ChevronSide dir="left" />
-                                        </button>
                                         <span className={styles.pickerYear} aria-live="polite">{pickerYear}년</span>
-                                        <button
-                                            type="button"
-                                            className={styles.pickerYearBtn}
-                                            aria-label="다음 해"
-                                            disabled={isLastYear}
-                                            onClick={() => setPickerYear(availableYears[yearIdx + 1])}
-                                        >
-                                            <ChevronSide dir="right" />
-                                        </button>
+                                        <div className={styles.pickerYearNav}>
+                                            <button
+                                                type="button"
+                                                className={styles.pickerYearBtn}
+                                                aria-label="이전 해"
+                                                disabled={isFirstYear}
+                                                onClick={() => setPickerYear(availableYears[yearIdx - 1])}
+                                            >
+                                                <ChevronSide dir="left" />
+                                            </button>
+                                            <button
+                                                type="button"
+                                                className={styles.pickerYearBtn}
+                                                aria-label="다음 해"
+                                                disabled={isLastYear}
+                                                onClick={() => setPickerYear(availableYears[yearIdx + 1])}
+                                            >
+                                                <ChevronSide dir="right" />
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div className={styles.monthGrid}>
+                                    {/* 해를 바꾸면 달 칸만 살짝 떠오르며 바뀐다 */}
+                                    <div key={pickerYear} className={styles.monthGrid}>
                                         {months.map((m) => {
                                             const active = pickerYear === selectedYear && m === selectedMonth;
+                                            const isThisMonth = pickerYear === today.getFullYear() && m === today.getMonth() + 1;
                                             const hasEvents = scheduleMap[`${pickerYear}-${m}`]?.length > 0;
                                             return (
                                                 <button
                                                     key={m}
                                                     type="button"
-                                                    className={styles.monthBtn}
+                                                    className={`${styles.monthBtn} ${isThisMonth ? styles.monthBtnToday : ''}`}
                                                     aria-pressed={active}
-                                                    aria-label={`${m}월${hasEvents ? ', 일정 있음' : ''}`}
+                                                    aria-current={isThisMonth ? 'date' : undefined}
+                                                    aria-label={`${m}월${isThisMonth ? ', 이번 달' : ''}${hasEvents ? ', 일정 있음' : ''}`}
                                                     onClick={() => pickMonth(m)}
                                                 >
                                                     {m}월
