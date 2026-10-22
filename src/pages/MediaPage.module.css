@@ -1,224 +1,444 @@
-.pageWrapper {
-    width: 100%;
-    min-height: 100vh;
-    color: var(--color-text-primary);
+/* 예배 영상(미디어룸): 교회 일정 페이지와 같은 틀.
+   첫 화면 오로라 위에 '미디어룸' + 큰 제목(고른 종류) + 고르기 화살표, 아래 영상 줄 목록(썸네일 | 종류 · 제목 · 설교자 · 본문).
+   글자·여백은 --sub-* 토큰 */
+.page {
+    --t-row: var(--sub-t-row);
+    --t-small: var(--sub-t-body);
+    --wrap: 1200px;
+    --gutter: 1.5rem;
+
     position: relative;
-    overflow-x: hidden;
+    min-height: 100vh;
+    min-height: 100svh;
+    /* 영상이 적어도 푸터가 화면 맨 아래에 붙도록: 남는 높이는 목록 칸이 채운다 */
+    display: flex;
+    flex-direction: column;
+    color: var(--color-text-primary);
     background-color: var(--color-white);
     /* 첫 화면 그라디언트(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 */
     isolation: isolate;
-    /* 내용이 짧아도 푸터가 화면 맨 아래에 붙도록 */
-    display: flex;
-    flex-direction: column;
-}
-
-.sectionCenter {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1 0 auto;
-}
-
-.pageTitle {
-    font-size: var(--page-title-size-pc, 40px);
-    font-weight: 500;
-    color: var(--color-text-strong);
-    letter-spacing: -0.03em;
-    line-height: 1.3;
-    margin: 0;
+    line-height: 1.6;
+    letter-spacing: -0.02em;
     word-break: keep-all;
 }
 
-@media (max-width: 767px) {
-    .pageTitle {
-        font-size: 28px;
+.page > section {
+    --color-text-strong: #1d1d1f;   /* Apple Ink (교회 안내와 같음) */
+    --color-text-primary: #1d1d1f;
+    --color-text-meta: #707070;
+    color: var(--color-text-primary);
+}
+
+.wrap {
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    box-sizing: border-box;
+}
+
+/* ---------- 첫 화면: '미디어룸' + 고른 종류 ---------- */
+.hero {
+    position: relative;
+    z-index: 2; /* 고르기 창이 목록 위로 */
+    padding-top: var(--sub-title-top);
+}
+
+.eyebrow {
+    margin: 0 0 0.5rem;
+    font-size: var(--t-row);
+    font-weight: 500;
+    color: var(--color-text-strong);
+}
+
+.pickerAnchor {
+    position: relative;
+    display: inline-block;
+}
+
+.title {
+    margin: 0;
+    font-size: 2.5rem; /* 40px (휴대폰은 --sub-t-title) */
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: var(--color-text-strong);
+}
+
+/* 누르는 것들 공통 (휴대폰): 탭 번쩍임·300ms 지연 없애고, 길게 눌러도 글자가 선택되지 않게 */
+.titleButton,
+.option,
+.videoLink {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+}
+
+.titleButton,
+.option {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* 제목 글자와 화살표가 한 버튼 (교회 일정 연월 제목과 같음) */
+.titleButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: -0.25rem -0.5rem;
+    padding: 0.25rem 0.5rem;
+    border: none;
+    border-radius: 16px;
+    background: none;
+    font: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+
+.titleButton:focus-visible,
+.option:focus-visible,
+.videoLink:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
+}
+
+.titleChevron {
+    display: inline-flex;
+    width: 2.25rem;
+    height: 2.25rem;
+    transition: transform 0.12s ease-out;
+}
+
+/* 꺾쇠만 회색(slate-500), 마우스를 올리거나 누르면 원이 회색으로 차고 꺾쇠가 흰색 (교회 일정과 같음) */
+.titleChevron svg {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s var(--ease-smooth);
+}
+
+.titleChevron circle {
+    fill: transparent;
+    stroke: none;
+    transition: fill 100ms linear;
+}
+
+.titleChevron polyline {
+    stroke: var(--color-slate-500);
+    transition: stroke 100ms linear;
+}
+
+.titleChevronOpen svg {
+    transform: rotate(180deg);
+}
+
+.titleButton:active .titleChevron {
+    transform: scale(0.95);
+}
+
+.titleButton:active .titleChevron circle {
+    fill: var(--color-slate-500);
+}
+
+.titleButton:active .titleChevron polyline {
+    stroke: var(--color-white);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .titleButton:hover .titleChevron circle {
+        fill: var(--color-slate-500);
+    }
+
+    .titleButton:hover .titleChevron polyline {
+        stroke: var(--color-white);
     }
 }
 
-.contentWrapper {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    width: 100%;
+/* ---------- 종류 고르기 창: 교회 일정 연월 고르기와 같은 유리 재질 (macOS 메뉴처럼 체크 + 이름 + 개수) ---------- */
+.picker {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    left: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    width: 16rem;
+    max-width: calc(100vw - 2 * var(--gutter));
+    padding: 0.375rem;
+    box-sizing: border-box;
+    border-radius: 18px;
+    background-color: rgba(255, 255, 255, 0.72);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    backdrop-filter: blur(30px) saturate(180%);
+    box-shadow:
+        0 0 0 0.5px rgba(var(--color-text-strong-rgb), 0.1),
+        0 12px 32px rgba(var(--color-text-strong-rgb), 0.12),
+        0 2px 6px rgba(var(--color-text-strong-rgb), 0.06);
+    transform-origin: top left;
 }
 
-
-
-/* Video Grid */
-.videoGrid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    width: 100%;
+@media (prefers-reduced-transparency: reduce) {
+    .picker {
+        background-color: var(--color-white);
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
 }
 
-.videoCard {
+.option {
     display: flex;
-    flex-direction: row;
-    gap: 16px;
-    text-decoration: none;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    padding: 0 1rem 0 0.625rem;
+    border: none;
+    border-radius: 12px;
+    background: none;
+    font: inherit;
+    font-size: var(--t-small);
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+    text-align: left;
     cursor: pointer;
-    transition: transform 0.2s ease;
-    align-items: flex-start;
+    transition: background-color 0.15s ease;
 }
 
-.videoCard:hover {
-    transform: translateY(-4px);
+@media (hover: hover) and (pointer: fine) {
+    .option:hover {
+        background-color: rgba(var(--color-slate-400-rgb), 0.18);
+    }
 }
 
-.thumbnailContainer {
-    width: 280px;
+.option:active {
+    background-color: rgba(var(--color-slate-400-rgb), 0.28);
+}
+
+/* 고른 종류: 파란 체크 + 굵게 */
+.option[aria-pressed='true'] {
+    font-weight: 500;
+}
+
+.optionCheck {
+    display: inline-flex;
+    width: 1.25rem;
+    height: 1.25rem;
     flex-shrink: 0;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    background-color: #000;
-    position: relative;
-    border-radius: 16px;
+    color: var(--color-link-on-light);
 }
 
-.thumbnail {
+.optionCheck svg {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    stroke: currentColor;
 }
 
-.videoInfo {
+.optionLabel {
+    flex: 1;
+}
+
+.optionCount {
+    color: var(--color-text-meta);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 영상 목록: 썸네일 | 종류 · 제목 · 설교자 · 본문 ---------- */
+.listSection {
+    position: relative;
+    flex: 1 0 auto;
+    padding: calc(var(--sub-space-head) * 2) 0 var(--sub-pad-sec);
+}
+
+.videoList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* 종류·쪽을 바꾸면 목록만 opacity + translateY(8px) */
+.videoListIn {
+    animation: listIn 0.4s var(--ease-smooth) both;
+}
+
+@keyframes listIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.videoItem {
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--color-line);
+}
+
+.videoItem:first-child {
+    padding-top: 0;
+}
+
+/* 줄 전체가 하나의 링크 (누르면 영상 창) */
+.videoLink,
+.videoItem[aria-hidden='true'] {
+    display: grid;
+    grid-template-columns: 18.5rem minmax(0, 1fr); /* 썸네일 296px */
+    column-gap: 2rem;
+    align-items: start;
+    color: inherit;
+    text-decoration: none;
+}
+
+.thumb {
+    display: block;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: var(--color-surface-band);
+}
+
+.thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 유튜브 4:3 썸네일의 위아래 검은 띠를 잘라 16:9로 */
+    transition: transform 0.4s var(--ease-smooth);
+}
+
+.info {
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    margin-top: 4px;
+    align-items: flex-start;
+    min-width: 0;
 }
 
-.videoInfo p {}
-
-
-.date {
+.category {
+    margin-bottom: 0.75rem;
+    font-size: var(--t-small);
     color: var(--color-text-meta);
-    font-size: 14px;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    margin: 0;
 }
 
-.description {
-    margin: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.badgeWrapper {
-    margin-top: 8px;
-}
-
-.badge {
-    display: inline-block;
-    color: var(--color-text-meta);
-    background-color: var(--color-surface-band);
-    font-size: 14px;
+.videoTitle {
+    margin-bottom: 1rem;
+    font-size: var(--t-row);
     font-weight: 500;
-    letter-spacing: -0.02em;
-    padding: 4px 12px;
-    border-radius: 99px;
+    line-height: 1.4;
+    color: var(--color-text-strong);
+}
+
+/* 설교자 · 본문을 한 묶음으로, 줄 사이 4px */
+.metas {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.meta {
+    font-size: var(--t-small);
+    line-height: 1.6;
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .videoLink:hover .thumb img {
+        transform: scale(1.03);
+    }
+
+    .videoLink:hover .videoTitle {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+    }
+}
+
+.videoLink:active .thumb img {
+    transform: scale(0.99);
+}
+
+.empty {
     margin: 0;
+    font-size: var(--t-small);
+    color: var(--color-text-meta);
 }
 
-/* Loading skeleton — 실제 카드와 같은 크기의 자리 */
-.skeletonCard {
-    cursor: default;
+.paginationWrap {
+    margin-top: 4rem;
 }
 
-.skeletonCard:hover {
-    transform: none;
-}
-
+/* 불러오는 동안 자리 */
 .skeleton {
+    display: block;
     background-color: var(--color-surface-band);
     animation: skeletonPulse 1.6s ease-in-out infinite;
 }
 
-.skeletonInfo {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 4px;
-    flex: 1;
-    min-width: 0;
+.skeletonShort,
+.skeletonLine {
+    height: 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 6px;
 }
 
-.skeletonBadge,
-.skeletonLine,
-.skeletonLineShort {
-    display: block;
-    border-radius: 99px;
-}
-
-.skeletonBadge {
-    width: 72px;
-    height: 26px;
+.skeletonShort {
+    width: 5rem;
 }
 
 .skeletonLine {
-    width: 90%;
-    height: 18px;
-}
-
-.skeletonLineShort {
-    width: 55%;
-    height: 16px;
+    width: 60%;
+    height: 1.25rem;
 }
 
 @keyframes skeletonPulse {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0.55; }
+    50% { opacity: 0.5; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .videoListIn,
     .skeleton {
         animation: none;
     }
+
+    .thumb img {
+        transition: none;
+    }
 }
 
-/* Loading state */
-.loading {
-    text-align: center;
-    padding: 80px 0;
-    font-size: 18px;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    color: var(--color-text-meta);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .videoGrid {
-        grid-template-columns: 1fr;
-        gap: 24px;
+/* ---------- 휴대폰: 썸네일 위, 글 아래 ---------- */
+@media (max-width: 767px) {
+    .page {
+        --gutter: 1.125rem;
     }
 
-    .videoCard {
-        flex-direction: column;
-        gap: 4px;
+    .title {
+        font-size: var(--sub-t-title);
     }
 
-    .thumbnailContainer {
-        width: 100%;
-        margin-left: 0;
-        border-radius: 16px;
+    .titleChevron {
+        width: 2rem;
+        height: 2rem;
     }
 
-    .skeletonInfo {
-        width: 100%;
-        margin-top: 8px;
+    .videoItem {
+        padding: 1.75rem 0;
     }
 
-    .badge {
-        padding: 2px 8px;
-        font-size: 13px;
+    .videoLink,
+    .videoItem[aria-hidden='true'] {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 1rem;
+    }
+
+    .category {
+        margin-bottom: 0.5rem;
+    }
+
+    .videoTitle {
+        margin-bottom: 0.75rem;
+    }
+
+    .paginationWrap {
+        margin-top: 2.5rem;
     }
 }
 
@@ -339,20 +559,5 @@
 
     .modalDesc {
         font-size: 14px;
-    }
-}
-
-.switchWrapper {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-}
-
-@media (max-width: 1079px) {
-}
-
-@media (max-width: 767px) {
-    .switchWrapper {
-        justify-content: center;
     }
 }

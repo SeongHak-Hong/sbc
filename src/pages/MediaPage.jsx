@@ -1,15 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
-import SubPageSection from '../components/SubPageSection';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Footer from '../components/Footer';
 import Pagination from '../components/ui/Pagination';
-import { BlurFade } from '../components/ui/BlurFade';
-import ScrollFadeText from '../components/ScrollFadeText';
-import SwitchTabs from '../components/SwitchTabs';
-import logoSbc from '../assets/shintanjin-baptist-church-logo.svg';
 import styles from './MediaPage.module.css';
 import PageTopGradient from '../components/PageTopGradient';
+
+// 영상 고르기: 제목("전체")과 오른쪽 화살표를 누르면 교회 일정 연월 고르기와 같은 유리 창이 열린다
+const FILTERS = [
+    { id: 'all', label: '전체' },
+    { id: 'sermon', label: '설교' },
+    { id: 'praise', label: '찬양' },
+    { id: 'nextgen', label: '다음세대' },
+];
+
+// 고르기 창: 감쇠 1.0 스프링(튕김 없음)
+const pickerSpring = { type: 'spring', bounce: 0, duration: 0.3 };
+
+const ChevronDown = () => (
+    <svg viewBox="0 0 36 36" aria-hidden="true">
+        <circle cx="18" cy="18" r="17" strokeWidth="2" />
+        <polyline points="11.9,15.4 18,21.5 24.1,15.4" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+const CheckIcon = () => (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M5 12.5l4.5 4.5L19 7.5" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
 
 
 const MediaPage = () => {
@@ -20,6 +39,32 @@ const MediaPage = () => {
     const [videos, setVideos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedVideo, setSelectedVideo] = useState(null);
+    const reduceMotion = useReducedMotion();
+    const [pickerOpen, setPickerOpen] = useState(false);
+    const pickerRef = useRef(null);
+    const triggerRef = useRef(null);
+
+    // 바깥을 누르거나 Esc를 누르면 고르기 창을 닫는다
+    useEffect(() => {
+        if (!pickerOpen) return undefined;
+        const onPointer = (e) => {
+            if (pickerRef.current && !pickerRef.current.contains(e.target)) setPickerOpen(false);
+        };
+        const onKey = (e) => {
+            if (e.key === 'Escape') {
+                setPickerOpen(false);
+                triggerRef.current?.focus();
+            }
+        };
+        document.addEventListener('mousedown', onPointer);
+        document.addEventListener('touchstart', onPointer);
+        document.addEventListener('keydown', onKey);
+        return () => {
+            document.removeEventListener('mousedown', onPointer);
+            document.removeEventListener('touchstart', onPointer);
+            document.removeEventListener('keydown', onKey);
+        };
+    }, [pickerOpen]);
 
     // Prevent scrolling when modal is open
     useEffect(() => {
@@ -204,20 +249,21 @@ const MediaPage = () => {
     }, []);
 
     // Filter recent videos locally based on keyword
-    const filteredVideos = videos.filter(video => {
-        if (activeTab === 'all') return true;
+    const matchesFilter = (video, filterId) => {
+        if (filterId === 'all') return true;
 
         const title = video.snippet.title.replace(/&quot;/g, '"').replace(/&#39;/g, "'").toLowerCase();
 
-        if (activeTab === 'sermon') {
+        if (filterId === 'sermon') {
             if (title.includes('유치부')) return false;
             return title.includes('주일') || title.includes('오후') || title.includes('수요') || title.includes('예배') || title.includes('설교') || title.includes('헌신');
-        } else if (activeTab === 'nextgen') {
+        } else if (filterId === 'nextgen') {
             return title.includes('유치부');
         } else {
             return title.includes('찬양') || title.includes('특송');
         }
-    });
+    };
+    const filteredVideos = videos.filter((video) => matchesFilter(video, activeTab));
 
     const getBadge = (rawTitle) => {
         const title = rawTitle.replace(/&quot;/g, '"').replace(/&#39;/g, "'");
@@ -317,6 +363,8 @@ const MediaPage = () => {
             title: title || rawTitle,
             date: dateStr,
             info: infoParts.join(' · '),
+            preacher: preacher === '-' ? '' : preacher,
+            passage,
             isNew
         };
     };
@@ -327,106 +375,146 @@ const MediaPage = () => {
         currentPage * postsPerPage
     );
 
+    const activeFilter = FILTERS.find((f) => f.id === activeTab) || FILTERS[0];
+
+    const pickFilter = (id) => {
+        setActiveTab(id);
+        setCurrentPage(1);
+        setPickerOpen(false);
+        triggerRef.current?.focus();
+    };
+
     return (
-        <div className={styles.pageWrapper}>
+        <div className={styles.page}>
             <PageTopGradient />
-            <SubPageSection hideHeader={true} className={styles.sectionCenter}>
-                <div style={{ textAlign: 'center' }}>
-                    <ScrollFadeText
-                        text="함께 예배해요."
-                        as="h1"
-                        className={`main-page-title ${styles.pageTitle}`}
-                        once={true}
-                    />
-                </div>
+            <section className={styles.hero}>
+                <div className={styles.wrap}>
+                    <p className={styles.eyebrow}>미디어룸</p>
+                    <div className={styles.pickerAnchor} ref={pickerRef}>
+                        <h1 className={styles.title}>
+                            <button
+                                ref={triggerRef}
+                                type="button"
+                                className={styles.titleButton}
+                                aria-haspopup="dialog"
+                                aria-expanded={pickerOpen}
+                                aria-label={`${activeFilter.label} 영상, 다른 종류 고르기`}
+                                onClick={() => setPickerOpen((open) => !open)}
+                            >
+                                <span>{activeFilter.label}</span>
+                                <span className={`${styles.titleChevron} ${pickerOpen ? styles.titleChevronOpen : ''}`}>
+                                    <ChevronDown />
+                                </span>
+                            </button>
+                        </h1>
 
-                        <BlurFade delay={0.25} inView style={{ width: '100%' }}>
-                            <div className={styles.switchWrapper}>
-                                <SwitchTabs 
-                                    tabs={[
-                                        { id: 'all', label: '전체' },
-                                        { id: 'sermon', label: '설교' },
-                                        { id: 'praise', label: '찬양' },
-                                        { id: 'nextgen', label: '다음세대' }
-                                    ]}
-                                    activeTab={activeTab}
-                                    onTabChange={(id) => { setActiveTab(id); setCurrentPage(1); }}
-                                    layoutIdPrefix="activeSwitch_Media"
-                                />
-                            </div>
-                        </BlurFade>
-
-                        {loading ? (
-                            // 불러오는 동안 실제 카드와 같은 크기의 자리를 잡아 두어 화면이 비거나 푸터가 올라오지 않게 함
-                            <div className={styles.videoGrid} role="status" aria-label="영상을 불러오는 중입니다">
-                                {Array.from({ length: 6 }, (_, i) => (
-                                    <div key={i} className={`${styles.videoCard} ${styles.skeletonCard}`} aria-hidden="true">
-                                        <div className={`${styles.thumbnailContainer} ${styles.skeleton}`} />
-                                        <div className={styles.skeletonInfo}>
-                                            <span className={`${styles.skeleton} ${styles.skeletonBadge}`} />
-                                            <span className={`${styles.skeleton} ${styles.skeletonLine}`} />
-                                            <span className={`${styles.skeleton} ${styles.skeletonLineShort}`} />
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <>
-                                <div className={styles.videoGrid}>
-                                    {currentVideos.map((video, index) => {
-                                        const badge = getBadge(video.snippet.title);
-                                        const parsedInfo = parseVideoInfo(video);
+                        <AnimatePresence>
+                            {pickerOpen && (
+                                <motion.div
+                                    role="dialog"
+                                    aria-label="영상 종류 고르기"
+                                    className={styles.picker}
+                                    initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -6, scale: 0.97 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -4, scale: 0.98 }}
+                                    transition={reduceMotion ? { duration: 0.15 } : pickerSpring}
+                                >
+                                    {FILTERS.map((filter) => {
+                                        const active = filter.id === activeTab;
+                                        const count = videos.filter((video) => matchesFilter(video, filter.id)).length;
                                         return (
-                                            <BlurFade key={`${activeTab}-${currentPage}-${video.id.videoId}`} delay={0.25 + index * 0.05} inView>
-                                                <a 
-                                                    href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className={styles.videoCard}
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        setSelectedVideo(video);
-                                                    }}
-                                                >
-                                                <div className={styles.thumbnailContainer}>
-                                                    <img
-                                                        src={video.snippet.thumbnails.high?.url || video.snippet.thumbnails.medium?.url}
-                                                        alt={parsedInfo.title}
-                                                        className={styles.thumbnail}
-                                                        decoding="async"
-                                                    />
-                                                </div>
-                                                <div className={styles.videoInfo}>
-                                                    <div className={styles.badgeWrapper} style={{ marginTop: 0, display: 'flex', flexDirection: 'row', gap: '2px', alignItems: 'center' }}>
-                                                        {parsedInfo.isNew && <span className={styles.badge} style={{ backgroundColor: 'var(--btn-bg)', color: 'var(--color-white)' }}>NEW</span>}
-                                                        <span className={styles.badge}>{badge}</span>
-                                                    </div>
-
-                                                    <div style={{ display: 'flex', flexDirection: 'column', paddingLeft: '4px' }}>
-                                                        <p className="list-item-title">{parsedInfo.title}</p>
-                                                        <p className={`list-item-meta ${styles.description}`}>{parsedInfo.info}</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </BlurFade>
+                                            <button
+                                                key={filter.id}
+                                                type="button"
+                                                className={styles.option}
+                                                aria-pressed={active}
+                                                onClick={() => pickFilter(filter.id)}
+                                            >
+                                                <span className={styles.optionCheck}>{active && <CheckIcon />}</span>
+                                                <span className={styles.optionLabel}>{filter.label}</span>
+                                                {!loading && <span className={styles.optionCount}>{count}</span>}
+                                            </button>
                                         );
                                     })}
-                                    {filteredVideos.length === 0 && (
-                                        <div className={styles.loading} style={{ gridColumn: '1 / -1' }}>
-                                            해당하는 영상이 없습니다.
-                                        </div>
-                                    )}
-                                </div>
-                                {filteredVideos.length > 0 && (
-                                    <Pagination 
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
+                </div>
+            </section>
+
+            <section className={styles.listSection}>
+                <div className={styles.wrap}>
+                    {loading ? (
+                        // 불러오는 동안 실제 줄과 같은 크기의 자리를 잡아 두어 화면이 비거나 푸터가 올라오지 않게 함
+                        <ul className={styles.videoList} role="status" aria-label="영상을 불러오고 있어요">
+                            {Array.from({ length: 4 }, (_, i) => (
+                                <li key={i} className={styles.videoItem} aria-hidden="true">
+                                    <span className={`${styles.thumb} ${styles.skeleton}`} />
+                                    <span className={styles.info}>
+                                        <span className={`${styles.skeleton} ${styles.skeletonShort}`} />
+                                        <span className={`${styles.skeleton} ${styles.skeletonLine}`} />
+                                        <span className={`${styles.skeleton} ${styles.skeletonShort}`} />
+                                    </span>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <>
+                            {/* 종류·쪽을 바꾸면 목록만 opacity + translateY(8px) */}
+                            <ul key={`${activeTab}-${currentPage}`} className={`${styles.videoList} ${styles.videoListIn}`} aria-label={`${activeFilter.label} 영상`}>
+                                {currentVideos.map((video) => {
+                                    const badge = getBadge(video.snippet.title);
+                                    const parsedInfo = parseVideoInfo(video);
+                                    return (
+                                        <li key={video.id.videoId} className={styles.videoItem}>
+                                            <a
+                                                href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className={styles.videoLink}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setSelectedVideo(video);
+                                                }}
+                                            >
+                                                <span className={styles.thumb}>
+                                                    <img
+                                                        src={video.snippet.thumbnails.high?.url || video.snippet.thumbnails.medium?.url}
+                                                        alt=""
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                    />
+                                                </span>
+                                                <span className={styles.info}>
+                                                    <span className={styles.category}>{badge}</span>
+                                                    <span className={styles.videoTitle}>{parsedInfo.title}</span>
+                                                    <span className={styles.metas}>
+                                                        {parsedInfo.preacher && <span className={styles.meta}>{parsedInfo.preacher}</span>}
+                                                        {parsedInfo.passage && <span className={styles.meta}>{parsedInfo.passage}</span>}
+                                                    </span>
+                                                </span>
+                                            </a>
+                                        </li>
+                                    );
+                                })}
+                                {filteredVideos.length === 0 && (
+                                    <li className={styles.empty}>해당하는 영상이 없어요.</li>
+                                )}
+                            </ul>
+                            {filteredVideos.length > 0 && (
+                                <div className={styles.paginationWrap}>
+                                    <Pagination
                                         currentPage={currentPage}
                                         totalPages={totalPages}
                                         onPageChange={setCurrentPage}
                                     />
-                                )}
-                            </>
-                        )}
-            </SubPageSection>
+                                </div>
+                            )}
+                        </>
+                    )}
+                </div>
+            </section>
             <Footer />
 
             {/* Video Modal */}
