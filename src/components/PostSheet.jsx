@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import styles from './PostSheet.module.css';
+import cleanPostContents from '../lib/cleanPostContents';
 
 // 게시물 팝업 (교회 일정 · 공지사항 · 교회소식 · 주보 · 성도사업): Apple 뉴스룸 '빠르게 보기' 모양.
 // 흐린 배경 위 흰 시트 → 날짜 줄 · 제목 · 정보 줄(시간/장소, 업종/전화/주소) · 사진 또는 주보 · 본문 · 지도.
@@ -81,6 +82,7 @@ const PostSheet = ({
     const reduceMotion = useReducedMotion();
     const sheetRef = useRef(null);
     const zoomCloseRef = useRef(null);
+    const textRef = useRef(null);
 
     const pages = bulletin.length > 0 ? bulletinPages(bulletin) : [];
     const [pageIndex, setPageIndex] = useState(0);
@@ -117,6 +119,21 @@ const PostSheet = ({
     useEffect(() => {
         sheetRef.current?.focus({ preventScroll: true });
     }, []);
+
+    // 본문: Viewer가 그린 직후(화면에 보이기 전) 빈 줄·번호 문단·쪼개진 목록 같은 구조를 바로잡는다 (저장된 글은 그대로)
+    // Viewer가 나중에 본문을 다시 그리는 경우도 있어, 바뀔 때마다 아직 정리 안 된 본문이면 다시 정리한다
+    useLayoutEffect(() => {
+        const box = textRef.current;
+        if (!box) return undefined;
+        const clean = () => {
+            const contents = box.querySelector('.toastui-editor-contents');
+            if (contents && contents.children.length) cleanPostContents(contents, title);
+        };
+        clean();
+        const observer = new MutationObserver(clean);
+        observer.observe(box, { childList: true, subtree: true });
+        return () => observer.disconnect();
+    }, [description, title]);
 
     useEffect(() => {
         if (zoomIndex !== null) zoomCloseRef.current?.focus();
@@ -273,8 +290,8 @@ const PostSheet = ({
                             )}
 
                             {description && (
-                                <div className={styles.text}>
-                                    <Viewer initialValue={description} />
+                                <div ref={textRef} className={styles.text}>
+                                    <Viewer key={description} initialValue={description} />
                                 </div>
                             )}
 
