@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import imageCompression from 'browser-image-compression';
-import { collection, getDocs, doc, setDoc, deleteDoc, query, orderBy, Timestamp } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, deleteDoc, query, orderBy, Timestamp, writeBatch } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import AdminCloseButton from '../../components/ui/AdminCloseButton';
 import { db, storage } from '../../firebase';
@@ -144,6 +144,29 @@ const AdminMembersNews = () => {
         setTables(last.tables.map((table) => ({ ...normalizeNoticeTable(table), id: crypto.randomUUID() })));
     };
 
+    // 주요 공지는 목록 맨 위에, 정한 순서(pinnedOrder)대로. 순서가 없는 글은 최신 글이 앞
+    const byPinnedOrder = (a, b) => (a.pinnedOrder ?? Infinity) - (b.pinnedOrder ?? Infinity)
+        || (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
+    const pinnedPosts = posts.filter((post) => post.pinned).sort(byPinnedOrder);
+    const otherPosts = posts.filter((post) => !post.pinned);
+    const nextPinnedOrder = pinnedPosts.reduce((max, post) => Math.max(max, post.pinnedOrder ?? -1), -1) + 1;
+
+    // 주요 공지 순서 바꾸기: 바꾼 순서대로 0, 1, 2 …를 한 번에 저장 (소식 페이지 '주요 공지'도 이 순서)
+    const movePinned = async (index, dir) => {
+        const next = [...pinnedPosts];
+        [next[index], next[index + dir]] = [next[index + dir], next[index]];
+        const batch = writeBatch(db);
+        next.forEach((post, order) => batch.update(doc(db, 'membersNews', post.id), { pinnedOrder: order }));
+        try {
+            await batch.commit();
+            const orders = Object.fromEntries(next.map((post, order) => [post.id, order]));
+            setPosts((prev) => prev.map((post) => (post.id in orders ? { ...post, pinnedOrder: orders[post.id] } : post)));
+        } catch (error) {
+            console.error('순서 저장 실패:', error);
+            alert('순서를 저장하지 못했습니다.');
+        }
+    };
+
     const handleSave = async () => {
         if (!title.trim()) { alert('제목을 입력해주세요.'); return; }
         
@@ -197,6 +220,8 @@ const AdminMembersNews = () => {
                 content,
                 imageUrls: uploadedImageUrls,
                 pinned,
+                // 주요 공지 순서: 이미 고정된 글은 자리 그대로, 새로 고정하면 맨 끝
+                ...(pinned ? { pinnedOrder: currentPost?.pinned && currentPost.pinnedOrder != null ? currentPost.pinnedOrder : nextPinnedOrder } : {}),
                 createdAt: currentPost?.createdAt || Timestamp.now(),
                 views: currentPost?.views || 0,
                 isMemberNews: true,
@@ -370,7 +395,7 @@ const AdminMembersNews = () => {
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                <h2 style={{ fontSize: '24px'}}>성도 소식 관리</h2>
+                <h2 style={{ fontSize: '24px'}}>공지사항 관리</h2>
                 <button 
                     onClick={handleCreateNew}
                     style={{ backgroundColor: '#3B82F6', color: '#fff', padding: '10px 20px', borderRadius: '4px', border: 'none', cursor: 'pointer'}}
@@ -387,19 +412,26 @@ const AdminMembersNews = () => {
                             <th style={{ padding: '16px', width: '200px' }}>작성자(부서)</th>
                             <th style={{ padding: '16px', width: '160px' }}>작성일</th>
                             <th style={{ padding: '16px', width: '100px', textAlign: 'center' }}>조회수</th>
-                            <th style={{ padding: '16px', width: '180px', textAlign: 'center' }}>관리</th>
+                            <th style={{ padding: '16px', width: '260px', textAlign: 'center' }}>관리</th>
                         </tr>
                     </thead>
                     <tbody>
                         {posts.length === 0 ? (
                             <tr><td colSpan="5" style={{ padding: '32px', textAlign: 'center', color: '#6B7280' }}>등록된 소식이 없습니다.</td></tr>
-                        ) : posts.map(post => (
-                            <tr key={post.id} style={{ borderBottom: '1px solid #E5E7EB' }}>
+                        ) : [...pinnedPosts, ...otherPosts].map((post) => (
+                            <tr key={post.id} style={{ borderBottom: '1px solid #E5E7EB', backgroundColor: post.pinned ? '#F8FBFF' : undefined }}>
                                 <td style={{ padding: '16px'}}>{post.pinned && <span style={{ marginRight: '8px', padding: '2px 6px', borderRadius: '4px', backgroundColor: '#E0F2FE', color: '#075985', fontSize: '13px' }}>주요 공지</span>}{post.title}</td>
                                 <td style={{ padding: '16px' }}>{post.author}</td>
                                 <td style={{ padding: '16px', color: '#6B7280', fontSize: '16px' }}>{post.date}</td>
                                 <td style={{ padding: '16px', textAlign: 'center', color: '#6B7280' }}>{post.views || 0}</td>
                                 <td style={{ padding: '16px', display: 'flex', justifyContent: 'center', gap: '8px' }}>
+                                    {/* 주요 공지만 순서 바꾸기 */}
+                                    {post.pinned && (
+                                        <>
+                                            <button onClick={() => movePinned(pinnedPosts.indexOf(post), -1)} disabled={pinnedPosts.indexOf(post) === 0} style={{ backgroundColor: '#F3F4F6', border: '1px solid #D1D5DB', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', opacity: pinnedPosts.indexOf(post) === 0 ? 0.4 : 1 }} aria-label={`'${post.title}' 주요 공지 순서 위로`}>↑</button>
+                                            <button onClick={() => movePinned(pinnedPosts.indexOf(post), 1)} disabled={pinnedPosts.indexOf(post) === pinnedPosts.length - 1} style={{ backgroundColor: '#F3F4F6', border: '1px solid #D1D5DB', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', opacity: pinnedPosts.indexOf(post) === pinnedPosts.length - 1 ? 0.4 : 1 }} aria-label={`'${post.title}' 주요 공지 순서 아래로`}>↓</button>
+                                        </>
+                                    )}
                                     <button onClick={() => handleEdit(post)} style={{ backgroundColor: '#F3F4F6', border: '1px solid #D1D5DB', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' }}>수정</button>
                                     <button onClick={() => handleDelete(post)} style={{ backgroundColor: '#FEF2F2', color: '#DC2626', border: '1px solid #FCA5A5', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' }}>삭제</button>
                                 </td>

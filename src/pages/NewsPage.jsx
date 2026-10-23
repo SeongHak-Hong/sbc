@@ -143,8 +143,11 @@ const NewsPage = () => {
         filterId === 'all' ? ALL_CATEGORIES.includes(post.category) : post.category === filterId;
 
     const filteredPosts = posts.filter((post) => matchesFilter(post, activeTab)).sort(byNewest);
-    // 주요 공지: 관리자에서 '주요 공지로 고정'을 체크한 글 (성도사업 제외), 최신 글이 앞
-    const pinnedPosts = posts.filter((post) => post.pinned && ALL_CATEGORIES.includes(post.category)).sort(byNewest);
+    // 주요 공지: 관리자에서 '주요 공지로 고정'을 체크한 글 (성도사업 제외).
+    // 관리자 공지사항 목록에서 정한 순서(pinnedOrder)대로, 순서가 없는 글은 그 뒤에 최신 글부터
+    const pinnedPosts = posts
+        .filter((post) => post.pinned && ALL_CATEGORIES.includes(post.category))
+        .sort((a, b) => (a.pinnedOrder ?? Infinity) - (b.pinnedOrder ?? Infinity) || byNewest(a, b));
     const totalPages = Math.ceil(filteredPosts.length / postsPerPage) || 1;
     const currentPosts = filteredPosts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
     const activeFilter = FILTERS.find((f) => f.id === activeTab) || FILTERS[0];
