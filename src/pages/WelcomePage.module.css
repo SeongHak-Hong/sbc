@@ -355,6 +355,7 @@
 .cap {
     margin: 0;
     padding: 1.5rem 0.5rem 0;
+    font-size: var(--sub-t-body); /* 16px — 전역 p(--text-body)를 따라가지 않게 */
     color: var(--color-text-meta);
 }
 
@@ -479,6 +480,7 @@
 
 .dialogDesc {
     margin: 0.5rem 0 0;
+    font-size: var(--sub-t-body);
     color: var(--color-text-tertiary);
 }
 
@@ -566,6 +568,7 @@
 
 .error {
     margin: 1rem 0 0;
+    font-size: var(--sub-t-body);
     color: var(--color-text-strong);
 }
 
