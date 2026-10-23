@@ -686,7 +686,7 @@
   }
 
   .wrap {
-    padding: 0 1.125rem;
+    padding: 0 1rem;
   }
 
   .hero {
@@ -721,7 +721,7 @@
   }
 
   .maTrack {
-    --ma-pad: 1.125rem;
+    --ma-pad: 1rem;
   }
 
   .maCard {
