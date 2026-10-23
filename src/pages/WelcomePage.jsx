@@ -18,7 +18,7 @@ import step02 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-02
 import step03 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-03-neighbor-houses.webp';
 import step04 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-04-two-cups.webp';
 import step05 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-05-hands.webp';
-import askPhoto from '../assets/nurture/shintanjin-baptist-church-welcome-step-02.webp';
+import askMailbox from '../assets/newcomer/shintanjin-baptist-church-newcomer-inquiry-mailbox.webp';
 
 const ease = [0.16, 1, 0.3, 1];
 
@@ -250,8 +250,8 @@ const WelcomePage = () => {
                 </div>
             </section>
 
-            {/* ④ 문의: 왼쪽 글 · 오른쪽 사진, 버튼을 누르면 문의 팝업 */}
-            <section className={`${styles.sec} ${styles.band}`} aria-labelledby="ask-title">
+            {/* ④ 문의: 왼쪽 글 · 오른쪽 우체통 일러스트, 버튼을 누르면 문의 팝업 */}
+            <section className={`${styles.sec} ${styles.askSec}`} aria-labelledby="ask-title">
                 <div className={`${styles.wrap} ${styles.cta}`}>
                     <div>
                         <h2 id="ask-title" className={styles.secTitle}>더 궁금한 점이<br />있으세요?</h2>
@@ -261,7 +261,7 @@ const WelcomePage = () => {
                         </button>
                     </div>
                     <motion.div className={styles.ctaMedia} {...reveal}>
-                        <img src={askPhoto} alt="" loading="lazy" />
+                        <img src={askMailbox} alt="" loading="lazy" />
                     </motion.div>
                 </div>
             </section>
