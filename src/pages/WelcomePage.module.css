@@ -138,7 +138,7 @@
 .envLetter     { left: 4.881%;  top: 3.636%;  width: 92.876%; }
 .envPocket     { left: 0.132%;  top: 33.566%; width: 99.868%; }
 .envFlapClosed { left: 0.396%;  top: 33.566%; width: 99.472%; }
-.envHeart      { left: 37.731%; top: 51.049%; width: 24.538%; }
+.envHeart      { left: 37.731%; top: 54.049%; width: 24.538%; }
 
 /* 편지가 봉투 아래로 삐져나오지 않게 */
 .envClip {
