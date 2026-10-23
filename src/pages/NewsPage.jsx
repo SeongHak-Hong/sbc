@@ -29,6 +29,13 @@ const ChevronDown = () => (
     </svg>
 );
 
+// 주요 공지 표시: 압정(고정) 선 아이콘. 교회 안내 '오시는 길' 아이콘과 같은 그리기 (24칸 · 선 1.5 · 둥근 끝)
+const PinIcon = () => (
+    <svg className={styles.pinIcon} viewBox="0 0 24 24" role="img" aria-label="주요 공지">
+        <path d="M8.5 3h7M10 3v5.5l-3 4V14h10v-1.5l-3-4V3M12 14v7" />
+    </svg>
+);
+
 const CheckIcon = () => (
     <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M5 12.5l4.5 4.5L19 7.5" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -259,7 +266,7 @@ const NewsPage = () => {
                             <ul key={`${activeTab}-${currentPage}`} className={styles.postList} aria-label={`${activeFilter.label} 소식`}>
                                 {currentPosts.map((post) => (
                                     <li key={post.id} className={styles.postItem}>
-                                        <span className={styles.category}>{post.pinned ? `주요 공지 · ${categoryLabel(post.category)}` : categoryLabel(post.category)}</span>
+                                        <span className={styles.category}>{post.pinned && <PinIcon />}{categoryLabel(post.category)}</span>
                                         <h2 className={styles.postTitle}>{post.title}</h2>
                                         {metaText(post) && <span className={styles.meta}>{metaText(post)}</span>}
                                         <button
