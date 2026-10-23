@@ -27,13 +27,9 @@
   --t-body: 1rem;
   --t-statement: 2rem;
 
-  --pad-sec: 8rem;
-  --space-head: 3rem;
-
   --r-card: 20px;
   --r-photo: 20px;
   --r-media: 28px;
-  --wrap: 1200px;
 
   position: relative;
   /* 첫 화면 오로라(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 */
@@ -52,7 +48,7 @@
 .wrap {
   max-width: var(--wrap);
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 var(--gutter);
   box-sizing: border-box;
 }
 
@@ -309,7 +305,7 @@
 }
 
 .maTrack {
-  --ma-pad: max(1.5rem, calc((100% - var(--wrap)) / 2 + 1.5rem));
+  --ma-pad: max(var(--gutter), calc((100% - var(--wrap)) / 2 + var(--gutter)));
   display: flex;
   gap: 1rem;
   overflow-x: auto;
@@ -677,16 +673,10 @@
 
 @media (max-width: 767px) {
   .mainWrap {
-    --pad-sec: 4.5rem;
-    --space-head: 2rem;
     --t-display: 2.25rem;
     --t-strong: 1.75rem;
     --t-mid: 1.25rem;
     --t-card: 1.125rem;
-  }
-
-  .wrap {
-    padding: 0 1rem;
   }
 
   .hero {
@@ -718,10 +708,6 @@
 
   .maNavWrap {
     display: none;
-  }
-
-  .maTrack {
-    --ma-pad: 1rem;
   }
 
   .maCard {

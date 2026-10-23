@@ -1,8 +1,6 @@
 /* 선교전도: 목요전도팀 중심 한 페이지 (첫 화면 → 하는 일 → 기도 제목 → 선교사님 → 함께하기)
-   글자·여백은 서브페이지 공통 토큰(index.css --sub-*), 하는 일 카드는 메인 '교회가 하는 일'(.ma)과 같은 구조 */
+   글자·여백은 공통 토큰(index.css --t-*, --pad-sec, --space-head, --wrap, --gutter), 하는 일 카드는 메인 '교회가 하는 일'(.ma)과 같은 구조 */
 .page {
-    --wrap: 1200px;
-    --gutter: 1.5rem;
     --r-card: 28px;
 
     position: relative;
@@ -12,7 +10,7 @@
     /* 첫 화면 오로라(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 */
     isolation: isolate;
     overflow-x: clip;
-    font-size: var(--sub-t-body);
+    font-size: var(--t-body);
     line-height: 1.6;
     letter-spacing: -0.02em;
     word-break: keep-all;
@@ -26,7 +24,7 @@
 }
 
 .sec {
-    padding: var(--sub-pad-sec) 0;
+    padding: var(--pad-sec) 0;
 }
 
 .band {
@@ -34,12 +32,12 @@
 }
 
 .secHead {
-    margin-bottom: var(--sub-space-head);
+    margin-bottom: var(--space-head);
 }
 
 .secTitle {
     margin: 0;
-    font-size: var(--sub-t-title);
+    font-size: var(--t-title);
     font-weight: 500;
     line-height: 1.25;
     letter-spacing: -0.03em;
@@ -48,7 +46,7 @@
 
 .secLead {
     margin: 1rem 0 0;
-    font-size: var(--sub-t-lead);
+    font-size: var(--t-lead);
     color: var(--color-text-primary);
 }
 
@@ -74,7 +72,7 @@
 
 /* ---------- ① 첫 화면 ---------- */
 .hero {
-    padding: var(--sub-title-top) 0 var(--sub-pad-sec);
+    padding: var(--title-top) 0 var(--pad-sec);
 }
 
 .heroGrid {
@@ -86,7 +84,7 @@
 
 .heroTitle {
     margin: 0;
-    font-size: var(--sub-t-display);
+    font-size: var(--t-display);
     font-weight: 500;
     line-height: 1.18;
     letter-spacing: -0.035em;
@@ -105,7 +103,7 @@
 
 /* ---------- ② 하는 일 (메인 .ma와 같은 크기) ---------- */
 .ma {
-    padding: 0 0 var(--sub-pad-sec);
+    padding: 0 0 var(--pad-sec);
 }
 
 .maTrack {
@@ -151,7 +149,7 @@
 .maCap {
     margin: 0;
     padding: 1.75rem 1rem;
-    font-size: var(--sub-t-body);
+    font-size: var(--t-body);
     color: var(--color-text-meta);
 }
 
@@ -222,7 +220,7 @@
 
 .prayerTitle {
     margin: 0;
-    font-size: var(--sub-t-sub);
+    font-size: var(--t-sub);
     font-weight: 500;
     line-height: 1.32;
     letter-spacing: -0.03em;
@@ -231,7 +229,7 @@
 
 .prayerText {
     margin: 0.75rem 0 0;
-    font-size: var(--sub-t-body); /* 16px (1rem) */
+    font-size: var(--t-body); /* 16px (1rem) */
     color: var(--color-text-primary);
 }
 
@@ -252,7 +250,7 @@
 
 .prayerMonth .prayerText {
     margin: 0;
-    font-size: var(--sub-t-sub);
+    font-size: var(--t-sub);
     line-height: 1.45;
     letter-spacing: -0.03em;
     color: var(--color-white);
@@ -325,7 +323,7 @@
 
 .missionTitle {
     margin: 0 0 1rem;
-    font-size: var(--sub-t-sub);
+    font-size: var(--t-sub);
     font-weight: 500;
     line-height: 1.32;
     letter-spacing: -0.03em;
@@ -335,7 +333,7 @@
 /* "묶음. 지역 단체 이름 · …" 한 문단: 지역·단체는 옅은 흰색, 묶음과 이름은 흰색 */
 .missionFlow {
     margin: 0;
-    font-size: var(--sub-t-body); /* 16px (1rem) */
+    font-size: var(--t-body); /* 16px (1rem) */
     line-height: 1.75;
     color: rgba(255, 255, 255, 0.78);
 }
@@ -379,7 +377,7 @@
 
 .joinWho {
     margin: 1rem 0 0;
-    font-size: var(--sub-t-lead);
+    font-size: var(--t-lead);
     color: var(--color-text-meta);
 }
 
@@ -397,7 +395,7 @@
     border-radius: var(--radius-pill);
     background-color: var(--color-surface-dark);
     color: var(--color-white);
-    font-size: var(--sub-t-lead);
+    font-size: var(--t-lead);
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
     transition: transform 0.2s ease;
@@ -422,7 +420,6 @@
 /* ---------- 휴대폰 ---------- */
 @media (max-width: 767px) {
     .page {
-        --gutter: 1rem;
         --r-card: 24px;
     }
 
@@ -433,7 +430,7 @@
 
     .heroLead {
         margin-top: 1rem;
-        font-size: var(--sub-t-lead);
+        font-size: var(--t-lead);
     }
 
     .heroMedia {

@@ -1,21 +1,14 @@
-/* 섹션 여백은 메인 페이지(MainPage.module.css --pad-sec · --space-head)와 같은 값.
-   페이지 첫 섹션이라 위는 제목 자리 여백(--sub-title-top: 180px, 휴대폰 140px), 교회 안내 첫 화면과 같음 */
+/* 섹션 여백은 공통 토큰(index.css --pad-sec · --space-head · --wrap · --gutter)과 같은 값.
+   페이지 첫 섹션이라 위는 제목 자리 여백(--title-top: 180px, 휴대폰 140px), 교회 안내 첫 화면과 같음 */
 .sectionContainer {
-    padding: var(--sub-title-top) 1.5rem 8rem;
+    padding: var(--title-top) var(--gutter) var(--pad-sec);
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    gap: var(--space-head);
     width: 100%;
-    max-width: 1200px;
+    max-width: var(--wrap);
     margin: 0 auto;
     box-sizing: border-box;
-}
-
-@media (max-width: 767px) {
-    .sectionContainer {
-        padding: var(--sub-title-top) 1.125rem 4.5rem;
-        gap: 2rem;
-    }
 }
 
 .headerContent {
