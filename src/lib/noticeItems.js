@@ -88,10 +88,66 @@ export const noticeItemsToHtml = (items = []) => items
     })
     .join('');
 
-// 본문 = 광고 + (있으면) 구분선 + 덧붙이는 글. 구분선(<hr>)이 있어야 팝업에서 덧붙이는 글이
+// ---------- 표: 요일 표(기간 · 주일~토) · 날짜 표(날짜 · 내용) ----------
+// 줄마다 칸 값 배열. 첫 칸이 기간·날짜
+export const NOTICE_TABLE_KINDS = {
+    weekday: { label: '요일 표', headers: ['기간', '주일', '월', '화', '수', '목', '금', '토'], placeholder: '예: 일일 릴레이 금식기도표' },
+    date: { label: '날짜 표', headers: ['날짜', '내용'], placeholder: '예: 전교인 성경 통독' },
+};
+
+export const emptyNoticeRow = (kind) => NOTICE_TABLE_KINDS[kind].headers.map(() => '');
+
+export const emptyNoticeTable = (kind) => ({
+    id: crypto.randomUUID(),
+    kind,
+    title: '',
+    rows: [emptyNoticeRow(kind), emptyNoticeRow(kind)],
+});
+
+// 엑셀 · 한글 표에서 복사한 글(칸은 탭, 줄은 줄바꿈)을 칸 배열로.
+// 머리줄('날짜', '주일' …)은 건너뛰고, 날짜 표인데 가로로 놓인 표(2줄에 칸이 여럿)는 세로로 돌린다
+export const parsePastedTable = (text, kind) => {
+    let rows = text.replace(/\r/g, '').split('\n')
+        .map((line) => line.split('\t').map((cell) => cell.trim()))
+        .filter((cells) => cells.some(Boolean));
+    if (kind === 'date' && rows.length === 2 && rows[0].length > 2) {
+        rows = rows[0].map((_, i) => [rows[0][i] || '', rows[1][i] || '']);
+    }
+    const headers = NOTICE_TABLE_KINDS[kind].headers;
+    if (rows.length && headers.includes(rows[0][0])) rows = rows.slice(1);
+    if (rows.length && kind === 'weekday' && rows[0].slice(1).some((cell) => ['주일', '일', '월', '화'].includes(cell))) rows = rows.slice(1);
+    return rows;
+};
+
+// Firestore는 배열 안의 배열을 저장하지 못한다 → 줄은 { cells: [...] }로 저장하고, 불러올 때 다시 배열로
+const isEmptyRow = (row) => !row.some((cell) => String(cell || '').trim());
+export const noticeTablesForStore = (tables = []) => tables.map((table) => ({
+    ...table,
+    rows: table.rows.filter((row) => !isEmptyRow(row)).map((cells) => ({ cells })),
+}));
+export const normalizeNoticeTable = (table) => ({
+    ...table,
+    title: table.title || '',
+    rows: (table.rows || []).map((row) => (Array.isArray(row) ? row : row.cells || [])),
+});
+
+const noticeTablesToHtml = (tables = []) => tables
+    .map(normalizeNoticeTable)
+    .map((table) => {
+        const { headers } = NOTICE_TABLE_KINDS[table.kind] || NOTICE_TABLE_KINDS.date;
+        const rows = (table.rows || []).filter((row) => row.some((cell) => cell.trim()));
+        if (!rows.length) return '';
+        const head = `<thead><tr>${headers.map((h) => `<th>${escapeHtml(h)}</th>`).join('')}</tr></thead>`;
+        const body = `<tbody>${rows.map((row) => `<tr>${headers.map((_, i) => `<td>${escapeHtml((row[i] || '').trim())}</td>`).join('')}</tr>`).join('')}</tbody>`;
+        const title = table.title.trim() ? `<h3>${escapeHtml(table.title.trim())}</h3>` : '';
+        return `${title}<table>${head}${body}</table>`;
+    })
+    .join('');
+
+// 본문 = 광고 + 표 + (있으면) 구분선 + 덧붙이는 글. 구분선(<hr>)이 있어야 팝업에서 덧붙이는 글이
 // 마지막 광고에 딸려 들어가지 않고 단락 간격을 두고 따로 나온다
-export const buildNoticeContent = (items = [], extraContent = '') => {
+export const buildNoticeContent = (items = [], extraContent = '', tables = []) => {
     const extra = (extraContent || '').trim();
     const hasExtra = extra && extra.replace(/<[^>]*>|&nbsp;/g, '').trim();
-    return noticeItemsToHtml(items) + (hasExtra ? `<hr>${extra}` : '');
+    return noticeItemsToHtml(items) + noticeTablesToHtml(tables) + (hasExtra ? `<hr>${extra}` : '');
 };

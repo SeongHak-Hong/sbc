@@ -644,7 +644,7 @@ const PostDetailPage = () => {
                 images={isBulletin ? [] : viewerImages}
                 bulletin={isBulletin ? viewerImages : []}
                 // 광고 양식으로 쓴 교회소식은 저장된 칸으로 본문을 다시 만든다 (지금 규칙으로 늘 같은 모양)
-                description={post.items ? buildNoticeContent(post.items.map(normalizeNoticeItem), post.extraContent) : post.content}
+                description={post.items ? buildNoticeContent(post.items.map(normalizeNoticeItem), post.extraContent, post.tables) : post.content}
                 extra={post.address ? (
                     <NaverMap
                         address={post.address}

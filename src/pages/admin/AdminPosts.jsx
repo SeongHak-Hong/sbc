@@ -6,7 +6,8 @@ import AdminCloseButton from '../../components/ui/AdminCloseButton';
 import { db, storage } from '../../firebase';
 import AdminEditor from '../../components/admin/AdminEditor';
 import NoticeItemsEditor from '../../components/admin/NoticeItemsEditor';
-import { emptyNoticeItem, normalizeNoticeItem, buildNoticeContent } from '../../lib/noticeItems';
+import NoticeTablesEditor from '../../components/admin/NoticeTablesEditor';
+import { emptyNoticeItem, normalizeNoticeItem, buildNoticeContent, normalizeNoticeTable, noticeTablesForStore } from '../../lib/noticeItems';
 
 const AdminPosts = () => {
     const [posts, setPosts] = useState([]);
@@ -24,6 +25,7 @@ const AdminPosts = () => {
     // 교회소식 광고 양식: 광고 칸(items)과 칸에 맞지 않는 덧붙이는 글. items가 null이면 예전 편집기로 쓴 글
     const [items, setItems] = useState(null);
     const [extraContent, setExtraContent] = useState('');
+    const [tables, setTables] = useState([]); // 표 칸: 요일 표 · 날짜 표
     const [pinned, setPinned] = useState(false); // 소식 페이지 '주요 공지'에 고정
     const [images, setImages] = useState([]); // [{url, path}] or string
     const [newFiles, setNewFiles] = useState([]); // array of File objects
@@ -99,6 +101,7 @@ const AdminPosts = () => {
         setContent('');
         setItems([emptyNoticeItem()]);
         setExtraContent('');
+        setTables([]);
         setPinned(false);
         setImages([]);
         setNewFiles([]);
@@ -115,6 +118,7 @@ const AdminPosts = () => {
         setContent(post.content || '');
         setItems(post.items ? post.items.map(normalizeNoticeItem) : null);
         setExtraContent(post.extraContent || '');
+        setTables((post.tables || []).map(normalizeNoticeTable));
         setPinned(Boolean(post.pinned));
         setImages(post.imageUrls || []);
         setNewFiles([]);
@@ -167,6 +171,7 @@ const AdminPosts = () => {
     const switchToItems = () => {
         setExtraContent(content);
         setItems([emptyNoticeItem()]);
+        setTables([]);
     };
 
     // 가장 최근에 양식으로 쓴 교회소식의 광고를 그대로 가져온다 (매주 반복되는 광고가 많아서)
@@ -178,6 +183,17 @@ const AdminPosts = () => {
         }
         if (items.some((item) => item.title.trim()) && !window.confirm(`지금 적은 광고를 '${last.title}'의 광고로 바꿀까요?`)) return;
         setItems(last.items.map((item) => ({ ...normalizeNoticeItem(item), id: crypto.randomUUID() })));
+    };
+
+    // 지난주 표: 가장 최근에 표를 넣은 교회소식의 표를 그대로 (이름만 고쳐 쓰도록)
+    const handleLoadLastWeekTables = () => {
+        const last = posts.find((post) => post.category === 'news' && post.id !== formId && post.tables?.length);
+        if (!last) {
+            alert('표를 넣은 지난 교회소식이 아직 없어요.');
+            return;
+        }
+        if (tables.length && !window.confirm(`지금 표를 '${last.title}'의 표로 바꿀까요?`)) return;
+        setTables(last.tables.map((table) => ({ ...normalizeNoticeTable(table), id: crypto.randomUUID() })));
     };
 
     const usesItems = category === 'news' && items !== null;
@@ -252,8 +268,8 @@ const AdminPosts = () => {
                 category,
                 date,
                 // 양식으로 쓴 교회소식은 광고 칸으로 본문을 만들고, 다시 고칠 수 있게 칸도 함께 저장
-                content: usesItems ? buildNoticeContent(items, extraContent) : content,
-                ...(usesItems ? { items: items.filter((item) => item.title.trim()), extraContent } : {}),
+                content: usesItems ? buildNoticeContent(items, extraContent, tables) : content,
+                ...(usesItems ? { items: items.filter((item) => item.title.trim()), tables: noticeTablesForStore(tables), extraContent } : {}),
                 imageUrls: uploadedImageUrls,
                 pinned,
                 createdAt: currentPost?.createdAt || Timestamp.now(),
@@ -340,6 +356,7 @@ const AdminPosts = () => {
                     {usesItems ? (
                         <>
                             <NoticeItemsEditor items={items} onChange={setItems} onLoadLastWeek={handleLoadLastWeek} />
+                            <NoticeTablesEditor tables={tables} onChange={setTables} onLoadLastWeek={handleLoadLastWeekTables} />
                             <div>
                                 <label style={{ display: 'block', marginBottom: '8px'}}>
                                     덧붙이는 글 <span style={{  color: '#6B7280' }}>(선택. 표 · 목회계획처럼 광고 칸에 맞지 않는 것)</span>
