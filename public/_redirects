@@ -1,0 +1,8 @@
+# 리뉴얼 전 주소 → 새 주소 (Cloudflare Pages, 301 영구 이동)
+# 주소를 바꾸면 src/App.jsx의 PAGE_TITLES · OLD_PATHS, sitemap.xml도 함께 고칠 것
+/history    /gallery            301
+/welcome    /newcomer           301
+/community  /groups             301
+/network    /news?tab=network   301
+/worship    /guide              301
+/missions   /outreach           301

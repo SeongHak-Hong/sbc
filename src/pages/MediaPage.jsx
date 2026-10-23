@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import Footer from '../components/Footer';
 import Pagination from '../components/ui/Pagination';
 import styles from './MediaPage.module.css';
+import PickerPopover from '../components/ui/PickerPopover';
 import PageTopGradient from '../components/PageTopGradient';
 
 // 영상 고르기: 제목("전체")과 오른쪽 화살표를 누르면 교회 일정 연월 고르기와 같은 유리 창이 열린다
@@ -23,8 +24,6 @@ const NEXTGEN_LEADERS = [
     { keywords: ['청년부'], leader: '강현수 전도사' },
 ];
 
-// 고르기 창: 감쇠 1.0 스프링(튕김 없음)
-const pickerSpring = { type: 'spring', bounce: 0, duration: 0.3 };
 
 const ChevronDown = () => (
     <svg viewBox="0 0 36 36" aria-hidden="true">
@@ -48,7 +47,6 @@ const MediaPage = () => {
     const [videos, setVideos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedVideo, setSelectedVideo] = useState(null);
-    const reduceMotion = useReducedMotion();
     const [pickerOpen, setPickerOpen] = useState(false);
     const pickerRef = useRef(null);
     const triggerRef = useRef(null);
@@ -421,15 +419,7 @@ const MediaPage = () => {
 
                         <AnimatePresence>
                             {pickerOpen && (
-                                <motion.div
-                                    role="dialog"
-                                    aria-label="영상 종류 고르기"
-                                    className={styles.picker}
-                                    initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -6, scale: 0.97 }}
-                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -4, scale: 0.98 }}
-                                    transition={reduceMotion ? { duration: 0.15 } : pickerSpring}
-                                >
+                                <PickerPopover className={styles.picker} label="영상 종류 고르기">
                                     {FILTERS.map((filter) => {
                                         const active = filter.id === activeTab;
                                         const count = videos.filter((video) => matchesFilter(video, filter.id)).length;
@@ -447,7 +437,7 @@ const MediaPage = () => {
                                             </button>
                                         );
                                     })}
-                                </motion.div>
+                                </PickerPopover>
                             )}
                         </AnimatePresence>
                     </div>

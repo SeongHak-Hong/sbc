@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../firebase';
 import Pagination from '../components/ui/Pagination';
 import Footer from '../components/Footer';
 import styles from './NewsPage.module.css';
+import PickerPopover from '../components/ui/PickerPopover';
 import PageTopGradient from '../components/PageTopGradient';
 
 // 소식 고르기: 제목("전체")과 오른쪽 화살표를 누르면 예배 영상(미디어룸)과 같은 유리 창이 열린다.
@@ -20,8 +21,6 @@ const FILTERS = [
 const ALL_CATEGORIES = ['koinonia', 'news', 'bulletin'];
 const categoryLabel = (id) => FILTERS.find((f) => f.id === id)?.label || '';
 
-// 고르기 창: 감쇠 1.0 스프링(튕김 없음)
-const pickerSpring = { type: 'spring', bounce: 0, duration: 0.3 };
 
 const ChevronDown = () => (
     <svg viewBox="0 0 36 36" aria-hidden="true">
@@ -64,7 +63,6 @@ const byNewest = (a, b) => {
 const NewsPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const reduceMotion = useReducedMotion();
     const [activeTab, setActiveTab] = useState('all');
     const [currentPage, setCurrentPage] = useState(1);
     const postsPerPage = 10;
@@ -195,15 +193,7 @@ const NewsPage = () => {
 
                         <AnimatePresence>
                             {pickerOpen && (
-                                <motion.div
-                                    role="dialog"
-                                    aria-label="소식 종류 고르기"
-                                    className={styles.picker}
-                                    initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -6, scale: 0.97 }}
-                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -4, scale: 0.98 }}
-                                    transition={reduceMotion ? { duration: 0.15 } : pickerSpring}
-                                >
+                                <PickerPopover className={styles.picker} label="소식 종류 고르기">
                                     {FILTERS.map((filter) => {
                                         const active = filter.id === activeTab;
                                         const count = posts.filter((post) => matchesFilter(post, filter.id)).length;
@@ -221,7 +211,7 @@ const NewsPage = () => {
                                             </button>
                                         );
                                     })}
-                                </motion.div>
+                                </PickerPopover>
                             )}
                         </AnimatePresence>
                     </div>

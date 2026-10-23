@@ -13,7 +13,6 @@ import CommunityPage from './pages/CommunityPage';
 import OutreachPage from './pages/OutreachPage';
 import EventsPage from './pages/EventsPage';
 import NewsPage from './pages/NewsPage';
-import NetworkPage from './pages/NetworkPage';
 import PostDetailPage from './pages/PostDetailPage';
 import MediaPage from './pages/MediaPage';
 import ScrollToTop from './components/ScrollToTop';
@@ -99,10 +98,56 @@ export const SquiCircleFilterStatic = () => {
   );
 };
 
+const SITE_URL = 'https://shintanjin.or.kr';
+const SITE_NAME = '신탄진침례교회';
+
+// 페이지 주소 → 탭 제목. 주소를 바꾸면 public/sitemap.xml, public/_redirects, 아래 OLD_PATHS도 함께 고칠 것
+const PAGE_TITLES = {
+  '/': null,
+  '/vision': '인사말 · 비전',
+  '/guide': '교회 안내',
+  '/gallery': '추억 갤러리',
+  '/team': '섬기는 사람들',
+  '/media': '예배영상',
+  '/newcomer': '새가족',
+  '/groups': '구역 안내',
+  '/nextgen': '다음세대',
+  '/outreach': '선교전도',
+  '/news': '소식 · 주보',
+  '/events': '교회 일정',
+};
+
+// 리뉴얼 전 주소 → 새 주소 (예전 링크·검색 결과로 들어와도 맞는 페이지로)
+const OLD_PATHS = [
+  ['/history', '/gallery'],
+  ['/welcome', '/newcomer'],
+  ['/community', '/groups'],
+  ['/network', '/news?tab=network'],
+  ['/worship', '/guide'],
+  ['/missions', '/outreach'],
+];
+
+// 페이지마다 탭 제목과 대표 주소(canonical)를 맞춘다. 게시물 팝업은 뒤에 깔린 페이지 기준
+const usePageMeta = (pathname) => {
+  useEffect(() => {
+    if (!(pathname in PAGE_TITLES)) return;
+    const title = PAGE_TITLES[pathname];
+    document.title = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
+    let link = document.querySelector('link[rel="canonical"]');
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'canonical';
+      document.head.appendChild(link);
+    }
+    link.href = SITE_URL + pathname;
+  }, [pathname]);
+};
+
 function AppRoutes() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/manager-lounge');
   const background = location.state && location.state.background;
+  usePageMeta((background || location).pathname);
 
   const pageTransitionVariants = {
     initial: { opacity: 0 },
@@ -125,19 +170,23 @@ function AppRoutes() {
         >
           <Routes location={background || location}>
             <Route path="/" element={<MainPage />} />
-            <Route path="/welcome" element={<WelcomePage />} />
-            <Route path="/history" element={<HistoryPage />} />
+            <Route path="/newcomer" element={<WelcomePage />} />
+            <Route path="/gallery" element={<HistoryPage />} />
             <Route path="/vision" element={<VisionPage />} />
             <Route path="/guide" element={<GuidePage />} />
             <Route path="/team" element={<TeamPage />} />
             <Route path="/nextgen" element={<NextGenPage />} />
-            <Route path="/community" element={<CommunityPage />} />
+            <Route path="/groups" element={<CommunityPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/outreach" element={<OutreachPage />} />
             <Route path="/media" element={<MediaPage />} />
             <Route path="/news" element={<NewsPage />} />
-            <Route path="/network" element={<Navigate to="/news?tab=network" replace />} />
             <Route path="/post/:id" element={<PostDetailPage />} />
+
+            {/* 리뉴얼 전 주소 → 새 주소 (배포 서버는 public/_redirects가 먼저 301로 보낸다) */}
+            {OLD_PATHS.map(([from, to]) => (
+              <Route key={from} path={from} element={<Navigate to={to} replace />} />
+            ))}
 
             {/* 관리자 라우트 */}
             <Route path="/manager-lounge/login" element={<LoginPage />} />

@@ -21,7 +21,7 @@ const Header = () => {
 
     const location = useLocation();
     const navigate = useNavigate();
-    const isHistoryPage = location.pathname === '/history';
+    const isHistoryPage = location.pathname === '/gallery';
 
     // 1depth 메뉴 및 2depth 서브메뉴 데이터
     const menuItems = [
@@ -32,7 +32,7 @@ const Header = () => {
             links: [
                 { text: "인사말 · 비전", path: "/vision" },
                 { text: "교회 안내", path: "/guide" },
-                { text: "추억 갤러리", path: "/history" },
+                { text: "추억 갤러리", path: "/gallery" },
                 { text: "섬기는 사람들", path: "/team" },
             ]
         },
@@ -46,8 +46,8 @@ const Header = () => {
             title: "공동체",
             subLabel: "공동체 살펴보기",
             links: [
-                { text: "새가족", path: "/welcome" },
-                { text: "구역 안내", path: "/community" }
+                { text: "새가족", path: "/newcomer" },
+                { text: "구역 안내", path: "/groups" }
             ]
         },
         {
@@ -65,9 +65,8 @@ const Header = () => {
             title: "나눔터",
             subLabel: "나눔터 살펴보기",
             links: [
-                { text: "소식 · 주보", path: "/news?tab=koinonia" },
-                { text: "교회 일정", path: "/events" },
-                { text: "성도 사업체", path: "/network" }
+                { text: "소식 · 주보", path: "/news" },
+                { text: "교회 일정", path: "/events" }
             ]
         }
     ];

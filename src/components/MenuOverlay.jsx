@@ -20,7 +20,7 @@ const MenuOverlay = ({ isOpen, onClose }) => {
             links: [
                 { text: "인사말 · 비전", path: "/vision" },
                 { text: "교회 안내", path: "/guide" },
-                { text: "추억 갤러리", path: "/history" },
+                { text: "추억 갤러리", path: "/gallery" },
                 { text: "섬기는 분들", path: "/team" },
             ]
         },
@@ -35,8 +35,8 @@ const MenuOverlay = ({ isOpen, onClose }) => {
         {
             id: "step-3", num: "03", title: "양육훈련",
             links: [
-                { text: "새가족", path: "/welcome" },
-                { text: "구역 안내", path: "/community" }
+                { text: "새가족", path: "/newcomer" },
+                { text: "구역 안내", path: "/groups" }
             ]
         },
         {
@@ -50,7 +50,7 @@ const MenuOverlay = ({ isOpen, onClose }) => {
         {
             id: "step-6", num: "06", title: "나눔터",
             links: [
-                { text: "소식 · 주보", path: "/news?tab=koinonia" },
+                { text: "소식 · 주보", path: "/news" },
                 { text: "교회 일정", path: "/events" }
             ]
         }

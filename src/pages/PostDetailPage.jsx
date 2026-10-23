@@ -403,7 +403,7 @@ const PostDetailPage = () => {
                 if (id.startsWith('nextgen-')) parentPath = '/nextgen';
                 else if (id.startsWith('network_') || id.startsWith('memberBusiness_')) parentPath = '/news?tab=network';
                 else if (id.startsWith('schedules_')) parentPath = '/events';
-                else if (id.startsWith('missions_')) parentPath = '/missions';
+                else if (id.startsWith('missions_')) parentPath = '/outreach';
                 else if (id.startsWith('koinonia_')) parentPath = '/news?tab=koinonia';
             }
 

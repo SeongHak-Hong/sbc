@@ -1,14 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
 import styles from './EventsPage.module.css';
+import PickerPopover from '../components/ui/PickerPopover';
 import PageTopGradient from '../components/PageTopGradient';
 import Footer from '../components/Footer';
 
-// 고르기 창: 감쇠 1.0 스프링(튕김 없음). 눌러서 다시 닫아도 지금 위치에서 이어서 움직인다
-const pickerSpring = { type: 'spring', bounce: 0, duration: 0.3 };
 const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const pad2 = (n) => String(n).padStart(2, '0');
@@ -73,7 +72,6 @@ const ChevronSide = ({ dir }) => (
 const EventsPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const reduceMotion = useReducedMotion();
     const today = new Date();
     const [scheduleMap, setScheduleMap] = useState({});
     const [availableYears, setAvailableYears] = useState([today.getFullYear()]);
@@ -207,15 +205,7 @@ const EventsPage = () => {
 
                         <AnimatePresence>
                             {pickerOpen && (
-                                <motion.div
-                                    role="dialog"
-                                    aria-label="연월 고르기"
-                                    className={styles.picker}
-                                    initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -6, scale: 0.97 }}
-                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -4, scale: 0.98 }}
-                                    transition={reduceMotion ? { duration: 0.15 } : pickerSpring}
-                                >
+                                <PickerPopover className={styles.picker} label="연월 고르기">
                                     {/* macOS 캘린더처럼: 왼쪽 굵은 연도, 오른쪽에 이전·다음 해 */}
                                     <div className={styles.pickerYearRow}>
                                         <span className={styles.pickerYear} aria-live="polite">{pickerYear}년</span>
@@ -262,7 +252,7 @@ const EventsPage = () => {
                                             );
                                         })}
                                     </div>
-                                </motion.div>
+                                </PickerPopover>
                             )}
                         </AnimatePresence>
                     </div>
