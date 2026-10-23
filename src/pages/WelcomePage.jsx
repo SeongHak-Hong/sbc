@@ -223,18 +223,10 @@ const WelcomePage = () => {
                 </div>
             </section>
 
-            {/* ③ 새가족이 되는 과정: 옆으로 넘기는 카드 5장 */}
+            {/* ③ 새가족이 되는 과정: 옆으로 넘기는 카드 5장, 오른쪽 아래 이전·다음 (메인 '교회가 하는 일'과 같은 자리) */}
             <section className={styles.sec} aria-labelledby="steps-title">
                 <div className={`${styles.wrap} ${styles.railHead}`}>
                     <h2 id="steps-title" className={styles.secTitle}>마음이 정해지셨을 때,<br />이렇게 함께해요.</h2>
-                    <div className={styles.nav} aria-label="카드 이동">
-                        <button type="button" className={styles.navBtn} onClick={() => scrollRail(-1)} aria-label="이전">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
-                        </button>
-                        <button type="button" className={styles.navBtn} onClick={() => scrollRail(1)} aria-label="다음">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
-                        </button>
-                    </div>
                 </div>
                 <ol ref={railRef} className={styles.rail} tabIndex={0} aria-label="새가족이 되는 과정">
                     {STEPS.map((step) => (
@@ -247,6 +239,16 @@ const WelcomePage = () => {
                         </li>
                     ))}
                 </ol>
+                <div className={`${styles.wrap} ${styles.navWrap}`}>
+                    <div className={styles.nav} aria-label="카드 이동">
+                        <button type="button" className={styles.navBtn} onClick={() => scrollRail(-1)} aria-label="이전">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
+                        </button>
+                        <button type="button" className={styles.navBtn} onClick={() => scrollRail(1)} aria-label="다음">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+                        </button>
+                    </div>
+                </div>
             </section>
 
             {/* ④ 문의: 왼쪽 글 · 오른쪽 사진, 버튼을 누르면 문의 팝업 */}

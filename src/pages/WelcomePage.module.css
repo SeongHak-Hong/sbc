@@ -231,11 +231,14 @@
 
 /* ---------- ③ 새가족이 되는 과정: 애플 환경 #recover-gallery ---------- */
 .railHead {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 1.5rem;
     margin-bottom: var(--sub-space-head);
+}
+
+/* 이전·다음: 카드 아래 오른쪽 (메인 .maNavWrap과 같음) */
+.navWrap {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
 }
 
 .nav {
@@ -582,7 +585,7 @@
         --r-card: 24px;
     }
 
-    .nav {
+    .navWrap {
         display: none;
     }
 
