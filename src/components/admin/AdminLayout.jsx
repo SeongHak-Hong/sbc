@@ -43,10 +43,6 @@ const AdminLayout = () => {
                         <span className="material-symbols-outlined" translate="no">dashboard</span>
                         대시보드 홈
                     </NavLink>
-                    <NavLink to="/manager-lounge/posts" className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}>
-                        <span className="material-symbols-outlined" translate="no">forum</span>
-                        나눔터 (소식/주보)
-                    </NavLink>
                     <NavLink 
                         to="/manager-lounge/nextgen"
                         className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}
@@ -81,6 +77,10 @@ const AdminLayout = () => {
                     >
                         <span className="material-symbols-outlined" translate="no">event</span>
                         교회 일정 관리
+                    </NavLink>
+                    <NavLink to="/manager-lounge/posts" className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}>
+                        <span className="material-symbols-outlined" translate="no">forum</span>
+                        나눔터 (소식/주보)
                     </NavLink>
                     <NavLink 
                         to="/manager-lounge/members-news"
