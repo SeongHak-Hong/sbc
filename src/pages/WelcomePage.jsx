@@ -233,7 +233,6 @@ const WelcomePage = () => {
                         <li key={step.title} className={styles.step}>
                             <div className={styles.tile}>
                                 <img className={styles.tileImg} src={step.img} alt="" loading="lazy" />
-                                <p className={styles.callout}>{step.callout}</p>
                             </div>
                             <p className={styles.cap}><strong>{step.title}.</strong> {step.desc}</p>
                         </li>
