@@ -459,7 +459,8 @@
 
 /* ---------- 내용 글 (관리자가 쓴 본문) ----------
    매거진처럼 읽히게: lib/cleanPostContents가 구조를 바로잡은 뒤(.post-clean) 이 글자·여백을 입힌다.
-   간격은 문단 · 광고 한 묶음 · 소제목 앞 세 단계뿐. 글자 크기는 --sub-* 토큰 (본문 18 → 휴대폰 16, 소제목 19 → 17) */
+   간격은 문단 · 광고 한 묶음 · 소제목 앞 세 단계뿐. 글자 크기는 --sub-* 토큰 (본문 18 → 휴대폰 16, 소제목 19 → 17).
+   줄 간격은 사이트 본문과 같은 1.6(제목 1.4), 굵기는 제목·이름만 500 (design.md 서브페이지 기준) */
 .text {
     margin-top: 2.5rem;
     font-size: var(--sub-t-lead);
@@ -475,15 +476,15 @@
 }
 
 .text :global(.post-clean) {
-    --ps-gap-item: 2.5rem;  /* 광고 한 묶음 사이 */
-    --ps-gap-head: 3.5rem;  /* 소제목 위 (단락이 바뀌는 자리) */
+    --ps-gap-item: 2rem;    /* 광고 한 묶음 사이 */
+    --ps-gap-head: 3rem;    /* 소제목 위 (단락이 바뀌는 자리) */
     --ps-indent: 1.75em;    /* 번호 다음 글이 시작하는 자리 */
     font-size: var(--sub-t-lead) !important;
     color: var(--color-text-primary);
 }
 
 .text :global(.post-clean) * {
-    line-height: 1.75 !important;
+    line-height: 1.6 !important;
 }
 
 .text :global(.post-clean) > :first-child,
@@ -493,7 +494,7 @@
 }
 
 .text :global(.post-clean) p {
-    margin: 0 0 0.875em !important;
+    margin: 0 0 0.75em !important;
 }
 
 .text :global(.post-clean) p:last-child {
@@ -513,7 +514,7 @@
     border: none !important;
     font-size: var(--sub-t-row) !important;
     font-weight: 500 !important;
-    line-height: 1.5 !important;
+    line-height: 1.4 !important;
     letter-spacing: -0.02em;
     color: var(--color-text-strong) !important;
 }
@@ -530,7 +531,7 @@
 }
 
 .text :global(.post-clean) :global(.ps-item) > * {
-    margin-bottom: 0.375rem !important;
+    margin-bottom: 0.25rem !important;
 }
 
 .text :global(.post-clean) :global(.ps-item) > :last-child {
@@ -539,9 +540,14 @@
 
 .text :global(.post-clean) :global(.ps-item-head) {
     position: relative;
-    margin: 0 0 0.375rem !important;
+    margin: 0 0 0.25rem !important;
     font-size: var(--sub-t-lead) !important;
-    line-height: 1.6 !important;
+    line-height: 1.5 !important;
+}
+
+/* 문장으로 된 광고 제목("운영위원회가 … 있습니다.")은 본문 굵기. 짧은 제목("모임")만 500 */
+.text :global(.post-clean) :global(.ps-item-head):global(.ps-sentence) {
+    font-weight: 400 !important;
 }
 
 .text :global(.post-clean) :global(.ps-num) {
@@ -553,7 +559,7 @@
     font-variant-numeric: tabular-nums;
 }
 
-/* ---------- 목록: 작은 회색 점 ---------- */
+/* ---------- 목록: 작은 회색 점은 광고 밖 목록에만 ---------- */
 .text :global(.post-clean) ul,
 .text :global(.post-clean) ol {
     margin: 0.5rem 0 1rem !important;
@@ -563,7 +569,7 @@
 
 .text :global(.post-clean) :global(.ps-item) ul,
 .text :global(.post-clean) :global(.ps-item) ol {
-    margin: 0.25rem 0 0 !important;
+    margin: 0.125rem 0 0 !important;
 }
 
 .text :global(.post-clean) li {
@@ -586,6 +592,16 @@
 
 .text :global(.post-clean) li p {
     margin: 0 !important;
+}
+
+/* 광고 안 내용은 점 없이 제목 글자 자리에 맞춰 한 줄씩 */
+.text :global(.post-clean) :global(.ps-item) li {
+    margin-bottom: 0.125rem !important;
+    padding-left: 0 !important;
+}
+
+.text :global(.post-clean) :global(.ps-item) li::before {
+    display: none !important;
 }
 
 /* "일시 및 장소: …" → 이름(회색) | 값 두 칸 */
@@ -626,6 +642,19 @@
 .text :global(.post-clean) li:global(.ps-pair-long) :global(.ps-label) {
     font-weight: 500;
     color: var(--color-text-strong);
+}
+
+.text :global(.post-clean) :global(.ps-item) li:global(.ps-pair-long) {
+    padding-left: 0 !important;
+}
+
+.text :global(.post-clean) :global(.ps-item) li:global(.ps-pair-long)::before {
+    display: none !important;
+}
+
+.text :global(.post-clean) :global(.ps-item) li:global(.ps-pair-long) :global(.ps-label) {
+    font-weight: 400;
+    color: var(--color-text-meta);
 }
 
 /* ---------- 인용: 왼쪽 2px 하늘색 선 (말씀 인용 카드와 같음) ---------- */
@@ -686,8 +715,8 @@
 /* ---------- 휴대폰 ---------- */
 @media (max-width: 767px) {
     .text :global(.post-clean) {
-        --ps-gap-item: 2rem;
-        --ps-gap-head: 3rem;
+        --ps-gap-item: 1.75rem;
+        --ps-gap-head: 2.5rem;
         --ps-indent: 1.5em;
     }
 

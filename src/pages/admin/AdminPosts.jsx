@@ -5,6 +5,8 @@ import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage
 import AdminCloseButton from '../../components/ui/AdminCloseButton';
 import { db, storage } from '../../firebase';
 import AdminEditor from '../../components/admin/AdminEditor';
+import NoticeItemsEditor from '../../components/admin/NoticeItemsEditor';
+import { emptyNoticeItem, noticeItemsToHtml } from '../../lib/noticeItems';
 
 const AdminPosts = () => {
     const [posts, setPosts] = useState([]);
@@ -19,6 +21,9 @@ const AdminPosts = () => {
     const [category, setCategory] = useState('news');
     const [date, setDate] = useState('');
     const [content, setContent] = useState('');
+    // 교회소식 광고 양식: 광고 칸(items)과 칸에 맞지 않는 덧붙이는 글. items가 null이면 예전 편집기로 쓴 글
+    const [items, setItems] = useState(null);
+    const [extraContent, setExtraContent] = useState('');
     const [pinned, setPinned] = useState(false); // 소식 페이지 '주요 공지'에 고정
     const [images, setImages] = useState([]); // [{url, path}] or string
     const [newFiles, setNewFiles] = useState([]); // array of File objects
@@ -92,6 +97,8 @@ const AdminPosts = () => {
         setCategory('news');
         setDate(formattedDate);
         setContent('');
+        setItems([emptyNoticeItem()]);
+        setExtraContent('');
         setPinned(false);
         setImages([]);
         setNewFiles([]);
@@ -106,6 +113,8 @@ const AdminPosts = () => {
         setCategory(post.category || 'news');
         setDate(post.date || '');
         setContent(post.content || '');
+        setItems(post.items ? post.items.map((item) => ({ ...emptyNoticeItem(), ...item })) : null);
+        setExtraContent(post.extraContent || '');
         setPinned(Boolean(post.pinned));
         setImages(post.imageUrls || []);
         setNewFiles([]);
@@ -153,6 +162,25 @@ const AdminPosts = () => {
     const handleRemoveNewFile = (indexToRemove) => {
         setNewFiles(newFiles.filter((_, idx) => idx !== indexToRemove));
     };
+
+    // 예전 편집기로 쓴 교회소식을 양식으로: 지금 글은 '덧붙이는 글'로 옮겨 잃어버리지 않게
+    const switchToItems = () => {
+        setExtraContent(content);
+        setItems([emptyNoticeItem()]);
+    };
+
+    // 가장 최근에 양식으로 쓴 교회소식의 광고를 그대로 가져온다 (매주 반복되는 광고가 많아서)
+    const handleLoadLastWeek = () => {
+        const last = posts.find((post) => post.category === 'news' && post.id !== formId && post.items?.length);
+        if (!last) {
+            alert('양식으로 쓴 지난 교회소식이 아직 없어요.');
+            return;
+        }
+        if (items.some((item) => item.title.trim()) && !window.confirm(`지금 적은 광고를 '${last.title}'의 광고로 바꿀까요?`)) return;
+        setItems(last.items.map((item) => ({ ...emptyNoticeItem(), ...item, id: crypto.randomUUID() })));
+    };
+
+    const usesItems = category === 'news' && items !== null;
 
     const handleSave = async () => {
         let finalTitle = title.trim();
@@ -223,7 +251,9 @@ const AdminPosts = () => {
                 title: finalTitle,
                 category,
                 date,
-                content,
+                // 양식으로 쓴 교회소식은 광고 칸으로 본문을 만들고, 다시 고칠 수 있게 칸도 함께 저장
+                content: usesItems ? noticeItemsToHtml(items) + extraContent : content,
+                ...(usesItems ? { items: items.filter((item) => item.title.trim()), extraContent } : {}),
                 imageUrls: uploadedImageUrls,
                 pinned,
                 createdAt: currentPost?.createdAt || Timestamp.now(),
@@ -307,16 +337,41 @@ const AdminPosts = () => {
                         </label>
                     </div>
 
-                    <div>
-                        <label style={{ display: 'block', marginBottom: '8px'}}>
-                            내용 <span style={{  color: '#6B7280' }}>(주보의 경우 생략 가능)</span>
-                        </label>
-                        <AdminEditor 
-                            key={formId}
-                            initialValue={content}
-                            onChange={setContent}
-                        />
-                    </div>
+                    {usesItems ? (
+                        <>
+                            <NoticeItemsEditor items={items} onChange={setItems} onLoadLastWeek={handleLoadLastWeek} />
+                            <div>
+                                <label style={{ display: 'block', marginBottom: '8px'}}>
+                                    덧붙이는 글 <span style={{  color: '#6B7280' }}>(선택. 표 · 목회계획처럼 광고 칸에 맞지 않는 것)</span>
+                                </label>
+                                <AdminEditor
+                                    key={`${formId}-extra`}
+                                    initialValue={extraContent}
+                                    onChange={setExtraContent}
+                                />
+                            </div>
+                        </>
+                    ) : (
+                        <div>
+                            <label style={{ display: 'block', marginBottom: '8px'}}>
+                                내용 <span style={{  color: '#6B7280' }}>(주보의 경우 생략 가능)</span>
+                            </label>
+                            {category === 'news' && (
+                                <p style={{ margin: '0 0 8px', fontSize: '14px', color: '#6B7280' }}>
+                                    예전 방식으로 쓴 글이에요.{' '}
+                                    <button type="button" onClick={switchToItems} style={{ padding: '4px 10px', borderRadius: '4px', border: '1px solid #D1D5DB', backgroundColor: '#fff', cursor: 'pointer' }}>
+                                        광고 양식으로 바꾸기
+                                    </button>
+                                    {' '}(지금 글은 '덧붙이는 글'로 옮겨져요)
+                                </p>
+                            )}
+                            <AdminEditor 
+                                key={formId}
+                                initialValue={content}
+                                onChange={setContent}
+                            />
+                        </div>
+                    )}
 
                     <div>
                         <label style={{ display: 'block', marginBottom: '8px'}}>이미지 첨부 <span style={{  color: '#6B7280' }}>(여러 장 가능)</span></label>

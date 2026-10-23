@@ -104,7 +104,10 @@ const cleanPostContents = (contents, title) => {
             const [, num, rest] = m;
             const split = rest.match(/^(.{2,14}?)\s+[–—-]\s+(.+)$/);
             const head = make('h3', 'ps-item-head');
-            head.append(make('span', 'ps-num', num), (split ? split[1] : rest).trim());
+            const headText = (split ? split[1] : rest).trim();
+            head.append(make('span', 'ps-num', num), headText);
+            // "운영위원회가 … 있습니다." 같은 문장 제목은 본문 굵기로 (짧은 제목만 굵게)
+            if (/(니다|요)[.!]?\)?$/.test(headText) || headText.length > 22) head.classList.add('ps-sentence');
             section.append(head);
             if (split) {
                 // "일시: 11월 1일~21일" 처럼 이름이 붙은 내용은 목록 한 줄로 → 아래에서 이름 · 값 두 칸이 된다
