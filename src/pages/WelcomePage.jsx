@@ -1,261 +1,273 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useNavigate } from 'react-router-dom';
-import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
-import { useState } from 'react';
-import Lottie from 'lottie-react';
-import confettiAnimation from '../assets/confetti.json';
+import { motion, useReducedMotion } from 'framer-motion';
 import Footer from '../components/Footer';
-import ScrollFadeText from '../components/ScrollFadeText';
-import SubPageSection from '../components/SubPageSection';
-import LargeButton from '../components/ui/LargeButton';
-import styles from './WelcomePage.module.css';
 import PageTopGradient from '../components/PageTopGradient';
+import { INQUIRY_LIMITS, sendNewcomerInquiry } from '../lib/newcomerInquiry';
+import styles from './WelcomePage.module.css';
 
+// 첫 화면 봉투 조각 ('영상, 이미지 기획' 세션 데모, docs/handoff/newcomer-envelope-hero.md)
+import envInside from '../assets/newcomer/shintanjin-baptist-church-newcomer-envelope-inside.webp';
+import envFlapOpen from '../assets/newcomer/shintanjin-baptist-church-newcomer-envelope-flap-open.webp';
+import envLetter from '../assets/newcomer/shintanjin-baptist-church-newcomer-envelope-letter.webp';
+import envPocket from '../assets/newcomer/shintanjin-baptist-church-newcomer-envelope-pocket.webp';
+import envFlapClosed from '../assets/newcomer/shintanjin-baptist-church-newcomer-envelope-flap-closed.webp';
+import envHeart from '../assets/newcomer/shintanjin-baptist-church-newcomer-envelope-heart.webp';
+import step01 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-01-open-door.webp';
+import step02 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-02-bible-sprout.webp';
+import step03 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-03-neighbor-houses.webp';
+import step04 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-04-two-cups.webp';
+import step05 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-05-hands.webp';
+import askPhoto from '../assets/nurture/shintanjin-baptist-church-welcome-step-02.webp';
 
-import welcomeImg from '../assets/nurture/shintanjin-baptist-church-welcome.webp';
-import step01 from '../assets/nurture/shintanjin-baptist-church-welcome-step-01.webp';
-import step02 from '../assets/nurture/shintanjin-baptist-church-welcome-step-02.webp';
-import step03 from '../assets/nurture/shintanjin-baptist-church-welcome-step-03.webp';
-import step04 from '../assets/nurture/shintanjin-baptist-church-welcome-step-04.webp';
-import step05 from '../assets/nurture/shintanjin-baptist-church-welcome-step-05.webp';
+const ease = [0.16, 1, 0.3, 1];
 
+// ③ 새가족이 되는 과정: 애플 환경 페이지 #recover-gallery 방식 (카드 위 짧은 한마디 + 카드 아래 '굵은 제목.' 설명)
 const STEPS = [
-    {
-        bg: step01,
-        stepText: 'STEP 1',
-        title: '새가족 등록',
-        desc: '등록 카드를 작성하시면 교회의 따뜻한 환영과 함께, 앞으로의 신앙생활 및 소속될 기관에 대한 전반적인 안내를 받게 됩니다.' },
-    {
-        bg: step02,
-        stepText: 'STEP 2',
-        title: '새가족 교육 (8주)',
-        desc: '8주간 진행되는 새가족 교육 기간 동안, 새가족팀에서 주일 예배와 교육 참석 등 전반적인 교회 생활을 친절하게 안내해 드립니다.' },
-    {
-        bg: step03,
-        stepText: 'STEP 3',
-        title: '교육 수료 및 기관 편성',
-        desc: '새가족 교육 과정을 모두 수료하시면, 연령과 지역에 맞춰 각 교구와 구역, 그리고 남·여 전도회에 정식으로 편성됩니다.' },
-    {
-        bg: step04,
-        stepText: 'STEP 4',
-        title: '구역 및 전도회 예배 참여',
-        desc: '소속된 구역과 전도회의 예배 및 모임에 참여하여, 함께 말씀을 나누고 교제하며 신앙이 더욱 성장할 수 있도록 돕습니다.' },
-    {
-        bg: step05,
-        stepText: 'STEP 5',
-        title: '새가족 환영회',
-        desc: '새가족 교육 수료식을 진행하며, 예수 그리스도를 구주로 영접한 성도님들을 우리 교회의 진정한 가족으로 따뜻하게 환영합니다.' },
+    { img: step01, callout: '반갑게\n맞이해요.', title: '새가족 등록', desc: '등록 카드를 작성하시면 앞으로의 신앙생활과 소속될 기관을 안내해 드려요.' },
+    { img: step02, callout: '8주 동안\n곁에 있어요.', title: '새가족 교육 (8주)', desc: '새가족팀이 주일 예배와 교육 참석 등 교회 생활을 친절하게 안내해 드려요.' },
+    { img: step03, callout: '가까운 이웃과\n이어져요.', title: '수료 및 기관 편성', desc: '연령과 지역에 맞춰 교구와 구역, 남·여 전도회에 편성돼요.' },
+    { img: step04, callout: '말씀을 나누며\n자라요.', title: '구역 및 전도회 예배', desc: '소속된 구역과 전도회 모임에서 말씀을 나누고 교제해요.' },
+    { img: step05, callout: '이제 한\n가족이에요.', title: '새가족 환영회', desc: '수료식과 함께 우리 교회의 가족으로 따뜻하게 환영해요.' },
 ];
 
-const WordFadeText = ({ isActive, text, delayOffset = 0, className, style }) => {
-    const words = text.split(/([ \t\n\r]+)/);
+const EMPTY_FORM = { name: '', contact: '', question: '', agree: false, website: '' };
+
+// 열리는 편지 봉투. 마우스는 올리면 열리고(CSS), 누르면 열린 채로 토글.
+// 휴대폰(hover 없음)은 화면에 60% 이상 보이면 0.6초 뒤 한 번 저절로 연다 (먼저 눌렀으면 그대로 둠)
+const Envelope = () => {
+    const ref = useRef(null);
+    const touched = useRef(false);
+    const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        if (!window.matchMedia('(hover: none)').matches || !ref.current) return undefined;
+        let timer;
+        const observer = new IntersectionObserver(([entry]) => {
+            if (!entry.isIntersecting) return;
+            observer.disconnect();
+            timer = setTimeout(() => { if (!touched.current) setOpen(true); }, 600);
+        }, { threshold: 0.6 });
+        observer.observe(ref.current);
+        return () => { observer.disconnect(); clearTimeout(timer); };
+    }, []);
+
     return (
-        <div className={className} style={{ ...style, display: 'inline-block' }}>
-            {words.map((word, index) => {
-                if (word.match(/^[ \t\n\r]+$/)) {
-                    return <span key={index} className={styles.spaceSpan}>{word}</span>;
-                }
-                return (
-                    <motion.span
-                        key={index}
-                        initial={{ opacity: 0, filter: 'blur(10px)' }}
-                        animate={isActive ? { opacity: 1, filter: 'blur(0px)' } : { opacity: 0, filter: 'blur(10px)' }}
-                        transition={{
-                            duration: 0.8,
-                            // Stagger logic: each word index increments by 2 (spaces are odd).
-                            // So index * 0.04 creates an effective 0.08s stagger per word.
-                            delay: isActive ? delayOffset + (index * 0.04) : 0,
-                            ease: "easeOut"
-                        }}
-                        style={{ display: 'inline-block' }}
-                    >
-                        {word}
-                    </motion.span>
-                );
-            })}
-        </div>
+        <button
+            ref={ref}
+            type="button"
+            className={`${styles.env} ${open ? styles.envOpen : ''}`}
+            aria-pressed={open}
+            aria-label={open ? '편지 봉투 닫기' : '편지 봉투 열기'}
+            onClick={() => { touched.current = true; setOpen((v) => !v); }}
+        >
+            <img className={styles.envInside} src={envInside} alt="" />
+            <img className={styles.envFlapOpen} src={envFlapOpen} alt="" />
+            <span className={styles.envClip}><img className={styles.envLetter} src={envLetter} alt="" /></span>
+            <img className={styles.envPocket} src={envPocket} alt="" />
+            <img className={styles.envFlapClosed} src={envFlapClosed} alt="" />
+            <img className={styles.envHeart} src={envHeart} alt="" />
+        </button>
     );
 };
 
-const SimpleFadeText = WordFadeText;
+// ④ 문의 팝업: 이름·받을 연락처·궁금한 점 → 새가족팀 메일 (functions/api/newcomer-inquiry.js)
+const InquiryDialog = ({ onClose }) => {
+    const [form, setForm] = useState(EMPTY_FORM);
+    const [status, setStatus] = useState('idle'); // idle | sending | sent
+    const [error, setError] = useState('');
+    const nameRef = useRef(null);
+    const doneRef = useRef(null);
 
-const ScrollDownIcon = ({ isActive, delayOffset = 0 }) => (
-    <motion.div
-        initial={{ opacity: 0, filter: 'blur(10px)' }}
-        animate={isActive ? { opacity: 1, filter: 'blur(0px)' } : { opacity: 0, filter: 'blur(10px)' }}
-        transition={isActive ? { duration: 0.5, delay: delayOffset } : { duration: 0.3 }}
-        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-    >
-        <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            style={{ color: 'var(--color-text-meta)', display: 'flex' }}
-        >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 5v14M19 12l-7 7-7-7" />
-            </svg>
-        </motion.div>
-    </motion.div>
-);
+    useEffect(() => {
+        window.lenis?.stop();
+        document.body.style.overflow = 'hidden';
+        nameRef.current?.focus();
+        const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+        window.addEventListener('keydown', onKey);
+        return () => {
+            window.lenis?.start();
+            document.body.style.overflow = '';
+            window.removeEventListener('keydown', onKey);
+        };
+    }, [onClose]);
 
-const ScrollStackCard = ({ step, index, total, progress }) => {
-    // In Skiper16, range is [index * 0.25, 1] for 5 cards
-    const startProgress = index * (1 / (total - 1));
-    const targetScale = 1 - ((total - index - 1) * 0.05);
+    useEffect(() => { if (status === 'sent') doneRef.current?.focus(); }, [status]);
 
-    const scale = useTransform(progress, [startProgress, 1], [1, targetScale]);
+    const change = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.type === 'checkbox' ? e.target.checked : e.target.value }));
 
-    // Each card shifts up by 32px per depth level
-    const targetY = -(total - index - 1) * 32;
-    const y = useTransform(progress, [startProgress, 1], [0, targetY]);
+    const submit = async (e) => {
+        e.preventDefault();
+        if (!e.currentTarget.reportValidity()) return;
+        setStatus('sending');
+        setError('');
+        try {
+            await sendNewcomerInquiry(form);
+            setStatus('sent');
+        } catch (err) {
+            setError(err.message);
+            setStatus('idle');
+        }
+    };
 
-    return (
-        <div className={styles.stickyCardWrapper}>
-            <motion.div
-                className={styles.stackCard}
-                style={{
-                    scale,
-                    y,
-                    transformOrigin: 'top center',
-                    backgroundImage: `url(${step.bg})`
-                }}
-            >
-                <div className={styles.cardDim}></div>
-                <div className={styles.cardContentWrapper}>
-                    <div className={styles.stepBadgeNew}>{step.stepText}</div>
-                    <div className={styles.cardTextContainer}>
-                        <div className={styles.cardTextContent}>
-                            <h4 className={styles.stepTitleNew}>{step.title}</h4>
-                            <p className={styles.stepDescNew}>{step.desc}</p>
-                        </div>
+    return createPortal(
+        <div className={styles.dim} onClick={(e) => { if (e.target === e.currentTarget) onClose(); }} data-lenis-prevent>
+            <div className={styles.dialog} role="dialog" aria-modal="true" aria-labelledby="inquiry-title">
+                <button type="button" className={styles.dialogClose} onClick={onClose} aria-label="닫기">
+                    <span className={styles.dialogCloseIcon}>
+                        <svg viewBox="0 0 36 36" aria-hidden="true"><path d="M13 13l10 10M23 13L13 23" /></svg>
+                    </span>
+                </button>
+
+                {status === 'sent' ? (
+                    <div className={styles.done} aria-live="polite">
+                        <h2 id="inquiry-title" className={styles.dialogTitle}>문의를 잘 받았어요.</h2>
+                        <p className={styles.dialogDesc}>새가족팀이 곧 연락드릴게요.</p>
+                        <button ref={doneRef} type="button" className={styles.btn} onClick={onClose}>닫기</button>
                     </div>
-                </div>
-            </motion.div>
-        </div>
+                ) : (
+                    <>
+                        <h2 id="inquiry-title" className={styles.dialogTitle}>새가족 등록 문의</h2>
+                        <p className={styles.dialogDesc}>남겨 주시면 새가족팀이 연락드릴게요.</p>
+                        <form onSubmit={submit} noValidate>
+                            <div className={styles.field}>
+                                <label htmlFor="inquiry-name">이름</label>
+                                <input ref={nameRef} id="inquiry-name" type="text" autoComplete="name" maxLength={INQUIRY_LIMITS.name} required value={form.name} onChange={change('name')} />
+                            </div>
+                            <div className={styles.field}>
+                                <label htmlFor="inquiry-contact">받을 연락처 <small>전화번호나 이메일</small></label>
+                                <input id="inquiry-contact" type="text" autoComplete="tel" maxLength={INQUIRY_LIMITS.contact} required value={form.contact} onChange={change('contact')} />
+                            </div>
+                            <div className={styles.field}>
+                                <label htmlFor="inquiry-question">궁금한 점 <small>비워 두셔도 돼요</small></label>
+                                <textarea id="inquiry-question" maxLength={INQUIRY_LIMITS.question} aria-describedby="inquiry-count" value={form.question} onChange={change('question')} />
+                                <span id="inquiry-count" className={styles.count}>{form.question.length} / {INQUIRY_LIMITS.question}자</span>
+                            </div>
+                            {/* 사람에게는 보이지 않는 칸: 채워져 오면 자동 등록 프로그램으로 본다 */}
+                            <div className={styles.hp} aria-hidden="true">
+                                <label>홈페이지<input tabIndex={-1} autoComplete="off" value={form.website} onChange={change('website')} /></label>
+                            </div>
+                            <div className={styles.agree}>
+                                이름과 연락처는 답변을 드리는 데에만 쓰고, 답변 후 지워요.
+                                <label><input type="checkbox" required checked={form.agree} onChange={change('agree')} /> 위 내용에 동의해요</label>
+                            </div>
+                            {error && <p className={styles.error} role="alert">{error}</p>}
+                            <button type="submit" className={styles.btn} disabled={status === 'sending'}>
+                                {status === 'sending' ? '보내는 중…' : '보내기'}
+                            </button>
+                        </form>
+                    </>
+                )}
+            </div>
+        </div>,
+        document.body
     );
 };
 
 const WelcomePage = () => {
-    const stackContainerRef = useRef(null);
-    const introScrollRef = useRef(null);
-    const navigate = useNavigate();
-    const [showConfetti, setShowConfetti] = useState(false);
-    const [introActiveIndex, setIntroActiveIndex] = useState(0);
-
-    const { scrollYProgress } = useScroll({
-        target: stackContainerRef,
-        offset: ["start start", "end end"]
-    });
-
-    const { scrollYProgress: introScrollY } = useScroll({
-        target: introScrollRef,
-        offset: ["start start", "end end"]
-    });
-
-    useMotionValueEvent(introScrollY, "change", (latest) => {
-        if (latest < 0.20) setIntroActiveIndex(0);
-        else if (latest < 0.40) setIntroActiveIndex(1);
-        else if (latest < 0.60) setIntroActiveIndex(2);
-        else if (latest < 0.80) setIntroActiveIndex(3);
-        else setIntroActiveIndex(-1);
-    });
-
-    useMotionValueEvent(scrollYProgress, "change", (latest) => {
-        if (latest >= 0.95 && !showConfetti) {
-            setShowConfetti(true);
-        } else if (latest < 0.90 && showConfetti) {
-            setShowConfetti(false);
-        }
-    });
+    const reduceMotion = useReducedMotion();
+    const railRef = useRef(null);
+    const [asking, setAsking] = useState(false);
+    const askButtonRef = useRef(null);
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
+    const reveal = reduceMotion
+        ? {}
+        : {
+            initial: { opacity: 0, y: 16 },
+            whileInView: { opacity: 1, y: 0 },
+            viewport: { once: true, margin: '0px 0px -10% 0px' },
+            transition: { duration: 0.8, ease },
+        };
+
+    const scrollRail = (direction) => {
+        const rail = railRef.current;
+        if (!rail) return;
+        const card = rail.querySelector(`.${styles.step}`);
+        const step = card ? card.getBoundingClientRect().width + 20 : 400;
+        rail.scrollBy({ left: direction * step, behavior: reduceMotion ? 'auto' : 'smooth' });
+    };
+
+    // 팝업 안 effect가 다시 돌지 않게 같은 함수를 유지
+    const closeAsk = useCallback(() => {
+        setAsking(false);
+        askButtonRef.current?.focus();
+    }, []);
+
     return (
-        <div className={styles.pageWrapper}>
+        <div className={styles.page}>
             <PageTopGradient />
 
-            {/* Pinned Intro Sections */}
-            <div ref={introScrollRef} className={styles.introPinnedWrapper}>
-                <div className={styles.introSticky}>
+            {/* ① 첫 화면: 열리는 편지 봉투 + 그 아래 제목 */}
+            <section className={styles.hero}>
+                <div className={styles.wrap}>
+                    <motion.div className={styles.envWrap} {...reveal}>
+                        <Envelope />
+                    </motion.div>
+                    <motion.h1 className={styles.heroTitle} {...reveal}>
+                        신탄진침례교회에 오신<br />여러분을 환영해요.
+                    </motion.h1>
+                </div>
+            </section>
 
-                    {/* Section 1 */}
-                    <div className={`${styles.introAbsoluteCenter} ${introActiveIndex === 0 ? styles.activeLayer : ''}`}>
-                        <div className={styles.fadeInner}>
-                            <WordFadeText isActive={introActiveIndex === 0} text={"신탄진침례교회에 오신\n여러분을 환영해요."} className={`main-page-title ${styles.pageTitle}`} />
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                                <WordFadeText isActive={introActiveIndex === 0} text={"밑으로 계속 스크롤"} className={styles.fadeBodyText} delayOffset={0.2} style={{ whiteSpace: 'nowrap' }} />
-                                <ScrollDownIcon isActive={introActiveIndex === 0} delayOffset={0.3} />
+            {/* ② 마음 문장: 회색 띠 위 큰 문장 한 문단 */}
+            <section className={`${styles.sec} ${styles.band}`}>
+                <div className={styles.wrap}>
+                    <motion.p className={styles.statement} {...reveal}>
+                        교회 등록은 부담 갖지 않으셔도 돼요.{' '}
+                        <span>이곳에서 함께 신앙생활을 해도 좋을지 충분히 경험해 보시고, 편하게 정하세요.</span>
+                    </motion.p>
+                </div>
+            </section>
+
+            {/* ③ 새가족이 되는 과정: 옆으로 넘기는 카드 5장 */}
+            <section className={styles.sec} aria-labelledby="steps-title">
+                <div className={`${styles.wrap} ${styles.railHead}`}>
+                    <h2 id="steps-title" className={styles.secTitle}>마음이 정해지셨을 때,<br />이렇게 함께해요.</h2>
+                    <div className={styles.nav} aria-label="카드 이동">
+                        <button type="button" className={styles.navBtn} onClick={() => scrollRail(-1)} aria-label="이전">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
+                        </button>
+                        <button type="button" className={styles.navBtn} onClick={() => scrollRail(1)} aria-label="다음">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+                        </button>
+                    </div>
+                </div>
+                <ol ref={railRef} className={styles.rail} tabIndex={0} aria-label="새가족이 되는 과정">
+                    {STEPS.map((step) => (
+                        <li key={step.title} className={styles.step}>
+                            <div className={styles.tile}>
+                                <img className={styles.tileImg} src={step.img} alt="" loading="lazy" />
+                                <p className={styles.callout}>{step.callout}</p>
                             </div>
-                        </div>
-                    </div>
-                    {/* Section 2 */}
-                    <div className={`${styles.introAbsoluteCenter} ${introActiveIndex === 1 ? styles.activeLayer : ''}`}>
-                        <div className={styles.fadeInner}>
-                            <SimpleFadeText isActive={introActiveIndex === 1} text={"가장 먼저 드리고 싶은 말이 있어요.\n교회 등록은 부담 갖지 않으셔도 돼요."} className={`main-page-title ${styles.pageTitle}`} />
-                        </div>
-                    </div>
-                    {/* Section 3 */}
-                    <div className={`${styles.introAbsoluteCenter} ${introActiveIndex === 2 ? styles.activeLayer : ''}`}>
-                        <div className={styles.fadeInner}>
-                            <SimpleFadeText isActive={introActiveIndex === 2} text={"이곳에서 함께 신앙생활을 해도 좋을지\n충분히 경험해 보시고 편하게 정하세요."} className={`main-page-title ${styles.pageTitle}`} />
-                        </div>
-                    </div>
-                    {/* Section 4 */}
-                    <div className={`${styles.introAbsoluteCenter} ${introActiveIndex === 3 ? styles.activeLayer : ''}`}>
-                        <div className={styles.fadeInner}>
-                            <SimpleFadeText isActive={introActiveIndex === 3} text={"나중에 마음의 준비가 되셨을 때를 위해,\n새가족이 되는 과정을 가볍게 안내해 드릴게요."} className={`main-page-title ${styles.pageTitle}`} />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Journey Section - Skiper16 Sticky Stack */}
-            <div ref={stackContainerRef} className={styles.fanStackWrapper}>
-                <div className={styles.fanStackArea}>
-                    {STEPS.map((step, i) => (
-                        <ScrollStackCard
-                            key={i}
-                            step={step}
-                            index={i}
-                            total={STEPS.length}
-                            progress={scrollYProgress}
-                        />
+                            <p className={styles.cap}><strong>{step.title}.</strong> {step.desc}</p>
+                        </li>
                     ))}
+                </ol>
+            </section>
+
+            {/* ④ 문의: 왼쪽 글 · 오른쪽 사진, 버튼을 누르면 문의 팝업 */}
+            <section className={`${styles.sec} ${styles.band}`} aria-labelledby="ask-title">
+                <div className={`${styles.wrap} ${styles.cta}`}>
+                    <div>
+                        <h2 id="ask-title" className={styles.secTitle}>더 궁금한 점이<br />있으세요?</h2>
+                        <p className={styles.lead}>문의 주시면 친절하게 안내해 드려요.</p>
+                        <button ref={askButtonRef} type="button" className={styles.btn} aria-haspopup="dialog" onClick={() => setAsking(true)}>
+                            새가족 등록 문의하기
+                        </button>
+                    </div>
+                    <motion.div className={styles.ctaMedia} {...reveal}>
+                        <img src={askPhoto} alt="" loading="lazy" />
+                    </motion.div>
                 </div>
-            </div>
-
-
-            {/* CTA Section */}
-            <div className={styles.ctaSection}>
-                <ScrollFadeText
-                    className={`main-page-title ${styles.pageTitle}`}
-                    text={"더 궁금한 점이 있으세요?\n문의 주시면 친절하게 안내해 드려요."}
-                    once={true}
-                />
-                <motion.div
-                    initial={{ opacity: 0, filter: 'blur(10px)' }}
-                    whileInView={{ opacity: 1, filter: 'blur(0px)' }}
-                    viewport={{ once: true, amount: 0, margin: "0px 0px -30% 0px" }}
-                    transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
-                    style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}
-                >
-                    <button className={styles.lightButton}>
-                        새가족 등록 문의하기
-                    </button>
-                </motion.div>
-            </div>
+            </section>
 
             <Footer />
 
-            {showConfetti && createPortal(
-                <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 9999, pointerEvents: 'none', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Lottie animationData={confettiAnimation} loop={false} style={{ width: '100%', height: '100%' }} />
-                </div>,
-                document.body
-            )}
+            {asking && <InquiryDialog onClose={closeAsk} />}
         </div>
     );
 };

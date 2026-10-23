@@ -1,560 +1,626 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap');
+/* 새가족: 첫 화면(봉투) → 마음 문장 → 새가족이 되는 과정(옆으로 넘기는 카드) → 문의(팝업)
+   글자·여백은 서브페이지 공통 토큰(index.css --sub-*), 선교전도 페이지(OutreachPage)와 같은 틀 */
+.page {
+    --wrap: 1080px;
+    --gutter: 1.5rem;
+    --r-card: 28px;
 
-.pageWrapper {
-    color: var(--color-text-primary);
-    min-height: 100vh;
     position: relative;
+    min-height: 100vh;
+    color: var(--color-text-primary);
     background-color: var(--color-white);
     /* 첫 화면 오로라(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 */
     isolation: isolate;
-}
-
-.pageTitle {
-    font-size: var(--page-title-size-pc, 40px);
-    font-weight: 500;
-    color: var(--color-text-strong);
-    letter-spacing: -0.03em;
-    line-height: 1.3;
-    white-space: pre-line;
+    overflow-x: clip;
+    font-size: var(--sub-t-body);
+    line-height: 1.6;
+    letter-spacing: -0.02em;
     word-break: keep-all;
 }
 
-@media (max-width: 767px) {
-    .pageTitle {
-        font-size: 28px;
-    }
-}
-
-.bgDots {
-    background-image: radial-gradient(rgba(var(--color-text-primary-rgb), 0.2) 2px, transparent 2px);
-    background-size: 30px 30px;
-}
-
-.handwriting {}
-
-.tapeTexture {
-    background-image: repeating-linear-gradient(45deg,
-            transparent,
-            transparent 2px,
-            rgba(var(--color-text-primary-rgb), 0.2) 2px,
-            rgba(var(--color-text-primary-rgb), 0.2) 4px);
-}
-
-.navWrapper {
-    position: relative;
-    z-index: 60;
-    padding-top: 140px;
-    /* Space for the global header */
-}
-
-.header {
-    position: relative;
-    padding: var(--subpage-header-padding-top) 24px 80px;
-    max-width: var(--max-width);
+.wrap {
+    max-width: var(--wrap);
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+    padding: 0 var(--gutter);
+    box-sizing: border-box;
 }
 
-@media (min-width: 640px) {
-    .header {
-        padding: var(--subpage-header-padding-top) var(--grid-margin) 80px;
-    }
+.sec {
+    padding: var(--sub-pad-sec) 0;
 }
 
-.headerTitle {
-    margin-bottom: 24px;
-    position: relative;
-    z-index: 10;
-    color: var(--color-text-strong);
-    font-size: var(--text-h1);
+.band {
+    background-color: var(--color-surface-band);
+}
+
+.secTitle {
+    margin: 0;
+    font-size: var(--sub-t-title);
     font-weight: 500;
+    line-height: 1.25;
     letter-spacing: -0.03em;
-    line-height: 1.3;
-}
-
-.eyebrow {
-    font-size: 20px;
-    /* 모바일 환경 (줄어든 크기) */
-    margin-bottom: 16px;
-    transform: rotate(-2deg);
-    display: inline-block;
-    color: var(--color-text-primary);
-}
-
-@media (min-width: 768px) {
-    .eyebrow {
-        font-size: 1.875rem;
-        /* PC 환경 (기존 크기 30px 유지) */
-    }
-}
-
-.headerSubtitle {
-    max-width: 42rem;
-    color: var(--color-text-meta);
-    font-weight: 400;
-    letter-spacing: -0.02em;
-}
-
-.section {
-    padding: 64px 0;
-    width: 100%;
-    position: relative;
-}
-
-.sectionTitle {
     color: var(--color-text-strong);
-    font-weight: 500;
-    letter-spacing: -0.03em;
 }
 
-.sectionSubtitle {
-    color: var(--color-text-meta);
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    margin-top: 16px;
-    max-width: 42rem;
-    margin-left: auto;
-    margin-right: auto;
+.lead {
+    margin: 1rem 0 0;
+    font-size: var(--sub-t-lead);
 }
 
-.journeyScrollWrapper {
-    position: relative;
-}
-
-.journeyStickyView {
-    position: relative;
-    width: 100%;
-    background-color: transparent;
-    z-index: 10;
-}
-
-@media (min-width: 1024px) {
-    .journeyScrollWrapper {
-        height: 200vh;
-    }
-
-    .journeyStickyView {
-        position: sticky;
-        top: 0;
-        height: 100vh;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-    }
-}
-
-.journeySplitContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 48px;
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 32px var(--grid-margin) 64px;
-    width: 100%;
-}
-
-@media (min-width: 1024px) {
-    .journeySplitContainer {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-start;
-        padding: 0 var(--grid-margin);
-        height: 100vh;
-        padding-top: 20vh;
-    }
-}
-
-.journeyLeft {
-    position: relative;
-    text-align: center;
-    width: 100%;
-    margin-top: 80px;
-}
-
-@media (min-width: 1024px) {
-    .journeyLeft {
-        text-align: left;
-        width: 40%;
-    }
-}
-
-.journeyRight {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-@media (min-width: 1024px) {
-    .journeyRight {
-        width: 50%;
-    }
-}
-
-/* ==============================
-   Fan Stack (Scroll Stack)
-   ============================== */
-
-.fanStackWrapper {
-    position: relative;
-    width: 100%;
-    z-index: 10;
-}
-
-.stickyCardWrapper {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    width: 100%;
-    display: flex;
+.btn {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    pointer-events: none;
-    /* Let pointer events pass through to content */
+    min-height: 52px;
+    margin-top: 2rem;
+    padding: 0 1.75rem;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-surface-dark);
+    color: var(--color-white);
+    font: inherit;
+    font-size: var(--sub-t-lead);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.stickyCardWrapper>* {
-    pointer-events: auto;
+.btn:disabled {
+    opacity: 0.6;
+    cursor: default;
 }
 
-.scrollStackHeader {
+.btn:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .btn:not(:disabled):hover {
+        transform: translateY(-2px);
+    }
+}
+
+/* ---------- ① 첫 화면: 봉투 + 제목 ---------- */
+.hero {
+    padding: var(--sub-title-top) 0 var(--sub-pad-sec);
     text-align: center;
-    padding: 0 0 24px;
-    flex-shrink: 0;
 }
 
-.fanStackArea {
-    position: relative;
-    width: 100%;
-    max-width: 385px;
-    height: auto;
+.envWrap {
+    width: min(480px, 78vw);
     margin: 0 auto;
 }
 
-.stackCard {
+.heroTitle {
+    margin: var(--sub-space-head) 0 0;
+    font-size: var(--sub-t-display);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.035em;
+    color: var(--color-text-strong);
+}
+
+/* 봉투: 조각 6장을 한 좌표계(758×715)에 % 로 겹친다.
+   이징·지연 값과 열린 덮개 top 0.42% 는 사용자 피드백(버벅임·틈·멈춤)으로 고친 값이라 바꾸지 말 것.
+   회전하는 조각에 filter(drop-shadow) 금지 — 매 프레임 다시 그려서 버벅인다 */
+.env {
+    --fold-in: cubic-bezier(0.55, 0, 1, 0.45);
+    --fold-out: cubic-bezier(0, 0.55, 0.45, 1);
     position: relative;
-    width: 385px;
-    height: 559px;
-    border-radius: 48px;
-    will-change: transform, opacity;
-    transform-origin: center bottom;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    overflow: hidden;
-    background-color: var(--color-surface-band-hover);
+    display: block;
+    width: 100%;
+    aspect-ratio: 758 / 715;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    perspective: 1400px;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.stackCard * {
-    /* removed font-family: var(--font-letter) */
+.env:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 8px;
+    border-radius: 24px;
 }
 
-@media (max-width: 767px) {
-    .fanStackArea {
-        max-width: 340px;
-    }
-
-    .stackCard {
-        width: 340px;
-        height: 494px;
-        border-radius: 40px;
-    }
+.env img {
+    position: absolute;
+    display: block;
+    height: auto;
+    pointer-events: none;
+    user-select: none;
 }
 
-.cardDim {
+.envInside     { left: 0;       top: 33.566%; width: 100%; }
+.envFlapOpen   { left: 0.132%;  top: 0.42%;   width: 99.736%; } /* 3px 겹쳐 뒷면과 틈이 안 생기게 */
+.envLetter     { left: 4.881%;  top: 3.636%;  width: 92.876%; }
+.envPocket     { left: 0.132%;  top: 33.566%; width: 99.868%; }
+.envFlapClosed { left: 0.396%;  top: 33.566%; width: 99.472%; }
+.envHeart      { left: 37.731%; top: 51.049%; width: 24.538%; }
+
+/* 편지가 봉투 아래로 삐져나오지 않게 */
+.envClip {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 100%);
-    opacity: 0.8;
-    z-index: 1;
+    overflow: hidden;
+    pointer-events: none;
 }
 
-/* ==============================
-   CTA Section
-   ============================== */
-
-.spaceSpan {
-    white-space: pre-wrap;
+.envFlapClosed,
+.envFlapOpen,
+.envLetter {
+    will-change: transform;
 }
 
-@media (max-width: 767px) {
-    .spaceSpan {
-        white-space: normal;
+/* 닫기: 편지 내려감 → 열린 덮개 접힘(가속) → 닫힌 덮개 내려앉음(감속) */
+.envLetter {
+    transform: translate3d(0, 36%, 0);
+    opacity: 0;
+    transition: transform 0.35s var(--fold-in), opacity 0s linear 0.35s;
+}
+
+.envFlapOpen {
+    transform-origin: 50% 100%;
+    transform: rotateX(90deg);
+    opacity: 0;
+    transition: transform 0.28s var(--fold-in) 0.2s, opacity 0s linear 0.48s;
+}
+
+.envFlapClosed {
+    transform-origin: 50% 0;
+    backface-visibility: hidden;
+    transition: transform 0.42s var(--fold-out) 0.48s, opacity 0s linear 0.48s;
+}
+
+/* 열기: 닫힌 덮개 젖혀짐(가속) → 열린 덮개 펼쳐짐(감속) + 편지 함께 올라옴 */
+.envOpen .envFlapClosed {
+    transform: rotateX(-90deg);
+    opacity: 0;
+    transition: transform 0.28s var(--fold-in), opacity 0s linear 0.28s;
+}
+
+.envOpen .envFlapOpen {
+    transform: rotateX(0deg);
+    opacity: 1;
+    transition: transform 0.5s var(--fold-out) 0.28s, opacity 0s linear 0.28s;
+}
+
+.envOpen .envLetter {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    transition: transform 0.85s var(--ease-smooth) 0.3s, opacity 0s linear 0.3s;
+}
+
+@media (hover: hover) {
+    .env:hover .envFlapClosed {
+        transform: rotateX(-90deg);
+        opacity: 0;
+        transition: transform 0.28s var(--fold-in), opacity 0s linear 0.28s;
+    }
+
+    .env:hover .envFlapOpen {
+        transform: rotateX(0deg);
+        opacity: 1;
+        transition: transform 0.5s var(--fold-out) 0.28s, opacity 0s linear 0.28s;
+    }
+
+    .env:hover .envLetter {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+        transition: transform 0.85s var(--ease-smooth) 0.3s, opacity 0s linear 0.3s;
     }
 }
 
-.ctaSection {
-    min-height: 100vh;
-    padding: 120px 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+/* ---------- ② 마음 문장 ---------- */
+.statement {
+    max-width: 820px;
+    margin: 0 auto;
     text-align: center;
-    background-color: transparent;
-    position: relative;
-    z-index: 10;
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 500;
+    line-height: 1.45;
+    letter-spacing: -0.03em;
+    color: var(--color-text-strong);
 }
 
-.lightButton {
-    background-color: var(--color-white);
-    border: none;
-    border-radius: 28px;
-    padding: 14px 28px;
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: -0.02em;
+.statement span {
+    color: var(--color-text-tertiary);
+}
+
+/* ---------- ③ 새가족이 되는 과정: 애플 환경 #recover-gallery ---------- */
+.railHead {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: var(--sub-space-head);
+}
+
+.nav {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 0.5rem;
+}
+
+.navBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--color-surface-band);
     color: var(--color-text-strong);
     cursor: pointer;
-    box-shadow: 0 0 10px rgba(233, 238, 255, 0.75);
-    transition: background-color 0.2s ease, transform 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 140ms var(--ease-smooth), background-color 140ms ease;
 }
 
-.lightButton:hover {
-    background-color: var(--color-surface-band-hover);
-    transform: translateY(-2px);
+.navBtn svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
-.ctaDesc {
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 1.6;
-    color: var(--color-text-meta);
-    margin-bottom: 40px;
-    white-space: pre-line;
-    word-break: keep-all;
+.navBtn:active {
+    transform: scale(0.95);
 }
 
-@media (max-width: 767px) {
-    .ctaTitle {
-        font-size: 24px;
+.navBtn:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .navBtn:hover {
+        background: var(--color-surface-band-hover);
     }
 }
 
-@media (min-width: 768px) {
-    .ctaSection {
-        padding: 160px 48px;
-    }
-}
-
-.cardContentWrapper {
-    position: absolute;
-    inset: 0;
-    padding: 40px;
+.rail {
+    --pad: max(var(--gutter), calc((100% - var(--wrap)) / 2 + var(--gutter)));
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    z-index: 2;
-}
-
-@media (max-width: 767px) {
-    .cardContentWrapper {
-        padding: 32px;
-    }
-}
-
-.stepBadgeNew {
-    align-self: flex-start;
-    padding: 4px 12px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    color: var(--color-text-strong);
-}
-
-.cardTextContainer {
-    position: relative;
-    width: 100%;
-}
-
-.cardTextContent {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-}
-
-.stepTitleNew {
-    font-size: 20px;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    line-height: 1.4;
-    color: var(--color-white);
+    gap: 1.25rem;
     margin: 0;
+    padding: 0 var(--pad);
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: var(--pad);
+    scrollbar-width: none;
 }
 
-.stepDescNew {
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 1.6;
-    color: var(--color-white);
-    margin: 0;
-    word-break: keep-all;
+.rail::-webkit-scrollbar {
+    display: none;
 }
 
-.scrapbookGrid {
-    columns: 1;
-    gap: 32px;
-    padding-bottom: 48px;
+.rail:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 4px;
 }
 
-@media (min-width: 640px) {
-    .scrapbookGrid {
-        columns: 2;
-    }
+.step {
+    flex: 0 0 min(80vw, 380px);
+    scroll-snap-align: start;
 }
 
-@media (min-width: 1024px) {
-    .scrapbookGrid {
-        columns: 3;
-    }
-}
-
-.polaroid {
-    break-inside: avoid;
+/* 카드: 일러스트가 가득, 위쪽 빈 바탕에 짧은 한마디 */
+.tile {
     position: relative;
-    background-color: #FFFCF4;
-    padding: 16px 16px 72px 16px;
-    /* Ensure uniform 72px space for text at the bottom */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    transform-origin: center center;
-    color: var(--color-text-primary);
-    border: 1px solid var(--color-line);
-    margin-bottom: 32px;
-}
-
-.polaroid:hover {
-    transform: rotate(0deg) scale(1.05) !important;
-    z-index: 20;
-}
-
-.tape {
-    position: absolute;
-    opacity: 0.8;
-    mix-blend-mode: multiply;
-    z-index: 10;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.photoFrame {
-    width: 100%;
-    position: relative;
+    isolation: isolate;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0;
+    aspect-ratio: 380 / 480;
+    border-radius: var(--r-card);
+    background: var(--color-surface-band);
 }
 
-.photoFrame svg {
-    transition: transform 0.3s ease;
-}
-
-.polaroid:hover .photoFrame svg {
-    transform: scale(1.1);
-}
-
-.photoText {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 72px;
-    /* Match the polaroid bottom padding */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 1.875rem;
-    color: rgba(74, 85, 104, 0.9);
-}
-
-/* ==============================
-   Fade Sections (Welcome Intro)
-   ============================== */
-
-.introPinnedWrapper {
-    height: 800vh;
-    position: relative;
-    z-index: 10;
-}
-
-.introSticky {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    width: 100%;
-}
-
-.introAbsoluteCenter {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 0 var(--grid-margin);
-    box-sizing: border-box;
-    pointer-events: none;
-}
-
-.holySpiritGlow {
+.tileImg {
     position: absolute;
     inset: 0;
     z-index: -1;
-    /* ?⑷툑鍮?洹몃씪?붿뼵??(?ш린 75%濡?議곗젙) */
-    background: radial-gradient(circle at center, rgba(255, 200, 80, 0.5) 0%, rgba(255, 225, 130, 0.25) 25%, rgba(255, 245, 200, 0.1) 50%, rgba(255, 255, 255, 0) 75%);
-    animation: breathe 4s ease-in-out infinite alternate;
-    pointer-events: none;
-    transform-origin: center center;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 300ms var(--ease-smooth);
 }
 
-@keyframes breathe {
-    0% {
-        transform: scale(0.95);
-        opacity: 0.65;
-    }
-
-    100% {
-        transform: scale(1.15);
-        opacity: 1;
+@media (hover: hover) and (pointer: fine) {
+    .step:hover .tileImg {
+        transform: scale(1.02);
     }
 }
 
-.activeLayer {
-    pointer-events: auto;
-    z-index: 5;
-}
-
-
-
-.fadeBodyText {
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 1.6;
-    color: var(--color-text-meta);
-    word-break: keep-all;
+.callout {
     margin: 0;
+    padding: 2rem 2rem 0;
+    font-size: var(--sub-t-sub);
+    font-weight: 500;
+    line-height: 1.32;
+    letter-spacing: -0.03em;
     white-space: pre-line;
+    color: var(--color-text-strong);
 }
 
+.cap {
+    margin: 0;
+    padding: 1.5rem 0.5rem 0;
+    color: var(--color-text-meta);
+}
 
+.cap strong {
+    font-weight: 500;
+    color: var(--color-text-strong);
+}
+
+/* ---------- ④ 문의 ---------- */
+.cta {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.ctaMedia {
+    overflow: hidden;
+    aspect-ratio: 3 / 2;
+    border-radius: var(--r-card);
+}
+
+.ctaMedia img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 30%;
+}
+
+/* 문의 팝업: 교회 차 시간표 팝업(GuidePage .dialog)과 같은 틀 — 딤드 + 배경 흐림 */
+.dim {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: grid;
+    place-items: center;
+    padding: 0 1.5rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background-color: rgba(var(--color-surface-dark-rgb), 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    animation: dimIn 0.3s var(--ease-smooth);
+}
+
+.dialog {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 640px;
+    margin: 3rem 0;
+    padding: 5rem 4rem 3.5rem;
+    border-radius: var(--r-card, 28px);
+    background-color: var(--color-white);
+    color: var(--color-text-primary);
+    font-size: var(--sub-t-body);
+    line-height: 1.6;
+    letter-spacing: -0.02em;
+    word-break: keep-all;
+    animation: dialogIn 0.4s var(--ease-smooth);
+}
+
+@keyframes dimIn {
+    from { opacity: 0; }
+}
+
+@keyframes dialogIn {
+    from { transform: translateY(16px) scale(0.98); }
+}
+
+.dialogClose {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.dialogCloseIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--color-surface-dark);
+    color: var(--color-white);
+}
+
+.dialogCloseIcon svg {
+    width: 36px;
+    height: 36px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3;
+    stroke-linecap: round;
+}
+
+.dialogClose:focus-visible {
+    outline: none;
+}
+
+.dialogClose:focus-visible .dialogCloseIcon {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 3px;
+}
+
+.dialogTitle {
+    margin: 0;
+    font-size: var(--sub-t-sub);
+    font-weight: 500;
+    line-height: 1.32;
+    letter-spacing: -0.03em;
+    color: var(--color-text-strong);
+}
+
+.dialogDesc {
+    margin: 0.5rem 0 0;
+    color: var(--color-text-tertiary);
+}
+
+.field {
+    margin-top: 1.5rem;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--color-text-strong);
+}
+
+.field label small {
+    margin-left: 0.375rem;
+    font-size: var(--sub-t-body);
+    font-weight: 400;
+    color: var(--color-text-meta);
+}
+
+.field input,
+.field textarea {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 52px;
+    padding: 0.875rem 1rem;
+    border: 0;
+    border-radius: 16px;
+    background: var(--color-surface-band);
+    font: inherit;
+    font-size: var(--sub-t-body); /* 16px — 아이폰에서 입력할 때 화면이 확대되지 않게 */
+    color: var(--color-text-strong);
+    outline: none;
+    transition: box-shadow 0.15s ease;
+}
+
+.field input:focus-visible,
+.field textarea:focus-visible {
+    box-shadow: 0 0 0 2px var(--color-accent-sky);
+}
+
+.field textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+.count {
+    display: block;
+    margin-top: 0.375rem;
+    text-align: right;
+    color: var(--color-text-meta);
+}
+
+.hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.agree {
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    border-radius: 16px;
+    background: var(--color-surface-band);
+    color: var(--color-text-tertiary);
+}
+
+.agree label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    color: var(--color-text-strong);
+    cursor: pointer;
+}
+
+.agree input {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--color-surface-dark);
+}
+
+.error {
+    margin: 1rem 0 0;
+    color: var(--color-text-strong);
+}
+
+.dialog .btn {
+    width: 100%;
+}
+
+.done {
+    padding: 1rem 0;
+    text-align: center;
+}
+
+/* ---------- 휴대폰 ---------- */
 @media (max-width: 767px) {
-    .fadeBodyText {
-        font-size: 16px;
-        white-space: normal;
+    .page {
+        --gutter: 1rem;
+        --r-card: 24px;
+    }
+
+    .nav {
+        display: none;
+    }
+
+    .rail {
+        gap: 0.75rem;
+    }
+
+    .step {
+        flex-basis: 78vw;
+    }
+
+    .callout {
+        padding: 1.5rem 1.5rem 0;
+    }
+
+    .cap {
+        padding-top: 1.25rem;
+    }
+
+    .cta {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .dialog {
+        padding: 4.5rem 1.5rem 2rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .env *,
+    .envOpen *,
+    .env:hover * {
+        transition: none !important;
+    }
+
+    .dim,
+    .dialog {
+        animation: none;
     }
 }
