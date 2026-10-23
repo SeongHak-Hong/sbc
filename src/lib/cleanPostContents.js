@@ -49,7 +49,11 @@ const cleanPostContents = (contents, title) => {
         n.nodeValue = n.nodeValue
             .replace(/\u00a0/g, ' ')
             .replace(/(^|\d\.\s*|\s)([가-힣]) ([가-힣])(?=\s*[:：]|\s*$)/g, '$1$2$3')
-            .replace(/([가-힣)])\s*[:：]\s*/g, '$1: ');
+            .replace(/([가-힣)])\s*[:：]\s*/g, '$1: ')
+            // 편집기 굵게 표시가 글자로 남은 것: "*다니엘기도회*" → 다니엘기도회, 짝 없는 "**"는 지움
+            .replace(/\*\*([^*]+?)\*\*/g, '$1')
+            .replace(/\*([^*\s][^*]*?)\*/g, '$1')
+            .replace(/\*\*/g, '');
     });
 
     // 2-1. 앞 공백으로 이어 쓴 줄: 윗줄이 문장 끝이 아니면 붙이고, 끝났으면 따로 둠
@@ -62,6 +66,64 @@ const cleanPostContents = (contents, title) => {
         } else {
             el.textContent = text(el).trim();
         }
+    });
+
+    // 2-2. 목록 안에서 앞 공백으로 이어 쓴 줄 → 윗줄에 붙임
+    root.querySelectorAll('li').forEach((li) => {
+        const prev = li.previousElementSibling;
+        if (!prev || prev.tagName !== 'LI' || !/^\s{2,}/.test(text(li))) return;
+        (prev.querySelector(':scope > p') || prev).append(` ${text(li).trim()}`);
+        li.remove();
+    });
+
+    // 2-3. 긴 문장이 줄바꿈으로 끊긴 것("…온라인 네트워크)를" / "통해 각 교회…") → 한 문단으로.
+    // 윗줄이 25자 이상이고 문장 끝이 아니며, 아랫줄이 번호 · 점 · "이름:"으로 시작하지 않을 때만
+    const isLabelLine = (s) => /^\s*[^:：\d][^:：]{0,9}:\s+\S/.test(s);
+    const isMarkerLine = (s) => /^\s*(\d{1,2}\s*[.)]|[*•·-]\s|[<〈《[])/.test(s);
+    [...root.children].forEach((el) => {
+        const prev = el.previousElementSibling;
+        if (el.tagName !== 'P' || !prev || prev.tagName !== 'P') return;
+        const prevText = text(prev).trim();
+        const cur = text(el);
+        if (prevText.length < 25 || /([.!?:)\]]|다|요)$/.test(prevText) || isMarkerLine(cur) || isLabelLine(cur)) return;
+        prev.append(` ${cur.trim()}`);
+        el.remove();
+    });
+
+    // 2-4. "* 20:00 ~ …"처럼 점으로 시작하는 문단들 → 목록 하나
+    // 2-5. "기간: …", "시간: …"처럼 이름이 붙은 문단이 2줄 이상 이어지면 → 목록 하나 (아래에서 이름 | 값 두 칸)
+    const groupInto = (test, strip) => {
+        let list = null;
+        [...root.children].forEach((el) => {
+            if (el.tagName !== 'P' || !test(text(el))) {
+                list = null;
+                return;
+            }
+            const next = el.nextElementSibling;
+            if (!list && !(next && next.tagName === 'P' && test(text(next))) && strip === null) return;
+            if (strip) {
+                const first = doc.createTreeWalker(el, NodeFilter.SHOW_TEXT).nextNode();
+                if (first) first.nodeValue = first.nodeValue.replace(strip, '');
+            }
+            if (!list) {
+                list = make('ul');
+                el.before(list);
+            }
+            const li = make('li');
+            li.append(el);
+            list.append(li);
+        });
+    };
+    groupInto((s) => /^\s*[*•·-]\s+/.test(s), /^\s*[*•·-]\s+/);
+    groupInto((s) => isLabelLine(s) && !isMarkerLine(s), null);
+
+    // 2-6. 목록 · 표 바로 위의 짧은 줄("일일 진행 순서", "2026 다니엘기도회 일정") → 소제목
+    [...root.children].forEach((el) => {
+        const next = el.nextElementSibling;
+        const s = text(el).trim();
+        if (el.tagName !== 'P' || !next || !['UL', 'OL', 'TABLE'].includes(next.tagName)) return;
+        if (s.length > 24 || /([.!?:]|다|요)$/.test(s) || isMarkerLine(s) || isLabelLine(s)) return;
+        el.replaceWith(make('h3', null, el.innerHTML));
     });
 
     // 4. 꺾쇠 줄 · 굵은 글씨로 시작하는 줄 → 소제목
@@ -139,6 +201,14 @@ const cleanPostContents = (contents, title) => {
         const holder = li.querySelector(':scope > p') || li;
         const lead = holder.firstChild;
         let label = null;
+        // 시간표 "20:00 ~ 20:30 찬양 …" → 시간 | 내용 두 칸
+        const time = lead && lead.nodeType === 3 && lead.nodeValue.match(/^\s*(\d{1,2}:\d{2}\s*[~–-]\s*\d{1,2}:\d{2})\s+(.*)$/s);
+        if (time) {
+            lead.nodeValue = time[2];
+            li.classList.add('ps-pair', 'ps-pair-time');
+            holder.prepend(make('span', 'ps-label', time[1]));
+            return;
+        }
         if (lead && lead.nodeName === 'STRONG' && /[:：]\s*$/.test(text(lead))) {
             label = text(lead).replace(/[:：]\s*$/, '').trim();
             lead.remove();

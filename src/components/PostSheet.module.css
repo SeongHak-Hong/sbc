@@ -640,8 +640,15 @@
     column-gap: 0.75rem;
 }
 
+/* 시간표("20:00 ~ 20:30 | 찬양"): 시간 칸은 숫자 폭에 맞춰 조금 넓게 */
+.text :global(.post-clean) li:global(.ps-pair-time) > p,
+.text :global(.post-clean) li:global(.ps-pair-time):not(:has(> p)) {
+    grid-template-columns: 7.5em minmax(0, 1fr);
+}
+
 .text :global(.post-clean) :global(.ps-label) {
     color: var(--color-text-meta) !important;
+    font-variant-numeric: tabular-nums;
 }
 
 /* 이름이 긴 줄("총남여전도회 야유회: …", "처음 것의 구별과 헌신: …")은 두 칸 대신
@@ -777,6 +784,12 @@
     .text :global(.post-clean) li:global(.ps-pair):not(:has(> p)) {
         grid-template-columns: 5.5em minmax(0, 1fr);
         column-gap: 0.5rem;
+    }
+
+    /* 시간표("20:00 ~ 20:30 | 찬양"): 시간 칸은 숫자 폭에 맞춰 조금 넓게 */
+    .text :global(.post-clean) li:global(.ps-pair-time) > p,
+    .text :global(.post-clean) li:global(.ps-pair-time):not(:has(> p)) {
+        grid-template-columns: 7.5em minmax(0, 1fr);
     }
 
     /* 표가 화면 끝까지 밀리도록 본문 좌우 여백만큼 바깥으로 */
