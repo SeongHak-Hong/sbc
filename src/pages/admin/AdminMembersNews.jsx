@@ -5,6 +5,9 @@ import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage
 import AdminCloseButton from '../../components/ui/AdminCloseButton';
 import { db, storage } from '../../firebase';
 import AdminEditor from '../../components/admin/AdminEditor';
+import NoticeAnnouncementEditor from '../../components/admin/NoticeAnnouncementEditor';
+import NoticeTablesEditor from '../../components/admin/NoticeTablesEditor';
+import { emptyAnnouncement, normalizeAnnouncement, buildAnnouncementContent, normalizeNoticeTable, noticeTablesForStore } from '../../lib/noticeItems';
 
 const AdminMembersNews = () => {
     const [posts, setPosts] = useState([]);
@@ -20,6 +23,10 @@ const AdminMembersNews = () => {
     const [date, setDate] = useState('');
     const [content, setContent] = useState('');
     const [pinned, setPinned] = useState(false); // 소식 페이지 '주요 공지'에 고정
+    // 안내 양식: 기본 정보 · 소개 · 소제목 묶음(notice) + 표 + 덧붙이는 글. notice가 null이면 예전 편집기로 쓴 글
+    const [notice, setNotice] = useState(null);
+    const [tables, setTables] = useState([]);
+    const [extraContent, setExtraContent] = useState('');
     const [images, setImages] = useState([]); 
     const [newFiles, setNewFiles] = useState([]);
 
@@ -53,6 +60,9 @@ const AdminMembersNews = () => {
         setAuthor('');
         setDate(formattedDate);
         setContent('');
+        setNotice(emptyAnnouncement());
+        setTables([]);
+        setExtraContent('');
         setPinned(false);
         setImages([]);
         setNewFiles([]);
@@ -67,6 +77,9 @@ const AdminMembersNews = () => {
         setAuthor(post.author || '');
         setDate(post.date || '');
         setContent(post.content || '');
+        setNotice(post.notice ? normalizeAnnouncement(post.notice) : null);
+        setTables((post.tables || []).map(normalizeNoticeTable));
+        setExtraContent(post.extraContent || '');
         setPinned(Boolean(post.pinned));
         setImages(post.imageUrls || []);
         setNewFiles([]);
@@ -111,6 +124,24 @@ const AdminMembersNews = () => {
 
     const handleRemoveNewFile = (indexToRemove) => {
         setNewFiles(newFiles.filter((_, idx) => idx !== indexToRemove));
+    };
+
+    // 예전 편집기로 쓴 공지를 안내 양식으로: 지금 글은 '덧붙이는 글'로 옮겨 잃어버리지 않게
+    const switchToNotice = () => {
+        setExtraContent(content);
+        setNotice(emptyAnnouncement());
+        setTables([]);
+    };
+
+    // 표를 넣은 가장 최근 공지의 표를 그대로
+    const handleLoadLastTables = () => {
+        const last = posts.find((post) => post.id !== formId && post.tables?.length);
+        if (!last) {
+            alert('표를 넣은 지난 공지가 아직 없어요.');
+            return;
+        }
+        if (tables.length && !window.confirm(`지금 표를 '${last.title}'의 표로 바꿀까요?`)) return;
+        setTables(last.tables.map((table) => ({ ...normalizeNoticeTable(table), id: crypto.randomUUID() })));
     };
 
     const handleSave = async () => {
@@ -168,7 +199,14 @@ const AdminMembersNews = () => {
                 pinned,
                 createdAt: currentPost?.createdAt || Timestamp.now(),
                 views: currentPost?.views || 0,
-                isMemberNews: true
+                isMemberNews: true,
+                // 안내 양식으로 쓴 공지는 칸으로 본문을 만들고(기본 정보도 맨 위 목록으로), 다시 고칠 수 있게 칸도 함께 저장
+                ...(notice ? {
+                    content: buildAnnouncementContent(notice, extraContent, tables, { withFacts: true }),
+                    notice: { ...notice, sections: notice.sections.filter((s) => s.title.trim() || s.lines.trim()) },
+                    tables: noticeTablesForStore(tables),
+                    extraContent,
+                } : {}),
             };
 
             await setDoc(doc(db, 'membersNews', formId), postData);
@@ -246,14 +284,38 @@ const AdminMembersNews = () => {
                         </label>
                     </div>
 
-                    <div>
-                        <label style={{ display: 'block', marginBottom: '8px'}}>내용</label>
-                        <AdminEditor 
-                            key={formId}
-                            initialValue={content}
-                            onChange={setContent}
-                        />
-                    </div>
+                    {notice ? (
+                        <>
+                            <NoticeAnnouncementEditor notice={notice} onChange={setNotice} />
+                            <NoticeTablesEditor tables={tables} onChange={setTables} onLoadLastWeek={handleLoadLastTables} loadLabel="지난 공지 표 불러오기" />
+                            <div>
+                                <label style={{ display: 'block', marginBottom: '8px'}}>
+                                    덧붙이는 글 <span style={{  color: '#6B7280' }}>(선택. 양식 칸에 맞지 않는 것)</span>
+                                </label>
+                                <AdminEditor
+                                    key={`${formId}-extra`}
+                                    initialValue={extraContent}
+                                    onChange={setExtraContent}
+                                />
+                            </div>
+                        </>
+                    ) : (
+                        <div>
+                            <label style={{ display: 'block', marginBottom: '8px'}}>내용</label>
+                            <p style={{ margin: '0 0 8px', fontSize: '14px', color: '#6B7280' }}>
+                                예전 방식으로 쓴 글이에요.{' '}
+                                <button type="button" onClick={switchToNotice} style={{ padding: '4px 10px', borderRadius: '4px', border: '1px solid #D1D5DB', backgroundColor: '#fff', cursor: 'pointer' }}>
+                                    안내 양식으로 바꾸기
+                                </button>
+                                {' '}(지금 글은 '덧붙이는 글'로 옮겨져요)
+                            </p>
+                            <AdminEditor 
+                                key={formId}
+                                initialValue={content}
+                                onChange={setContent}
+                            />
+                        </div>
+                    )}
 
                     <div>
                         <label style={{ display: 'block', marginBottom: '8px'}}>이미지 첨부</label>

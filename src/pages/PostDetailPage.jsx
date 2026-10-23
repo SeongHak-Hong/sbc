@@ -11,7 +11,7 @@ import styles from './PostDetailPage.module.css';
 
 import NaverMap from '../components/ui/NaverMap';
 import PostSheet from '../components/PostSheet';
-import { buildNoticeContent, normalizeNoticeItem } from '../lib/noticeItems';
+import { buildNoticeContent, normalizeNoticeItem, announcementFacts, buildAnnouncementContent, normalizeAnnouncement } from '../lib/noticeItems';
 import thumbKindergarten from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb.webp';
 import thumbElementary from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-01.webp';
 import thumbYouth from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-02.webp';
@@ -633,7 +633,7 @@ const PostDetailPage = () => {
             post.businessCategory && { label: '업종', value: post.businessCategory },
             post.phone && { label: '전화', value: post.phone, href: `tel:${post.phone.replace(/[^\d+]/g, '')}` },
             address && { label: '주소', value: address },
-        ].filter(Boolean) : [];
+        ].filter(Boolean) : post.notice ? announcementFacts(normalizeAnnouncement(post.notice)) : [];
         const isBulletin = post.category === 'bulletin';
 
         return (
@@ -644,7 +644,10 @@ const PostDetailPage = () => {
                 images={isBulletin ? [] : viewerImages}
                 bulletin={isBulletin ? viewerImages : []}
                 // 광고 양식으로 쓴 교회소식은 저장된 칸으로 본문을 다시 만든다 (지금 규칙으로 늘 같은 모양)
-                description={post.items ? buildNoticeContent(post.items.map(normalizeNoticeItem), post.extraContent, post.tables) : post.content}
+                // 공지사항 안내 양식은 기본 정보를 위 정보 줄(facts)로 빼고 본문만
+                description={post.items ? buildNoticeContent(post.items.map(normalizeNoticeItem), post.extraContent, post.tables)
+                    : post.notice ? buildAnnouncementContent(normalizeAnnouncement(post.notice), post.extraContent, post.tables)
+                    : post.content}
                 extra={post.address ? (
                     <NaverMap
                         address={post.address}

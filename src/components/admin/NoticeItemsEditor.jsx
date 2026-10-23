@@ -16,7 +16,7 @@ const TIME_OPTIONS = Array.from({ length: 33 }, (_, i) => {
 
 // 일시: 날짜는 달력, 시간은 목록에서 고르고 '2부 예배 후' 같은 말은 덧붙임 칸에.
 // '매주 토요일'처럼 날짜로 못 적는 것은 '직접 적기'. 아래에 화면에 나갈 글을 미리 보여 준다
-const NoticeWhenField = ({ item, onPatch }) => {
+export const NoticeWhenField = ({ item, onPatch }) => {
     const [showEnd, setShowEnd] = useState(Boolean(item.whenEndDate));
     const preview = formatNoticeWhen(item);
 

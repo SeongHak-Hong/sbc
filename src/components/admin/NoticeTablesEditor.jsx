@@ -6,7 +6,7 @@ import { NOTICE_TABLE_KINDS, emptyNoticeRow, emptyNoticeTable, parsePastedTable 
 const cellStyle = { width: '100%', minWidth: '72px', padding: '8px', borderRadius: '4px', border: '1px solid #ddd', fontSize: '16px', boxSizing: 'border-box', color: '#111827' };
 const smallButton = { padding: '6px 12px', borderRadius: '4px', border: '1px solid #D1D5DB', backgroundColor: '#fff', cursor: 'pointer', fontSize: '14px' };
 
-const NoticeTablesEditor = ({ tables, onChange, onLoadLastWeek }) => {
+const NoticeTablesEditor = ({ tables, onChange, onLoadLastWeek, loadLabel = '지난주 표 불러오기' }) => {
     const patch = (id, values) => onChange(tables.map((t) => (t.id === id ? { ...t, ...values } : t)));
     const setCell = (table, r, c, value) => {
         const rows = table.rows.map((row, i) => (i === r ? row.map((cell, j) => (j === c ? value : cell)) : row));
@@ -46,7 +46,7 @@ const NoticeTablesEditor = ({ tables, onChange, onLoadLastWeek }) => {
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
                 <label style={{ display: 'block' }}>표 <span style={{ color: '#6B7280' }}>(선택)</span></label>
                 <div style={{ display: 'flex', gap: '8px' }}>
-                    <button type="button" onClick={onLoadLastWeek} style={smallButton}>지난주 표 불러오기</button>
+                    <button type="button" onClick={onLoadLastWeek} style={smallButton}>{loadLabel}</button>
                     <button type="button" onClick={() => onChange([...tables, emptyNoticeTable('weekday')])} style={smallButton}>+ 요일 표</button>
                     <button type="button" onClick={() => onChange([...tables, emptyNoticeTable('date')])} style={smallButton}>+ 날짜 표</button>
                 </div>

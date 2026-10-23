@@ -151,3 +151,55 @@ export const buildNoticeContent = (items = [], extraContent = '', tables = []) =
     const hasExtra = extra && extra.replace(/<[^>]*>|&nbsp;/g, '').trim();
     return noticeItemsToHtml(items) + noticeTablesToHtml(tables) + (hasExtra ? `<hr>${extra}` : '');
 };
+
+// ---------- 공지사항 안내 양식: 공지 한 건 ----------
+// 기본 정보(일시 · 장소 · 대상 · 신청·문의)는 팝업 제목 아래 정보 줄(PostSheet facts)로,
+// 본문은 소개 글 → 소제목 묶음(소제목 + 한 줄씩) → 표 → 덧붙이는 글
+export const emptyAnnouncement = () => ({
+    ...emptyNoticeItem(),
+    intro: '',
+    sections: [],
+});
+
+export const emptyAnnouncementSection = () => ({ id: crypto.randomUUID(), title: '', lines: '' });
+
+export const normalizeAnnouncement = (notice) => ({
+    ...normalizeNoticeItem(notice),
+    intro: notice.intro || '',
+    sections: (notice.sections || []).map((s) => ({ ...emptyAnnouncementSection(), ...s })),
+});
+
+// 팝업 정보 줄: [{ label, value }]
+export const announcementFacts = (notice) => {
+    const when = formatNoticeWhen(notice);
+    return [
+        when && { label: '일시', value: when },
+        ...NOTICE_FIELDS
+            .filter(({ key }) => notice[key]?.trim())
+            .map(({ key, label }) => ({ label, value: notice[key].trim() })),
+    ].filter(Boolean);
+};
+
+const linesToHtml = (lines) => (lines || '').split('\n').map((l) => l.trim()).filter(Boolean);
+
+// 본문 HTML. withFacts면 기본 정보도 맨 위 목록으로 넣는다(저장용 content — 정보 줄을 못 그리는 곳 대비)
+export const buildAnnouncementContent = (notice, extraContent = '', tables = [], { withFacts = false } = {}) => {
+    const facts = withFacts ? announcementFacts(notice) : [];
+    const factsHtml = facts.length
+        ? `<ul>${facts.map(({ label, value }) => `<li><p>${escapeHtml(`${label}: ${value}`)}</p></li>`).join('')}</ul>`
+        : '';
+    // 소개는 빈 줄로 문단을 나눈다
+    const intro = (notice.intro || '').split(/\n\s*\n/).map((para) => para.trim()).filter(Boolean)
+        .map((para) => `<p>${escapeHtml(para).replace(/\n/g, ' ')}</p>`).join('');
+    const sections = (notice.sections || [])
+        .filter((s) => s.title.trim() || linesToHtml(s.lines).length)
+        .map((s) => {
+            const rows = linesToHtml(s.lines);
+            const title = s.title.trim() ? `<h3>${escapeHtml(s.title.trim())}</h3>` : '';
+            return title + (rows.length ? `<ul>${rows.map((r) => `<li><p>${escapeHtml(r)}</p></li>`).join('')}</ul>` : '');
+        })
+        .join('');
+    const extra = (extraContent || '').trim();
+    const hasExtra = extra && extra.replace(/<[^>]*>|&nbsp;/g, '').trim();
+    return factsHtml + intro + sections + noticeTablesToHtml(tables) + (hasExtra ? `<hr>${extra}` : '');
+};
