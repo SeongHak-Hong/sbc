@@ -142,12 +142,18 @@ const NewsPage = () => {
     const matchesFilter = (post, filterId) =>
         filterId === 'all' ? ALL_CATEGORIES.includes(post.category) : post.category === filterId;
 
-    const filteredPosts = posts.filter((post) => matchesFilter(post, activeTab)).sort(byNewest);
     // 주요 공지: 관리자에서 '주요 공지로 고정'을 체크한 글 (성도사업 제외).
     // 관리자 공지사항 목록에서 정한 순서(pinnedOrder)대로, 순서가 없는 글은 그 뒤에 최신 글부터
+    const byPinnedOrder = (a, b) => (a.pinnedOrder ?? Infinity) - (b.pinnedOrder ?? Infinity) || byNewest(a, b);
     const pinnedPosts = posts
         .filter((post) => post.pinned && ALL_CATEGORIES.includes(post.category))
-        .sort((a, b) => (a.pinnedOrder ?? Infinity) - (b.pinnedOrder ?? Infinity) || byNewest(a, b));
+        .sort(byPinnedOrder);
+    // 게시물 목록도 관리자 화면처럼 주요 공지를 맨 위에 같은 순서로, 나머지는 최신 글부터
+    const matched = posts.filter((post) => matchesFilter(post, activeTab));
+    const filteredPosts = [
+        ...matched.filter((post) => post.pinned).sort(byPinnedOrder),
+        ...matched.filter((post) => !post.pinned).sort(byNewest),
+    ];
     const totalPages = Math.ceil(filteredPosts.length / postsPerPage) || 1;
     const currentPosts = filteredPosts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
     const activeFilter = FILTERS.find((f) => f.id === activeTab) || FILTERS[0];
@@ -253,7 +259,7 @@ const NewsPage = () => {
                             <ul key={`${activeTab}-${currentPage}`} className={styles.postList} aria-label={`${activeFilter.label} 소식`}>
                                 {currentPosts.map((post) => (
                                     <li key={post.id} className={styles.postItem}>
-                                        <span className={styles.category}>{categoryLabel(post.category)}</span>
+                                        <span className={styles.category}>{post.pinned ? `주요 공지 · ${categoryLabel(post.category)}` : categoryLabel(post.category)}</span>
                                         <h2 className={styles.postTitle}>{post.title}</h2>
                                         {metaText(post) && <span className={styles.meta}>{metaText(post)}</span>}
                                         <button
