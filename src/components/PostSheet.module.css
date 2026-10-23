@@ -480,11 +480,25 @@
     --ps-gap-head: 3rem;    /* 소제목 위 (단락이 바뀌는 자리) */
     --ps-indent: 1.75em;    /* 번호 다음 글이 시작하는 자리 */
     font-size: var(--sub-t-lead) !important;
-    color: var(--color-text-primary);
+    color: var(--color-text-primary) !important;
 }
 
 .text :global(.post-clean) * {
     line-height: 1.6 !important;
+}
+
+/* index.css의 Toast UI 전역 규칙(p · li · span을 16px · --color-text-body로 !important 고정)을
+   팝업 본문에서는 풀어서, 아래 크기 · 색(이름 회색 · 값 본문색)이 먹게 한다 */
+.text :global(.post-clean) p,
+.text :global(.post-clean) li,
+.text :global(.post-clean) span {
+    font-size: inherit !important;
+    color: inherit !important;
+}
+
+.text :global(.post-clean) ul,
+.text :global(.post-clean) ol {
+    color: inherit !important;
 }
 
 .text :global(.post-clean) > :first-child,
@@ -538,9 +552,15 @@
     margin-bottom: 0 !important;
 }
 
+/* 광고 안 내용 줄(일시 · 장소 …)은 제목보다 한 단계 작게: 데스크톱 제목 18 · 내용 16px */
+.text :global(.post-clean) :global(.ps-item) li,
+.text :global(.post-clean) :global(.ps-item) > p {
+    font-size: var(--sub-t-body) !important;
+}
+
 .text :global(.post-clean) :global(.ps-item-head) {
     position: relative;
-    margin: 0 0 0.25rem !important;
+    margin: 0 0 0.375rem !important;
     font-size: var(--sub-t-lead) !important;
     line-height: 1.5 !important;
 }
@@ -555,7 +575,7 @@
     left: calc(-1 * var(--ps-indent));
     width: var(--ps-indent);
     font-weight: 400;
-    color: var(--color-text-meta);
+    color: var(--color-text-meta) !important;
     font-variant-numeric: tabular-nums;
 }
 
@@ -621,7 +641,7 @@
 }
 
 .text :global(.post-clean) :global(.ps-label) {
-    color: var(--color-text-meta);
+    color: var(--color-text-meta) !important;
 }
 
 /* 이름이 긴 줄("총남여전도회 야유회: …", "처음 것의 구별과 헌신: …")은 두 칸 대신
@@ -641,7 +661,7 @@
 
 .text :global(.post-clean) li:global(.ps-pair-long) :global(.ps-label) {
     font-weight: 500;
-    color: var(--color-text-strong);
+    color: var(--color-text-strong) !important;
 }
 
 .text :global(.post-clean) :global(.ps-item) li:global(.ps-pair-long) {
@@ -654,7 +674,7 @@
 
 .text :global(.post-clean) :global(.ps-item) li:global(.ps-pair-long) :global(.ps-label) {
     font-weight: 400;
-    color: var(--color-text-meta);
+    color: var(--color-text-meta) !important;
 }
 
 /* ---------- 구분선: 광고 양식의 '덧붙이는 글' 앞. 선은 그리지 않고 단락 간격만 ---------- */
@@ -742,6 +762,11 @@
 
 /* ---------- 휴대폰 ---------- */
 @media (max-width: 767px) {
+    /* 휴대폰은 내용이 16px 아래로 못 내려가니, 광고 제목을 한 단계 키워(17px) 크기로도 나눈다 */
+    .text :global(.post-clean) :global(.ps-item-head) {
+        font-size: var(--sub-t-row) !important;
+    }
+
     .text :global(.post-clean) {
         --ps-gap-item: 1.75rem;
         --ps-gap-head: 2.5rem;
