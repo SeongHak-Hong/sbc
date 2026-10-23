@@ -8,9 +8,9 @@ const smallButton = { padding: '6px 12px', borderRadius: '4px', border: '1px sol
 
 const linkButton = { padding: '4px 0', border: 'none', background: 'none', color: '#2563EB', cursor: 'pointer', fontSize: '14px', textDecoration: 'underline', textUnderlineOffset: '3px' };
 
-// 시간 목록: 오전 6시 ~ 오후 10시, 30분 간격
-const TIME_OPTIONS = Array.from({ length: 33 }, (_, i) => {
-    const minutes = 6 * 60 + i * 30;
+// 시간 목록: 오전 5시(새벽 예배) ~ 오후 10시, 30분 간격
+const TIME_OPTIONS = Array.from({ length: 35 }, (_, i) => {
+    const minutes = 5 * 60 + i * 30;
     return `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`;
 });
 
