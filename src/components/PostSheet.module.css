@@ -698,6 +698,23 @@
     white-space: nowrap;
 }
 
+/* 칸 너비는 모두 같게: lib/cleanPostContents가 가장 긴 칸에 맞춘 너비(--ps-col)와 칸 수(--ps-cols)를 넣는다.
+   16em을 넘는 긴 칸은 그 너비에서 줄을 바꾼다 */
+.text :global(.post-clean) table:global(.ps-even) {
+    display: table; /* Toast UI 기본(display: block; max-width: 100%)을 풀어야 너비가 먹는다 */
+    max-width: none;
+    table-layout: fixed;
+    width: calc(var(--ps-cols) * var(--ps-col)) !important;
+    white-space: normal;
+}
+
+.text :global(.post-clean) table:global(.ps-even) th,
+.text :global(.post-clean) table:global(.ps-even) td {
+    width: var(--ps-col);
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
+}
+
 .text :global(.post-clean) th,
 .text :global(.post-clean) td {
     padding: 0.625rem 1.25rem 0.625rem 0 !important;

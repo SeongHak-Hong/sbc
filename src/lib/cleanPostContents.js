@@ -158,11 +158,30 @@ const cleanPostContents = (contents, title) => {
         }
     });
 
+    // 6-3. 한 목록 안에 긴 이름이 하나라도 있으면 그 목록은 모두 같은 모양(점 · 이름 · 값)으로
+    root.querySelectorAll('ul, ol').forEach((list) => {
+        const pairs = [...list.children].filter((li) => li.classList.contains('ps-pair'));
+        if (!pairs.some((li) => li.classList.contains('ps-pair-long'))) return;
+        pairs.filter((li) => !li.classList.contains('ps-pair-long')).forEach((li) => {
+            li.classList.add('ps-pair-long');
+            li.querySelector('.ps-label')?.after(' ');
+        });
+    });
+
     // 7. 표는 좌우로 밀어 보는 칸에
+    // 칸 너비는 모두 같게: 가장 긴 칸의 글자 폭(한글 1em, 숫자·기호 0.6em)에 맞추되 16em까지
+    const textEm = (s) => [...s.trim()].reduce((sum, ch) => sum + (/[가-힣ㄱ-ㅎ]/.test(ch) ? 1 : 0.6), 0);
     root.querySelectorAll('table').forEach((t) => {
         const wrap = make('div', 'ps-table');
         t.before(wrap);
         wrap.append(t);
+        const cols = Math.max(0, ...[...t.rows].map((row) => row.cells.length));
+        if (!cols) return;
+        const widest = Math.max(...[...t.querySelectorAll('th, td')].map((cell) => textEm(text(cell))));
+        const colEm = Math.round(Math.min(Math.max(widest, 2) + 1.25, 16) * 100) / 100; // + 오른쪽 칸 여백
+        t.style.setProperty('--ps-col', `${colEm}em`);
+        t.style.setProperty('--ps-cols', String(cols));
+        t.classList.add('ps-even');
     });
 
     contents.classList.add('post-clean');
