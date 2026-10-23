@@ -19,6 +19,7 @@ const AdminMembersNews = () => {
     const [author, setAuthor] = useState('');
     const [date, setDate] = useState('');
     const [content, setContent] = useState('');
+    const [pinned, setPinned] = useState(false); // 소식 페이지 '주요 공지'에 고정
     const [images, setImages] = useState([]); 
     const [newFiles, setNewFiles] = useState([]);
 
@@ -52,6 +53,7 @@ const AdminMembersNews = () => {
         setAuthor('');
         setDate(formattedDate);
         setContent('');
+        setPinned(false);
         setImages([]);
         setNewFiles([]);
         setCurrentPost(null);
@@ -65,6 +67,7 @@ const AdminMembersNews = () => {
         setAuthor(post.author || '');
         setDate(post.date || '');
         setContent(post.content || '');
+        setPinned(Boolean(post.pinned));
         setImages(post.imageUrls || []);
         setNewFiles([]);
         setViewMode('edit');
@@ -162,6 +165,7 @@ const AdminMembersNews = () => {
                 date,
                 content,
                 imageUrls: uploadedImageUrls,
+                pinned,
                 createdAt: currentPost?.createdAt || Timestamp.now(),
                 views: currentPost?.views || 0,
                 isMemberNews: true
@@ -228,6 +232,18 @@ const AdminMembersNews = () => {
                             }}
                             style={{ width: '200px', padding: '10px', borderRadius: '4px', border: '1px solid #ddd'}}
                         />
+                    </div>
+
+                    <div>
+                        <label style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                            <input
+                                type="checkbox"
+                                checked={pinned}
+                                onChange={(e) => setPinned(e.target.checked)}
+                                style={{ width: '18px', height: '18px' }}
+                            />
+                            주요 공지로 고정 <span style={{  color: '#6B7280' }}>(소식 페이지 맨 위 '주요 공지'에 가로로 보입니다)</span>
+                        </label>
                     </div>
 
                     <div>
@@ -317,7 +333,7 @@ const AdminMembersNews = () => {
                             <tr><td colSpan="5" style={{ padding: '32px', textAlign: 'center', color: '#6B7280' }}>등록된 소식이 없습니다.</td></tr>
                         ) : posts.map(post => (
                             <tr key={post.id} style={{ borderBottom: '1px solid #E5E7EB' }}>
-                                <td style={{ padding: '16px'}}>{post.title}</td>
+                                <td style={{ padding: '16px'}}>{post.pinned && <span style={{ marginRight: '8px', padding: '2px 6px', borderRadius: '4px', backgroundColor: '#E0F2FE', color: '#075985', fontSize: '13px' }}>주요 공지</span>}{post.title}</td>
                                 <td style={{ padding: '16px' }}>{post.author}</td>
                                 <td style={{ padding: '16px', color: '#6B7280', fontSize: '16px' }}>{post.date}</td>
                                 <td style={{ padding: '16px', textAlign: 'center', color: '#6B7280' }}>{post.views || 0}</td>
