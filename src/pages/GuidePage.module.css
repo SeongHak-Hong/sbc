@@ -1293,17 +1293,21 @@
         padding-bottom: 1.25rem;
     }
 
-    /* 휴대폰: 팝업은 아래에서 올라오는 시트 */
+    /* 휴대폰: 교회 일정 세부정보 팝업처럼 화면 전체를 덮는 흰 화면 (뒤 화면·흐림 없이). 닫기 버튼은 위에 붙어 있다 */
     .dialogDim {
-        align-items: end;
+        align-items: stretch;
         padding: 0;
+        background-color: var(--color-white);
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
     }
 
     .dialog {
         --t-strong: 1.75rem;
         --gutter: 1.125rem; /* 좌우 18px: 교회 일정 세부정보 팝업과 같음 */
-        margin: 3rem 0 0;
-        border-radius: var(--r-card) var(--r-card) 0 0;
+        min-height: 100%;
+        margin: 0;
+        border-radius: 0;
     }
 
     .dialogBody {
