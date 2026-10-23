@@ -6,7 +6,7 @@ import AdminCloseButton from '../../components/ui/AdminCloseButton';
 import { db, storage } from '../../firebase';
 import AdminEditor from '../../components/admin/AdminEditor';
 import NoticeItemsEditor from '../../components/admin/NoticeItemsEditor';
-import { emptyNoticeItem, noticeItemsToHtml } from '../../lib/noticeItems';
+import { emptyNoticeItem, normalizeNoticeItem, buildNoticeContent } from '../../lib/noticeItems';
 
 const AdminPosts = () => {
     const [posts, setPosts] = useState([]);
@@ -113,7 +113,7 @@ const AdminPosts = () => {
         setCategory(post.category || 'news');
         setDate(post.date || '');
         setContent(post.content || '');
-        setItems(post.items ? post.items.map((item) => ({ ...emptyNoticeItem(), ...item })) : null);
+        setItems(post.items ? post.items.map(normalizeNoticeItem) : null);
         setExtraContent(post.extraContent || '');
         setPinned(Boolean(post.pinned));
         setImages(post.imageUrls || []);
@@ -177,7 +177,7 @@ const AdminPosts = () => {
             return;
         }
         if (items.some((item) => item.title.trim()) && !window.confirm(`지금 적은 광고를 '${last.title}'의 광고로 바꿀까요?`)) return;
-        setItems(last.items.map((item) => ({ ...emptyNoticeItem(), ...item, id: crypto.randomUUID() })));
+        setItems(last.items.map((item) => ({ ...normalizeNoticeItem(item), id: crypto.randomUUID() })));
     };
 
     const usesItems = category === 'news' && items !== null;
@@ -252,7 +252,7 @@ const AdminPosts = () => {
                 category,
                 date,
                 // 양식으로 쓴 교회소식은 광고 칸으로 본문을 만들고, 다시 고칠 수 있게 칸도 함께 저장
-                content: usesItems ? noticeItemsToHtml(items) + extraContent : content,
+                content: usesItems ? buildNoticeContent(items, extraContent) : content,
                 ...(usesItems ? { items: items.filter((item) => item.title.trim()), extraContent } : {}),
                 imageUrls: uploadedImageUrls,
                 pinned,

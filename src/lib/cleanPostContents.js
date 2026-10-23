@@ -126,8 +126,8 @@ const cleanPostContents = (contents, title) => {
             el.replaceWith(section);
             return;
         }
-        // 다음 소제목·표가 나오면 묶음 끝
-        if (el.tagName === 'H3' || el.tagName === 'TABLE' || el.tagName === 'BLOCKQUOTE') {
+        // 다음 소제목·표·구분선(광고 양식의 '덧붙이는 글' 앞)이 나오면 묶음 끝
+        if (['H3', 'TABLE', 'BLOCKQUOTE', 'HR'].includes(el.tagName)) {
             section = null;
             return;
         }

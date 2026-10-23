@@ -657,6 +657,17 @@
     color: var(--color-text-meta);
 }
 
+/* ---------- 구분선: 광고 양식의 '덧붙이는 글' 앞. 선은 그리지 않고 단락 간격만 ---------- */
+.text :global(.post-clean) hr {
+    height: 0;
+    margin: var(--ps-gap-head) 0 0 !important;
+    border: none !important;
+}
+
+.text :global(.post-clean) hr + * {
+    margin-top: 0 !important;
+}
+
 /* ---------- 인용: 왼쪽 2px 하늘색 선 (말씀 인용 카드와 같음) ---------- */
 .text :global(.post-clean) blockquote {
     margin: var(--ps-gap-head) 0 0 !important;
