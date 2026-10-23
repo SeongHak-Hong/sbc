@@ -338,24 +338,9 @@
 }
 
 .category {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
     margin-bottom: 0.75rem;
     font-size: var(--t-list-meta);
     color: var(--color-text-meta);
-}
-
-/* 주요 공지 압정 아이콘: 교회 안내 '오시는 길' 아이콘과 같은 선(1.5 · 둥근 끝 · 진한 글자색), 글자 높이에 맞춘 크기 */
-.pinIcon {
-    width: 1.25em;
-    height: 1.25em;
-    flex-shrink: 0;
-    fill: none;
-    stroke: var(--color-text-strong);
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
 }
 
 .postTitle {

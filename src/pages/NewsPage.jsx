@@ -29,13 +29,6 @@ const ChevronDown = () => (
     </svg>
 );
 
-// 주요 공지 표시: 압정(고정) 선 아이콘. 교회 안내 '오시는 길' 아이콘과 같은 그리기 (24칸 · 선 1.5 · 둥근 끝)
-const PinIcon = () => (
-    <svg className={styles.pinIcon} viewBox="0 0 24 24" role="img" aria-label="주요 공지">
-        <path d="M8.5 3h7M10 3v5.5l-3 4V14h10v-1.5l-3-4V3M12 14v7" />
-    </svg>
-);
-
 const CheckIcon = () => (
     <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M5 12.5l4.5 4.5L19 7.5" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -149,18 +142,12 @@ const NewsPage = () => {
     const matchesFilter = (post, filterId) =>
         filterId === 'all' ? ALL_CATEGORIES.includes(post.category) : post.category === filterId;
 
+    const filteredPosts = posts.filter((post) => matchesFilter(post, activeTab)).sort(byNewest);
     // 주요 공지: 관리자에서 '주요 공지로 고정'을 체크한 글 (성도사업 제외).
     // 관리자 공지사항 목록에서 정한 순서(pinnedOrder)대로, 순서가 없는 글은 그 뒤에 최신 글부터
-    const byPinnedOrder = (a, b) => (a.pinnedOrder ?? Infinity) - (b.pinnedOrder ?? Infinity) || byNewest(a, b);
     const pinnedPosts = posts
         .filter((post) => post.pinned && ALL_CATEGORIES.includes(post.category))
-        .sort(byPinnedOrder);
-    // 게시물 목록도 관리자 화면처럼 주요 공지를 맨 위에 같은 순서로, 나머지는 최신 글부터
-    const matched = posts.filter((post) => matchesFilter(post, activeTab));
-    const filteredPosts = [
-        ...matched.filter((post) => post.pinned).sort(byPinnedOrder),
-        ...matched.filter((post) => !post.pinned).sort(byNewest),
-    ];
+        .sort((a, b) => (a.pinnedOrder ?? Infinity) - (b.pinnedOrder ?? Infinity) || byNewest(a, b));
     const totalPages = Math.ceil(filteredPosts.length / postsPerPage) || 1;
     const currentPosts = filteredPosts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
     const activeFilter = FILTERS.find((f) => f.id === activeTab) || FILTERS[0];
@@ -266,7 +253,7 @@ const NewsPage = () => {
                             <ul key={`${activeTab}-${currentPage}`} className={styles.postList} aria-label={`${activeFilter.label} 소식`}>
                                 {currentPosts.map((post) => (
                                     <li key={post.id} className={styles.postItem}>
-                                        <span className={styles.category}>{post.pinned && <PinIcon />}{categoryLabel(post.category)}</span>
+                                        <span className={styles.category}>{categoryLabel(post.category)}</span>
                                         <h2 className={styles.postTitle}>{post.title}</h2>
                                         {metaText(post) && <span className={styles.meta}>{metaText(post)}</span>}
                                         <button
