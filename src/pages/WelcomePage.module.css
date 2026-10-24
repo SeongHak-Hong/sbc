@@ -79,7 +79,7 @@
     }
 }
 
-/* ---------- ① 첫 화면: 2번째 섹션과 똑같은 100vw 전체 폭·비율(16:10) 동화 장면 ---------- */
+/* ---------- ① 첫 화면: 2번째 섹션 상단 하늘(#BBE4EF)과 이음새 없이 하나의 큰 일러스트로 이어지는 천국 장면 ---------- */
 .hero {
     position: relative;
     isolation: isolate;
@@ -91,20 +91,21 @@
     justify-content: flex-end;
     padding: clamp(20rem, 38vw, 34rem) 0 clamp(3.5rem, 6vw, 6.5rem);
     overflow: hidden;
-    /* 미드저니 배경이 들어갈 자리: 상단 천국 구름 + 중앙 날개 달린 초대장 + 하단 차분한 지상 */
+    /* 상단 따뜻한 천국 구름에서 시작해 맨 아래(#BBE4EF)가 2번째 섹션 골고다 하늘 맨 윗줄(#BBE4EF)과 정확히 맞닿음 */
     background:
-        radial-gradient(65% 50% at 50% 24%, rgba(255, 244, 228, 0.95) 0%, rgba(255, 244, 228, 0) 70%),
-        linear-gradient(180deg, #CFE6FC 0%, #9BC7F5 38%, #3B6672 72%, #134648 100%);
-    color: var(--color-white);
+        radial-gradient(60% 42% at 50% 18%, rgba(255, 248, 236, 0.96) 0%, rgba(255, 248, 236, 0) 100%),
+        linear-gradient(180deg, #FBF4E8 0%, #E5F2F8 42%, #C5E8F1 78%, #BBE4EF 100%);
+    color: var(--color-text-strong);
 }
 
+/* 미드저니 이미지를 넣었을 때도 맨 아랫단이 2섹션 골고다 하늘(#BBE4EF)로 감쪽같이 녹아들도록 페더링 */
 .hero::after {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background: linear-gradient(180deg, rgba(14, 38, 38, 0) 0%, rgba(14, 38, 38, 0) 58%, rgba(8, 28, 28, 0.42) 100%);
+    background: linear-gradient(180deg, rgba(187, 228, 239, 0) 0%, rgba(187, 228, 239, 0) 82%, #BBE4EF 100%);
 }
 
 .heroPic {
@@ -137,7 +138,7 @@
     font-weight: 500;
     line-height: 1.2;
     letter-spacing: -0.035em;
-    color: var(--color-white);
+    color: var(--color-text-strong);
 }
 
 .heroLead {
@@ -145,7 +146,7 @@
     margin: 1rem auto 0;
     font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.88);
+    color: var(--color-text-primary);
 }
 
 /* 봉투: 조각 6장을 한 좌표계(758×715)에 % 로 겹친다.
