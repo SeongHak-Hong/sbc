@@ -465,6 +465,8 @@ const WelcomePage = () => {
     const reduceMotion = useReducedMotion();
     const railRef = useRef(null);
     const [asking, setAsking] = useState(false);
+    const [typoWidth, setTypoWidth] = useState(346);
+    const [typoTop, setTypoTop] = useState(26);
     const askButtonRef = useRef(null);
 
     useEffect(() => {
@@ -503,15 +505,14 @@ const WelcomePage = () => {
                     <img className={styles.heroBg} src={heavenInvitation} alt="" fetchPriority="high" />
                 </picture>
                 <div className={`${styles.wrap} ${styles.heroContent}`}>
-                    <div className={styles.heroTitleWrap}>
+                    <div className={styles.heroTitleWrap} style={{ paddingTop: `${typoTop}vw` }}>
                         <motion.h1 className={styles.heroTitle} {...reveal}>
                             <span className={styles.srOnly}>천국에서 온 초대장</span>
                             <img
                                 className={styles.heroTitleImg}
                                 src={heroTitleTypography}
                                 alt="천국에서 온 초대장"
-                                width={521}
-                                height={279}
+                                style={{ width: `${typoWidth}px`, maxWidth: 'none' }}
                                 fetchPriority="high"
                             />
                         </motion.h1>
@@ -607,6 +608,114 @@ const WelcomePage = () => {
             <Footer />
 
             {asking && <InquiryDialog onClose={closeAsk} />}
+
+            {/* 타이포그래피 실시간 조절 컨트롤러 */}
+            <aside
+                style={{
+                    position: 'fixed',
+                    bottom: 24,
+                    right: 24,
+                    zIndex: 99999,
+                    background: 'rgba(28, 28, 30, 0.94)',
+                    backdropFilter: 'blur(20px)',
+                    WebkitBackdropFilter: 'blur(20px)',
+                    color: '#fff',
+                    padding: '16px 20px',
+                    borderRadius: 16,
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
+                    fontSize: 13,
+                    fontFamily: 'sans-serif',
+                    minWidth: 260,
+                }}
+                aria-label="타이포그래피 조절기"
+            >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                    <strong style={{ fontSize: 14 }}>타이포그래피 조절</strong>
+                    <span style={{ fontSize: 11, color: '#aaa' }}>실시간 반영</span>
+                </div>
+
+                <div style={{ marginBottom: 12 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                        <span>너비 (Width)</span>
+                        <strong style={{ color: '#64D2FF' }}>{typoWidth}px</strong>
+                    </div>
+                    <input
+                        type="range"
+                        min={200}
+                        max={700}
+                        step={2}
+                        value={typoWidth}
+                        onChange={(e) => setTypoWidth(Number(e.target.value))}
+                        style={{ width: '100%', accentColor: '#64D2FF', cursor: 'pointer' }}
+                    />
+                    <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
+                        <button
+                            type="button"
+                            onClick={() => setTypoWidth(346)}
+                            style={{ padding: '2px 8px', fontSize: 11, background: '#3A3A3C', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer' }}
+                        >
+                            346px
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setTypoWidth(420)}
+                            style={{ padding: '2px 8px', fontSize: 11, background: '#3A3A3C', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer' }}
+                        >
+                            420px
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setTypoWidth(521)}
+                            style={{ padding: '2px 8px', fontSize: 11, background: '#3A3A3C', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer' }}
+                        >
+                            원본(521px)
+                        </button>
+                    </div>
+                </div>
+
+                <div style={{ marginBottom: 12 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                        <span>상단 여백 (Padding Top)</span>
+                        <strong style={{ color: '#64D2FF' }}>{typoTop}vw</strong>
+                    </div>
+                    <input
+                        type="range"
+                        min={10}
+                        max={40}
+                        step={0.5}
+                        value={typoTop}
+                        onChange={(e) => setTypoTop(Number(e.target.value))}
+                        style={{ width: '100%', accentColor: '#64D2FF', cursor: 'pointer' }}
+                    />
+                    <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
+                        <button
+                            type="button"
+                            onClick={() => setTypoTop(22.5)}
+                            style={{ padding: '2px 8px', fontSize: 11, background: '#3A3A3C', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer' }}
+                        >
+                            22.5vw
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setTypoTop(26)}
+                            style={{ padding: '2px 8px', fontSize: 11, background: '#3A3A3C', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer' }}
+                        >
+                            26vw
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setTypoTop(30)}
+                            style={{ padding: '2px 8px', fontSize: 11, background: '#3A3A3C', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer' }}
+                        >
+                            30vw
+                        </button>
+                    </div>
+                </div>
+
+                <div style={{ padding: '8px 10px', background: 'rgba(255, 255, 255, 0.08)', borderRadius: 6, fontSize: 11, color: '#EBEBF5' }}>
+                    현재 설정: <code>width: {typoWidth}px; padding-top: {typoTop}vw;</code>
+                </div>
+            </aside>
         </div>
     );
 };
