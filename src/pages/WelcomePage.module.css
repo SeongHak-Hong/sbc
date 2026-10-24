@@ -913,7 +913,7 @@
     .golgothaSec {
         aspect-ratio: 3 / 5;
         min-height: 600px;
-        padding: clamp(19rem, 84vw, 24rem) 0 var(--pad-sec);
+        padding: clamp(14rem, 58vw, 18rem) 0 clamp(6.5rem, 16vh, 9.5rem);
     }
 
     .golgothaContent {
