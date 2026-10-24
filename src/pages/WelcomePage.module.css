@@ -84,12 +84,14 @@
     position: relative;
     isolation: isolate;
     width: 100%;
-    aspect-ratio: 16 / 10;
-    min-height: 540px;
+    /* 처음 진입했을 때 스크롤 없이 첫 화면(100svh) 하단에 타이틀이 바로 보이도록 화면 높이에 맞춤 */
+    height: 100svh;
+    min-height: 560px;
+    max-height: 980px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: clamp(20rem, 38vw, 34rem) 0 clamp(3.5rem, 6vw, 6.5rem);
+    padding: var(--title-top) 0 clamp(4rem, 8vh, 6.5rem);
     overflow: hidden;
     /* 상단 따뜻한 천국 구름에서 시작해 맨 아래(#BBE4EF)가 2번째 섹션 골고다 하늘 맨 윗줄(#BBE4EF)과 정확히 맞닿음 */
     background:
@@ -773,11 +775,11 @@
         --r-card: 24px;
     }
 
-    /* 첫 화면도 2번째 섹션과 똑같은 모바일 비율(3:5)·높이·하단 글씨 배치 */
+    /* 휴대폰에서도 첫 화면(100svh) 안에 상단 일러스트와 하단 타이틀이 한눈에 들어오게 */
     .hero {
-        aspect-ratio: 3 / 5;
-        min-height: 600px;
-        padding: clamp(19rem, 84vw, 24rem) 0 var(--pad-sec);
+        height: 100svh;
+        min-height: 540px;
+        padding: var(--title-top) 0 clamp(3.5rem, 7vh, 5rem);
     }
 
     /* 세로형(3:5) 모바일 골고다 이미지에 맞춰 상단 십자가·언덕 능선을 비워 두고 하단 초록 언덕에만 글씨 배치 */
