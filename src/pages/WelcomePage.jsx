@@ -524,8 +524,8 @@ const WelcomePage = () => {
                 </picture>
                 <div className={`${styles.wrap} ${styles.golgothaContent}`}>
                     <motion.p className={styles.golgothaStatement} {...reveal}>
-                        예수님이 우리 대신 십자가를 지시고 다시 살아나셔서,<br />
-                        누구에게나 죄 사함과 새로운 생명의 길을 열어 주셨어요.<br />
+                        예수님이 우리 대신 십자가를 지시고 다시 살아나셔서,{' '}<br />
+                        누구에게나 죄 사함과 새로운 생명의 길을 열어 주셨어요.{' '}<br />
                         <span>이 기쁜 소식을 복음이라고 불러요.</span>
                     </motion.p>
                 </div>

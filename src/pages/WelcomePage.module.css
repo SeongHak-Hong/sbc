@@ -906,6 +906,10 @@
         line-height: 1.55;
     }
 
+    .golgothaStatement br {
+        display: none;
+    }
+
     /* 세로형(3:5) 모바일 이미지: 위쪽 초록 영역에 글, 아래쪽에 인물·봉투 */
     .receivedSec {
         aspect-ratio: 3 / 5;
