@@ -84,19 +84,15 @@
     position: relative;
     isolation: isolate;
     width: 100%;
-    /* 처음 진입했을 때 스크롤 없이 첫 화면(100svh) 하단에 타이틀이 바로 보이도록 화면 높이에 맞춤 */
-    height: 100svh;
-    min-height: 560px;
-    max-height: 980px;
+    /* 상단 천국부터 하단 하늘까지 원래 이미지 비율(16:10) 그대로 하나도 잘리지 않게 전부 보여 준다 */
+    aspect-ratio: 16 / 10;
+    min-height: 100svh;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    padding: var(--title-top) 0 clamp(4rem, 8vh, 6.5rem);
+    justify-content: flex-start;
+    padding: 0;
     overflow: hidden;
-    /* 상단 따뜻한 천국 구름에서 시작해 맨 아래(#BBE4EF)가 2번째 섹션 골고다 하늘 맨 윗줄(#BBE4EF)과 정확히 맞닿음 */
-    background:
-        radial-gradient(60% 42% at 50% 18%, rgba(255, 248, 236, 0.96) 0%, rgba(255, 248, 236, 0) 100%),
-        linear-gradient(180deg, #FBF4E8 0%, #E5F2F8 42%, #C5E8F1 78%, #BBE4EF 100%);
+    background: #BBE4EF;
     color: var(--color-text-strong);
 }
 
@@ -115,13 +111,22 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* 하단 경계선을 2번째 골고다 섹션 상단 하늘과 1픽셀 오차 없이 맞닿게 고정 */
-    object-position: 50% bottom;
+    /* 상단 천국 성채가 절대 잘리지 않도록 top 기준 고정 */
+    object-position: 50% top;
     pointer-events: none;
     user-select: none;
 }
 
+/* 이미지 전체 높이는 원래대로 길게 다 보여주되, 타이틀은 처음 진입한 첫 화면(100svh) 하단 위치에 오도록 고정 */
 .heroContent {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-top: var(--title-top);
+    padding-bottom: clamp(4rem, 8vh, 6.5rem);
     text-align: center;
 }
 
@@ -766,11 +771,15 @@
         --r-card: 24px;
     }
 
-    /* 휴대폰에서도 첫 화면(100svh) 안에 상단 일러스트와 하단 타이틀이 한눈에 들어오게 */
+    /* 휴대폰에서도 모바일 이미지(3:5) 전체 높이를 다 보여주되 타이틀은 첫 화면(100svh) 하단에 배치 */
     .hero {
-        height: 100svh;
-        min-height: 540px;
-        padding: var(--title-top) 0 clamp(3.5rem, 7vh, 5rem);
+        aspect-ratio: 3 / 5;
+        min-height: 100svh;
+        padding: 0;
+    }
+
+    .heroContent {
+        padding-bottom: clamp(3.5rem, 7vh, 5rem);
     }
 
     /* 세로형(3:5) 모바일 골고다 이미지에 맞춰 상단 십자가·언덕 능선을 비워 두고 하단 초록 언덕에만 글씨 배치 */
