@@ -562,6 +562,39 @@
     pointer-events: none;
 }
 
+/* 여러 줄 입력칸(textarea)용 스프링 캐럿: 줄바꿈 포함 가로·세로 위치를 미러 요소로 잰다 */
+.smoothTextareaWrap {
+    position: relative;
+}
+
+.smoothTextarea {
+    display: block;
+    caret-color: transparent;
+}
+
+.smoothTextareaMirror {
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    visibility: hidden;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    pointer-events: none;
+}
+
+.smoothTextareaCaret {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 1.15em;
+    border-radius: 1px;
+    background: var(--color-text-strong);
+    pointer-events: none;
+}
+
 .count {
     display: block;
     margin-top: 0.375rem;

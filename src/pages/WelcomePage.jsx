@@ -218,6 +218,148 @@ const SmoothInput = React.forwardRef(({ value = '', onChange, onFocus, onBlur, .
     );
 });
 
+// 여러 줄 입력칸(textarea)용 스프링 캐럿: 미러 요소로 줄바꿈 포함 가로(x)·세로(y) 좌표를 구해 부드럽게 이동
+const SmoothTextarea = ({ value = '', onChange, onFocus, onBlur, ...props }) => {
+    const caretX = useMotionValue(0);
+    const caretY = useMotionValue(0);
+    const caretOpacity = useMotionValue(0);
+    const containerRef = useRef(null);
+    const textareaRef = useRef(null);
+    const mirrorRef = useRef(null);
+    const textNodeRef = useRef(null);
+    const markerRef = useRef(null);
+    const reduceMotion = useReducedMotion();
+
+    const springCfg = reduceMotion ? CARET_REDUCED : CARET_SPRING;
+    const springCaretX = useSpring(caretX, springCfg);
+    const springCaretY = useSpring(caretY, springCfg);
+
+    const updateCaretFromTextarea = useCallback((target) => {
+        const mirror = mirrorRef.current;
+        const textNode = textNodeRef.current;
+        const marker = markerRef.current;
+        if (!target || !mirror || !textNode || !marker) return;
+
+        const styles = window.getComputedStyle(target);
+        mirror.style.width = `${target.clientWidth}px`;
+        mirror.style.padding = styles.padding;
+        mirror.style.font = `${styles.fontStyle} ${styles.fontWeight} ${styles.fontSize} ${styles.fontFamily}`;
+        mirror.style.lineHeight = styles.lineHeight;
+        mirror.style.letterSpacing = styles.letterSpacing;
+        mirror.style.fontFeatureSettings = styles.fontFeatureSettings;
+        mirror.style.fontVariationSettings = styles.fontVariationSettings;
+
+        const selectionStart = target.selectionStart ?? 0;
+        const selectionEnd = target.selectionEnd ?? 0;
+        const hasSelection = selectionStart !== selectionEnd;
+        const caretIndex = selectionStart === selectionEnd
+            ? selectionStart
+            : (target.selectionDirection === 'backward' ? selectionStart : selectionEnd);
+
+        textNode.textContent = (target.value || '').slice(0, caretIndex);
+
+        const paddingTop = parseFloat(styles.paddingTop) || 0;
+        const paddingBottom = parseFloat(styles.paddingBottom) || 0;
+        const lineHeight = parseFloat(styles.lineHeight) || (parseFloat(styles.fontSize) * 1.6) || 25.6;
+        const caretHeight = (parseFloat(styles.fontSize) || 16) * 1.15;
+
+        const x = marker.offsetLeft - target.scrollLeft;
+        const y = marker.offsetTop - target.scrollTop + (lineHeight - caretHeight) / 2;
+
+        const minY = paddingTop - 4;
+        const maxY = target.clientHeight - paddingBottom - caretHeight + 4;
+        const isCaretVisible = y >= minY && y <= maxY;
+
+        caretX.set(x);
+        caretY.set(y);
+        caretOpacity.set(!isCaretVisible || hasSelection ? 0 : 1);
+    }, [caretX, caretY, caretOpacity]);
+
+    const updateCaretRef = useRef(updateCaretFromTextarea);
+    updateCaretRef.current = updateCaretFromTextarea;
+
+    useEffect(() => {
+        const textarea = textareaRef.current;
+        if (textarea && document.activeElement === textarea) {
+            updateCaretRef.current(textarea);
+        }
+    }, [value]);
+
+    useEffect(() => {
+        const textarea = textareaRef.current;
+        const container = containerRef.current;
+        if (!textarea || !container) return undefined;
+
+        const updateCaretIfFocused = () => {
+            if (document.activeElement === textarea) {
+                updateCaretRef.current(textarea);
+            }
+        };
+
+        const handleSelectionChange = () => {
+            if (document.activeElement !== textarea) return;
+            requestAnimationFrame(() => {
+                if (document.activeElement === textarea) {
+                    updateCaretRef.current(textarea);
+                }
+            });
+        };
+
+        document.addEventListener('selectionchange', handleSelectionChange);
+        document.fonts?.addEventListener?.('loadingdone', updateCaretIfFocused);
+        document.fonts?.ready?.then(updateCaretIfFocused);
+        textarea.addEventListener('scroll', updateCaretIfFocused);
+
+        const resizeObserver = new ResizeObserver(updateCaretIfFocused);
+        resizeObserver.observe(textarea);
+
+        updateCaretIfFocused();
+
+        return () => {
+            document.removeEventListener('selectionchange', handleSelectionChange);
+            document.fonts?.removeEventListener?.('loadingdone', updateCaretIfFocused);
+            textarea.removeEventListener('scroll', updateCaretIfFocused);
+            resizeObserver.disconnect();
+        };
+    }, []);
+
+    return (
+        <div ref={containerRef} className={styles.smoothTextareaWrap}>
+            <textarea
+                {...props}
+                ref={textareaRef}
+                className={styles.smoothTextarea}
+                value={value}
+                onChange={(e) => {
+                    onChange?.(e);
+                    requestAnimationFrame(() => {
+                        updateCaretRef.current(e.target);
+                    });
+                }}
+                onFocus={(e) => {
+                    requestAnimationFrame(() => {
+                        updateCaretRef.current(e.target);
+                    });
+                    onFocus?.(e);
+                }}
+                onBlur={(e) => {
+                    caretOpacity.set(0);
+                    onBlur?.(e);
+                }}
+            />
+            <div ref={mirrorRef} aria-hidden="true" className={styles.smoothTextareaMirror}>
+                <span ref={textNodeRef} />
+                <span ref={markerRef}>&#8203;</span>
+            </div>
+            <motion.span
+                aria-hidden="true"
+                className={styles.smoothTextareaCaret}
+                style={{ x: springCaretX, y: springCaretY, opacity: caretOpacity }}
+            />
+        </div>
+    );
+};
+
 // ④ 문의 팝업: 이름·받을 연락처·궁금한 점 → 새가족팀 메일 (functions/api/newcomer-inquiry.js)
 const InquiryDialog = ({ onClose }) => {
     const [form, setForm] = useState(EMPTY_FORM);
@@ -287,7 +429,7 @@ const InquiryDialog = ({ onClose }) => {
                             </div>
                             <div className={styles.field}>
                                 <label htmlFor="inquiry-question">궁금한 점 <small>비워 두셔도 돼요</small></label>
-                                <textarea id="inquiry-question" maxLength={INQUIRY_LIMITS.question} aria-describedby="inquiry-count" value={form.question} onChange={change('question')} />
+                                <SmoothTextarea id="inquiry-question" maxLength={INQUIRY_LIMITS.question} aria-describedby="inquiry-count" value={form.question} onChange={change('question')} />
                                 <span id="inquiry-count" className={styles.count}>{form.question.length} / {INQUIRY_LIMITS.question}자</span>
                             </div>
                             {/* 사람에게는 보이지 않는 칸: 채워져 오면 자동 등록 프로그램으로 본다 */}
