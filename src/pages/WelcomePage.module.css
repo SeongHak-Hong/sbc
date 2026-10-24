@@ -367,9 +367,11 @@
     pointer-events: none;
 }
 
-/* 글은 왼쪽 위 초록 영역에만 — 오른쪽 인물·가운데 봉투와 겹치지 않는 폭 */
+/* 글은 왼쪽 위 초록 영역에만 — 오른쪽 인물·가운데 봉투와 겹치지 않는 폭 (글씨 크기는 ②섹션과 동일) */
 .receivedContent .statement {
     max-width: 600px;
+    font-size: clamp(1.375rem, 2.5vw, 2rem);
+    line-height: 1.5;
     color: var(--color-white);
 }
 
@@ -864,6 +866,11 @@
         aspect-ratio: 3 / 5;
         min-height: 600px;
         padding-top: var(--pad-sec);
+    }
+
+    .receivedContent .statement {
+        font-size: 1.25rem;
+        line-height: 1.55;
     }
 
     .navWrap {
