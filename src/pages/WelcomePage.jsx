@@ -578,6 +578,7 @@ const WelcomePage = () => {
                         as="p"
                         className={styles.golgothaStatement}
                         lines={[
+                            { text: '초대장은 바로 예수님이에요.' },
                             { text: '예수님이 우리 대신 십자가를 지시고 다시 살아나셔서,' },
                             { text: '누구에게나 죄 사함과 새로운 생명의 길을 열어 주셨어요.' },
                             { text: '이 기쁜 소식을 복음이라고 불러요.', span: true },
