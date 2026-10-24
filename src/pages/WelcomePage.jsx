@@ -468,16 +468,40 @@ const WelcomePage = () => {
     const heroRef = useRef(null);
     const askButtonRef = useRef(null);
 
-    // 스크롤 시 타이포그래피가 배경보다 살짝 느리게 움직이며 하늘에 떠 있는 깊이감을 주는 약한 패럴랙스 (0 -> 40px)
+    // 패럴랙스 실시간 강도 및 방향 조절 상태 (기본값: 스크롤 시 위로 부유하는 -120px)
+    const [parallaxDist, setParallaxDist] = useState(-120);
+    const [enableMouse, setEnableMouse] = useState(false);
+
     const { scrollYProgress: heroProgress } = useScroll({
         target: heroRef,
         offset: ['start start', 'end start'],
     });
-    const typoParallaxY = useTransform(
+    const scrollParallaxY = useTransform(
         heroProgress,
         [0, 1],
-        reduceMotion ? [0, 0] : [0, 40]
+        reduceMotion ? [0, 0] : [0, parallaxDist]
     );
+
+    // 마우스 커서 반응용 스프링 모션
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+    const smoothMouseX = useSpring(mouseX, { stiffness: 120, damping: 18 });
+    const smoothMouseY = useSpring(mouseY, { stiffness: 120, damping: 18 });
+
+    const handleHeroMouseMove = useCallback((e) => {
+        if (!enableMouse || reduceMotion) return;
+        const rect = heroRef.current?.getBoundingClientRect();
+        if (!rect) return;
+        const x = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
+        const y = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
+        mouseX.set(x * 16);
+        mouseY.set(y * 12);
+    }, [enableMouse, reduceMotion, mouseX, mouseY]);
+
+    const handleHeroMouseLeave = useCallback(() => {
+        mouseX.set(0);
+        mouseY.set(0);
+    }, [mouseX, mouseY]);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -509,14 +533,14 @@ const WelcomePage = () => {
     return (
         <div className={styles.page}>
             {/* ① 첫 화면: 2번째 섹션과 같은 100vw 전체 폭 동화 장면 — 상단 천국 + 중앙 날개 달린 초대장 + 편지지 아래 서두 문구 */}
-            <section ref={heroRef} className={styles.hero} aria-label="천국 초대장">
+            <section ref={heroRef} className={styles.hero} aria-label="천국 초대장" onMouseMove={handleHeroMouseMove} onMouseLeave={handleHeroMouseLeave}>
                 <picture className={styles.heroPic}>
                     <source media="(max-width: 767px)" srcSet={heavenInvitationMobile} />
                     <img className={styles.heroBg} src={heavenInvitation} alt="" fetchPriority="high" />
                 </picture>
                 <div className={`${styles.wrap} ${styles.heroContent}`}>
-                    <motion.div className={styles.heroTitleWrap} style={{ y: typoParallaxY }}>
-                        <motion.h1 className={styles.heroTitle} {...reveal}>
+                    <motion.div className={styles.heroTitleWrap} style={{ y: scrollParallaxY }}>
+                        <motion.h1 className={styles.heroTitle} {...reveal} style={enableMouse ? { x: smoothMouseX, y: smoothMouseY } : undefined}>
                             <span className={styles.srOnly}>천국에서 온 초대장</span>
                             <img
                                 className={styles.heroTitleImg}
