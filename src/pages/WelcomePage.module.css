@@ -138,12 +138,29 @@
 
 .heroTitle {
     margin: 0 auto;
-    max-width: 760px;
-    font-size: var(--t-display);
-    font-weight: 500;
-    line-height: 1.25;
-    letter-spacing: -0.035em;
-    color: var(--color-text-strong);
+    display: flex;
+    justify-content: center;
+}
+
+.heroTitleImg {
+    display: block;
+    width: clamp(260px, 24vw, 360px);
+    height: auto;
+    object-fit: contain;
+    pointer-events: none;
+    user-select: none;
+}
+
+.srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 /* 하단 편지지 아래 맑은 하늘 영역 (② 골고다 십자가로 이어지는 서두 문구) */
@@ -875,7 +892,11 @@
     }
 
     .heroTitleWrap {
-        padding-top: clamp(5.5rem, 20vw, 8.5rem);
+        padding-top: clamp(4.5rem, 18vw, 7.5rem);
+    }
+
+    .heroTitleImg {
+        width: clamp(190px, 56vw, 250px);
     }
 
     .heroIntroWrap {

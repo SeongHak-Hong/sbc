@@ -16,6 +16,7 @@ import envFlapClosed from '../assets/newcomer/shintanjin-baptist-church-newcomer
 import envHeart from '../assets/newcomer/shintanjin-baptist-church-newcomer-envelope-heart.webp';
 import heavenInvitation from '../assets/newcomer/shintanjin-baptist-church-newcomer-heaven-invitation.webp';
 import heavenInvitationMobile from '../assets/newcomer/shintanjin-baptist-church-newcomer-heaven-invitation-mobile.webp';
+import heroTitleTypography from '../assets/newcomer/shintanjin-baptist-church-newcomer-heaven-invitation-title.webp';
 import golgothaCross from '../assets/newcomer/shintanjin-baptist-church-newcomer-golgotha-cross.webp';
 import golgothaCrossMobile from '../assets/newcomer/shintanjin-baptist-church-newcomer-golgotha-cross-mobile.webp';
 import receivedInvitation from '../assets/newcomer/shintanjin-baptist-church-newcomer-received-invitation.webp';
@@ -504,7 +505,15 @@ const WelcomePage = () => {
                 <div className={`${styles.wrap} ${styles.heroContent}`}>
                     <div className={styles.heroTitleWrap}>
                         <motion.h1 className={styles.heroTitle} {...reveal}>
-                            당신을 향한 기쁜 소식,<br />이곳에 준비되어 있어요.
+                            <span className={styles.srOnly}>천국에서 온 초대장</span>
+                            <img
+                                className={styles.heroTitleImg}
+                                src={heroTitleTypography}
+                                alt="천국에서 온 초대장"
+                                width={521}
+                                height={279}
+                                fetchPriority="high"
+                            />
                         </motion.h1>
                     </div>
                     <div className={styles.heroIntroWrap}>
