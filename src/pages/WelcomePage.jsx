@@ -512,7 +512,7 @@ const WelcomePage = () => {
                 <div className={`${styles.wrap} ${styles.golgothaContent}`}>
                     <motion.p className={styles.golgothaStatement} {...reveal}>
                         교회는 완벽한 사람들이 모이는 곳이 아니라,<br />우리를 구원하신 하나님의 사랑을 함께 알아가는 곳이에요.{' '}
-                        <span>예수님이 우리 대신 십자가를 지시고 다시 살아나셔서, 누구에게나 죄 사함과 새로운 생명의 길을 열어 주셨어요. 이 기쁜 소식을 복음이라고 불러요.</span>
+                        <span>예수님이 우리 대신 십자가를 지시고 다시 살아나셔서,<br />누구에게나 죄 사함과 새로운 생명의 길을 열어 주셨어요.<br />이 기쁜 소식을 복음이라고 불러요.</span>
                     </motion.p>
                 </div>
             </section>
