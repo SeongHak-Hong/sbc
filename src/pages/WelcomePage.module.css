@@ -160,7 +160,8 @@
 }
 
 .envFlapOpen {
-    transform-origin: 50% 100%;
+    /* 아래로 24px 연장한 이음새 치마(240 / 264)를 제외한 실제 접히는 선을 회전축으로 고정 */
+    transform-origin: 50% 90.909%;
     transform: rotateX(90deg);
     opacity: 0;
     transition: transform 0.28s var(--fold-in) 0.2s, opacity 0s linear 0.48s;
