@@ -79,31 +79,75 @@
     }
 }
 
-/* ---------- ① 첫 화면: 봉투 + 제목 ---------- */
+/* ---------- ① 첫 화면: 애플 교육 레퍼런스 스타일 (와이드 라운드 카드 하단부에 심볼 + 제목 + 환영 문구) ---------- */
 .hero {
-    padding: var(--title-top) 0 var(--pad-sec);
-    text-align: center;
+    padding: 6.5rem 0 var(--pad-sec);
 }
 
-.envWrap {
-    width: min(400px, 72vw);
-    margin: 0 auto;
+.heroCard {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    min-height: 540px;
+    border-radius: var(--r-card);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+    padding: 3.5rem 2rem 4rem;
+    /* 미드저니 배경이 들어갈 자리: 위쪽은 따뜻한 초대 일러스트, 아래쪽은 흰 글씨가 잘 읽히는 차분한 톤 */
+    background:
+        radial-gradient(65% 55% at 50% 32%, rgba(255, 232, 214, 0.95) 0%, rgba(255, 232, 214, 0) 70%),
+        linear-gradient(180deg, #7FB3F8 0%, #A9CEFF 42%, #4A6B8A 78%, #243B48 100%);
+    color: var(--color-white);
+}
+
+.heroCard::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(14, 26, 40, 0.58) 0%, rgba(14, 26, 40, 0.26) 42%, rgba(14, 26, 40, 0) 68%);
+}
+
+.heroCardBg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+}
+
+.heroBadge {
+    width: 52px;
+    height: auto;
+    margin-bottom: 1rem;
+    display: block;
+    pointer-events: none;
+    user-select: none;
 }
 
 .heroTitle {
-    margin: var(--space-head) 0 0;
-    font-size: var(--t-title);
+    margin: 0;
+    font-size: var(--t-display);
     font-weight: 500;
-    line-height: 1.25;
-    letter-spacing: -0.03em;
-    color: var(--color-text-strong);
+    line-height: 1.18;
+    letter-spacing: -0.035em;
+    color: var(--color-white);
 }
 
 .heroLead {
     max-width: 560px;
-    margin: 0.875rem auto 0;
-    font-size: var(--t-lead);
-    color: var(--color-text-tertiary);
+    margin: 1rem auto 0;
+    font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 /* 봉투: 조각 6장을 한 좌표계(758×715)에 % 로 겹친다.
@@ -728,6 +772,21 @@
 @media (max-width: 767px) {
     .page {
         --r-card: 24px;
+    }
+
+    .hero {
+        padding-top: 5rem;
+    }
+
+    .heroCard {
+        aspect-ratio: 4 / 5;
+        min-height: 460px;
+        padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .heroBadge {
+        width: 42px;
+        margin-bottom: 0.75rem;
     }
 
     /* 세로형(3:5) 모바일 골고다 이미지에 맞춰 상단 십자가·언덕 능선을 비워 두고 하단 초록 언덕에만 글씨 배치 */

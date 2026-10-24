@@ -492,18 +492,18 @@ const WelcomePage = () => {
         <div className={styles.page}>
             <PageTopGradient />
 
-            {/* ① 첫 화면: 열리는 편지 봉투 + 복음의 초대가 담긴 환영 제목 */}
+            {/* ① 첫 화면: 애플 교육 레퍼런스 스타일 — 와이드 라운드 카드 하단부에 심볼 + 제목 + 환영 문구 */}
             <section className={styles.hero}>
                 <div className={styles.wrap}>
-                    <motion.div className={styles.envWrap} {...reveal}>
-                        <Envelope />
+                    <motion.div className={styles.heroCard} {...reveal}>
+                        <img className={styles.heroBadge} src={envHeart} alt="" />
+                        <h1 className={styles.heroTitle}>
+                            당신을 향한 기쁜 소식,<br />이곳에 준비되어 있어요.
+                        </h1>
+                        <p className={styles.heroLead}>
+                            신탄진침례교회에 오신 여러분을 진심으로 환영해요.
+                        </p>
                     </motion.div>
-                    <motion.h1 className={styles.heroTitle} {...reveal}>
-                        당신을 향한 기쁜 소식,<br />이곳에 준비되어 있어요.
-                    </motion.h1>
-                    <motion.p className={styles.heroLead} {...reveal}>
-                        신탄진침례교회에 오신 여러분을 진심으로 환영해요.
-                    </motion.p>
                 </div>
             </section>
 
