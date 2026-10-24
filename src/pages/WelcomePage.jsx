@@ -13,6 +13,8 @@ import envLetter from '../assets/newcomer/shintanjin-baptist-church-newcomer-env
 import envPocket from '../assets/newcomer/shintanjin-baptist-church-newcomer-envelope-pocket.webp';
 import envFlapClosed from '../assets/newcomer/shintanjin-baptist-church-newcomer-envelope-flap-closed.webp';
 import envHeart from '../assets/newcomer/shintanjin-baptist-church-newcomer-envelope-heart.webp';
+import heavenInvitation from '../assets/newcomer/shintanjin-baptist-church-newcomer-heaven-invitation.webp';
+import heavenInvitationMobile from '../assets/newcomer/shintanjin-baptist-church-newcomer-heaven-invitation-mobile.webp';
 import golgothaCross from '../assets/newcomer/shintanjin-baptist-church-newcomer-golgotha-cross.webp';
 import golgothaCrossMobile from '../assets/newcomer/shintanjin-baptist-church-newcomer-golgotha-cross-mobile.webp';
 import step01 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-01-open-door.webp';
@@ -492,6 +494,10 @@ const WelcomePage = () => {
         <div className={styles.page}>
             {/* ① 첫 화면: 2번째 섹션과 같은 100vw 전체 폭 동화 장면 — 상단 천국 + 중앙 날개 달린 초대장 + 하단 타이틀·환영 문구 */}
             <section className={styles.hero}>
+                <picture className={styles.heroPic}>
+                    <source media="(max-width: 767px)" srcSet={heavenInvitationMobile} />
+                    <img className={styles.heroBg} src={heavenInvitation} alt="" fetchPriority="high" />
+                </picture>
                 <div className={`${styles.wrap} ${styles.heroContent}`}>
                     <motion.h1 className={styles.heroTitle} {...reveal}>
                         당신을 향한 기쁜 소식,<br />이곳에 준비되어 있어요.
