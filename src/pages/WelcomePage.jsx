@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
 import Footer from '../components/Footer';
 import PageTopGradient from '../components/PageTopGradient';
+import ScrollWordReveal from '../components/ui/ScrollWordReveal';
 import { INQUIRY_LIMITS, sendNewcomerInquiry } from '../lib/newcomerInquiry';
 import styles from './WelcomePage.module.css';
 
@@ -553,10 +554,15 @@ const WelcomePage = () => {
                         </motion.h1>
                     </motion.div>
                     <div className={styles.heroIntroWrap}>
-                        <motion.p className={styles.heroIntro} {...reveal}>
-                            천국은 원래 우리 힘으로는 갈 수 없는 곳이었어요.<br />
-                            <span>그래서 하나님이 먼저 길을 내시고, 초대장을 보내셨어요.</span>
-                        </motion.p>
+                        <ScrollWordReveal
+                            as="p"
+                            className={styles.heroIntro}
+                            lines={[
+                                { text: '천국은 원래 우리 힘으로는 갈 수 없는 곳이었어요.' },
+                                { text: '그래서 하나님이 먼저 길을 내시고, 초대장을 보내셨어요.', span: true },
+                            ]}
+                            offset={['start 90%', 'center 45%']}
+                        />
                     </div>
                 </div>
             </section>
@@ -568,11 +574,16 @@ const WelcomePage = () => {
                     <img className={styles.golgothaBg} src={golgothaCross} alt="" loading="lazy" />
                 </picture>
                 <div className={`${styles.wrap} ${styles.golgothaContent}`}>
-                    <motion.p className={styles.golgothaStatement} {...reveal}>
-                        예수님이 우리 대신 십자가를 지시고 다시 살아나셔서,{' '}<br />
-                        누구에게나 죄 사함과 새로운 생명의 길을 열어 주셨어요.{' '}<br />
-                        <span>이 기쁜 소식을 복음이라고 불러요.</span>
-                    </motion.p>
+                    <ScrollWordReveal
+                        as="p"
+                        className={styles.golgothaStatement}
+                        lines={[
+                            { text: '예수님이 우리 대신 십자가를 지시고 다시 살아나셔서,' },
+                            { text: '누구에게나 죄 사함과 새로운 생명의 길을 열어 주셨어요.' },
+                            { text: '이 기쁜 소식을 복음이라고 불러요.', span: true },
+                        ]}
+                        offset={['start 85%', 'start 40%']}
+                    />
                 </div>
             </section>
 
@@ -583,12 +594,17 @@ const WelcomePage = () => {
                     <img className={styles.receivedBg} src={receivedInvitation} alt="" loading="lazy" />
                 </picture>
                 <div className={`${styles.wrap} ${styles.receivedContent}`}>
-                    <motion.p className={styles.statement} {...reveal}>
-                        교회는 완벽한 사람들이 모이는 곳이 아니라,<br />
-                        우리를 구원하신 하나님의 사랑을 함께 알아가는 곳이에요.<br />
-                        처음이라 아직 낯설고 어렵게 느껴지셔도 괜찮아요.{' '}
-                        <span>교회 등록도 부담 갖지 않으셔도 돼요. 이곳에서 예배드리며 이 기쁜 소식을 천천히 들어 보시고, 마음이 편해지실 때 함께해요.</span>
-                    </motion.p>
+                    <ScrollWordReveal
+                        as="p"
+                        className={styles.statement}
+                        lines={[
+                            { text: '교회는 완벽한 사람들이 모이는 곳이 아니라,' },
+                            { text: '우리를 구원하신 하나님의 사랑을 함께 알아가는 곳이에요.' },
+                            { text: '처음이라 아직 낯설고 어렵게 느껴지셔도 괜찮아요.', br: false },
+                            { text: '교회 등록도 부담 갖지 않으셔도 돼요. 이곳에서 예배드리며 이 기쁜 소식을 천천히 들어 보시고, 마음이 편해지실 때 함께해요.', span: true },
+                        ]}
+                        offset={['start 85%', 'start 40%']}
+                    />
                     <motion.div {...reveal}>
                         <Link to="/guide" className={styles.guideLink}>
                             예배 시간·오시는 길 먼저 보기 <span aria-hidden="true">→</span>
