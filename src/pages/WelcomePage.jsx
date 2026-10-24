@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
-import { motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion';
+import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
 import Footer from '../components/Footer';
 import PageTopGradient from '../components/PageTopGradient';
 import { INQUIRY_LIMITS, sendNewcomerInquiry } from '../lib/newcomerInquiry';
@@ -465,7 +465,19 @@ const WelcomePage = () => {
     const reduceMotion = useReducedMotion();
     const railRef = useRef(null);
     const [asking, setAsking] = useState(false);
+    const heroRef = useRef(null);
     const askButtonRef = useRef(null);
+
+    // 스크롤 시 타이포그래피가 배경보다 살짝 느리게 움직이며 하늘에 떠 있는 깊이감을 주는 약한 패럴랙스 (0 -> 40px)
+    const { scrollYProgress: heroProgress } = useScroll({
+        target: heroRef,
+        offset: ['start start', 'end start'],
+    });
+    const typoParallaxY = useTransform(
+        heroProgress,
+        [0, 1],
+        reduceMotion ? [0, 0] : [0, 40]
+    );
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -497,13 +509,13 @@ const WelcomePage = () => {
     return (
         <div className={styles.page}>
             {/* ① 첫 화면: 2번째 섹션과 같은 100vw 전체 폭 동화 장면 — 상단 천국 + 중앙 날개 달린 초대장 + 편지지 아래 서두 문구 */}
-            <section className={styles.hero} aria-label="천국 초대장">
+            <section ref={heroRef} className={styles.hero} aria-label="천국 초대장">
                 <picture className={styles.heroPic}>
                     <source media="(max-width: 767px)" srcSet={heavenInvitationMobile} />
                     <img className={styles.heroBg} src={heavenInvitation} alt="" fetchPriority="high" />
                 </picture>
                 <div className={`${styles.wrap} ${styles.heroContent}`}>
-                    <div className={styles.heroTitleWrap}>
+                    <motion.div className={styles.heroTitleWrap} style={{ y: typoParallaxY }}>
                         <motion.h1 className={styles.heroTitle} {...reveal}>
                             <span className={styles.srOnly}>천국에서 온 초대장</span>
                             <img
@@ -515,7 +527,7 @@ const WelcomePage = () => {
                                 fetchPriority="high"
                             />
                         </motion.h1>
-                    </div>
+                    </motion.div>
                     <div className={styles.heroIntroWrap}>
                         <motion.p className={styles.heroIntro} {...reveal}>
                             천국은 원래 우리 힘으로는 갈 수 없는 곳이었어요.<br />

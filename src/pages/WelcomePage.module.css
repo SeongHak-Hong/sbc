@@ -134,6 +134,7 @@
 /* 상단 천국 성채 아래, 편지지 위 빛줄기 영역 */
 .heroTitleWrap {
     padding-top: clamp(12rem, 20.5vw, 19.5rem);
+    will-change: transform;
 }
 
 .heroTitle {
