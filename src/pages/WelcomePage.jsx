@@ -644,7 +644,7 @@ const WelcomePage = () => {
             <section className={`${styles.sec} ${styles.askSec}`} aria-labelledby="ask-title">
                 <div className={`${styles.wrap} ${styles.cta}`}>
                     <div>
-                        <h2 id="ask-title" className={styles.secTitle}>기쁜 잔치에 초대해요.<br />더 궁금한 점이 있으세요?</h2>
+                        <h2 id="ask-title" className={styles.secTitle}>기쁜 잔치에 함께해요.<br />더 궁금한 점이 있으세요?</h2>
                         <p className={styles.lead}>교회 생활이나 복음에 대해 궁금한 점을 편하게 남겨 주세요. 새가족팀이 기쁜 마음으로 답장을 보내 드려요.</p>
                         <button ref={askButtonRef} type="button" className={styles.btn} aria-haspopup="dialog" onClick={() => setAsking(true)}>
                             새가족 등록 문의하기
