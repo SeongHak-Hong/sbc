@@ -901,7 +901,7 @@
     }
 
     .heroIntroWrap {
-        padding-bottom: clamp(3rem, 7vh, 5rem);
+        padding-bottom: clamp(7.5rem, 22vh, 14rem);
     }
 
     .heroIntro {
