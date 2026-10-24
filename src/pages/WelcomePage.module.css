@@ -117,31 +117,54 @@
     user-select: none;
 }
 
-/* 이미지 전체 높이는 원래대로 길게 다 보여주되, 타이틀은 처음 진입한 첫 화면(100svh) 하단 위치에 오도록 고정 */
+/* 이미지 전체 높이(16:10) 안에서 상단(천국과 편지지 사이)에 타이틀, 하단(편지지 아래 하늘)에 서두 문구 배치 */
 .heroContent {
     box-sizing: border-box;
     width: 100%;
+    height: 100%;
     min-height: 100svh;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    padding-top: var(--title-top);
-    padding-bottom: clamp(4rem, 8vh, 6.5rem);
-    text-align: left;
+    justify-content: space-between;
+    padding-top: 0;
+    padding-bottom: 0;
+    text-align: center;
+}
+
+/* 상단 천국 성채 아래, 편지지 위 빛줄기 영역 */
+.heroTitleWrap {
+    padding-top: clamp(6.5rem, 13vw, 11rem);
 }
 
 .heroTitle {
-    margin: 0;
+    margin: 0 auto;
+    max-width: 760px;
     font-size: var(--t-display);
     font-weight: 500;
-    line-height: 1.2;
+    line-height: 1.25;
     letter-spacing: -0.035em;
     color: var(--color-text-strong);
 }
 
-/* 봉투: 조각 6장을 한 좌표계(758×715)에 % 로 겹친다.
-   이징·지연 값과 열린 덮개 top 0.42% 는 사용자 피드백(버벅임·틈·멈춤)으로 고친 값이라 바꾸지 말 것.
-   회전하는 조각에 filter(drop-shadow) 금지 — 매 프레임 다시 그려서 버벅인다 */
+/* 하단 편지지 아래 맑은 하늘 영역 (② 골고다 십자가로 이어지는 서두 문구) */
+.heroIntroWrap {
+    padding-bottom: clamp(3.5rem, 6vw, 6rem);
+}
+
+.heroIntro {
+    margin: 0 auto;
+    max-width: 720px;
+    font-size: clamp(1.375rem, 2.5vw, 2rem);
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: -0.03em;
+    color: var(--color-text-strong);
+}
+
+.heroIntro span {
+    color: var(--color-text-secondary, #48484A);
+}
+
 .env {
     --fold-in: cubic-bezier(0.55, 0, 1, 0.45);
     --fold-out: cubic-bezier(0, 0.55, 0.45, 1);
@@ -331,7 +354,7 @@
     width: 100%;
     aspect-ratio: 16 / 10;
     min-height: 540px;
-    padding: clamp(4rem, 7vw, 7.5rem) 0 0;
+    padding: clamp(2.5rem, 4.5vw, 4.5rem) 0 0;
     overflow: hidden;
     background: #065152; /* 이미지가 뜨기 전에도 ②와 같은 초록으로 이어지게 */
     color: var(--color-white);
@@ -846,7 +869,20 @@
     }
 
     .heroContent {
-        padding-bottom: clamp(3.5rem, 7vh, 5rem);
+        padding-bottom: 0;
+    }
+
+    .heroTitleWrap {
+        padding-top: clamp(5.5rem, 20vw, 8.5rem);
+    }
+
+    .heroIntroWrap {
+        padding-bottom: clamp(3rem, 7vh, 5rem);
+    }
+
+    .heroIntro {
+        font-size: 1.25rem;
+        line-height: 1.55;
     }
 
     /* 세로형(3:5) 모바일 골고다 이미지에 맞춰 상단 십자가·언덕 능선을 비워 두고 하단 초록 언덕에만 글씨 배치 */

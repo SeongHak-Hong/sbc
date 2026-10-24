@@ -495,16 +495,24 @@ const WelcomePage = () => {
 
     return (
         <div className={styles.page}>
-            {/* ① 첫 화면: 2번째 섹션과 같은 100vw 전체 폭 동화 장면 — 상단 천국 + 중앙 날개 달린 초대장 + 하단 타이틀·환영 문구 */}
-            <section className={styles.hero}>
+            {/* ① 첫 화면: 2번째 섹션과 같은 100vw 전체 폭 동화 장면 — 상단 천국 + 중앙 날개 달린 초대장 + 편지지 아래 서두 문구 */}
+            <section className={styles.hero} aria-label="천국 초대장">
                 <picture className={styles.heroPic}>
                     <source media="(max-width: 767px)" srcSet={heavenInvitationMobile} />
                     <img className={styles.heroBg} src={heavenInvitation} alt="" fetchPriority="high" />
                 </picture>
                 <div className={`${styles.wrap} ${styles.heroContent}`}>
-                    <motion.h1 className={styles.heroTitle} {...reveal}>
-                        당신을 향한 기쁜 소식,<br />이곳에 준비되어 있어요.
-                    </motion.h1>
+                    <div className={styles.heroTitleWrap}>
+                        <motion.h1 className={styles.heroTitle} {...reveal}>
+                            당신을 향한 기쁜 소식,<br />이곳에 준비되어 있어요.
+                        </motion.h1>
+                    </div>
+                    <div className={styles.heroIntroWrap}>
+                        <motion.p className={styles.heroIntro} {...reveal}>
+                            천국은 원래 우리 힘으로는 갈 수 없는 곳이었어요.<br />
+                            <span>그래서 하나님이 먼저 길을 내시고, 초대장을 보내셨어요.</span>
+                        </motion.p>
+                    </div>
                 </div>
             </section>
 
@@ -516,8 +524,9 @@ const WelcomePage = () => {
                 </picture>
                 <div className={`${styles.wrap} ${styles.golgothaContent}`}>
                     <motion.p className={styles.golgothaStatement} {...reveal}>
-                        교회는 완벽한 사람들이 모이는 곳이 아니라,<br />우리를 구원하신 하나님의 사랑을 함께 알아가는 곳이에요.{' '}
-                        <span>예수님이 우리 대신 십자가를 지시고 다시 살아나셔서,<br />누구에게나 죄 사함과 새로운 생명의 길을 열어 주셨어요.<br />이 기쁜 소식을 복음이라고 불러요.</span>
+                        예수님이 우리 대신 십자가를 지시고 다시 살아나셔서,<br />
+                        누구에게나 죄 사함과 새로운 생명의 길을 열어 주셨어요.<br />
+                        <span>이 기쁜 소식을 복음이라고 불러요.</span>
                     </motion.p>
                 </div>
             </section>
@@ -530,6 +539,8 @@ const WelcomePage = () => {
                 </picture>
                 <div className={`${styles.wrap} ${styles.receivedContent}`}>
                     <motion.p className={styles.statement} {...reveal}>
+                        교회는 완벽한 사람들이 모이는 곳이 아니라,<br />
+                        우리를 구원하신 하나님의 사랑을 함께 알아가는 곳이에요.<br />
                         처음이라 아직 낯설고 어렵게 느껴지셔도 괜찮아요.{' '}
                         <span>교회 등록도 부담 갖지 않으셔도 돼요. 이곳에서 예배드리며 이 기쁜 소식을 천천히 들어 보시고, 마음이 편해지실 때 함께해요.</span>
                     </motion.p>
