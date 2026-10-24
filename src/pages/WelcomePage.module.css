@@ -148,7 +148,7 @@
 
 /* 하단 편지지 아래 맑은 하늘 영역 (② 골고다 십자가로 이어지는 서두 문구) */
 .heroIntroWrap {
-    padding-bottom: clamp(3.5rem, 6vw, 6rem);
+    padding-bottom: 0;
 }
 
 .heroIntro {
