@@ -14,6 +14,7 @@ import envPocket from '../assets/newcomer/shintanjin-baptist-church-newcomer-env
 import envFlapClosed from '../assets/newcomer/shintanjin-baptist-church-newcomer-envelope-flap-closed.webp';
 import envHeart from '../assets/newcomer/shintanjin-baptist-church-newcomer-envelope-heart.webp';
 import golgothaCross from '../assets/newcomer/shintanjin-baptist-church-newcomer-golgotha-cross.webp';
+import golgothaCrossMobile from '../assets/newcomer/shintanjin-baptist-church-newcomer-golgotha-cross-mobile.webp';
 import step01 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-01-open-door.webp';
 import step02 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-02-bible-sprout.webp';
 import step03 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-03-neighbor-houses.webp';
@@ -508,7 +509,10 @@ const WelcomePage = () => {
 
             {/* ② 복음 소개: 100vw 골고다 언덕 십자가 배경 위 예수님의 구속사역 문단 */}
             <section className={styles.golgothaSec} aria-label="복음 소개">
-                <img className={styles.golgothaBg} src={golgothaCross} alt="" loading="lazy" />
+                <picture className={styles.golgothaPic}>
+                    <source media="(max-width: 767px)" srcSet={golgothaCrossMobile} />
+                    <img className={styles.golgothaBg} src={golgothaCross} alt="" loading="lazy" />
+                </picture>
                 <div className={`${styles.wrap} ${styles.golgothaContent}`}>
                     <motion.p className={styles.golgothaStatement} {...reveal}>
                         교회는 완벽한 사람들이 모이는 곳이 아니라,<br />우리를 구원하신 하나님의 사랑을 함께 알아가는 곳이에요.{' '}

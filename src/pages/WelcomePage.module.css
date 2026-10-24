@@ -235,6 +235,14 @@
     color: var(--color-white);
 }
 
+.golgothaPic {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    display: block;
+    pointer-events: none;
+}
+
 .golgothaBg {
     position: absolute;
     inset: 0;
@@ -720,6 +728,18 @@
 @media (max-width: 767px) {
     .page {
         --r-card: 24px;
+    }
+
+    /* 세로형(3:5) 모바일 골고다 이미지에 맞춰 상단 십자가·언덕 능선을 비워 두고 하단 초록 언덕에만 글씨 배치 */
+    .golgothaSec {
+        aspect-ratio: 3 / 5;
+        min-height: 600px;
+        padding: clamp(19rem, 84vw, 24rem) 0 var(--pad-sec);
+    }
+
+    .golgothaStatement {
+        font-size: 1.25rem;
+        line-height: 1.55;
     }
 
     .navWrap {
