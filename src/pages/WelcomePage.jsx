@@ -502,9 +502,6 @@ const WelcomePage = () => {
                     <motion.h1 className={styles.heroTitle} {...reveal}>
                         당신을 향한 기쁜 소식,<br />이곳에 준비되어 있어요.
                     </motion.h1>
-                    <motion.p className={styles.heroLead} {...reveal}>
-                        신탄진침례교회에 오신 여러분을 진심으로 환영해요.
-                    </motion.p>
                 </div>
             </section>
 
