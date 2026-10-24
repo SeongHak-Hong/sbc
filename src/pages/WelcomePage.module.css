@@ -332,14 +332,14 @@
 /* 하단 음영 오버레이는 두지 않음 — 이미지 맨 아래 색(#065152)이 ③ 배경 맨 위 색과 그대로 이어지도록 */
 
 .golgothaContent {
-    text-align: right;
+    text-align: center;
 }
 
 .golgothaStatement {
     max-width: 780px;
-    margin: 0 0 0 auto;
+    margin: 0 auto;
     padding-bottom: clamp(3.5rem, 6vw, 7rem);
-    text-align: right;
+    text-align: center;
     font-size: clamp(1.375rem, 2.5vw, 2rem);
     font-weight: 500;
     line-height: 1.5;
