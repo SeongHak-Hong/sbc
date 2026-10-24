@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion';
 import Footer from '../components/Footer';
 import PageTopGradient from '../components/PageTopGradient';
 import { INQUIRY_LIMITS, sendNewcomerInquiry } from '../lib/newcomerInquiry';
@@ -71,6 +71,153 @@ const Envelope = () => {
     );
 };
 
+// 부드럽게 따라오는 스프링 캐럿 입력칸 (디자인은 그대로 두고 캐럿 이동만 스프링 물리 적용)
+const CARET_SPRING = { stiffness: 500, damping: 30, mass: 0.5 };
+const CARET_REDUCED = { stiffness: 10000, damping: 100, mass: 0.1 };
+
+const SmoothInput = React.forwardRef(({ value = '', onChange, onFocus, onBlur, ...props }, forwardedRef) => {
+    const caretX = useMotionValue(0);
+    const caretOpacity = useMotionValue(0);
+    const containerRef = useRef(null);
+    const inputRef = useRef(null);
+    const measureRef = useRef(null);
+    const reduceMotion = useReducedMotion();
+
+    const springCaretX = useSpring(caretX, reduceMotion ? CARET_REDUCED : CARET_SPRING);
+
+    const setRefs = useCallback((node) => {
+        inputRef.current = node;
+        if (typeof forwardedRef === 'function') forwardedRef(node);
+        else if (forwardedRef) forwardedRef.current = node;
+    }, [forwardedRef]);
+
+    const updateCaretFromInput = useCallback((target) => {
+        const measureSpan = measureRef.current;
+        if (!target || !measureSpan) return;
+
+        const styles = window.getComputedStyle(target);
+        measureSpan.style.font = `${styles.fontStyle} ${styles.fontWeight} ${styles.fontSize} ${styles.fontFamily}`;
+        measureSpan.style.letterSpacing = styles.letterSpacing;
+        measureSpan.style.fontFeatureSettings = styles.fontFeatureSettings;
+        measureSpan.style.fontVariationSettings = styles.fontVariationSettings;
+
+        const selectionStart = target.selectionStart ?? 0;
+        const selectionEnd = target.selectionEnd ?? 0;
+        const hasSelection = selectionStart !== selectionEnd;
+        const caretIndex = selectionStart === selectionEnd
+            ? selectionStart
+            : (target.selectionDirection === 'backward' ? selectionStart : selectionEnd);
+
+        const textBeforeCaret = (target.value || '').slice(0, caretIndex);
+        measureSpan.textContent = textBeforeCaret;
+
+        const paddingLeft = parseFloat(styles.paddingLeft) || 0;
+        const paddingRight = parseFloat(styles.paddingRight) || 0;
+        const absoluteWidth = textBeforeCaret.length > 0
+            ? measureSpan.offsetWidth + paddingLeft
+            : paddingLeft;
+
+        const maxScroll = Math.max(0, target.scrollWidth - target.clientWidth);
+        const visibleRight = target.scrollLeft + target.clientWidth - paddingRight;
+        const visibleLeft = target.scrollLeft + paddingLeft;
+
+        if (absoluteWidth > visibleRight) {
+            target.scrollLeft = Math.min(absoluteWidth - target.clientWidth + paddingRight, maxScroll);
+        } else if (absoluteWidth < visibleLeft) {
+            target.scrollLeft = Math.max(0, absoluteWidth - paddingLeft);
+        }
+
+        const caretPosition = absoluteWidth - target.scrollLeft;
+        const minX = paddingLeft - 1;
+        const maxX = target.clientWidth - paddingRight;
+        const isCaretVisible = caretPosition >= minX && caretPosition <= maxX + 1;
+
+        caretX.set(Math.min(caretPosition, maxX));
+        caretOpacity.set(!isCaretVisible || hasSelection ? 0 : 1);
+    }, [caretX, caretOpacity]);
+
+    const updateCaretRef = useRef(updateCaretFromInput);
+    updateCaretRef.current = updateCaretFromInput;
+
+    useEffect(() => {
+        const input = inputRef.current;
+        if (input && document.activeElement === input) {
+            updateCaretRef.current(input);
+        }
+    }, [value]);
+
+    useEffect(() => {
+        const input = inputRef.current;
+        const container = containerRef.current;
+        if (!input || !container) return undefined;
+
+        const updateCaretIfFocused = () => {
+            if (document.activeElement === input) {
+                updateCaretRef.current(input);
+            }
+        };
+
+        const handleSelectionChange = () => {
+            if (document.activeElement !== input) return;
+            requestAnimationFrame(() => {
+                if (document.activeElement === input) {
+                    updateCaretRef.current(input);
+                }
+            });
+        };
+
+        document.addEventListener('selectionchange', handleSelectionChange);
+        document.fonts?.addEventListener?.('loadingdone', updateCaretIfFocused);
+        document.fonts?.ready?.then(updateCaretIfFocused);
+        input.addEventListener('scroll', updateCaretIfFocused);
+
+        const resizeObserver = new ResizeObserver(updateCaretIfFocused);
+        resizeObserver.observe(container);
+
+        updateCaretIfFocused();
+
+        return () => {
+            document.removeEventListener('selectionchange', handleSelectionChange);
+            document.fonts?.removeEventListener?.('loadingdone', updateCaretIfFocused);
+            input.removeEventListener('scroll', updateCaretIfFocused);
+            resizeObserver.disconnect();
+        };
+    }, []);
+
+    return (
+        <div ref={containerRef} className={styles.smoothWrap}>
+            <input
+                {...props}
+                ref={setRefs}
+                className={styles.smoothInput}
+                value={value}
+                onChange={(e) => {
+                    onChange?.(e);
+                    requestAnimationFrame(() => {
+                        updateCaretRef.current(e.target);
+                    });
+                }}
+                onFocus={(e) => {
+                    requestAnimationFrame(() => {
+                        updateCaretRef.current(e.target);
+                    });
+                    onFocus?.(e);
+                }}
+                onBlur={(e) => {
+                    caretOpacity.set(0);
+                    onBlur?.(e);
+                }}
+            />
+            <span ref={measureRef} aria-hidden="true" className={styles.smoothMeasure} />
+            <motion.span
+                aria-hidden="true"
+                className={styles.smoothCaret}
+                style={{ x: springCaretX, opacity: caretOpacity }}
+            />
+        </div>
+    );
+});
+
 // ④ 문의 팝업: 이름·받을 연락처·궁금한 점 → 새가족팀 메일 (functions/api/newcomer-inquiry.js)
 const InquiryDialog = ({ onClose }) => {
     const [form, setForm] = useState(EMPTY_FORM);
@@ -132,11 +279,11 @@ const InquiryDialog = ({ onClose }) => {
                         <form onSubmit={submit} noValidate>
                             <div className={styles.field}>
                                 <label htmlFor="inquiry-name">이름</label>
-                                <input ref={nameRef} id="inquiry-name" type="text" autoComplete="name" maxLength={INQUIRY_LIMITS.name} required value={form.name} onChange={change('name')} />
+                                <SmoothInput ref={nameRef} id="inquiry-name" type="text" autoComplete="name" maxLength={INQUIRY_LIMITS.name} required value={form.name} onChange={change('name')} />
                             </div>
                             <div className={styles.field}>
                                 <label htmlFor="inquiry-contact">받을 연락처 <small>전화번호나 이메일</small></label>
-                                <input id="inquiry-contact" type="text" autoComplete="tel" maxLength={INQUIRY_LIMITS.contact} required value={form.contact} onChange={change('contact')} />
+                                <SmoothInput id="inquiry-contact" type="text" autoComplete="tel" maxLength={INQUIRY_LIMITS.contact} required value={form.contact} onChange={change('contact')} />
                             </div>
                             <div className={styles.field}>
                                 <label htmlFor="inquiry-question">궁금한 점 <small>비워 두셔도 돼요</small></label>
