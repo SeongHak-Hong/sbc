@@ -767,8 +767,26 @@
         gap: 2.5rem;
     }
 
+    /* 휴대폰: 소식(news) 세부정보 팝업처럼 뒤 화면·흐림 없이 화면 전체를 덮는 흰 화면 */
+    .dim {
+        align-items: stretch;
+        padding: 0;
+        background-color: var(--color-white);
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+
     .dialog {
-        padding: 4.5rem 1.5rem 2rem;
+        min-height: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 5rem var(--gutter) calc(2.5rem + env(safe-area-inset-bottom, 0px));
+        border-radius: 0;
+    }
+
+    .dialogClose {
+        top: 1rem;
+        right: 1rem;
     }
 }
 
