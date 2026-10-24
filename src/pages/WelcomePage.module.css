@@ -280,11 +280,11 @@
     color: rgba(255, 255, 255, 0.82);
 }
 
-/* ---------- ③ 마음 문장: 회색 띠 위 안심 문단 ---------- */
+/* ---------- ③ 마음 문장: 안심 문단 ---------- */
 .statement {
     max-width: 820px;
-    margin: 0 auto;
-    text-align: center;
+    margin: 0;
+    text-align: left;
     font-size: clamp(1.5rem, 3vw, 2.25rem);
     font-weight: 500;
     line-height: 1.45;

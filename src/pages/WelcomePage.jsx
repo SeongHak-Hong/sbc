@@ -517,8 +517,8 @@ const WelcomePage = () => {
                 </div>
             </section>
 
-            {/* ③ 마음 문장: 회색 띠 위 안심 문단 */}
-            <section className={`${styles.sec} ${styles.band}`}>
+            {/* ③ 마음 문장: 안심 문단 */}
+            <section className={styles.sec}>
                 <div className={styles.wrap}>
                     <motion.p className={styles.statement} {...reveal}>
                         처음이라 아직 낯설고 어렵게 느껴지셔도 괜찮아요.{' '}
