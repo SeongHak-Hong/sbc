@@ -79,65 +79,63 @@
     }
 }
 
-/* ---------- ① 첫 화면: 애플 교육 레퍼런스 스타일 (와이드 라운드 카드 하단부에 심볼 + 제목 + 환영 문구) ---------- */
+/* ---------- ① 첫 화면: 2번째 섹션과 똑같은 100vw 전체 폭·비율(16:10) 동화 장면 ---------- */
 .hero {
-    padding: 6.5rem 0 var(--pad-sec);
-}
-
-.heroCard {
     position: relative;
     isolation: isolate;
-    overflow: hidden;
-    aspect-ratio: 16 / 9;
+    width: 100%;
+    aspect-ratio: 16 / 10;
     min-height: 540px;
-    border-radius: var(--r-card);
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: flex-end;
-    text-align: center;
-    padding: 3.5rem 2rem 4rem;
-    /* 미드저니 배경이 들어갈 자리: 위쪽은 따뜻한 초대 일러스트, 아래쪽은 흰 글씨가 잘 읽히는 차분한 톤 */
+    padding: clamp(20rem, 38vw, 34rem) 0 clamp(3.5rem, 6vw, 6.5rem);
+    overflow: hidden;
+    /* 미드저니 배경이 들어갈 자리: 상단 천국 구름 + 중앙 날개 달린 초대장 + 하단 차분한 지상 */
     background:
-        radial-gradient(65% 55% at 50% 32%, rgba(255, 232, 214, 0.95) 0%, rgba(255, 232, 214, 0) 70%),
-        linear-gradient(180deg, #7FB3F8 0%, #A9CEFF 42%, #4A6B8A 78%, #243B48 100%);
+        radial-gradient(65% 50% at 50% 24%, rgba(255, 244, 228, 0.95) 0%, rgba(255, 244, 228, 0) 70%),
+        linear-gradient(180deg, #CFE6FC 0%, #9BC7F5 38%, #3B6672 72%, #134648 100%);
     color: var(--color-white);
 }
 
-.heroCard::after {
+.hero::after {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background: linear-gradient(to top, rgba(14, 26, 40, 0.58) 0%, rgba(14, 26, 40, 0.26) 42%, rgba(14, 26, 40, 0) 68%);
+    background: linear-gradient(180deg, rgba(14, 38, 38, 0) 0%, rgba(14, 38, 38, 0) 58%, rgba(8, 28, 28, 0.42) 100%);
 }
 
-.heroCardBg {
+.heroPic {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    display: block;
+    pointer-events: none;
+}
+
+.heroBg {
     position: absolute;
     inset: 0;
     z-index: -2;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: 50% top;
     pointer-events: none;
     user-select: none;
 }
 
-.heroBadge {
-    width: 52px;
-    height: auto;
-    margin-bottom: 1rem;
-    display: block;
-    pointer-events: none;
-    user-select: none;
+.heroContent {
+    text-align: center;
 }
 
 .heroTitle {
     margin: 0;
     font-size: var(--t-display);
     font-weight: 500;
-    line-height: 1.18;
+    line-height: 1.2;
     letter-spacing: -0.035em;
     color: var(--color-white);
 }
@@ -147,7 +145,7 @@
     margin: 1rem auto 0;
     font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.88);
 }
 
 /* 봉투: 조각 6장을 한 좌표계(758×715)에 % 로 겹친다.
@@ -774,19 +772,11 @@
         --r-card: 24px;
     }
 
+    /* 첫 화면도 2번째 섹션과 똑같은 모바일 비율(3:5)·높이·하단 글씨 배치 */
     .hero {
-        padding-top: 5rem;
-    }
-
-    .heroCard {
-        aspect-ratio: 4 / 5;
-        min-height: 460px;
-        padding: 2rem 1.5rem 2.5rem;
-    }
-
-    .heroBadge {
-        width: 42px;
-        margin-bottom: 0.75rem;
+        aspect-ratio: 3 / 5;
+        min-height: 600px;
+        padding: clamp(19rem, 84vw, 24rem) 0 var(--pad-sec);
     }
 
     /* 세로형(3:5) 모바일 골고다 이미지에 맞춰 상단 십자가·언덕 능선을 비워 두고 하단 초록 언덕에만 글씨 배치 */
