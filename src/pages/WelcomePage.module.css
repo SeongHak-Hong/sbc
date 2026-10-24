@@ -133,7 +133,8 @@
 
 /* 상단 천국 성채 아래, 편지지 위 빛줄기 영역 */
 .heroTitleWrap {
-    padding-top: clamp(6.5rem, 13vw, 11rem);
+    /* 성채 아래·편지지 위 빛줄기 정중앙 (전체 높이의 약 36% 지점) */
+    padding-top: clamp(14rem, 22.5vw, 20.5rem);
 }
 
 .heroTitle {
@@ -144,7 +145,7 @@
 
 .heroTitleImg {
     display: block;
-    width: clamp(260px, 24vw, 360px);
+    width: clamp(200px, 17.5vw, 260px);
     height: auto;
     object-fit: contain;
     pointer-events: none;
@@ -892,11 +893,11 @@
     }
 
     .heroTitleWrap {
-        padding-top: clamp(4.5rem, 18vw, 7.5rem);
+        padding-top: clamp(7.5rem, 34vw, 9rem);
     }
 
     .heroTitleImg {
-        width: clamp(190px, 56vw, 250px);
+        width: clamp(140px, 40vw, 170px);
     }
 
     .heroIntroWrap {
