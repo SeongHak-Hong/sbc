@@ -506,7 +506,7 @@ const WelcomePage = () => {
                 </div>
             </section>
 
-            {/* ② 복음과 마음 문장: 100vw 골고다 언덕 십자가 배경 위 예수님의 구속사역과 안심 문단 */}
+            {/* ② 복음 소개: 100vw 골고다 언덕 십자가 배경 위 예수님의 구속사역 문단 */}
             <section className={styles.golgothaSec} aria-label="복음 소개">
                 <img className={styles.golgothaBg} src={golgothaCross} alt="" loading="lazy" />
                 <div className={`${styles.wrap} ${styles.golgothaContent}`}>
@@ -514,14 +514,20 @@ const WelcomePage = () => {
                         교회는 완벽한 사람들이 모이는 곳이 아니라,<br />우리를 구원하신 하나님의 사랑을 함께 알아가는 곳이에요.{' '}
                         <span>예수님이 우리 대신 십자가를 지시고 다시 살아나셔서, 누구에게나 죄 사함과 새로운 생명의 길을 열어 주셨어요. 이 기쁜 소식을 복음이라고 불러요.</span>
                     </motion.p>
-                    <motion.p className={styles.golgothaReassure} {...reveal}>
-                        <strong>처음이라 아직 낯설고 어렵게 느껴지셔도 괜찮아요.</strong><br />
-                        교회 등록도 부담 갖지 않으셔도 돼요. 이곳에서 예배드리며 이 기쁜 소식을 천천히 들어 보시고, 마음이 편해지실 때 함께해요.
+                </div>
+            </section>
+
+            {/* ③ 마음 문장: 회색 띠 위 안심 문단 */}
+            <section className={`${styles.sec} ${styles.band}`}>
+                <div className={styles.wrap}>
+                    <motion.p className={styles.statement} {...reveal}>
+                        처음이라 아직 낯설고 어렵게 느껴지셔도 괜찮아요.{' '}
+                        <span>교회 등록도 부담 갖지 않으셔도 돼요. 이곳에서 예배드리며 이 기쁜 소식을 천천히 들어 보시고, 마음이 편해지실 때 함께해요.</span>
                     </motion.p>
                 </div>
             </section>
 
-            {/* ③ 새가족이 되는 과정: 옆으로 넘기는 카드 5장, 오른쪽 아래 이전·다음 (메인 '교회가 하는 일'과 같은 자리) */}
+            {/* ④ 새가족이 되는 과정: 옆으로 넘기는 카드 5장, 오른쪽 아래 이전·다음 (메인 '교회가 하는 일'과 같은 자리) */}
             <section className={styles.sec} aria-labelledby="steps-title">
                 <div className={`${styles.wrap} ${styles.railHead}`}>
                     <h2 id="steps-title" className={styles.secTitle}>마음이 정해지셨을 때,<br />이렇게 함께해요.</h2>
