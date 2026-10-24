@@ -13,6 +13,7 @@ import envLetter from '../assets/newcomer/shintanjin-baptist-church-newcomer-env
 import envPocket from '../assets/newcomer/shintanjin-baptist-church-newcomer-envelope-pocket.webp';
 import envFlapClosed from '../assets/newcomer/shintanjin-baptist-church-newcomer-envelope-flap-closed.webp';
 import envHeart from '../assets/newcomer/shintanjin-baptist-church-newcomer-envelope-heart.webp';
+import golgothaCross from '../assets/newcomer/shintanjin-baptist-church-newcomer-golgotha-cross.webp';
 import step01 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-01-open-door.webp';
 import step02 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-02-bible-sprout.webp';
 import step03 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-03-neighbor-houses.webp';
@@ -490,24 +491,32 @@ const WelcomePage = () => {
         <div className={styles.page}>
             <PageTopGradient />
 
-            {/* ① 첫 화면: 열리는 편지 봉투 + 그 아래 제목 */}
+            {/* ① 첫 화면: 열리는 편지 봉투 + 복음의 초대가 담긴 환영 제목 */}
             <section className={styles.hero}>
                 <div className={styles.wrap}>
                     <motion.div className={styles.envWrap} {...reveal}>
                         <Envelope />
                     </motion.div>
                     <motion.h1 className={styles.heroTitle} {...reveal}>
-                        신탄진침례교회에 오신<br />여러분을 환영해요.
+                        당신을 향한 기쁜 소식,<br />이곳에 준비되어 있어요.
                     </motion.h1>
+                    <motion.p className={styles.heroLead} {...reveal}>
+                        신탄진침례교회에 오신 여러분을 진심으로 환영해요.
+                    </motion.p>
                 </div>
             </section>
 
-            {/* ② 마음 문장: 회색 띠 위 큰 문장 한 문단 */}
-            <section className={`${styles.sec} ${styles.band}`}>
-                <div className={styles.wrap}>
-                    <motion.p className={styles.statement} {...reveal}>
-                        교회 등록은 부담 갖지 않으셔도 돼요.{' '}
-                        <span>이곳에서 함께 신앙생활을 해도 좋을지 충분히 경험해 보시고, 편하게 정하세요.</span>
+            {/* ② 복음과 마음 문장: 100vw 골고다 언덕 십자가 배경 위 예수님의 구속사역과 안심 문단 */}
+            <section className={styles.golgothaSec} aria-label="복음 소개">
+                <img className={styles.golgothaBg} src={golgothaCross} alt="" loading="lazy" />
+                <div className={`${styles.wrap} ${styles.golgothaContent}`}>
+                    <motion.p className={styles.golgothaStatement} {...reveal}>
+                        교회는 완벽한 사람들이 모이는 곳이 아니라,<br />우리를 구원하신 하나님의 사랑을 함께 알아가는 곳이에요.{' '}
+                        <span>예수님이 우리 대신 십자가를 지시고 다시 살아나셔서, 누구에게나 죄 사함과 새로운 생명의 길을 열어 주셨어요. 이 기쁜 소식을 복음이라고 불러요.</span>
+                    </motion.p>
+                    <motion.p className={styles.golgothaReassure} {...reveal}>
+                        <strong>처음이라 아직 낯설고 어렵게 느껴지셔도 괜찮아요.</strong><br />
+                        교회 등록도 부담 갖지 않으셔도 돼요. 이곳에서 예배드리며 이 기쁜 소식을 천천히 들어 보시고, 마음이 편해지실 때 함께해요.
                     </motion.p>
                 </div>
             </section>
@@ -543,8 +552,8 @@ const WelcomePage = () => {
             <section className={`${styles.sec} ${styles.askSec}`} aria-labelledby="ask-title">
                 <div className={`${styles.wrap} ${styles.cta}`}>
                     <div>
-                        <h2 id="ask-title" className={styles.secTitle}>더 궁금한 점이<br />있으세요?</h2>
-                        <p className={styles.lead}>문의 주시면 친절하게 안내해 드려요.</p>
+                        <h2 id="ask-title" className={styles.secTitle}>기쁜 잔치에 초대해요.<br />더 궁금한 점이 있으세요?</h2>
+                        <p className={styles.lead}>교회 생활이나 복음에 대해 궁금한 점을 편하게 남겨 주세요. 새가족팀이 기쁜 마음으로 답장을 보내 드려요.</p>
                         <button ref={askButtonRef} type="button" className={styles.btn} aria-haspopup="dialog" onClick={() => setAsking(true)}>
                             새가족 등록 문의하기
                         </button>
