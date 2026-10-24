@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { Link } from 'react-router-dom';
 import { motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion';
 import Footer from '../components/Footer';
 import PageTopGradient from '../components/PageTopGradient';
@@ -17,6 +18,8 @@ import heavenInvitation from '../assets/newcomer/shintanjin-baptist-church-newco
 import heavenInvitationMobile from '../assets/newcomer/shintanjin-baptist-church-newcomer-heaven-invitation-mobile.webp';
 import golgothaCross from '../assets/newcomer/shintanjin-baptist-church-newcomer-golgotha-cross.webp';
 import golgothaCrossMobile from '../assets/newcomer/shintanjin-baptist-church-newcomer-golgotha-cross-mobile.webp';
+import receivedInvitation from '../assets/newcomer/shintanjin-baptist-church-newcomer-received-invitation.webp';
+import receivedInvitationMobile from '../assets/newcomer/shintanjin-baptist-church-newcomer-received-invitation-mobile.webp';
 import step01 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-01-open-door.webp';
 import step02 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-02-bible-sprout.webp';
 import step03 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-03-neighbor-houses.webp';
@@ -28,11 +31,11 @@ const ease = [0.16, 1, 0.3, 1];
 
 // ③ 새가족이 되는 과정: 애플 환경 페이지 #recover-gallery 방식 (카드 위 짧은 한마디 + 카드 아래 '굵은 제목.' 설명)
 const STEPS = [
-    { img: step01, callout: '반갑게\n맞이해요.', title: '새가족 등록', desc: '등록 카드를 작성하시면 앞으로의 신앙생활과 소속될 기관을 안내해 드려요.' },
-    { img: step02, callout: '8주 동안\n곁에 있어요.', title: '새가족 교육 (8주)', desc: '새가족팀이 주일 예배와 교육 참석 등 교회 생활을 친절하게 안내해 드려요.' },
-    { img: step03, callout: '가까운 이웃과\n이어져요.', title: '수료 및 기관 편성', desc: '연령과 지역에 맞춰 교구와 구역, 남·여 전도회에 편성돼요.' },
-    { img: step04, callout: '말씀을 나누며\n자라요.', title: '구역 및 전도회 예배', desc: '소속된 구역과 전도회 모임에서 말씀을 나누고 교제해요.' },
-    { img: step05, callout: '이제 한\n가족이에요.', title: '새가족 환영회', desc: '수료식과 함께 우리 교회의 가족으로 따뜻하게 환영해요.' },
+    { img: step01, callout: '반갑게\n맞이해요.', title: '반가운 첫 만남', desc: '등록 카드를 작성하시면 앞으로의 신앙생활과 소속될 기관을 안내해 드려요.' },
+    { img: step02, callout: '8주 동안\n곁에 있어요.', title: '8주간의 동행', desc: '새가족팀이 주일 예배와 교육 참석 등 교회 생활을 친절하게 안내해 드려요.' },
+    { img: step03, callout: '가까운 이웃과\n이어져요.', title: '가까운 이웃과의 만남', desc: '연령과 지역에 맞춰 교구와 구역, 남·여 전도회에 편성돼요.' },
+    { img: step04, callout: '말씀을 나누며\n자라요.', title: '함께 나누는 일상', desc: '소속된 구역과 전도회 모임에서 말씀을 나누고 교제해요.' },
+    { img: step05, callout: '이제 한\n가족이에요.', title: '한 가족이 되는 날', desc: '수료식과 함께 우리 교회의 가족으로 따뜻하게 환영해요.' },
 ];
 
 const EMPTY_FORM = { name: '', contact: '', question: '', agree: false, website: '' };
@@ -519,13 +522,22 @@ const WelcomePage = () => {
                 </div>
             </section>
 
-            {/* ③ 마음 문장: 안심 문단 */}
-            <section className={styles.sec}>
-                <div className={styles.wrap}>
+            {/* ③ 마음 문장: 초대장을 받아든 사람의 뒷모습 배경 + 안심 문단 + 예배 안내 링크 */}
+            <section className={styles.receivedSec} aria-label="처음 오신 분께">
+                <picture className={styles.receivedPic}>
+                    <source media="(max-width: 767px)" srcSet={receivedInvitationMobile} />
+                    <img className={styles.receivedBg} src={receivedInvitation} alt="" loading="lazy" />
+                </picture>
+                <div className={`${styles.wrap} ${styles.receivedContent}`}>
                     <motion.p className={styles.statement} {...reveal}>
                         처음이라 아직 낯설고 어렵게 느껴지셔도 괜찮아요.{' '}
                         <span>교회 등록도 부담 갖지 않으셔도 돼요. 이곳에서 예배드리며 이 기쁜 소식을 천천히 들어 보시고, 마음이 편해지실 때 함께해요.</span>
                     </motion.p>
+                    <motion.div {...reveal}>
+                        <Link to="/guide" className={styles.guideLink}>
+                            예배 시간·오시는 길 먼저 보기 <span aria-hidden="true">→</span>
+                        </Link>
+                    </motion.div>
                 </div>
             </section>
 
