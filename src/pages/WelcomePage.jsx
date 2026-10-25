@@ -565,7 +565,7 @@ const WelcomePage = () => {
                                 fetchPriority="high"
                                 initial={reduceMotion ? false : { opacity: 0, filter: 'blur(16px)', scale: 0.96 }}
                                 animate={reduceMotion ? {} : { opacity: 1, filter: 'blur(0px)', scale: 1 }}
-                                transition={{ duration: 1.2, ease, delay: 0.1 }}
+                                transition={{ duration: 2.0, ease, delay: 0.1 }}
                             />
                         </motion.h1>
                     </motion.div>
