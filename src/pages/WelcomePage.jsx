@@ -517,6 +517,16 @@ const WelcomePage = () => {
             transition: { duration: 0.8, ease },
         };
 
+    // 첫 화면 타이틀 블러 페이드 (페이지 진입 시, 섹션을 나가고 들어올 때 반복 적용)
+    const heroTitleBlurFade = reduceMotion
+        ? {}
+        : {
+            initial: { opacity: 0, filter: 'blur(12px)', y: 12 },
+            whileInView: { opacity: 1, filter: 'blur(0px)', y: 0 },
+            viewport: { once: false, margin: '-20px 0px' },
+            transition: { duration: 0.8, ease },
+        };
+
     const scrollRail = (direction) => {
         const rail = railRef.current;
         if (!rail) return;
@@ -541,7 +551,7 @@ const WelcomePage = () => {
                 </picture>
                 <div className={`${styles.wrap} ${styles.heroContent}`}>
                     <motion.div className={styles.heroTitleWrap} style={{ y: scrollParallaxY }}>
-                        <motion.h1 className={styles.heroTitle} {...reveal} style={enableMouse ? { x: smoothMouseX, y: smoothMouseY } : undefined}>
+                        <motion.h1 className={styles.heroTitle} {...heroTitleBlurFade} style={enableMouse ? { x: smoothMouseX, y: smoothMouseY } : undefined}>
                             <span className={styles.srOnly}>천국에서 온 초대장</span>
                             <img
                                 className={styles.heroTitleImg}

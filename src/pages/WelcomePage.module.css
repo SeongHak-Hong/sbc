@@ -141,6 +141,7 @@
     margin: 0 auto;
     display: flex;
     justify-content: center;
+    will-change: filter, opacity;
 }
 
 .heroTitleImg {
