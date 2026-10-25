@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
-import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
 import Footer from '../components/Footer';
 import PageTopGradient from '../components/PageTopGradient';
 import ScrollWordReveal from '../components/ui/ScrollWordReveal';
@@ -483,6 +483,11 @@ const WelcomePage = () => {
         reduceMotion ? [0, 0] : [0, parallaxDist]
     );
 
+    // 스크롤 연동 블러 페이드 (섹션을 나갈 때 0.15 -> 0.42 구간에서 점진적 블러 페이드아웃, 들어올 때 페이드인)
+    const titleOpacity = useTransform(heroProgress, [0, 0.15, 0.42], [1, 1, 0]);
+    const titleBlurPx = useTransform(heroProgress, [0, 0.15, 0.42], [0, 0, 16]);
+    const titleFilter = useMotionTemplate`blur(${titleBlurPx}px)`;
+
     // 마우스 커서 반응용 스프링 모션
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
@@ -517,16 +522,6 @@ const WelcomePage = () => {
             transition: { duration: 0.8, ease },
         };
 
-    // 첫 화면 타이틀 블러 페이드 (페이지 진입 시, 섹션을 나가고 들어올 때 반복 적용)
-    const heroTitleBlurFade = reduceMotion
-        ? {}
-        : {
-            initial: { opacity: 0, filter: 'blur(12px)', y: 12 },
-            whileInView: { opacity: 1, filter: 'blur(0px)', y: 0 },
-            viewport: { once: false, margin: '-20px 0px' },
-            transition: { duration: 0.8, ease },
-        };
-
     const scrollRail = (direction) => {
         const rail = railRef.current;
         if (!rail) return;
@@ -551,15 +546,26 @@ const WelcomePage = () => {
                 </picture>
                 <div className={`${styles.wrap} ${styles.heroContent}`}>
                     <motion.div className={styles.heroTitleWrap} style={{ y: scrollParallaxY }}>
-                        <motion.h1 className={styles.heroTitle} {...heroTitleBlurFade} style={enableMouse ? { x: smoothMouseX, y: smoothMouseY } : undefined}>
+                        <motion.h1
+                            className={styles.heroTitle}
+                            style={{
+                                opacity: reduceMotion ? 1 : titleOpacity,
+                                filter: reduceMotion ? 'none' : titleFilter,
+                                willChange: 'filter, opacity',
+                                ...(enableMouse ? { x: smoothMouseX, y: smoothMouseY } : {}),
+                            }}
+                        >
                             <span className={styles.srOnly}>천국에서 온 초대장</span>
-                            <img
+                            <motion.img
                                 className={styles.heroTitleImg}
                                 src={heroTitleTypography}
                                 alt="천국에서 온 초대장"
                                 width={685}
                                 height={365}
                                 fetchPriority="high"
+                                initial={reduceMotion ? false : { opacity: 0, filter: 'blur(16px)', scale: 0.96 }}
+                                animate={reduceMotion ? {} : { opacity: 1, filter: 'blur(0px)', scale: 1 }}
+                                transition={{ duration: 1.2, ease, delay: 0.1 }}
                             />
                         </motion.h1>
                     </motion.div>
