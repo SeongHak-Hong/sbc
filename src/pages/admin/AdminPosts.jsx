@@ -416,7 +416,7 @@ const AdminPosts = () => {
                             <input 
                                 type="file" 
                                 multiple 
-                                accept="image/*"
+                                accept="image/*,.webp,.jpg,.jpeg,.png,.gif,.heic,.heif"
                                 onChange={handleFileChange}
                                 style={{ padding: '8px 0' }}
                             />

@@ -288,7 +288,7 @@ const AdminGallery = () => {
                         <input
                             id="gallery-photos"
                             type="file"
-                            accept="image/*"
+                            accept="image/*,.webp,.jpg,.jpeg,.png,.gif,.heic,.heif"
                             multiple
                             onChange={handlePick}
                             disabled={busy}

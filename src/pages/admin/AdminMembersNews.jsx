@@ -359,7 +359,7 @@ const AdminMembersNews = () => {
                                 </div>
                             </div>
                         )}
-                        <input type="file" multiple accept="image/*" onChange={handleFileChange} />
+                        <input type="file" multiple accept="image/*,.webp,.jpg,.jpeg,.png,.gif,.heic,.heif" onChange={handleFileChange} />
                         {newFiles.length > 0 && (
                             <ul style={{ listStyle: 'none', padding: 0, marginTop: '8px' }}>
                                 {newFiles.map((file, idx) => (

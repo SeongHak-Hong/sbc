@@ -418,7 +418,7 @@ const AdminNextGen = () => {
                             <label style={{ display: 'block', fontSize: '14px', color: '#475569', marginBottom: '4px' }}>행사 이미지 업로드 {uploading && <span style={{  color: '#6B7280' }}>(업로드 중...)</span>}</label>
                             <input 
                                 type="file" 
-                                accept="image/*" 
+                                accept="image/*,.webp,.jpg,.jpeg,.png,.gif,.heic,.heif" 
                                 multiple
                                 onChange={(e) => handleImageUpload(e.target.files)}
                                 disabled={uploading}
