@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { collection, getDocs, doc, addDoc, updateDoc, deleteDoc, query, orderBy, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { uploadGalleryPhoto, deleteGalleryPhotos, galleryImageUrl, GALLERY_CATEGORIES, galleryCategoryLabel, galleryPeriod } from '../../lib/gallery';
+import { uploadGalleryPhoto, deleteGalleryPhotos, galleryImageUrl, cropPhoto, GALLERY_CATEGORIES, galleryCategoryLabel, galleryPeriod } from '../../lib/gallery';
+import PhotoCropDialog from '../../components/admin/PhotoCropDialog';
 
 // 나눔터 > 갤러리(/photos)의 앨범. Firestore nextgenGallery/{albumId}(다음세대 갤러리로 시작해 이름이 남았다), 사진 파일은 Cloudflare R2 (src/lib/gallery.js).
 const UPLOAD_CONCURRENCY = 3;
@@ -26,6 +27,7 @@ const AdminGallery = () => {
     // 편집을 시작할 때 이미 저장돼 있던 사진. 이걸로 '새로 올린 사진'과 '앨범에서 뺀 사진'을 가린다.
     const [savedPhotos, setSavedPhotos] = useState([]);
     const [progress, setProgress] = useState(null); // { done, total }
+    const [cropFiles, setCropFiles] = useState(null); // 고른 사진: 자르기 창에서 비율을 맞춘 뒤 올린다
 
     const savedIds = new Set(savedPhotos.map((photo) => photo.id));
     const unsavedUploads = editing ? editing.photos.filter((photo) => !savedIds.has(photo.id)) : [];
@@ -79,10 +81,16 @@ const AdminGallery = () => {
         setEditing((prev) => ({ ...prev, [field]: value }));
     };
 
-    const handleUpload = async (event) => {
+    const handlePick = (event) => {
         const files = Array.from(event.target.files || []);
         event.target.value = ''; // 같은 사진을 다시 고를 수 있게 비운다
-        if (files.length === 0) return;
+        if (files.length > 0) setCropFiles(files);
+    };
+
+    // prepared: 자르기 창의 결과 [{ file, aspect, area }]
+    const handleUpload = async (prepared) => {
+        setCropFiles(null);
+        const files = prepared.map((item) => item.file);
 
         const results = new Array(files.length);
         const failed = [];
@@ -95,7 +103,8 @@ const AdminGallery = () => {
                 const index = next++;
                 const file = files[index];
                 try {
-                    results[index] = await uploadGalleryPhoto(file);
+                    const { aspect, area } = prepared[index];
+                    results[index] = await uploadGalleryPhoto(aspect ? await cropPhoto(file, aspect, area) : file);
                 } catch (error) {
                     console.error('사진 업로드 실패:', file.name, error);
                     failed.push(`${file.name} (${error.message})`);
@@ -209,6 +218,10 @@ const AdminGallery = () => {
         <div>
             <h2 style={{ fontSize: '24px', marginBottom: '24px' }}>갤러리 관리</h2>
 
+            {cropFiles && (
+                <PhotoCropDialog files={cropFiles} onDone={handleUpload} onCancel={() => setCropFiles(null)} />
+            )}
+
             {!editing && (
                 <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '24px' }}>
                     <button
@@ -277,12 +290,12 @@ const AdminGallery = () => {
                             type="file"
                             accept="image/*"
                             multiple
-                            onChange={handleUpload}
+                            onChange={handlePick}
                             disabled={busy}
                             style={{ width: '100%', padding: '10px 12px', border: '1px solid #CBD5E1', borderRadius: '4px', boxSizing: 'border-box', backgroundColor: '#fff', cursor: busy ? 'not-allowed' : 'pointer', marginBottom: '8px' }}
                         />
                         <p style={{ fontSize: '13px', color: '#6B7280', margin: '0 0 8px' }}>
-                            여러 장을 한꺼번에 고를 수 있습니다. 사진은 자동으로 줄여서 올라갑니다. (지금 {editing.photos.length}장)
+                            여러 장을 한꺼번에 고를 수 있습니다. 고른 뒤 한 장씩 비율(가로·세로·정사각형·원본)을 맞추고, 사진은 자동으로 줄여서 올라갑니다. (지금 {editing.photos.length}장)
                         </p>
                         {editing.photos.length > 0 && (
                             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>

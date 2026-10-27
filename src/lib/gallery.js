@@ -29,6 +29,50 @@ export const galleryPeriod = ({ date, endDate }) => {
     return endDate && endDate !== date ? `${dot(date)} - ${dot(endDate)}` : dot(date);
 };
 
+// 올리기 전에 고르는 사진 비율 (관리자 사진 자르기 창). null 은 원본 그대로
+export const CROP_RATIOS = [
+    { id: 'landscape', label: '가로 4:3', aspect: 4 / 3 },
+    { id: 'portrait', label: '세로 3:4', aspect: 3 / 4 },
+    { id: 'square', label: '정사각형', aspect: 1 },
+    { id: 'original', label: '원본', aspect: null },
+];
+
+// 사진 모양에 가까운 비율을 처음 값으로 쓴다
+export const closestRatio = (width, height) => {
+    const shape = width / height;
+    if (shape > 1.15) return 'landscape';
+    if (shape < 0.87) return 'portrait';
+    return 'square';
+};
+
+// 고른 범위(area, 원본 픽셀 기준)를 잘라 새 파일로. 범위가 없으면 가운데를 비율대로 자른다.
+// 이어서 uploadGalleryPhoto 가 다시 줄이므로, 여기서는 긴 쪽 2400px 까지만 남긴다
+const unreadable = (file) =>
+    new Error(/hei[cf]/i.test(file.type || file.name) ? 'HEIC 형식은 JPG로 바꿔서 올려 주세요' : '사진 파일을 읽지 못했습니다');
+
+export const cropPhoto = async (file, aspect, area) => {
+    let bitmap;
+    try {
+        bitmap = await createImageBitmap(file);
+    } catch {
+        throw unreadable(file);
+    }
+    let crop = area;
+    if (!crop) {
+        const width = Math.min(bitmap.width, bitmap.height * aspect);
+        const height = width / aspect;
+        crop = { x: (bitmap.width - width) / 2, y: (bitmap.height - height) / 2, width, height };
+    }
+    const scale = Math.min(1, 2400 / Math.max(crop.width, crop.height));
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.round(crop.width * scale);
+    canvas.height = Math.round(crop.height * scale);
+    canvas.getContext('2d').drawImage(bitmap, crop.x, crop.y, crop.width, crop.height, 0, 0, canvas.width, canvas.height);
+    bitmap.close();
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.95));
+    return new File([blob], file.name.replace(/\.[^.]+$/, '') + '.jpg', { type: 'image/jpeg' });
+};
+
 // WebP 로 저장하지 못하는 브라우저(구형 Safari 등)는 JPEG 로 보낸다
 let outputType;
 const getOutputType = () => {
@@ -73,7 +117,7 @@ const shrink = async (file) => {
     } catch (error) {
         console.error('사진 줄이기 실패:', error);
         // 아이폰 HEIC 사진은 Safari 가 아니면 브라우저가 읽지 못한다
-        throw new Error(/hei[cf]/i.test(file.type || file.name) ? 'HEIC 형식은 JPG로 바꿔서 올려 주세요' : '사진 파일을 읽지 못했습니다');
+        throw unreadable(file);
     }
 };
 
