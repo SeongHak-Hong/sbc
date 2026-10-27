@@ -33,6 +33,7 @@ import AdminMembersNews from './pages/admin/AdminMembersNews';
 import AdminMemberBusiness from './pages/admin/AdminMemberBusiness';
 import AdminFeedback from './pages/admin/AdminFeedback';
 import Migration from './pages/admin/Migration';
+import AdminImageMove from './pages/admin/AdminImageMove';
 
 import Lenis from 'lenis';
 import './App.css';
@@ -212,6 +213,7 @@ function AppRoutes() {
                 <Route path="member-business" element={<AdminMemberBusiness />} />
                 <Route path="feedback" element={<AdminFeedback />} />
                 <Route path="migration" element={<Migration />} />
+                <Route path="image-move" element={<AdminImageMove />} />
             </Route>
           </Routes>
         </motion.div>
