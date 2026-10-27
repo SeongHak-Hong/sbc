@@ -112,16 +112,6 @@ const AdminLayout = () => {
                             데이터 마이그레이션
                         </NavLink>
                     )}
-                    {/* 임시: Cloudinary 사진을 R2 로 옮기기가 끝나면 지운다 */}
-                    {auth.currentUser?.email === 'ing6023@gmail.com' && (
-                        <NavLink
-                            to="/manager-lounge/image-move"
-                            className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}
-                        >
-                            <span className="material-symbols-outlined" translate="no">drive_file_move</span>
-                            사진 옮기기 (임시)
-                        </NavLink>
-                    )}
                 </nav>
                 <div className={styles.sidebarFooter}>
                     <button onClick={handleLogout} className={styles.logoutBtn}>로그아웃</button>
