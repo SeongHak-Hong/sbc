@@ -15,7 +15,7 @@
     /* 영상이 적어도 푸터가 화면 맨 아래에 붙도록: 남는 높이는 목록 칸이 채운다 */
     display: flex;
     flex-direction: column;
-    color: var(--color-text-primary);
+    color: var(--color-text-strong);
     background-color: var(--color-white);
     /* 첫 화면 그라디언트(PageTopGradient)가 흰 바탕 위·콘텐츠 아래에 깔리도록 */
     isolation: isolate;
@@ -26,9 +26,8 @@
 
 .page > section {
     --color-text-strong: #1d1d1f;   /* Apple Ink (교회 안내와 같음) */
-    --color-text-primary: #1d1d1f;
     --color-text-meta: #707070;
-    color: var(--color-text-primary);
+    color: var(--color-text-strong);
 }
 
 .wrap {
@@ -197,7 +196,7 @@
     font: inherit;
     font-size: var(--t-small);
     letter-spacing: -0.02em;
-    color: var(--color-text-primary);
+    color: var(--color-text-strong);
     text-align: left;
     cursor: pointer;
     transition: background-color 0.15s ease;
@@ -338,7 +337,7 @@
 .meta {
     font-size: var(--t-list-meta);
     line-height: 1.6;
-    color: var(--color-text-primary);
+    color: var(--color-text-strong);
     font-variant-numeric: tabular-nums;
 }
 
