@@ -162,13 +162,18 @@ const AlbumViewer = ({ album, onClose }) => {
                             alt={`${album.title} 사진 ${index + 1}`}
                             draggable="false"
                         />
-                        <button type="button" className={`${gallery.arrow} ${gallery.prev}`} aria-label="이전 사진" disabled={index === 0} onClick={() => go(index - 1)}>
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" /></svg>
-                        </button>
-                        <button type="button" className={`${gallery.arrow} ${gallery.next}`} aria-label="다음 사진" disabled={index === last} onClick={() => go(index + 1)}>
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
-                        </button>
-                        <span className={gallery.counter} aria-live="polite">{index + 1} / {photos.length}</span>
+                        {/* 사진이 한 장이면 넘기기 버튼과 장수는 숨긴다 */}
+                        {photos.length > 1 && (
+                            <>
+                                <button type="button" className={`${gallery.arrow} ${gallery.prev}`} aria-label="이전 사진" disabled={index === 0} onClick={() => go(index - 1)}>
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" /></svg>
+                                </button>
+                                <button type="button" className={`${gallery.arrow} ${gallery.next}`} aria-label="다음 사진" disabled={index === last} onClick={() => go(index + 1)}>
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+                                </button>
+                                <span className={gallery.counter} aria-live="polite">{index + 1} / {photos.length}</span>
+                            </>
+                        )}
                     </div>
 
                     <div className={gallery.side}>
