@@ -51,7 +51,8 @@ const MenuOverlay = ({ isOpen, onClose }) => {
             id: "step-6", num: "06", title: "나눔터",
             links: [
                 { text: "소식 · 주보", path: "/news" },
-                { text: "교회 일정", path: "/events" }
+                { text: "교회 일정", path: "/events" },
+                { text: "갤러리", path: "/photos" }
             ]
         }
     ];

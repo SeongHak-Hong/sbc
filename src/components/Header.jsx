@@ -66,7 +66,8 @@ const Header = () => {
             subLabel: "나눔터 살펴보기",
             links: [
                 { text: "소식 · 주보", path: "/news" },
-                { text: "교회 일정", path: "/events" }
+                { text: "교회 일정", path: "/events" },
+                { text: "갤러리", path: "/photos" }
             ]
         }
     ];

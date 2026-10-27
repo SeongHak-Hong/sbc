@@ -10,6 +10,25 @@ const SIZES = {
 
 export const galleryImageUrl = (key) => `${import.meta.env.VITE_GALLERY_BASE_URL}/${key}`;
 
+// 갤러리 분류 (나눔터 > 갤러리의 고르기 순서). 앨범 문서의 dept 값
+export const GALLERY_CATEGORIES = [
+    { id: 'church', label: '교회 행사' },
+    { id: 'kindergarten', label: '유치부' },
+    { id: 'elementary', label: '초등부' },
+    { id: 'youth', label: '중고등부' },
+    { id: 'youngadults', label: '청년부' },
+];
+
+// 다음세대 갤러리 시절 '다음세대 전체'(all)로 저장한 앨범도 이름이 나오게 둔다
+export const galleryCategoryLabel = (id) =>
+    GALLERY_CATEGORIES.find((category) => category.id === id)?.label ?? (id === 'all' ? '다음세대' : id);
+
+// 2026-07-24 + 2026-07-26 → '2026.07.24 - 2026.07.26', 끝나는 날이 없으면 하루만
+export const galleryPeriod = ({ date, endDate }) => {
+    const dot = (value) => value.replaceAll('-', '.');
+    return endDate && endDate !== date ? `${dot(date)} - ${dot(endDate)}` : dot(date);
+};
+
 // WebP 로 저장하지 못하는 브라우저(구형 Safari 등)는 JPEG 로 보낸다
 let outputType;
 const getOutputType = () => {

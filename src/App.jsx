@@ -5,6 +5,7 @@ import Header from './components/Header';
 import MainPage from './pages/MainPage';
 import WelcomePage from './pages/WelcomePage';
 import HistoryPage from './pages/HistoryPage';
+import GalleryPage from './pages/GalleryPage';
 import VisionPage from './pages/VisionPage';
 import GuidePage from './pages/GuidePage';
 import TeamPage from './pages/TeamPage';
@@ -24,7 +25,7 @@ import LoginPage from './pages/admin/LoginPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminCellgroups from './pages/admin/AdminCellgroups';
 import AdminNextGen from './pages/admin/AdminNextGen';
-import AdminNextGenGallery from './pages/admin/AdminNextGenGallery';
+import AdminGallery from './pages/admin/AdminGallery';
 import AdminMissions from './pages/admin/AdminMissions';
 import AdminPosts from './pages/admin/AdminPosts';
 import AdminSchedule from './pages/admin/AdminSchedule';
@@ -115,6 +116,7 @@ const PAGE_TITLES = {
   '/outreach': '선교전도',
   '/news': '소식 · 주보',
   '/events': '교회 일정',
+  '/photos': '갤러리',
 };
 
 // 리뉴얼 전 주소 → 새 주소 (예전 링크·검색 결과로 들어와도 맞는 페이지로)
@@ -172,6 +174,7 @@ function AppRoutes() {
             <Route path="/" element={<MainPage />} />
             <Route path="/newcomer" element={<WelcomePage />} />
             <Route path="/gallery" element={<HistoryPage />} />
+            <Route path="/photos" element={<GalleryPage />} />
             <Route path="/vision" element={<VisionPage />} />
             <Route path="/guide" element={<GuidePage />} />
             <Route path="/team" element={<TeamPage />} />
@@ -202,7 +205,7 @@ function AppRoutes() {
                 <Route path="posts" element={<AdminPosts />} />
                 <Route path="cellgroups" element={<AdminCellgroups />} />
                 <Route path="nextgen" element={<AdminNextGen />} />
-                <Route path="nextgen-gallery" element={<AdminNextGenGallery />} />
+                <Route path="gallery" element={<AdminGallery />} />
                 <Route path="missions" element={<AdminMissions />} />
                 <Route path="schedule" element={<AdminSchedule />} />
                 <Route path="members-news" element={<AdminMembersNews />} />

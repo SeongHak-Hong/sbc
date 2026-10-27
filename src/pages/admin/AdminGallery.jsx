@@ -1,20 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { collection, getDocs, doc, addDoc, updateDoc, deleteDoc, query, orderBy, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { uploadGalleryPhoto, deleteGalleryPhotos, galleryImageUrl } from '../../lib/gallery';
+import { uploadGalleryPhoto, deleteGalleryPhotos, galleryImageUrl, GALLERY_CATEGORIES, galleryCategoryLabel, galleryPeriod } from '../../lib/gallery';
 
-// 앨범은 Firestore nextgenGallery/{albumId}, 사진 파일은 Cloudflare R2 에 있다 (src/lib/gallery.js).
-const DEPT_ORDER = { all: 0, kindergarten: 1, elementary: 2, youth: 3, youngadults: 4 };
+// 나눔터 > 갤러리(/photos)의 앨범. Firestore nextgenGallery/{albumId}(다음세대 갤러리로 시작해 이름이 남았다), 사진 파일은 Cloudflare R2 (src/lib/gallery.js).
 const UPLOAD_CONCURRENCY = 3;
 
 const today = () => {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-};
-
-const formatDate = (value) => {
-    const parts = (value || '').split('-');
-    return parts.length >= 3 ? `${parts[0]}. ${parts[1]}. ${parts[2]}.` : value || '-';
 };
 
 const coverOf = (album) => album.photos?.find((photo) => photo.id === album.cover) || album.photos?.[0];
@@ -23,12 +17,11 @@ const labelStyle = { display: 'block', fontSize: '14px', color: '#475569', margi
 const inputStyle = { width: '100%', padding: '0 12px', height: '48px', border: '1px solid #CBD5E1', borderRadius: '4px', boxSizing: 'border-box', backgroundColor: '#fff' };
 const smallButtonStyle = { fontSize: '10px', padding: '2px 4px', backgroundColor: '#F3F4F6', color: '#1F2937', border: '1px solid #D1D5DB', borderRadius: '2px', cursor: 'pointer' };
 
-const AdminNextGenGallery = () => {
+const AdminGallery = () => {
     const [albums, setAlbums] = useState([]);
-    const [deptNames, setDeptNames] = useState({ all: '다음세대 전체' });
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
-    // editing: { id: string | null, dept, title, date, photos, cover } | null
+    // editing: { id: string | null, dept, title, date, endDate, desc, photos, cover } | null
     const [editing, setEditing] = useState(null);
     // 편집을 시작할 때 이미 저장돼 있던 사진. 이걸로 '새로 올린 사진'과 '앨범에서 뺀 사진'을 가린다.
     const [savedPhotos, setSavedPhotos] = useState([]);
@@ -41,18 +34,10 @@ const AdminNextGenGallery = () => {
     useEffect(() => {
         const load = async () => {
             try {
-                const [albumSnapshot, deptSnapshot] = await Promise.all([
-                    getDocs(query(collection(db, 'nextgenGallery'), orderBy('date', 'desc'))),
-                    getDocs(collection(db, 'nextgen')),
-                ]);
+                const albumSnapshot = await getDocs(query(collection(db, 'nextgenGallery'), orderBy('date', 'desc')));
                 setAlbums(albumSnapshot.docs.map((albumDoc) => ({ id: albumDoc.id, ...albumDoc.data() })));
-                const names = { all: '다음세대 전체' };
-                deptSnapshot.forEach((deptDoc) => {
-                    names[deptDoc.id] = deptDoc.data().name || deptDoc.id;
-                });
-                setDeptNames(names);
             } catch (error) {
-                console.error('다음세대 갤러리 불러오기 실패:', error);
+                console.error('갤러리 불러오기 실패:', error);
                 alert('데이터를 불러오지 못했습니다.');
             } finally {
                 setLoading(false);
@@ -85,8 +70,8 @@ const AdminNextGenGallery = () => {
 
     const startEditing = (album) => {
         setEditing(album
-            ? { id: album.id, dept: album.dept, title: album.title, date: album.date, photos: album.photos || [], cover: album.cover || '' }
-            : { id: null, dept: '', title: '', date: today(), photos: [], cover: '' });
+            ? { id: album.id, dept: album.dept, title: album.title, date: album.date, endDate: album.endDate || '', desc: album.desc || '', photos: album.photos || [], cover: album.cover || '' }
+            : { id: null, dept: '', title: '', date: today(), endDate: '', desc: '', photos: [], cover: '' });
         setSavedPhotos(album?.photos || []);
     };
 
@@ -153,7 +138,11 @@ const AdminNextGenGallery = () => {
     const handleSave = async () => {
         const title = editing.title.trim();
         if (!editing.dept || !title || !editing.date) {
-            alert('부서, 앨범 제목, 날짜를 모두 입력해 주세요.');
+            alert('분류, 앨범 제목, 시작일을 모두 입력해 주세요.');
+            return;
+        }
+        if (editing.endDate && editing.endDate < editing.date) {
+            alert('끝나는 날이 시작일보다 빠릅니다.');
             return;
         }
         if (editing.photos.length === 0) {
@@ -166,6 +155,8 @@ const AdminNextGenGallery = () => {
             dept: editing.dept,
             title,
             date: editing.date,
+            endDate: editing.endDate,
+            desc: editing.desc.trim(),
             photos: editing.photos,
             cover: editing.cover || editing.photos[0].id,
             updatedAt: serverTimestamp(),
@@ -212,12 +203,11 @@ const AdminNextGenGallery = () => {
 
     if (loading) return <div>데이터를 불러오는 중입니다...</div>;
 
-    const deptOptions = Object.keys(deptNames).sort((a, b) => (DEPT_ORDER[a] ?? 99) - (DEPT_ORDER[b] ?? 99));
     const busy = Boolean(progress) || saving;
 
     return (
         <div>
-            <h2 style={{ fontSize: '24px', marginBottom: '24px' }}>다음세대 갤러리</h2>
+            <h2 style={{ fontSize: '24px', marginBottom: '24px' }}>갤러리 관리</h2>
 
             {!editing && (
                 <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '24px' }}>
@@ -239,15 +229,16 @@ const AdminNextGenGallery = () => {
 
                     <div style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
                         <div style={{ flex: 1 }}>
-                            <label htmlFor="gallery-dept" style={labelStyle}>부서 (필수)</label>
+                            <label htmlFor="gallery-dept" style={labelStyle}>분류 (필수)</label>
                             <select
                                 id="gallery-dept"
                                 value={editing.dept}
                                 onChange={(e) => updateField('dept', e.target.value)}
                                 style={{ ...inputStyle, border: '1px solid #3B82F6' }}
                             >
-                                <option value="" disabled>부서를 선택하세요</option>
-                                {deptOptions.map((deptId) => <option key={deptId} value={deptId}>{deptNames[deptId]}</option>)}
+                                <option value="" disabled>분류를 선택하세요</option>
+                                {GALLERY_CATEGORIES.map((category) => <option key={category.id} value={category.id}>{category.label}</option>)}
+                                {editing.dept === 'all' && <option value="all">다음세대</option>}
                             </select>
                         </div>
                         <div style={{ flex: 2 }}>
@@ -255,9 +246,26 @@ const AdminNextGenGallery = () => {
                             <input id="gallery-title" type="text" value={editing.title} onChange={(e) => updateField('title', e.target.value)} placeholder="예: 2026 여름 수련회" style={inputStyle} />
                         </div>
                         <div style={{ flex: 1 }}>
-                            <label htmlFor="gallery-date" style={labelStyle}>날짜</label>
+                            <label htmlFor="gallery-date" style={labelStyle}>시작일</label>
                             <input id="gallery-date" type="date" value={editing.date} onChange={(e) => updateField('date', e.target.value)} style={inputStyle} />
                         </div>
+                        <div style={{ flex: 1 }}>
+                            <label htmlFor="gallery-end" style={labelStyle}>끝나는 날 (하루 행사면 비워 두기)</label>
+                            <input id="gallery-end" type="date" value={editing.endDate} min={editing.date} onChange={(e) => updateField('endDate', e.target.value)} style={inputStyle} />
+                        </div>
+                    </div>
+
+                    <div style={{ marginBottom: '16px' }}>
+                        <label htmlFor="gallery-desc" style={labelStyle}>설명 (선택, {editing.desc.length}/500자)</label>
+                        <textarea
+                            id="gallery-desc"
+                            value={editing.desc}
+                            maxLength={500}
+                            rows={5}
+                            onChange={(e) => updateField('desc', e.target.value)}
+                            placeholder="행사 이야기를 몇 줄 적어 주세요. 줄바꿈은 그대로 보입니다."
+                            style={{ ...inputStyle, height: 'auto', padding: '12px', lineHeight: 1.6, resize: 'vertical', fontFamily: 'inherit' }}
+                        />
                     </div>
 
                     <div>
@@ -321,9 +329,9 @@ const AdminNextGenGallery = () => {
                         <thead>
                             <tr style={{ backgroundColor: '#F9FAFB', textAlign: 'left', borderBottom: '1px solid #E5E7EB' }}>
                                 <th style={{ padding: '16px', width: '96px', textAlign: 'center' }}>대표 사진</th>
-                                <th style={{ padding: '16px', width: '120px', textAlign: 'center' }}>부서</th>
+                                <th style={{ padding: '16px', width: '120px', textAlign: 'center' }}>분류</th>
                                 <th style={{ padding: '16px' }}>앨범 제목</th>
-                                <th style={{ padding: '16px', width: '140px' }}>날짜</th>
+                                <th style={{ padding: '16px', width: '220px' }}>기간</th>
                                 <th style={{ padding: '16px', width: '80px', textAlign: 'center' }}>사진</th>
                                 <th style={{ padding: '16px', width: '180px', textAlign: 'center' }}>관리</th>
                             </tr>
@@ -342,11 +350,11 @@ const AdminNextGenGallery = () => {
                                         </td>
                                         <td style={{ padding: '16px', textAlign: 'center' }}>
                                             <span style={{ backgroundColor: '#F1F5F9', color: '#475569', padding: '4px 8px', borderRadius: '4px', fontSize: '13px' }}>
-                                                {deptNames[album.dept] || album.dept}
+                                                {galleryCategoryLabel(album.dept)}
                                             </span>
                                         </td>
                                         <td style={{ padding: '16px' }}>{album.title}</td>
-                                        <td style={{ padding: '16px', color: '#6B7280' }}>{formatDate(album.date)}</td>
+                                        <td style={{ padding: '16px', color: '#6B7280' }}>{galleryPeriod(album)}</td>
                                         <td style={{ padding: '16px', textAlign: 'center', color: '#6B7280' }}>{album.photos?.length || 0}장</td>
                                         <td style={{ padding: '16px' }}>
                                             <div style={{ display: 'flex', justifyContent: 'center', gap: '8px' }}>
@@ -371,4 +379,4 @@ const AdminNextGenGallery = () => {
     );
 };
 
-export default AdminNextGenGallery;
+export default AdminGallery;
