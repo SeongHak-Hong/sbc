@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { collection, getDocs, doc, setDoc, deleteDoc, query, orderBy, Timestamp } from 'firebase/firestore';
 import AdminCloseButton from '../../components/ui/AdminCloseButton';
 import { db } from '../../firebase';
-import { uploadSiteImage } from '../../lib/gallery';
+import { uploadSiteImage, removeUnusedSiteImages } from '../../lib/gallery';
 import AdminEditor from '../../components/admin/AdminEditor';
 import TimeInput from '../../components/admin/TimeInput';
 
@@ -167,6 +167,7 @@ const AdminSchedule = () => {
         setLoading(true);
         try {
             await deleteDoc(doc(db, 'schedules', id));
+            await removeUnusedSiteImages(schedules.find((s) => s.id === id));
             fetchSchedules();
         } catch (error) {
             console.error('삭제 실패:', error);
@@ -230,6 +231,8 @@ const AdminSchedule = () => {
             }
 
             await setDoc(doc(db, 'schedules', currentId), data);
+            // 고치면서 뺀 사진(대표 사진·본문 사진)은 R2 에서도 지운다
+            await removeUnusedSiteImages(existing, data);
             alert('일정이 저장되었습니다.');
             setViewMode('list');
             fetchSchedules();

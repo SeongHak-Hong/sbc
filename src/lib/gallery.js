@@ -156,6 +156,38 @@ export const uploadSiteImage = async (file) => {
     return galleryImageUrl(key);
 };
 
+// 글(문서) 안 어디에든 들어 있는 uploadSiteImage 사진 주소를 모은다 (대표 사진 목록·본문 HTML 모두)
+const SITE_IMAGE = /images\/\d{4}\/\d{2}\/[0-9a-f-]{36}\.(?:webp|jpg)/g;
+export const siteImagesIn = (value, found = new Set()) => {
+    if (typeof value === 'string') {
+        const base = `${import.meta.env.VITE_GALLERY_BASE_URL}/`;
+        value.split(base).slice(1).forEach((rest) => {
+            const key = rest.match(SITE_IMAGE)?.[0];
+            if (key && rest.startsWith(key)) found.add(key);
+        });
+    } else if (Array.isArray(value)) {
+        value.forEach((item) => siteImagesIn(item, found));
+    } else if (value && typeof value === 'object') {
+        Object.values(value).forEach((item) => siteImagesIn(item, found));
+    }
+    return found;
+};
+
+// 글을 저장·삭제한 뒤 before 에는 있고 after 에는 없는 사진을 R2 에서 지운다.
+// 글은 이미 저장됐으므로 파일을 못 지워도 알리지 않고 기록만 남긴다
+export const removeUnusedSiteImages = async (before, after = null) => {
+    const kept = siteImagesIn(after);
+    const keys = [...siteImagesIn(before)].filter((key) => !kept.has(key));
+    if (!keys.length) return;
+    try {
+        for (let i = 0; i < keys.length; i += 1000) {
+            await callApi('delete', { keys: keys.slice(i, i + 1000) });
+        }
+    } catch (error) {
+        console.error('R2 사진 지우기 실패:', keys, error);
+    }
+};
+
 // 앨범이나 사진을 지울 때 R2 파일도 같이 지운다 (한 번에 파일 1000개까지라 500장씩 나눠 보낸다)
 export const deleteGalleryPhotos = async (photos) => {
     for (let i = 0; i < photos.length; i += 500) {

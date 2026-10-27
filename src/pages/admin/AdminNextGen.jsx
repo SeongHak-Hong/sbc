@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs, doc, setDoc } from 'firebase/firestore';
 import { db, storage } from '../../firebase';
-import { uploadSiteImage } from '../../lib/gallery';
+import { uploadSiteImage, removeUnusedSiteImages } from '../../lib/gallery';
 import AdminEditor from '../../components/admin/AdminEditor';
 import AdminCloseButton from '../../components/ui/AdminCloseButton';
 import TimeInput from '../../components/admin/TimeInput';
@@ -123,6 +123,9 @@ const AdminNextGen = () => {
         }
     };
 
+    // 화면의 부서 데이터는 그 자리에서 고쳐 쓰므로, 빠진 사진을 찾을 때는 저장 직전 Firestore 내용과 비교한다
+    const readSavedDepartments = async () => (await getDocs(collection(db, 'nextgen'))).docs.map((d) => d.data());
+
     const handleSaveEvent = async () => {
         if (!editingEvent.deptId) {
             alert("부서를 선택해주세요.");
@@ -130,6 +133,7 @@ const AdminNextGen = () => {
         }
         setSaving(true);
         try {
+            const before = await readSavedDepartments();
             const newDepts = { ...departments };
             const ev = editingEvent.event;
             // Clean up old status field if present
@@ -160,6 +164,8 @@ const AdminNextGen = () => {
                 }
             }
             
+            // 행사에서 뺀 사진은 R2 에서도 지운다 (다른 부서로 옮긴 행사의 사진은 남는다)
+            await removeUnusedSiteImages(before, newDepts);
             setDepartments(newDepts);
             alert("행사가 저장되었습니다.");
             setEditingEvent(null);
@@ -173,11 +179,13 @@ const AdminNextGen = () => {
     
     const handleDeleteEvent = async (deptId, index) => {
         if (!window.confirm('정말 이 행사를 삭제하시겠습니까?')) return;
+        const before = await readSavedDepartments().catch(() => null);
         const newDepts = { ...departments };
         newDepts[deptId].events.splice(index, 1);
         setDepartments(newDepts);
         try {
             await setDoc(doc(db, 'nextgen', deptId), newDepts[deptId]);
+            await removeUnusedSiteImages(before, newDepts);
             alert('삭제되었습니다.');
         } catch (error) {
             console.error('삭제 저장 실패:', error);

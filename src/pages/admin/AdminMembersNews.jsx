@@ -3,7 +3,7 @@ import { collection, getDocs, doc, setDoc, deleteDoc, query, orderBy, Timestamp,
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import AdminCloseButton from '../../components/ui/AdminCloseButton';
 import { db, storage } from '../../firebase';
-import { uploadSiteImage } from '../../lib/gallery';
+import { uploadSiteImage, removeUnusedSiteImages } from '../../lib/gallery';
 import AdminEditor from '../../components/admin/AdminEditor';
 import NoticeAnnouncementEditor from '../../components/admin/NoticeAnnouncementEditor';
 import NoticeTablesEditor from '../../components/admin/NoticeTablesEditor';
@@ -104,6 +104,7 @@ const AdminMembersNews = () => {
                 }
             }
             await deleteDoc(doc(db, 'membersNews', post.id));
+            await removeUnusedSiteImages(post);
             fetchPosts();
         } catch (error) {
             console.error('삭제 실패:', error);
@@ -204,6 +205,8 @@ const AdminMembersNews = () => {
             };
 
             await setDoc(doc(db, 'membersNews', formId), postData);
+            // 고치면서 뺀 사진(대표 사진·본문 사진)은 R2 에서도 지운다
+            await removeUnusedSiteImages(currentPost, postData);
             alert('게시물이 저장되었습니다.');
             setViewMode('list');
             fetchPosts();
