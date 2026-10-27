@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Cropper from 'react-easy-crop';
 import { CROP_RATIOS, closestRatio } from '../../lib/gallery';
 
@@ -20,7 +20,16 @@ const PhotoCropDialog = ({ files, onDone, onCancel }) => {
         failed: false,
     })));
 
-    useEffect(() => () => items.forEach((item) => URL.revokeObjectURL(item.url)), [items.length]); // eslint-disable-line react-hooks/exhaustive-deps
+    // 미리보기 주소는 창을 끝낼 때(올리기·취소) 지운다. 화면을 지울 때 지우면 개발 모드(StrictMode)의 한 번 지웠다 다시 그리기에서 사진이 사라진다
+    const release = () => items.forEach((it) => URL.revokeObjectURL(it.url));
+    const finish = (list) => {
+        release();
+        onDone(list);
+    };
+    const cancel = () => {
+        release();
+        onCancel();
+    };
 
     const item = items[index];
     const ratio = CROP_RATIOS.find((r) => r.id === item.ratio);
@@ -42,7 +51,7 @@ const PhotoCropDialog = ({ files, onDone, onCancel }) => {
 
     // 남은 사진은 지금 고른 비율로 가운데를 잘라 한꺼번에 올린다
     const applyToRest = () => {
-        onDone(result(items.map((it, i) => (i > index ? { ...it, ratio: item.ratio, area: null } : it))));
+        finish(result(items.map((it, i) => (i > index ? { ...it, ratio: item.ratio, area: null } : it))));
     };
 
     return (
@@ -116,7 +125,7 @@ const PhotoCropDialog = ({ files, onDone, onCancel }) => {
                 </p>
 
                 <div style={{ display: 'flex', gap: '8px', justifyContent: 'space-between', flexWrap: 'wrap', borderTop: '1px solid #E5E7EB', paddingTop: '16px', marginTop: '16px' }}>
-                    <button type="button" onClick={onCancel} style={buttonStyle}>취소</button>
+                    <button type="button" onClick={cancel} style={buttonStyle}>취소</button>
                     <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                         {!isLast && item.ratio && (
                             <button type="button" onClick={applyToRest} style={buttonStyle}>
@@ -125,7 +134,7 @@ const PhotoCropDialog = ({ files, onDone, onCancel }) => {
                         )}
                         <button type="button" disabled={index === 0} onClick={() => setIndex(index - 1)} style={{ ...buttonStyle, opacity: index === 0 ? 0.5 : 1 }}>이전</button>
                         {isLast ? (
-                            <button type="button" onClick={() => onDone(result(items))} style={primaryStyle}>{items.length}장 올리기</button>
+                            <button type="button" onClick={() => finish(result(items))} style={primaryStyle}>{items.length}장 올리기</button>
                         ) : (
                             <button type="button" onClick={() => setIndex(index + 1)} style={primaryStyle}>다음 사진</button>
                         )}
