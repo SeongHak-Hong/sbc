@@ -133,6 +133,29 @@ export const uploadGalleryPhoto = async (file) => {
     return { id: keys.id, full: keys.full, thumb: keys.thumb, ...size };
 };
 
+// 갤러리 밖 관리자 화면(글 본문·공지·주보·일정·사업체·다음세대 행사)의 사진 한 장.
+// 예전 Cloudinary 때와 같은 크기(긴 쪽 1920px)로 줄여 R2 images/ 에 올리고, Firestore 에 넣을 전체 주소를 돌려준다
+export const uploadSiteImage = async (file) => {
+    let image;
+    try {
+        image = await imageCompression(file, {
+            maxWidthOrHeight: 1920,
+            maxSizeMB: 2,
+            initialQuality: 0.85,
+            fileType: getOutputType(),
+            useWebWorker: true,
+        });
+    } catch (error) {
+        console.error('사진 줄이기 실패:', error);
+        throw unreadable(file);
+    }
+
+    const form = new FormData();
+    form.append('file', image, 'image');
+    const { key } = await callApi('image', form);
+    return galleryImageUrl(key);
+};
+
 // 앨범이나 사진을 지울 때 R2 파일도 같이 지운다 (한 번에 파일 1000개까지라 500장씩 나눠 보낸다)
 export const deleteGalleryPhotos = async (photos) => {
     for (let i = 0; i < photos.length; i += 500) {

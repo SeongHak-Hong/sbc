@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import imageCompression from 'browser-image-compression';
 import { collection, getDocs, doc, setDoc, deleteDoc, query, orderBy, Timestamp, writeBatch } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import AdminCloseButton from '../../components/ui/AdminCloseButton';
 import { db, storage } from '../../firebase';
+import { uploadSiteImage } from '../../lib/gallery';
 import AdminEditor from '../../components/admin/AdminEditor';
 import NoticeAnnouncementEditor from '../../components/admin/NoticeAnnouncementEditor';
 import NoticeTablesEditor from '../../components/admin/NoticeTablesEditor';
@@ -174,40 +174,9 @@ const AdminMembersNews = () => {
         try {
             const uploadedImageUrls = [...images];
             if (newFiles.length > 0) {
-                const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-                const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
-                if (!cloudName || !uploadPreset) {
-                    throw new Error("Cloudinary API 키가 설정되지 않았습니다. .env 파일을 확인해주세요.");
-                }
-
                 setSaveMessage(`이미지 업로드 중 (0/${newFiles.length})...`);
                 for (let i = 0; i < newFiles.length; i++) {
-                    const file = newFiles[i];
-                    
-                    // 이미지 압축 적용 (넉넉하게 원본 화질 유지)
-                    const options = {
-                        maxSizeMB: 2,
-                        maxWidthOrHeight: 1920,
-                        useWebWorker: true };
-                    const compressedFile = await imageCompression(file, options);
-                    
-                    const formData = new FormData();
-                    formData.append('file', compressedFile);
-                    formData.append('upload_preset', uploadPreset);
-                    
-                    const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-                        method: 'POST',
-                        body: formData
-                    });
-                    
-                    const result = await response.json();
-                    
-                    if (response.ok) {
-                        const optimizedUrl = result.secure_url.replace('/upload/', '/upload/f_auto,q_auto/');
-                        uploadedImageUrls.push(optimizedUrl);
-                    } else {
-                        throw new Error(`이미지 업로드 실패: ${result.error?.message || '알 수 없는 오류'}`);
-                    }
+                    uploadedImageUrls.push(await uploadSiteImage(newFiles[i]));
                     setSaveMessage(`이미지 업로드 중 (${i + 1}/${newFiles.length})...`);
                 }
             }

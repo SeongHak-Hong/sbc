@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
-import imageCompression from 'browser-image-compression';
 import { Editor } from '@toast-ui/react-editor';
+import { uploadSiteImage } from '../../lib/gallery';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
 
@@ -48,46 +48,13 @@ const AdminEditor = ({ initialValue, onChange, height = '800px' }) => {
         }
     };
 
-    // Cloudinary 이미지 업로드 훅
+    // 본문 사진은 R2 에 올린다 (src/lib/gallery.js)
     const handleImageUpload = async (blob, callback) => {
-        const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-        const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
-
-        if (!cloudName || !uploadPreset) {
-            alert('Cloudinary API 키가 설정되지 않았습니다.');
-            callback('', '업로드 실패');
-            return;
-        }
-
         try {
-            // 이미지 압축 적용 (넉넉하게 원본 화질 유지)
-            const options = {
-                maxSizeMB: 2, // 최대 2MB
-                maxWidthOrHeight: 1920, // FHD 해상도까지 허용
-                useWebWorker: true
-            };
-            const compressedBlob = await imageCompression(blob, options);
-
-            const formData = new FormData();
-            formData.append('file', compressedBlob);
-            formData.append('upload_preset', uploadPreset);
-
-            const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-                method: 'POST',
-                body: formData
-            });
-
-            const result = await response.json();
-            if (response.ok) {
-                // Cloudinary 자동 최적화 파라미터 적용 (WebP/AVIF 자동 변환 및 용량 최적화)
-                const optimizedUrl = result.secure_url.replace('/upload/', '/upload/f_auto,q_auto/');
-                callback(optimizedUrl, result.original_filename || 'image');
-            } else {
-                throw new Error(result.error?.message || '알 수 없는 오류');
-            }
+            callback(await uploadSiteImage(blob), blob.name || 'image');
         } catch (error) {
             console.error('이미지 업로드 중 오류 발생:', error);
-            alert('이미지 업로드에 실패했습니다.');
+            alert(`이미지 업로드에 실패했습니다.\n${error.message}`);
             callback('', '업로드 실패');
         }
     };

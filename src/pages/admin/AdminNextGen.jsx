@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import imageCompression from 'browser-image-compression';
 import { collection, getDocs, doc, setDoc } from 'firebase/firestore';
 import { db, storage } from '../../firebase';
+import { uploadSiteImage } from '../../lib/gallery';
 import AdminEditor from '../../components/admin/AdminEditor';
 import AdminCloseButton from '../../components/ui/AdminCloseButton';
 import TimeInput from '../../components/admin/TimeInput';
@@ -81,42 +81,13 @@ const AdminNextGen = () => {
 
     const handleImageUpload = async (files) => {
         if (!files || files.length === 0) return;
-        
-        const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-        const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
-        if (!cloudName || !uploadPreset) {
-            alert("Cloudinary API 키가 설정되지 않았습니다. .env 파일을 확인해주세요.");
-            return;
-        }
 
         setUploading(true);
         try {
             const uploadedUrls = [];
             
             for (let i = 0; i < files.length; i++) {
-                const options = {
-                    maxSizeMB: 2,
-                    maxWidthOrHeight: 1920,
-                    useWebWorker: true };
-                const compressedFile = await imageCompression(files[i], options);
-
-                const formData = new FormData();
-                formData.append('file', compressedFile);
-                formData.append('upload_preset', uploadPreset);
-                
-                const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const result = await response.json();
-                
-                if (response.ok) {
-                    const optimizedUrl = result.secure_url.replace('/upload/', '/upload/f_auto,q_auto/');
-                    uploadedUrls.push(optimizedUrl);
-                } else {
-                    throw new Error(result.error?.message || '알 수 없는 오류');
-                }
+                uploadedUrls.push(await uploadSiteImage(files[i]));
             }
             
             setEditingEvent(prev => {
