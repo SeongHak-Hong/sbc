@@ -1,20 +1,21 @@
 // POST /api/newcomer-inquiry — 새가족 페이지 '새가족 등록 문의' 팝업에서 보낸 글을 새가족팀 메일로 보낸다.
 // 메일은 Resend(https://resend.com)로 보낸다. Cloudflare Pages 대시보드 > 설정 > 환경 변수에 넣을 값:
 //   RESEND_API_KEY        Resend에서 받은 API 키 (비밀 값으로)
-//   NEWCOMER_INQUIRY_TO   받을 새가족팀 메일 주소 (여러 개면 쉼표로)
+//   NEWCOMER_INQUIRY_TO   받을 메일 주소 (여러 개면 쉼표로). 없으면 새가족팀 sbc8156@gmail.com
 //   NEWCOMER_INQUIRY_FROM 보내는 주소. 없으면 Resend 시험 주소(onboarding@resend.dev)를 쓰는데,
 //                         이 주소는 Resend 가입 메일로만 보내진다. shintanjin.or.kr 도메인을 Resend에 인증한 뒤
 //                         '신탄진침례교회 <newcomer@shintanjin.or.kr>'처럼 넣는다.
 // 이름·연락처는 메일로만 전하고 어디에도 저장하지 않는다.
 const LIMITS = { name: 40, contact: 100, question: 500 };
 const DEFAULT_FROM = '신탄진침례교회 홈페이지 <onboarding@resend.dev>';
+const DEFAULT_TO = 'sbc8156@gmail.com';
 
 const fail = (status, error) => Response.json({ error }, { status });
 
 const escapeHtml = (value) => value.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
 export async function onRequestPost({ request, env }) {
-    if (!env.RESEND_API_KEY || !env.NEWCOMER_INQUIRY_TO) {
+    if (!env.RESEND_API_KEY) {
         return fail(503, '지금은 문의를 보낼 수 없어요. 잠시 후 다시 시도해 주세요.');
     }
     if (Number(request.headers.get('Content-Length')) > 8 * 1024) {
@@ -54,7 +55,7 @@ export async function onRequestPost({ request, env }) {
         headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
             from: env.NEWCOMER_INQUIRY_FROM || DEFAULT_FROM,
-            to: env.NEWCOMER_INQUIRY_TO.split(',').map((v) => v.trim()).filter(Boolean),
+            to: (env.NEWCOMER_INQUIRY_TO || DEFAULT_TO).split(',').map((v) => v.trim()).filter(Boolean),
             // 연락처가 메일 주소면 '답장'을 누르면 바로 그 분께 간다
             ...(isEmail ? { reply_to: contact } : {}),
             subject: `[새가족 문의] ${name}님`,

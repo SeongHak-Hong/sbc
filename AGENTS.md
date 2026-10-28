@@ -115,7 +115,7 @@ Antigravity 같은 다른 AI 도구로 이어서 작업할 때 이 문서를 먼
 
 **새가족(`/newcomer`, `WelcomePage`)**: 봉투 첫 화면, 일러스트 과정 카드, 문의 팝업까지 적용했다.
 - 문의 메일 발송(`functions/api/newcomer-inquiry.js`, Resend)이 동작하려면 사용자가 Cloudflare Pages 대시보드에 환경 변수를 넣어야 한다.
-  - `RESEND_API_KEY`, `NEWCOMER_INQUIRY_TO`(새가족팀 메일, 아직 미정), `NEWCOMER_INQUIRY_FROM`(도메인 인증 후)
+  - `RESEND_API_KEY`(필수), `NEWCOMER_INQUIRY_FROM`(도메인 인증 후). 받는 주소는 코드 기본값 `sbc8156@gmail.com`(새가족팀)이고, `NEWCOMER_INQUIRY_TO`를 넣으면 그 주소로 바뀐다
   - 로컬 `npm run dev`에는 서버 함수가 없어 보내기를 누르면 오류 문구가 나오는 것이 정상이다.
 - 문의 섹션 오른쪽 사진은 아직 예전 AI 인물 사진(`welcome-step-02`)이다. 일러스트로 바꿀 후보다.
 - 동의 문구("답변 후 지워요")는 교회 방침 확인이 필요하다.
