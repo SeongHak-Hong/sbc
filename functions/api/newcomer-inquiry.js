@@ -1,7 +1,7 @@
 // POST /api/newcomer-inquiry — 새가족 페이지 '새가족 등록 문의' 팝업에서 보낸 글을 새가족팀 메일로 보낸다.
 // 메일은 Resend(https://resend.com)로 보낸다. Cloudflare Pages 대시보드 > 설정 > 환경 변수에 넣을 값:
 //   RESEND_API_KEY        Resend에서 받은 API 키 (비밀 값으로)
-//   NEWCOMER_INQUIRY_TO   받을 메일 주소 (여러 개면 쉼표로). 없으면 새가족팀 sbc8156@gmail.com
+//   NEWCOMER_INQUIRY_TO   받을 메일 주소 (여러 개면 쉼표로). 없으면 sbc8156@gmail.com (지금은 방송실 부장님이 받음, Resend 가입 메일과 같음)
 //   NEWCOMER_INQUIRY_FROM 보내는 주소. 없으면 Resend 시험 주소(onboarding@resend.dev)를 쓰는데,
 //                         이 주소는 Resend 가입 메일로만 보내진다. shintanjin.or.kr 도메인을 Resend에 인증한 뒤
 //                         '신탄진침례교회 <newcomer@shintanjin.or.kr>'처럼 넣는다.
