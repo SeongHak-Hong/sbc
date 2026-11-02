@@ -13,6 +13,7 @@ import member07 from '../assets/team/shintanjin-baptist-church-member-07.webp';
 import activeElder from '../assets/team/shintanjin-baptist-church-member-active-elder.webp';
 import seniorElder01 from '../assets/team/shintanjin-baptist-church-member-senior-elder-01.webp';
 import seniorElder02 from '../assets/team/shintanjin-baptist-church-member-senior-elder-02.webp';
+import seniorElder03 from '../assets/team/shintanjin-baptist-church-member-senior-elder-03.webp';
 import seniorElder04 from '../assets/team/shintanjin-baptist-church-member-senior-elder-04.webp';
 import seniorElder05 from '../assets/team/shintanjin-baptist-church-member-senior-elder-05.webp';
 import seniorElder06 from '../assets/team/shintanjin-baptist-church-member-senior-elder-06.webp';
@@ -21,8 +22,7 @@ import seniorElder08 from '../assets/team/shintanjin-baptist-church-member-senio
 import seniorElder09 from '../assets/team/shintanjin-baptist-church-member-senior-elder-09.webp';
 
 // 그룹별 섬기는 사람들. lead: 담임목사·사모는 한 줄 3칸으로 조금 크게
-// 원로장로 사진 번호는 가나다순: 01 고석천 02 김중호 03 김태식 04 박찬옥 05 서용태 06 안억균 07 오철세 08 임종천 09 황규현
-// 03(김태식)은 사진이 오면 senior-elder-03.webp를 import해서 아래 표시해 둔 자리에 추가
+// 원로장로 사진 번호는 사이트 배치 순서: 01 김중호 02 박찬옥 03 임종천 04 황규현 05 서용태 06 안억균 07 고석천 08 오철세 09 김태식
 const groups = [
     {
         title: '담임목사 및 사모',
@@ -55,16 +55,15 @@ const groups = [
     {
         title: '원로장로',
         members: [
-            // 표시 순서는 교회가 정한 순서 (사진 번호와 무관)
-            { name: '김중호', role: '원로장로', image: seniorElder02 },
-            { name: '박찬옥', role: '원로장로', image: seniorElder04 },
-            { name: '임종천', role: '원로장로', image: seniorElder08 },
-            { name: '황규현', role: '원로장로', image: seniorElder09 },
+            { name: '김중호', role: '원로장로', image: seniorElder01 },
+            { name: '박찬옥', role: '원로장로', image: seniorElder02 },
+            { name: '임종천', role: '원로장로', image: seniorElder03 },
+            { name: '황규현', role: '원로장로', image: seniorElder04 },
             { name: '서용태', role: '원로장로', image: seniorElder05 },
             { name: '안억균', role: '원로장로', image: seniorElder06 },
-            { name: '고석천', role: '원로장로', image: seniorElder01 },
-            { name: '오철세', role: '원로장로', image: seniorElder07 },
-            // 김태식 (사진 추가 예정, senior-elder-03)
+            { name: '고석천', role: '원로장로', image: seniorElder07 },
+            { name: '오철세', role: '원로장로', image: seniorElder08 },
+            { name: '김태식', role: '원로장로', image: seniorElder09 },
         ],
     },
     {
