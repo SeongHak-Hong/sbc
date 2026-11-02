@@ -633,6 +633,7 @@
 .photoOpen img {
     display: block;
     width: 100%;
+    height: auto; /* 전역 button img(아이콘 18px 높이) 규칙을 풀어 준다 */
     aspect-ratio: 16 / 10;
     object-fit: cover;
     border-radius: var(--r-media);
