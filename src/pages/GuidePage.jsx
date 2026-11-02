@@ -13,12 +13,23 @@ import mapSemi3F from '../assets/guide/semi-3F.svg?raw';
 import mapDasom1F from '../assets/guide/dasom-1F.svg?raw';
 import mapDasom2F from '../assets/guide/dasom-2F.svg?raw';
 
-import tempEntry from '../assets/main/shintanjin-hero-poster.webp';
-import tempWorship from '../assets/main/shintanjin-baptist-church-sunday-worship.webp';
-import tempGroup from '../assets/main/shintanjin-baptist-church-small-group.webp';
-import tempKids from '../assets/main/shintanjin-baptist-church-nextgen-children.webp';
-import tempPlant from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-01.webp';
-import tempLobby from '../assets/nurture/shintanjin-baptist-church-welcome.webp';
+import photoDiningHall from '../assets/guide/shintanjin-baptist-church-1f-dining-hall.webp';
+import photoInnerDiningHall from '../assets/guide/shintanjin-baptist-church-1f-inner-dining-hall.webp';
+import photoElementaryRoom from '../assets/guide/shintanjin-baptist-church-1f-elementary-room.webp';
+import photoLobby from '../assets/guide/shintanjin-baptist-church-2f-lobby.webp';
+import photoSmallSanctuary from '../assets/guide/shintanjin-baptist-church-2f-small-sanctuary.webp';
+import photoPreschoolRoom from '../assets/guide/shintanjin-baptist-church-2f-preschool-room.webp';
+import photoChoirRoom from '../assets/guide/shintanjin-baptist-church-2f-choir-practice-room.webp';
+import photoNewcomerRoom from '../assets/guide/shintanjin-baptist-church-2f-newcomer-room.webp';
+import photoPastorOffice from '../assets/guide/shintanjin-baptist-church-2f-pastor-office.webp';
+import photoChurchOffice from '../assets/guide/shintanjin-baptist-church-2f-church-office.webp';
+import photoLounge from '../assets/guide/shintanjin-baptist-church-2f-lounge.webp';
+import photoYouthRoom from '../assets/guide/shintanjin-baptist-church-2f-youth-room.webp';
+import photoMainSanctuary from '../assets/guide/shintanjin-baptist-church-3f-main-sanctuary.webp';
+import photoFamilyRoom from '../assets/guide/shintanjin-baptist-church-3f-family-room.webp';
+import photoMezzanine from '../assets/guide/shintanjin-baptist-church-mezzanine-seating.webp';
+import photoDasomLounge from '../assets/guide/shintanjin-baptist-church-dasom-1f-lounge.webp';
+import photoDasomFellowship from '../assets/guide/shintanjin-baptist-church-dasom-2f-fellowship-room.webp';
 
 import Footer from '../components/Footer';
 import PageTopGradient from '../components/PageTopGradient';
@@ -63,17 +74,27 @@ const FloorPlan = ({ id, label }) => {
     );
 };
 
-// 시설 사진: 좋은 사진만 골라 넣는다. floor는 '평면도에서 보기'로 열 층.
-// 지금 사진은 자리만 잡는 임시 이미지라 개발 화면에서만 보인다. 실제 사진을 넣을 때 DEV 조건과 temp import를 함께 지운다.
+// 시설 사진: floors와 같은 층 순서로 놓는다. floor는 '평면도에서 보기'로 열 층.
 // 사진이 하나도 없으면 사진 줄 없이 평면도만 나온다
-const facilityPhotos = import.meta.env.DEV ? [
-    { src: tempWorship, name: '대예배실', where: '본관 3층', floor: '3F' },
-    { src: tempEntry, name: '본관 입구', where: '본관 1층', floor: '1F' },
-    { src: tempLobby, name: '새가족실', where: '본관 2층', floor: '2F' },
-    { src: tempKids, name: '유치부실', where: '본관 2층', floor: '2F' },
-    { src: tempGroup, name: '식당', where: '본관 1층', floor: '1F' },
-    { src: tempPlant, name: '행복쉼터', where: '다솜관 1층', floor: 'dasom1F' },
-] : [];
+const facilityPhotos = [
+    { src: photoDiningHall, name: '식당', where: '본관 1층', floor: '1F' },
+    { src: photoInnerDiningHall, name: '안쪽식당', where: '본관 1층', floor: '1F' },
+    { src: photoElementaryRoom, name: '초등부실', where: '본관 1층', floor: '1F' },
+    { src: photoLobby, name: '2층 로비', where: '본관 2층', floor: '2F' },
+    { src: photoSmallSanctuary, name: '소예배실', where: '본관 2층', floor: '2F' },
+    { src: photoPreschoolRoom, name: '유치부실', where: '본관 2층', floor: '2F' },
+    { src: photoChoirRoom, name: '찬양연습실', where: '본관 2층', floor: '2F' },
+    { src: photoNewcomerRoom, name: '새가족실', where: '본관 2층', floor: '2F' },
+    { src: photoPastorOffice, name: '목양실', where: '본관 2층', floor: '2F' },
+    { src: photoChurchOffice, name: '행정실', where: '본관 2층', floor: '2F' },
+    { src: photoLounge, name: '휴게실', where: '본관 2층', floor: '2F' },
+    { src: photoYouthRoom, name: '청소년실', where: '본관 2층', floor: '2F' },
+    { src: photoMainSanctuary, name: '대예배실', where: '본관 3층', floor: '3F' },
+    { src: photoFamilyRoom, name: '자모실', where: '본관 3층', floor: '3F' },
+    { src: photoMezzanine, name: '예배석', where: '본관 준3층', floor: 'semi3F' },
+    { src: photoDasomLounge, name: '행복쉼터', where: '다솜관 1층', floor: 'dasom1F' },
+    { src: photoDasomFellowship, name: '예배 및 교제방', where: '다솜관 2층', floor: 'dasom2F' },
+];
 
 const ease = [0.16, 1, 0.3, 1];
 // 선택 표시 이동: 넘침 없는 스프링 (도중에 다시 눌러도 지금 자리에서 이어 감)
@@ -637,7 +658,7 @@ const FacilityPhotos = ({ photos, onOpen, onShowFloor, reduceMotion }) => {
                             aria-label={`${photo.name} 사진 크게 보기`}
                             onClick={() => onOpen(index)}
                         >
-                            <img src={photo.src} alt="" loading="lazy" decoding="async" draggable="false" />
+                            <img src={photo.src} alt={`${photo.name}, ${photo.where}`} loading="lazy" decoding="async" draggable="false" />
                         </button>
                         <span className={styles.photoName}>{photo.name}</span>
                         <span className={styles.photoWhere}>
