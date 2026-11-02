@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo, useId } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef, useCallback, useMemo, useId } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { useSearchParams } from 'react-router-dom';
@@ -12,6 +12,13 @@ import map3F from '../assets/guide/3F.svg?raw';
 import mapSemi3F from '../assets/guide/semi-3F.svg?raw';
 import mapDasom1F from '../assets/guide/dasom-1F.svg?raw';
 import mapDasom2F from '../assets/guide/dasom-2F.svg?raw';
+
+import tempEntry from '../assets/main/shintanjin-hero-poster.webp';
+import tempWorship from '../assets/main/shintanjin-baptist-church-sunday-worship.webp';
+import tempGroup from '../assets/main/shintanjin-baptist-church-small-group.webp';
+import tempKids from '../assets/main/shintanjin-baptist-church-nextgen-children.webp';
+import tempPlant from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-01.webp';
+import tempLobby from '../assets/nurture/shintanjin-baptist-church-welcome.webp';
 
 import Footer from '../components/Footer';
 import PageTopGradient from '../components/PageTopGradient';
@@ -55,6 +62,18 @@ const FloorPlan = ({ id, label }) => {
         />
     );
 };
+
+// 시설 사진: 좋은 사진만 골라 넣는다. floor는 '평면도에서 보기'로 열 층.
+// 지금 사진은 자리만 잡는 임시 이미지라 개발 화면에서만 보인다. 실제 사진을 넣을 때 DEV 조건과 temp import를 함께 지운다.
+// 사진이 하나도 없으면 사진 줄 없이 평면도만 나온다
+const facilityPhotos = import.meta.env.DEV ? [
+    { src: tempWorship, name: '대예배실', where: '본관 3층', floor: '3F' },
+    { src: tempEntry, name: '본관 입구', where: '본관 1층', floor: '1F' },
+    { src: tempLobby, name: '새가족실', where: '본관 2층', floor: '2F' },
+    { src: tempKids, name: '유치부실', where: '본관 2층', floor: '2F' },
+    { src: tempGroup, name: '식당', where: '본관 1층', floor: '1F' },
+    { src: tempPlant, name: '행복쉼터', where: '다솜관 1층', floor: 'dasom1F' },
+] : [];
 
 const ease = [0.16, 1, 0.3, 1];
 // 선택 표시 이동: 넘침 없는 스프링 (도중에 다시 눌러도 지금 자리에서 이어 감)
@@ -573,6 +592,157 @@ const FloorPlanViewer = ({ open, onClose, floor, onPick, reduceMotion }) => {
 // 공통 Header 높이(4rem). Header는 내릴 때 숨고 올릴 때 나온다
 const HEADER_H = 64;
 
+const ChevronIcon = ({ d }) => (
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d={d} /></svg>
+);
+const CHEVRON_LEFT = 'M15 5l-7 7 7 7';
+const CHEVRON_RIGHT = 'M9 5l7 7-7 7';
+
+// 시설 사진 줄: 옆으로 넘겨 보고(브라우저 스크롤), 사진을 누르면 크게 본다. 이전·다음 버튼은 마우스 화면에서만
+const FacilityPhotos = ({ photos, onOpen, onShowFloor, reduceMotion }) => {
+    const railRef = useRef(null);
+    const [edge, setEdge] = useState({ start: true, end: false });
+
+    const readEdge = useCallback(() => {
+        const rail = railRef.current;
+        if (!rail) return;
+        const start = rail.scrollLeft < 4;
+        const end = rail.scrollLeft + rail.clientWidth > rail.scrollWidth - 4;
+        setEdge((old) => (old.start === start && old.end === end ? old : { start, end }));
+    }, []);
+
+    useEffect(() => {
+        readEdge();
+        window.addEventListener('resize', readEdge);
+        return () => window.removeEventListener('resize', readEdge);
+    }, [readEdge]);
+
+    const move = (dir) => {
+        const rail = railRef.current;
+        const item = rail?.firstElementChild;
+        if (!item) return;
+        const gap = parseFloat(getComputedStyle(rail).columnGap) || 0;
+        rail.scrollBy({ left: dir * (item.offsetWidth + gap), behavior: reduceMotion ? 'auto' : 'smooth' });
+    };
+
+    return (
+        <>
+            <ul ref={railRef} className={styles.photoRail} aria-label="교회 공간 사진" onScroll={readEdge}>
+                {photos.map((photo, index) => (
+                    <li key={photo.name} className={styles.photoItem}>
+                        <button
+                            type="button"
+                            className={styles.photoOpen}
+                            aria-haspopup="dialog"
+                            aria-label={`${photo.name} 사진 크게 보기`}
+                            onClick={() => onOpen(index)}
+                        >
+                            <img src={photo.src} alt="" loading="lazy" decoding="async" draggable="false" />
+                        </button>
+                        <span className={styles.photoName}>{photo.name}</span>
+                        <span className={styles.photoWhere}>
+                            {photo.where}
+                            <button
+                                type="button"
+                                className={`${styles.wayLink} ${styles.photoFloorLink}`}
+                                aria-label={`${photo.name}, ${photo.where} 평면도에서 보기`}
+                                onClick={() => onShowFloor(photo.floor)}
+                            >
+                                평면도에서 보기
+                            </button>
+                        </span>
+                    </li>
+                ))}
+            </ul>
+            <div className={styles.photoNav}>
+                <button type="button" className={styles.photoArrow} aria-label="이전 사진" disabled={edge.start} onClick={() => move(-1)}>
+                    <ChevronIcon d={CHEVRON_LEFT} />
+                </button>
+                <button type="button" className={styles.photoArrow} aria-label="다음 사진" disabled={edge.end} onClick={() => move(1)}>
+                    <ChevronIcon d={CHEVRON_RIGHT} />
+                </button>
+            </div>
+        </>
+    );
+};
+
+// 사진 크게 보기: 흰 화면 전체. 손가락으로 옆으로 넘기고, 두 손가락으로 키울 수 있다(브라우저 기본 동작). 키보드는 ←→
+const PhotoViewer = ({ photos, startIndex, onClose, reduceMotion }) => {
+    const panelRef = useRef(null);
+    const trackRef = useRef(null);
+    const [index, setIndex] = useState(startIndex);
+    useModal(true, onClose, panelRef);
+
+    useLayoutEffect(() => {
+        const track = trackRef.current;
+        if (track) track.scrollLeft = startIndex * track.clientWidth;
+    }, [startIndex]);
+
+    const go = useCallback((next) => {
+        const track = trackRef.current;
+        if (!track) return;
+        track.scrollTo({ left: next * track.clientWidth, behavior: reduceMotion ? 'auto' : 'smooth' });
+    }, [reduceMotion]);
+
+    useEffect(() => {
+        const onKey = (e) => {
+            if (e.key === 'ArrowLeft' && index > 0) go(index - 1);
+            if (e.key === 'ArrowRight' && index < photos.length - 1) go(index + 1);
+        };
+        document.addEventListener('keydown', onKey);
+        return () => document.removeEventListener('keydown', onKey);
+    }, [go, index, photos.length]);
+
+    const onScroll = () => {
+        const track = trackRef.current;
+        if (track?.clientWidth) setIndex(Math.round(track.scrollLeft / track.clientWidth));
+    };
+
+    const photo = photos[index] ?? photos[startIndex];
+    return createPortal(
+        <motion.div
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="photo-view-title"
+            tabIndex={-1}
+            data-lenis-prevent
+            className={styles.planView}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.3, ease }}
+        >
+            <div className={styles.planHead}>
+                <h2 id="photo-view-title" className={styles.planTitle} aria-live="polite">
+                    {photo.name}
+                    <span className={styles.photoViewWhere}>{photo.where}</span>
+                </h2>
+                <button type="button" className={styles.planClose} aria-label="사진 닫기" onClick={onClose}>
+                    <CloseIcon />
+                </button>
+            </div>
+            <div ref={trackRef} className={styles.photoTrack} onScroll={onScroll}>
+                {photos.map((item, i) => (
+                    <div key={item.name} className={styles.photoSlide}>
+                        <img src={item.src} alt={`${item.name}, ${item.where}`} draggable="false" loading={Math.abs(i - startIndex) < 2 ? 'eager' : 'lazy'} />
+                    </div>
+                ))}
+            </div>
+            <div className={styles.photoViewNav}>
+                <button type="button" className={styles.photoArrow} aria-label="이전 사진" disabled={index === 0} onClick={() => go(index - 1)}>
+                    <ChevronIcon d={CHEVRON_LEFT} />
+                </button>
+                <span className={styles.photoCount}>{index + 1} / {photos.length}</span>
+                <button type="button" className={styles.photoArrow} aria-label="다음 사진" disabled={index === photos.length - 1} onClick={() => go(index + 1)}>
+                    <ChevronIcon d={CHEVRON_RIGHT} />
+                </button>
+            </div>
+        </motion.div>,
+        document.body
+    );
+};
+
 const GuidePage = () => {
     // 고른 것은 URL 쿼리에 둔다 → 새로고침·링크 공유가 그대로 동작
     // 예: /guide?tab=worship&g=next, /guide?tab=shuttle&s=sunday2, /guide?tab=facilities&floor=3F
@@ -602,6 +772,9 @@ const GuidePage = () => {
     const closeShuttle = useCallback(() => setShuttleOpen(false), []);
     const [planOpen, setPlanOpen] = useState(false);
     const closePlan = useCallback(() => setPlanOpen(false), []);
+    const [photoIndex, setPhotoIndex] = useState(null);
+    const closePhoto = useCallback(() => setPhotoIndex(null), []);
+    const planHeadRef = useRef(null);
 
     const tabsRef = useRef(null);
     // 층 알약을 누르면 그 버튼이 펼친 칸으로 바뀌므로, 키보드 위치를 펼친 칸으로 옮긴다
@@ -711,6 +884,19 @@ const GuidePage = () => {
     const pickFloor = (id) => {
         floorPicked.current = true;
         updateParams({ floor: id });
+    };
+
+    // 사진의 '평면도에서 보기': 그 층으로 바꾸고 평면도 제목까지 내려간다
+    const showFloorOnPlan = (id) => {
+        pickFloor(id);
+        const el = planHeadRef.current;
+        if (!el) return;
+        const offset = -((tabsRef.current?.offsetHeight ?? 64) + 24);
+        if (window.lenis) {
+            window.lenis.scrollTo(el, { offset, immediate: reduceMotion });
+        } else {
+            window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY + offset, behavior: reduceMotion ? 'auto' : 'smooth' });
+        }
     };
 
     useEffect(() => {
@@ -865,11 +1051,22 @@ const GuidePage = () => {
             </section>
 
             {/* ⑤ 시설 안내: 회색 띠 위 큰 흰 카드. 애플 product viewer처럼 왼쪽 층 알약(고른 층은 그 자리에서 펼쳐짐) / 오른쪽 평면도 */}
-            <section id="facilities" className={`${styles.sec} ${styles.band} ${styles.bandBottom}`} aria-labelledby="facilities-title">
+            <section id="facilities" className={`${styles.sec} ${styles.band} ${styles.bandBottom} ${styles.facilities}`} aria-labelledby="facilities-title">
                 <div className={styles.wrap}>
                     <div className={styles.secHead}>
                         <h2 id="facilities-title" className={styles.secTitle}>교회를 둘러보세요.</h2>
                     </div>
+                    {facilityPhotos.length > 0 && (
+                        <>
+                            <FacilityPhotos
+                                photos={facilityPhotos}
+                                onOpen={setPhotoIndex}
+                                onShowFloor={showFloorOnPlan}
+                                reduceMotion={reduceMotion}
+                            />
+                            <h3 ref={planHeadRef} className={`${styles.secTitle} ${styles.planHeading}`}>어디에 있는지 찾아보세요.</h3>
+                        </>
+                    )}
                     <div className={styles.viewer}>
                         <ul className={styles.viewerControls} aria-label="층 고르기">
                             {facilityTabs.map((tab, index) => {
@@ -1004,6 +1201,18 @@ const GuidePage = () => {
                 onPick={(id) => updateParams({ floor: id })}
                 reduceMotion={reduceMotion}
             />
+
+            <AnimatePresence>
+                {photoIndex !== null && (
+                    <PhotoViewer
+                        key="photo-viewer"
+                        photos={facilityPhotos}
+                        startIndex={photoIndex}
+                        onClose={closePhoto}
+                        reduceMotion={reduceMotion}
+                    />
+                )}
+            </AnimatePresence>
 
             <Footer />
         </div>

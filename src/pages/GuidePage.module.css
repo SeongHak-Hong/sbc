@@ -581,6 +581,213 @@
     font-size: 24px;
 }
 
+/* ---------- 시설 사진 줄: 본문 왼쪽 선에서 시작해 오른쪽 화면 끝까지, 옆으로 넘겨 본다 ---------- */
+.facilities {
+    overflow-x: clip;
+}
+
+.photoRail {
+    --rail-out: max(var(--gutter), (100vw - var(--wrap)) / 2 + var(--gutter));
+    display: flex;
+    gap: 16px;
+    margin: 0 calc(var(--rail-out) * -1);
+    padding: 0 var(--rail-out);
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--rail-out);
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+}
+
+.photoRail::-webkit-scrollbar {
+    display: none;
+}
+
+.photoItem {
+    display: flex;
+    flex: 0 0 min(760px, 60vw);
+    flex-direction: column;
+    align-items: flex-start;
+    scroll-snap-align: start;
+}
+
+.photoOpen {
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0;
+    border: none;
+    border-radius: var(--r-media);
+    background: none;
+    cursor: zoom-in;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.photoOpen:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: -4px;
+}
+
+.photoOpen img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: var(--r-media);
+    background-color: #e8e8ed;
+    -webkit-touch-callout: none;
+    -webkit-user-drag: none;
+}
+
+.photoName {
+    font-size: var(--t-mid);
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--color-text-strong);
+}
+
+.photoWhere {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 12px;
+    font-size: var(--t-small);
+    color: var(--color-text-tertiary);
+}
+
+.photoFloorLink {
+    margin-top: 0;
+    color: var(--color-link-on-light);
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.photoNav {
+    display: none;
+}
+
+.photoArrow {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: #e8e8ed;
+    color: var(--color-text-strong);
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.photoArrow svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.photoArrow:active:not(:disabled) {
+    opacity: 0.55;
+}
+
+.photoArrow:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.photoArrow:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
+}
+
+/* 이전·다음 버튼은 마우스 화면에서만. 손가락은 바로 넘긴다 */
+@media (hover: hover) and (pointer: fine) {
+    .photoNav {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 0.5rem;
+    }
+}
+
+/* 평면도 제목: 사진 줄과 넉넉히 띄운다 */
+.planHeading {
+    margin-top: 4.5rem;
+    margin-bottom: var(--space-head);
+}
+
+/* 사진 크게 보기 */
+.photoViewWhere {
+    display: block;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+    color: #707070;
+}
+
+.photoTrack {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overscroll-behavior: contain;
+    touch-action: pan-x pinch-zoom;
+    background-color: var(--color-surface-band);
+}
+
+.photoTrack::-webkit-scrollbar {
+    display: none;
+}
+
+.photoSlide {
+    display: flex;
+    flex: 0 0 100%;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+}
+
+.photoSlide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    -webkit-user-drag: none;
+}
+
+.photoViewNav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    padding: 0.75rem 1.5rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+}
+
+.photoCount {
+    min-width: 4rem;
+    font-size: 1rem;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
 /* 오른쪽 흰 무대: 카드 없이 평면도만 */
 /* 평면도 + 그 아래 오른쪽 '크게 보기' 표시 (평면도를 가리지 않게) */
 .viewerStage {
@@ -1331,6 +1538,27 @@
 
     .routeMeta {
         font-size: var(--t-body);
+    }
+
+    /* 휴대폰 사진 줄: 사진 한 장이 화면을 거의 채우고 다음 사진이 살짝 보인다 */
+    .photoRail {
+        gap: 12px;
+    }
+
+    .photoItem {
+        flex-basis: 82vw;
+    }
+
+    .photoOpen {
+        margin-bottom: 0.75rem;
+    }
+
+    .photoOpen img {
+        aspect-ratio: 4 / 3;
+    }
+
+    .planHeading {
+        margin-top: 3rem;
     }
 
     /* 휴대폰: 평면도 먼저, 아래에 층 알약 */
