@@ -74,14 +74,15 @@ const FloorPlan = ({ id, label }) => {
     );
 };
 
-// 시설 사진: floors와 같은 층 순서로 놓는다. floor는 '평면도에서 보기'로 열 층.
+// 시설 사진: 예배실 둘을 맨 앞에 두고, 나머지는 floors와 같은 층 순서로 놓는다. floor는 '평면도에서 보기'로 열 층.
 // 사진이 하나도 없으면 사진 줄 없이 평면도만 나온다
 const facilityPhotos = [
+    { src: photoMainSanctuary, name: '대예배실', where: '본관 3층', floor: '3F' },
+    { src: photoSmallSanctuary, name: '소예배실', where: '본관 2층', floor: '2F' },
     { src: photoDiningHall, name: '식당', where: '본관 1층', floor: '1F' },
     { src: photoInnerDiningHall, name: '안쪽식당', where: '본관 1층', floor: '1F' },
     { src: photoElementaryRoom, name: '초등부실', where: '본관 1층', floor: '1F' },
     { src: photoLobby, name: '2층 로비', where: '본관 2층', floor: '2F' },
-    { src: photoSmallSanctuary, name: '소예배실', where: '본관 2층', floor: '2F' },
     { src: photoPreschoolRoom, name: '유치부실', where: '본관 2층', floor: '2F' },
     { src: photoChoirRoom, name: '찬양연습실', where: '본관 2층', floor: '2F' },
     { src: photoNewcomerRoom, name: '새가족실', where: '본관 2층', floor: '2F' },
@@ -89,7 +90,6 @@ const facilityPhotos = [
     { src: photoChurchOffice, name: '행정실', where: '본관 2층', floor: '2F' },
     { src: photoLounge, name: '휴게실', where: '본관 2층', floor: '2F' },
     { src: photoYouthRoom, name: '청소년실', where: '본관 2층', floor: '2F' },
-    { src: photoMainSanctuary, name: '대예배실', where: '본관 3층', floor: '3F' },
     { src: photoFamilyRoom, name: '자모실', where: '본관 3층', floor: '3F' },
     { src: photoMezzanine, name: '예배석', where: '본관 준3층', floor: 'semi3F' },
     { src: photoDasomLounge, name: '행복쉼터', where: '다솜관 1층', floor: 'dasom1F' },
