@@ -14,7 +14,6 @@ import mapDasom1F from '../assets/guide/dasom-1F.svg?raw';
 import mapDasom2F from '../assets/guide/dasom-2F.svg?raw';
 
 import photoDiningHall from '../assets/guide/shintanjin-baptist-church-1f-dining-hall.webp';
-import photoInnerDiningHall from '../assets/guide/shintanjin-baptist-church-1f-inner-dining-hall.webp';
 import photoElementaryRoom from '../assets/guide/shintanjin-baptist-church-1f-elementary-room.webp';
 import photoLobby from '../assets/guide/shintanjin-baptist-church-2f-lobby.webp';
 import photoSmallSanctuary from '../assets/guide/shintanjin-baptist-church-2f-small-sanctuary.webp';
@@ -80,7 +79,6 @@ const facilityPhotos = [
     { src: photoMainSanctuary, name: '대예배실', where: '본관 3층', floor: '3F' },
     { src: photoSmallSanctuary, name: '소예배실', where: '본관 2층', floor: '2F' },
     { src: photoDiningHall, name: '식당', where: '본관 1층', floor: '1F' },
-    { src: photoInnerDiningHall, name: '안쪽식당', where: '본관 1층', floor: '1F' },
     { src: photoElementaryRoom, name: '초등부실', where: '본관 1층', floor: '1F' },
     { src: photoLobby, name: '2층 로비', where: '본관 2층', floor: '2F' },
     { src: photoPreschoolRoom, name: '유치부실', where: '본관 2층', floor: '2F' },
