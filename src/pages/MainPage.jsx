@@ -19,23 +19,13 @@ import shortsThumbBg from '../assets/main/shorts-thumbnail.webp';
 
 const CHANNEL_ID = 'UCj3wg1t2u2eiMQxWIgT2OeQ';
 const FALLBACK_SHORTS = [{ id: 'MW1TfRYMA4w', title: '나의 누나에게 장애가 있다면?' }];
-const CACHE_KEY = 'sbc_proto_shorts_v3';
+const CACHE_KEY = 'sbc_proto_shorts_v4';
 const NOT_SERMON = /유치부|초등부|중고등부|청년부|예배대장|광고|공지|예배|기도회|성가대|찬양대/;
 const CACHE_MS = 6 * 60 * 60 * 1000;
 
-function parseDuration(pt) {
-  if (!pt) return 0;
-  const match = pt.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-  if (!match) return 0;
-  const hours = parseInt(match[1] || 0, 10);
-  const minutes = parseInt(match[2] || 0, 10);
-  const seconds = parseInt(match[3] || 0, 10);
-  return hours * 3600 + minutes * 60 + seconds;
-}
-
 function cleanShortsTitle(s) {
   if (!s) return '';
-  return s.replace(/#\S+/g, '').replace(/\s{2,}/g, ' ').trim();
+  return s.replace(/#\S*/g, '').replace(/\s{2,}/g, ' ').trim();
 }
 
 function decodeEntities(s) {
@@ -330,7 +320,7 @@ const MainPage = () => {
     }
   }, []);
 
-  // 유튜브 쇼츠 불러오기 (3분 이하 세로 쇼츠 전용 정밀 선별)
+  // 유튜브 쇼츠 불러오기 (길이로 추측하지 않고 채널의 쇼츠 전용 목록에서 받아옴)
   useEffect(() => {
     async function loadShorts() {
       try {
@@ -345,33 +335,18 @@ const MainPage = () => {
       if (!key) return;
 
       try {
-        // 1. 채널 최신 비디오 목록 조회
-        const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&maxResults=15&order=date&type=video&key=${key}`;
-        const searchRes = await fetch(searchUrl);
-        const searchData = await searchRes.json();
-        const videoIds = (searchData.items || []).map((it) => it.id?.videoId).filter(Boolean);
+        // 채널 ID 앞의 UC를 UUSH로 바꾸면 그 채널의 쇼츠만 담긴 재생목록이 됨 (최신순).
+        // 3분 이하의 일반 영상이 섞이지 않음. 비공개 영상은 videoPublishedAt이 없어 걸러짐.
+        const playlistId = `UUSH${CHANNEL_ID.slice(2)}`;
+        const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&playlistId=${playlistId}&maxResults=15&key=${key}`;
+        const res = await fetch(url);
+        const data = await res.json();
 
-        if (!videoIds.length) return;
-
-        // 2. 비디오 상세 정보(재생시간, 라이브 여부) 조회 (videos API)
-        const videosUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,liveStreamingDetails&id=${videoIds.join(',')}&key=${key}`;
-        const videosRes = await fetch(videosUrl);
-        const videosData = await videosRes.json();
-
-        // 3. 실제 쇼츠(Shorts)만 정밀 선별:
-        // - 라이브 스트리밍/예배 제외 (!liveStreamingDetails)
-        // - 영상 길이가 3분(180초) 이하
-        // - 예배/부서/공지 영상 제목 제외
-        const shorts = (videosData.items || [])
-          .filter((it) => {
-            const isLive = !!it.liveStreamingDetails;
-            const duration = parseDuration(it.contentDetails?.duration);
-            const title = it.snippet?.title || '';
-            const isExcluded = NOT_SERMON.test(title);
-            return !isLive && duration > 0 && duration <= 180 && !isExcluded;
-          })
+        // 성가대 등 말씀이 아닌 쇼츠는 제목으로 제외
+        const shorts = (data.items || [])
+          .filter((it) => it.contentDetails?.videoPublishedAt && !NOT_SERMON.test(it.snippet?.title || ''))
           .map((it) => ({
-            id: it.id,
+            id: it.contentDetails.videoId,
             title: decodeEntities(it.snippet?.title || ''),
           }));
 
