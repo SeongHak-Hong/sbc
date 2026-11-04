@@ -67,9 +67,9 @@ const groups = [
         ],
     },
     {
-        title: '직원',
+        title: '행정실장',
         members: [
-            { name: '김태인', role: '행정간사', image: member07, description: '행정지원' },
+            { name: '김태인', role: '행정실장', image: member07, description: '행정지원' },
         ],
     },
 ];
