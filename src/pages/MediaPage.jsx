@@ -13,7 +13,6 @@ const FILTERS = [
     { id: 'sermon', label: '설교' },
     { id: 'praise', label: '찬양' },
     { id: 'nextgen', label: '다음세대' },
-    { id: 'youth', label: '청년부' },
 ];
 
 // 다음세대 부서 → 담당 교역자. 섬기는 사람들(/team, TeamPage.jsx)의 담당 부서와 맞춘다 — 담당이 바뀌면 함께 고칠 것
@@ -25,10 +24,8 @@ const NEXTGEN_LEADERS = [
     { keywords: ['청년부'], leader: '강현수 전도사' },
 ];
 
-// 제목에 부서 이름이 있는 영상. 청년부는 따로 고를 수 있고 나머지 부서는 다음세대로 묶는다
-const hasDepartmentName = (title) => NEXTGEN_LEADERS.some(({ keywords }) => keywords.some((k) => title.includes(k)));
-const isYouthTitle = (title) => title.includes('청년부');
-const isNextGenTitle = (title) => hasDepartmentName(title) && !isYouthTitle(title);
+// 제목에 부서 이름(청년부 포함)이 있으면 다음세대 영상
+const isNextGenTitle = (title) => NEXTGEN_LEADERS.some(({ keywords }) => keywords.some((k) => title.includes(k)));
 
 
 const ChevronDown = () => (
@@ -245,7 +242,7 @@ const MediaPage = () => {
                         if (shortsIds.has(videoId)) return false;
 
                         const title = (item.snippet.title || '').replace(/&quot;/g, '"').replace(/&#39;/g, "'").toLowerCase();
-                        if (hasDepartmentName(title)) return true; // 부서 영상은 길이 무관하게 포함
+                        if (isNextGenTitle(title)) return true; // 부서 영상은 길이 무관하게 포함
 
                         const durationStr = durationMap[videoId];
                         if (durationStr) {
@@ -289,12 +286,10 @@ const MediaPage = () => {
         const title = video.snippet.title.replace(/&quot;/g, '"').replace(/&#39;/g, "'").toLowerCase();
 
         if (filterId === 'sermon') {
-            if (hasDepartmentName(title)) return false;
+            if (isNextGenTitle(title)) return false;
             return title.includes('주일') || title.includes('오후') || title.includes('수요') || title.includes('예배') || title.includes('설교') || title.includes('헌신');
         } else if (filterId === 'nextgen') {
             return isNextGenTitle(title);
-        } else if (filterId === 'youth') {
-            return isYouthTitle(title);
         } else {
             return title.includes('찬양') || title.includes('특송');
         }
@@ -303,7 +298,6 @@ const MediaPage = () => {
 
     const getBadge = (rawTitle) => {
         const title = rawTitle.replace(/&quot;/g, '"').replace(/&#39;/g, "'");
-        if (isYouthTitle(title)) return '청년부';
         if (isNextGenTitle(title)) return '다음세대';
         if (title.includes('헌신예배')) return '헌신예배';
         if (title.includes('주일2부')) return '주일2부예배';
