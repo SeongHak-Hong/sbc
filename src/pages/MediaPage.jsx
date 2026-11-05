@@ -13,16 +13,22 @@ const FILTERS = [
     { id: 'sermon', label: '설교' },
     { id: 'praise', label: '찬양' },
     { id: 'nextgen', label: '다음세대' },
+    { id: 'youth', label: '청년부' },
 ];
 
 // 다음세대 부서 → 담당 교역자. 섬기는 사람들(/team, TeamPage.jsx)의 담당 부서와 맞춘다 — 담당이 바뀌면 함께 고칠 것
-// '유초등부'가 '초등부'를 품으므로 같은 담당자로 묶었다
+// '유초등부'가 '초등부'를 품으므로 같은 담당자로 묶었다. 러브키즈는 초등부의 이름
 const NEXTGEN_LEADERS = [
     { keywords: ['유치부'], leader: '이지은 교육전도사' },
-    { keywords: ['유초등부', '초등부'], leader: '김정현 부목사' },
+    { keywords: ['유초등부', '초등부', '러브키즈'], leader: '김정현 부목사' },
     { keywords: ['중고등부'], leader: '김윤섭 부목사' },
     { keywords: ['청년부'], leader: '강현수 전도사' },
 ];
+
+// 제목에 부서 이름이 있는 영상. 청년부는 따로 고를 수 있고 나머지 부서는 다음세대로 묶는다
+const hasDepartmentName = (title) => NEXTGEN_LEADERS.some(({ keywords }) => keywords.some((k) => title.includes(k)));
+const isYouthTitle = (title) => title.includes('청년부');
+const isNextGenTitle = (title) => hasDepartmentName(title) && !isYouthTitle(title);
 
 
 const ChevronDown = () => (
@@ -89,14 +95,14 @@ const MediaPage = () => {
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const tab = params.get('tab');
-        if (tab === 'praise' || tab === 'sermon' || tab === 'nextgen' || tab === 'all') {
+        if (FILTERS.some((f) => f.id === tab)) {
             setActiveTab(tab);
         }
     }, [location]);
 
     useEffect(() => {
         let cancelled = false;
-        const cacheKey = 'sbc_youtube_videos_v2';
+        const cacheKey = 'sbc_youtube_videos_v4';
 
         const readCache = () => {
             try {
@@ -171,8 +177,27 @@ const MediaPage = () => {
                     }
                 };
 
+                // 채널의 쇼츠 전용 재생목록(UC → UUSH)에 있는 영상 ID. 길이로 추측하지 않고 이 목록으로 쇼츠를 뺀다
+                // 실패하면 빈 목록: 부서 이름 없는 짧은 영상은 아래 길이 규칙으로 어차피 빠짐
+                const fetchShortsIds = async () => {
+                    const ids = new Set();
+                    try {
+                        let nextPageToken = '';
+                        for (let i = 0; i < 2; i++) {
+                            const shortsUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&playlistId=${channelId.replace(/^UC/, 'UUSH')}&maxResults=50&key=${apiKey}${nextPageToken ? `&pageToken=${nextPageToken}` : ''}`;
+                            const data = await fetchJson(shortsUrl);
+                            (data.items || []).forEach((item) => ids.add(item.contentDetails.videoId));
+                            if (!data.nextPageToken) break;
+                            nextPageToken = data.nextPageToken;
+                        }
+                    } catch (shortsError) {
+                        console.error("Failed to fetch Shorts list:", shortsError);
+                    }
+                    return ids;
+                };
+
                 // 재생목록과 검색을 동시에 요청
-                const [playlistItems, searchItems] = await Promise.all([fetchPlaylist(), fetchNextGen()]);
+                const [playlistItems, searchItems, shortsIds] = await Promise.all([fetchPlaylist(), fetchNextGen(), fetchShortsIds()]);
                 let allItems = [...playlistItems, ...searchItems];
 
                 // 중복 제거 (videoId 기준)
@@ -214,12 +239,14 @@ const MediaPage = () => {
                         return hours * 3600 + minutes * 60 + seconds;
                     };
 
-                    // 5분 이내 영상(쇼츠 등) 제외
+                    // 쇼츠 목록에 있는 영상은 빼고, 부서 이름이 없는 5분 이하 영상은 일단 숨김
                     const nonShortsVideos = validItems.filter(item => {
-                        const title = (item.snippet.title || '').replace(/&quot;/g, '"').replace(/&#39;/g, "'").toLowerCase();
-                        if (title.includes('유치부')) return true; // 유치부 영상은 길이 무관하게 포함
-
                         const videoId = item.snippet.resourceId.videoId;
+                        if (shortsIds.has(videoId)) return false;
+
+                        const title = (item.snippet.title || '').replace(/&quot;/g, '"').replace(/&#39;/g, "'").toLowerCase();
+                        if (hasDepartmentName(title)) return true; // 부서 영상은 길이 무관하게 포함
+
                         const durationStr = durationMap[videoId];
                         if (durationStr) {
                             return parseDuration(durationStr) > 300;
@@ -262,10 +289,12 @@ const MediaPage = () => {
         const title = video.snippet.title.replace(/&quot;/g, '"').replace(/&#39;/g, "'").toLowerCase();
 
         if (filterId === 'sermon') {
-            if (title.includes('유치부')) return false;
+            if (hasDepartmentName(title)) return false;
             return title.includes('주일') || title.includes('오후') || title.includes('수요') || title.includes('예배') || title.includes('설교') || title.includes('헌신');
         } else if (filterId === 'nextgen') {
-            return title.includes('유치부');
+            return isNextGenTitle(title);
+        } else if (filterId === 'youth') {
+            return isYouthTitle(title);
         } else {
             return title.includes('찬양') || title.includes('특송');
         }
@@ -274,7 +303,8 @@ const MediaPage = () => {
 
     const getBadge = (rawTitle) => {
         const title = rawTitle.replace(/&quot;/g, '"').replace(/&#39;/g, "'");
-        if (title.includes('유치부')) return '다음세대';
+        if (isYouthTitle(title)) return '청년부';
+        if (isNextGenTitle(title)) return '다음세대';
         if (title.includes('헌신예배')) return '헌신예배';
         if (title.includes('주일2부')) return '주일2부예배';
         if (title.includes('주일오후') || title.includes('오후예배')) return '주일오후예배';
