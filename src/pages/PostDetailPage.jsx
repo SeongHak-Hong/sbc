@@ -12,22 +12,11 @@ import styles from './PostDetailPage.module.css';
 import NaverMap from '../components/ui/NaverMap';
 import PostSheet from '../components/PostSheet';
 import { buildNoticeContent, normalizeNoticeItem, announcementFacts, buildAnnouncementContent, normalizeAnnouncement } from '../lib/noticeItems';
-import thumbKindergarten from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb.webp';
-import thumbElementary from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-01.webp';
-import thumbYouth from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-02.webp';
-import thumbYoungAdults from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-03.webp';
 import iconChevronLeft from '../assets/nextgen/chevron_left_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg';
 import iconChevronRight from '../assets/nextgen/chevron_right_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg';
 import iconClose from '../assets/post/close_24dp_0F1721_FILL0_wght400_GRAD0_opsz24.svg';
 import iconBtnPrev from '../assets/post/btn-post-prev.svg';
 import iconBtnNext from '../assets/post/btn-post-next.svg';
-
-const defaultThumbs = {
-    kindergarten: thumbKindergarten,
-    elementary: thumbElementary,
-    youth: thumbYouth,
-    youngadults: thumbYoungAdults
-};
 
 // 새 게시물 팝업(PostSheet)을 쓰는 곳: 교회 일정 + 소식 페이지 4개 탭(공지사항 · 교회소식 · 주보 · 성도사업).
 // 다음세대 · 선교 게시물은 아직 아래의 예전 팝업을 쓴다
@@ -471,8 +460,8 @@ const PostDetailPage = () => {
                                 author: data.name,
                                 date: displayDate,
                                 content: formattedContent,
-                                imageUrl: ev.img || defaultThumbs[deptId] || thumbKindergarten,
-                                imageUrls: ev.imageUrls || [defaultThumbs[deptId] || thumbKindergarten]
+                                imageUrl: ev.img || null,
+                                imageUrls: ev.imageUrls || []
                             });
                             return;
                         }

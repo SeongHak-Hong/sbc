@@ -10,20 +10,9 @@ import ScrollFadeText from '../components/ScrollFadeText';
 import TabMenu from '../components/TabMenu';
 import styles from './NextGenPage.module.css';
 import PageTopGradient from '../components/PageTopGradient';
-import thumbKindergarten from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb.webp';
-import thumbElementary from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-01.webp';
-import thumbYouth from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-02.webp';
-import thumbYoungAdults from '../assets/nextgen/shintanjin-baptist-church-nextgen-thumb-03.webp';
 import iconChevronLeft from '../assets/nextgen/chevron_left_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg';
 import iconChevronRight from '../assets/nextgen/chevron_right_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg';
 import NextGenSwitchTabs from '../components/NextGenSwitchTabs';
-
-const defaultThumbs = {
-    kindergarten: thumbKindergarten,
-    elementary: thumbElementary,
-    youth: thumbYouth,
-    youngadults: thumbYoungAdults
-};
 
 const getBadgeStyle = (status) => {
     switch(status) {
@@ -326,8 +315,8 @@ const NextGenPage = () => {
                                     formattedContent += ev.desc || '';
                                     
                                     const extractedImg = extractImageFromContent(ev.desc);
-                                    const finalImg = ev.img || extractedImg || defaultThumbs[ev.departmentKey] || thumbKindergarten;
-                                    const finalImageUrls = (ev.imageUrls && ev.imageUrls.length > 0) ? ev.imageUrls : (extractedImg ? [extractedImg] : [defaultThumbs[ev.departmentKey] || thumbKindergarten]);
+                                    const finalImg = ev.img || extractedImg || null;
+                                    const finalImageUrls = (ev.imageUrls && ev.imageUrls.length > 0) ? ev.imageUrls : (extractedImg ? [extractedImg] : []);
 
                                     return (
                                         <motion.div

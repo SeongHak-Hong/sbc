@@ -53,7 +53,15 @@ const Header = () => {
         {
             id: "nextgen",
             title: "다음세대",
-            path: "/nextgen"
+            subLabel: "다음세대 살펴보기",
+            // 부서 페이지가 나올 때까지 부서 메뉴는 지금 /nextgen으로 보낸다
+            links: [
+                { text: "교육 이야기", path: "/nextgen/intro" },
+                { text: "유치부", path: "/nextgen?dept=kindergarten" },
+                { text: "초등부", path: "/nextgen?dept=elementary" },
+                { text: "중고등부", path: "/nextgen?dept=youth" },
+                { text: "청년부", path: "/nextgen?dept=youngadults" },
+            ]
         },
         {
             id: "outreach",
@@ -74,7 +82,9 @@ const Header = () => {
 
     // 지금 페이지가 속한 메뉴 (브레드크럼 대신 메뉴 이름을 진하게 표시). 쿼리는 떼고, 하위 주소(/news/글)도 같은 메뉴로 본다
     const isHere = (path) => {
-        const base = path.split('?')[0];
+        const [base, query] = path.split('?');
+        // 쿼리로 나뉜 메뉴(부서 페이지 전 임시 주소)는 쿼리까지 같을 때만 지금 페이지로 본다
+        if (query) return location.pathname === base && location.search === `?${query}`;
         return location.pathname === base || location.pathname.startsWith(`${base}/`);
     };
     const currentMenuId = menuItems.find((item) => (

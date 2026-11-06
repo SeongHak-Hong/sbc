@@ -370,7 +370,14 @@ const SmoothTextarea = ({ value = '', onChange, onFocus, onBlur, ...props }) => 
 };
 
 // ④ 문의 팝업: 이름·받을 연락처·궁금한 점 → 새가족팀 메일 (functions/api/newcomer-inquiry.js)
-const InquiryDialog = ({ onClose }) => {
+// 다음세대 소개 페이지도 문구와 topic만 바꿔 같이 쓴다
+export const InquiryDialog = ({
+    onClose,
+    topic,
+    title = '새가족 등록 문의',
+    desc = '남겨 주시면 새가족팀이 연락드릴게요.',
+    doneDesc = '새가족팀이 곧 연락드릴게요.',
+}) => {
     const [form, setForm] = useState(EMPTY_FORM);
     const [status, setStatus] = useState('idle'); // idle | sending | sent
     const [error, setError] = useState('');
@@ -400,7 +407,7 @@ const InquiryDialog = ({ onClose }) => {
         setStatus('sending');
         setError('');
         try {
-            await sendNewcomerInquiry(form);
+            await sendNewcomerInquiry(topic ? { ...form, topic } : form);
             setStatus('sent');
         } catch (err) {
             setError(err.message);
@@ -420,13 +427,13 @@ const InquiryDialog = ({ onClose }) => {
                 {status === 'sent' ? (
                     <div className={styles.done} aria-live="polite">
                         <h2 id="inquiry-title" className={styles.dialogTitle}>문의를 잘 받았어요.</h2>
-                        <p className={styles.dialogDesc}>새가족팀이 곧 연락드릴게요.</p>
+                        <p className={styles.dialogDesc}>{doneDesc}</p>
                         <button ref={doneRef} type="button" className={styles.btn} onClick={onClose}>닫기</button>
                     </div>
                 ) : (
                     <>
-                        <h2 id="inquiry-title" className={styles.dialogTitle}>새가족 등록 문의</h2>
-                        <p className={styles.dialogDesc}>남겨 주시면 새가족팀이 연락드릴게요.</p>
+                        <h2 id="inquiry-title" className={styles.dialogTitle}>{title}</h2>
+                        <p className={styles.dialogDesc}>{desc}</p>
                         <form onSubmit={submit} noValidate>
                             <div className={styles.field}>
                                 <label htmlFor="inquiry-name">이름</label>

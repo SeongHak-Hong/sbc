@@ -58,9 +58,10 @@ export async function onRequestPost({ request, env }) {
             to: (env.NEWCOMER_INQUIRY_TO || DEFAULT_TO).split(',').map((v) => v.trim()).filter(Boolean),
             // 연락처가 메일 주소면 '답장'을 누르면 바로 그 분께 간다
             ...(isEmail ? { reply_to: contact } : {}),
-            subject: `[새가족 문의] ${name}님`,
+            // 다음세대 소개 페이지에서 온 문의는 제목으로 구분한다
+            subject: `[${body.topic === 'nextgen' ? '다음세대' : '새가족'} 문의] ${name}님`,
             text: rows.map(([k, v]) => `${k}: ${v}`).join('\n'),
-            html: `<h2 style="margin:0 0 16px">새가족 등록 문의가 왔어요</h2>
+            html: `<h2 style="margin:0 0 16px">${body.topic === 'nextgen' ? '다음세대' : '새가족 등록'} 문의가 왔어요</h2>
 <table style="border-collapse:collapse;font-size:15px;line-height:1.6">${rows
                 .map(([k, v]) => `<tr><th style="text-align:left;padding:6px 16px 6px 0;vertical-align:top;white-space:nowrap">${k}</th><td style="padding:6px 0;white-space:pre-wrap">${escapeHtml(v)}</td></tr>`)
                 .join('')}</table>`,

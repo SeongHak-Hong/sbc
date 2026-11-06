@@ -1,0 +1,622 @@
+/* 다음세대 소개: 강가 히어로 → 넘기는 동화책 → 함께 기다려요 → 자주 묻는 것 → 문의
+   글자·여백은 공통 토큰(index.css --t-*, --pad-sec, --space-head, --wrap, --gutter)을 쓴다 */
+.page {
+    /* 콘텐츠 왼쪽 기준선: 아래 일반 섹션의 .wrap과 같은 자리 */
+    --edge: max(var(--gutter), calc((100% - var(--wrap)) / 2 + var(--gutter)));
+    --story-paper: #F7EEDC;
+    --story-night: #22323A;
+    --moses-sky: #F4E3BE;
+
+    position: relative;
+    min-height: 100vh;
+    color: var(--color-text-primary);
+    background-color: var(--color-white);
+    overflow-x: clip;
+    font-size: var(--t-body);
+    line-height: 1.6;
+    letter-spacing: -0.02em;
+    word-break: keep-all;
+}
+
+.wrap {
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    box-sizing: border-box;
+}
+
+.sec {
+    padding: var(--pad-sec) 0;
+}
+
+.secTitle {
+    margin: 0;
+    font-size: var(--t-title);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: var(--color-text-strong);
+}
+
+.lead {
+    margin: 1rem 0 0;
+    font-size: var(--t-lead);
+}
+
+/* ---------- ① 첫 화면 ---------- */
+.hero {
+    position: relative;
+    height: 100svh;
+    min-height: 520px;
+    overflow: hidden;
+    background-color: #2F5A66;
+}
+
+.heroImg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 58% 50%;
+}
+
+.reeds {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* 앞쪽 갈대는 카메라 가까이 있어 흐리다 */
+.reedsFront {
+    z-index: 3;
+    filter: blur(3px);
+}
+
+.reedsBack {
+    z-index: 1;
+}
+
+.heroTitle {
+    position: absolute;
+    z-index: 4;
+    left: 0;
+    right: 0;
+    top: 42%;
+    padding: 0 var(--gutter);
+    transform: translateY(-50%);
+    text-align: center;
+    margin: 0;
+    font-size: var(--t-display);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: #FFF6DF;
+}
+
+/* 데스크톱: 제목을 아기 바로 위로 내려 질문과 아기가 한 덩어리로 읽히게 한다.
+   아래 끝을 화면 높이 기준으로 잡아, 화면 비율이 달라도 아기 머리와 간격이 일정하다 */
+@media (min-width: 900px) {
+    .heroTitle {
+        top: auto;
+        bottom: 39%;
+        transform: none;
+    }
+}
+
+/* 직접 만든 타이포그래피 이미지. 2배로 저장한 파일이라 데스크톱은 그 절반(454px)으로 놓는다. 그림자 없음 */
+.heroTitleImg {
+    display: block;
+    width: 454px;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+/* 휴대폰: 세 줄 이미지(2배 저장)를 320px로 */
+@media (max-width: 767px) {
+    .heroTitleImg {
+        width: 320px;
+    }
+}
+
+/* ---------- ② 넘기는 동화책 ---------- */
+.bookSec {
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: var(--pad-sec) var(--gutter);
+    box-sizing: border-box;
+}
+
+.bookHead {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: var(--space-head);
+}
+
+.storyTitle {
+    margin: 0;
+    font-size: var(--t-title);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: var(--color-text-strong);
+}
+
+.book {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    aspect-ratio: 1.8;
+    perspective: 2400px;
+    touch-action: pan-y;
+}
+
+.slot,
+.face {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-surface-band);
+}
+
+.slotL { border-radius: 28px 0 0 28px; margin-right: -1px; }
+.slotR { border-radius: 0 28px 28px 0; }
+
+/* 한 그림을 두 쪽으로 나눠 보여 준다 */
+.pageImgL,
+.pageImgR {
+    position: absolute;
+    top: 0;
+    width: 200%;
+    max-width: none;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pageImgL { left: 0; }
+.pageImgR { left: -100%; }
+
+.pageImgFull {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--focus, 50%) 50%;
+}
+
+.leaf {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    right: 0;
+    transform-origin: left center;
+    transform-style: preserve-3d;
+}
+
+.face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.faceFront { border-radius: 0 28px 28px 0; }
+.faceBack { transform: rotateY(180deg); border-radius: 28px 0 0 28px; }
+
+.srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.sceneText {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    width: 100%;
+    /* --text-nudge: 인물에 글이 닿는 쪽만 책등에서 조금 떨어뜨린다 */
+    padding: 2.75rem calc(3rem + var(--text-end, 0px)) 0 calc(3rem + var(--text-nudge, 0px));
+    box-sizing: border-box;
+    font-size: var(--pc-text-body-card);
+    line-height: 1.55;
+    letter-spacing: -0.025em;
+}
+
+.sceneText p {
+    margin: 0;
+    color: inherit;
+    font-size: inherit; /* 전역 p 크기 대신 글 칸의 크기를 따른다 */
+    font-weight: 500;
+}
+
+.sceneText p span {
+    display: block;
+    margin-bottom: 0.45em;
+    white-space: pre-line; /* 글 속 줄바꿈은 데스크톱 그림에 맞춘 것 */
+}
+
+.on-left { left: 0; }
+.on-right { right: 0; }
+
+/* 물결 위에 얹는 글 */
+/* 글 뒤 그림을 누르는 층: 글 칸보다 크게 잡아 사방 끝에서 투명해진다 */
+.sceneShadow::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: -30%;
+    left: -30%;
+    right: 0;
+    height: 165%;
+    background: radial-gradient(closest-side, rgba(6, 34, 38, 0.5) 50%, rgba(6, 34, 38, 0));
+    pointer-events: none;
+}
+
+/* 오른쪽 쪽은 책등 쪽 끝이 잘리지 않게 층을 바깥으로 밀어 책등에서 투명해지게 한다 */
+.on-right.sceneShadow::before,
+.on-right.sceneGlow::before {
+    left: 0;
+    right: -30%;
+}
+
+/* 밝은 그림 위 진한 글자용: 글 뒤를 옅게 밝힌다 */
+.sceneGlow::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: -30%;
+    height: 165%;
+    background: radial-gradient(closest-side, rgba(255, 244, 208, 0.62) 55%, rgba(255, 244, 208, 0));
+    pointer-events: none;
+}
+
+/* 마지막 쪽의 말씀 */
+.pageVerse {
+    margin: 1rem 0 0;
+    color: inherit;
+    font-size: var(--t-body);
+    opacity: 0.82;
+}
+
+.pageVerse cite {
+    display: block;
+    font-style: normal;
+}
+
+/* ---------- ④ 함께 기다려요: 새가족 페이지 '이렇게 함께해요'와 같은 값 ---------- */
+.railHead {
+    margin-bottom: var(--space-head);
+}
+
+.nav {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 0.5rem;
+}
+
+.navBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--color-surface-band);
+    color: var(--color-text-strong);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 140ms var(--ease-smooth), background-color 140ms ease;
+}
+
+.navBtn svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.navBtn:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.navBtn:active {
+    transform: scale(0.95);
+}
+
+.navBtn:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .navBtn:not(:disabled):hover {
+        background: var(--color-surface-band-hover);
+    }
+}
+
+.rail {
+    --pad: max(var(--gutter), calc((100% - var(--wrap)) / 2 + var(--gutter)));
+    display: flex;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0 var(--pad);
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: var(--pad);
+    scrollbar-width: none;
+}
+
+.rail::-webkit-scrollbar {
+    display: none;
+}
+
+.rail:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 4px;
+}
+
+.step {
+    flex: 0 0 min(80vw, 380px);
+    scroll-snap-align: start;
+}
+
+.tile {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    aspect-ratio: 380 / 480;
+    border-radius: 28px;
+    background: var(--color-surface-band);
+}
+
+.tileImg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 300ms var(--ease-smooth);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .step:hover .tileImg {
+        transform: scale(1.02);
+    }
+}
+
+.cap {
+    margin: 0;
+    padding: 1.5rem 0.5rem 0;
+    font-size: var(--t-body); /* 16px: 전역 p를 따라가지 않게 */
+    color: var(--color-text-meta);
+}
+
+.cap strong {
+    font-weight: 500;
+    color: var(--color-text-strong);
+}
+
+/* ---------- ⑥ 자주 묻는 것: 교회 안내와 같은 값 ---------- */
+.fqList {
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--space-head);
+}
+
+.fqItem {
+    border-bottom: 1px solid var(--color-line);
+}
+
+.fqItem summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 4rem;
+    padding: 1.75rem 0;
+    box-sizing: border-box;
+    font-size: var(--t-sub);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.025em;
+    color: var(--color-text-strong);
+    cursor: pointer;
+    list-style: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.fqItem summary::-webkit-details-marker {
+    display: none;
+}
+
+.fqItem summary:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 2px;
+}
+
+.fqIcon {
+    flex: 0 0 auto;
+    width: 1.75rem;
+    height: 1.75rem;
+    color: var(--color-text-tertiary);
+    stroke-width: 2.25;
+    transition: transform 300ms var(--ease-smooth);
+}
+
+.fqItem[open] .fqIcon {
+    transform: rotate(180deg);
+}
+
+.fqItem p {
+    margin: 0;
+    padding: 0 0 2.375rem;
+    font-size: var(--t-body);
+    max-width: 42em;
+}
+
+/* ---------- ⑦ 문의: 새가족 페이지와 같은 값 ---------- */
+.askSec {
+    background-color: var(--color-surface-warm);
+}
+
+.cta {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.ctaImg {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: contain;
+}
+
+.askBtns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    margin-top: 2rem;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0 1.75rem;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-surface-dark);
+    color: var(--color-white);
+    font: inherit;
+    font-size: var(--t-lead);
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.2s ease;
+}
+
+.btnSoft {
+    background-color: var(--color-white);
+    color: var(--color-text-strong);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--color-accent-sky);
+    outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+}
+
+/* ---------- 태블릿·휴대폰 ---------- */
+@media (max-width: 899px) {
+    /* 세로 화면은 그림 폭이 많이 잘린다: 아기가 갈대에 가리지 않게 가운데로 */
+    .heroImg {
+        object-position: 64% 50%;
+    }
+
+    /* 휴대폰은 책 한 쪽: 위에 그림, 아래에 글. 글이 주인공 얼굴을 가리지 않는다 */
+    .book {
+        display: block;
+        max-width: 560px;
+        margin: 0 auto;
+        aspect-ratio: auto;
+    }
+
+    .slotOne,
+    .faceFront,
+    .faceBack {
+        display: flex;
+        flex-direction: column;
+        border-radius: 24px;
+    }
+
+    .leaf {
+        left: 0;
+    }
+
+    .sceneNight {
+        background-color: var(--story-night);
+    }
+
+    .pageImgFull {
+        position: relative;
+        inset: auto;
+        flex: none;
+        height: auto;
+        aspect-ratio: 8 / 7;
+    }
+
+    /* 글 길이가 달라도 책 높이가 같아 버튼이 움직이지 않는다 */
+    .sceneText {
+        position: static;
+        inset: auto;
+        flex: 1 0 auto;
+        width: 100%;
+        max-width: none;
+        min-height: 19.5rem;
+        margin: 0;
+        padding: 1.25rem;
+        box-sizing: border-box;
+        transform: none;
+        font-size: var(--pc-text-body-card);
+        line-height: 1.55;
+        text-align: left;
+        text-shadow: none;
+        background: none;
+    }
+
+    .sceneShadow::before,
+    .sceneGlow::before {
+        display: none;
+    }
+
+    .sceneText p span {
+        display: inline;
+        margin: 0;
+        white-space: normal;
+    }
+
+    .cta {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-head);
+    }
+
+    .fqItem summary {
+        padding: 1.5rem 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fqIcon {
+        transition: none;
+    }
+
+}
