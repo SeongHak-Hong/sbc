@@ -5,6 +5,7 @@
     --edge: max(var(--gutter), calc((100% - var(--wrap)) / 2 + var(--gutter)));
     --story-paper: #F7EEDC;
     --story-night: #22323A;
+    --story-cream: #FFF1CF; /* 휴대폰 동화책 글자색 */
     --moses-sky: #F4E3BE;
 
     position: relative;
@@ -222,6 +223,7 @@
 }
 
 .sceneText {
+    color: var(--text-color);
     position: absolute;
     z-index: 1;
     top: 0;
@@ -562,7 +564,10 @@
         left: 0;
     }
 
-    .sceneNight {
+    /* 휴대폰은 모든 쪽을 남색 바탕에 크림색 글자로 통일한다 (그림 아래 글 칸) */
+    .slotOne,
+    .faceFront,
+    .faceBack {
         background-color: var(--story-night);
     }
 
@@ -589,6 +594,7 @@
         font-size: var(--pc-text-body-card);
         line-height: 1.55;
         text-align: left;
+        color: var(--story-cream);
         text-shadow: none;
         background: none;
     }

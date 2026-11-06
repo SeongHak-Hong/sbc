@@ -135,7 +135,7 @@ const useWide = () => {
 };
 
 const PageText = ({ page }) => (
-    <div className={`${styles.sceneText} ${styles[`on-${page.side}`]} ${page.shadow ? styles.sceneShadow : ''} ${page.glow ? styles.sceneGlow : ''}`} style={{ color: page.color, '--text-nudge': page.nudge, '--text-end': page.textEnd }}>
+    <div className={`${styles.sceneText} ${styles[`on-${page.side}`]} ${page.shadow ? styles.sceneShadow : ''} ${page.glow ? styles.sceneGlow : ''}`} style={{ '--text-color': page.color, '--text-nudge': page.nudge, '--text-end': page.textEnd }}>
         <p>{page.lines.map((line) => <span key={line}>{line} </span>)}</p>
         {page.verse && (
             <blockquote className={styles.pageVerse}>
@@ -238,11 +238,11 @@ const StoryBook = ({ reduceMotion }) => {
                         <div className={`${styles.slot} ${styles.slotR}`}><Face key={`R${right}`} index={right} part="R" /></div>
                     </>
                 ) : (
-                    <div className={`${styles.slot} ${styles.slotOne} ${STORY[under].ink === 'light' ? styles.sceneNight : ''}`}><Face key={under} index={under} part="full" /></div>
+                    <div className={`${styles.slot} ${styles.slotOne}`}><Face key={under} index={under} part="full" /></div>
                 )}
                 {turn && (
                     <div ref={leafRef} className={styles.leaf} aria-hidden="true">
-                        <div className={`${styles.face} ${styles.faceFront} ${STORY[low].ink === 'light' ? styles.sceneNight : ''}`}>
+                        <div className={`${styles.face} ${styles.faceFront}`}>
                             <Face index={low} part={wide ? 'R' : 'full'} />
                         </div>
                         <div className={`${styles.face} ${styles.faceBack}`}>
