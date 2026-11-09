@@ -286,6 +286,40 @@
     opacity: 0.6;
 }
 
+/* 신앙생활 도구: 주요 공지 아래 한 칸 띄우고 */
+.toolsHeading {
+    margin-top: 2rem;
+}
+
+/* 다른 사이트 바로가기: 링크 색 + 새 창 표시(↗) */
+.toolLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    color: var(--color-link-on-light);
+    text-decoration: none;
+}
+
+.toolLink svg {
+    width: 1.125rem;
+    height: 1.125rem;
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
 @media (hover: hover) and (pointer: fine) {
     .pinnedLink:hover {
         text-decoration: underline;

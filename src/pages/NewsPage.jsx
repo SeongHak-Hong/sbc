@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 import styles from './NewsPage.module.css';
 import PickerPopover from '../components/ui/PickerPopover';
 import PageTopGradient from '../components/PageTopGradient';
+import { FAITH_TOOLS } from '../content/faithTools';
 
 // 소식 고르기: 제목("전체")과 오른쪽 화살표를 누르면 예배 영상(미디어룸)과 같은 유리 창이 열린다.
 // '전체'는 공지사항 · 교회소식 · 주보만 (성도사업은 따로 골라야 보인다)
@@ -221,12 +222,14 @@ const NewsPage = () => {
                 </div>
             </section>
 
-            {/* 주요 공지: 제목만 가로로. 누르면 목록의 '세부정보'와 같은 팝업 */}
-            {pinnedPosts.length > 0 && (
-                <section className={styles.pinnedSection} aria-labelledby="news-pinned-heading">
-                    <div className={styles.wrap}>
+            {/* 주요 공지: 제목만 가로로. 누르면 목록의 '세부정보'와 같은 팝업.
+                그 아래 신앙생활 도구: 같은 모양의 다른 사이트 바로가기(파란 글자 + 새 창 표시) */}
+            <section className={styles.pinnedSection} aria-label="주요 공지와 신앙생활 도구">
+                <div className={styles.wrap}>
+                    {pinnedPosts.length > 0 && (
+                        <>
                         <h2 id="news-pinned-heading" className={styles.pinnedHeading}>주요 공지</h2>
-                        <ul className={styles.pinnedList}>
+                        <ul className={styles.pinnedList} aria-labelledby="news-pinned-heading">
                             {pinnedPosts.map((post) => (
                                 <li key={post.id}>
                                     <button
@@ -239,9 +242,30 @@ const NewsPage = () => {
                                 </li>
                             ))}
                         </ul>
-                    </div>
-                </section>
-            )}
+                        </>
+                    )}
+
+                    <h2 id="news-tools-heading" className={`${styles.pinnedHeading} ${pinnedPosts.length > 0 ? styles.toolsHeading : ''}`}>신앙생활 도구</h2>
+                    <ul className={styles.pinnedList} aria-labelledby="news-tools-heading">
+                        {FAITH_TOOLS.map((tool) => (
+                            <li key={tool.url}>
+                                <a
+                                    className={`${styles.pinnedLink} ${styles.toolLink}`}
+                                    href={tool.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {tool.label}
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M14 5h5v5M19 5l-8 8M18 14v4a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h4" />
+                                    </svg>
+                                    <span className={styles.srOnly}>(새 창으로 열림)</span>
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </section>
 
             <section className={styles.listSection}>
                 <div className={styles.wrap}>
