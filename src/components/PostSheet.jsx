@@ -30,6 +30,22 @@ const CloseIcon = () => (
     </svg>
 );
 
+const ExternalIcon = () => (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M14 5h5v5M19 5l-8 8M18 14v4a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h4" />
+    </svg>
+);
+
+// 본문 속 글자 링크: 다른 사이트 주소는 새 창으로 (우리 홈페이지 창이 바뀌지 않게)
+const openExternalLink = (e) => {
+    const anchor = e.target.closest('a[href]');
+    if (!anchor) return;
+    const url = new URL(anchor.href, window.location.href);
+    if (url.origin === window.location.origin || !/^https?:$/.test(url.protocol)) return;
+    e.preventDefault();
+    window.open(url.href, '_blank', 'noopener,noreferrer');
+};
+
 const Chevron = ({ dir }) => (
     <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d={dir === 'left' ? 'M15 6l-6 6 6 6' : 'M9 6l6 6-6 6'} />
@@ -77,6 +93,7 @@ const PostSheet = ({
     extra,
     loading = false,
     onClose,
+    link,
     children,
 }) => {
     const reduceMotion = useReducedMotion();
@@ -184,6 +201,20 @@ const PostSheet = ({
                             {meta && <p className={styles.date}>{meta}</p>}
                             <h1 id="post-sheet-title" className={styles.title}>{title}</h1>
 
+                            {/* 바로가기 버튼: 관리자가 넣은 외부 주소 (새 창) */}
+                            {link?.url && (
+                                <a
+                                    className={styles.linkButton}
+                                    href={link.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {link.label || '바로가기'}
+                                    <ExternalIcon />
+                                    <span className={styles.srOnly}>(새 창으로 열림)</span>
+                                </a>
+                            )}
+
                             {facts.length > 0 && (
                                 <dl className={styles.facts}>
                                     {facts.map((fact) => (
@@ -290,7 +321,7 @@ const PostSheet = ({
                             )}
 
                             {description && (
-                                <div ref={textRef} className={styles.text}>
+                                <div ref={textRef} className={styles.text} onClick={openExternalLink}>
                                     <Viewer key={description} initialValue={description} />
                                 </div>
                             )}

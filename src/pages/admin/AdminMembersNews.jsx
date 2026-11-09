@@ -5,6 +5,7 @@ import AdminCloseButton from '../../components/ui/AdminCloseButton';
 import { db, storage } from '../../firebase';
 import { uploadSiteImage, removeUnusedSiteImages } from '../../lib/gallery';
 import AdminEditor from '../../components/admin/AdminEditor';
+import PostLinkFields, { normalizeLinkUrl } from '../../components/admin/PostLinkFields';
 import NoticeAnnouncementEditor from '../../components/admin/NoticeAnnouncementEditor';
 import NoticeTablesEditor from '../../components/admin/NoticeTablesEditor';
 import { emptyAnnouncement, normalizeAnnouncement, buildAnnouncementContent, normalizeNoticeTable, noticeTablesForStore } from '../../lib/noticeItems';
@@ -23,6 +24,8 @@ const AdminMembersNews = () => {
     const [date, setDate] = useState('');
     const [content, setContent] = useState('');
     const [pinned, setPinned] = useState(false); // 소식 페이지 '주요 공지'에 고정
+    const [linkLabel, setLinkLabel] = useState(''); // 바로가기 버튼 이름
+    const [linkUrl, setLinkUrl] = useState('');     // 바로가기 버튼 주소 (비우면 버튼 없음)
     // 안내 양식: 기본 정보 · 소개 · 소제목 묶음(notice) + 표 + 덧붙이는 글. notice가 null이면 예전 편집기로 쓴 글
     const [notice, setNotice] = useState(null);
     const [tables, setTables] = useState([]);
@@ -64,6 +67,8 @@ const AdminMembersNews = () => {
         setTables([]);
         setExtraContent('');
         setPinned(false);
+        setLinkLabel('');
+        setLinkUrl('');
         setImages([]);
         setNewFiles([]);
         setCurrentPost(null);
@@ -81,6 +86,8 @@ const AdminMembersNews = () => {
         setTables((post.tables || []).map(normalizeNoticeTable));
         setExtraContent(post.extraContent || '');
         setPinned(Boolean(post.pinned));
+        setLinkLabel(post.linkLabel || '');
+        setLinkUrl(post.linkUrl || '');
         setImages(post.imageUrls || []);
         setNewFiles([]);
         setViewMode('edit');
@@ -190,6 +197,8 @@ const AdminMembersNews = () => {
                 content,
                 imageUrls: uploadedImageUrls,
                 pinned,
+                linkLabel: linkLabel.trim(),
+                linkUrl: normalizeLinkUrl(linkUrl),
                 // 주요 공지 순서: 이미 고정된 글은 자리 그대로, 새로 고정하면 맨 끝
                 ...(pinned ? { pinnedOrder: currentPost?.pinned && currentPost.pinnedOrder != null ? currentPost.pinnedOrder : nextPinnedOrder } : {}),
                 createdAt: currentPost?.createdAt || Timestamp.now(),
@@ -280,6 +289,13 @@ const AdminMembersNews = () => {
                             주요 공지로 고정 <span style={{  color: '#6B7280' }}>(소식 페이지 맨 위 '주요 공지'에 가로로 보입니다)</span>
                         </label>
                     </div>
+
+                    <PostLinkFields
+                        label={linkLabel}
+                        url={linkUrl}
+                        onLabelChange={setLinkLabel}
+                        onUrlChange={setLinkUrl}
+                    />
 
                     {notice ? (
                         <>

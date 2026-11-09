@@ -5,6 +5,7 @@ import AdminCloseButton from '../../components/ui/AdminCloseButton';
 import { db, storage } from '../../firebase';
 import { uploadSiteImage, removeUnusedSiteImages } from '../../lib/gallery';
 import AdminEditor from '../../components/admin/AdminEditor';
+import PostLinkFields, { normalizeLinkUrl } from '../../components/admin/PostLinkFields';
 import NoticeItemsEditor from '../../components/admin/NoticeItemsEditor';
 import NoticeTablesEditor from '../../components/admin/NoticeTablesEditor';
 import { emptyNoticeItem, normalizeNoticeItem, buildNoticeContent, normalizeNoticeTable, noticeTablesForStore } from '../../lib/noticeItems';
@@ -27,6 +28,8 @@ const AdminPosts = () => {
     const [extraContent, setExtraContent] = useState('');
     const [tables, setTables] = useState([]); // 표 칸: 요일 표 · 날짜 표
     const [pinned, setPinned] = useState(false); // 소식 페이지 '주요 공지'에 고정
+    const [linkLabel, setLinkLabel] = useState(''); // 바로가기 버튼 이름
+    const [linkUrl, setLinkUrl] = useState('');     // 바로가기 버튼 주소 (비우면 버튼 없음)
     const [images, setImages] = useState([]); // [{url, path}] or string
     const [newFiles, setNewFiles] = useState([]); // array of File objects
 
@@ -103,6 +106,8 @@ const AdminPosts = () => {
         setExtraContent('');
         setTables([]);
         setPinned(false);
+        setLinkLabel('');
+        setLinkUrl('');
         setImages([]);
         setNewFiles([]);
         setCurrentPost(null);
@@ -120,6 +125,8 @@ const AdminPosts = () => {
         setExtraContent(post.extraContent || '');
         setTables((post.tables || []).map(normalizeNoticeTable));
         setPinned(Boolean(post.pinned));
+        setLinkLabel(post.linkLabel || '');
+        setLinkUrl(post.linkUrl || '');
         setImages(post.imageUrls || []);
         setNewFiles([]);
         setViewMode('edit');
@@ -242,6 +249,8 @@ const AdminPosts = () => {
                 ...(usesItems ? { items: items.filter((item) => item.title.trim()), tables: noticeTablesForStore(tables), extraContent } : {}),
                 imageUrls: uploadedImageUrls,
                 pinned,
+                linkLabel: linkLabel.trim(),
+                linkUrl: normalizeLinkUrl(linkUrl),
                 createdAt: currentPost?.createdAt || Timestamp.now(),
                 views: currentPost?.views || 0
             };
@@ -324,6 +333,13 @@ const AdminPosts = () => {
                             주요 공지로 고정 <span style={{  color: '#6B7280' }}>(소식 페이지 맨 위 '주요 공지'에 가로로 보입니다)</span>
                         </label>
                     </div>
+
+                    <PostLinkFields
+                        label={linkLabel}
+                        url={linkUrl}
+                        onLabelChange={setLinkLabel}
+                        onUrlChange={setLinkUrl}
+                    />
 
                     {usesItems ? (
                         <>

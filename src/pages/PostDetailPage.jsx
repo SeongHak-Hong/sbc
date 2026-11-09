@@ -632,6 +632,7 @@ const PostDetailPage = () => {
                 facts={facts}
                 images={isBulletin ? [] : viewerImages}
                 bulletin={isBulletin ? viewerImages : []}
+                link={post.linkUrl ? { url: post.linkUrl, label: post.linkLabel } : null}
                 // 광고 양식으로 쓴 교회소식은 저장된 칸으로 본문을 다시 만든다 (지금 규칙으로 늘 같은 모양)
                 // 공지사항 안내 양식은 기본 정보를 위 정보 줄(facts)로 빼고 본문만
                 description={post.items ? buildNoticeContent(post.items.map(normalizeNoticeItem), post.extraContent, post.tables)
