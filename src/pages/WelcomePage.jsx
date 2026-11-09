@@ -28,6 +28,7 @@ import step03 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-03
 import step04 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-04-two-cups.webp';
 import step05 from '../assets/nurture/shintanjin-baptist-church-newcomer-step-05-hands.webp';
 import askMailbox from '../assets/newcomer/shintanjin-baptist-church-newcomer-inquiry-mailbox.webp';
+import { fadeInImage } from '../lib/fadeInImage';
 
 const ease = [0.16, 1, 0.3, 1];
 
@@ -549,7 +550,7 @@ const WelcomePage = () => {
             <section ref={heroRef} className={styles.hero} aria-label="천국 초대장" onMouseMove={handleHeroMouseMove} onMouseLeave={handleHeroMouseLeave}>
                 <picture className={styles.heroPic}>
                     <source media="(max-width: 767px)" srcSet={heavenInvitationMobile} />
-                    <img className={styles.heroBg} src={heavenInvitation} alt="" fetchPriority="high" />
+                    <img {...fadeInImage} className={styles.heroBg} src={heavenInvitation} alt="" fetchPriority="high" />
                 </picture>
                 <div className={`${styles.wrap} ${styles.heroContent}`}>
                     <motion.div className={styles.heroTitleWrap} style={{ y: scrollParallaxY }}>
@@ -594,7 +595,7 @@ const WelcomePage = () => {
             <section className={styles.golgothaSec} aria-label="복음 소개">
                 <picture className={styles.golgothaPic}>
                     <source media="(max-width: 767px)" srcSet={golgothaCrossMobile} />
-                    <img className={styles.golgothaBg} src={golgothaCross} alt="" loading="lazy" />
+                    <img {...fadeInImage} className={styles.golgothaBg} src={golgothaCross} alt="" loading="lazy" />
                 </picture>
                 <div className={`${styles.wrap} ${styles.golgothaContent}`}>
                     <ScrollWordReveal
@@ -615,7 +616,7 @@ const WelcomePage = () => {
             <section className={styles.receivedSec} aria-label="처음 오신 분께">
                 <picture className={styles.receivedPic}>
                     <source media="(max-width: 767px)" srcSet={receivedInvitationMobile} />
-                    <img className={styles.receivedBg} src={receivedInvitation} alt="" loading="lazy" />
+                    <img {...fadeInImage} className={styles.receivedBg} src={receivedInvitation} alt="" loading="lazy" />
                 </picture>
                 <div className={`${styles.wrap} ${styles.receivedContent}`}>
                     <ScrollWordReveal

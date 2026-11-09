@@ -28,6 +28,7 @@ import reeds1 from '../assets/nextgen/shintanjin-baptist-church-nextgen-intro-re
 import reeds4 from '../assets/nextgen/shintanjin-baptist-church-nextgen-intro-reeds-4.webp';
 import reeds5 from '../assets/nextgen/shintanjin-baptist-church-nextgen-intro-reeds-5.webp';
 import reeds6 from '../assets/nextgen/shintanjin-baptist-church-nextgen-intro-reeds-6.webp';
+import { fadeInImage } from '../lib/fadeInImage';
 
 // 공통 이징 (CLAUDE.md 구현 메모)
 const ease = [0.16, 1, 0.3, 1];
@@ -299,7 +300,7 @@ const NextGenIntroPage = () => {
         <div className={styles.page}>
             {/* ① 첫 화면: 부모의 질문으로 시작한다 */}
             <section ref={heroRef} className={styles.hero}>
-                <img className={styles.heroImg} src={heroImg} width={2752} height={1728} fetchPriority="high" alt="강 위에 떠 있는 바구니 안에서 잠든 아기와 멀리 굽이쳐 가는 강" />
+                <img {...fadeInImage} className={styles.heroImg} src={heroImg} width={2752} height={1728} fetchPriority="high" alt="강 위에 떠 있는 바구니 안에서 잠든 아기와 멀리 굽이쳐 가는 강" />
                 <ReedSway className={`${styles.reeds} ${styles.reedsBack}`} reeds={BACK_REEDS} reduceMotion={reduceMotion} />
                 <h1 className={styles.heroTitle}>
                     {/* 새가족 페이지 제목과 같은 연출: 스크롤하면 위로 떠오르며(패럴랙스) 흐려져 사라지고, 다시 올라오면 돌아온다 */}

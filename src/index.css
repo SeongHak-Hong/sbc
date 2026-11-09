@@ -827,3 +827,19 @@ html .toastui-editor-contents table th span {
     font-size: var(--list-meta-size-mobile);
   }
 }
+
+/* 큰 배경 사진: 다 받은 뒤 부드럽게 나타난다 (src/lib/fadeInImage.js) */
+img[data-fade-in] {
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-smooth);
+}
+
+img[data-fade-in][data-loaded] {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  img[data-fade-in] {
+    transition: none;
+  }
+}
