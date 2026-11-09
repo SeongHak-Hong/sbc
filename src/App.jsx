@@ -187,7 +187,8 @@ function AppRoutes() {
             <Route path="/team" element={<TeamPage />} />
             <Route path="/nextgen" element={<NextGenPage />} />
             <Route path="/nextgen/intro" element={<NextGenIntroPage />} />
-            <Route path="/nextgen/:dept" element={<NextGenDeptPage />} />
+            {/* 부서 페이지는 디자인 마무리 전이라 로컬(npm run dev)에서만 연다. 배포 사이트에는 아직 없다 */}
+            {import.meta.env.DEV && <Route path="/nextgen/:dept" element={<NextGenDeptPage />} />}
             <Route path="/groups" element={<CommunityPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/outreach" element={<OutreachPage />} />
