@@ -54,13 +54,12 @@ const Header = () => {
             id: "nextgen",
             title: "다음세대",
             subLabel: "다음세대 살펴보기",
-            // 부서 페이지가 나올 때까지 부서 메뉴는 지금 /nextgen으로 보낸다
             links: [
                 { text: "교육 이야기", path: "/nextgen/intro" },
-                { text: "유치부", path: "/nextgen?dept=kindergarten" },
-                { text: "초등부", path: "/nextgen?dept=elementary" },
-                { text: "중고등부", path: "/nextgen?dept=youth" },
-                { text: "청년부", path: "/nextgen?dept=youngadults" },
+                { text: "유치부", path: "/nextgen/kindergarten" },
+                { text: "초등부", path: "/nextgen/elementary" },
+                { text: "중고등부", path: "/nextgen/youth" },
+                { text: "청년부", path: "/nextgen/youngadults" },
             ]
         },
         {

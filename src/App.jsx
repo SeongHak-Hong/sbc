@@ -11,6 +11,7 @@ import GuidePage from './pages/GuidePage';
 import TeamPage from './pages/TeamPage';
 import NextGenPage from './pages/NextGenPage';
 import NextGenIntroPage from './pages/NextGenIntroPage';
+import NextGenDeptPage from './pages/NextGenDeptPage';
 import CommunityPage from './pages/CommunityPage';
 import OutreachPage from './pages/OutreachPage';
 import EventsPage from './pages/EventsPage';
@@ -115,6 +116,10 @@ const PAGE_TITLES = {
   '/groups': '구역 안내',
   '/nextgen': '다음세대',
   '/nextgen/intro': '다음세대 교육 이야기',
+  '/nextgen/kindergarten': '유치부',
+  '/nextgen/elementary': '초등부',
+  '/nextgen/youth': '중고등부',
+  '/nextgen/youngadults': '청년부',
   '/outreach': '선교전도',
   '/news': '소식 · 주보',
   '/events': '교회 일정',
@@ -182,6 +187,7 @@ function AppRoutes() {
             <Route path="/team" element={<TeamPage />} />
             <Route path="/nextgen" element={<NextGenPage />} />
             <Route path="/nextgen/intro" element={<NextGenIntroPage />} />
+            <Route path="/nextgen/:dept" element={<NextGenDeptPage />} />
             <Route path="/groups" element={<CommunityPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/outreach" element={<OutreachPage />} />
