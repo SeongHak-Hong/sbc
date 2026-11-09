@@ -109,7 +109,7 @@ const PAGE_TITLES = {
   '/': null,
   '/vision': '인사말 · 비전',
   '/guide': '교회 안내',
-  '/gallery': '추억 갤러리',
+  '/gallery': '교회 발자취',
   '/team': '섬기는 사람들',
   '/media': '예배영상',
   '/newcomer': '새가족',

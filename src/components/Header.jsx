@@ -32,7 +32,7 @@ const Header = () => {
             links: [
                 { text: "인사말 · 비전", path: "/vision" },
                 { text: "교회 안내", path: "/guide" },
-                { text: "추억 갤러리", path: "/gallery" },
+                { text: "교회 발자취", path: "/gallery" },
                 { text: "섬기는 사람들", path: "/team" },
             ]
         },
