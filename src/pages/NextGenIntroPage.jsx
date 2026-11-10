@@ -312,7 +312,7 @@ const WaysRail = () => {
                 {WAYS.map((way) => (
                     <li key={way.title} className={styles.step}>
                         <div className={styles.tile}>
-                            <img className={styles.tileImg} src={way.img} width={1232} height={928} alt={way.alt} loading="lazy" />
+                            <img className={styles.tileImg} src={way.img} width={1232} height={928} alt={way.alt} />
                         </div>
                         <p className={styles.cap}><strong>{way.title}.</strong> {way.text}</p>
                     </li>
@@ -399,7 +399,7 @@ const NextGenIntroPage = () => {
                             <a className={`${styles.btn} ${styles.btnSoft}`} href="tel:0429328156">전화하기</a>
                         </div>
                     </div>
-                    <img className={styles.ctaImg} src={askMailbox} width={1200} height={800} loading="lazy" alt="" />
+                    <img className={styles.ctaImg} src={askMailbox} width={1200} height={800} alt="" />
                 </div>
             </section>
 

@@ -88,7 +88,7 @@ const telHref = (contact = '') => {
 
 const Media = ({ photo, alt, tone, className = '' }) => (
     <div className={`${styles.media} ${tone ? styles[tone] : ''} ${className}`.trim()}>
-        {photo && <img className={styles.photo} src={photo} alt={alt} loading="lazy" />}
+        {photo && <img className={styles.photo} src={photo} alt={alt} />}
     </div>
 );
 

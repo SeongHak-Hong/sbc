@@ -595,7 +595,7 @@ const WelcomePage = () => {
             <section className={styles.golgothaSec} aria-label="복음 소개">
                 <picture className={styles.golgothaPic}>
                     <source media="(max-width: 767px)" srcSet={golgothaCrossMobile} />
-                    <img {...fadeInImage} className={styles.golgothaBg} src={golgothaCross} alt="" loading="lazy" />
+                    <img {...fadeInImage} className={styles.golgothaBg} src={golgothaCross} alt="" />
                 </picture>
                 <div className={`${styles.wrap} ${styles.golgothaContent}`}>
                     <ScrollWordReveal
@@ -616,7 +616,7 @@ const WelcomePage = () => {
             <section className={styles.receivedSec} aria-label="처음 오신 분께">
                 <picture className={styles.receivedPic}>
                     <source media="(max-width: 767px)" srcSet={receivedInvitationMobile} />
-                    <img {...fadeInImage} className={styles.receivedBg} src={receivedInvitation} alt="" loading="lazy" />
+                    <img {...fadeInImage} className={styles.receivedBg} src={receivedInvitation} alt="" />
                 </picture>
                 <div className={`${styles.wrap} ${styles.receivedContent}`}>
                     <ScrollWordReveal
@@ -647,7 +647,7 @@ const WelcomePage = () => {
                     {STEPS.map((step) => (
                         <li key={step.title} className={styles.step}>
                             <div className={styles.tile}>
-                                <img className={styles.tileImg} src={step.img} alt="" loading="lazy" />
+                                <img className={styles.tileImg} src={step.img} alt="" />
                             </div>
                             <p className={styles.cap}><strong>{step.title}.</strong> {step.desc}</p>
                         </li>
@@ -676,7 +676,7 @@ const WelcomePage = () => {
                         </button>
                     </div>
                     <motion.div className={styles.ctaMedia} {...reveal}>
-                        <img src={askMailbox} alt="" loading="lazy" />
+                        <img src={askMailbox} alt="" />
                     </motion.div>
                 </div>
             </section>

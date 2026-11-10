@@ -656,7 +656,7 @@ const FacilityPhotos = ({ photos, onOpen, onShowFloor, reduceMotion }) => {
                             aria-label={`${photo.name} 사진 크게 보기`}
                             onClick={() => onOpen(index)}
                         >
-                            <img src={photo.src} alt={`${photo.name}, ${photo.where}`} loading="lazy" decoding="async" draggable="false" />
+                            <img src={photo.src} alt={`${photo.name}, ${photo.where}`} decoding="async" draggable="false" />
                         </button>
                         <span className={styles.photoName}>{photo.name}</span>
                         <span className={styles.photoWhere}>
@@ -742,9 +742,9 @@ const PhotoViewer = ({ photos, startIndex, onClose, reduceMotion }) => {
                 </button>
             </div>
             <div ref={trackRef} className={styles.photoTrack} onScroll={onScroll}>
-                {photos.map((item, i) => (
+                {photos.map((item) => (
                     <div key={item.name} className={styles.photoSlide}>
-                        <img src={item.src} alt={`${item.name}, ${item.where}`} draggable="false" loading={Math.abs(i - startIndex) < 2 ? 'eager' : 'lazy'} />
+                        <img src={item.src} alt={`${item.name}, ${item.where}`} draggable="false" />
                     </div>
                 ))}
             </div>

@@ -80,8 +80,8 @@ const Poster = ({ src, title, dept }) => (
     <span className={styles.poster} aria-hidden="true">
         {src ? (
             <>
-                <img className={styles.posterBg} src={src} alt="" loading="lazy" />
-                <img className={styles.posterFg} src={src} alt="" loading="lazy" />
+                <img className={styles.posterBg} src={src} alt="" />
+                <img className={styles.posterFg} src={src} alt="" />
             </>
         ) : (
             <span className={styles.posterNone}><span>{dept}</span>{title}</span>
@@ -183,7 +183,7 @@ const SundayRail = ({ dept, reduceMotion }) => {
             <ol ref={railRef} className={styles.rail} tabIndex={0} aria-label="주일 예배 순서">
                 {dept.sunday.map((s) => (
                     <li key={s.n} className={styles.step}>
-                        <img className={styles.tile} src={s.img} width={720} height={900} alt="" loading="lazy" />
+                        <img className={styles.tile} src={s.img} width={720} height={900} alt="" />
                         <p className={styles.cap}><strong>{s.n}.</strong> {s.d}</p>
                     </li>
                 ))}
@@ -311,9 +311,9 @@ const NextGenDeptPage = () => {
                         <Link className={styles.btn} to="/photos">사진 보기</Link>
                     </div>
                     <div className={styles.shots}>
-                        <img src={shotFriends} alt="" loading="lazy" />
-                        <img src={shotTteok} alt="" loading="lazy" />
-                        <img src={shotWelcome} alt="" loading="lazy" />
+                        <img src={shotFriends} alt="" />
+                        <img src={shotTteok} alt="" />
+                        <img src={shotWelcome} alt="" />
                     </div>
                 </div>
             </section>
