@@ -160,25 +160,70 @@ const Face = ({ index, part }) => {
     );
 };
 
+// 그림을 받아 화면에 그릴 준비(decode)까지 끝내 둔다. 한 번 준비한 그림은 보관해 두어 다시 받지 않는다.
+// (넘기는 순간에 그림을 받으면 잠깐 회색 바탕이 보인다)
+const prepared = new Map(); // src → Promise
+const decoded = new Set(); // 준비가 끝난 src
+const prepare = (src) => {
+    if (!prepared.has(src)) {
+        const img = new Image();
+        img.src = src;
+        prepared.set(src, img.decode().catch(() => {}).then(() => {
+            decoded.add(src);
+            return img;
+        }));
+    }
+    return prepared.get(src);
+};
+
 const StoryBook = ({ reduceMotion }) => {
     const wide = useWide();
     const [cur, setCur] = useState(0);
     const [turn, setTurn] = useState(null); // { from, to }
     const leafRef = useRef(null);
+    const bookRef = useRef(null);
+    const pending = useRef(0);
     const shown = turn ? turn.to : cur;
     const lastPage = shown === STORY.length - 1;
 
-    const go = (to) => {
-        if (to < 0 || to >= STORY.length || to === shown) return;
+    const startTurn = (from, to) => {
         // 넘기는 중에 또 눌러도 바로 다음 장으로 이어진다
-        setCur(shown);
+        setCur(from);
         if (reduceMotion) {
             setTurn(null);
             setCur(to);
         } else {
-            setTurn({ from: shown, to });
+            setTurn({ from, to });
         }
     };
+
+    const go = (to) => {
+        if (to < 0 || to >= STORY.length || to === shown) return;
+        const token = ++pending.current;
+        const src = STORY[to].img;
+        if (decoded.has(src)) {
+            startTurn(shown, to);
+            return;
+        }
+        // 그림이 아직 준비되지 않았으면 준비될 때까지(최대 1.5초) 기다렸다가 넘긴다
+        const from = shown;
+        Promise.race([prepare(src), new Promise((r) => setTimeout(r, 1500))]).then(() => {
+            if (token === pending.current) startTurn(from, to);
+        });
+    };
+
+    // 책이 화면 가까이 오면 이야기 그림을 처음부터 차례로 모두 준비해 둔다
+    useEffect(() => {
+        const el = bookRef.current;
+        if (!el) return undefined;
+        const io = new IntersectionObserver(([entry]) => {
+            if (!entry.isIntersecting) return;
+            io.disconnect();
+            STORY.reduce((chain, page) => chain.then(() => prepare(page.img)), Promise.resolve());
+        }, { rootMargin: '100% 0px' });
+        io.observe(el);
+        return () => io.disconnect();
+    }, []);
 
     useLayoutEffect(() => {
         if (!turn || !leafRef.current) return undefined;
@@ -195,10 +240,10 @@ const StoryBook = ({ reduceMotion }) => {
         return () => anim.cancel();
     }, [turn]);
 
-    // 다음 장 그림을 미리 받아 둔다
+    // 지금 장의 앞뒤 그림은 순서를 앞당겨 바로 준비한다
     useEffect(() => {
-        [shown - 1, shown + 1].forEach((i) => {
-            if (STORY[i]) new Image().src = STORY[i].img;
+        [shown + 1, shown - 1].forEach((i) => {
+            if (STORY[i]) prepare(STORY[i].img);
         });
     }, [shown]);
 
@@ -232,7 +277,7 @@ const StoryBook = ({ reduceMotion }) => {
                     </button>
                 </div>
             </div>
-            <div className={styles.book} role="group" aria-label="요게뱃 이야기" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+            <div ref={bookRef} className={styles.book} role="group" aria-label="요게뱃 이야기" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
                 {wide ? (
                     <>
                         <div className={`${styles.slot} ${styles.slotL}`}><Face key={`L${left}`} index={left} part="L" /></div>
