@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect, useRef, useCallback, useMemo, useId } from 'react';
+import useNearViewport from '../hooks/useNearViewport';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { useSearchParams } from 'react-router-dom';
@@ -114,7 +115,7 @@ const fadeVariants = {
 const worshipGroups = [
     {
         id: 'adult',
-        label: '어른 예배',
+        label: '모두의 예배',
         items: [
             { id: 'sun1', name: '주일 1부 예배', day: '일요일', time: '오전 7:00', location: '소예배실', days: [0], at: '07:00' },
             { id: 'sun2', name: '주일 2부 예배', day: '일요일', time: '오전 11:00', location: '대예배실', days: [0], at: '11:00' },
@@ -620,6 +621,7 @@ const CHEVRON_RIGHT = 'M9 5l7 7-7 7';
 // 시설 사진 줄: 옆으로 넘겨 보고(브라우저 스크롤), 사진을 누르면 크게 본다. 이전·다음 버튼은 마우스 화면에서만
 const FacilityPhotos = ({ photos, onOpen, onShowFloor, reduceMotion }) => {
     const railRef = useRef(null);
+    const railNear = useNearViewport(railRef);
     const [edge, setEdge] = useState({ start: true, end: false });
 
     const readEdge = useCallback(() => {
@@ -656,7 +658,7 @@ const FacilityPhotos = ({ photos, onOpen, onShowFloor, reduceMotion }) => {
                             aria-label={`${photo.name} 사진 크게 보기`}
                             onClick={() => onOpen(index)}
                         >
-                            <img src={photo.src} alt={`${photo.name}, ${photo.where}`} decoding="async" draggable="false" />
+                            <img src={photo.src} alt={`${photo.name}, ${photo.where}`} loading={railNear ? 'eager' : 'lazy'} decoding="async" draggable="false" />
                         </button>
                         <span className={styles.photoName}>{photo.name}</span>
                         <span className={styles.photoWhere}>
