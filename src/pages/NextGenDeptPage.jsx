@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import useNearViewport from '../hooks/useNearViewport';
 import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import { doc, getDoc } from 'firebase/firestore';
@@ -80,8 +81,8 @@ const Poster = ({ src, title, dept }) => (
     <span className={styles.poster} aria-hidden="true">
         {src ? (
             <>
-                <img className={styles.posterBg} src={src} alt="" />
-                <img className={styles.posterFg} src={src} alt="" />
+                <img className={styles.posterBg} src={src} alt="" loading="lazy" />
+                <img className={styles.posterFg} src={src} alt="" loading="lazy" />
             </>
         ) : (
             <span className={styles.posterNone}><span>{dept}</span>{title}</span>
@@ -168,6 +169,7 @@ const DeptEvents = ({ dept }) => {
 // 주일 예배: 새가족 '이렇게 함께해요'와 같은 그림카드. 옆으로 넘기고 오른쪽 아래 이전·다음
 const SundayRail = ({ dept, reduceMotion }) => {
     const railRef = useRef(null);
+    const railNear = useNearViewport(railRef);
     const move = (dir) => {
         const rail = railRef.current;
         if (!rail) return;
@@ -183,7 +185,7 @@ const SundayRail = ({ dept, reduceMotion }) => {
             <ol ref={railRef} className={styles.rail} tabIndex={0} aria-label="주일 예배 순서">
                 {dept.sunday.map((s) => (
                     <li key={s.n} className={styles.step}>
-                        <img className={styles.tile} src={s.img} width={720} height={900} alt="" />
+                        <img className={styles.tile} src={s.img} width={720} height={900} alt="" loading={railNear ? 'eager' : 'lazy'} />
                         <p className={styles.cap}><strong>{s.n}.</strong> {s.d}</p>
                     </li>
                 ))}
@@ -311,9 +313,9 @@ const NextGenDeptPage = () => {
                         <Link className={styles.btn} to="/photos">사진 보기</Link>
                     </div>
                     <div className={styles.shots}>
-                        <img src={shotFriends} alt="" />
-                        <img src={shotTteok} alt="" />
-                        <img src={shotWelcome} alt="" />
+                        <img src={shotFriends} alt="" loading="lazy" />
+                        <img src={shotTteok} alt="" loading="lazy" />
+                        <img src={shotWelcome} alt="" loading="lazy" />
                     </div>
                 </div>
             </section>

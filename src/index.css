@@ -843,3 +843,16 @@ img[data-fade-in][data-loaded] {
     transition: none;
   }
 }
+
+/* 흐린 미리보기: 사진을 받는 동안 회색 대신 먼저 보인다 (src/content/imagePlaceholders.js) */
+[data-ph] {
+  background-image: var(--ph);
+  background-size: cover;
+  background-position: center;
+}
+
+@media (max-width: 767px) {
+  [data-ph] {
+    background-image: var(--ph-m, var(--ph));
+  }
+}

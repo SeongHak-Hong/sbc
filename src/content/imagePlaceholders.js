@@ -1,0 +1,27 @@
+// 큰 사진의 흐린 미리보기 (가로 24px). 사진을 받는 동안 회색 대신 이 그림이 먼저 보인다.
+// 사진을 바꾸면 다시 만들어야 한다: 원본 사진에서 가로 24px webp(품질 50) → base64
+export const PH = {
+    heavenInvitation: 'data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAABwBACdASoYAA8APtFapEwoJSOiMAgBABoJagCdMoMluIAA4uZlT7Q4MuaoAAD+8EidM3izJpivbOBrRdbB7/lvHDfUWMhTl4EOTNu//JDQfTRX0lgKmvhDoDHZLTOoHkBEqIuj6awgWAHPB5hy66bNDTvWFFr8AAA=',
+    heavenInvitationMobile: 'data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAABwBQCdASoYACgAPtFWo0uoJKMhtVQIAQAaCWQAVy9IB0f4CIfAdAX8k05ol0YuOjaC5J8AAP7WJm3lqLXBc2jKWUnegiomhbLF/UQ2p/0Vcz2HRkdh2hDl+O8K5eT2Kg5q06Fn0Jkm15iPijR8FNzFwXG4lGSxPzSkGD/kVbqwGGpopvxwLk9djV+3WE8D3wcAAA==',
+    golgothaCross: 'data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAABQBACdASoYAA8APtFWo0uoJKMhsAgBABoJaACdMoGv/gPJBNOVWbz50sJoAP7vwghNIS3Wy687d7Zr7aN+vn3voP+gEpmlMdYEVHqWPufqIdtjn3s+5Qla4/w9JaKwiSojXHjYywF0alDPKDIy5xjE8N1xAAAA',
+    golgothaCrossMobile: 'data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAACwBACdASoYACgAPtFao0yoJSMiMBqoAQAaCUAPLIBc6kLMRVgLz3Z7ywG3hhYAAP7tQfS7vpvsZbV+ROGt9VlGUnbp4wGVMC9Ba2m8zM9bt3OxhGTA4LE75bcopz3zA20D0cx3Yl7Cu0AUsbqrIV9jZLz08FH5Q5fgwCGepP4IcnyhvfM/UDAA',
+    receivedInvitation: 'data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAAAQBACdASoYAA8APtFWpEuoJKOhsAgBABoJbACdACHfr5XZNyofjNxgwAD+6MVMkvoDy8B3ptiq5GIu3wByNcotb+PAo825a6l0UFSYpXfnflQ6sMqWwzCzFIEWkdQE7a5+lsM781NPVcfvt+nVm+wmIxFwAA==',
+    receivedInvitationMobile: 'data:image/webp;base64,UklGRrAAAABXRUJQVlA4IKQAAACwBQCdASoYACgAPr1QokunJSOhtVgMAOAXiWYAv2vMSIBgnciYZuvEaQ/5OSHlk+RbZoByZgAA/vAb1Q9+7/jfJmrP6DgA1XffSK1tXapdJ/cKJms3uS5GhRtpBIHJILBOPNWFmRMtWQ0jvmhVq3Bki0liyonRnpV9BrwX5WEUNJE9cDjqHLy5miu1BRnON8LF7vCcj6TwdtB7aTmc6C1kFRQAAA==',
+    heroBabyBasketRiver: 'data:image/webp;base64,UklGRpgAAABXRUJQVlA4IIwAAABQBACdASoYAA8APtFUo0uoJKMhsAgBABoJYgCxDExCm7IrzfY/pyIRrXNgAP2+zpYEvrh9Y/ZkEG7OaBSCKGbfrS/GuAwa38IoyAC93EwanArddk6cGPZfKP8WwSRe01voobFn/3r8REZVlZrvG3TIwphE6KVRU/ow0EXBuBjBdYrnrP4vaXBbDwAAAA==',
+    storyBoyLookingOverRiver: 'data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAAAwBACdASoYAA0APtFUpEuoJKOhsAgBABoJQBOmUGSxiDTs74eYHmw0CJgA/pGlSJBiTY2S9wJYbp06ytk6WTgWIaRVw0hc82Pzr2IgytosNK8MkwpBtN+RbAHZ4izLhzhDxQyJ91Su+ptf7luyBFYv050FJ+V+x1qokTK/+ECsYOTRTDzCoo+yUaAqkoOUbGWwkNZgtwg6I5ThOmeqjNBgAAA=',
+    storyKingGivingOrderPalace: 'data:image/webp;base64,UklGRrYAAABXRUJQVlA4IKoAAABwBACdASoYAA0APtFWo0uoJKMhsAgBABoJbACdMoR3AB6Fb4VyfgGbzHd+4AD+7H+zRoZbxm7xQMx4Hp41oXYbqRjVuFvtvEc84nYNBrJcKRRKKMxeVUWT86UjEEEpu7PO+3+DZ79AmG8Rer7qo4KP+/F2PrWfMmpgfZAf0/Y+D/OYOCQLW3KpqxZLH3/PdJXmlbzYkZOA4jad5SqmXF2Ulm2UHcCdlEwAAA==',
+    storyMosesShepherdWilderness: 'data:image/webp;base64,UklGRqYAAABXRUJQVlA4IJoAAAAQBQCdASoYAA0APtFUo0uoJKMhsAgBABoJagCdMoR3JzRh/gPkROpDv3CMa2GvPKFEAP7cLfmuyilNSGkFKwZctCN1tgu1FSWceUHRyY/mqtvG+Z6O5RJNRlQGNyhDr8V8XlOCKswjUQ7y4U14AT5mm+E/+PP7PrnnR+nNwQUgnUBUatTfiOUQESngDyVA33Y3QHQtRVS3AAAA',
+    storyMotherEmbracingBaby: 'data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAADQAwCdASoYAA0APtFWpEwoJKOiMAgBABoJZgCdABLsRU0b7YEMUAAA/E96opRLLpT2Wcvjg1Y0DmvjV2eCbCGbRQglNwCW/X3PJ7qjQU8hpZG4c8yj39wTg0vD9DhIUdVlG3yGma1LSVgI71WQ0Rrmwl7sHN1jL/vAGKlEWhIXOdEQ56Yb0bdFHAA=',
+    storyMotherHidingBaby: 'data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAAAwBACdASoYAA0APtFUo0uoJKMhsAgBABoJbACdMoADTra4gnXVVoQfYgAA/qwO4JYKgaXr2WioV2ih7jks7X1K7JcS2l0HVCI8qO6ZZaiidGwt1C1tiDMfQtAXw62Ai0VNrakLA8Q6TenDQOxQ10wmSLNiVSME41AX3GndpHoRzw8SOM23iaF6KF4tpYsAAAA=',
+    storyMotherLettingGoBasket: 'data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAADwBACdASoYAA0APtFWpEuoJKOhsAgBABoJaACdMoRwFf/gPKOKjGc2TNq+ykpn7YAA/u1YsBGcd379vtCm603hgW9WP4YukcfAHBccYlPwSdcTNcgN4ah/0BERBp5KCBV7EyA8ZgO69MKBaap1T+07oTfxneMrqeoAbUBPQ9n84szqL/5iJibMEBCKSOFtS33AAA==',
+    storyMotherSonPalaceGate: 'data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAAAQBACdASoYAA0APtFUo0uoJKMhsAgBABoJbACdMoGv/gK4ZZJctcHmAAD8juaUeRV08IAqg7ktIsv1KJjUiM8BkyMY4YFQwibns8WBKf/DYzaBWhtOlm4iAJvqD36n1xM+QyfhxRUHt6+uIflQ/hH7rom0ZnfLwms6Znw/armFoAAA',
+    storyPharaohDaughterOpeningBasket: 'data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAAAQBACdASoYAA0APtFUo0uoJKMhsAgBABoJbACsIExgtRGqAuxw5BcMfAD+wWGkn2A88zHJt/Q7EaxKv+CK8qyTm0fL7UQDVUjZb7RNIK4MpSurzaNkPHoaMzby0yzH8UvwwyB9/KvYNcX/ldOcCHW4Lsw4eeXrgJVzSPvGD6Vpjp/M+rTnlnKDJz/mrBXEsHkm6pzs50UUHxNdO4FfTlR2c/dtZwAA',
+    storySisterSpeakingToPharaohDaughter: 'data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAADQBACdASoYAA0APtFUo0uoJKMhsAgBABoJbACdMoRwAdAc9PXTPEyPeO3kO5njgAD92tvf7zF5GSNYqmDwH2+3Dg2om4y3SSzUIOBkEPlkUBw0XuAnwnHxGu1BXxmqpASHZjHjRDSa/w+w37wQR7rNSg0J5WqHluVJCy62imkm/HD0qMmvNMEqFWQh2n4YW4gjrAJf7fuC9Jw61erBl/KGgAA=',
+    storySisterWatchingBasket: 'data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAAAQBACdASoYAA0APtFUo0uoJKMhsAgBABoJZACdMoACIdGPjMuxqRnf+ADiWpl8K17db2vEyaDExcQ6MmFuIZjBcUlyNoFG9BSDY8aIPS25hHezMhz7dRq8H+QRb0rnARJkeP8EFEnKZsFF1ynYojPPbDYTbuPf3Obid183/zyQAA==',
+};
+
+// style 에 그대로 넣는다: <div data-ph style={phStyle(PH.a, PH.aMobile)}>
+export const phStyle = (desktop, mobile) => ({
+    '--ph': `url(${desktop})`,
+    ...(mobile ? { '--ph-m': `url(${mobile})` } : {}),
+});

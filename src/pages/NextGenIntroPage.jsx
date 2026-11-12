@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import useNearViewport from '../hooks/useNearViewport';
+import { PH, phStyle } from '../content/imagePlaceholders';
 import { motion, useMotionTemplate, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import Footer from '../components/Footer';
 import ReedSway from '../components/ReedSway';
@@ -46,52 +48,52 @@ const BACK_REEDS = [
 // 요게뱃 이야기. 글 자리(데스크톱)는 그림의 빈 곳에 맞췄다. color는 그 장면의 빛과 색에서 뽑은 글자색. focus는 휴대폰에서 주인공이 보이도록 자르는 위치
 const STORY = [
     {
-        img: storyKing, color: '#FFF1CF', side: 'left', ink: 'light', shadow: true, focus: '90%', w: 1472, h: 816,
+        img: storyKing, ph: PH.storyKingGivingOrderPalace, color: '#FFF1CF', side: 'left', ink: 'light', shadow: true, focus: '90%', w: 1472, h: 816,
         alt: '높은 기둥이 늘어선 왕궁에서 이집트 왕이 왕좌에 앉아 손가락으로 가리키며 명령하고, 신하들이 고개를 숙인 그림',
         lines: ['아주 먼 옛날, 이집트에 히브리 사람들이 점점 많아졌어요.', '이집트 왕은 전쟁이 나면 그들이 적의 편에 설까 봐 두려웠어요.', '그래서 남자 아기를 모두 나일 강에 던지라고 명령했어요.'],
     },
     {
-        img: story1, color: '#FFEBC8', side: 'right', ink: 'light', focus: '20%', w: 2944, h: 1632,
+        img: story1, ph: PH.storyMotherHidingBaby, color: '#FFEBC8', side: 'right', ink: 'light', focus: '20%', w: 2944, h: 1632,
         alt: '어두운 밤, 엄마가 아기를 품에 안고 등불 곁에 몸을 숨긴 그림',
         lines: ['요게뱃이라는 엄마에게 아기가 태어났어요.', '엄마는 석 달 동안 아기를 몰래 품에 숨겼어요.'],
     },
     {
-        img: story2, color: '#3D3A16', side: 'left', ink: 'dark', focus: '72%', w: 2944, h: 1632,
+        img: story2, ph: PH.storyMotherLettingGoBasket, color: '#3D3A16', side: 'left', ink: 'dark', focus: '72%', w: 2944, h: 1632,
         alt: '엄마가 강가에 무릎을 꿇고 잠든 아기가 담긴 갈대 바구니를 물 위에 놓는 그림',
         lines: ['더는 숨길 수 없던 날, 엄마는 갈대 상자를 만들었어요.', '할 수 있는 걸 다 하고, 나머지는 하나님께 맡겼어요.'],
     },
     {
-        img: story3, color: '#FFF1CF', side: 'right', ink: 'light', focus: '41%', w: 1472, h: 816,
+        img: story3, ph: PH.storySisterWatchingBasket, color: '#FFF1CF', side: 'right', ink: 'light', focus: '41%', w: 1472, h: 816,
         alt: '누나가 강가 갈대 사이에 서서 멀리 물 위에 떠 있는 아기 바구니를 지켜보는 그림',
         lines: ['아기의 누나는 멀리 갈대 사이에 서서, 상자에서 눈을 떼지 않았어요.', '아기가 어떻게 되는지 끝까지 보려고요.'],
     },
     {
-        img: storyPrincess, color: '#2F2C10', side: 'right', ink: 'dark', glow: true, nudge: '1.25rem', focus: '50%', w: 1472, h: 816,
+        img: storyPrincess, ph: PH.storyPharaohDaughterOpeningBasket, color: '#2F2C10', side: 'right', ink: 'dark', glow: true, nudge: '1.25rem', focus: '50%', w: 1472, h: 816,
         alt: '금 장신구를 한 이집트 공주가 강가에 무릎을 꿇고 바구니 속에서 우는 아기를 내려다보고, 뒤에 시녀 두 명이 서 있는 그림',
         lines: ['강에 내려온 이집트의 공주가 상자를 열었어요.', '아기가 울고 있었어요.', '공주는 아기를 불쌍히 여겼어요.'],
     },
     {
-        img: storySister, color: '#FFF1CF', side: 'right', ink: 'light', shadow: true, nudge: '2.5rem', focus: '56%', w: 1472, h: 816,
+        img: storySister, ph: PH.storySisterSpeakingToPharaohDaughter, color: '#FFF1CF', side: 'right', ink: 'light', shadow: true, nudge: '2.5rem', focus: '56%', w: 1472, h: 816,
         alt: '바구니를 안은 공주에게 어린 누나가 물가에서 달려와 말을 건네는 그림',
         lines: ['지켜보던 누나가 달려 나와 말했어요.', '“아기를 돌볼 사람을 불러올까요?”', '누나가 데려온 사람은, 바로 엄마였어요.'],
     },
     {
-        img: story4, color: '#43320F', side: 'left', ink: 'dark', focus: '68%', w: 2944, h: 1632,
+        img: story4, ph: PH.storyMotherEmbracingBaby, color: '#43320F', side: 'left', ink: 'dark', focus: '68%', w: 2944, h: 1632,
         alt: '왕궁의 밝은 방에서 엄마가 아기를 꼭 끌어안고 볼을 맞댄 그림',
         lines: ['엄마는 아기를 다시 품에 안았어요.'],
     },
     {
-        img: story5, color: '#4A3413', side: 'right', ink: 'dark', focus: '18%', w: 2944, h: 1632,
+        img: story5, ph: PH.storyMotherSonPalaceGate, color: '#4A3413', side: 'right', ink: 'dark', focus: '18%', w: 2944, h: 1632,
         alt: '엄마와 어린 아들이 손을 잡고 커다란 왕궁 문으로 걸어가는 뒷모습 그림',
         lines: ['아이가 자라자, 엄마는 아이를 공주에게 데려갔어요.', '아이 이름은 모세가 됐어요. 물에서 건져 냈다는 뜻이에요.'],
     },
     {
-        img: story6, color: '#4A2E16', side: 'left', ink: 'dark', focus: '82%', w: 2944, h: 1632,
+        img: story6, ph: PH.storyBoyLookingOverRiver, color: '#4A2E16', side: 'left', ink: 'dark', focus: '82%', w: 2944, h: 1632,
         alt: '어린 모세가 왕궁 테라스에 서서 멀리 흐르는 강과 도시를 바라보는 뒷모습 그림',
         lines: ['엄마는 모세가 어떤 사람이 될지 알 수 없었어요.', '모세는 어떻게 되었을까요?'],
     },
     {
-        img: storyWilderness, color: '#4A2E16', side: 'right', ink: 'dark', focus: '28%', w: 1472, h: 816,
+        img: storyWilderness, ph: PH.storyMosesShepherdWilderness, color: '#4A2E16', side: 'right', ink: 'dark', focus: '28%', w: 1472, h: 816,
         alt: '모세가 지팡이를 들고 광야의 골짜기에서 양 떼를 이끄는 그림',
         lines: ['모세는 왕궁을 떠나 사십 년을 광야에서 양을 치며 보냈어요.', '그 긴 세월도 하나님의 손 안에 있었어요.'],
     },
@@ -154,7 +156,7 @@ const Face = ({ index, part }) => {
     const cls = part === 'full' ? styles.pageImgFull : part === 'L' ? styles.pageImgL : styles.pageImgR;
     return (
         <>
-            <img className={cls} src={page.img} width={page.w} height={page.h} alt={part === 'R' ? '' : page.alt} style={{ '--focus': page.focus }} />
+            <img className={cls} src={page.img} width={page.w} height={page.h} alt={part === 'R' ? '' : page.alt} loading="lazy" data-ph="" style={{ '--focus': page.focus, ...phStyle(page.ph) }} />
             {hasText && <PageText page={page} />}
         </>
     );
@@ -163,26 +165,21 @@ const Face = ({ index, part }) => {
 // 그림을 받아 화면에 그릴 준비(decode)까지 끝내 둔다. 한 번 준비한 그림은 보관해 두어 다시 받지 않는다.
 // (넘기는 순간에 그림을 받으면 잠깐 회색 바탕이 보인다)
 const prepared = new Map(); // src → Promise
-const decoded = new Set(); // 준비가 끝난 src
 const prepare = (src) => {
     if (!prepared.has(src)) {
         const img = new Image();
         img.src = src;
-        prepared.set(src, img.decode().catch(() => {}).then(() => {
-            decoded.add(src);
-            return img;
-        }));
+        prepared.set(src, img.decode().catch(() => {}).then(() => img));
     }
     return prepared.get(src);
 };
 
-const StoryBook = ({ reduceMotion }) => {
+const StoryBook = ({ reduceMotion, heroReady }) => {
     const wide = useWide();
     const [cur, setCur] = useState(0);
     const [turn, setTurn] = useState(null); // { from, to }
     const leafRef = useRef(null);
     const bookRef = useRef(null);
-    const pending = useRef(0);
     const shown = turn ? turn.to : cur;
     const lastPage = shown === STORY.length - 1;
 
@@ -197,25 +194,18 @@ const StoryBook = ({ reduceMotion }) => {
         }
     };
 
+    // 누르면 바로 넘긴다. 그림이 아직 안 왔으면 흐린 미리보기(data-ph)가 먼저 보인다
     const go = (to) => {
         if (to < 0 || to >= STORY.length || to === shown) return;
-        const token = ++pending.current;
-        const src = STORY[to].img;
-        if (decoded.has(src)) {
-            startTurn(shown, to);
-            return;
-        }
-        // 그림이 아직 준비되지 않았으면 준비될 때까지(최대 1.5초) 기다렸다가 넘긴다
-        const from = shown;
-        Promise.race([prepare(src), new Promise((r) => setTimeout(r, 1500))]).then(() => {
-            if (token === pending.current) startTurn(from, to);
-        });
+        prepare(STORY[to].img);
+        startTurn(shown, to);
     };
 
-    // 책이 화면 가까이 오면 이야기 그림을 처음부터 차례로 모두 준비해 둔다
+    // 첫 화면 사진을 다 받은 뒤(heroReady), 책이 화면 가까이 오면 이야기 그림을 처음부터 차례로 준비해 둔다
+    // (처음부터 받으면 느린 회선에서 첫 화면 사진과 길을 나눠 써서 첫 화면이 늦어진다)
     useEffect(() => {
         const el = bookRef.current;
-        if (!el) return undefined;
+        if (!el || !heroReady) return undefined;
         const io = new IntersectionObserver(([entry]) => {
             if (!entry.isIntersecting) return;
             io.disconnect();
@@ -223,7 +213,7 @@ const StoryBook = ({ reduceMotion }) => {
         }, { rootMargin: '100% 0px' });
         io.observe(el);
         return () => io.disconnect();
-    }, []);
+    }, [heroReady]);
 
     useLayoutEffect(() => {
         if (!turn || !leafRef.current) return undefined;
@@ -240,12 +230,13 @@ const StoryBook = ({ reduceMotion }) => {
         return () => anim.cancel();
     }, [turn]);
 
-    // 지금 장의 앞뒤 그림은 순서를 앞당겨 바로 준비한다
+    // 지금 장의 앞뒤 그림은 순서를 앞당겨 준비한다 (첫 화면 사진을 받은 뒤)
     useEffect(() => {
+        if (!heroReady) return;
         [shown + 1, shown - 1].forEach((i) => {
             if (STORY[i]) prepare(STORY[i].img);
         });
-    }, [shown]);
+    }, [shown, heroReady]);
 
     const touch = useRef(null);
     const onTouchStart = (e) => { touch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }; };
@@ -303,16 +294,18 @@ const StoryBook = ({ reduceMotion }) => {
 };
 
 const WaysRail = () => {
+    const railRef = useRef(null);
+    const railNear = useNearViewport(railRef);
     return (
         <section className={styles.sec} aria-labelledby="intro-title">
             <div className={`${styles.wrap} ${styles.railHead}`}>
                 <h2 id="intro-title" className={styles.secTitle}>우리도 아이의 앞날은 몰라요.<br />그래서 곁에서 함께 기다려요.</h2>
             </div>
-            <ol className={styles.rail} tabIndex={0} aria-label="다음세대가 아이와 함께하는 방법">
+            <ol ref={railRef} className={styles.rail} tabIndex={0} aria-label="다음세대가 아이와 함께하는 방법">
                 {WAYS.map((way) => (
                     <li key={way.title} className={styles.step}>
                         <div className={styles.tile}>
-                            <img className={styles.tileImg} src={way.img} width={1232} height={928} alt={way.alt} />
+                            <img className={styles.tileImg} src={way.img} width={1232} height={928} alt={way.alt} loading={railNear ? 'eager' : 'lazy'} />
                         </div>
                         <p className={styles.cap}><strong>{way.title}.</strong> {way.text}</p>
                     </li>
@@ -323,6 +316,7 @@ const WaysRail = () => {
 };
 
 const NextGenIntroPage = () => {
+    const [heroReady, setHeroReady] = useState(false); // 첫 화면 사진을 다 받았는지 (이야기 그림 미리 받기는 그 뒤에)
     const reduceMotion = useReducedMotion();
 
     // 첫 화면 제목: 새가족 페이지와 같은 값. 화면을 벗어나는 동안 120px 위로 떠오르고, 0.15~0.42 구간에서 흐려지며 사라진다
@@ -344,8 +338,8 @@ const NextGenIntroPage = () => {
     return (
         <div className={styles.page}>
             {/* ① 첫 화면: 부모의 질문으로 시작한다 */}
-            <section ref={heroRef} className={styles.hero}>
-                <img {...fadeInImage} className={styles.heroImg} src={heroImg} width={2752} height={1728} fetchPriority="high" alt="강 위에 떠 있는 바구니 안에서 잠든 아기와 멀리 굽이쳐 가는 강" />
+            <section ref={heroRef} className={styles.hero} data-ph="" style={phStyle(PH.heroBabyBasketRiver)}>
+                <img {...fadeInImage} onLoad={(e) => { fadeInImage.onLoad(e); setHeroReady(true); }} onError={() => setHeroReady(true)} className={styles.heroImg} src={heroImg} width={2752} height={1728} fetchPriority="high" alt="강 위에 떠 있는 바구니 안에서 잠든 아기와 멀리 굽이쳐 가는 강" />
                 <ReedSway className={`${styles.reeds} ${styles.reedsBack}`} reeds={BACK_REEDS} reduceMotion={reduceMotion} />
                 <h1 className={styles.heroTitle}>
                     {/* 새가족 페이지 제목과 같은 연출: 스크롤하면 위로 떠오르며(패럴랙스) 흐려져 사라지고, 다시 올라오면 돌아온다 */}
@@ -363,7 +357,7 @@ const NextGenIntroPage = () => {
                 <ReedSway className={`${styles.reeds} ${styles.reedsFront}`} reeds={FRONT_REEDS} reduceMotion={reduceMotion} />
             </section>
 
-            <StoryBook reduceMotion={reduceMotion} />
+            <StoryBook reduceMotion={reduceMotion} heroReady={heroReady} />
 
             {/* ② 소개: 새가족 페이지 '이렇게 함께해요'와 같은 그림카드 */}
             <WaysRail />
@@ -399,7 +393,7 @@ const NextGenIntroPage = () => {
                             <a className={`${styles.btn} ${styles.btnSoft}`} href="tel:0429328156">전화하기</a>
                         </div>
                     </div>
-                    <img className={styles.ctaImg} src={askMailbox} width={1200} height={800} alt="" />
+                    <img className={styles.ctaImg} src={askMailbox} width={1200} height={800} loading="lazy" alt="" />
                 </div>
             </section>
 

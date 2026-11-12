@@ -1,4 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import useNearViewport from '../hooks/useNearViewport';
+import { PH, phStyle } from '../content/imagePlaceholders';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
@@ -473,6 +475,7 @@ export const InquiryDialog = ({
 const WelcomePage = () => {
     const reduceMotion = useReducedMotion();
     const railRef = useRef(null);
+    const railNear = useNearViewport(railRef);
     const [asking, setAsking] = useState(false);
     const heroRef = useRef(null);
     const askButtonRef = useRef(null);
@@ -548,7 +551,7 @@ const WelcomePage = () => {
         <div className={styles.page}>
             {/* ① 첫 화면: 2번째 섹션과 같은 100vw 전체 폭 동화 장면 — 상단 천국 + 중앙 날개 달린 초대장 + 편지지 아래 서두 문구 */}
             <section ref={heroRef} className={styles.hero} aria-label="천국 초대장" onMouseMove={handleHeroMouseMove} onMouseLeave={handleHeroMouseLeave}>
-                <picture className={styles.heroPic}>
+                <picture className={styles.heroPic} data-ph="" style={phStyle(PH.heavenInvitation, PH.heavenInvitationMobile)}>
                     <source media="(max-width: 767px)" srcSet={heavenInvitationMobile} />
                     <img {...fadeInImage} className={styles.heroBg} src={heavenInvitation} alt="" fetchPriority="high" />
                 </picture>
@@ -593,9 +596,9 @@ const WelcomePage = () => {
 
             {/* ② 복음 소개: 100vw 골고다 언덕 십자가 배경 위 예수님의 구속사역 문단 */}
             <section className={styles.golgothaSec} aria-label="복음 소개">
-                <picture className={styles.golgothaPic}>
+                <picture className={styles.golgothaPic} data-ph="" style={phStyle(PH.golgothaCross, PH.golgothaCrossMobile)}>
                     <source media="(max-width: 767px)" srcSet={golgothaCrossMobile} />
-                    <img {...fadeInImage} className={styles.golgothaBg} src={golgothaCross} alt="" />
+                    <img {...fadeInImage} className={styles.golgothaBg} src={golgothaCross} alt="" loading="lazy" />
                 </picture>
                 <div className={`${styles.wrap} ${styles.golgothaContent}`}>
                     <ScrollWordReveal
@@ -614,9 +617,9 @@ const WelcomePage = () => {
 
             {/* ③ 마음 문장: 초대장을 받아든 사람의 뒷모습 배경 + 안심 문단 + 예배 안내 링크 */}
             <section className={styles.receivedSec} aria-label="처음 오신 분께">
-                <picture className={styles.receivedPic}>
+                <picture className={styles.receivedPic} data-ph="" style={phStyle(PH.receivedInvitation, PH.receivedInvitationMobile)}>
                     <source media="(max-width: 767px)" srcSet={receivedInvitationMobile} />
-                    <img {...fadeInImage} className={styles.receivedBg} src={receivedInvitation} alt="" />
+                    <img {...fadeInImage} className={styles.receivedBg} src={receivedInvitation} alt="" loading="lazy" />
                 </picture>
                 <div className={`${styles.wrap} ${styles.receivedContent}`}>
                     <ScrollWordReveal
@@ -647,7 +650,7 @@ const WelcomePage = () => {
                     {STEPS.map((step) => (
                         <li key={step.title} className={styles.step}>
                             <div className={styles.tile}>
-                                <img className={styles.tileImg} src={step.img} alt="" />
+                                <img className={styles.tileImg} src={step.img} alt="" loading={railNear ? 'eager' : 'lazy'} />
                             </div>
                             <p className={styles.cap}><strong>{step.title}.</strong> {step.desc}</p>
                         </li>
@@ -676,7 +679,7 @@ const WelcomePage = () => {
                         </button>
                     </div>
                     <motion.div className={styles.ctaMedia} {...reveal}>
-                        <img src={askMailbox} alt="" />
+                        <img src={askMailbox} alt="" loading="lazy" />
                     </motion.div>
                 </div>
             </section>

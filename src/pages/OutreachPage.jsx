@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import useNearViewport from '../hooks/useNearViewport';
 import { motion, useReducedMotion } from 'framer-motion';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -86,15 +87,16 @@ const telHref = (contact = '') => {
     return match ? `tel:${match[0].replace(/\D/g, '')}` : null;
 };
 
-const Media = ({ photo, alt, tone, className = '' }) => (
+const Media = ({ photo, alt, tone, className = '', loading = 'lazy', fetchPriority }) => (
     <div className={`${styles.media} ${tone ? styles[tone] : ''} ${className}`.trim()}>
-        {photo && <img className={styles.photo} src={photo} alt={alt} />}
+        {photo && <img className={styles.photo} src={photo} alt={alt} loading={loading} fetchPriority={fetchPriority} />}
     </div>
 );
 
 const OutreachPage = () => {
     const [missionData, setMissionData] = useState(null);
     const trackRef = useRef(null);
+    const trackNear = useNearViewport(trackRef);
     const reduceMotion = useReducedMotion();
 
     useEffect(() => {
@@ -164,7 +166,7 @@ const OutreachPage = () => {
                         </p>
                     </motion.div>
                     <motion.div {...reveal}>
-                        <Media photo={welcomePhoto} alt="신탄진침례교회 마당에서 목요전도팀 두 분이 손을 흔들고 손가락 하트로 반갑게 맞이하는 모습" tone="warm" className={styles.heroMedia} />
+                        <Media photo={welcomePhoto} alt="신탄진침례교회 마당에서 목요전도팀 두 분이 손을 흔들고 손가락 하트로 반갑게 맞이하는 모습" tone="warm" className={styles.heroMedia} loading="eager" fetchPriority="high" />
                     </motion.div>
                 </div>
             </section>
@@ -177,7 +179,7 @@ const OutreachPage = () => {
                 <div ref={trackRef} className={styles.maTrack} tabIndex={0} role="region" aria-label="목요전도팀이 하는 일">
                     {ACTIVITIES.map((item) => (
                         <article key={item.lead} className={styles.maCard}>
-                            <Media photo={item.photo} alt={item.alt} tone={item.tone || 'warm'} className={styles.maMedia} />
+                            <Media photo={item.photo} alt={item.alt} tone={item.tone || 'warm'} className={styles.maMedia} loading={trackNear ? 'eager' : 'lazy'} />
                             <p className={styles.maCap}>
                                 <strong>{item.lead}</strong> {item.text}
                             </p>

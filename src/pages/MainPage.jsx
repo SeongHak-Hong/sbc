@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import useNearViewport from '../hooks/useNearViewport';
 import Footer from '../components/Footer';
 import PageTopGradient from '../components/PageTopGradient';
 import styles from './MainPage.module.css';
@@ -167,6 +168,7 @@ const MainPage = () => {
 
   // 4) 카드 트랙 가로 스크롤
   const trackRef = useRef(null);
+  const trackNear = useNearViewport(trackRef);
 
   // 글자 크기 조절
   const [isLargeSize, setIsLargeSize] = useState(false);
@@ -508,7 +510,7 @@ const MainPage = () => {
           <div ref={trackRef} className={styles.maTrack} tabIndex={0} role="region" aria-label="교회가 하는 일">
             <article className={styles.maCard}>
               <div className={styles.maMedia}>
-                <img className={styles.maPhoto} src={worshipPhoto} width={1392} height={777} alt="신탄진침례교회 예배당 뒷자리에서 엄마 어깨에 기대 예배드리는 아이" />
+                <img className={styles.maPhoto} src={worshipPhoto} loading={trackNear ? 'eager' : 'lazy'} width={1392} height={777} alt="신탄진침례교회 예배당 뒷자리에서 엄마 어깨에 기대 예배드리는 아이" />
               </div>
               <p className={styles.maCap}>
                 <strong>주일과 주중, 말씀으로 한 주를 세워요.</strong> 주일 세 번의 예배와 수요 예배, 새벽·금요 기도회로 모여요. 지난 설교와 찬양은 영상으로 다시 볼 수 있어요.
@@ -516,7 +518,7 @@ const MainPage = () => {
             </article>
             <article className={styles.maCard}>
               <div className={styles.maMedia}>
-                <img className={styles.maPhoto} src={nextgenPhoto} width={1344} height={896} alt="신탄진침례교회 유치부실에서 선생님과 함께 그림 성경을 보며 웃는 아이들" />
+                <img className={styles.maPhoto} src={nextgenPhoto} loading={trackNear ? 'eager' : 'lazy'} width={1344} height={896} alt="신탄진침례교회 유치부실에서 선생님과 함께 그림 성경을 보며 웃는 아이들" />
               </div>
               <p className={styles.maCap}>
                 <strong>유치부부터 청년부까지, 말씀 안에서 자라요.</strong> 주일 오전 9시 유치부·초등부·중고등부, 오후 1시 30분 청년부 예배가 있어요. 매주 목요일 오후 1~4시엔 식당에서 떡볶이데이가 열려요.
@@ -524,7 +526,7 @@ const MainPage = () => {
             </article>
             <article className={styles.maCard}>
               <div className={styles.maMedia}>
-                <img className={styles.maPhoto} src={smallGroupPhoto} width={1344} height={896} alt="신탄진침례교회 구역 모임에서 성경을 펴 두고 웃으며 이야기 나누는 성도들" />
+                <img className={styles.maPhoto} src={smallGroupPhoto} loading={trackNear ? 'eager' : 'lazy'} width={1344} height={896} alt="신탄진침례교회 구역 모임에서 성경을 펴 두고 웃으며 이야기 나누는 성도들" />
               </div>
               <p className={styles.maCap}>
                 <strong>동네별 구역 모임에서 한 주의 삶을 나눠요.</strong> 교구와 구역, 남·여 전도회로 모여 함께 말씀을 나누고 서로의 안부를 챙겨요.
@@ -532,7 +534,7 @@ const MainPage = () => {
             </article>
             <article className={styles.maCard}>
               <div className={styles.maMedia}>
-                <img className={styles.maPhoto} src={outreachPhoto} width={1344} height={896} alt="신탄진침례교회 목요전도팀이 동네 골목에서 이웃 어르신께 선물을 건네는 모습" />
+                <img className={styles.maPhoto} src={outreachPhoto} loading={trackNear ? 'eager' : 'lazy'} width={1344} height={896} alt="신탄진침례교회 목요전도팀이 동네 골목에서 이웃 어르신께 선물을 건네는 모습" />
               </div>
               <p className={styles.maCap}>
                 <strong>매주 목요일, 네 팀이 동네 이웃을 찾아가요.</strong> 네 개 팀으로 나뉜 목요전도팀이 가까운 이웃을 찾아가요. 국내와 해외 선교도 함께 기도하며 돕고 있어요.
@@ -599,7 +601,7 @@ const MainPage = () => {
                   </>
                 )}
               </div>
-              <img className={styles.phoneFrame} src={phoneFrame} alt="" />
+              <img className={styles.phoneFrame} src={phoneFrame} alt="" loading="lazy" />
             </div>
           </div>
         </section>
