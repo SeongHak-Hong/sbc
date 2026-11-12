@@ -13,7 +13,7 @@ const historyData = Object.entries(imageModules)
     .map(([path, url], index) => {
         return {
             id: `history-${index}`,
-            year: 1980 + Math.round((index / Math.max(1, totalItems - 1)) * 20),
+            year: 1954 + Math.round((index / Math.max(1, totalItems - 1)) * 46),
             title: `교회발자취 ${index + 1}`,
             image: url
         };
