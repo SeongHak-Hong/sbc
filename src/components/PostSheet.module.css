@@ -697,17 +697,28 @@
     display: none !important;
 }
 
-.text :global(.post-clean) li:global(.ps-pair) > p,
-.text :global(.post-clean) li:global(.ps-pair):not(:has(> p)) {
+/* 목록 하나가 격자 하나: 이름 칸 = 그 목록에서 가장 넓은 이름(max-content), 값 칸과는 1글자 띄움.
+   항목이 하나면 그 이름 + 1글자. 줄(li)과 문단(p)은 subgrid로 목록의 두 칸을 그대로 이어 받는다
+   (글꼴·글자 크기가 바뀌어도 브라우저가 실제 폭으로 다시 맞춤). 시간표 "20:00 ~ 20:30 | 찬양"도 같은 규칙 */
+.text :global(.post-clean) :global(.ps-pairs) {
     display: grid;
-    grid-template-columns: 6.5em minmax(0, 1fr);
-    column-gap: 0.75rem;
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: 1em;
 }
 
-/* 시간표("20:00 ~ 20:30 | 찬양"): 시간 칸은 숫자 폭에 맞춰 조금 넓게 */
-.text :global(.post-clean) li:global(.ps-pair-time) > p,
-.text :global(.post-clean) li:global(.ps-pair-time):not(:has(> p)) {
-    grid-template-columns: 7.5em minmax(0, 1fr);
+.text :global(.post-clean) :global(.ps-pairs) > li {
+    grid-column: 1 / -1;
+}
+
+.text :global(.post-clean) :global(.ps-pairs) > li:global(.ps-pair),
+.text :global(.post-clean) :global(.ps-pairs) > li:global(.ps-pair) > p {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
+}
+
+.text :global(.post-clean) :global(.ps-value) {
+    min-width: 0;
 }
 
 .text :global(.post-clean) :global(.ps-label) {
@@ -842,18 +853,6 @@
         --ps-gap-item: 1.75rem;
         --ps-gap-head: 2.5rem;
         --ps-indent: 1.5em;
-    }
-
-    .text :global(.post-clean) li:global(.ps-pair) > p,
-    .text :global(.post-clean) li:global(.ps-pair):not(:has(> p)) {
-        grid-template-columns: 5.5em minmax(0, 1fr);
-        column-gap: 0.5rem;
-    }
-
-    /* 시간표("20:00 ~ 20:30 | 찬양"): 시간 칸은 숫자 폭에 맞춰 조금 넓게 */
-    .text :global(.post-clean) li:global(.ps-pair-time) > p,
-    .text :global(.post-clean) li:global(.ps-pair-time):not(:has(> p)) {
-        grid-template-columns: 7.5em minmax(0, 1fr);
     }
 
     /* 표가 화면 끝까지 밀리도록 본문 좌우 여백만큼 바깥으로 */

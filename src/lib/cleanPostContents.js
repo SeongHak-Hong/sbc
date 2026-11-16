@@ -7,6 +7,7 @@
 //  4. "< 2026년 목회계획 >" 같은 꺾쇠 줄, "📞 문의 및 신청"처럼 굵은 글씨로 시작하는 줄 → 소제목
 //  5. "1. 모 임" 같은 번호 문단 → 광고 한 묶음(번호 · 제목 · 아래 목록). "대접(떡) - 엄태석 집사"는 제목 · 내용으로 나눔
 //  6. 쪼개진 목록을 하나로, "일시 및 장소: …"는 이름 · 값 두 칸
+//     (이름 칸 폭 = 그 목록에서 가장 넓은 이름 + 1글자. 항목이 하나면 그 이름 + 1글자)
 //  7. 표는 좌우로 밀어 볼 수 있는 칸에 넣음
 const cleanPostContents = (contents, title) => {
     if (contents.classList.contains('post-clean')) return;
@@ -196,7 +197,14 @@ const cleanPostContents = (contents, title) => {
         if (section) section.append(el);
     });
 
-    // 6-2. "이름: 값" 목록 → 두 칸
+    // 6-2. "이름: 값" 목록 → 두 칸. 값은 span.ps-value 하나로 묶어 이름 칸 옆 한 칸에 들어가게
+    const wrapValue = (holder) => {
+        const label = holder.querySelector(':scope > .ps-label');
+        if (!label) return;
+        const value = make('span', 'ps-value');
+        while (label.nextSibling) value.append(label.nextSibling);
+        label.after(value);
+    };
     root.querySelectorAll('li').forEach((li) => {
         const holder = li.querySelector(':scope > p') || li;
         const lead = holder.firstChild;
@@ -207,6 +215,7 @@ const cleanPostContents = (contents, title) => {
             lead.nodeValue = time[2];
             li.classList.add('ps-pair', 'ps-pair-time');
             holder.prepend(make('span', 'ps-label', time[1]));
+            wrapValue(holder);
             return;
         }
         if (lead && lead.nodeName === 'STRONG' && /[:：]\s*$/.test(text(lead))) {
@@ -225,6 +234,7 @@ const cleanPostContents = (contents, title) => {
             // 이어 쓰는 긴 이름은 값과 한 칸 띄움
             if (li.classList.contains('ps-pair-long')) holder.prepend(' ');
             holder.prepend(make('span', 'ps-label', label));
+            wrapValue(holder);
         }
     });
 
@@ -236,6 +246,12 @@ const cleanPostContents = (contents, title) => {
             li.classList.add('ps-pair-long');
             li.querySelector('.ps-label')?.after(' ');
         });
+    });
+
+    // 6-4. 두 칸으로 남은 목록 표시 → CSS가 목록 전체를 한 격자로 그려 이름 칸을 가장 넓은 이름에 맞춘다
+    root.querySelectorAll('ul, ol').forEach((list) => {
+        const pairs = [...list.children].filter((li) => li.classList.contains('ps-pair'));
+        if (pairs.length && !pairs.some((li) => li.classList.contains('ps-pair-long'))) list.classList.add('ps-pairs');
     });
 
     // 7. 표는 좌우로 밀어 보는 칸에
