@@ -169,12 +169,13 @@ function AppRoutes() {
       {!isAdminRoute && <Header />}
       
       <AnimatePresence mode="wait">
+        {/* 관리자 화면(/manager-lounge)은 전환 없이 바로: 관리자 안에서는 같은 key라 다시 그리지 않고, 사라짐·나타남도 없음 */}
         <motion.div
-          key={(background || location).pathname}
+          key={isAdminRoute ? 'manager-lounge' : (background || location).pathname}
           variants={pageTransitionVariants}
-          initial="initial"
+          initial={isAdminRoute ? false : 'initial'}
           animate="animate"
-          exit="exit"
+          exit={isAdminRoute ? undefined : 'exit'}
           style={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}
         >
           <Routes location={background || location}>
