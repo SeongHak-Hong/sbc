@@ -44,13 +44,13 @@
     flex-direction: column;
     justify-content: center;
     overflow: hidden;
-    --slide: min(44vw, 640px, 76vh);
+    --slide: min(44vw, 640px, 70vh);
 }
 
 .track {
     display: flex;
     align-items: center;
-    gap: 6vw;
+    gap: 8vw;
     margin: 0;
     padding: 0 calc(50vw - var(--slide) / 2);
     list-style: none;
@@ -85,7 +85,7 @@
 
 .timeline {
     gap: 2rem;
-    margin-top: 1.5rem;
+    margin-top: clamp(2.5rem, 8vh, 5rem);
 }
 
 .year {
@@ -106,7 +106,7 @@
 }
 
 .hint {
-    margin: 0.25rem 0 0;
+    margin: 0.75rem 0 0;
     font-size: var(--t-body);
     text-align: center;
     color: var(--color-text-meta);

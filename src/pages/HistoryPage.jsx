@@ -24,10 +24,10 @@ const photos = [
     { number: 30, alt: '1998년 12월, 붉은 옷을 입고 찬양하는 성가대' },
 ].map((photo) => ({ ...photo, url: photoUrl(photo.number) }));
 
-// 스크롤 위치 → 연도. 날짜가 있는 사진을 기준점으로 삼고, 그 사이는 고르게 흐른다
+// 스크롤 위치 → 연도. 1954년에서 출발해 둘째 사진부터는 날짜가 있는 사진을 기준점으로 삼고, 그 사이는 고르게 흐른다
 const lastIndex = photos.length - 1;
 const YEAR_STOPS = [0, 1 / lastIndex, 5 / lastIndex, 1];
-const YEARS = [1972, 1973, 1978, 1998];
+const YEARS = [1954, 1973, 1978, 1998];
 
 const YearLine = ({ progress, className }) => {
     const year = useTransform(progress, YEAR_STOPS, YEARS);
