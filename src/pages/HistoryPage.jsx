@@ -121,7 +121,6 @@ const HistoryPage = () => {
                     <p className={styles.lead}>요즘 모습은 갤러리에 모아 두었어요.</p>
                     <div className={styles.actions}>
                         <Link className={styles.primary} to="/photos">오늘의 모습 보기</Link>
-                        <a className={styles.textLink} href="https://www.instagram.com/ds3jhb2026/" target="_blank" rel="noopener noreferrer">인스타그램에서도 만나요</a>
                     </div>
                 </section>
             </main>
