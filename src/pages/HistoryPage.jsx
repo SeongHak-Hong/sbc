@@ -9,9 +9,11 @@ import Footer from '../components/Footer';
 const imageModules = import.meta.glob('../assets/history/shintanjin-baptist-church-history-*.webp', { eager: true, import: 'default' });
 const photoUrl = (number) => imageModules[`../assets/history/shintanjin-baptist-church-history-${number}.webp`];
 
-// 흑백 → 컬러로 이어지는 순서. 18·21·28·30 은 사진에 찍힌 날짜(72.12.24 · 1973 · 1978.1.8 · 12.27.'98) 기준,
-// 나머지 자리는 정확한 연도를 받을 때까지 임시
+// 흑백 → 컬러로 이어지는 순서. 첫 장은 교회 설립 연도(1954)의 자리,
+// 18·21·28·30 은 사진에 찍힌 날짜(72.12.24 · 1973 · 1978.1.8 · 12.27.'98) 기준, 나머지 자리는 정확한 연도를 받을 때까지 임시
+// ratio 가 있는 사진은 양 끝 사람이 잘리지 않게 원래 비율로 보여 준다
 const photos = [
+    { number: 9, alt: '벽돌 예배당 앞에 모인 성도들의 흑백 단체 사진', ratio: '1385 / 915' },
     { number: 18, alt: '1972년 12월, 강단 앞에 모인 졸업 기념 단체 사진' },
     { number: 21, alt: '1973년 성탄절에 찍은 흑백 단체 사진' },
     { number: 22, alt: '성탄 장식 앞에 가운을 입고 앉은 성가대 흑백 사진' },
@@ -24,10 +26,10 @@ const photos = [
     { number: 30, alt: '1998년 12월, 붉은 옷을 입고 찬양하는 성가대' },
 ].map((photo) => ({ ...photo, url: photoUrl(photo.number) }));
 
-// 스크롤 위치 → 연도. 1954년에서 출발해 둘째 사진부터는 날짜가 있는 사진을 기준점으로 삼고, 그 사이는 고르게 흐른다
+// 스크롤 위치 → 연도. 첫 장은 설립 연도, 그다음부터는 날짜가 있는 사진을 기준점으로 삼고, 그 사이는 고르게 흐른다
 const lastIndex = photos.length - 1;
-const YEAR_STOPS = [0, 1 / lastIndex, 5 / lastIndex, 1];
-const YEARS = [1954, 1973, 1978, 1998];
+const YEAR_STOPS = [0, 1 / lastIndex, 2 / lastIndex, 6 / lastIndex, 1];
+const YEARS = [1954, 1972, 1973, 1978, 1998];
 
 const YearLine = ({ progress, className }) => {
     const year = useTransform(progress, YEAR_STOPS, YEARS);
@@ -63,12 +65,14 @@ const DesktopStrip = () => {
                 <motion.ol ref={trackRef} className={styles.track} style={{ x }}>
                     {photos.map((photo) => (
                         <li key={photo.number} className={styles.slide}>
-                            <img src={photo.url} alt={photo.alt} />
+                            <img src={photo.url} alt={photo.alt} style={{ aspectRatio: photo.ratio }} />
                         </li>
                     ))}
                 </motion.ol>
-                <YearLine progress={scrollYProgress} className={styles.timeline} />
-                <p className={styles.hint}>아래로 내리면 사진이 옆으로 넘어가요</p>
+                <div className={styles.below}>
+                    <YearLine progress={scrollYProgress} className={styles.timeline} />
+                    <p className={styles.hint}>아래로 내리면 사진이 옆으로 넘어가요</p>
+                </div>
             </div>
         </div>
     );
@@ -83,7 +87,7 @@ const MobileStack = () => {
             <ol className={styles.stack}>
                 {photos.map((photo) => (
                     <li key={photo.number}>
-                        <img src={photo.url} alt={photo.alt} loading="lazy" />
+                        <img src={photo.url} alt={photo.alt} loading="lazy" style={{ aspectRatio: photo.ratio }} />
                     </li>
                 ))}
             </ol>
