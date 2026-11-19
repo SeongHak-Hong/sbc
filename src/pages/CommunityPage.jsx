@@ -183,7 +183,8 @@ const CommunityPage = () => {
                                 <>
                                     <div className={styles.dropdownContainer} ref={dropdownRef}>
                                         <button 
-                                            className={`${styles.selectButton} ${dropdownOpen ? styles.dropdownOpenButton : ''}`} 
+                                            className={styles.selectButton}
+                                            aria-expanded={dropdownOpen}
                                             onClick={toggleDropdown}
                                         >
                                             구역 선택
@@ -209,7 +210,7 @@ const CommunityPage = () => {
                                             )}
                                     </div>
                                     <button 
-                                        className={`${styles.selectButton} ${styles.secondary}`}
+                                        className={styles.selectButton}
                                         onClick={handleResetCellgroup}
                                     >
                                         교구 다시 선택하기
